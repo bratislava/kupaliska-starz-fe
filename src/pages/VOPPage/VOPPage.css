@@ -1,0 +1,15 @@
+ol {
+  list-style-type: decimal;
+}
+
+ol li {
+  @apply my-2;
+}
+
+ol li ol {
+  list-style-type: lower-alpha;
+}
+
+ol li ol li {
+  @apply ml-4;
+}

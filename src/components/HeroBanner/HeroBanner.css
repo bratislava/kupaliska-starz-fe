@@ -1,0 +1,34 @@
+.hero-container {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  height: 100vw;
+  background-image: url("assets/images/hero_mobile.png");
+  @screen md {
+    background-image: url("assets/images/hero.png");
+    height: 65vh;
+  }
+  @screen lg {
+    height: 50vw;
+  }
+  @screen xl {
+    height: 35vw;
+  }
+
+  @screen 2xl {
+    height: 35vw;
+  }
+}
+
+.wave {
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+  @screen lg {
+    background-image: url("assets/images/hero_overlay.png");
+  }
+  @screen 2xl {
+    background-size: contain;
+  }
+}

@@ -1,0 +1,9 @@
+button:disabled,
+button[disabled] {
+  opacity: 0.3;
+  cursor: initial;
+}
+
+button:active {
+  background-color: theme("colors.secondary");
+}

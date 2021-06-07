@@ -1,0 +1,72 @@
+{
+  "name": "kupaliska-starz-eshop",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://starz-api.dev.amcef.sk",
+  "dependencies": {
+    "@craco/craco": "^6.1.1",
+    "@hookform/resolvers": "^2.3.0",
+    "@reduxjs/toolkit": "^1.5.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.21.1",
+    "connected-react-router": "^6.9.1",
+    "history": "4.10.1",
+    "lodash": "^4.17.21",
+    "qs": "^6.10.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-google-recaptcha-v3": "^1.9.4",
+    "react-hook-form": "^7.0.7",
+    "react-image-file-resizer": "^0.4.4",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-router-hash-link": "^2.4.0",
+    "react-scripts": "4.0.3",
+    "react-swipeable": "^6.1.0",
+    "react-tooltip": "^4.2.19",
+    "typescript": "~4.1.5",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@amcef/eslint-config": "^1.0.0",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/qs": "^6.9.6",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.7",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/react-router-hash-link": "^1.2.1",
+    "@types/styled-components": "^5.1.9",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.35",
+    "postcss-nesting": "^7.0.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@amcef/eslint-config/react"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

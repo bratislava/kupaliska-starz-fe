@@ -1,0 +1,41 @@
+.checkbox-field > input.checkbox {
+  appearance: none;
+  @apply border-solid border-fontBlack border-opacity-10 border-2 rounded w-4 h-4 p-3 focus:outline-none transition-all;
+
+}
+
+.checkbox-field > input.radio {
+  appearance: none;
+  @apply border-solid border-fontBlack border-opacity-10 border-2 rounded-full w-4 h-4 p-2 focus:outline-none transition-all;
+
+}
+
+.checkbox-field > input.checkbox:checked {
+  @apply bg-primary border-primary;
+  background-image: url("assets/icons/checkmark.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.checkbox-field > input.radio:checked {
+  @apply border-primary relative;
+}
+
+.checkbox-field > input.radio:checked::after {
+  content: "";
+  left: 4px;
+  top: 4px;
+  right: 4px;
+  bottom: 4px;
+  @apply border-primary bg-primary rounded-full absolute;
+}
+
+.checkbox-field.error {
+  @apply text-error;
+}
+
+.checkbox-field.error > input.checkbox, .checkbox-field.error > input.radio {
+  @apply border-error;
+}
+
+

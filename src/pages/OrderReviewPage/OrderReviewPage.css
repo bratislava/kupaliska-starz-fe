@@ -1,0 +1,13 @@
+.grid-ordering section:nth-child(1) {
+  order: 2;
+  @screen md {
+    order: 1;
+  }
+}
+
+.grid-ordering section:nth-child(2) {
+  order: 1;
+  @screen md {
+    order: 2;
+  }
+}

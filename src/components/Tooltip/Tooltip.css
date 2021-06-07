@@ -1,0 +1,13 @@
+.tooltip {
+  background-color: #b1daec !important;
+  opacity: 1 !important;
+  @apply text-fontBlack rounded-lg !important;
+}
+
+.tooltip .multi-line {
+  padding: 0 !important;
+}
+
+.tooltip:after {
+  border: none !important;
+}

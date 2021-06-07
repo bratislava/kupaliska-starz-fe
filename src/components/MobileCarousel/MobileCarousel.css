@@ -1,0 +1,17 @@
+.active {
+}
+.active-left {
+  transform: scale(0.85) translateX(-55vw);
+}
+
+.active-right {
+  transform: scale(0.85) translateX(95vw);
+}
+
+.inactive-left {
+  transform: translateX(-110vw);
+}
+
+.inactive-right {
+  transform: translateX(110vw);
+}

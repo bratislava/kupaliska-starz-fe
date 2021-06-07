@@ -1,0 +1,132 @@
+stages:
+  - test
+  - build
+  - deploy
+
+.dev:
+  only:
+    refs:
+      - dev
+      - /^ci-cd/
+  variables:
+    IMAGE_TAG: "dev"
+    NAME: "kupaliska_starz_fe_dev"
+    PORT: "127.0.0.1:18003"
+
+.stage:
+  only:
+    refs:
+      - stage
+      - hotfix
+  variables:
+    IMAGE_TAG: "stage"
+    NAME: "kupaliska_starz_fe_stage"
+    PORT: "18001"
+
+.prod:
+  only:
+    refs:
+      - master
+  variables:
+    IMAGE_TAG: "latest"
+    NAME: "kupaliska_starz_fe"
+    PORT: "19001"
+
+.build:
+  stage: build
+  tags:
+    - docker-socket
+  before_script:
+    - cp src/environments/environment.$IMAGE_TAG.ts src/environments/environment.ts
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$IMAGE_TAG || true
+    - docker build --pull --cache-from $CI_REGISTRY_IMAGE:$IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$IMAGE_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
+
+.deploy:
+  stage: deploy
+  tags:
+    - elchapo
+    - shell
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$IMAGE_TAG
+    - docker stop $NAME && docker rm $NAME || true
+    - docker run -d --name $NAME -p $PORT:80 --restart unless-stopped $CI_REGISTRY_IMAGE:$IMAGE_TAG
+    - docker logout $CI_REGISTRY
+
+dev:build:
+  needs: [ ]
+  extends:
+    - .dev
+    - .build
+
+dev:deploy:
+  needs: [ "dev:build" ]
+  extends:
+    - .dev
+    - .deploy
+
+stage:build:
+  needs: [ ]
+  extends:
+    - .stage
+    - .build
+
+stage:deploy:
+  needs: [ "stage:build" ]
+  extends:
+    - .stage
+    - .deploy
+  tags:
+    - bratislava
+    - shell
+    - stage
+
+prod:build:
+  needs: [ ]
+  extends:
+    - .prod
+    - .build
+  before_script:
+    - cp src/environments/environment.prod.ts src/environments/environment.ts
+
+prod:deploy:
+  needs: [ "prod:build" ]
+  extends:
+    - .prod
+    - .deploy
+  tags:
+    - bratislava
+    - shell
+    - prod
+
+dev:analyze:
+  stage: test
+  needs: [ ]
+  tags:
+    - elchapo
+    - docker
+    - general
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [ "" ]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - .yarn
+      - node_modules
+      - .sonar/cache
+  before_script:
+    - apk add yarn
+    - yarn install --frozen-lockfile --cache-folder .yarn
+  script:
+    - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=ba-kupaliska-fe -Dsonar.sources=./src
+  allow_failure: true
+  only:
+    refs:
+      - dev
