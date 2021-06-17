@@ -1,8 +1,8 @@
 export const environment = {
   protocol: "https:",
   port: "",
-  host: "kupaliska-api-staging.bratislava.sk",
+  host: "%{HOST}%",
   debug: false,
   maxTicketPuchaseLimit: 10,
-  reCaptchaKey: "6LcmTu0aAAAAAMZW1IexRzZWy5KX7fqT-IzZTfp8"
+  reCaptchaKey: "%{RECAPTCHA_KEY}%"
 };
