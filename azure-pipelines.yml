@@ -8,11 +8,7 @@ trigger:
 variables:
   tag: '$(Build.SourceVersion)'
   dockerRepository: bratislava/$(Build.Repository.Name)/$(Build.Repository.Name)
-  underscoreName: $[replace($(Build.Repository.Name), '-', '_')]
-resources:
-  containers:
-  - container: postgres
-    image: postgres:13-alpine
+  underscoreName: kupaliska_starz_fe
 
 stages:
 - stage: Build
