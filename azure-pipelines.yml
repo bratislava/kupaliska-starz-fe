@@ -8,7 +8,7 @@ trigger:
 variables:
   tag: '$(Build.SourceVersion)'
   dockerRepository: bratislava/$(Build.Repository.Name)/$(Build.Repository.Name)
-  underscoreName: $[replace(variables['Build.Repository.Name'], '-', '_')]
+  underscoreName: $[replace($(Build.Repository.Name), '-', '_')]
 resources:
   containers:
   - container: postgres
