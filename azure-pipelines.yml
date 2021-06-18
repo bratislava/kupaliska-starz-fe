@@ -46,8 +46,8 @@ stages:
       tags: docker
     variables:
       NAME: $(underscoreName)_stage
-      PORT: 18001
-      HOST: "localhost:18000"
+      PORT: 9005
+      HOST: "localhost:9004"
       RECAPTCHA_KEY: "6LcmTu0aAAAAAMZW1IexRzZWy5KX7fqT-IzZTfp8"
     strategy:
       runOnce:
