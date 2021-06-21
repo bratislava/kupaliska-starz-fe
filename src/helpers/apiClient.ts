@@ -5,9 +5,7 @@ import { environment } from "environments/environment";
 
 export const apiClient = axios.create({
   responseType: "json",
-  baseURL: `${environment.protocol}//${environment.host}${
-    environment.port ? ":" + environment.port : ""
-  }`,
+  baseURL: environment.baseUrl,
   withCredentials: true,
   paramsSerializer: (params: any) => {
     return qs.stringify(params);

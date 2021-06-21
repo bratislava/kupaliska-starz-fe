@@ -1,8 +1,6 @@
 export const environment = {
-  protocol: "https:",
-  port: "",
-  host: "%{HOST}%",
+  baseUrl: "%{BE_BASE_URL}%",
   debug: false,
   maxTicketPuchaseLimit: 10,
-  reCaptchaKey: "%{RECAPTCHA_KEY}%"
+  reCaptchaKey: "6Leae90aAAAAAM7NZfVEVC0rEyhh-tx-MYUthzYU"
 };

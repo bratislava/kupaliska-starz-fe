@@ -47,7 +47,7 @@ stages:
     variables:
       NAME: $(underscoreName)_stage
       PORT: 9005
-      HOST: "localhost:9004"
+      BE_BASE_URL: "http://172.25.5.138:9004"
       RECAPTCHA_KEY: "6LcmTu0aAAAAAMZW1IexRzZWy5KX7fqT-IzZTfp8"
     strategy:
       runOnce:
@@ -59,7 +59,7 @@ stages:
               command: 'login'
           - script: |
               docker stop $NAME && docker rm $NAME || true
-              docker run -d --name $NAME -p $PORT:80 -e HOST=$HOST -e HOST_FE=$HOST_FE --restart unless-stopped docker.pkg.github.com/$DOCKERREPOSITORY:$TAG
+              docker run -d --name $NAME -p $PORT:80 -e BE_BASE_URL=$BE_BASE_URL --restart unless-stopped docker.pkg.github.com/$DOCKERREPOSITORY:$TAG
 
 - stage: Production
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
