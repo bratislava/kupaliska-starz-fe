@@ -34,10 +34,10 @@ stages:
         command: 'Push'
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
-      condition: and(succeeded(), eq(variables['Build.Reason'], 'IndividualCI'))
+      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
       displayName: Push Docker Image (not on PR)
 - stage: Staging
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'IndividualCI'))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
   variables:
   - group: Kupaliska-Common-Stage
   jobs:
