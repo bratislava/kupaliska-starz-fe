@@ -2,11 +2,57 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template. It's using [Craco](https://www.npmjs.com/package/@craco/craco) to allow tailwind-css
 
-## Setup
+## Setup & Local development
 
-Copy `src/environments/environment.dev.ts` to `src/environments/environment.ts`. Update host url if you're using local BE.
+The default setup runs against local backend - if you don't have BE running on localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
 
-## Available Scripts
+To install dependencies:
+
+```
+yarn
+```
+
+To run locally:
+
+```
+yarn start
+```
+
+### CORS issues
+
+Presently, the server is not correctly handling CORS headers when interacting with staging / local backend. TODO we need to fix this ultimately. Presently the best way around this is to disable the CORS checks in your browser - in Chrome and Firefox this requires a plugin (I recommend the firefox one - CORS Everywhere), in Safari you can disable this in Develop -> Disable Cross-Origin Restrictions.
+
+## Deployment
+
+### Staging
+
+These are accessible through VPN only.
+
+kupaliska-backend: http://172.25.5.138:9004/
+
+kupaliska-frontend: http://172.25.5.138:9005/
+
+Presently the app is deployed from Azure git repo (TODO consolidate this) - https://dev.azure.com/bratislava-innovation/Inovacie
+
+To add it as a second remote use:
+
+```
+git remote add azure git@ssh.dev.azure.com:v3/bratislava-innovation/Inovacie/name-of-repo
+```
+
+Commits in master are deployed to staging automatically
+
+```
+git push azure master
+```
+
+You can also manually deploy, master or other branch, Pipelines -> kupaliska-starz-fe -> Run pipeline.
+
+### Production
+
+To promote to production, approve the production build step in a successful staging deploy in Azure Devops (Pipelines -> kupaliska-starz-fe -> choose build -> Review).
+
+## Original create-react-app README below
 
 In the project directory, you can run:
 
