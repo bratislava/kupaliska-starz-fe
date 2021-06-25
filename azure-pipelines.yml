@@ -73,7 +73,7 @@ stages:
       tags: docker
     variables:
       NAME: $(underscoreName)_stage
-      PORT: 1901
+      PORT: 18001
       HOST: kupaliska-api-staging.bratislava.sk
     strategy:
       runOnce:
