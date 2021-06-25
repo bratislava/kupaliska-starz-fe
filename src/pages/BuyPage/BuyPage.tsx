@@ -216,14 +216,25 @@ const BuyPage = () => {
 
   return (
     <form
-      className="container mx-auto gap-x-8 grid py-8 grid-cols-1 md:flex flex-col flex-wrap md:max-h-320"
+      className="
+        container
+        mx-auto
+        py-8
+        grid-cols-1
+        md:flex
+        flex-col
+        flex-wrap
+        md:gap-x-8
+        md:max-h-300
+        lg:max-h-240
+      "
       onSubmit={handleSubmit(onSubmit, (err) => {
         console.log(err);
       })}
     >
       <Tooltip multiline={true} id="tooltip-buy-page" />
 
-      <section className="col-span-1 md:w-1/2 md:order-1">
+      <section className="col-span-1 md:order-1">
         <SectionHeader title="Osobné údaje" />
         <div className="mb-4 relative">
           <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
@@ -325,7 +336,7 @@ const BuyPage = () => {
           )}          
       </section>
 
-      <section className="col-span-1 md:w-1/2 md:order-3">
+      <section className="col-span-1 md:order-3">
         <div className="divider md:hidden" />
         <SectionHeader className="hidden md:block" title="Rekapitulácia nákupu" />
         <div className="w-full lg:w-3/4">
@@ -379,7 +390,7 @@ const BuyPage = () => {
         </div>
       </section>
         
-      <section className="col-span-1 md:w-1/2 md:order-2">
+      <section className="col-span-1 md:order-2">
         <div className="divider" />
         <div className="relative">
           <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
@@ -451,7 +462,7 @@ const BuyPage = () => {
         </Button>
       </section>
       
-      <section className="col-span-1 md:w-1/2 md:order-4">
+      <section className="col-span-1 md:order-4">
         <div className="text-fontBlack text-opacity-50 font-medium mx-3 xs:mx-6 md:mt-6">
           <p>Cena je jednotná pre všetky vekové skupiny.</p>
           <p>

@@ -14,3 +14,9 @@
     @apply text-4xl;
   }
 }
+
+section {
+  @screen md {
+    width: calc(50% - 1rem);
+  }
+}
