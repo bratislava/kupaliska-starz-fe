@@ -107,6 +107,12 @@ module.exports = {
         "9/10": "90%",
         "1/2vh": "50vh",
       },
+      maxHeight: {
+        "160": "40rem",
+        "200": "50rem",
+        "240": "60rem",
+        "320": "80rem"
+      },
       minWidth: {
         "1/10": "10%",
         "2/10": "20%",
@@ -120,6 +126,7 @@ module.exports = {
       },
       gridTemplateRows: {
         12: "repeat(12, minmax(0, 1fr))",
+        "min-1": "min-content 1fr"
       },
       gridTemplateColumns: {
         16: "repeat(16, minmax(0, 1fr))",
