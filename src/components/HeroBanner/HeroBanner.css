@@ -1,10 +1,11 @@
-.hero-container {
+.hero-image{
+  height: 100vw;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  height: 100vw;
   background-image: url("assets/images/hero_mobile.png");
-  @screen md {
+  
+  @screen sm {
     background-image: url("assets/images/hero.png");
     height: 65vh;
   }
@@ -14,7 +15,6 @@
   @screen xl {
     height: 35vw;
   }
-
   @screen 2xl {
     height: 35vw;
   }
@@ -25,10 +25,35 @@
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: contain;
-  @screen lg {
+  background-image: url("assets/images/hero_overlay_mobile.png");
+
+  @screen sm {
     background-image: url("assets/images/hero_overlay.png");
   }
+
   @screen 2xl {
     background-size: contain;
+  }
+}
+
+.content {
+  margin-top: -25vw;
+  margin-bottom: 4rem;
+
+  @screen sm {
+    margin-top: -15vw;
+  }
+
+  @screen md {
+    margin-top: -16vw;
+    margin-bottom: 8rem;
+  }
+
+  @screen lg {
+    margin-top: -15rem;
+  }
+
+  @screen xl {
+    margin-top: -18rem;
   }
 }
