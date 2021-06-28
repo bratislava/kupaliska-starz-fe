@@ -14,3 +14,9 @@
     @apply text-4xl;
   }
 }
+
+form {
+  @screen md {
+    grid-template-rows: auto 1fr auto;
+  }
+}
