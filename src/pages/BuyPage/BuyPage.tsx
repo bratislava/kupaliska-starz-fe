@@ -222,7 +222,6 @@ const BuyPage = () => {
         py-8
         grid
         grid-cols-1
-
         md:grid-cols-2
         md:gap-x-8
       "
