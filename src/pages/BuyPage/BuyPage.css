@@ -15,8 +15,8 @@
   }
 }
 
-section {
+form{
   @screen md {
-    width: calc(50% - 1rem);
+    grid-template-rows: auto 1fr auto;
   }
 }

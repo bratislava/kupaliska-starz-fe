@@ -220,13 +220,11 @@ const BuyPage = () => {
         container
         mx-auto
         py-8
+        grid
         grid-cols-1
-        md:flex
-        flex-col
-        flex-wrap
+
+        md:grid-cols-2
         md:gap-x-8
-        md:max-h-300
-        lg:max-h-240
       "
       onSubmit={handleSubmit(onSubmit, (err) => {
         console.log(err);
@@ -234,7 +232,7 @@ const BuyPage = () => {
     >
       <Tooltip multiline={true} id="tooltip-buy-page" />
 
-      <section className="col-span-1 md:order-1">
+      <section className="w-full md:row-span-2">
         <SectionHeader title="Osobné údaje" />
         <div className="mb-4 relative">
           <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
@@ -336,7 +334,7 @@ const BuyPage = () => {
           )}          
       </section>
 
-      <section className="col-span-1 md:order-3">
+      <section className="w-full">
         <div className="divider md:hidden" />
         <SectionHeader className="hidden md:block" title="Rekapitulácia nákupu" />
         <div className="w-full lg:w-3/4">
@@ -390,7 +388,7 @@ const BuyPage = () => {
         </div>
       </section>
         
-      <section className="col-span-1 md:order-2">
+      <section className="md:order-4">
         <div className="divider" />
         <div className="relative">
           <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
@@ -462,7 +460,7 @@ const BuyPage = () => {
         </Button>
       </section>
       
-      <section className="col-span-1 md:order-4">
+      <section className="md:order-3">
         <div className="text-fontBlack text-opacity-50 font-medium mx-3 xs:mx-6 md:mt-6">
           <p>Cena je jednotná pre všetky vekové skupiny.</p>
           <p>
