@@ -9,36 +9,36 @@ export interface Route {
 
 const routes: Route[] = [
   {
-    path: "/order",
+    path: "/:lang?/order",
     exact: true,
     component: React.lazy(() => import("pages/BuyPage/BuyPage")),
   },
   {
-    path: "/order-review",
+    path: "/:lang?/order-review",
     exact: true,
     component: React.lazy(
       () => import("pages/OrderReviewPage/OrderReviewPage")
     ),
   },
   {
-    path: "/order-result",
+    path: "/:lang?/order-result",
     exact: true,
     component: React.lazy(
       () => import("pages/OrderResultPage/OrderResultPage")
     ),
   },
   {
-    path: "/vop",
+    path: "/:lang?/vop",
     exact: true,
     component: React.lazy(() => import("pages/VOPPage/VOPPage")),
   },
   {
-    path: "/gdpr",
+    path: "/:lang?/gdpr",
     exact: true,
     component: React.lazy(() => import("pages/GDPRPage/GDPRPage")),
   },
   {
-    path: "",
+    path: "/:lang?",
     exact: true,
     component: React.lazy(() => import("pages/LandingPage/LandingPage")),
   },
