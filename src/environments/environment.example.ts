@@ -5,5 +5,4 @@ export const environment = {
   debug: false,
   maxTicketPuchaseLimit: 10,
   reCaptchaKey: "recaptchaKey"
-
 };
