@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -7,17 +7,21 @@ import * as serviceWorker from "./serviceWorker";
 import { store } from "./store";
 import App from "./App";
 
+import "./i18n";
+
 import "./index.css";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { environment } from "environments/environment";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-    </GoogleReCaptchaProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+      </GoogleReCaptchaProvider>
+    </Suspense>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -27,7 +27,6 @@ function App() {
   }, [dispatch]);
   return (
     <ConnectedRouter history={history}>
-      <React.Suspense fallback={<div></div>}>
         <ScrollToTop>
           <Toast
             open={toast !== undefined}
@@ -47,7 +46,6 @@ function App() {
           </main>
           <Footer />
         </ScrollToTop>
-      </React.Suspense>
     </ConnectedRouter>
   );
 }
