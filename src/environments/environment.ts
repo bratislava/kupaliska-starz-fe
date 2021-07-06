@@ -5,5 +5,5 @@ export const environment = {
   baseUrl: process.env.REACT_APP_HOST || "%{HOST}%",
   debug: false,
   maxTicketPuchaseLimit: 10,
-  reCaptchaKey: process.env.REACT_APP_HOST || "%{RECAPTCHA_CLIENT_SECRET}%"
+  reCaptchaKey: process.env.REACT_APP_RECAPTCHA_CLIENT_SECRET || "%{RECAPTCHA_CLIENT_SECRET}%"
 };
