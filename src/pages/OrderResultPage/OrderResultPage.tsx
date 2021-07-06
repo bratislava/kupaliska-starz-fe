@@ -7,6 +7,7 @@ import { Button, Icon, SectionHeader, Typography } from "components";
 import { useAppDispatch, useWindowSize } from "hooks";
 import { getFinalOrderDataActions } from "store/order";
 import { HashLink } from "react-router-hash-link";
+import { convertBase64ToBlob } from "helpers/general";
 
 const OrderResultPage = () => {
   const dispatch = useAppDispatch();
@@ -63,6 +64,20 @@ const OrderResultPage = () => {
       });
     }
   }, [queryParams]);
+
+  const downloadTickets = async (ticketsPdfHref: string) => {
+    const blob = convertBase64ToBlob(ticketsPdfHref, "application/pdf");
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(blob);
+      return;
+    }
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Lístok na kúpaliská STaRZ";
+    link.click();
+  };
 
   // const noImageCondition = () => (childrenTickets.length > 4 || myTickets.length > 8);
 
@@ -155,13 +170,12 @@ const OrderResultPage = () => {
           </div> */}
           {ticketsPdf && (
             <div>
-              <a download="Váš lístok na kúpaliská.pdf" href={ticketsPdf}>
-                <Button
-                  className={`w-full mt-4 lg:mt-8 md:w-1/2 mx-auto lg:ml-0`}
-                >
-                  Stiahnuť lístky <Icon className="ml-4" name="download" />
-                </Button>
-              </a>
+              <Button
+                onClick={() => downloadTickets(ticketsPdf)}
+                className={`w-full mt-4 lg:mt-8 md:w-1/2 mx-auto lg:ml-0`}
+              >
+                Stiahnuť lístky <Icon className="ml-4" name="download" />
+              </Button>
             </div>
           )}
         </div>

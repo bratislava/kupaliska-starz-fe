@@ -15,6 +15,7 @@ import {
   SectionHeader,
   ContactForm,
   AccordionPanel,
+  TicketCardDisplayOnly,
 } from "components";
 import { useAppDispatch, useAppSelector, useWindowSize } from "hooks";
 import {
@@ -175,11 +176,10 @@ const LandingPage = () => {
         <SectionHeader title="Dostupné lístky" className="text-center" />
         <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
           {tickets.map((ticket) => (
-            <TicketCard
+            <TicketCardDisplayOnly
               className="col-span-8 md:col-span-4"
               key={ticket.id}
               ticket={ticket}
-              displayOnly
               onBuyClick={onTicketBuy}
             />
           ))}

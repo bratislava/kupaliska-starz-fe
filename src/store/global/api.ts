@@ -6,7 +6,13 @@ export function fetchTickets() {
 }
 
 export function fetchPools(number: number) {
-  return apiClient.get(`/api/v1/swimmingPools?limit=${number}`);
+  return apiClient.get(`/api/v1/swimmingPools`, {
+    params: {
+      limit: number,
+      order: "ordering",
+      direction: "asc",
+    }
+  });
 }
 
 export function fetchPool(id: string) {

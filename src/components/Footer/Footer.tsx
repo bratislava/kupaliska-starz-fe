@@ -15,8 +15,16 @@ const Footer = () => (
         <span>IČO: 00179663</span>
         <span>DIČ: 2020801695</span>
       </div>
-      <div className="text-white font-semibold flex items-center order-3 md:order-2 justify-center col-span-1">
-        STARZ © 2021{" "}
+      <div className="text-white flex items-center order-3 md:order-2 justify-center col-span-1">
+        STARZ 2021 | Created by{" "}
+        <a
+          href="https://amcef.sk"
+          rel="noopener noreferrer"
+          target="_blank"
+          className="link ml-1"
+        >
+          AMCEF
+        </a>
       </div>
       <div className="flex flex-col text-white md:items-end order-2 md:order-3 my-2 md:my-0">
         <span className="font-semibold">Dôležité linky</span>

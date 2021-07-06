@@ -40,7 +40,7 @@ interface Facility {
 
 export interface OpeningHoursStrings {
   intervalString: string;
-  dayStrings: {day: string, time: string}[];
+  dayStrings: { day: string, time: string, color: string }[];
 }
 export interface SwimmingPool {
   id: string;

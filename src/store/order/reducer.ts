@@ -114,7 +114,7 @@ export const selectOrderPrice = (state: RootState) => {
     total = total * (100 - state.order.discountCode.amount) * 0.01;
   }
 
-  return total;
+  return Math.max(0.01, (Math.floor(total * 100) / 100));
 }
 
 export default counterSlice.reducer;

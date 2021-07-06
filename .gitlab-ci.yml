@@ -1,116 +1,129 @@
+include:
+  - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+
+default:
+  image: alpine:latest
+  tags:
+    - docker
+    - general
+
 stages:
   - test
   - build
   - deploy
 
 .dev:
-  only:
-    refs:
-      - dev
-      - /^ci-cd/
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
   variables:
     IMAGE_TAG: "dev"
-    NAME: "kupaliska_starz_fe_dev"
-    PORT: "127.0.0.1:18003"
 
 .stage:
-  only:
-    refs:
-      - stage
-      - hotfix
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "stage"'
+    - if: '$CI_COMMIT_BRANCH == "hotfix"'
   variables:
     IMAGE_TAG: "stage"
-    NAME: "kupaliska_starz_fe_stage"
-    PORT: "18001"
 
 .prod:
-  only:
-    refs:
-      - master
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
   variables:
     IMAGE_TAG: "latest"
-    NAME: "kupaliska_starz_fe"
-    PORT: "19001"
 
 .build:
   stage: build
+  image: docker:latest
   tags:
     - docker-socket
   before_script:
     - cp src/environments/environment.$IMAGE_TAG.ts src/environments/environment.ts
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$IMAGE_TAG || true
+    - docker pull -q $CI_REGISTRY_IMAGE:$IMAGE_TAG || true
     - docker build --pull --cache-from $CI_REGISTRY_IMAGE:$IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$IMAGE_TAG .
-    - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG
-
-.deploy:
-  stage: deploy
-  tags:
-    - elchapo
-    - shell
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$IMAGE_TAG
-    - docker stop $NAME && docker rm $NAME || true
-    - docker run -d --name $NAME -p $PORT:80 --restart unless-stopped $CI_REGISTRY_IMAGE:$IMAGE_TAG
-    - docker logout $CI_REGISTRY
+    - docker push -q $CI_REGISTRY_IMAGE:$IMAGE_TAG
 
 dev:build:
-  needs: [ ]
   extends:
     - .dev
     - .build
-
-dev:deploy:
-  needs: [ "dev:build" ]
-  extends:
-    - .dev
-    - .deploy
 
 stage:build:
-  needs: [ ]
   extends:
     - .stage
     - .build
 
-stage:deploy:
-  needs: [ "stage:build" ]
+stage:build_and_publish_dry_run:
   extends:
     - .stage
-    - .deploy
+  stage: build
   tags:
-    - bratislava
-    - shell
-    - stage
-
-prod:build:
-  needs: [ ]
-  extends:
-    - .prod
-    - .build
+    - docker
+    - privileged
+  image: docker:git
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_REGISTRY_USER: "$CI_REGISTRY_USER"
+    DOCKER_REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - .yarn/
+      - node_modules/
   before_script:
+    - apk add --no-cache nodejs npm yarn
+    - yarn install --frozen-lockfile --cache-folder .yarn --ignore-engines
     - cp src/environments/environment.prod.ts src/environments/environment.ts
+  script:
+    - npx semantic-release --dry-run --branches stage,hotfix
 
-prod:deploy:
-  needs: [ "prod:build" ]
+prod:build_and_publish:
   extends:
     - .prod
-    - .deploy
+  stage: build
   tags:
-    - bratislava
-    - shell
-    - prod
+    - docker
+    - privileged
+  image: docker:git
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_REGISTRY_USER: "$CI_REGISTRY_USER"
+    DOCKER_REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - .yarn/
+      - node_modules/
+  before_script:
+    - apk add --no-cache nodejs npm yarn
+    - yarn install --frozen-lockfile --cache-folder .yarn --ignore-engines
+    - cp src/environments/environment.prod.ts src/environments/environment.ts
+  script:
+    - npx semantic-release
+
+deploy:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(dev|stage|hotfix|master)$/'
+  trigger:
+    project: bratislava-projekty/kupaliska/kupaliska-starz-deployment
+    branch: $CI_COMMIT_BRANCH
+    strategy: depend
 
 dev:analyze:
-  stage: test
+  stage: .post
   needs: [ ]
   tags:
     - elchapo
     - docker
     - general
   image:
-    name: sonarsource/sonar-scanner-cli:4.6
+    name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [ "" ]
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
@@ -126,7 +139,6 @@ dev:analyze:
     - yarn install --frozen-lockfile --cache-folder .yarn
   script:
     - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=ba-kupaliska-fe -Dsonar.sources=./src
-  allow_failure: true
-  only:
-    refs:
-      - dev
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+      allow_failure: true

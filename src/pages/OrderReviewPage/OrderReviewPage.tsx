@@ -153,7 +153,7 @@ const OrderReviewPage = () => {
             Upraviť údaje <Icon className="ml-4" name="pencil" />
           </Button>
           <Button className="w-full mb-4" onClick={onPay}>
-            Zaplatiť {totalPrice.toFixed(2)}
+            Zaplatiť {totalPrice}
             € <Icon className="ml-4" name="credit-card" />
           </Button>
           {/* <div className="text-sm font-semibold text-center mb-4 text-opacity-80">
@@ -183,10 +183,7 @@ const OrderReviewPage = () => {
               <TicketCard
                 ticket={cartItem.ticket}
                 initialAmount={cartItem.amount}
-                showBuyButton={false}
                 displayOnly
-                showAmount
-                blueVariant
                 discount={discountCode?.amount}
               />
               {cartItem.childrenNumber > 0 && (
@@ -202,21 +199,27 @@ const OrderReviewPage = () => {
                           : ""
                       }`}
                     >
-                      {cartItem.childrenNumber *
-                        (cartItem.ticket.childrenPrice
-                          ? cartItem.ticket.childrenPrice
-                          : 0)}
+                      {Math.floor(
+                        cartItem.childrenNumber *
+                          (cartItem.ticket.childrenPrice
+                            ? cartItem.ticket.childrenPrice
+                            : 0) *
+                          100
+                      ) / 100}
                       €
                     </span>
                     {discountCode && discountCode.status === "OK" && (
                       <span className="text-xl font-bold ml-2 text-primary">
-                        {cartItem.childrenNumber *
-                          (cartItem.ticket.childrenPrice
-                            ? cartItem.ticket.childrenPrice
-                            : 0) *
-                          (discountCode.amount
-                            ? (100 - discountCode.amount) / 100
-                            : 1)}
+                        {Math.floor(
+                          cartItem.childrenNumber *
+                            (cartItem.ticket.childrenPrice
+                              ? cartItem.ticket.childrenPrice
+                              : 0) *
+                            (discountCode.amount
+                              ? (100 - discountCode.amount) / 100
+                              : 1) *
+                            100
+                        ) / 100}
                         €
                       </span>
                     )}

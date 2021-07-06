@@ -1,10 +1,10 @@
-.hero-image{
+.hero-image {
   height: 100vw;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   background-image: url("assets/images/hero_mobile.png");
-  
+
   @screen sm {
     background-image: url("assets/images/hero.png");
     height: 65vh;

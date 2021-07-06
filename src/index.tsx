@@ -13,7 +13,7 @@ import { environment } from "environments/environment";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey} useEnterprise={true}>
+    <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey}>
     <Provider store={store}>
       <App />
     </Provider>

@@ -4,6 +4,7 @@ import {
   OpeningHours,
   OpeningHoursStrings,
 } from "models";
+import { boolean } from "yup/lib/locale";
 
 export const swimmingPoolResponseToSwimmingPool = (
   pool: SwimmingPoolResponse
@@ -12,24 +13,23 @@ export const swimmingPoolResponseToSwimmingPool = (
 
   openingHours: pool.openingHours
     ? pool.openingHours.map((hours) => {
-        const intermezzo = {
-          days: hours.days,
-          interval: {
-            from: new Date(hours.interval.from),
-            to: new Date(hours.interval.to),
-          },
-        };
-        return openingHoursToStringArray(intermezzo);
-      })
+      const intermezzo = {
+        days: hours.days,
+        interval: {
+          from: new Date(hours.interval.from),
+          to: new Date(hours.interval.to),
+        },
+      };
+      return openingHoursToStringArray(intermezzo);
+    })
     : [],
 });
 
 export const openingHoursToStringArray = (
   hours: OpeningHours
 ): OpeningHoursStrings => {
-  const intervalString = `${hours.interval.from.getDate()}.${
-    hours.interval.from.getMonth() + 1
-  }.-${hours.interval.to.getDate()}.${hours.interval.to.getMonth() + 1}.`;
+  const intervalString = `${hours.interval.from.getDate()}.${hours.interval.from.getMonth() + 1
+    }.-${hours.interval.to.getDate()}.${hours.interval.to.getMonth() + 1}.`;
   const dayStringsObjects: {
     first: string;
     last: string;
@@ -62,6 +62,7 @@ export const openingHoursToStringArray = (
     let result = {
       day: "",
       time: "",
+      color: "fontBlack",
     };
     if (dayStringObj.first === dayStringObj.last) {
       result.day = dayStringObj.last.substring(0, 2);
@@ -73,12 +74,22 @@ export const openingHoursToStringArray = (
     }
 
     result.time = dayStringObj.from && dayStringObj.to ? `${dayStringObj.from} - ${dayStringObj.to}` : "Zatvorené";
+    result.color = result.time === "Zatvorené" && dayStringObj.first === dayStringObj.last ? "error" : "fontBlack";
 
     return result;
   });
 
+  const multipleRedDays = dayStrings.reduce((multipleRedDays: number, dayStringObj) => {
+    if (dayStringObj.color === "error") {
+      return multipleRedDays + 1;
+    }
+    return multipleRedDays
+  }, 0)
+
+  const finalDayStrings = multipleRedDays > 1 ? dayStrings.map((item) => ({ ...item, color: "fontBlack" })) : dayStrings
+
   return {
     intervalString,
-    dayStrings,
+    dayStrings: finalDayStrings,
   };
 };

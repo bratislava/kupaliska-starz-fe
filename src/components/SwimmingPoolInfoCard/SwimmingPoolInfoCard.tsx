@@ -76,7 +76,7 @@ const SwimmingPoolInfoCard = ({
         {!(_expanded || modal) ||
         (swimmingPool.expandedDescription && swimmingPool.waterTemp) ? (
           <div className="flex-1">
-            <p className="my-4">
+            <p className="my-4 whitespace-pre-wrap">
               {_expanded || modal
                 ? swimmingPool.expandedDescription
                 : swimmingPool.description}
@@ -101,7 +101,10 @@ const SwimmingPoolInfoCard = ({
                           <div className="flex flex-1 ml-4">
                             <div className="flex flex-col text-left">
                               {line.dayStrings.map((dayStr) => (
-                                <span key={dayStr.day} className="text-left">
+                                <span
+                                  key={dayStr.day}
+                                  className={`text-left text-${dayStr.color}`}
+                                >
                                   {dayStr.day}
                                 </span>
                               ))}
@@ -110,7 +113,7 @@ const SwimmingPoolInfoCard = ({
                               <div className="flex flex-col">
                                 {line.dayStrings.map((dayStr, index) => (
                                   <span
-                                    className="text-center"
+                                    className={`text-center text-${dayStr.color}`}
                                     key={`${dayStr.time}-${index}`}
                                   >
                                     {dayStr.time}
@@ -182,7 +185,9 @@ const SwimmingPoolInfoCard = ({
             type="outlined"
             disabled={!swimmingPool.locationUrl}
             thin
-            className={`${modal ? "relative -bottom-4" : ""} flex-1 bg-white xs:ml-2`}
+            className={`${
+              modal ? "relative -bottom-4" : ""
+            } flex-1 bg-white xs:ml-2`}
           >
             <a
               href={swimmingPool.locationUrl}

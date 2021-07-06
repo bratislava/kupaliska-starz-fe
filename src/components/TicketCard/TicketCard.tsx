@@ -1,33 +1,25 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Button, InputField, Icon } from "components";
+import { Typography, Button, InputField } from "components";
 
 import { Ticket } from "models";
-import { environment } from "environments/environment";
+import { getPrice } from "helpers/general";
 
 interface TicketCardProps {
   ticket: Ticket;
   className?: string;
-  onBuyClick?: (ticket: Ticket, amount: number) => void;
   initialAmount?: number;
   onInputValueChange?: (val: number) => void;
-  showBuyButton?: boolean;
   displayOnly?: boolean;
-  blueVariant?: boolean;
-  showAmount?: boolean;
   discount?: number;
 }
 
 const TicketCard = ({
   ticket,
   className = "",
-  onBuyClick,
   initialAmount,
   onInputValueChange,
-  showBuyButton = true,
   displayOnly = false,
-  blueVariant = false,
-  showAmount = false,
   discount,
 }: TicketCardProps) => {
   const [_amount, _setAmount] = useState<number | string>(
@@ -66,25 +58,18 @@ const TicketCard = ({
 
   return (
     <div
-      className={`${className} transition-all rounded-lg overflow-hidden bg-white flex flex-col justify-between ${
-        blueVariant ? "" : "border-2-softGray hover:border-primary"
-      }`}
+      className={`${className} transition-all rounded-lg overflow-hidden bg-white flex flex-col justify-between`}
     >
       <div
-        className={`flex flex-col pt-6 px-3 xs:px-6 pb-4 rounded-t-lg justify-between ${
-          blueVariant ? "border-2-softGray border-b-0" : ""
-        }`}
+        className={`flex flex-col pt-6 px-3 xs:px-6 pb-4 rounded-t-lg justify-between border-2-softGray border-b-0`}
       >
         <Typography type="subtitle" fontWeight="bold">
-          {showAmount && `${_amount}x `}
-          {ticket.name}
+          {`${_amount}x ${ticket.name}`}
         </Typography>
         <p className="text-lg pt-4">{ticket.description}</p>
       </div>
       <div
-        className={`flex flex-wrap px-3 xs:px-6 py-4 gap-1 items-center justify-between ${
-          blueVariant ? "bg-secondary" : ""
-        }`}
+        className={`flex flex-wrap px-3 xs:px-6 py-4 gap-1 items-center justify-between bg-secondary`}
       >
         {ticket.type !== "SEASONAL" && !displayOnly && (
           <div className="flex items-center" style={{ width: "45%" }}>
@@ -120,44 +105,31 @@ const TicketCard = ({
           </div>
         )}
         <div
-          className={`flex ${
-            blueVariant ? "text-primary" : "text-fontBlack"
-          } items-center ${
-            showBuyButton || ticket.type === "SEASONAL" ? "justify-start" : "xs:justify-end mt-2 xs:mt-0"
+          className={`flex text-primary items-center ${
+            ticket.type === "SEASONAL" || displayOnly
+              ? "justify-start"
+              : "xs:justify-end mt-2 xs:mt-0"
           } text-xl  md:text-2xl font-bold ${
             discount ? "w-full xs:w-5/10" : "w-5/10"
           }`}
         >
           <span className={discount ? "strikediag text-white" : ""}>
-            {showAmount && typeof _amount === "number"
-              ? (ticket.price * _amount).toFixed(2)
-              : ticket.price.toFixed(2)}
+            {typeof _amount === "number"
+              ? getPrice(ticket.price * _amount)
+              : getPrice(ticket.price)}
             €
           </span>
-          {displayOnly && !showAmount && (
-            <div className="text-base font-normal ml-1"> / kus</div>
-          )}
           {discount && (
             <span className="ml-2">
-              {showAmount && typeof _amount === "number"
-                ? (ticket.price * _amount * (100 - discount) * 0.01).toFixed(2)
-                : (ticket.price * (1 - discount) * 0.01).toFixed(2)}
+              {typeof _amount === "number"
+                ? getPrice(
+                    ticket.price * _amount * (100 - discount) * 0.01
+                  )
+                : getPrice(ticket.price * (100 - discount) * 0.01)}
               €
             </span>
           )}
         </div>
-        {showBuyButton && (
-          <Button
-            className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto"
-            onClick={() => {
-              if (typeof _amount === "number") {
-                onBuyClick && onBuyClick(ticket, _amount);
-              }
-            }}
-          >
-            Do košíka <Icon name="shopping-cart" className="ml-2" />
-          </Button>
-        )}
       </div>
     </div>
   );
