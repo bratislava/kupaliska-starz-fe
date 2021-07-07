@@ -18,7 +18,7 @@ export const assignItemsToColumns = (numberOfColumns: 1 | 2 | 3, items: any[]): 
 
 }
 
-export const getPrice = (price: number) => Math.max(0.01, Math.floor(price * 100) / 100)
+export const getPrice = (price: number) => Math.floor(price * 100) / 100
 
 export const convertBase64ToBlob = (base64Image: string, contentType?: string) => {
     const parts = base64Image.split(';base64,');
