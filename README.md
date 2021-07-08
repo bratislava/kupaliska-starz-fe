@@ -2,9 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template. It's using [Craco](https://www.npmjs.com/package/@craco/craco) to allow tailwind-css
 
-## Setup & Local development
+## Setup
 
 The default setup runs against local backend - if you don't have BE running on localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
+
+**Recaptcha**
+
+To make recaptcha work properly in local environment, you need to set `REACT_APP_RECAPTCHA_CLIENT_SECRET` variable from
+[Recaptcha Admin Site](https://www.google.com/recaptcha/admin/site/450722714/settings). From there use the "SITE KEY".
+
+For production, use [this](https://www.google.com/recaptcha/admin/site/450632804/settings) link instead.
 
 To install dependencies:
 
@@ -18,9 +25,7 @@ To run locally:
 yarn start
 ```
 
-### CORS issues
 
-Presently, the server is not correctly handling CORS headers when interacting with staging / local backend. TODO we need to fix this ultimately. Presently the best way around this is to disable the CORS checks in your browser - in Chrome and Firefox this requires a plugin (I recommend the firefox one - CORS Everywhere), in Safari you can disable this in Develop -> Disable Cross-Origin Restrictions.
 
 ## Deployment
 
