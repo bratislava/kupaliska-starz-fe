@@ -9,9 +9,7 @@ The default setup runs against local backend - if you don't have BE running on l
 **Recaptcha**
 
 To make recaptcha work properly in local environment, you need to set `REACT_APP_RECAPTCHA_CLIENT_SECRET` variable from
-[reCAPTCHA Enterprise](https://console.cloud.google.com/security/recaptcha). From there use the `kupaliska.bratislava.sk DEV` key
-
-For production there is `kupaliska.bratislava.sk PROD` key
+[reCAPTCHA Enterprise](https://console.cloud.google.com/security/recaptcha). From there use the `kupaliska.bratislava.sk` key
 
 To install dependencies:
 
