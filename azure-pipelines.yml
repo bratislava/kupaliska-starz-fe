@@ -40,7 +40,7 @@ stages:
 - stage: Development
   condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
   variables:
-  - group: Kupaliska-Common-Stage
+  - group: Kupaliska-Common-Dev
   jobs:
   - deployment: Development
     environment:
@@ -73,7 +73,7 @@ stages:
 - stage: Staging
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - group: Kupaliska-Common-Prod
+  - group: Kupaliska-Common-Stage
   jobs:
   - deployment: Staging
     environment:
