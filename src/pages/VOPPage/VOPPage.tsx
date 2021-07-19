@@ -34,7 +34,7 @@ const VOPPage = () => {
             na prevádzky v správe predávajúceho (ďalej len “vstupenka”) a to
             medzi predávajúcim a fyzickou osobou (ďalej len „kupujúci“)
             prostredníctvom rozhrania umiestneného na webovej stránke dostupného
-            na internetové adrese: http://kupaliska.bratislava.sk/ (ďalej je
+            na internetové adrese: https://kupaliska.bratislava.sk/ (ďalej je
             „internetový obchod“).
           </li>
           <li>Ustanovenia VOP sú neoddeliteľnou súčasťou kúpnej zmluvy.</li>
@@ -254,13 +254,13 @@ const VOPPage = () => {
             sporov, alebo elektronicky na ba@soi.sk, ars@soi.sk alebo
             adr.@soi.sk. Internetová adresa: https://www.soi.sk/. Platformu pre
             riešenie sporov on-line nachádzajúcu sa na internetovej adrese
-            http://ec.europa.eu/consumers/odr je možné využiť pri riešení sporov
+            https://ec.europa.eu/consumers/odr je možné využiť pri riešení sporov
             medzi predávajúcim a kupujúcim z kúpnej zmluvy.
           </li>
           <li>
             Európske spotrebiteľské centrum Slovenská republika, so sídlom
             Mlynské nivy 44/a, 827 15 Bratislave, internetová adresa:
-            http://esc-sr.sk/ je kontaktným miestom podľa Nariadenia Európskeho
+            https://esc-sr.sk/ je kontaktným miestom podľa Nariadenia Európskeho
             parlamentu a Rady (EU) č. 524/2013 z 21. mája 2013 o riešení
             spotrebiteľských sporov on-line a o zmene nariadenia (ES) č.
             2006/2004 a smernice 2009/22/ES (nariadenie o riešení
