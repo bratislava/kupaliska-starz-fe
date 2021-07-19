@@ -1,3 +1,6 @@
+ARG REACT_APP_HOST=%{HOST}%
+ARG REACT_APP_RECAPTCHA_KEY=%{RECAPTCHA_CLIENT_SECRET}%
+
 FROM node:14 as builder
 WORKDIR /app
 COPY package.json yarn.lock ./
