@@ -1,8 +1,8 @@
 for file in /usr/share/nginx/html/static/js/*.js; do
     echo "Processing File $file"
-    pcregrep -o "(?<=%{)[^}]+(?=}%)" "$file" | uniq | while read var
+    pcregrep --buffer-size=5000000 -o "(?<=%{)[^}]+(?=}%)" "$file" | uniq | while read var
     do
-        val=$(env | grep "$var=" | cut -f2 -d"=")
+        val=$(printenv -- "$var")
         if [ ! -z "$val" ]
         then
             echo "VAR:[$var] has VALUE:[$val]. Replacing all occurences."
