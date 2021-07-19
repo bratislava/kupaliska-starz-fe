@@ -67,7 +67,6 @@ stages:
             env:
               IMAGE: docker.pkg.github.com/$(dockerRepository)
               IMAGE_TAG: $(tag)
-              HOST: $(HOST)
               # Expose Secret Variables to env
               RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
 - stage: Staging
@@ -83,7 +82,6 @@ stages:
     variables:
       NAME: $(underscoreName)_stage
       PORT: 18001
-      HOST: kupaliska-api-staging.bratislava.sk
     strategy:
       runOnce:
         deploy:
@@ -101,7 +99,6 @@ stages:
             env:
               IMAGE: docker.pkg.github.com/$(dockerRepository)
               IMAGE_TAG: $(tag)
-              HOST: $(HOST)
               # Expose Secret Variables to env
               RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
 
@@ -135,6 +132,5 @@ stages:
             env:
               IMAGE: docker.pkg.github.com/$(dockerRepository)
               IMAGE_TAG: $(tag)
-              HOST: $(HOST)
               # Expose Secret Variables to env
               RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
