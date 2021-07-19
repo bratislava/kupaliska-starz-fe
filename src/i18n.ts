@@ -22,7 +22,7 @@ i18n
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
         backend: {
-            loadPath: `http://${window.location.host}/locales/{{lng}}/{{ns}}.json`,
+            loadPath: `${window.location.origin}/locales/{{lng}}/{{ns}}.json`,
         },
 
         detection: {
