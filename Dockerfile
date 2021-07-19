@@ -1,12 +1,12 @@
-ARG REACT_APP_HOST=%{HOST}%
-ARG REACT_APP_RECAPTCHA_KEY=%{RECAPTCHA_CLIENT_SECRET}%
-
-FROM node:14 as builder
+FROM node:14-alpine as builder
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
 COPY . .
-RUN yarn build
+RUN npm ci
+
+ENV REACT_APP_HOST=%{HOST}%
+ENV REACT_APP_RECAPTCHA_KEY=%{RECAPTCHA_CLIENT_SECRET}%
+
+RUN npm run build
 
 FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/templates/default.conf.template
