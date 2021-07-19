@@ -27,6 +27,9 @@ stages:
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
       displayName: Build Docker Image
+      env:
+        REACT_APP_HOST: "%{HOST}%"
+        REACT_APP_RECAPTCHA_KEY: "%{RECAPTCHA_CLIENT_SECRET}%"
     - task: Docker@2
       inputs:
         containerRegistry: 'Github Packages'
