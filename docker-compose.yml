@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  app:
+    image: ${IMAGE}:${IMAGE_TAG}
+    restart: unless-stopped
+    ports:
+    - "${PORT}:80"
+    environment: 
+      HOST: ${HOST}
+      RECAPTCHA_CLIENT_SECRET: ${RECAPTCHA_CLIENT_SECRET}
+      RENDERTRON_HOST: rendertron:3000
+
+  rendertron:
+    image: dockette/rendertron
+    restart: unless-stopped
+    expose:
+    - 3000
