@@ -37,12 +37,12 @@ stages:
       condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
       displayName: Push Docker Image (not on PR)
 
-- stage: Staging
+- stage: Development
   condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
   variables:
   - group: Kupaliska-Common-Stage
   jobs:
-  - deployment: Staging
+  - deployment: Development
     environment:
       name: Staging
       resourceType: VirtualMachine
@@ -54,19 +54,28 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Docker@2
+          - checkout: self
+          - download: none
+          - task: DockerCompose@0
             inputs:
-              containerRegistry: 'Github Packages'
-              command: 'login'
-          - script: |
-              docker stop $NAME && docker rm $NAME || true
-              docker run -d --name $NAME -p $PORT:80 -e HOST=$HOST -e RECAPTCHA_CLIENT_SECRET=$RECAPTCHA_CLIENT_SECRET --restart unless-stopped docker.pkg.github.com/$DOCKERREPOSITORY:$TAG
-- stage: ProductionStaging
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'Github Packages'
+              dockerComposeFile: 'docker-compose.yml'
+              projectName: "$(underscoreName)_stage"
+              action: 'Run services'
+              buildImages: false
+            env:
+              IMAGE: docker.pkg.github.com/$(dockerRepository)
+              IMAGE_TAG: $(tag)
+              HOST: $(HOST)
+              # Expose Secret Variables to env
+              RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
+- stage: Staging
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
   - group: Kupaliska-Common-Prod
   jobs:
-  - deployment: Production
+  - deployment: Staging
     environment:
       name: Production
       resourceType: VirtualMachine
@@ -79,13 +88,22 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Docker@2
+          - checkout: self
+          - download: none
+          - task: DockerCompose@0
             inputs:
-              containerRegistry: 'Github Packages'
-              command: 'login'
-          - script: |
-              docker stop $NAME && docker rm $NAME || true
-              docker run -d --name $NAME -p $PORT:80 -e HOST=$HOST -e RECAPTCHA_CLIENT_SECRET=$RECAPTCHA_CLIENT_SECRET --restart unless-stopped docker.pkg.github.com/$DOCKERREPOSITORY:$TAG
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'Github Packages'
+              dockerComposeFile: 'docker-compose.yml'
+              projectName: "$(underscoreName)_stage"
+              action: 'Run services'
+              buildImages: false
+            env:
+              IMAGE: docker.pkg.github.com/$(dockerRepository)
+              IMAGE_TAG: $(tag)
+              HOST: $(HOST)
+              # Expose Secret Variables to env
+              RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
 
 - stage: Production
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -104,10 +122,19 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Docker@2
+          - checkout: self
+          - download: none
+          - task: DockerCompose@0
             inputs:
-              containerRegistry: 'Github Packages'
-              command: 'login'
-          - script: |
-              docker stop $NAME && docker rm $NAME || true
-              docker run -d --name $NAME -p $PORT:80 -e HOST=$HOST -e RECAPTCHA_CLIENT_SECRET=$RECAPTCHA_CLIENT_SECRET --restart unless-stopped docker.pkg.github.com/$DOCKERREPOSITORY:$TAG
+              containerregistrytype: 'Container Registry'
+              dockerRegistryEndpoint: 'Github Packages'
+              dockerComposeFile: 'docker-compose.yml'
+              projectName: "$(underscoreName)"
+              action: 'Run services'
+              buildImages: false
+            env:
+              IMAGE: docker.pkg.github.com/$(dockerRepository)
+              IMAGE_TAG: $(tag)
+              HOST: $(HOST)
+              # Expose Secret Variables to env
+              RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
