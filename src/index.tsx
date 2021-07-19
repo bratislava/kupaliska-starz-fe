@@ -11,12 +11,12 @@ import "./i18n";
 
 import "./index.css";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-import { environment } from "environments/environment";
+import { environment } from "./environment";
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey}>
+      <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey} useEnterprise={true}>
       <Provider store={store}>
         <App />
       </Provider>
