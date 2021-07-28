@@ -12,7 +12,7 @@ Before you start you need to have [backend](https://dev.azure.com/bratislava-inn
 Install dependencies:
 
 ```
-yarn
+npm install
 ```
 
 ### Environment
@@ -31,7 +31,7 @@ To get the credentials to login, please contact Martin Pintner or Patrik Kadlcik
 To run locally:
 
 ```
-yarn start
+npm run start
 ```
 
 ### Additional development information

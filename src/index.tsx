@@ -4,6 +4,9 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+
 import { store } from "./store";
 import App from "./App";
 
@@ -12,6 +15,12 @@ import "./i18n";
 import "./index.css";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { environment } from "./environment";
+
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: (process.env.REACT_APP_TRACES_SAMPLE_RATE || 1) as number,
+});
 
 ReactDOM.render(
   <React.StrictMode>
