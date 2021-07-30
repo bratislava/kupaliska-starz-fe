@@ -231,7 +231,7 @@ const BuyPage = () => {
     >
       <Tooltip multiline={true} id="tooltip-buy-page" />
 
-      <section className="w-full md:row-span-2">
+      <section className="w-full">
         <SectionHeader title="Osobné údaje" />
         <div className="mb-4 relative">
           <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
@@ -333,7 +333,7 @@ const BuyPage = () => {
           )}          
       </section>
 
-      <section className="w-full">
+      <section className="w-full md:row-span-2">
         <div className="divider md:hidden" />
         <SectionHeader className="hidden md:block" title="Rekapitulácia nákupu" />
         <div className="w-full lg:w-3/4">
@@ -388,6 +388,16 @@ const BuyPage = () => {
             </div>
           )}
         </div>
+
+        <div className="hidden md:block text-fontBlack text-opacity-50 font-medium mx-3 xs:mx-6 md:mt-6">
+          <p>Cena je jednotná pre všetky vekové skupiny.</p>
+          <p>
+            Študentské a seniorské zľavy je možné uplatniť iba pri osobnom
+            nákupe priamo na kúpalisku.
+          </p>
+          <p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>
+        </div>
+                              
       </section>
         
       <section className="md:order-4">
@@ -462,7 +472,7 @@ const BuyPage = () => {
         </Button>
       </section>
       
-      <section className="md:order-3">
+      <section className="md:hidden">
         <div className="text-fontBlack text-opacity-50 font-medium mx-3 xs:mx-6 md:mt-6">
           <p>Cena je jednotná pre všetky vekové skupiny.</p>
           <p>
