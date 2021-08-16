@@ -115,10 +115,11 @@ const OrderResultPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
             <div>
               <SectionHeader title="Nákup úspešný" />
-              <Typography type="subtitle" fontWeight="bold">
+              <Typography type="subtitle" fontWeight="bold" className="mb-4">
                 Ďakujeme za váš nákup!
               </Typography>
-              <p>Lístky nájdete vo svojej emailovej schránke.</p>
+              <p>Lístok sme zaslali na váš e-mail.</p>
+              <p className="mb-4">Prosím, stiahnite si pre istotu lístok kliknutím nižšie <br/> pre prípad, že by vám e-mail nedorazil.</p>
               <p className="text-sm">
                 Prosím, preukážte sa zaslanými QR kódmi pri vstupe na kúpalisko.
               </p>
