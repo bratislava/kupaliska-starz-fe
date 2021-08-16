@@ -78,7 +78,7 @@ stages:
     environment:
       name: Production
       resourceType: VirtualMachine
-      tags: docker
+      tags: kupaliska
     variables:
       NAME: $(underscoreName)_stage
       PORT: 18001
@@ -111,7 +111,7 @@ stages:
     environment:
       name: Production
       resourceType: VirtualMachine
-      tags: docker
+      tags: kupaliska
     variables:
       NAME: $(underscoreName)
       PORT: 19001
