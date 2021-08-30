@@ -122,7 +122,7 @@ const LandingPage = () => {
 
   return (
     <main>
-      <Modal
+      {/* <Modal
         open={!!selectedSwimmingPool}
         onClose={() => dispatch(setSelectedPoolId(undefined))}
       >
@@ -139,9 +139,9 @@ const LandingPage = () => {
             />
           )}
         </div>
-      </Modal>
+      </Modal> */}
       <HeroBanner />
-      <section id="ticket-buy-diagram" className="my-4 lg:my-16">
+      {/* <section id="ticket-buy-diagram" className="my-4 lg:my-16">
         <Typography type="title" fontWeight="bold" className="text-center mb-8">
           Ako funguje nákup lístkov?
         </Typography>
@@ -170,9 +170,9 @@ const LandingPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section id="ticket-buy" className="section">
+      {/* <section id="ticket-buy" className="section">
         <SectionHeader title="Dostupné lístky" className="text-center" />
         <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
           {tickets.map((ticket) => (
@@ -275,7 +275,7 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };

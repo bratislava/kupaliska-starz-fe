@@ -18,7 +18,7 @@ const HeroBanner = () => {
           fontWeight="bold"
           className="xl:mb-4 max-w-xs"
         >
-          Kúp si lístok na ktorékoľvek kúpalisko v Bratislave online
+          Letná sezóna sa skončila, tešíme sa na vás v lete 2022.
         </Typography>
 
         <div
@@ -41,7 +41,7 @@ const HeroBanner = () => {
             xl:w-2/5
           "
         >
-          <HashLink to="/#ticket-buy" className="flex-1 w-full">
+          {/* <HashLink to="/#ticket-buy" className="flex-1 w-full">
             <Button className="w-full">
               <span className="pr-4">Kúpiť lístok</span>
               <Icon name="shopping-cart" />
@@ -59,7 +59,7 @@ const HeroBanner = () => {
                 className="hidden xs:block"
               />
             </Button>
-          </HashLink>
+          </HashLink> */}
         </div>
       </div>
     </div>
