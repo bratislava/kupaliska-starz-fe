@@ -10,22 +10,22 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  // {
-  //   to: "/#ticket-buy",
-  //   text: "Nákup lístka",
-  // },
-  // {
-  //   to: "/#swimming-pools",
-  //   text: "Kúpaliská",
-  // },
-  // {
-  //   to: "/#contact-us",
-  //   text: "Kontaktujte nás",
-  // },
-  // {
-  //   to: "/#faqs",
-  //   text: "Často kladené otázky",
-  // },
+  {
+    to: "/#ticket-buy",
+    text: "Nákup lístka",
+  },
+  {
+    to: "/#swimming-pools",
+    text: "Kúpaliská",
+  },
+  {
+    to: "/#contact-us",
+    text: "Kontaktujte nás",
+  },
+  {
+    to: "/#faqs",
+    text: "Často kladené otázky",
+  },
 ];
 
 const Header = () => {
