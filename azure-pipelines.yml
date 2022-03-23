@@ -8,7 +8,9 @@ trigger:
 variables:
   tag: '$(Build.SourceVersion)'
   dockerRepository: bratislava/$(Build.Repository.Name)/$(Build.Repository.Name)
-  underscoreName: kupaliska_starz_fe
+
+pool:
+  vmImage: 'ubuntu-latest'
 
 stages:
 - stage: Build
@@ -37,100 +39,36 @@ stages:
       condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
       displayName: Push Docker Image (not on PR)
 
-- stage: Development
-  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual')))
+- stage: Dev
+  dependsOn:
+    - Build
   variables:
-  - group: Kupaliska-Common-Dev
+    BE_HOSTNAME: api.kupaliska.dev.bratislava.sk
   jobs:
-  - deployment: Development
-    environment:
-      name: Staging
-      resourceType: VirtualMachine
-      tags: docker
-    variables:
-      NAME: $(underscoreName)_stage
-      PORT: 9005
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - checkout: self
-          - download: none
-          - task: DockerCompose@0
-            inputs:
-              containerregistrytype: 'Container Registry'
-              dockerRegistryEndpoint: 'Github Packages'
-              dockerComposeFile: 'docker-compose.yml'
-              projectName: "$(underscoreName)_stage"
-              action: 'Run services'
-              buildImages: false
-            env:
-              IMAGE: docker.pkg.github.com/$(dockerRepository)
-              IMAGE_TAG: $(tag)
-              # Expose Secret Variables to env
-              RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
+    - template: ./kubernetes/release-template.yml
+      parameters:
+        environment: 'Dev.bratislava-monorepo'
+        hostname: kupaliska.dev.bratislava.sk
+
 - stage: Staging
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn:
+    - Dev
   variables:
-  - group: Kupaliska-Common-Stage
+    BE_HOSTNAME: api.kupaliska.staging.bratislava.sk
   jobs:
-  - deployment: Staging
-    environment:
-      name: Production
-      resourceType: VirtualMachine
-      tags: kupaliska
-    variables:
-      NAME: $(underscoreName)_stage
-      PORT: 18001
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - checkout: self
-          - download: none
-          - task: DockerCompose@0
-            inputs:
-              containerregistrytype: 'Container Registry'
-              dockerRegistryEndpoint: 'Github Packages'
-              dockerComposeFile: 'docker-compose.yml'
-              projectName: "$(underscoreName)_stage"
-              action: 'Run services'
-              buildImages: false
-            env:
-              IMAGE: docker.pkg.github.com/$(dockerRepository)
-              IMAGE_TAG: $(tag)
-              # Expose Secret Variables to env
-              RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
+    - template: ./kubernetes/release-template.yml
+      parameters:
+        environment: 'Staging.bratislava-monorepo'
+        hostname: kupaliska.staging.bratislava.sk
 
 - stage: Production
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn:
+    - Staging
   variables:
-  - group: Kupaliska-Common-Prod
+    BE_HOSTNAME: api.kupaliska.bratislava.sk
   jobs:
-  - deployment: Production
-    environment:
-      name: Production
-      resourceType: VirtualMachine
-      tags: kupaliska
-    variables:
-      NAME: $(underscoreName)
-      PORT: 19001
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - checkout: self
-          - download: none
-          - task: DockerCompose@0
-            inputs:
-              containerregistrytype: 'Container Registry'
-              dockerRegistryEndpoint: 'Github Packages'
-              dockerComposeFile: 'docker-compose.yml'
-              projectName: "$(underscoreName)"
-              action: 'Run services'
-              buildImages: false
-            env:
-              IMAGE: docker.pkg.github.com/$(dockerRepository)
-              IMAGE_TAG: $(tag)
-              # Expose Secret Variables to env
-              RECAPTCHA_CLIENT_SECRET: $(RECAPTCHA_CLIENT_SECRET)
+    - template: ./kubernetes/release-template.yml
+      parameters:
+        environment: 'Prod.bratislava-monorepo'
+        hostname: kupaliska.bratislava.sk

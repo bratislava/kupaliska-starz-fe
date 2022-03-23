@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rendertron
+  labels:
+    service: rendertron
+spec:
+  selector:
+    matchLabels:
+      service: rendertron
+  template:
+    metadata:
+      labels:
+        service: rendertron
+    spec:
+      containers:
+        - image: dockette/rendertron
+          name: rendertron
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 64Mi
