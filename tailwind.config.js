@@ -53,6 +53,8 @@ module.exports = {
         error: "#DC2626",
         warning: "#F59E0B",
         success: "#2ecc71",
+        blueish: "#D0ECF8",
+        redish: "#E46054",
       },
       borderWidth: {
         3: "3px",
@@ -137,13 +139,13 @@ module.exports = {
         "span-12": "span 12 / span 12",
       },
       zIndex: {
-        "selectLabel": "30",
-        "modalBackdrop": "51",
-        "modal": "52",
-        "datepickerBackdrop": "53",
-        "datepicker": "54",
-        "toast": "55"
-      }
+        selectLabel: "30",
+        modalBackdrop: "51",
+        modal: "52",
+        datepickerBackdrop: "53",
+        datepicker: "54",
+        toast: "55",
+      },
     },
   },
   variants: {

@@ -38,6 +38,13 @@ const routes: Route[] = [
     component: React.lazy(() => import("pages/GDPRPage/GDPRPage")),
   },
   {
+    path: "/:lang?/person-managment",
+    exact: true,
+    component: React.lazy(
+      () => import("pages/PersonManagment/PersonManagment")
+    ),
+  },
+  {
     path: "/:lang?",
     exact: true,
     component: React.lazy(() => import("pages/LandingPage/LandingPage")),
