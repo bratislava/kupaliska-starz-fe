@@ -255,7 +255,7 @@ const LandingPage = () => {
                         a: <a />,
                         strong: <strong />,
                         li: <li />,
-                        ol: <ol style={{ listStyleType: "disc" }} />,
+                        ol: <ol />,
                         h4: <h4 />,
                       }}
                     />
