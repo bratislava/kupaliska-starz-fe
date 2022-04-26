@@ -9,6 +9,7 @@ import { Icon, InputField, Button } from "components";
 import { useAppDispatch } from "hooks";
 import { sendContactFormActions } from "store/global";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { Trans, useTranslation } from "react-i18next";
 
 const formRules = yup.object().shape({
   email: yup
@@ -28,6 +29,7 @@ export interface ContactFormValues {
 const ContactForm = () => {
   const dispatch = useAppDispatch();
   const [sending, setSending] = useState<boolean>(false);
+  const { t } = useTranslation();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const {
     register,
@@ -69,7 +71,7 @@ const ContactForm = () => {
         name="name"
         register={register}
         leftExtra={<Icon name="user" />}
-        placeholder="Meno"
+        placeholder={t("landing.name")}
         error={errors.name?.message}
       />
       <InputField
@@ -77,51 +79,32 @@ const ContactForm = () => {
         name="email"
         register={register}
         leftExtra={<Icon name="mail" />}
-        placeholder="Email"
+        placeholder={t("landing.email")}
         error={errors.email?.message}
       />
       <InputField
         className="col-span-2"
         name="message"
         register={register}
-        placeholder="Správa"
+        placeholder={t("landing.message")}
         error={errors.message?.message}
         element="textarea"
       />
       <span className="text-sm text-gray-400 col-span-full">
-        Táto stránka je chránená reCAPTCHA a platia pravidlá{" "}
-        <a
-          className="link text-primary"
-          target="_blank"
-          rel="noreferrer"
-          href="https://policies.google.com/privacy"
-        >
-          ochrany súkromia
-        </a>{" "}
-        a{" "}
-        <a
-          className="link text-primary"
-          target="_blank"
-          rel="noreferrer"
-          href="https://policies.google.com/terms"
-        >
-          použitia služby
-        </a>{" "}
-        od Google.
+        <Trans i18nKey="landing.recaptcha" components={{ a: <a /> }} />
       </span>
       <span className="col-span-full font-medium">
-        Bližšie informácie o spracúvaní osobných údajov najdete{" "}
-        <Link to="/gdpr" className="link text-primary">
-          tu
-        </Link>
-        .
+        <Trans
+          i18nKey="landing.gdpr-info"
+          components={{ Link: <Link to="/gdpr" /> }}
+        />
       </span>
       <Button
         disabled={sending}
         className="col-span-full lg:col-span-1"
         htmlType="submit"
       >
-        Odoslať správu <Icon className="ml-4" name="paper-plane" />
+        {t("landing.send-message")} <Icon className="ml-4" name="paper-plane" />
       </Button>
     </form>
   );
