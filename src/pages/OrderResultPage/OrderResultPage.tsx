@@ -8,17 +8,19 @@ import { useAppDispatch, useWindowSize } from "hooks";
 import { getFinalOrderDataActions } from "store/order";
 import { HashLink } from "react-router-hash-link";
 import { convertBase64ToBlob } from "helpers/general";
+import { useTranslation } from "react-i18next";
 
 const OrderResultPage = () => {
   const dispatch = useAppDispatch();
   const { height } = useWindowSize();
   const location = useLocation();
-  const [queryParams, setQueryParams] =
-    useState<{
-      success?: string;
-      orderId?: string;
-      orderAccessToken?: string;
-    }>();
+  const { t } = useTranslation();
+
+  const [queryParams, setQueryParams] = useState<{
+    success?: string;
+    orderId?: string;
+    orderAccessToken?: string;
+  }>();
   const [ticketsPdf, setTicketsPdf] = useState<string | undefined>();
   // const [myTickets, setMyTickets] = useState<string[]>([]);
   // const [childrenTickets, setChildrenTickets] = useState<string[]>([]);
@@ -116,13 +118,11 @@ const OrderResultPage = () => {
             <div>
               <SectionHeader title="Nákup úspešný" />
               <Typography type="subtitle" fontWeight="bold" className="mb-4">
-                Ďakujeme za váš nákup!
+                {t("order-result.thank-you")}
               </Typography>
-              <p>Lístok sme zaslali na váš e-mail.</p>
-              <p className="mb-4">Prosím, stiahnite si pre istotu lístok kliknutím nižšie <br/> pre prípad, že by vám e-mail nedorazil.</p>
-              <p className="text-sm">
-                Prosím, preukážte sa zaslanými QR kódmi pri vstupe na kúpalisko.
-              </p>
+              <p>{t("order-result.ticket-send")}</p>
+              <p className="mb-4">{t("order-result.pls-download")}</p>
+              <p className="text-sm">{t("order-result.pls-qr")}</p>
             </div>
             <div
               className={`hidden md:block lg:hidden col-span-1 bg-no-repeat bg-top bg-contain min-h-1/2vh`}
@@ -175,7 +175,8 @@ const OrderResultPage = () => {
                 onClick={() => downloadTickets(ticketsPdf)}
                 className={`w-full mt-4 lg:mt-8 md:w-1/2 mx-auto lg:ml-0`}
               >
-                Stiahnuť lístky <Icon className="ml-4" name="download" />
+                {t("order-result.download-tickets")}
+                <Icon className="ml-4" name="download" />
               </Button>
             </div>
           )}
@@ -185,12 +186,9 @@ const OrderResultPage = () => {
           <div>
             <SectionHeader title="Nákup neúspešný" />
             <Typography type="subtitle" fontWeight="bold">
-              Mrzí nás to ale niekde nastala chyba
+              {t("order-result.sry-fault")}
             </Typography>
-            <p>
-              Prosím zopakujte nákup ešte raz alebo v prípade ďalších
-              komplikácií nás kontaktujte na kupaliska@bratislava.sk.
-            </p>
+            <p>{t("order-result.pls-contact")}</p>
           </div>
           <div className="mt-4 md:mt-12">
             <HashLink to="/#contact-us">
@@ -198,12 +196,14 @@ const OrderResultPage = () => {
                 className={`mb-4 w-full md:w-1/2 mx-auto lg:ml-0`}
                 type="outlined"
               >
-                Kontaktujte nás <Icon className="ml-4" name="mail" />
+                {t("order-result.contact-us")}
+                <Icon className="ml-4" name="mail" />
               </Button>
             </HashLink>
             <HashLink to="/#ticket-buy">
               <Button className={`w-full md:w-1/2 mx-auto lg:ml-0`}>
-                Skúsiť znova <Icon className="ml-4" name="retry" />
+                {t("order-result.try-again")}
+                <Icon className="ml-4" name="retry" />
               </Button>
             </HashLink>
           </div>
