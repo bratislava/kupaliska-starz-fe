@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Typography, Button, Icon } from "components";
 
 import { Ticket } from "models";
+import { useTranslation } from "react-i18next";
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -22,6 +23,7 @@ const TicketCard = ({
   const [_amount, _setAmount] = useState<number | string>(
     initialAmount ? initialAmount : 1
   );
+  const { t } = useTranslation();
 
   return (
     <div
@@ -46,7 +48,7 @@ const TicketCard = ({
           <span className={discount ? "strikediag text-white" : ""}>
             {ticket.price.toFixed(2)}€
           </span>
-          <div className="text-base font-normal ml-1"> / kus</div>
+          <div className="text-base font-normal ml-1">{t("landing.piece")}</div>
         </div>
         <Button
           className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto"
@@ -56,7 +58,8 @@ const TicketCard = ({
             }
           }}
         >
-          Do košíka <Icon name="shopping-cart" className="ml-2" />
+          {t("landing.basket")}
+          <Icon name="shopping-cart" className="ml-2" />
         </Button>
       </div>
     </div>
