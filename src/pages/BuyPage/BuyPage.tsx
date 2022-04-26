@@ -33,6 +33,7 @@ import { CartItem, CustomerInfoFormValues } from "models";
 import { Link } from "react-router-dom";
 
 import "./BuyPage.css";
+import { Trans, useTranslation } from "react-i18next";
 
 const validationSchema = yup.object({
   name: yup.string().when("$cartItem", (cartItem: CartItem, schema: any) => {
@@ -122,6 +123,7 @@ const BuyPage = () => {
   // because performance issues when base64 img is in form
   const [photo, setPhoto] = useState<string>();
   const [childrenPhotos, setChildrenPhotos] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (formValues) {
@@ -232,15 +234,15 @@ const BuyPage = () => {
       <Tooltip multiline={true} id="tooltip-buy-page" />
 
       <section className="w-full">
-        <SectionHeader title="Osobné údaje" />
+        <SectionHeader title={t("buy-page.personal-info")} />
         <div className="mb-4 relative">
           <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
             1
           </div>
           <Typography type="subtitle" fontWeight="bold">
             {cartItem && cartItem.ticket.type === "SEASONAL"
-              ? "Držiteľ permanentky"
-              : "Vlastník lístka"}
+              ? t("buy-page.season-ticket-owner")
+              : t("buy-page.ticket-owner")}
           </Typography>
         </div>
         <CustomerForm
@@ -264,20 +266,20 @@ const BuyPage = () => {
                 onChange={onToggleAddons}
                 value={enableChildren}
                 name="enableChildren"
-                label={`Pridať dieťa do ${
-                  cartItem.ticket.childrenAgeTo
+                label={t("buy-page.add-kid", {
+                  childrenAgeTo: cartItem.ticket.childrenAgeTo
                     ? cartItem.ticket.childrenAgeTo + 1
-                    : "18"
-                } rokov za ${cartItem.ticket.childrenPrice}€ (max. počet ${
-                  cartItem.ticket.childrenMaxNumber
+                    : "18",
+                  childrenPrice: cartItem.ticket.childrenPrice,
+                  childrenMaxNumber: cartItem.ticket.childrenMaxNumber
                     ? cartItem.ticket.childrenMaxNumber
-                    : 5
-                })`}
+                    : 5,
+                })}
               />
               <div
                 className="flex-1 flex"
                 data-for="tooltip-buy-page"
-                data-tip="Deti vo veku od 3 do 10 rokov môžu<br/> navštíviť kúpalisko aj v sprievode inej<br/> dospelej osoby, ako je držiteľ sezónnej<br/> permanentky.<br/><br/> Deti vo veku od 10 do 18 rokov môžu svoju<br/> sezónnu vstupenku využívať aj bez<br/> sprievodu dospelej osoby."
+                data-tip={t("buy-page.children-tooltip")}
               >
                 <Icon className="ml-4" name="question-mark" color="primary" />
               </div>
@@ -320,22 +322,25 @@ const BuyPage = () => {
               <div className="p-2 bg-primary rounded-full mr-2">
                 <Icon className="text-xs" name="plus" color="white" />
               </div>
-              {`Pridať ďalšie dieťa do ${
-                cartItem.ticket.childrenAgeTo
+              {t("buy-page.add-kid", {
+                childrenAgeTo: cartItem.ticket.childrenAgeTo
                   ? cartItem.ticket.childrenAgeTo + 1
-                  : "18"
-              } rokov za ${cartItem.ticket.childrenPrice}€ (max. počet ${
-                cartItem.ticket.childrenMaxNumber
+                  : "18",
+                childrenPrice: cartItem.ticket.childrenPrice,
+                childrenMaxNumber: cartItem.ticket.childrenMaxNumber
                   ? cartItem.ticket.childrenMaxNumber
-                  : 5
-              })`}
+                  : 5,
+              })}
             </div>
-          )}          
+          )}
       </section>
 
       <section className="w-full md:row-span-2">
         <div className="divider md:hidden" />
-        <SectionHeader className="hidden md:block" title="Rekapitulácia nákupu" />
+        <SectionHeader
+          className="hidden md:block"
+          title={t("buy-page.summary")}
+        />
         <div className="w-full lg:w-3/4">
           {cartItem && (
             <div key={cartItem.ticket.id} className="w-full flex flex-col">
@@ -348,7 +353,8 @@ const BuyPage = () => {
               {cartItem.childrenNumber > 0 && (
                 <div className="w-full flex justify-between p-4 shadow-xs rounded-lg">
                   <span className="text-xl font-bold">
-                    + {cartItem.childrenNumber}x dieťa
+                    + {cartItem.childrenNumber}
+                    {t("buy-page.kid-times")}
                   </span>
                   <div>
                     <span
@@ -390,16 +396,13 @@ const BuyPage = () => {
         </div>
 
         <div className="hidden md:block text-fontBlack text-opacity-50 font-medium mx-3 xs:mx-6 md:mt-6">
-          <p>Cena je jednotná pre všetky vekové skupiny.</p>
-          <p>
-            Študentské a seniorské zľavy je možné uplatniť iba pri osobnom
-            nákupe priamo na kúpalisku.
-          </p>
-          <p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>
+          <Trans
+            i18nKey={"order-review.review-muted"}
+            components={{ p: <p /> }}
+          />
         </div>
-                              
       </section>
-        
+
       <section className="md:order-4">
         <div className="divider" />
         <div className="relative">
@@ -410,14 +413,14 @@ const BuyPage = () => {
             value={discountCodeEnabled}
             name="discountCodeEnabled"
             register={register}
-            label="Uplatniť zľavový kód"
+            label={t("buy-page.claim-code")}
           />
         </div>
 
         {discountCodeEnabled && (
           <div className="my-4">
             <InputField
-              label="Vložte zľavový kód"
+              label={t("buy-page.enter-code")}
               className="w-full md:w-1/2"
               name="discountCode"
               onChange={onDiscountCodeChange}
@@ -432,7 +435,7 @@ const BuyPage = () => {
               }
               error={
                 discountCodeState && discountCodeState.status === "NOK"
-                  ? "Zadaný zľavový kód nie je platný."
+                  ? t("buy-page.code-fail")
                   : undefined
               }
             />
@@ -451,38 +454,36 @@ const BuyPage = () => {
             error={errors.agreement?.message}
             label={
               <>
-                Oboznámil/a som sa so{" "}
+                {t("buy-page.vop")}
                 <Link to="/vop" className="link text-primary">
-                  všeobecnými obchodnými podmienkami
+                  {t("buy-page.vop-link")}
                 </Link>
                 .
               </>
             }
           />
           <span className="col-span-full font-medium block ml-9 mt-2">
-            Bližšie informácie o spracúvaní osobných údajov najdete{" "}
+            {t("buy-page.gdpr")}
             <Link to="/gdpr" className="link text-primary">
-              tu
+              {t("buy-page.gdpr-here")}
             </Link>
             .
           </span>
         </div>
         <Button className="w-full lg:w-1/2 my-8" htmlType="submit">
-          Pokračovať <Icon className="ml-4" name="credit-card" />
+          {t("buy-page.continue")}
+          <Icon className="ml-4" name="credit-card" />
         </Button>
       </section>
-      
+
       <section className="md:hidden">
         <div className="text-fontBlack text-opacity-50 font-medium mx-3 xs:mx-6 md:mt-6">
-          <p>Cena je jednotná pre všetky vekové skupiny.</p>
-          <p>
-            Študentské a seniorské zľavy je možné uplatniť iba pri osobnom
-            nákupe priamo na kúpalisku.
-          </p>
-          <p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>
+          <Trans
+            i18nKey={"order-review.review-muted"}
+            components={{ p: <p /> }}
+          />
         </div>
       </section>
-      
     </form>
   );
 };

@@ -3,33 +3,30 @@ import React, { useState } from "react";
 import { HashLink as Link } from "react-router-hash-link";
 
 import { Icon, Typography } from "components";
+import { useTranslation } from "react-i18next";
 
 interface MenuItem {
   to: string;
-  text: string;
 }
 
 const menuItems: MenuItem[] = [
   {
     to: "/#ticket-buy",
-    text: "Nákup lístka",
   },
   {
     to: "/#swimming-pools",
-    text: "Kúpaliská",
   },
   {
     to: "/#contact-us",
-    text: "Kontaktujte nás",
   },
   {
     to: "/#faqs",
-    text: "Často kladené otázky",
   },
 ];
 
 const Header = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -42,9 +39,9 @@ const Header = () => {
             STARZ
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-end">
-            {menuItems.map((menuItem) => (
+            {menuItems.map((menuItem, index) => (
               <Link key={menuItem.to} className="px-4" to={menuItem.to}>
-                {menuItem.text}
+                {t(`header.menu-items.${index}.text`)}
               </Link>
             ))}
           </nav>
@@ -70,7 +67,7 @@ const Header = () => {
           <div className="py-12 px-4 flex flex-col flex-1 justify-between">
             <div className="flex flex-col">
               <div className="flex justify-between items-center">
-              <span className="text-primary font-bold text-xl">STARZ</span>
+                <span className="text-primary font-bold text-xl">STARZ</span>
                 <button
                   onClick={() => setOpen(!open)}
                   className="bg-transparent focus:outline-none md:hidden text-primary"
@@ -78,20 +75,20 @@ const Header = () => {
                   <Icon name="close" color="primary" />
                 </button>
               </div>
-              {menuItems.map((menuItem) => (
+              {menuItems.map((menuItem, index) => (
                 <Link
                   onClick={() => setOpen(false)}
                   key={menuItem.to}
                   className="py-4 font-bold"
                   to={menuItem.to}
                 >
-                  {menuItem.text}
+                  {t(`header.menu-items.${index}.text`)}
                 </Link>
               ))}
             </div>
             <div>
               <Typography type="title" fontWeight="bold">
-                Sledujte nás
+                {t("header.watch-us")}
               </Typography>
               <div className="flex justify-between items-center text-primary py-4 pr-16">
                 <a
