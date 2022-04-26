@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Button, Icon, InputField, Typography } from "components";
 import { get } from "lodash";
 import Resizer from "react-image-file-resizer";
+import { useTranslation } from "react-i18next";
 
 interface ChildCustomerFormProps {
   register: any;
@@ -37,6 +38,7 @@ const ChildCustomerForm = ({
   const _errors = fieldNamePrefix
     ? get(errors, `${fieldNamePrefix ? fieldNamePrefix : ""}`)
     : errors;
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -127,7 +129,7 @@ const ChildCustomerForm = ({
           leftExtra={<Icon name="user" />}
           register={register}
           name={`${fieldNamePrefix ? fieldNamePrefix + ".name" : "name"}`}
-          placeholder="Meno a priezvisko"
+          placeholder={t("buy-page.name")}
           error={get(_errors, "name.message")}
           shouldUnregister={true}
         />
@@ -147,7 +149,7 @@ const ChildCustomerForm = ({
         leftExtra={<Icon name="calendar" />}
         register={register}
         name={`${fieldNamePrefix ? fieldNamePrefix + ".age" : "age"}`}
-        placeholder="Vek"
+        placeholder={t("buy-page.age")}
         className={`col-span-1`}
         error={get(_errors, "age.message")}
         shouldUnregister={true}
@@ -192,7 +194,7 @@ const ChildCustomerForm = ({
                     />
                   </div>
                   <div className="p-4 text-sm text-fontBlack text-opacity-50 text-center">
-                    Kliknite pre nahratie fotky alebo ju sem priamo presuňte
+                    {t("buy-page.photo-click")}
                   </div>
                 </div>
                 {get(_errors, "photo.message") && (
@@ -205,11 +207,10 @@ const ChildCustomerForm = ({
           </div>
           <div className="col-span-2">
             <Typography type="subtitle" fontWeight="medium">
-              Fotografia
+              {t("buy-page.photo-title")}
             </Typography>
             <p className="leading-tight md:leading-normal">
-              Fotografia slúži na identifikáciu majiteľa permanentky. Prosím,
-              nahrajte fotografiu, na ktorej Vám je dobre vidieť tvár.
+              {t("buy-page.photo-description")}
             </p>
             <input
               ref={imageInputRef}
@@ -218,16 +219,14 @@ const ChildCustomerForm = ({
               accept=".jpg,.png,.jpeg"
               onChange={handleImageChange}
             />
-            <div className="text-sm my-2">
-              (max. povolená veľkosť súboru je 5MB)
-            </div>
+            <div className="text-sm my-2">{t("buy-page.max-size")}</div>
             <Button
               thin
               rounded
               className="w-full lg:w-1/2 mb-4"
               onClick={openImageInput}
             >
-              Nahrať fotografiu
+              {t("buy-page.photo-upload")}
             </Button>
           </div>
         </div>

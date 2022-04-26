@@ -4,6 +4,7 @@ import { get } from "lodash";
 import Resizer from "react-image-file-resizer";
 
 import { Button, Icon, InputField, Tooltip, Typography } from "components";
+import { useTranslation } from "react-i18next";
 
 interface CustomerFormProps {
   register: any;
@@ -36,6 +37,7 @@ const CustomerForm = ({
   const _errors = fieldNamePrefix
     ? get(errors, `${fieldNamePrefix ? fieldNamePrefix : ""}`)
     : errors;
+  const { t } = useTranslation();
 
   useEffect(() => {
     register &&
@@ -47,7 +49,7 @@ const CustomerForm = ({
   const handleImageFile = (file: any) => {
     if (file.size > 5242880) {
       setError(fieldNamePrefix ? fieldNamePrefix + ".photo" : "photo", {
-        message: "Veľkosť fotky musí byť menej ako 5MB",
+        message: t("buy-page.max-size-error"),
       });
       return;
     }
@@ -118,7 +120,7 @@ const CustomerForm = ({
             leftExtra={<Icon name="user" />}
             register={register}
             name={`${fieldNamePrefix ? fieldNamePrefix + ".name" : "name"}`}
-            placeholder="Meno a priezvisko"
+            placeholder={t("buy-page.name")}
             className={`col-span-1`}
             error={get(_errors, "name.message")}
           />
@@ -128,7 +130,7 @@ const CustomerForm = ({
           leftExtra={<Icon name="mail" />}
           register={register}
           name={`${fieldNamePrefix ? fieldNamePrefix + ".email" : "email"}`}
-          placeholder="Email"
+          placeholder={t("buy-page.email")}
           className={`col-span-1`}
           error={get(_errors, "email.message")}
         />
@@ -162,7 +164,7 @@ const CustomerForm = ({
                       />
                     </div>
                     <div className="p-4 text-sm text-fontBlack text-opacity-50 text-center">
-                      Kliknite pre nahratie fotky alebo ju sem priamo presuňte
+                      {t("buy-page.photo-click")}
                     </div>
                   </div>
                   {get(_errors, "photo.message") && (
@@ -175,11 +177,10 @@ const CustomerForm = ({
             </div>
             <div className="col-span-2">
               <Typography type="subtitle" fontWeight="medium">
-                Fotografia
+                {t("buy-page.photo-title")}
               </Typography>
               <p className="leading-tight text-sm md:leading-normal md:text-base">
-                Fotografia slúži na identifikáciu majiteľa permanentky. Prosím,
-                nahrajte fotografiu, na ktorej Vám je dobre vidieť tvár.
+                {t("buy-page.photo-description")}
               </p>
               <input
                 ref={imageInputRef}
@@ -188,26 +189,24 @@ const CustomerForm = ({
                 hidden
                 onChange={handleImageChange}
               />
-              <div className="text-sm my-2">
-                (max. povolená veľkosť súboru je 5MB)
-              </div>
+              <div className="text-sm my-2">{t("buy-page.max-size")}</div>
               <Button
                 thin
                 rounded
                 className="w-full lg:w-1/2 mb-4"
                 onClick={openImageInput}
               >
-                Nahrať fotografiu
+                {t("buy-page.photo-upload")}
               </Button>
             </div>
           </div>
         )}
         <div className="col-span-1">
           <label className="font-medium text-fontBlack text-opacity-50 flex items-center my-2">
-            Voliteľné údaje{" "}
+            {t("buy-page.optional")}
             <div
               data-for="tooltip-customer-form"
-              data-tip="Pomôžte nám zistiť, kto sú naši zákazníci.<br/>Vyplnením voliteľných údajov nám<br/>pomôžete zlepšovať služby a prispôsobiť<br/> ich práve pre Vás."
+              data-tip={t("buy-page.help-us")}
             >
               <Icon className="ml-4" name="question-mark" color="primary" />
             </div>
@@ -217,7 +216,7 @@ const CustomerForm = ({
               leftExtra={<Icon name="hashtag" />}
               register={register}
               name={`${fieldNamePrefix ? fieldNamePrefix + ".zip" : "zip"}`}
-              placeholder="PSČ"
+              placeholder={t("buy-page.zip")}
               className={`col-span-1`}
               error={get(_errors, "zip.message")}
             />
@@ -227,7 +226,7 @@ const CustomerForm = ({
               register={register}
               type="number"
               name={`${fieldNamePrefix ? fieldNamePrefix + ".age" : "age"}`}
-              placeholder="Vek"
+              placeholder={t("buy-page.age")}
               className={`col-span-1`}
               error={get(_errors, "age.message")}
             />

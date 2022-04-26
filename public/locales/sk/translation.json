@@ -18,7 +18,22 @@
     "3": "Často kladené otázky",
     "signin-header": "Prihlásiť",
     "logo": "Hlavné mesto SR Bratislava",
-    "or": "Alebo"
+    "or": "Alebo",
+    "watch-us": "Sledujte nás",
+    "menu-items": {
+      "0": {
+        "text": "Nákup lístka"
+      },
+      "1": {
+        "text": "Kúpaliská"
+      },
+      "2": {
+        "text": "Kontaktujte nás"
+      },
+      "3": {
+        "text": "Často kladené otázky"
+      }
+    }
   },
   "registration": {
     "name": "Meno",
@@ -74,6 +89,35 @@
     "less-info": "Skryť detail",
     "ticket-detail": "Prehľad návštev kúpalísk",
     "ticket-button": "Detail lístku"
+  },
+  "buy-page": {
+    "continue": "Pokračovať ",
+    "personal-info": "Osobné údaje",
+    "season-ticket-owner": "Držiteľ permanentky",
+    "ticket-owner": "Vlastník lístka",
+    "children-tooltip": "Deti vo veku od 3 do 10 rokov môžu<br/> navštíviť kúpalisko aj v sprievode inej<br/> dospelej osoby, ako je držiteľ sezónnej<br/> permanentky.<br/><br/> Deti vo veku od 10 do 18 rokov môžu svoju<br/> sezónnu vstupenku využívať aj bez<br/> sprievodu dospelej osoby.",
+    "optional": "Voliteľné údaje ",
+    "zip": "PSČ",
+    "photo-upload": "Nahrať fotografiu",
+    "max-size": "(max. povolená veľkosť súboru je 5MB)",
+    "max-size-error": "Veľkosť fotky musí byť menej ako 5MB",
+    "photo-description": "Fotografia slúži na identifikáciu majiteľa permanentky. Prosím, nahrajte fotografiu, na ktorej Vám je dobre vidieť tvár.",
+    "photo-title": "Fotografia",
+    "photo-click": "Kliknite pre nahratie fotky alebo ju sem priamo presuňte",
+    "name": "Meno a priezvisko",
+    "age": "Vek",
+    "help-us": "Pomôžte nám zistiť, kto sú naši zákazníci.<br/>Vyplnením voliteľných údajov nám<br/>pomôžete zlepšovať služby a prispôsobiť<br/> ich práve pre Vás.",
+    "email": "Email",
+    "gdpr": "Bližšie informácie o spracúvaní osobných údajov najdete ",
+    "gdpr-here": "tu",
+    "vop": "Oboznámil/a som sa so ",
+    "vop-link": "všeobecnými obchodnými podmienkami",
+    "code-fail": "Zadaný zľavový kód nie je platný.",
+    "enter-code": "Vložte zľavový kód",
+    "claim-code": "Uplatniť zľavový kód",
+    "kid-times": "x dieťa",
+    "summary": "Rekapitulácia nákupu",
+    "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}}€ (max. počet {{childrenMaxNumber}})"
   },
   "order-review": {
     "edit-data": "Upraviť údaje ",
