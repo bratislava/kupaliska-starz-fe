@@ -35,6 +35,9 @@
       }
     }
   },
+  "common": {
+    "photo-size": "Veľkosť fotky musí byť menej ako 5MB"
+  },
   "registration": {
     "name": "Meno",
     "surname": "Priezvisko",
@@ -99,6 +102,7 @@
     "zip": "PSČ (voliteľné)",
     "photo-button": "Nahrať foto"
   },
+
   "buy-page": {
     "continue": "Pokračovať ",
     "personal-info": "Osobné údaje",
