@@ -61,24 +61,26 @@ const InputField = ({
   if (error !== undefined) {
     inputWrapperClasses = "border-error text-error";
     inputClasses = "placeholder-error text-error";
-    labelClasses = "text-error";
+    labelClasses = "text-error font-medium text-xl mb-3";
   } else if (focused) {
     inputWrapperClasses = "border-primary text-primary";
     inputClasses = "text-fontBlack";
-    labelClasses = "text-primary";
+    labelClasses = "text-primary font-medium text-xl";
   } else {
     inputWrapperClasses = "border-2-softGray text-fontBlack text-opacity-10";
     inputClasses = "text-fontBlack";
-    labelClasses = "text-fontBlack text-opacity-50";
+    labelClasses = "text-fontBlack font-medium text-xl";
   }
   return (
     <div className={`flex-col w-full ${className}`}>
       {label && (
-        <label className={`font-medium ${labelClasses}`}>{label}</label>
+        <div className="mb-3">
+          <label className={`font-medium ${labelClasses}`}>{label}</label>
+        </div>
       )}
       <div
         className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg ${
-          thin ? "" : "p-3"
+          thin ? "" : "p-5"
         } flex flex-1 items-center`}
       >
         {!!leftExtra && leftExtra}
@@ -88,7 +90,7 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`focus:outline-none h-full flex-1 min-w-0 rounded-lg px-2 font-semibold ${inputClasses} ${inputClassName}`}
+          className={`focus:outline-none h-full flex-1 min-w-0 rounded-lg px-2 text-xl font-normal ${inputClasses} ${inputClassName}`}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(

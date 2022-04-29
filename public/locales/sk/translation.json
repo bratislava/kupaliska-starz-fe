@@ -1,5 +1,258 @@
 {
-  "translation": {
-    "test": "SK TEST"
+  "language-short.sk": "SK",
+  "language-short.en": "EN",
+  "language-long.sk": "Slovensky",
+  "language-long.en": "English",
+  "signin": "Prihlásenie",
+  "signin-Facebook": "Pokračovať s Facebook",
+  "signin-Google": "Pokračovať s Google",
+  "signin-Apple": "Pokračovať s Apple",
+  "signin-button": "Prihlásiť sa",
+  "register": "Zaregistrujte sa",
+  "password-forget": "Zabudli ste heslo?",
+  "signup": "Registrácia",
+  "header": {
+    "0": "Nákup lístka",
+    "1": "Kúpaliská",
+    "2": "Kontakt",
+    "3": "Často kladené otázky",
+    "signin-header": "Prihlásiť",
+    "logo": "Hlavné mesto SR Bratislava",
+    "or": "Alebo",
+    "watch-us": "Sledujte nás",
+    "menu-items": {
+      "0": {
+        "text": "Nákup lístka"
+      },
+      "1": {
+        "text": "Kúpaliská"
+      },
+      "2": {
+        "text": "Kontaktujte nás"
+      },
+      "3": {
+        "text": "Často kladené otázky"
+      }
+    }
+  },
+  "common": {
+    "photo-size": "Veľkosť fotky musí byť menej ako 5MB"
+  },
+  "registration": {
+    "name": "Meno",
+    "surname": "Priezvisko",
+    "email": "E-mail",
+    "password": "Heslo",
+    "password-again": "Heslo(zadajte znova)",
+    "gdpr": "Bližšie informácie o poskytnutí, spracovaní a ochrane osobných údajov nájdete TU",
+    "consent": "Mám záujem dostávať informácie aj o iných digitálnych službách mesta Bratislava",
+    "register-button": "Registrovať sa"
+  },
+  "profile": {
+    "tickets": "Lístky",
+    "profile": "Profil",
+    "back": "Späť",
+    "user": "Držiteľ/ka účtu",
+    "email": "E-mail",
+    "age": "Vek",
+    "zip": "PSČ (voliteľné)",
+    "password-change": "Zmeniť heslo",
+    "photo": "Fotografia",
+    "photo-button": "Nahrať foto",
+    "photo-detail": "Pre kúpu permanentky je potrebné nahrať aj fotografiu. Tá slúži na priradenie permanentky k jej majiteľovi/majiteľke.",
+    "photo-size": "Maximálna veľkosť 2MB",
+    "password-current": "Heslo(aktuálne)",
+    "password-new": "Heslo (nové)",
+    "password-new-again": "Heslo (nové znova)",
+    "save": "Uložiť zmeny",
+    "name-surname": "Meno a priezvisko",
+    "age-full": "XY rokov",
+    "others": "Ďalšie osoby",
+    "add-others": "Pridať ďalšiu osobu",
+    "sign-out": "Odhlásiť",
+    "delete": "Naozaj chcete odstrániť túto osobu z vášho profilu?",
+    "delete-button": "Odstrániť z profilu",
+    "edit": "Upraviť údaje"
+  },
+  "tickets": {
+    "active": "Aktívne",
+    "ticket-type": "Typ lístka",
+    "entries-left": "Zostáva vstupov",
+    "ticket-owner": "Držiteľ/ka permanentky",
+    "more-info": "viac informácií",
+    "inactive": "Využité",
+    "entry-date": "Využitý dňa",
+    "entry-place": "Miesto návštevy",
+    "ticket-new": "Nový lístok",
+    "price": "Cena",
+    "place": "Miesto",
+    "date": "Dátum",
+    "time-in": "Čas príchodu",
+    "time-out": "Čas odchodu",
+    "less-info": "Skryť detail",
+    "ticket-detail": "Prehľad návštev kúpalísk",
+    "ticket-button": "Detail lístku"
+  },
+  "person-add": {
+    "next-person": "Ďalšia osoba č. {{order}}",
+    "forename": "Meno",
+    "surname": "Priezvisko",
+    "email": "E-mail",
+    "age": "Vek",
+    "zip": "PSČ (voliteľné)",
+    "photo-button": "Nahrať foto"
+  },
+
+  "buy-page": {
+    "continue": "Pokračovať ",
+    "personal-info": "Osobné údaje",
+    "season-ticket-owner": "Držiteľ permanentky",
+    "ticket-owner": "Vlastník lístka",
+    "children-tooltip": "Deti vo veku od 3 do 10 rokov môžu<br/> navštíviť kúpalisko aj v sprievode inej<br/> dospelej osoby, ako je držiteľ sezónnej<br/> permanentky.<br/><br/> Deti vo veku od 10 do 18 rokov môžu svoju<br/> sezónnu vstupenku využívať aj bez<br/> sprievodu dospelej osoby.",
+    "optional": "Voliteľné údaje ",
+    "zip": "PSČ",
+    "photo-upload": "Nahrať fotografiu",
+    "max-size": "(max. povolená veľkosť súboru je 5MB)",
+    "max-size-error": "Veľkosť fotky musí byť menej ako 5MB",
+    "photo-description": "Fotografia slúži na identifikáciu majiteľa permanentky. Prosím, nahrajte fotografiu, na ktorej Vám je dobre vidieť tvár.",
+    "photo-title": "Fotografia",
+    "photo-click": "Kliknite pre nahratie fotky alebo ju sem priamo presuňte",
+    "name": "Meno a priezvisko",
+    "age": "Vek",
+    "help-us": "Pomôžte nám zistiť, kto sú naši zákazníci.<br/>Vyplnením voliteľných údajov nám<br/>pomôžete zlepšovať služby a prispôsobiť<br/> ich práve pre Vás.",
+    "email": "Email",
+    "gdpr": "Bližšie informácie o spracúvaní osobných údajov najdete ",
+    "gdpr-here": "tu",
+    "vop": "Oboznámil/a som sa so ",
+    "vop-link": "všeobecnými obchodnými podmienkami",
+    "code-fail": "Zadaný zľavový kód nie je platný.",
+    "enter-code": "Vložte zľavový kód",
+    "claim-code": "Uplatniť zľavový kód",
+    "kid-times": "x dieťa",
+    "summary": "Rekapitulácia nákupu",
+    "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}}€ (max. počet {{childrenMaxNumber}})"
+  },
+  "order-review": {
+    "edit-data": "Upraviť údaje ",
+    "pay": "Zaplatiť ",
+    "review-muted": "<p>Cena je jednotná pre všetky vekové skupiny.</p><p>Študentské a seniorské zľavy je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.</p><p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>"
+  },
+  "order-result": {
+    "thank-you": "Ďakujeme za váš nákup!",
+    "ticket-send": "Lístok sme zaslali na váš e-mail.",
+    "pls-download": "Prosím, stiahnite si pre istotu lístok kliknutím nižšie pre prípad, že by vám e-mail nedorazil.",
+    "pls-qr": "Prosím, preukážte sa zaslanými QR kódmi pri vstupe na kúpalisko.",
+    "download-tickets": "Stiahnuť lístky ",
+    "sry-fault": "Mrzí nás to ale niekde nastala chyba",
+    "pls-contact": "Prosím zopakujte nákup ešte raz alebo v prípade ďalších komplikácií nás kontaktujte na kupaliska@bratislava.sk.",
+    "contact-us": "Kontaktujte nás ",
+    "try-again": "Skúsiť znova "
+  },
+  "vop": {
+    "title": "Všeobecné obchodné podmienky",
+    "main-text": "<section><Typography type='subtitle' fontWeight='bold' className='text-center'>I. Základné ustanovenia</Typography><ol><li><div className='flex flex-col'>Tieto všeobecné obchodné podmienky (ďalej len „VOP“) sú vydané: Správou telovýchovných a rekreačných zariadení hlavného mesta Slovenskej republiky Bratislavy, príspevkovou organizáciou zriadenou hlavným mestom SR Bratislavou na základe zriaďovacej listiny zo dňa 16.11.2006<span>IČO: 00 179 663</span><span>DIČ: 2020801695</span><span>so sídlom: Junácka 4, 831 04 Bratislava</span><span>email: kupaliska@bratislava.sk</span><span>telefón +421 2 443 733 27</span><span>www.starz.sk</span><span className='mt-8'>(ďalej len „predávajúci“)</span></div></li><li>VOP upravujú vzájomné práva a povinnosti pri kúpe online vstupenky na prevádzky v správe predávajúceho (ďalej len “vstupenka”) a to medzi predávajúcim a fyzickou osobou (ďalej len „kupujúci“) prostredníctvom rozhrania umiestneného na webovej stránke dostupného na internetové adrese: https://kupaliska.bratislava.sk/ (ďalej je „internetový obchod“).</li><li>Ustanovenia VOP sú neoddeliteľnou súčasťou kúpnej zmluvy.</li><li>VOP a kúpna zmluva sa uzatvárajú v slovenskom jazyku.</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>II. Informácie o vstupenkách</Typography><ol><li>Cena lístka je jednotná pre všetky vekové skupiny. Na lístky nie je možné uplatniť študentské ani seniorské zľavy.</li><li>Online formou je možné kúpiť nasledujúce typy lístkov – celodenný lístok, permanentku na 10 vstupov, permanentku na 10 vstupov po 17:00 a sezónnu permanentku.</li><li>Všetky lístky a permanentky je možné využiť v ktorýkoľvek deň na akomkoľvek zo letných kúpalisk – Tehelné Pole, Delfín, Rosnička, Krasňany, Lamač, Zlaté Piesky, Rača.</li><li>V prípade kúpy viacerých celodenných lístkov je možné pri jednom vstupe použiť pri vstupe lístok aj pre inú osobu, akým je kupujúci lístku (t.j. jeden kupujúci môže kúpiť a použiť lístky aj pre svojich kamarátov / rodinných príslušníkov / doprovod.).</li><li>V prípade kúpy viacerých permanentiek na 10 vstupov, resp. permanentiek na 10 vstupov po 17:00 sú tieto vstupy viazané na osobu kupujúceho, t.j. vstupy z permanentky nie je možné využiť pre inú osobu. </li><li>Permanentku na 10 vstupov po 17:00 je možné využiť iba pri vstupe na kúpalisko po 17:00. </li><li>Sezónna permanentka je platná na neobmedzený počet vstupov počas jednej sezóny.</li><li>Pri sezónnej permanentke je možné zakúpiť iba 1ks na osobu na sezónu.</li><li>K sezónnej permanentke je možné dokúpiť aj sezónnu permanentku pre deti vo veku 3-18 rokov (max. 5 detí) za zvýhodnenú cenu 1€ za dieťa za sezónu.</li><li>Dieťa do 10 rokov je povinné navštevovať letné kúpaliská v sprievode dospelej osoby. V prípade, že je dieťa držiteľom zvýhodnenej sezónnej permanentky nie je povinné ísť na kúpalisko iba v sprievode dospelej osoby, ku ktorého sezónnej permanentke bola detská sezónna permanentka zakúpená. </li><li>Ak je držiteľom zvýhodnenej detskej permanentky dieťa vo veku 10 až 18 rokov, môže využívať túto permanentku aj samostatne pri návšteve bez dospelej osoby</li><li>Lístky a permanentky je možné využiť iba počas letnej sezóny, lístky a permanentky sú neprenosné do ďalšej sezóny.</li><li>Pri kúpe permanentky na 10 vstupov, permanentky na 10 vstupov po 17:00 a sezónnej permanentky je potrebné nahrať fotografiu kupujúceho. Fotografia slúži na ľahšiu identifikáciu pri vstupe na kúpalisko a zabránenie zneužívania permanentiek.</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>III. Informácie o cenách</Typography><ol><li>Kúpna cena vstupenky je konečná a zahŕňa všetky prípadné súvisiace poplatky.</li><li>Výslednú cenu vybraných vstupeniek je možné uhradiť prostredníctvom platobného terminálu spoločnosti GLOBAL PAYMENTS (platba cez virtuálny terminál). Platbu je možné realizovať platobnou kartou VISA alebo MASTERCARD, alebo prostredníctvom GooglePay.</li><li>V prípade platby prostredníctvom platobnej brány postupuje kupujúci podľa pokynov príslušného poskytovateľa elektronických platieb.</li><li>Ceny vstupenky/vstupeniek zostávajú v platnosti po dobu, po ktorú sú zobrazované v internetovom obchode.</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>IV. Objednávka a uzavretie kúpnej zmluvy</Typography><ol><li>Náklady vzniknuté kupujúcemu pri použití komunikačných prostriedkov na diaľku v súvislosti s uzavretím kúpnej zmluvy (náklady na internetové pripojenie, náklady na telefónne hovory), hradí kupujúci sám.</li><li>Kupujúci vykonáva objednávku vstupenky/vstupeniek vyplnením objednávkového formulára bez registrácie.</li><li>Pred odoslaním objednávky je kupujúcemu umožnené kontrolovať a meniť údaje, ktoré do objednávky vložil. Údaje uvedené v objednávke sú predávajúcim považované za správne. Podmienkou platnosti objednávky je vyplnenie všetkých povinných údajov v objednávkovom formulári a potvrdenie kupujúceho o tom, že sa zoznámil s VOP a podmienkami ochrany osobných údajov.</li><li>Vstupenka/y sa doručuje/ú výhradne elektronicky a to na e-mailovú adresu, ktorú kupujúci v rámci objednávky zadal. Tento okamih sa považuje za uzavretie zmluvy.</li><li>Riadne uhradenú a doručenú Vstupenku na e-mail kupujúceho, ktorá spĺňa parametre určené predávajúcim pre vstup na prevádzku v jeho správe, nie je možné po doručení na e-mail vrátiť (stornovať) a dožadovať sa vrátenia finančných prostriedkov.</li><li>Všetky objednávky prijaté predávajúcim sú záväzné.</li><li>V prípade, že došlo ku zjavnej technickej chybe na strane predávajúceho pri uvedení ceny vstupenky v internetovom obchode, alebo v priebehu objednávania, nie je predávajúci povinný dodať kupujúcemu vstupenku za túto celkom zjavne chybnú cenu ani v prípade, že kupujúcemu bolo zaslané automatické potvrdenie, resp. vstupenka. Predávajúci informuje kupujúceho o chybe bez zbytočného odkladu a zašle kupujúcemu na jeho e - mailovú adresu pozmenenú ponuku. Pozmenená ponuka sa považuje za nový návrh kúpnej zmluvy a kúpna zmluva je v takom prípade uzavretá potvrdením o prijatí kupujúcim na emailovú adresu predávajúceho.</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>V. Práva z vadného plnenia</Typography><ol><li>Predávajúci zodpovedá kupujúcemu, že Vstupenka pri prevzatí nemá vady a že vyhovuje požiadavkám právnych predpisov.</li><li>V prípade výskytu vady (ak je doručená neúplná alebo chybná Vstupenka, alebo nedoručená vôbec) môže kupujúci predávajúcemu predložiť reklamáciu a požadovať - ak ide o vadu, ktorú je možno odstrániť:<ol><li>bezplatné odstránenie vady vstupenky,</li><li>výmenu vstupenky za novú.</li></ol></li><li>Kupujúci si svoje právo z vadného plnenia môže uplatniť do 7 dní od doručenia Vstupenky na svoj e-mail.</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>VI. Doručovanie</Typography><ol><li>Zmluvné strany si môžu všetku písomnú korešpondenciu vzájomne doručovať prostredníctvom elektronickej pošty.</li><li>Kupujúci doručuje predávajúcemu korešpondenciu na e-mailovú adresu uvedenú vo VOP. Predávajúci doručuje kupujúcemu korešpondenciu na e-mailovú adresu uvedenú v jeho zákazníckom účte alebo v objednávke.</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>VII. Mimosúdne riešenie sporov</Typography><ol><li>Spotrebiteľ má právo obrátiť sa na predávajúceho so žiadosťou o nápravu, ak nie je spokojný so spôsobom, ktorým predávajúci vybavil jeho reklamáciu alebo ak sa domnieva, že predávajúci porušil jeho práva. Spotrebiteľ má právo podať návrh na začatie alternatívneho (mimosúdneho) riešenia sporu u subjektu alternatívneho riešenia sporov, ak predávajúci na žiadosť podľa predchádzajúcej vety odpovedal zamietavo alebo na ňu neodpovedal do 30 dní odo dňa jej odoslania. Týmto nie je dotknutá možnosť spotrebiteľa obrátiť sa na súd.</li><li>K mimosúdnemu riešeniu spotrebiteľských sporov z kúpnej zmluvy je príslušná Slovenská obchodná inšpekcia, Bratislava, IČO: 17 331 927, ktorú je možné za uvedeným účelom kontaktovať na adrese Slovenská obchodná inšpekcia, Bajkalská 21/A, P. O. BOX č. 5, 820 07 Bratislava, Odbor medzinárodných vzťahov a alternatívneho riešenia sporov, alebo elektronicky na ba@soi.sk, ars@soi.sk alebo adr.@soi.sk. Internetová adresa: https://www.soi.sk/. Platformu pre riešenie sporov on-line nachádzajúcu sa na internetovej adrese https://ec.europa.eu/consumers/odr je možné využiť pri riešení sporov medzi predávajúcim a kupujúcim z kúpnej zmluvy.</li><li>Európske spotrebiteľské centrum Slovenská republika, so sídlom Mlynské nivy 44/a, 827 15 Bratislave, internetová adresa: https://esc-sr.sk/ je kontaktným miestom podľa Nariadenia Európskeho parlamentu a Rady (EU) č. 524/2013 z 21. mája 2013 o riešení spotrebiteľských sporov on-line a o zmene nariadenia (ES) č. 2006/2004 a smernice 2009/22/ES (nariadenie o riešení spotrebiteľských sporov on-line).</li></ol></section><section><Typography type='subtitle' fontWeight='bold' className='text-center'>VIII. Záverečné ustanovenia</Typography><ol><li>Všetky dojednania, vrátane tých, ktoré nie sú priamo upravené vo VOP, medzi predávajúcim a kupujúcim sa spravujú právnym poriadkom Slovenskej republiky. Ak vzťah založený kúpnou zmluvou obsahuje medzinárodný prvok, strany sa dohodli, že vzťah sa riadi právom Slovenskej republiky. Týmto nie sú dotknuté práva spotrebiteľa vyplývajúce z všeobecne záväzných právnych predpisov.</li><li>Predávajúci nie je vo vzťahu ku kupujúcemu viazaný žiadnymi kódexmi správania v zmysle ustanovení zákona č. 250/2007 Z.z. o ochrane spotrebiteľa v znení neskorších predpisov.</li><li>Predávajúci nenesie zodpovednosť za chyby vzniknuté v dôsledku zásahu tretích osôb do internetového obchodu alebo v dôsledku jeho použitia v rozpore s jeho určením. Kupujúci nesmie pri využívaní internetového obchodu používať postupy, ktoré by mohli mať negatívny vplyv na jeho prevádzku a nesmie vykonávať žiadnu činnosť, ktorá by mohla jemu alebo tretím osobám umožniť neoprávnene zasahovať či neoprávnene užívať programové vybavenie alebo ďalšie súčasti tvoriace internetový obchod a užívať internetový obchod alebo jeho časti či softwarové vybavenie takým spôsobom, ktorý by bol v rozpore s jeho určením či účelom.</li><li>Znenie VOP môže predávajúci meniť či dopĺňať. Týmto ustanovením nie sú dotknuté práva a povinnosti vzniknuté po dobu účinnosti predchádzajúceho znenia obchodných podmienok.</li><li>VOP nadobúdajú platnosť dňom 06.05.2021 a účinnosť dňom 07.05.2021.</li></ol></section>"
+  },
+  "gdpr": {
+    "title": "Zásady ochrany osobných údajov",
+    "main-text": "<p>Osobné údaje spracúvame v súlade s Nariadením Európskeho parlamentu a rady č. 2016/679 o ochrane fyzických osôb pri spracúvaní osobných údajov a o voľnom pohybe takýchto údajov (ďalej len „GDPR“) a zákonom č. 18/2018 Z. z. o ochrane osobných údajov (ďalej len „zákon o OOU“). Bezpečnosť osobných údajov a ich spracúvanie zákonným spôsobom je pre nás prvoradé. Tu sa dozviete, ako vaše osobné údaje spracúvame a ako dosiahneme ich bezpečnosť.</p><section><Typography className='text-center mt-4' type='subtitle' fontWeight='bold'>I. NAŠE ÚDAJE </Typography><ol><li><div className='flex flex-col'>Osobné údaje spracúva <span>Meno príspevkovej organizácie: <strong>Správa telovýchovných a rekreačných zariadení hlavného mesta Slovenskej republiky Bratislavy (ďalej len ,,STARZ“)</strong></span><span>Sídlo: Junácka 4, 831 04 Bratislava</span><span>IČO: 00 179 663</span><span>Zast.: Ladislav Križan, PhD., riaditeľ</span><span>Email: starz@starz.sk</span><span>Tel.: +42(2) 443 373 27</span>(ďalej len &quot;prevádzkovateľ&quot;).</div></li></ol></section><section><Typography className='text-center mt-4' type='subtitle' fontWeight='bold'>II. KATEGÓRIE OSOBNÝCH ÚDAJOV, ÚČEL, PRÁVNY ZÁKLAD A OBDOBIE</Typography><ol><li><span className='font-bold'>Aké osobné údaje spracúvame, na aký účel, na akom právnom základe a na aké obdobie?</span><p>Spracúvame len tie osobné údaje, ktoré nevyhnutne potrebujeme na dosiahnutie stanoveného účelu. Osobné údaje spracúvame na tieto účely:</p><ol><li><span className='font-bold'>Agenda zmluvných vzťahov</span><p>Osobné údaje účastníkov zmluvy (FO/štatutárny orgán PO, zodpovedná osoba, kontaktná osoba), zástupcov vo veciach zmlúv/technických a iných osôb oprávnených konať v mene účastníka zmluvy spracúvame v rozsahu bežných osobných údajov, kt. sú najmä: identifikačné údaje zmluvných partnerov, iné údaje vyplývajúce zo zmluvy. Osobné údaje dotknutých osôb spracúvame na účely predzmluvných vzťahov, plnenia zmluvy, resp. uplatňovania nárokov zo zmluvy. Právnym základom na spracúvanie osobných údajov je plnenie zmluvných povinností. Účtovné doklady uchovávame 10 rokov.</p></li><li><span className='font-bold'>Online predaj vstupeniek do prevádzky</span><p>Osobné údaje návštevníkov športovo rekreačných areálov prevádzkovateľa, ktorí si zakúpili vstupenky do týchto prevádzok prostredníctvom online systému, spracúvame v rozsahu <span className='text-lg'>bežných osobných údajov</span>, kt. sú najmä: identifikačné údaje; meno, priezvisko, e-mail, číslo bankového účtu, platobné údaje, vek, PSČ, iné údaje potrebné pre vybavenie online predaja vstupeniek.V prípade zakúpenia permanentky, dotknutá osoba nahrá do online systému svoju fotografiu, ktorá bude pri vstupe do športovo rekreačného areálu slúžiť zamestnancovi vrátnice ako overovací identifikátor, priraďujúci návštevníka k zakúpenej permanentke. Osobné údaje dotknutých osôb spracúvame na právnom základe plnenia zmluvnej povinnosti. Osobné údaje uchovávame po dobu vyčerpania vstupov a následne ich anonymizujeme a používame v anonymizovanej forme na štatistické účely.</p></li><li><span className='font-bold'>Kontrola vstupu</span><p>Pri vstupe návštevníkov športovo rekreačných areálov prevádzkovateľa, ktorí sa preukazujú online kúpenou vstupenkou, kontrolujeme údaje uvedené na vstupenke. Keďže vstupenka je neprenosná, môžeme nahliadnuť aj do vášho dokladu totožnosti, aby sme overili vašu identitu. Tieto osobné údaje neuchovávame.</p></li><li><span className='font-bold'>Účtovná agenda</span><p>Osobné údaje zamestnancov, dodávateľov, ich kontaktných osôb a iných osôb vedených v účtovných dokladoch spracúvame v rozsahu bežných osobných údajov, kt. sú najmä: identifikačné údaje a iné údaje potrebné pre si povinností vyplývajúcich zo zákona o účtovníctve a iných relevantných právnych predpisov. Osobné údaje uchovávame 10 rokov nasledujúcich po roku, ktorého sa doklady týkajú. </p></li><li><span className='font-bold'>Kamerový systém</span><p>Vaše osobné údaje v rozsahu obrazového záznamu spracúvame so zámerom monitorovať priestory prevádzkovateľa. Právnym základom na spracúvanie osobných údajov je náš oprávnený záujem, ktorým je ochrana majetku a bezpečnosti. Kamerový záznam uchovávame 14 dní, resp. na dobu nevyhnutnú z dôvodu trestného, iného konania</p></li></ol></li><li><span className='font-bold'>Komu vaše údaje poskytujeme?</span><p>Osobné údaje poskytujeme tretej osobe, len ak nám to vyplýva z osobitného zákona alebo je to nevyhnutné na plnenie zmluvy. Ide najmä o dopravcov, či orgány verejnej správy a iné oprávnené subjekty. Vaše osobné údaje ďalej poskytujeme sprostredkovateľom, ktorí nám dodávajú odborné a špecializované služby. S každým sprostredkovateľom sme uzatvorili zmluvu o spracúvaní osobných údajov a zaviazali ich mlčanlivosťou. Spracúvaním osobných údajov sme poverili:</p><ol className='list-disc'><li>poskytovateľa služieb technickej podpory pri spravovaní online systému a predaja Magistrát Hlavného mesta SR Bratislavy.</li></ol></li><li><span className='font-bold'>Kam prenášame vaše osobné údaje?</span><p>Vaše osobné údaje neprenášame do žiadnej tretej krajiny. </p></li><li><span className='font-bold'>Nie ste spokojný?</span><p className='flex flex-col'>Ak nie ste spokojný s tým, ako spracúvame vaše osobné údaje, môžete nám dať o tom vedieť na starz@starz.sk. Tiež máte možnosť podať sťažnosť na Úrad na ochranu osobných údajov, ak si myslíte, že vaše osobné údaje spracúvame nezákonne.<span>Úrad na ochranu osobných údajov</span><span>Hraničná 12, 820 07 Bratislava</span><span>Email: statny.dozor@pdp.gov.sk</span></p></li><li><span className='font-bold'>Ako spracúvame vaše osobné údaje?</span><p>Osobné údaje spracúvame v elektronickej a listinnej forme. Nevyužívame žiadne prostriedky automatizovaného individuálneho rozhodovania. </p></li><li><span className='font-bold'>Ako zabezpečíme ochranu vašich osobných údajov?</span><p>Bezpečnosť vašich osobných údajov je pre nás prvoradá. Aby sme zabezpečili ochranu vašich osobných údajov, prijali sme potrebné technické a organizačné opatrenia. Web stránka je zabezpečená pred prístupom tretích osôb SSL certifikátom. Osoby, ktoré spracúvajú osobné údaje boli poučené a zaviazané mlčanlivosťou.</p></li><li><span className='font-bold'>Aké máte práva?</span><ol><li><span className='font-bold'>Právo na prístup k údajom</span><p>Máte právo vedieť, či spracúvame vaše osobné údaje. Pokiaľ tieto spracúvame, môžete nás požiadať o prístup k údajom. Na základe vašej žiadosti vydáme potvrdenie s informáciami o spracúvaní vašich osobných údajov našou spoločnosťou. </p></li><li><span className='font-bold'>Právo na opravu</span><p>Máte právo na to, aby vaše osobné údaje, ktoré spracúvame, boli správne, úplné a aktuálne. Pokiaľ sú vaše osobné údaje nesprávne alebo neaktuálne, môžete nás požiadať o opravu alebo doplnenie.</p></li><li><span className='font-bold'>Právo na vymazanie</span><p>Za určitých okolností máte právo, aby sme vaše osobné údaje vymazali. O vymazanie vašich údajov nás môžete požiadať kedykoľvek. Vaše osobné údaje vymažeme, ak</p><ol><li>už vaše osobné údaje nepotrebujeme pre účel, na ktorý ste nám ich poskytli;</li><li>odvoláte svoj súhlas;</li><li>namietate voči spracúvaniu vašich osobných údajov;</li><li>spracúvame vaše osobné údaje nezákonne;</li><li>osobné údaje musia byť vymazané, aby sa tým splnila zákonná povinnosť;</li><li>ak ste dieťa, príp. rodič dieťaťa, ktoré súhlasilo so spracúvaním osobných údajov cez internet;</li></ol></li><li><span className='font-bold'>Právo na obmedzenie spracúvania</span><p>Môžete nás požiadať, aby sme obmedzili spracúvanie vašich osobných údajov. Pokiaľ vašej žiadosti vyhovieme, vaše osobné údaje budeme iba uchovávať a ďalej s nimi pracovať nebudeme. K obmedzeniu spracúvania vašich údajov dôjde, ak</p><ol><li>nám oznámite, že vaše osobné údaje sú nesprávne, a to až dokým neoveríme ich správnosť;</li><li>spracúvame vaše osobné údaje nezákonne, avšak vy nesúhlasíte s ich vymazaním a na miesto toho žiadate, aby sme spracúvanie vašich osobných údajov len obmedzili;</li><li>vaše údaje už nepotrebujeme, ale potrebujete ich vy na preukázanie, uplatňovanie alebo obhajovanie svojich práv;</li><li>namietate voči spracúvaniu vašich osobných údajov, a to až kým neoveríme, či naše oprávnené záujmy prevažujú nad vašimi dôvodmi.</li></ol></li><li><span className='font-bold'>Právo na prenosnosť údajov</span><p>Máte právo žiadať, aby sme vám poskytli vaše osobné údaje v elektronickej forme (napr. súbor XML alebo CSV), ktorá vám umožní ľahko si preniesť údaje do inej spoločnosti. Tiež nás môžete požiadať, aby sme vaše osobné údaje preniesli vybranej spoločnosti priamo my. Vašej žiadosti vyhovieme v prípade, že ste nám poskytli osobné údaje priamo vy a dali ste nám na ich spracúvanie súhlas. </p></li><li><span className='font-bold'>Právo namietať</span><p>Máte právo namietať, že spracúvame vaše osobné údaje. Ak vaše osobné údaje spracúvame na účely priameho marketingu, môžete namietať ich spracúvanie kedykoľvek. Na základe námietky vaše osobné údaje vymažeme. Ak vaše osobné údaje spracúvame v nasledovných prípadoch:</p><ol><li>na plnenie úlohy vo verejnom záujme alebo pri výkone verejnej moci,</li><li>z dôvodu nášho oprávneného záujmu,</li><li>vytvárania profilu žiaka,</li></ol><p>môžete namietať ich spracúvanie, ak máte na to osobné dôvody.</p></li></ol></li><li><span className='font-bold'>Ako môžete tieto práva vykonávať?</span><p>S vašou žiadosťou sa môžete na nás obrátiť niektorým z týchto spôsobov:<ol><li>zaslaním oznámenia na starz@starz.sk,</li><li>zaslaním oznámenia poštou na adresu: Junácka 4, 831 04 Bratislava</li></ol>Všetkými vašimi žiadosťami sa budeme zaoberať a o výsledku jej vybavenia vás budeme informovať rovnakým spôsobom, ako žiadosť podáte.</p></li><li><span className='font-bold'>Záverečné ustanovenia</span><p>Tieto zásady ochrany osobných údajov nadobúdajú platnosť dňa 07.05.2021. Vyhradzujeme si právo tieto zásady zmeniť, ak dôjde k zmene spracúvania osobných údajov v našej organizácii. </p></li></ol></section>"
+  },
+  "landing": {
+    "title": "Kúp si lístok na ktorékoľvek kúpalisko v Bratislave online",
+    "buy-ticket": "Kúpiť lístok",
+    "swimming-pools-starz": "Letné kúpaliská STaRZ",
+    "how-does-it-work": "Ako funguje nákup lístkov?",
+    "additional-info-0": "Cena je jednotná pre všetky vekové skupiny.",
+    "additional-info-1": "Študentské a seniorské zľavy je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.",
+    "additional-info-2": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
+    "swimming-pools-title": "Kúpaliská",
+    "swimming-pools-subtitle": "Lístok a permanentku je možné uplatniť v areáloch:",
+    "show-more-swimming-pools": "Zobraziť menej kúpalísk",
+    "show-less-swimming-pools": "Zobraziť ďalšie kúpaliská",
+    "questions": "Máte otázky? Kontaktujte nás!",
+    "faq": "Často kladené otázky",
+    "name": "Meno",
+    "email": "Email",
+    "message": "Správa",
+    "recaptcha": "Táto stránka je chránená reCAPTCHA a platia pravidlá <a className='link text-primary' target='_blank' rel='noreferrer' href='https://policies.google.com/privacy'> ochrany súkromia</a> a <a className='link text-primary' target='_blank' rel='noreferrer' href='https://policies.google.com/terms' > použitia služby</a> od Google.",
+    "gdpr-info": "Bližšie informácie o spracúvaní osobných údajov nájdete <Link to='/gdpr' className='link text-primary'> tu</Link>.",
+    "send-message": "Odoslať správu ",
+    "alt-img-text": "Nahradny obrazok kupaliska",
+    "less-info": "Menej info",
+    "more-info": "Viac info",
+    "navigate": "Navigovať",
+    "steps": {
+      "0": "<p>Vyberiete si z ponuky dostupných lístkov a permanentiek na ľubovoľné kúpalisko v ktorýkoľvek deň.</p>",
+      "1": "<p>Lístky a permanentky si kúpite vyplnením osobných údajov. Po zaplatení <strong>obdržíte email s QR kódom.</strong></p>",
+      "2": "<p>Pri vstupe na kúpalisko sa rýchlo a jednoducho preukážete QR kódom a nemusíte čakať v rade.</p>",
+      "3": "<p>Lístky a permanentky platia <strong>počas celej letnej sezóny</strong> na všetkých mestských kúpaliskách.</p>"
+    },
+    "piece": " / kus",
+    "basket": " Do košíka ",
+    "faq-mutiple": {
+      "0": {
+        "title": "Neviem sa rozhodnúť, aký lístok alebo permanentku si vybrať, viete mi poradiť?",
+        "content": "<section><div>Nižšie nájdete prehľadné vysvetlenie lístkov a permanentiek.</div><div><h4 className='italic mt-4 font-bold'>Sezónna permanentka</h4><p><strong>Ak patríte k vášnivým návštevníkom kúpaliska,</strong> sezónna permanentka je pre Vás výhodnou a praktickou voľbou. Pokiaľ je kúpalisko vaším druhým domovom, určite oceníte <strong>neobmedzený počet vstupov</strong> na ktorékoľvek kúpalisko v správe STARZ.</p><p>Ide o cenovo bezkonkurenčnú ponuku aj <strong>pre rodiny s deťmi alebo rodičov na rodičovskej dovolenke.</strong> K sezónnej permanentke je možné dokúpiť <strong>detskú sezónnu permanentku za 1€ až pre 5 detí od 3 do 18 rokov.</strong> Detské sezónne permanentky môžu využívať: </p> <ol className='ml-4 list-disc'> <li className='ml-4'> deti vo veku 3-10 rokov - v sprievode inej dospelej osoby, ktorá má riadne zakúpený vstup na kúpalisko (buď online nákupom alebo fyzickým nákupom v areáli) </li> <li className='ml-4'> deti vo veku od 10-18 rokov - bez sprievodu rodiča </li> </ol> </div> <div> <h4 className='italic mt-4 font-bold'>Permanentka na 10 dní</h4> <p> Vhodná <strong>pre pravidelných návštevníkov,</strong> ktorí sa nechcú zaviazať kúpou sezónnej permanentky. Ak plánujete kúpalisko navštevovať aj so svojimi deťmi, zvážte kúpu sezónnej permanentky s možnosťou dokúpiť sezónne permanentky za 1€ až pre 5 detí od 3 do 18 rokov. </p></div><div><h4 className='italic mt-4 font-bold'>Permanentka na 10 dní po 17:00</h4> <p> Ideálna permanentka <strong>pre pracujúcich,</strong> ktorí chcú využiť dlhé letné večery a vychutnať si slnečné lúče po práci. Zvýhodnená cena oproti permanentke na 10 vstupov. </p></div><div> <h4 className='mt-4 italic font-bold'>Celodenný lístok</h4><p>Vhodné <strong>pre príležitostných návštevníkov</strong> alebo pre tých, ktorí chcú ušetriť čas a peniaze. Online lístky sú lacnejšie v porovnaní so vstupmi na väčšine kúpalísk. Pre držiteľov online lístkov bude navyše zriadený samostatný vstup, a tak nemusia čakať pred kúpaliskom v dlhom rade.</p></div></section>"
+      },
+      "1": {
+        "title": "Kedy a kde môžem využiť lístok alebo permanentku?",
+        "content": "Žiaden z lístkov nie je viazaný na konkrétny deň, ani na konkrétne kúpalisko. Lístky a permanentky môžete využívať kedykoľvek počas aktuálnej letnej sezóny a na ktoromkoľvek zo 7 letných kúpalísk v správe STARZ - Delfín, Tehelné Pole, Rosnička, Zlaté Piesky, Rača, Krasňany, Lamač."
+      },
+      "2": {
+        "title": "Kúpil som si lístok / permanentku online, musím aj tak čakať v rade na pokladňu?",
+        "content": "Pre návštevníkov, ktorí si lístok zakúpia online bude zriadený samostatný vstup, ktorý umožní rýchlejší a plynulejší prechod do areálu kúpaliska. Našim cieľom je znížiť dobu čakania v rade pre návštevníkov s online lístkom. Zároveň chceme odľahčiť pokladne od návštevníkov, ktorí si z rôznych dôvodov online lístok nechcú alebo nemôžu kúpiť. "
+      },
+      "3": {
+        "title": "Potrebujem si počas návštevy kúpaliska odbehnúť preč. Dostanem sa potom naspäť na kúpalisko?",
+        "content": "Pri všetkých typoch lístka je možnosť opätovného check-inu, takže či už si chcete odbehnúť na obed alebo vyskúšať v priebehu dňa iné kúpalisko, máte tú možnosť."
+      },
+      "4": {
+        "title": "Prečo odo mňa pri nákupe permanentky žiadate fotografiu?",
+        "content": "Vaše meno a fotografia, ktorú uvediete pri nákupe nám pomôže permanentku priradiť k jej majiteľovi. Nahrávajte preto, prosím, fotografiu, kde je Vám dobre vidieť tvár, nemáte šiltovku alebo okuliare. Týmto spôsobom vieme zaistiť rýchly priebeh pri kontrolovaní lístkov pri vstupe na kúpalisko a zabránime ich zneužívaniu. Vaše údaje neposkytujeme žiadnym tretím stranám a spracúvame ich podľa platných nariadení GDPR."
+      },
+      "5": {
+        "title": "Musím pri nákupe vyplniť aj údaje o PSČ a veku?",
+        "content": "Tieto údaje sú voliteľné, takže ich pri nákupe nemusíte vyplniť. Ich vyplnením nám ale pomôžete získať lepší prehľad o našich návštevníkoch. Vďaka tomu môžeme ďalej vylepšovať naše služby. Výnimkou sú detské lístky, kde je potrebné uviesť aj vek."
+      },
+      "6": {
+        "title": "Som študent, prečo neponúkate aj zľavu na ISIC?",
+        "content": "Pri online nákupoch neposkytujeme možnosť uplatnenia študentskej zľavy. Ceny online lístkov sú vo väčšine prípadov výhodnejšie ako ceny priamo na mieste. Ak si ale aj tak želáte uplatniť vašu zľavu, môžete tak urobiť pri osobnom nákupe priamo na kúpalisku. Pokiaľ ste ešte nedovŕšili 18 rokov, môžete požiadať jedného z vašich rodičov, aby si kúpili sezónnu permanentku a zároveň k nej dokúpili zvýhodnenú detskú permanentku. Túto permanentku môžete využívať aj pri návšteve kúpaliska bez dospelej osoby."
+      },
+      "7": {
+        "title": "Som senior, prečo neponúkate dôchodcovskú zľavu?",
+        "content": "Pri online nákupoch neposkytujeme možnosť uplatnenia dôchodcovskej zľavy. Ceny online lístkov sú vo väčšine prípadov výhodnejšie ako ceny priamo na mieste. Ak si ale aj tak želáte uplatniť vašu zľavu, môžete tak urobiť pri osobnom nákupe priamo na kúpalisku."
+      },
+      "8": {
+        "title": "Rád by som kúpil jednorazové lístky pre seba a svoje dieťa / deti. Ponúkate aj detské lístky?",
+        "content": "Pri online nákupe sú ceny jednotné pre všetky vekové skupiny. Môžete si ale zakúpiť sezónnu permanentku a dokúpiť k nej zvýhodnené detské permanentky - až pre 5 detí do 18 rokov za 1€ a využívať ich neobmedzene počas celej sezóny. Detské lístky si môžete zakúpiť aj pri osobnom nákupe priamo na kúpalisku."
+      },
+      "9": {
+        "title": "Viem si ku sezónnej permanentke dokúpiť aj permanentku pre manžela/manželku, partnera/partnerku, kamaráta/kamarátku?",
+        "content": "K sezónnej permanentke umožňujeme dokúpiť iba detské permanentky. Vzhľadom na to, že pri nákupe je držiteľ permanentky povinný zadať svoje osobné údaje, nie je možné zakúpiť v jednom nákupe permanentky pre 2 rôzne osoby. Tieto nákupy musia byť zrealizované oddelene."
+      },
+      "10": {
+        "title": "Kúpil som si sezónnu permanentku a k tomu zvýhodnené detské permanentky pre moje deti. Musia teraz deti chodiť na kúpalisko iba so mnou?",
+        "content": "<section><ol><li className='ml-4'>Deti vo veku 3-10 rokov môžu detskú sezónnu permanentku využívať aj v sprievode inej dospelej osoby, ktorá má riadne zakúpený vstup na kúpalisko. Buď prostredníctvom online nákupu, alebo priamo na pokladni kúpaliska.</li><li className='ml-4'>Dieťa staršie ako 10 rokov so zakúpenou detskou sezónnou permanentkou môže ísť na kúpalisko aj samé alebo s kamarátmi bez sprievodu dospelej osoby.</li></ol></section>"
+      },
+      "11": {
+        "title": "Zakúpil som si lístok / permanentku, čo teraz?",
+        "content": "<p> Hneď po nákupe máte možnosť stiahnuť si lístok / permanentku do mobilu v PDF formáte. Môžete tiež počkať na e-mail s QR kódmi, ktorý obdržíte po nákupe. Stačí, keď QR kód ukážete pri vstupe na kúpalisko na vašom mobilnom telefóne. Ak ste do pár minút od nákupu neobdržali e-mail s lístkami, kontaktujte nás prosím na <a rel='noreferrer' target='_blank' href='mailto:kupaliska@bratislava.sk' className='link text-primary'>kupaliska@bratislava.sk</a>. Radi Vám odpovieme počas pracovných dní.</p>"
+      },
+      "12": {
+        "title": "Ako sa mám online lístkom / permanentkou pri vstupe preukázať?",
+        "content": "Online nákup lístka vám zaručí rýchly, pohodlný a ekologický vstup do areálu. Pri vstupe na kúpalisko jednoducho ukážete QR kód, buď priamo v maili alebo v PDF formáte, ktorý si môžete stiahnuť do telefónu. V prípade, ak si mobil na kúpalisko z akýchkoľvek dôvodov neberiete so sebou, vždy si môžete lístok alebo permanentku vopred vytlačiť."
+      },
+      "13": {
+        "title": "Nedostal som e-mail s lístkami / permanentkou na kúpalisko, čo mám robiť?",
+        "content": "<p>Kontaktujte nás prosím na <a rel='noreferrer' target='_blank' href='mailto:kupaliska@bratislava.sk' className='link text-primary'>kupaliska@bratislava.sk</a> a budeme sa vašej požiadavke venovať najbližší pracovný deň.</p>"
+      },
+      "14": {
+        "title": "Nestihol som lístky / permanentky využiť počas letnej sezóny, viem ich prosím vymeniť za vstupy na iné športoviská alebo preniesť do ďalšej sezóny?",
+        "content": "Bohužiaľ, lístky sú neprenosné a môžete ich míňať iba počas trvania aktuálnej letnej sezóny. Lístky poskytujeme bez viazanosti na konkrétny deň alebo prevádzku, čo by malo uľahčiť ich čerpanie."
+      },
+      "15": {
+        "title": "Pandemické opatrenia mi neumožnili vyčerpať všetky lístky / permanentky počas letnej sezóny, viem ich prosím vymeniť za vstupy na iné športoviská alebo preniesť do ďalšej sezóny?",
+        "content": "Veríme, že počas leta pandemické opatrenia letné kúpaliská nijakým spôsobom neovplyvnia. Ak by k tomu náhodou prišlo, určite budeme informovať verejnosť o forme náhrady."
+      }
+    }
   }
 }

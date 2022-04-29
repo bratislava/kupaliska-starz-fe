@@ -27,49 +27,27 @@ import {
 } from "store/global";
 import { setCart } from "store/order";
 import { Ticket, SwimmingPool } from "models";
-import { faqs } from "fakeData";
 
 import "./LandingPage.css";
 import { assignItemsToColumns } from "helpers/general";
+import { Trans, useTranslation } from "react-i18next";
 
 const items = [
   {
     imgSrc: "/ticket-buy-diagram-1.png",
-    text: (
-      <p>
-        Vyberiete si z ponuky dostupných lístkov a permanentiek na ľubovoľné
-        kúpalisko v ktorýkoľvek deň.
-      </p>
-    ),
   },
   {
     imgSrc: "/ticket-buy-diagram-2.png",
-    text: (
-      <p>
-        Lístky a permanentky si kúpite vyplnením osobných údajov. Po zaplatení{" "}
-        <strong>obdržíte email s QR kódom.</strong>
-      </p>
-    ),
   },
   {
     imgSrc: "/ticket-buy-diagram-3.png",
-    text: (
-      <p>
-        Pri vstupe na kúpalisko sa rýchlo a jednoducho preukážete QR kódom a
-        nemusíte čakať v rade.
-      </p>
-    ),
   },
   {
     imgSrc: "/ticket-buy-diagram-4.png",
-    text: (
-      <p>
-        Lístky a permanentky platia <strong>počas celej letnej sezóny</strong>{" "}
-        na všetkých mestských kúpaliskách.
-      </p>
-    ),
   },
 ];
+
+const faqsn = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
 const LandingPage = () => {
   const [allSwimmingPools, setAllSwimmingPools] = useState<boolean>(false);
@@ -79,6 +57,7 @@ const LandingPage = () => {
   const tickets = useAppSelector(selectAvailableTickets);
   const swimmingPools = useAppSelector(selectPools);
   const selectedSwimmingPool = useAppSelector(selectSelectedPool);
+  const { t } = useTranslation();
 
   const onTicketBuy = (ticket: Ticket, amount: number) => {
     dispatch(
@@ -108,17 +87,17 @@ const LandingPage = () => {
   };
 
   const getNumberOfSwimmingPoolCols = () => {
-    if(width) {
-      if(width >= 1024) {
-        return 3
-      } 
-      if(width >= 768) {
-        return 2
+    if (width) {
+      if (width >= 1024) {
+        return 3;
       }
-    } 
+      if (width >= 768) {
+        return 2;
+      }
+    }
 
     return 1;
-  }
+  };
 
   return (
     <main>
@@ -143,14 +122,14 @@ const LandingPage = () => {
       <HeroBanner />
       <section id="ticket-buy-diagram" className="my-4 lg:my-16">
         <Typography type="title" fontWeight="bold" className="text-center mb-8">
-          Ako funguje nákup lístkov?
+          {t("landing.how-does-it-work")}
         </Typography>
         <MobileCarousel className="md:hidden">
           {items.map((item, index) => (
             <TicketBuyDiagramCard
               imgSrc={item.imgSrc}
               key={item.imgSrc}
-              text={item.text}
+              text={t(`landing.steps.${index}`)}
               index={index + 1}
             />
           ))}
@@ -162,7 +141,12 @@ const LandingPage = () => {
                 <div className="w-8/10 lg:w-full mx-auto">
                   <TicketBuyDiagramCard
                     imgSrc={item.imgSrc}
-                    text={item.text}
+                    text={
+                      <Trans
+                        i18nKey={`landing.steps.${index}`}
+                        components={{ p: <p />, strong: <strong /> }}
+                      />
+                    }
                     index={index + 1}
                   />
                 </div>
@@ -185,22 +169,17 @@ const LandingPage = () => {
           ))}
         </div>
         <div className="flex flex-col text-center my-8 text-sm leading-loose">
-          <span className="leading-loose">
-            Cena je jednotná pre všetky vekové skupiny.
-          </span>
-          <span>
-            Študentské a seniorské zľavy je možné uplatniť iba pri osobnom
-            nákupe priamo na kúpalisku.
-          </span>
-          <span>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</span>
+          <span>{t("landing.additional-info-0")}</span>
+          <span>{t("landing.additional-info-1")}</span>
+          <span>{t("landing.additional-info-2")}</span>
         </div>
       </section>
 
       <section id="swimming-pools" className="section">
         <SectionHeader
           className="text-center"
-          title="Kúpaliská"
-          subtitle="Lístok a permanentku je možné uplatniť v areáloch:"
+          title={t("landing.swimming-pools-title")}
+          subtitle={t("landing.swimming-pools-subtitle")}
         />
         <div className="md:grid md:gap-x-16 md:grid-cols-2 lg:gap-x-32 lg:grid-cols-3 auto-rows-fr">
           {(allSwimmingPools
@@ -227,8 +206,8 @@ const LandingPage = () => {
           className="w-full md:w-1/2 lg:w-1/4 mx-auto"
         >
           {allSwimmingPools
-            ? "Zobraziť menej kúpalísk"
-            : "Zobraziť ďalšie kúpaliská"}
+            ? t("landing.show-more-swimming-pools")
+            : t("landing.show-less-swimming-pools")}
           <Icon
             className="ml-4"
             name={`${allSwimmingPools ? "arrow-up" : "arrow-down"}`}
@@ -236,7 +215,7 @@ const LandingPage = () => {
         </Button>
       </section>
       <section id="contact-us" className="section">
-        <SectionHeader title="Máte otázky? Kontaktujte nás!" />
+        <SectionHeader title={t("landing.questions")} />
         <div className="grid gap-8 grid-cols-4">
           <div className="col-span-4 md:col-span-2">
             <ContactForm />
@@ -251,14 +230,14 @@ const LandingPage = () => {
         </div>
       </section>
       <section id="faqs" className="section">
-        <SectionHeader title="Často kladené otázky" className="text-center" />
+        <SectionHeader title={t("landing.faq")} className="text-center" />
         <div className="grid grid-cols-1 gap-y-4 w-full md:w-8/10 xl:w-6/10 mx-auto">
-          {faqs.map((faq, index) => (
-            <div className="col-span-1" key={faq.title}>
+          {Object.keys(faqsn).map((faq, index) => (
+            <div className="col-span-1" key={index}>
               <AccordionPanel
                 className="text-fontBlack text-opacity-50"
-                key={faq.title}
-                title={faq.title}
+                key={index}
+                title={t(`landing.faq-mutiple.${faq}.title`)}
                 open={index === openFaqIndex}
                 onOpen={() => {
                   openFaqIndex === index
@@ -266,10 +245,23 @@ const LandingPage = () => {
                     : setOpenFaqIndex(index);
                 }}
               >
-                {typeof faq.content === "string" ? (
-                  <p>{faq.content}</p>
+                {typeof t(`landing.faq-mutiple.${faq}.content`) === "string" ? (
+                  <p>
+                    <Trans
+                      i18nKey={`landing.faq-mutiple.${faq}.content`}
+                      components={{
+                        section: <section />,
+                        div: <div />,
+                        a: <a />,
+                        strong: <strong />,
+                        li: <li />,
+                        ol: <ol />,
+                        h4: <h4 />,
+                      }}
+                    />
+                  </p>
                 ) : (
-                  faq.content
+                  t(`landing.faq-mutiple.${faq}.content`)
                 )}
               </AccordionPanel>
             </div>

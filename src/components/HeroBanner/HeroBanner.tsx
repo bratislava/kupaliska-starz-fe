@@ -5,20 +5,19 @@ import { Typography } from "components";
 
 import "./HeroBanner.css";
 import { HashLink } from "react-router-hash-link";
+import { useTranslation } from "react-i18next";
 
 const HeroBanner = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="relative mb-8">
       <div className="relative hero-image w-full">
         <div className="wave w-full h-full absolute bottom-0"></div>
       </div>
       <div className="container mx-auto content relative z-10">
-        <Typography
-          type="title"
-          fontWeight="bold"
-          className="xl:mb-4 max-w-xs"
-        >
-          Kúp si lístok na ktorékoľvek kúpalisko v Bratislave online
+        <Typography type="title" fontWeight="bold" className="xl:mb-4 max-w-xs">
+          {t("landing.title")}
         </Typography>
 
         <div
@@ -43,16 +42,16 @@ const HeroBanner = () => {
         >
           <HashLink to="/#ticket-buy" className="flex-1 w-full">
             <Button className="w-full">
-              <span className="pr-4">Kúpiť lístok</span>
+              <span className="pr-4">{t("landing.buy-ticket")}</span>
               <Icon name="shopping-cart" />
             </Button>
           </HashLink>
-          <HashLink to="/#swimming-pools" className="hidden sm:block flex-1 w-full">
-            <Button
-              className="w-full flex-1"
-              type="outlined"
-            >
-              <span className="pr-2">Letné kúpaliská STaRZ</span>
+          <HashLink
+            to="/#swimming-pools"
+            className="hidden sm:block flex-1 w-full"
+          >
+            <Button className="w-full flex-1" type="outlined">
+              <span className="pr-2">{t("landing.swimming-pools-starz")}</span>
               <Icon
                 name="swimming-man"
                 color="primary"

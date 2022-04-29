@@ -6,6 +6,7 @@ import { Button, Icon, Typography, Spinner } from "components";
 
 import "./SwimmingPoolInfoCard.css";
 import { useWindowSize } from "hooks";
+import { useTranslation } from "react-i18next";
 
 interface SwimmingPoolInfoCardProps {
   swimmingPool: SwimmingPool;
@@ -31,6 +32,7 @@ const SwimmingPoolInfoCard = ({
       setExpanded(!_expanded);
     }
   };
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (width && width >= 768) {
@@ -56,7 +58,7 @@ const SwimmingPoolInfoCard = ({
           alt={
             swimmingPool.image
               ? swimmingPool.image.altText
-              : "Nahradny obrazok kupaliska"
+              : t("landing.alt-img-text")
           }
         />
         <div
@@ -178,7 +180,9 @@ const SwimmingPoolInfoCard = ({
               modal ? "relative -bottom-4" : ""
             } flex-1 mb-4 xs:mb-0 xs:mr-2`}
           >
-            {_expanded || modal ? "Menej info" : "Viac info"}
+            {_expanded || modal
+              ? t("landing.less-info")
+              : t("landing.more-info")}
             <Icon name="info" className="xs:block ml-2" />
           </Button>
           <Button
@@ -195,7 +199,7 @@ const SwimmingPoolInfoCard = ({
               rel="noreferrer nopener"
               className="flex items-center"
             >
-              Navigovať
+              {t("landing.navigate")}
               <div className="ml-2">
                 <Icon name="navigate" color="primary" className="xs:block" />
               </div>

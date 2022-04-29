@@ -26,6 +26,7 @@ import "./OrderReviewPage.css";
 import { CustomerInfoFormValues } from "models";
 import { orderFormValuesToOrderRequest } from "helpers/adapters";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { Trans, useTranslation } from "react-i18next";
 
 // const paymentMethods = [
 //   {
@@ -55,6 +56,7 @@ const OrderReviewPage = () => {
   const discountCode = useAppSelector(selectOrderDiscountCode);
   const totalPrice = useAppSelector(selectOrderPrice);
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const { t } = useTranslation();
 
   useEffect(() => {
     (!formValues || !cartItem) && dispatch(push("/"));
@@ -124,25 +126,7 @@ const OrderReviewPage = () => {
             </React.Fragment>
           ))}
         <div className="text-sm text-gray-400 col-span-full mb-8 mt-1">
-          Táto stránka je chránená reCAPTCHA a platia pravidlá{" "}
-          <a
-            className="link text-primary"
-            target="_blank"
-            rel="noreferrer"
-            href="https://policies.google.com/privacy"
-          >
-            ochrany súkromia
-          </a>{" "}
-          a{" "}
-          <a
-            className="link text-primary"
-            target="_blank"
-            rel="noreferrer"
-            href="https://policies.google.com/terms"
-          >
-            použitia služby
-          </a>{" "}
-          od Google.
+          <Trans i18nKey="landing.recaptcha" components={{ a: <a /> }} />
         </div>
         <div className="flex flex-col w-full lg:w-1/2">
           <Button
@@ -150,10 +134,12 @@ const OrderReviewPage = () => {
             className="w-full mb-4"
             type="outlined"
           >
-            Upraviť údaje <Icon className="ml-4" name="pencil" />
+            {t("order-review.edit-data")}
+            <Icon className="ml-4" name="pencil" />
           </Button>
           <Button className="w-full mb-4" onClick={onPay}>
-            Zaplatiť {totalPrice}
+            {t("order-review.pay")}
+            {totalPrice}
             € <Icon className="ml-4" name="credit-card" />
           </Button>
           {/* <div className="text-sm font-semibold text-center mb-4 text-opacity-80">
@@ -227,12 +213,10 @@ const OrderReviewPage = () => {
                 </div>
               )}
               <div className="text-fontBlack hidden md:block text-opacity-50 font-medium my-4 mx-3 xs:mx-6">
-                <p>Cena je jednotná pre všetky vekové skupiny.</p>
-                <p>
-                  Študentské a seniorské zľavy je možné uplatniť iba pri osobnom
-                  nákupe priamo na kúpalisku.
-                </p>
-                <p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>
+                <Trans
+                  i18nKey={"order-review.review-muted"}
+                  components={{ p: <p /> }}
+                />
               </div>
             </div>
           )}

@@ -24,7 +24,7 @@ const Typography = ({
   } else if (type === "subtitle") {
     return <h3 className={`${classNames} text-2xl`}>{children}</h3>;
   } else {
-    return <h3 className={`${classNames}`}>{children}</h3>;
+    return <h3 className={`${classNames} text-xl`}>{children}</h3>;
   }
 };
 

@@ -1,0 +1,16 @@
+.index-indicator {
+  left: -5vw;
+  width: 4vw;
+  height: 4vw;
+  @apply absolute rounded-full text-primary flex items-center justify-center text-2xl font-bold bg-secondary;
+  top: -1vw;
+  display: none;
+  @screen xl {
+    @apply text-4xl;
+    display: flex;
+  }
+
+  @screen 2xl {
+    @apply text-4xl;
+  }
+}
