@@ -90,6 +90,15 @@
     "ticket-detail": "Prehľad návštev kúpalísk",
     "ticket-button": "Detail lístku"
   },
+  "person-add": {
+    "next-person": "Ďalšia osoba č. {{order}}",
+    "forename": "Meno",
+    "surname": "Priezvisko",
+    "email": "E-mail",
+    "age": "Vek",
+    "zip": "PSČ (voliteľné)",
+    "photo-button": "Nahrať foto"
+  },
   "buy-page": {
     "continue": "Pokračovať ",
     "personal-info": "Osobné údaje",
