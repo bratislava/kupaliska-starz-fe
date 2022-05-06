@@ -14,11 +14,11 @@ import { default as Icon } from "./Icon/Icon";
 import { default as Modal } from "./Modal/Modal";
 import { default as SectionHeader } from "./SectionHeader/SectionHeader";
 import { default as ContactForm } from "./ContactForm/ContactForm";
-import { default as AccordionPanel } from "./AccordionPanel/AccordionPanel";
 import { default as Spinner } from "./Spinner/Spinner";
 import { default as Tooltip } from "./Tooltip/Tooltip";
 import { default as Toast } from "./Toast/Toast";
 import { default as ScrollToTop } from "./ScrollToTop/ScrollToTop";
+import { default as AccordionItem } from "./AccordionItem/AccordionItem";
 export * from "./CustomerForm";
 export * from "./CustomerInfoReviewPanel";
 export {
@@ -38,7 +38,7 @@ export {
   SectionHeader,
   ContactForm,
   CheckboxField,
-  AccordionPanel,
+  AccordionItem,
   Footer,
   Spinner,
   Tooltip,

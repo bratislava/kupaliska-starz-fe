@@ -14,8 +14,8 @@ import {
   Modal,
   SectionHeader,
   ContactForm,
-  AccordionPanel,
   TicketCardDisplayOnly,
+  AccordionItem
 } from "components";
 import { useAppDispatch, useAppSelector, useWindowSize } from "hooks";
 import {
@@ -235,36 +235,36 @@ const LandingPage = () => {
         <div className="grid grid-cols-1 gap-y-4 w-full md:w-8/10 xl:w-6/10 mx-auto">
           {Object.keys(faqsn).map((faq, index) => (
             <div className="col-span-1" key={index}>
-              <AccordionPanel
-                className="text-fontBlack text-opacity-50"
-                key={index}
-                title={t(`landing.faq-mutiple.${faq}.title`)}
-                open={index === openFaqIndex}
-                onOpen={() => {
-                  openFaqIndex === index
-                    ? setOpenFaqIndex(undefined)
-                    : setOpenFaqIndex(index);
-                }}
+              <AccordionItem
+                  key={index}
+                  title={t(`landing.faq-mutiple.${faq}.title`)}
+                  paddingVariant="narrow"
+                  isOpen={index === openFaqIndex}
+                  onOpen={() => {
+                    openFaqIndex === index
+                        ? setOpenFaqIndex(undefined)
+                        : setOpenFaqIndex(index);
+                  }}
               >
                 {typeof t(`landing.faq-mutiple.${faq}.content`) === "string" ? (
-                  <p>
-                    <Trans
-                      i18nKey={`landing.faq-mutiple.${faq}.content`}
-                      components={{
-                        section: <section />,
-                        div: <div />,
-                        a: <a />,
-                        strong: <strong />,
-                        li: <li />,
-                        ol: <ol />,
-                        h4: <h4 />,
-                      }}
-                    />
-                  </p>
+                    <p>
+                      <Trans
+                          i18nKey={`landing.faq-mutiple.${faq}.content`}
+                          components={{
+                            section: <section />,
+                            div: <div />,
+                            a: <a />,
+                            strong: <strong />,
+                            li: <li />,
+                            ol: <ol />,
+                            h4: <h4 />,
+                          }}
+                      />
+                    </p>
                 ) : (
-                  t(`landing.faq-mutiple.${faq}.content`)
+                    t(`landing.faq-mutiple.${faq}.content`)
                 )}
-              </AccordionPanel>
+              </AccordionItem>
             </div>
           ))}
         </div>
