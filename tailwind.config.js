@@ -58,6 +58,7 @@ module.exports = {
         success: "#2ecc71",
         blueish: "#D0ECF8",
         redish: "#E46054",
+        purpleish: "#4340A6",
       },
       borderWidth: {
         3: "3px",

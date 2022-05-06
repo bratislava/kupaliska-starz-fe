@@ -5,7 +5,7 @@ import { Typography } from "components";
 
 import "./HeroBanner.css";
 import { HashLink } from "react-router-hash-link";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 const HeroBanner = () => {
   const { t } = useTranslation();
@@ -16,8 +16,16 @@ const HeroBanner = () => {
         <div className="wave w-full h-full absolute bottom-0"></div>
       </div>
       <div className="container mx-auto content relative z-10">
-        <Typography type="title" fontWeight="bold" className="xl:mb-4 max-w-xs">
-          {t("landing.title")}
+        <Typography type="title" fontWeight="bold" className="mb-4 max-w-xs">
+          <Trans
+              i18nKey={`landing.title`}
+              components={{
+                purple: <span className="text-purpleish"/>,
+              }}
+          />
+        </Typography>
+        <Typography type="subtitle" className="max-w-xs">
+          {t('landing.subtitle')}
         </Typography>
 
         <div
@@ -50,7 +58,7 @@ const HeroBanner = () => {
             to="/#swimming-pools"
             className="hidden sm:block flex-1 w-full"
           >
-            <Button className="w-full flex-1" type="outlined">
+            <Button className="w-full flex-1" color="outlined">
               <span className="pr-2">{t("landing.swimming-pools-starz")}</span>
               <Icon
                 name="swimming-man"
