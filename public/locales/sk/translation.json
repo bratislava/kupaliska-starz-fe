@@ -254,6 +254,20 @@
         "title": "Pandemické opatrenia mi neumožnili vyčerpať všetky lístky / permanentky počas letnej sezóny, viem ich prosím vymeniť za vstupy na iné športoviská alebo preniesť do ďalšej sezóny?",
         "content": "Veríme, že počas leta pandemické opatrenia letné kúpaliská nijakým spôsobom neovplyvnia. Ak by k tomu náhodou prišlo, určite budeme informovať verejnosť o forme náhrady."
       }
+    },
+    "why-create-account": {
+      "0": {
+        "title": "Lístky pohodlne vo vašom mobile",
+        "content": "vďaka vytvorenému účtu máte vaše zakúpené lístky a permanentky vždy poruke"
+      },
+      "1": {
+        "title": "História vstupov a stav pemanentky",
+        "content": "pozrite si v profile prehľad svojich návštev kúpalísk alebo počet zostávajúcich vstupov na svojej permanentke"
+      },
+      "2": {
+        "title": "Jednoduchý nákup aj pre vašich najbližších",
+        "content": "pridajte si do profilu aj vašich blízkych a nakupujte lístky a permanentky jednoducho aj pre nich"
+      }
     }
   }
 }

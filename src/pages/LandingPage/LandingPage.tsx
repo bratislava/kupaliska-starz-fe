@@ -15,7 +15,8 @@ import {
   SectionHeader,
   ContactForm,
   TicketCardDisplayOnly,
-  AccordionItem
+  AccordionItem,
+  WhyCreateAccountSection
 } from "components";
 import { useAppDispatch, useAppSelector, useWindowSize } from "hooks";
 import {
@@ -58,6 +59,8 @@ const LandingPage = () => {
   const swimmingPools = useAppSelector(selectPools);
   const selectedSwimmingPool = useAppSelector(selectSelectedPool);
   const { t } = useTranslation();
+  // TODO: replace with actual login state
+  const isLoggedIn = false;
 
   const onTicketBuy = (ticket: Ticket) => {
     dispatch(
@@ -173,6 +176,12 @@ const LandingPage = () => {
           <span>{t("landing.additional-info-1")}</span>
           <span>{t("landing.additional-info-2")}</span>
         </div>
+      </section>
+
+      {!isLoggedIn && <WhyCreateAccountSection></WhyCreateAccountSection>}
+
+      <section id="divider" className="section">
+        <img src="swimmers.svg" className="mx-auto"/>
       </section>
 
       <section id="swimming-pools" className="section">
