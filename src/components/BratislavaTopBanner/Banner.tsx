@@ -16,16 +16,16 @@ const SocialMediaButton = ({
 );
 
 const Banner = () => (
-  <aside className="bg-secondary text-white">
+  <aside className="flex bg-gray-100 items-center" style={{ height: '50px' }}>
     <div className="container mx-auto flex justify-between">
       <div className="flex items-center">
         <img
-          className="py-2 pr-2"
+          className="pr-3"
           alt="logo of Bratislava"
-          src={"Logo_biele.png"}
+          src={"logo-bratislava.svg"}
         />
-        <span className="hidden md:block">
-          Hlavné mesto Slovenskej republiky Bratislava
+        <span className="hidden md:block text-sm">
+          Hlavné mesto SR <strong>Bratislava</strong>
         </span>
       </div>
       <div className="items-center flex">
