@@ -132,7 +132,12 @@ const LandingPage = () => {
             <TicketBuyDiagramCard
               imgSrc={item.imgSrc}
               key={item.imgSrc}
-              text={t(`landing.steps.${index}`)}
+              text={
+                <Trans
+                    i18nKey={`landing.steps.${index}`}
+                    components={{ p: <p />, strong: <strong /> }}
+                />
+              }
               index={index + 1}
             />
           ))}
