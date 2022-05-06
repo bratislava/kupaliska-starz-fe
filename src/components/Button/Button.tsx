@@ -3,8 +3,7 @@ import React, { PropsWithChildren } from "react";
 import "./Button.css";
 
 interface ButtonProps {
-  color?: "primary" | "secondary";
-  type?: "outlined" | "filled" | "transparent";
+  color?: "primary" | "secondary" | "outlined" | "blueish";
   htmlType?: "button" | "submit" | "reset";
   thin?: boolean;
   onClick?: () => void;
@@ -15,7 +14,6 @@ interface ButtonProps {
 
 const Button = ({
   color = "primary",
-  type = "filled",
   children,
   onClick,
   thin = false,
@@ -25,23 +23,13 @@ const Button = ({
   htmlType = "button",
 }: PropsWithChildren<ButtonProps>) => {
   // tailwind purges values that are only interpolated in so i have to do this bad way
-  const textColor = color === "primary" ? "text-primary" : "text-secondary";
-  const bgColor = color === "primary" ? "bg-primary" : "bg-secondary";
-  const borderColor =
-    color === "primary" ? "border-primary" : "border-secondary";
+  const textColor = { primary: 'text-white', secondary: 'text-secondary"', outlined: "text-primary", blueish: "text-primary" }[color]
+  const bgColor = { primary: 'bg-primary', secondary: 'bg-secondary"', outlined: "bg-transparent", blueish: "bg-blueish" }[color]
+  const borderColor = { primary: 'border-primary', secondary: 'border-secondary"', outlined: "border-primary", blueish: "border-blueish" }[color]
+  const thinClass = thin ? "p-1" : "p-2";
+  const roundedClass = rounded ? "rounded-lg" : "rounded";
+  const classNames = `flex justify-center items-center focus:outline-none border-solid border-2 ${textColor} ${bgColor} ${borderColor} ${thinClass} ${roundedClass}`
 
-  let classNames = `${
-    thin ? "p-1" : "p-2"
-  } flex justify-center items-center focus:outline-none ${
-    rounded ? "rounded-lg" : "rounded"
-  } `;
-  if (type === "outlined") {
-    classNames += `bg-transparent ${textColor} border-solid ${borderColor} border-2 font-bold`;
-  } else if (type === "transparent") {
-    classNames += `bg-transparent ${textColor} border-solid border-transparent border-2 font-bold`;
-  } else {
-    classNames += `${bgColor} text-white border-solid ${borderColor} border-2 font-bold`;
-  }
   return (
     <button
       type={htmlType}

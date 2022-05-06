@@ -204,6 +204,7 @@ const LandingPage = () => {
         <Button
           onClick={() => setAllSwimmingPools(!allSwimmingPools)}
           className="w-full md:w-1/2 lg:w-1/4 mx-auto"
+          color={"blueish"}
         >
           {allSwimmingPools
             ? t("landing.show-more-swimming-pools")

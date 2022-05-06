@@ -132,7 +132,7 @@ const OrderReviewPage = () => {
           <Button
             onClick={() => dispatch(push("/order"))}
             className="w-full mb-4"
-            type="outlined"
+            color="outlined"
           >
             {t("order-review.edit-data")}
             <Icon className="ml-4" name="pencil" />

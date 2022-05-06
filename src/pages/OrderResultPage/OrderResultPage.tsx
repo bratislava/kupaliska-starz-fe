@@ -194,7 +194,7 @@ const OrderResultPage = () => {
             <HashLink to="/#contact-us">
               <Button
                 className={`mb-4 w-full md:w-1/2 mx-auto lg:ml-0`}
-                type="outlined"
+                color="outlined"
               >
                 {t("order-result.contact-us")}
                 <Icon className="ml-4" name="mail" />

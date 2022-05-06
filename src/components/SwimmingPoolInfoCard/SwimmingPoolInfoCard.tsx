@@ -185,26 +185,26 @@ const SwimmingPoolInfoCard = ({
               : t("landing.more-info")}
             <Icon name="info" className="xs:block ml-2" />
           </Button>
-          <Button
-            type="outlined"
-            disabled={!swimmingPool.locationUrl}
-            thin
-            className={`${
-              modal ? "relative -bottom-4" : ""
-            } flex-1 bg-white xs:ml-2`}
+          {swimmingPool.locationUrl && <Button
+              color="outlined"
+              disabled={!swimmingPool.locationUrl}
+              thin
+              className={`${
+                  modal ? "relative -bottom-4" : ""
+              } flex-1 bg-white xs:ml-2`}
           >
             <a
-              href={swimmingPool.locationUrl}
-              target="_blank"
-              rel="noreferrer nopener"
-              className="flex items-center"
+                href={swimmingPool.locationUrl}
+                target="_blank"
+                rel="noreferrer nopener"
+                className="flex items-center"
             >
               {t("landing.navigate")}
               <div className="ml-2">
                 <Icon name="navigate" color="primary" className="xs:block" />
               </div>
             </a>
-          </Button>
+          </Button>}
         </div>
       </div>
     </div>
