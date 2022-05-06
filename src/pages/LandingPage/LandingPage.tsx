@@ -13,7 +13,7 @@ import {
   ContactForm,
   TicketCardHomePage,
   AccordionItem,
-  WhyCreateAccountSection
+  WhyCreateAccountSection,
 } from "components";
 import { useAppDispatch, useAppSelector, useWindowSize } from "hooks";
 import {
@@ -57,7 +57,6 @@ const LandingPage = () => {
   const selectedSwimmingPool = useAppSelector(selectSelectedPool);
   const { t } = useTranslation();
   const isAuthenticated = useIsAuthenticated();
-
 
   useEffect(() => {
     if (width && width <= 768 && selectedSwimmingPool) {
@@ -120,8 +119,8 @@ const LandingPage = () => {
               key={item.imgSrc}
               text={
                 <Trans
-                    i18nKey={`landing.steps.${index}`}
-                    components={{ p: <p />, strong: <strong /> }}
+                  i18nKey={`landing.steps.${index}`}
+                  components={{ p: <p />, strong: <strong /> }}
                 />
               }
               index={index + 1}
@@ -235,33 +234,33 @@ const LandingPage = () => {
           {Object.keys(faqsn).map((faq, index) => (
             <div className="col-span-1" key={index}>
               <AccordionItem
-                  key={index}
-                  title={t(`landing.faq-mutiple.${faq}.title`)}
-                  paddingVariant="narrow"
-                  isOpen={index === openFaqIndex}
-                  onOpen={() => {
-                    openFaqIndex === index
-                        ? setOpenFaqIndex(undefined)
-                        : setOpenFaqIndex(index);
-                  }}
+                key={index}
+                title={t(`landing.faq-mutiple.${faq}.title`)}
+                paddingVariant="narrow"
+                isOpen={index === openFaqIndex}
+                onOpen={() => {
+                  openFaqIndex === index
+                    ? setOpenFaqIndex(undefined)
+                    : setOpenFaqIndex(index);
+                }}
               >
                 {typeof t(`landing.faq-mutiple.${faq}.content`) === "string" ? (
-                    <span>
-                      <Trans
-                          i18nKey={`landing.faq-mutiple.${faq}.content`}
-                          components={{
-                            section: <section />,
-                            div: <div />,
-                            a: <a />,
-                            strong: <strong />,
-                            li: <li />,
-                            ol: <ol />,
-                            h4: <h4 />,
-                          }}
-                      />
-                    </span>
+                  <span>
+                    <Trans
+                      i18nKey={`landing.faq-mutiple.${faq}.content`}
+                      components={{
+                        section: <section />,
+                        div: <div />,
+                        a: <a />,
+                        strong: <strong />,
+                        li: <li />,
+                        ol: <ol />,
+                        h4: <h4 />,
+                      }}
+                    />
+                  </span>
                 ) : (
-                    t(`landing.faq-mutiple.${faq}.content`)
+                  t(`landing.faq-mutiple.${faq}.content`)
                 )}
               </AccordionItem>
             </div>
