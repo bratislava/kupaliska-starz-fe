@@ -236,7 +236,7 @@ const BuyPage = () => {
       <section className="w-full">
         <SectionHeader title={t("buy-page.personal-info")} />
         <div className="mb-4 relative">
-          <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
+          <div className="index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-4xl font-bold bg-secondary">
             1
           </div>
           <Typography type="subtitle" fontWeight="bold">
@@ -260,7 +260,7 @@ const BuyPage = () => {
           <>
             <div className="divider" />
             <div className="flex items-center relative">
-              <div className=" index-indicator">2</div>
+              <div className="index-indicator">2</div>
               <CheckboxField
                 register={register}
                 onChange={onToggleAddons}
@@ -406,7 +406,7 @@ const BuyPage = () => {
       <section className="md:order-4">
         <div className="divider" />
         <div className="relative">
-          <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
+          <div className="index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-4xl font-bold bg-secondary">
             {cartItem && cartItem.ticket.childrenAllowed ? "3" : "2"}
           </div>
           <CheckboxField
@@ -444,7 +444,7 @@ const BuyPage = () => {
 
         <div className="divider" />
         <div className="relative">
-          <div className=" index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-5xl font-bold bg-secondary">
+          <div className="index-indicator absolute rounded-full text-primary flex items-center justify-center text-3xl xs:text-4xl 2xl:text-4xl font-bold bg-secondary">
             {cartItem && cartItem.ticket.childrenAllowed ? "4" : "3"}
           </div>
           <CheckboxField
