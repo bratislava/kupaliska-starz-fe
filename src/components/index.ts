@@ -66,5 +66,5 @@ export {
   SignInSignOutLink,
   ProfileLine,
   ProfileBack,
-  AssociatedSwimmerEditAddForm
+  AssociatedSwimmerEditAddForm,
 };
