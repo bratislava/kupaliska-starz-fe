@@ -59,11 +59,11 @@ const LandingPage = () => {
   const selectedSwimmingPool = useAppSelector(selectSelectedPool);
   const { t } = useTranslation();
 
-  const onTicketBuy = (ticket: Ticket, amount: number) => {
+  const onTicketBuy = (ticket: Ticket) => {
     dispatch(
       setCart({
         ticket,
-        amount,
+        amount: 1,
         childrenNumber: 0,
       })
     );
@@ -164,7 +164,7 @@ const LandingPage = () => {
               className="col-span-8 md:col-span-4"
               key={ticket.id}
               ticket={ticket}
-              onBuyClick={onTicketBuy}
+              onClick={() => onTicketBuy(ticket)}
             />
           ))}
         </div>
