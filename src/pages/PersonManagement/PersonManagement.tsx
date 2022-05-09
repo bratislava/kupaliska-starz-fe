@@ -2,7 +2,7 @@ import React from "react";
 
 import { Icon, Tooltip } from "components";
 
-import "./PersonManagment.css";
+import "./PersonManagement.css";
 import { useTranslation } from "react-i18next";
 
 const users = [{ name: "Janka Hrašková", age: 30 }];
@@ -13,7 +13,7 @@ const profile = {
   email: "janko.hrasko@bratislava.sk",
 };
 
-const PersonManagment = () => {
+const PersonManagement = () => {
   const { t } = useTranslation();
 
   return (
@@ -113,4 +113,4 @@ const PersonManagment = () => {
   );
 };
 
-export default PersonManagment;
+export default PersonManagement;

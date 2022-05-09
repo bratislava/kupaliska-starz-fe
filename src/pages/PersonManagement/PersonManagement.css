@@ -5,12 +5,11 @@
   @apply absolute rounded-full text-primary flex items-center justify-center text-2xl font-bold bg-secondary;
   top: -1vw;
   display: none;
+
+  @apply xl:text-4xl;
   @screen xl {
-    @apply text-4xl;
     display: flex;
   }
 
-  @screen 2xl {
-    @apply text-4xl;
-  }
+  @apply 2xl:text-4xl;
 }

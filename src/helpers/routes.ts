@@ -38,10 +38,10 @@ const routes: Route[] = [
     component: React.lazy(() => import("pages/GDPRPage/GDPRPage")),
   },
   {
-    path: "/:lang?/person-managment",
+    path: "/:lang?/person-management",
     exact: true,
     component: React.lazy(
-      () => import("pages/PersonManagment/PersonManagment")
+      () => import("pages/PersonManagement/PersonManagement")
     ),
   },
   {
