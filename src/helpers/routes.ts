@@ -83,6 +83,13 @@ const routes: Route[] = [
     requireAuth: true,
   },
   {
+    path: "/:lang?/tickets-management",
+    exact: true,
+    component: React.lazy(
+      () => import("pages/TicketsManagementPage/TicketsManagementPage")
+    ),
+  },
+  {
     path: "/:lang?",
     exact: true,
     component: React.lazy(() => import("pages/LandingPage/LandingPage")),
