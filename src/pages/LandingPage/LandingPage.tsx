@@ -186,7 +186,7 @@ const LandingPage = () => {
       {!isLoggedIn && <WhyCreateAccountSection></WhyCreateAccountSection>}
 
       <section id="divider" className="section">
-        <img src="swimmers.svg" className="mx-auto"/>
+        <img src="/swimmers.svg" className="mx-auto" alt="" />
       </section>
 
       <section id="swimming-pools" className="section">
