@@ -35,7 +35,7 @@ const Button = ({
     <button
       type={htmlType}
       onClick={onClick}
-      className={`${classNames} ${className}`}
+      className={`kupaliska-button ${classNames} ${className}`}
       disabled={disabled}
     >
       {children}

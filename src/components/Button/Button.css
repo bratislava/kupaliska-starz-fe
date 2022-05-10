@@ -1,9 +1,9 @@
-button:disabled,
-button[disabled] {
+button.kupaliska-button:disabled,
+button.kupaliska-button[disabled] {
   opacity: 0.3;
   cursor: initial;
 }
 
-button:active {
+button.kupaliska-button:active {
   background-color: theme("colors.secondary");
 }
