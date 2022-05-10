@@ -1,7 +1,7 @@
 import { default as TicketCard } from "./TicketCard";
-import { default as TicketCardDisplayOnly } from "./TicketCardHomePage";
+import { default as TicketCardHomePage } from "./TicketCardHomePage";
 
 export {
     TicketCard,
-    TicketCardDisplayOnly
+    TicketCardHomePage
 }

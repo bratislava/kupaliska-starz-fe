@@ -6,7 +6,7 @@ import { default as Typography } from "./Typography/Typography";
 import { default as Button } from "./Button/Button";
 import { default as MobileCarousel } from "./MobileCarousel/MobileCarousel";
 import { default as TicketBuyDiagramCard } from "./TicketBuyDiagramCard/TicketBuyDiagramCard";
-import { TicketCardDisplayOnly, TicketCard } from "./TicketCard";
+import { TicketCardHomePage, TicketCard } from "./TicketCard";
 import { default as InputField } from "./InputField/InputField";
 import { default as CheckboxField } from "./CheckboxField/CheckboxField";
 import { default as SwimmingPoolInfoCard } from "./SwimmingPoolInfoCard/SwimmingPoolInfoCard";
@@ -33,7 +33,7 @@ export {
   MobileCarousel,
   TicketBuyDiagramCard,
   TicketCard,
-  TicketCardDisplayOnly,
+  TicketCardHomePage,
   InputField,
   SwimmingPoolInfoCard,
   Icon,

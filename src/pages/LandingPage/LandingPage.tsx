@@ -7,14 +7,13 @@ import {
   MobileCarousel,
   TicketBuyDiagramCard,
   Typography,
-  TicketCard,
   SwimmingPoolInfoCard,
   Button,
   Icon,
   Modal,
   SectionHeader,
   ContactForm,
-  TicketCardDisplayOnly,
+  TicketCardHomePage,
   AccordionItem,
   WhyCreateAccountSection
 } from "components";
@@ -168,7 +167,7 @@ const LandingPage = () => {
         <SectionHeader title="Dostupné lístky" className="text-center" />
         <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
           {tickets.map((ticket) => (
-            <TicketCardDisplayOnly
+            <TicketCardHomePage
               className="col-span-8 md:col-span-4"
               key={ticket.id}
               ticket={ticket}

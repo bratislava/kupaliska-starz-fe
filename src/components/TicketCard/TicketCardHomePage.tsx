@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Typography, Button, Icon } from "components";
 
@@ -12,7 +12,7 @@ interface TicketCardProps {
   discount?: number;
 }
 
-const TicketCardDisplayOnly = ({
+const TicketCardHomePage = ({
   ticket,
   className = "",
   onClick,
@@ -58,4 +58,4 @@ const TicketCardDisplayOnly = ({
   );
 };
 
-export default TicketCardDisplayOnly;
+export default TicketCardHomePage;
