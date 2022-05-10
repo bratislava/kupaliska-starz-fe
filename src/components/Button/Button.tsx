@@ -3,6 +3,7 @@ import React, { PropsWithChildren } from "react";
 import "./Button.css";
 
 interface ButtonProps {
+  // TODO: Rename to `type`.
   color?: "primary" | "secondary" | "outlined" | "blueish";
   htmlType?: "button" | "submit" | "reset";
   thin?: boolean;
