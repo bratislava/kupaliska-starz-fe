@@ -49,7 +49,7 @@ export const AccordionItem = ({
                     className
                 )}
             >
-                <a
+                <button
                     className={cx(
                         'flex items-center cursor-pointer justify-between w-full font-medium'
                     )}
@@ -66,7 +66,7 @@ export const AccordionItem = ({
                     <div className="ml-5 flex-grow-0">
                         <Icon name="chevron" className={cx('w-6 h-3', { 'transform rotate-180': active })}></Icon>
                     </div>
-                </a>
+                </button>
             </div>
             <div
                 className={cx('overflow-hidden text-fontBlack text-sm', {
