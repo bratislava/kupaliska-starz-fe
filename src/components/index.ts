@@ -20,6 +20,8 @@ import { default as Toast } from "./Toast/Toast";
 import { default as ScrollToTop } from "./ScrollToTop/ScrollToTop";
 import { default as AccordionItem } from "./AccordionItem/AccordionItem";
 import { default as WhyCreateAccountSection } from "./WhyCreateAccount/WhyCreateAccountSection";
+import { default as ProfileNavBar } from "./ProfileNavBar/ProfileNavBar";
+
 export * from "./CustomerForm";
 export * from "./CustomerInfoReviewPanel";
 export {
@@ -45,5 +47,6 @@ export {
   Tooltip,
   Toast,
   ScrollToTop,
-  WhyCreateAccountSection
+  WhyCreateAccountSection,
+  ProfileNavBar
 };

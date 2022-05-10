@@ -1,0 +1,30 @@
+.profile-navbar a .line {
+    max-width: 120px;
+}
+
+/* http://apps.eky.hk/css-triangle-generator/ */
+.profile-navbar a .triangle {
+    border-width: 7px 9px 0 9px;
+    border-top-color: theme('colors.primary');
+}
+
+.profile-navbar a .triangle, .profile-navbar a .line  {
+    @apply invisible;
+}
+
+.profile-navbar a.active .triangle, .profile-navbar a.active .line {
+    @apply visible;
+}
+
+.profile-navbar a.active span, .profile-navbar a:hover span, .profile-navbar span::before {
+    @apply font-semibold text-primary;
+}
+
+/*
+    Inline elements shifting when made bold on hover
+    https://stackoverflow.com/a/20249560
+*/
+.profile-navbar span::before {
+    @apply block h-0 overflow-hidden invisible;
+    content: attr(title);
+}
