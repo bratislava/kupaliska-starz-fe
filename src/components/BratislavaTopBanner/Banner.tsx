@@ -21,8 +21,8 @@ const Banner = () => (
       <div className="flex items-center">
         <img
           className="pr-3"
-          alt="logo of Bratislava"
-          src={"logo-bratislava.svg"}
+          alt=""
+          src="/logo-bratislava.svg"
         />
         <span className="hidden md:block text-sm">
           Hlavné mesto SR <strong>Bratislava</strong>
