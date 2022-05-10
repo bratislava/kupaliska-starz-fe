@@ -45,6 +45,13 @@ const routes: Route[] = [
     ),
   },
   {
+    path: "/:lang?/tickets-management",
+    exact: true,
+    component: React.lazy(
+      () => import("pages/TicketsManagementPage/TicketsManagementPage")
+    ),
+  },
+  {
     path: "/:lang?",
     exact: true,
     component: React.lazy(() => import("pages/LandingPage/LandingPage")),
