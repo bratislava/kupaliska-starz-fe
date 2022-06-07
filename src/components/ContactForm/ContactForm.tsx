@@ -71,7 +71,7 @@ const ContactForm = () => {
         name="name"
         register={register}
         leftExtra={<Icon name="user" />}
-        placeholder={t("landing.name")}
+        label={t("landing.name")}
         error={errors.name?.message}
       />
       <InputField
@@ -79,7 +79,7 @@ const ContactForm = () => {
         name="email"
         register={register}
         leftExtra={<Icon name="mail" />}
-        placeholder={t("landing.email")}
+        label={t("landing.email")}
         error={errors.email?.message}
       />
       <InputField
