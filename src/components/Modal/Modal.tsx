@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useMemo } from "react";
 import { useElementSize, useLockedBody } from "usehooks-ts";
 import FocusTrap from "focus-trap-react";
 import cx from "classnames";
+import { Portal } from "react-portal";
 
 import "./Modal.css";
 
@@ -37,38 +38,40 @@ const Modal = ({
   useLockedBody(open);
 
   return open ? (
-    <FocusTrap>
-      <div
-        id="modal-backdrop"
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-          if ((event.target as Element).id === "modal-backdrop") {
-            onClose();
-          }
-        }}
-        className="fixed inset-0 flex flex-col justify-center items-center bg-fontBlack bg-opacity-30 z-50"
-      >
-        <div className={cx("relative", { "px-4": closeButton })}>
-          <div
-            className={cx(
-              "relative bg-white rounded-lg shadow-lg overflow-y-auto",
-              modalClassName
+    <Portal>
+      <FocusTrap>
+        <div
+          id="modal-backdrop"
+          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+            if ((event.target as Element).id === "modal-backdrop") {
+              onClose();
+            }
+          }}
+          className="fixed inset-0 flex flex-col justify-center items-center bg-fontBlack bg-opacity-30 z-50"
+        >
+          <div className={cx("relative", { "px-4": closeButton })}>
+            <div
+              className={cx(
+                "relative bg-white rounded-lg shadow-lg overflow-y-auto",
+                modalClassName
+              )}
+            >
+              {children}
+            </div>
+            {closeButton && (
+              <img
+                src="/red-cross-circle.svg"
+                alt=""
+                className="absolute right-0 top-0 transform -translate-y-2/4 w-8 h-8 cursor-pointer"
+                onClick={() => onClose()}
+              />
             )}
-          >
-            {children}
           </div>
-          {closeButton && (
-            <img
-              src="/red-cross-circle.svg"
-              alt=""
-              className="absolute right-0 top-0 transform -translate-y-2/4 w-8 h-8 cursor-pointer"
-              onClick={() => onClose()}
-            />
-          )}
-        </div>
 
-        {button && <ModalButton button={button}></ModalButton>}
-      </div>
-    </FocusTrap>
+          {button && <ModalButton button={button}></ModalButton>}
+        </div>
+      </FocusTrap>
+    </Portal>
   ) : null;
 };
 
