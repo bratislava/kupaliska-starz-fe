@@ -1,0 +1,17 @@
+/* https://codepen.io/rjanjic/pen/obdEbv */
+.strikethrough-diagonal {
+  color: #9EB2DD; /* todo calculate */
+  position: relative;
+  font-weight: bold;
+}
+
+.strikethrough-diagonal:before {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 45%;
+  right: 0;
+  border-top: 2px solid;
+  border-color: theme("colors.primary");
+  transform: skewY(-10deg);
+}

@@ -12,7 +12,7 @@ const routes: Route[] = [
   {
     path: "/:lang?/order",
     exact: true,
-    component: React.lazy(() => import("pages/BuyPage/BuyPage")),
+    component: React.lazy(() => import("pages/OrderPage/OrderPage")),
   },
   {
     path: "/:lang?/order-review",
