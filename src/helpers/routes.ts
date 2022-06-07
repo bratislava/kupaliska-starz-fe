@@ -5,6 +5,7 @@ export interface Route {
   exact: boolean;
   name?: string;
   component: ComponentType;
+  requireAuth?: boolean;
 }
 
 const routes: Route[] = [
@@ -38,18 +39,48 @@ const routes: Route[] = [
     component: React.lazy(() => import("pages/GDPRPage/GDPRPage")),
   },
   {
-    path: "/:lang?/person-management",
+    path: "/:lang?/profile",
     exact: true,
-    component: React.lazy(
-      () => import("pages/PersonManagement/PersonManagement")
-    ),
+    component: React.lazy(() => import("pages/ProfilePage/ProfilePage")),
+    requireAuth: true,
   },
   {
-    path: "/:lang?/tickets-management",
+    path: "/:lang?/swimmer/new",
+    exact: true,
+    component: React.lazy(
+      () =>
+        import(
+          "pages/AssociatedSwimmerEditAddPage/AssociatedSwimmerEditAddPage"
+        )
+    ),
+    requireAuth: true,
+  },
+  {
+    path: "/:lang?/swimmer/:id",
+    exact: true,
+    component: React.lazy(
+      () =>
+        import(
+          "pages/AssociatedSwimmerEditAddPage/AssociatedSwimmerEditAddPage"
+        )
+    ),
+    requireAuth: true,
+  },
+  {
+    path: "/:lang?/profile/edit",
+    exact: true,
+    component: React.lazy(
+      () => import("components/ProfileEditPage/ProfileEditPage")
+    ),
+    requireAuth: true,
+  },
+  {
+    path: "/:lang?/tickets",
     exact: true,
     component: React.lazy(
       () => import("pages/TicketsManagementPage/TicketsManagementPage")
     ),
+    requireAuth: true,
   },
   {
     path: "/:lang?",
