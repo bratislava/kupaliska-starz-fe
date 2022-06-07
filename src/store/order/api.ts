@@ -2,7 +2,7 @@ import { apiClient, apiClientWithMsalIfAvailable } from "helpers/apiClient";
 import { CheckPriceResponse, OrderRequest } from "models";
 
 export function order(data: OrderRequest) {
-  return apiClient.post("/api/v1/orders", data);
+  return apiClientWithMsalIfAvailable.post("/api/v1/orders", data);
 }
 
 export function getPrice(order: any, abortSignal?: AbortSignal) {
@@ -14,7 +14,7 @@ export function getPrice(order: any, abortSignal?: AbortSignal) {
 }
 
 export function getFinalOrder(orderId: string, accessToken: string) {
-  return apiClient.get(`/api/v1/orders/${orderId}/successful`, {
+  return apiClientWithMsalIfAvailable.get(`/api/v1/orders/${orderId}/successful`, {
     headers: {
       "Order-Authorization": accessToken,
     },
