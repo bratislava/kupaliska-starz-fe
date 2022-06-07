@@ -227,7 +227,7 @@ const BuyPage = () => {
         md:grid-cols-2
         md:gap-x-8
       "
-      onSubmit={handleSubmit(onSubmit, (err) => {
+      onSubmit={handleSubmit(onSubmit as any, (err) => {
         console.log(err);
       })}
     >
