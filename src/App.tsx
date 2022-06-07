@@ -14,17 +14,15 @@ import {
   UnauthenticatedTemplate,
 } from "@azure/msal-react";
 import { Redirect } from "react-router";
-import 'react-loading-skeleton/dist/skeleton.css'
-
+import "react-loading-skeleton/dist/skeleton.css";
 
 const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-        },
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
     },
-})
-
+  },
+});
 
 const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
   return (
