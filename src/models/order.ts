@@ -1,13 +1,3 @@
-import { string } from "yup/lib/locale";
-
-export enum CustomerFormFields {
-  name,
-  email,
-  photo,
-  zip,
-  age,
-}
-
 export interface Ticket {
   id: string;
   name: string;
@@ -78,3 +68,20 @@ export interface DiscountCodeState {
   amount?: number;
   code: string;
 }
+
+export interface CheckPriceResponse {
+  "data": {
+    "pricing": {
+      "orderPrice": number,
+      "discount": number,
+      "numberOfChildren": number
+    }
+  },
+  "messages": [
+    {
+      "type": "SUCCESS",
+      "message": "Cypočítaná cena lístkov"
+    }
+  ]
+}
+
