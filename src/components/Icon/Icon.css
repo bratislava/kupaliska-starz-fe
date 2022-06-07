@@ -18,3 +18,7 @@
   fill: theme("colors.fontBlack");
   stroke: theme("colors.fontBlack");
 }
+.icon.blueish > svg path {
+  fill: theme("colors.blueish");
+  stroke: theme("colors.blueish");
+}

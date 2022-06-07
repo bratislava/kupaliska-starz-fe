@@ -4,7 +4,7 @@ import "./Icon.css";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: string;
-  color?: "primary" | "secondary" | "white" | "fontBlack";
+  color?: "primary" | "secondary" | "white" | "fontBlack" | "blueish";
   className?: string;
 }
 
