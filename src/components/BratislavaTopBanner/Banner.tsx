@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from "react";
 
 import { Icon } from "components";
+import SignInSignOutLink from "../SignInSignOutLink/SignInSignOutLink";
 
 const SocialMediaButton = ({
   children,
@@ -16,7 +17,7 @@ const SocialMediaButton = ({
 );
 
 const Banner = () => (
-  <aside className="flex bg-gray-100 items-center" style={{ height: '50px' }}>
+  <aside className="flex bg-backgroundGray items-center" style={{ height: '50px' }}>
     <div className="container mx-auto flex justify-between">
       <div className="flex items-center">
         <img
@@ -29,7 +30,8 @@ const Banner = () => (
         </span>
       </div>
       <div className="items-center flex">
-        <a href="https://www.facebook.com/STaRZ-Spr%C3%A1va-telov%C3%BDchovn%C3%BDch-a-rekrea%C4%8Dn%C3%BDch-zariaden%C3%AD-hlavn%C3%A9ho-mesta-SR-513951915371509" target="_blank" rel="noreferrer">
+        <SignInSignOutLink></SignInSignOutLink>
+        <a href="https://www.facebook.com/STaRZ-Spr%C3%A1va-telov%C3%BDchovn%C3%BDch-a-rekrea%C4%8Dn%C3%BDch-zariaden%C3%AD-hlavn%C3%A9ho-mesta-SR-513951915371509" target="_blank" rel="noreferrer" className="hidden md:block ml-10">
           <Icon name="facebook-logo" />
         </a>
       </div>
