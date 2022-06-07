@@ -1,5 +1,5 @@
 import { ContactFormValues } from "components/ContactForm/ContactForm";
-import { apiClient } from "helpers/apiClient";
+import { apiClient, apiClientWithMsal } from "helpers/apiClient";
 // A mock function to mimic making an async request for data
 export function fetchTickets() {
   return apiClient.get("/api/v1/ticketTypes");
@@ -21,4 +21,10 @@ export function fetchPool(id: string) {
 
 export function sendContactForm(data: ContactFormValues & { recaptcha: string, agreement: boolean }) {
   return apiClient.post("/api/v1/contact", data);
+}
+
+export type RegisterUserResponse = null
+
+export function registerUser() {
+  return apiClientWithMsal.get<RegisterUserResponse>("/api/v1/swimmingLoggedUsers/register")
 }
