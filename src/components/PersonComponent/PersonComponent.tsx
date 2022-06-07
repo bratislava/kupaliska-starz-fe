@@ -31,7 +31,8 @@ const PersonComponent = ({
   const removeIconRef = useRef<HTMLImageElement>(null);
   const isRemoveIconHovered = useHover(removeIconRef);
 
-  const showRemoveIcon = mode === PeopleListMode.Profile || mode === PeopleListMode.BuyPageDisplay;
+  const showRemoveIcon =
+    mode === PeopleListMode.Profile || mode === PeopleListMode.BuyPageDisplay;
   const showCheckmarkIcon =
     mode === PeopleListMode.BuyPageSelection && isSelected;
   const showRightCorner = showRemoveIcon || showCheckmarkIcon;
