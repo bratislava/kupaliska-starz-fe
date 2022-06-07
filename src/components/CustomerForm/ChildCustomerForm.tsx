@@ -99,17 +99,17 @@ const ChildCustomerForm = ({
           </button>
         </div>
       )}
-      {childPhotoRequired && (
-        <PhotoField
-          fieldNamePrefix={fieldNamePrefix}
-          setValue={setValue}
-          setError={setError}
-          clearErrors={clearErrors}
-          errors={_errors}
-          onPhotoSet={onPhotoSet}
-          image={image}
-        />
-      )}
+      {/*{childPhotoRequired && (*/}
+      {/*  <PhotoField*/}
+      {/*  fieldNamePrefix={fieldNamePrefix}*/}
+      {/*  setValue={setValue}*/}
+      {/*  setError={setError}*/}
+      {/*  clearErrors={clearErrors}*/}
+      {/*  errors={_errors}*/}
+      {/*  // onPhotoSet={onPhotoSet}*/}
+      {/*  image={image}*/}
+      {/*  />*/}
+      {/*)}*/}
     </div>
   );
 };

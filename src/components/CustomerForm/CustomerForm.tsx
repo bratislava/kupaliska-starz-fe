@@ -69,17 +69,17 @@ const CustomerForm = ({
           error={get(_errors, "email.message")}
         />
         {!nameRequired && <div className="col-span-1" />}
-        {photoRequired && (
-          <PhotoField
-            fieldNamePrefix={fieldNamePrefix}
-            setValue={setValue}
-            setError={setError}
-            clearErrors={clearErrors}
-            errors={_errors}
-            onPhotoSet={onPhotoSet}
-            image={image}
-          />
-        )}
+        {/*{photoRequired && (*/}
+        {/*  <PhotoField*/}
+        {/*    fieldNamePrefix={fieldNamePrefix}*/}
+        {/*    setValue={setValue}*/}
+        {/*    setError={setError}*/}
+        {/*    clearErrors={clearErrors}*/}
+        {/*    errors={_errors}*/}
+        {/*    // onPhotoSet={onPhotoSet}*/}
+        {/*    image={image}*/}
+        {/*  />*/}
+        {/*)}*/}
         <div className="col-span-1">
           <label className="font-medium text-fontBlack text-opacity-50 flex items-center my-2">
             {t("buy-page.optional")}
