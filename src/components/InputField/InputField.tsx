@@ -29,6 +29,7 @@ interface InputProps {
   label?: string;
   shouldUnregister?: boolean;
   max?: number;
+  valueAsNumber?: boolean;
 }
 
 const InputField = ({
@@ -49,10 +50,11 @@ const InputField = ({
   label,
   shouldUnregister = false,
   max,
+                      valueAsNumber
 }: InputProps) => {
   const [focused, setFocus] = useState<boolean>(false);
   const registerValues: UseFormRegisterReturn | undefined = useMemo(
-    () => (register ? register(name, { shouldUnregister }) : undefined),
+    () => (register ? register(name, { shouldUnregister, valueAsNumber }) : undefined),
     [register, name, shouldUnregister]
   );
   let inputClasses = "";
@@ -79,8 +81,8 @@ const InputField = ({
         </div>
       )}
       <div
-        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg ${
-          thin ? "" : "p-5"
+        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${
+          thin ? "" : "px-6 py-4"
         } flex flex-1 items-center`}
       >
         {!!leftExtra && leftExtra}
@@ -90,7 +92,7 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`focus:outline-none h-full flex-1 min-w-0 rounded-lg px-2 text-xl font-normal ${inputClasses} ${inputClassName}`}
+          className={`focus:outline-none h-full flex-1 min-w-0 font-normal ${inputClasses} ${inputClassName}`}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(
