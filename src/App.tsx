@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ConnectedRouter } from "connected-react-router";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 
 import { history } from "store";
 import { Route as IRoute, routes } from "helpers/routes";
@@ -78,7 +78,21 @@ function App() {
           <main className="relative flex flex-col" style={{ flex: 1 }}>
             <Header />
 
-            <Switch>{routes.map(renderRoute)}</Switch>
+            <Switch>
+              {/* https://stackoverflow.com/a/66114844 */}
+              <Route
+                path="/refresh"
+                exact={true}
+                component={() => {
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  const history = useHistory();
+                  // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                  useEffect(() => history.goBack(), []);
+                  return <></>;
+                }}
+              />
+              {routes.map(renderRoute)}
+            </Switch>
           </main>
           <Footer />
         </ScrollToTop>

@@ -18,7 +18,13 @@ export const useLogin = () => {
 
   return async (
     afterLoginCallback: () => void = () => {
-      history.push("tickets");
+      // If the user is on the ticket page and, then he logs in, stay at the page, but the page must be reloaded to function properly
+      // https://stackoverflow.com/a/66114844
+      if (history.location.pathname === "/order") {
+        history.push("/refresh");
+      } else {
+        history.push("tickets");
+      }
     }
   ) => {
     const [authError] = await to<AuthenticationResult, AuthError>(
