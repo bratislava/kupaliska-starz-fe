@@ -18,6 +18,7 @@ interface PersonComponentProps {
   onRemoveClick?: (person: Partial<AssociatedSwimmer>) => void;
   isSelected?: boolean;
   errorBorder?: boolean;
+  removeDisabled?: boolean;
 }
 
 const PersonComponent = ({
@@ -27,22 +28,23 @@ const PersonComponent = ({
   onRemoveClick = () => {},
   isSelected,
   errorBorder = false,
+  removeDisabled = false,
 }: PersonComponentProps) => {
   const removeIconRef = useRef<HTMLImageElement>(null);
   const isRemoveIconHovered = useHover(removeIconRef);
 
   const showRemoveIcon =
-    mode === PeopleListMode.Profile || mode === PeopleListMode.BuyPageDisplay;
+    mode === PeopleListMode.Profile || mode === PeopleListMode.OrderPageDisplay;
   const showCheckmarkIcon =
-    mode === PeopleListMode.BuyPageSelection && isSelected;
+    mode === PeopleListMode.OrderPageSelection && isSelected;
   const showRightCorner = showRemoveIcon || showCheckmarkIcon;
   const hoverOverlay = mode === PeopleListMode.Profile && !isRemoveIconHovered;
   const showErrorBorder = errorBorder;
   const showPrimaryBorder =
-    mode === PeopleListMode.BuyPageDisplay ||
-    (mode === PeopleListMode.BuyPageSelection && !isSelected);
+    mode === PeopleListMode.OrderPageDisplay ||
+    (mode === PeopleListMode.OrderPageSelection && !isSelected);
   const showGreenBorder =
-    mode === PeopleListMode.BuyPageSelection && isSelected;
+    mode === PeopleListMode.OrderPageSelection && isSelected;
   const showGreyBorder = [
     PeopleListMode.Profile,
     PersonComponentMode.DisplayOnlyPhoto,
@@ -50,8 +52,8 @@ const PersonComponent = ({
   ].includes(mode);
   const showDescription = [
     PeopleListMode.Profile,
-    PeopleListMode.BuyPageSelection,
-    PeopleListMode.BuyPageDisplay,
+    PeopleListMode.OrderPageSelection,
+    PeopleListMode.OrderPageDisplay,
     PersonComponentMode.DisplayWithDescription,
   ].includes(mode);
 

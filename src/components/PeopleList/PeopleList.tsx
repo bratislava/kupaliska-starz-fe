@@ -10,13 +10,13 @@ import { AssociatedSwimmer } from "../../store/associatedSwimmers/api";
  *  - Add person text: "Pridať ďaľšiu osobu"
  *  - Grey border
  *
- *  BuyPageDisplay
+ *  OrderPageDisplay
  *   - No hover
  *   - Right remove corner icon
  *   - Add person text: "Pridať ďaľšiu osobu"
  *   - Blue border
  *
- *    BuyPageSelection
+ *    OrderPageSelection
  *   - No hover
  *   - Right checkmark corner icon when selected
  *   - Add person text: "Pridať osobu do proflu"
@@ -24,8 +24,8 @@ import { AssociatedSwimmer } from "../../store/associatedSwimmers/api";
  */
 export enum PeopleListMode {
   Profile = "Profile",
-  BuyPageDisplay = "BuyPageDisplay",
-  BuyPageSelection = "BuyPageSelection",
+  OrderPageDisplay = "OrderPageDisplay",
+  OrderPageSelection = "OrderPageSelection",
 }
 
 interface PeopleListProps {
@@ -35,6 +35,7 @@ interface PeopleListProps {
   onPersonClick?: (person: Partial<AssociatedSwimmer>) => void;
   onRemoveClick?: (person: Partial<AssociatedSwimmer>) => void;
   onAddClick?: () => void;
+  removeDisabled?: boolean
 }
 
 const PeopleList = ({
@@ -44,6 +45,7 @@ const PeopleList = ({
   onRemoveClick = () => {},
   onAddClick = () => {},
   selectedPeopleIds,
+    removeDisabled = false
 }: PeopleListProps) => {
   return (
     <div className="flex overflow-x-auto pt-4">
@@ -56,10 +58,11 @@ const PeopleList = ({
             onPersonClick={onPersonClick}
             onRemoveClick={onRemoveClick}
             isSelected={
-              mode === PeopleListMode.BuyPageSelection &&
+              mode === PeopleListMode.OrderPageSelection &&
               person.id !== undefined ?
               selectedPeopleIds?.includes(person.id) : false
             }
+            removeDisabled={removeDisabled}
           ></PersonComponent>
         ))}
         <div
@@ -69,9 +72,9 @@ const PeopleList = ({
           <img className="w-12 h-12" src="/person-add.svg" alt="" />
           <span className="text-center">
             {(mode === PeopleListMode.Profile ||
-              mode === PeopleListMode.BuyPageDisplay) &&
+              mode === PeopleListMode.OrderPageDisplay) &&
               "Pridať ďalšiu osobu"}
-            {mode === PeopleListMode.BuyPageSelection &&
+            {mode === PeopleListMode.OrderPageSelection &&
               "Pridať osobu do profilu"}
           </span>
         </div>
