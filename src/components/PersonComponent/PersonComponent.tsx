@@ -105,11 +105,11 @@ const PersonComponent = ({
       </div>
       {showDescription && (
         <>
-          <div className="mt-2">
+          <div className="mt-2 text-center">
             {person.firstname} {person.lastname}
           </div>
           {/* TODO: sklonovanie */}
-          <div className="mt-3">{person.age} rokov</div>
+          <div className="mt-3 text-center">{person.age} rokov</div>
         </>
       )}
     </div>
