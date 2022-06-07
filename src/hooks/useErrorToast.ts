@@ -4,11 +4,11 @@ import { useAppDispatch } from "./store";
 export const useErrorToast = () => {
   const dispatch = useAppDispatch();
 
-  return () =>
+  return (message?: string) =>
     dispatch(
       setToast({
         type: "error",
-        message: "Niečo sa pokazilo. Prosím skúste to neskôr.",
+        message: message ?? "Niečo sa pokazilo. Prosím skúste to neskôr.",
       })
     );
 };
