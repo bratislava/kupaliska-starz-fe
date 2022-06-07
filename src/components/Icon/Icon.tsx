@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./Icon.css";
+import { useIsMounted } from "usehooks-ts";
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: string;
@@ -12,6 +13,7 @@ const Icon = ({ name, color, className = "", ...rest }: IconProps) => {
   const ImportedIconRef =
     React.useRef<React.FC<React.SVGProps<SVGSVGElement>>>();
   const [loading, setLoading] = React.useState(false);
+  const isMounted = useIsMounted();
 
   React.useEffect((): void => {
     setLoading(true);
@@ -25,10 +27,13 @@ const Icon = ({ name, color, className = "", ...rest }: IconProps) => {
       } catch (err) {
         throw err;
       } finally {
-        setLoading(false);
+        if (isMounted()) {
+          setLoading(false);
+        }
       }
     };
     importIcon();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
   if (!loading && ImportedIconRef.current) {
     const { current: ImportedIcon } = ImportedIconRef;
