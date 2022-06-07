@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { push } from "connected-react-router";
-
 import {
   HeroBanner,
   MobileCarousel,
@@ -25,12 +23,12 @@ import {
   selectSelectedPool,
   setSelectedPoolId,
 } from "store/global";
-import { setCart } from "store/order";
-import { Ticket, SwimmingPool } from "models";
+import { SwimmingPool } from "models";
 
 import "./LandingPage.css";
 import { assignItemsToColumns } from "helpers/general";
 import { Trans, useTranslation } from "react-i18next";
+import { useIsAuthenticated } from "@azure/msal-react";
 
 const items = [
   {
@@ -58,19 +56,8 @@ const LandingPage = () => {
   const swimmingPools = useAppSelector(selectPools);
   const selectedSwimmingPool = useAppSelector(selectSelectedPool);
   const { t } = useTranslation();
-  // TODO: replace with actual login state
-  const isLoggedIn = false;
+  const isAuthenticated = useIsAuthenticated();
 
-  const onTicketBuy = (ticket: Ticket) => {
-    dispatch(
-      setCart({
-        ticket,
-        amount: 1,
-        childrenNumber: 0,
-      })
-    );
-    dispatch(push("/order"));
-  };
 
   useEffect(() => {
     if (width && width <= 768 && selectedSwimmingPool) {
@@ -102,7 +89,7 @@ const LandingPage = () => {
   };
 
   return (
-    <main>
+    <main className="bg-white">
       <Modal
         open={!!selectedSwimmingPool}
         onClose={() => dispatch(setSelectedPoolId(undefined))}
@@ -171,7 +158,6 @@ const LandingPage = () => {
               className="col-span-8 md:col-span-4"
               key={ticket.id}
               ticket={ticket}
-              onClick={() => onTicketBuy(ticket)}
             />
           ))}
         </div>
@@ -182,7 +168,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {!isLoggedIn && <WhyCreateAccountSection></WhyCreateAccountSection>}
+      {!isAuthenticated && <WhyCreateAccountSection></WhyCreateAccountSection>}
 
       <section id="divider" className="section">
         <img src="/swimmers.svg" className="mx-auto" alt="" />
@@ -236,7 +222,7 @@ const LandingPage = () => {
           </div>
           <div className="hidden col-span-2 md:block">
             <img
-              src="contact-form-image.png"
+              src="/contact-form-image.png"
               alt="decoration for contact form"
               className="w-full lg:w-8/10 xl:w-7/10 mx-auto"
             />
@@ -260,7 +246,7 @@ const LandingPage = () => {
                   }}
               >
                 {typeof t(`landing.faq-mutiple.${faq}.content`) === "string" ? (
-                    <p>
+                    <span>
                       <Trans
                           i18nKey={`landing.faq-mutiple.${faq}.content`}
                           components={{
@@ -273,7 +259,7 @@ const LandingPage = () => {
                             h4: <h4 />,
                           }}
                       />
-                    </p>
+                    </span>
                 ) : (
                     t(`landing.faq-mutiple.${faq}.content`)
                 )}
