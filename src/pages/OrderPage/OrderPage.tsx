@@ -725,6 +725,7 @@ const OrderPage = () => {
     hasTicketAmount,
   } = useOrderTicket();
   const order = useOrder();
+  const dispatchErrorToast = useErrorToast();
 
   const { t } = useTranslation();
 
@@ -802,11 +803,18 @@ const OrderPage = () => {
     return getPrice(getPriceRequest, signal);
   });
 
+  useEffect(() => {
+    if (priceQuery.isError) {
+      dispatchErrorToast();
+    }
+  }, [priceQuery.isError])
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // TODO: doesn't work well
-    queryClient.invalidateQueries("orderPrice");
+    // If the price should change, cancel current queries and fetch a new price.
+    queryClient.cancelQueries("orderPrice");
+    queryClient.refetchQueries("orderPrice");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchPriceChange]);
 
