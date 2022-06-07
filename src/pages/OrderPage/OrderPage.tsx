@@ -43,6 +43,7 @@ import {
   UseFormGetValues,
   UseFormWatch,
   useWatch,
+  UseFormSetValue,
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -57,9 +58,6 @@ import { useOrder } from "./useOrder";
 import { orderFormToRequests } from "./formDataToRequests";
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import { environment } from "../../environment";
-
-/* TODO: The original type is broken, but I still want to use it. Leave it here until fixed. */
-type UseFormSetValue<T> = any;
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
@@ -590,13 +588,13 @@ const OrderPageSummary = ({
   const watchTicketAmount = watch("ticketAmount");
 
   const handleMinusClick = () => {
-    if (watchTicketAmount > 1) {
-      setValue("ticketAmount", watchTicketAmount - 1);
+    if (watchTicketAmount! > 1) {
+      setValue("ticketAmount", watchTicketAmount! - 1);
     }
   };
   const handlePlusClick = () => {
-    if (watchTicketAmount < environment.maxTicketPurchaseLimit) {
-      setValue("ticketAmount", watchTicketAmount + 1);
+    if (watchTicketAmount! < environment.maxTicketPurchaseLimit) {
+      setValue("ticketAmount", watchTicketAmount! + 1);
     }
   };
 
