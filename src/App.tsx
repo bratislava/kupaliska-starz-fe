@@ -1,21 +1,56 @@
 import React, { useEffect } from "react";
-
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ConnectedRouter } from "connected-react-router";
 import { Route, Switch } from "react-router-dom";
 
 import { history } from "store";
-import { routes, Route as IRoute } from "helpers/routes";
+import { Route as IRoute, routes } from "helpers/routes";
 
-import { Header, TopBanner, Footer, Toast, ScrollToTop } from "components";
+import { Footer, Header, ScrollToTop, Toast, TopBanner } from "components";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { initPageGlobalState, selectToast, setToast } from "store/global";
+import {
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
+import { Redirect } from "react-router";
+import 'react-loading-skeleton/dist/skeleton.css'
+
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+})
+
+
+const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
+  return (
+    <>
+      <AuthenticatedTemplate>{children}</AuthenticatedTemplate>
+      <UnauthenticatedTemplate>
+        <Redirect to={"/"} />
+      </UnauthenticatedTemplate>
+    </>
+  );
+};
 
 const renderRoute = (route: IRoute) => (
   <Route
     key={route.path}
     exact={route.exact}
     path={route.path}
-    render={() => <route.component />}
+    render={() =>
+      route.requireAuth ? (
+        <RequireAuthRoute>
+          <route.component />
+        </RequireAuthRoute>
+      ) : (
+        <route.component />
+      )
+    }
   />
 );
 
@@ -26,7 +61,8 @@ function App() {
     dispatch(initPageGlobalState());
   }, [dispatch]);
   return (
-    <ConnectedRouter history={history}>
+    <QueryClientProvider client={queryClient}>
+      <ConnectedRouter history={history}>
         <ScrollToTop>
           <Toast
             open={toast !== undefined}
@@ -46,7 +82,8 @@ function App() {
           </main>
           <Footer />
         </ScrollToTop>
-    </ConnectedRouter>
+      </ConnectedRouter>
+    </QueryClientProvider>
   );
 }
 
