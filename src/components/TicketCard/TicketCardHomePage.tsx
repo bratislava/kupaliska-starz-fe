@@ -1,13 +1,15 @@
 import React from "react";
 
-import { Typography, Button, Icon } from "components";
+import { Button, Icon, Typography } from "components";
 
 import { Ticket } from "models";
 import { useTranslation } from "react-i18next";
+import { useIsAuthenticated } from "@azure/msal-react";
+import { useHistory } from "react-router-dom";
+import { useLogin } from "../../hooks/useLogin";
 
 interface TicketCardProps {
   ticket: Ticket;
-  onClick: () => void;
   className?: string;
   discount?: number;
 }
@@ -15,15 +17,31 @@ interface TicketCardProps {
 const TicketCardHomePage = ({
   ticket,
   className = "",
-  onClick,
   discount,
 }: TicketCardProps) => {
   const { t } = useTranslation();
+  const isAuthenticated = useIsAuthenticated();
+  const history = useHistory();
+  const login = useLogin();
+
+  const needsLogin = ticket.nameRequired && !isAuthenticated;
+
+  const redirectToOrder = () => {
+    history.push("/order", { ticketId: ticket.id });
+  };
+
+  const handleClick = async () => {
+    if (needsLogin) {
+      await login(redirectToOrder);
+    } else {
+      redirectToOrder();
+    }
+  };
 
   return (
     <div
       className={`${className} transition-all rounded-lg overflow-hidden bg-white flex flex-col justify-between border-2-softGray hover:border-primary hover:bg-blueish cursor-pointer`}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div
         className={`flex flex-col pt-6 px-3 xs:px-6 pb-4 rounded-t-lg justify-between`}
@@ -46,11 +64,8 @@ const TicketCardHomePage = ({
           </span>
           <div className="text-base font-normal ml-1">{t("landing.piece")}</div>
         </div>
-        <Button
-          className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto"
-          onClick={onClick}
-        >
-          {t("landing.basket")}
+        <Button className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto">
+          {needsLogin ? "Prihlásiť sa" : t("landing.basket")}
           <Icon name="shopping-cart" className="ml-2" />
         </Button>
       </div>
