@@ -4,6 +4,9 @@
 export const environment = {
   host: process.env.REACT_APP_HOST || "http://localhost:8000",
   debug: false,
-  maxTicketPuchaseLimit: 10,
-  reCaptchaKey: process.env.REACT_APP_RECAPTCHA_KEY
+  maxTicketPurchaseLimit: 10,
+  reCaptchaKey: process.env.REACT_APP_RECAPTCHA_KEY,
+  msalClientId: process.env.REACT_APP_MSAL_CLIENT_ID as string,
+  msalAuthority: process.env.REACT_APP_MSAL_AUTHORITY as string,
+  msalKnownAuthorities: [process.env.REACT_APP_MSAL_KNOWN_AUTHORITY as string],
 };
