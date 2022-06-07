@@ -8,7 +8,7 @@ interface LinkProps {
 }
 
 interface ProfileNavBarProps {
-  links: LinkProps[];
+  links?: LinkProps[];
 }
 
 const Link = ({ url, text }: LinkProps) => {
@@ -23,7 +23,12 @@ const Link = ({ url, text }: LinkProps) => {
   );
 };
 
-const ProfileNavBar = ({ links }: ProfileNavBarProps) => {
+const ProfileNavBar = ({
+  links = [
+    { url: "tickets", text: "Lístky a permanentky" },
+    { url: "profile", text: "Osobné údaje" },
+  ],
+}: ProfileNavBarProps) => {
   return (
     <div className="profile-navbar flex flex-row justify-center">
       {links.map((link, index) => (
