@@ -59,6 +59,8 @@ module.exports = {
         blueish: "#D0ECF8",
         redish: "#E46054",
         purpleish: "#4340A6",
+        backgroundGray: "#F5F5F5",
+        warningSoft: "#F8D7D4"
       },
       borderWidth: {
         3: "3px",
@@ -150,10 +152,15 @@ module.exports = {
         datepicker: "54",
         toast: "55",
       },
+      maxWidth: {
+        "formMax": "445px"
+      }
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      display: ["group-hover"],
+    },
   },
   corePlugins: {
     container: false,
