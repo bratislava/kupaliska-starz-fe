@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { push } from "connected-react-router";
 import { OrderRequest } from "models";
 import { setToast } from "store/global";
 import { checkDiscountCode, getFinalOrder, order } from "./api";
