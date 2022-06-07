@@ -1,0 +1,3 @@
+.modal-with-close-width-screen {
+    width: calc(100vw - 32px);
+}
