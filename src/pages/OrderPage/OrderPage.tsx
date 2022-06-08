@@ -428,6 +428,7 @@ const OrderPageDiscountCode = ({
         <OrderPageDiscountCodeInput
           ticket={ticket}
           setValue={setValue}
+          getValues={getValues}
         ></OrderPageDiscountCodeInput>
       )}
     </>
@@ -443,9 +444,11 @@ enum OrderPageDiscountCodeInputStatus {
 const OrderPageDiscountCodeInput = ({
   ticket,
   setValue,
+  getValues,
 }: {
   ticket: Ticket;
   setValue: UseFormSetValue<OrderFormData>;
+  getValues: UseFormGetValues<OrderFormData>;
 }) => {
   const dispatchErrorToast = useErrorToast();
   const isMounted = useIsMounted();
@@ -454,7 +457,9 @@ const OrderPageDiscountCodeInput = ({
   const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None);
 
   const handleApply = async () => {
-    setValue("discountCode", null);
+    if (getValues("discountCode") != null) {
+      setValue("discountCode", null);
+    }
     setStatus(OrderPageDiscountCodeInputStatus.None);
 
     const [error, response] = await to<
@@ -807,7 +812,8 @@ const OrderPage = () => {
     if (priceQuery.isError) {
       dispatchErrorToast();
     }
-  }, [priceQuery.isError])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [priceQuery.isError]);
 
   const queryClient = useQueryClient();
 
