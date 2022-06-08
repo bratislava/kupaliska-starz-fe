@@ -83,7 +83,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           className="col-span-2 lg:col-span-1 max-w-formMax"
           name="age"
           register={register}
-          label={t("landing.age")}
+          label="Vek"
           error={errors.age?.message}
           type="number"
           valueAsNumber={true}
@@ -92,7 +92,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="zip"
           register={register}
-          label={t("landing.zipCode")}
+          label="PSČ"
           error={errors.zip?.message}
         />
         <Button className="my-8" htmlType="submit">
@@ -127,7 +127,7 @@ const ProfileEditPage = () => {
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null ||
             userQuery.data.data.image == null) && (
-            <div className="bg-warning-soft py-5 px-6 mt-14 shadow-lg flex items-center flex-col md:flex-row">
+            <div className="bg-warningSoft py-5 px-6 mt-14 shadow-lg flex items-center flex-col md:flex-row">
               <img
                 src="/warning.svg"
                 alt=""
