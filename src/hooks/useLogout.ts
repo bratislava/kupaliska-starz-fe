@@ -9,13 +9,13 @@ export const useLogout = () => {
   const history = useHistory();
 
   return async () => {
+    history.push("/");
+
     const [logoutError] = await to(instance.logoutPopup());
 
     if (logoutError) {
       console.error(logoutError);
       dispatchErrorToast();
     }
-
-    history.push("/");
   };
 };
