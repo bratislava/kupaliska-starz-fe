@@ -76,7 +76,7 @@ const PersonComponent = ({
           { "border-error": showErrorBorder }
         )}
         style={{
-          backgroundImage: person.photo ? `url(${person.photo})` : undefined,
+          backgroundImage: person.image ? `url(${person.image})` : undefined,
         }}
         onClick={handlePersonClick}
       >

@@ -10,7 +10,7 @@ export interface AssociatedSwimmer {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  photo: string | null;
+  image: string | null;
 }
 
 export interface AssociatedSwimmerFetchResponse {
@@ -62,7 +62,7 @@ export interface AssociatedSwimmerCreateEditResponse {
 export function createAssociatedSwimmer(
   associatedSwimmer: Pick<
     AssociatedSwimmer,
-    "firstname" | "lastname" | "age" | "zip" | "photo"
+    "firstname" | "lastname" | "age" | "zip" | "image"
   >
 ) {
   return apiClientWithMsal.post<AssociatedSwimmerCreateEditResponse>(
@@ -75,7 +75,7 @@ export function editAssociatedSwimmer(
   id: string,
   associatedSwimmer: Pick<
     AssociatedSwimmer,
-    "firstname" | "lastname" | "age" | "zip" | "photo" | "id"
+    "firstname" | "lastname" | "age" | "zip" | "image" | "id"
   >
 ) {
   return apiClientWithMsal.put<AssociatedSwimmerCreateEditResponse>(

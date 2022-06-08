@@ -323,7 +323,7 @@ const OrderPagePeopleList = ({
           id: null,
           age: userQuery.data.data.age,
           zip: userQuery.data.data.zip,
-          photo: userQuery.data.data.image,
+          image: userQuery.data.data.image,
           firstname: account?.idTokenClaims?.given_name as string,
           lastname: account?.idTokenClaims?.family_name as string,
         },
