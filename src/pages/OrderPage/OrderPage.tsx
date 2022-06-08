@@ -50,7 +50,6 @@ import * as yup from "yup";
 import { NumberSchema, StringSchema } from "yup";
 import { useIsMounted } from "usehooks-ts";
 import { fetchUser } from "../../store/user/api";
-import { AccountInfo } from "@azure/msal-browser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "./OrderPage.css";
 import { Link, useHistory } from "react-router-dom";
@@ -325,7 +324,8 @@ const OrderPagePeopleList = ({
           age: userQuery.data.data.age,
           zip: userQuery.data.data.zip,
           photo: userQuery.data.data.image,
-          firstname: (account as AccountInfo).name,
+          firstname: account?.idTokenClaims?.given_name as string,
+          lastname: account?.idTokenClaims?.family_name as string,
         },
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]
