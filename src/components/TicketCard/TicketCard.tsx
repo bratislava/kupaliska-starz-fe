@@ -89,7 +89,7 @@ const TicketCard = ({
                 thin
                 max={10}
                 type="number"
-                inputClassName={"text-2xl font-bold text-center"}
+                inputWrapperClassName={"text-2xl font-bold text-center"}
                 error={typeof _amount !== "number" ? "" : undefined}
               />
             </div>

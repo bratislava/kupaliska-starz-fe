@@ -203,7 +203,7 @@ const NumberedLayout = ({
   return (
     <>
       {!first && showIndexOutside && (
-        <NumberedLayoutLine className={"mb-5"}></NumberedLayoutLine>
+        <NumberedLayoutLine className="my-5"></NumberedLayoutLine>
       )}
       <div className="relative">
         <div
@@ -216,7 +216,7 @@ const NumberedLayout = ({
           ></NumberedLayoutIndexCounter>
         </div>
 
-        <div className={cx("flex items-center", { hidden: showIndexOutside })}>
+        <div className={cx("flex items-center", { hidden: showIndexOutside, 'mt-4': !first })}>
           <div>
             <NumberedLayoutIndexCounter
               index={index}
@@ -247,11 +247,11 @@ const OrderPageEmail = ({
       className="mt-6 max-w-formMax"
       name="email"
       register={register}
-      label="Email"
+      label={<span className="text-base">Email</span>}
       error={errors.email?.message}
     />
   ) : (
-    <span>Lístky zašleme na {account?.username}.</span>
+    <span>Lístky zašleme na <span className="font-bold text-primary">{account?.username}</span>.</span>
   );
 };
 
@@ -267,7 +267,7 @@ const OrderPageOptionalFields = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <label className="font-medium text-fontBlack font-medium text-xl flex items-center mt-6">
+      <label className="font-medium text-fontBlack text-base flex items-center mt-6">
         {t("buy-page.optional")}
         <div data-for="tooltip-customer-form" data-tip={t("buy-page.help-us")}>
           <Icon className="ml-4" name="question-mark" color="blueish" />
@@ -422,7 +422,7 @@ const OrderPageDiscountCode = ({
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
-        label={<>Uplatniť zľavový kód</>}
+        label={<span className="text-xl">Uplatniť zľavový kód</span>}
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
@@ -492,14 +492,16 @@ const OrderPageDiscountCodeInput = ({
             ? "Neplatný zľavový kód."
             : undefined
         }
-        label="Vložte zľavový kód"
+        label={<span className="text-base">Vložte zľavový kód</span>}
         rightExtra={
           status === OrderPageDiscountCodeInputStatus.Success ? (
             <Icon name="checkmark" className="text-success" />
           ) : null
         }
+        inputWrapperClassName="max-w-xs"
+        className="mt-8"
       />
-      <Button color="outlined" onClick={handleApply}>
+      <Button color="outlined" onClick={handleApply} className="mt-4">
         Uplatniť
       </Button>
     </>
@@ -604,7 +606,7 @@ const OrderPageSummary = ({
   };
 
   return (
-    <div className="mt-8 mb-12 rounded-lg bg-white shadow-lg max-w-lg mb-6 md:mb-12">
+    <div className="rounded-lg bg-white shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
       <div className="p-8">
         <div className="font-semibold text-2xl">
           {hasTicketAmount && `${watchTicketAmount}x `}
@@ -832,7 +834,7 @@ const OrderPage = () => {
 
   const buyButton = (
     <Button
-      className="mb-4"
+      className="mt-14 md:mt-16"
       htmlType="submit"
       disabled={priceQuery.isFetching || priceQuery.isError}
     >
@@ -846,7 +848,7 @@ const OrderPage = () => {
   return ticket ? (
     <>
       <form
-        className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8"
+        className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12"
         onSubmit={handleSubmit(onSubmit, (err) => {
           console.log(err);
         })}
@@ -857,7 +859,7 @@ const OrderPage = () => {
           </div>
 
           <NumberedLayout index={1} first={true}>
-            <div className="font-semibold mb-7">Kupujúci/a</div>
+            <div className="font-semibold text-xl mb-7">Kupujúci/a</div>
 
             <OrderPageEmail
               requireEmail={requireEmail!}
@@ -893,20 +895,20 @@ const OrderPage = () => {
               name="agreement"
               error={errors.agreement?.message}
               label={
-                <>
+                <span className="text-xl">
                   {t("buy-page.vop")}
                   <Link to="/vop" target="_blank" className="link text-primary">
                     {t("buy-page.vop-link")}
                   </Link>
                   .
-                </>
+                </span>
               }
             />
           </NumberedLayout>
           <div className="hidden md:block">{buyButton}</div>
         </div>
-        <div>
-          <span className="text-2xl md:text-3xl font-semibold mb-4">
+        <div className="mt-14 md:mt-0">
+          <span className="text-2xl md:text-3xl font-semibold">
             Rekapitulácia nákupu
           </span>
           <OrderPageSummary
@@ -929,7 +931,7 @@ const OrderPage = () => {
             <p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>
           </div>
         </div>
-        <div className="block md:hidden">{buyButton}</div>
+        <div className="block md:hidden flex justify-center">{buyButton}</div>
       </form>
     </>
   ) : (
