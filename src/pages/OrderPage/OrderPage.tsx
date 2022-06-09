@@ -835,8 +835,11 @@ const OrderPage = () => {
   const buyButton = (
     <Button
       className="mt-14 md:mt-16"
-      htmlType="submit"
+      htmlType="button"
       disabled={priceQuery.isFetching || priceQuery.isError}
+      onClick={handleSubmit(onSubmit, (err) => {
+        console.log(err);
+      })}
     >
       {priceQuery.isSuccess && !priceQuery.isFetching
         ? `Zaplatiť ${priceQuery.data.data.data.pricing.orderPrice} €`
@@ -849,9 +852,6 @@ const OrderPage = () => {
     <>
       <form
         className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12"
-        onSubmit={handleSubmit(onSubmit, (err) => {
-          console.log(err);
-        })}
       >
         <div>
           <div className="text-2xl md:text-3xl font-semibold mb-4">

@@ -83,12 +83,7 @@ export const AssociatedSwimmerEditAddForm = ({
   };
 
   return (
-    <form
-      className="grid grid-cols-1 lg:grid-cols-2"
-      onSubmit={handleSubmit(onSubmit, (err) => {
-        console.log(err);
-      })}
-    >
+    <form className="grid grid-cols-1 lg:grid-cols-2">
       <div>
         <InputField
           className="col-span-2 lg:col-span-1 max-w-formMax"
@@ -132,7 +127,13 @@ export const AssociatedSwimmerEditAddForm = ({
         ></PhotoField>
       </div>
       <div>
-        <Button className="my-8" htmlType="submit">
+        <Button
+          className="my-8"
+          htmlType="button"
+          onClick={handleSubmit(onSubmit, (err) => {
+            console.log(err);
+          })}
+        >
           {t("profile.save")}
           <Icon className="ml-4" name="arrow-left" />
         </Button>

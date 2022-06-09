@@ -65,7 +65,7 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 grid-cols-2">
+    <form className="grid gap-4 grid-cols-2">
       <InputField
         className="col-span-2 lg:col-span-1"
         name="name"
@@ -102,7 +102,8 @@ const ContactForm = () => {
       <Button
         disabled={sending}
         className="col-span-full lg:col-span-1"
-        htmlType="submit"
+        htmlType="button"
+        onClick={handleSubmit(onSubmit)}
       >
         {t("landing.send-message")} <Icon className="ml-4" name="paper-plane" />
       </Button>

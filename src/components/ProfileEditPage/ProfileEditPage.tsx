@@ -77,12 +77,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   };
 
   return (
-    <form
-      className="grid grid-cols-1 gap-4 lg:grid-cols-2"
-      onSubmit={handleSubmit(onSubmit, (err) => {
-        console.log(err);
-      })}
-    >
+    <form className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div>
         <InputField
           className="col-span-2 lg:col-span-1 max-w-formMax"
@@ -100,7 +95,13 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           label="PSČ"
           error={errors.zip?.message}
         />
-        <Button className="my-8" htmlType="submit">
+        <Button
+          className="my-8"
+          htmlType="button"
+          onClick={handleSubmit(onSubmit, (err) => {
+            console.log(err);
+          })}
+        >
           {t("profile.save")}
           <Icon className="ml-4" name="arrow-left" />
         </Button>
