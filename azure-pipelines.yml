@@ -72,4 +72,4 @@ stages:
     - template: ./kubernetes/release-template.yml
       parameters:
         environment: 'Prod.bratislava-monorepo'
-        hostname: prepadliska.bratislava.sk
+        hostname: kupaliska.bratislava.sk
