@@ -18,16 +18,6 @@ import { environment } from "./environment";
 import { MsalProvider } from "@azure/msal-react";
 import { msalInstance } from "./msalInstance";
 
-// Copied from https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/1b38e9582ae23bde40fe4bef77f3d838e838e08b/samples/msal-react-samples/react-18-sample/src/index.js
-// Default to using the first account if no account is active on page load
-if (
-  !msalInstance.getActiveAccount() &&
-  msalInstance.getAllAccounts().length > 0
-) {
-  // Account selection logic is app dependent. Adjust as needed for different use cases.
-  msalInstance.setActiveAccount(msalInstance.getAllAccounts()[0]);
-}
-
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new Integrations.BrowserTracing()],
