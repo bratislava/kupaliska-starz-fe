@@ -1,6 +1,6 @@
 import { ContactFormValues } from "components/ContactForm/ContactForm";
-import { apiClient, apiClientWithMsal } from "helpers/apiClient";
-// A mock function to mimic making an async request for data
+import { apiClient } from "helpers/apiClient";
+
 export function fetchTickets() {
   return apiClient.get("/api/v1/ticketTypes");
 }
@@ -11,7 +11,7 @@ export function fetchPools(number: number) {
       limit: number,
       order: "ordering",
       direction: "asc",
-    }
+    },
   });
 }
 
@@ -19,12 +19,17 @@ export function fetchPool(id: string) {
   return apiClient.get(`/api/v1/swimmingPools/${id}`);
 }
 
-export function sendContactForm(data: ContactFormValues & { recaptcha: string, agreement: boolean }) {
+export function sendContactForm(
+  data: ContactFormValues & { recaptcha: string; agreement: boolean }
+) {
   return apiClient.post("/api/v1/contact", data);
 }
 
-export type RegisterUserResponse = null
+export type RegisterUserResponse = string;
 
-export function registerUser() {
-  return apiClientWithMsal.get<RegisterUserResponse>("/api/v1/swimmingLoggedUsers/register")
+export function registerUser(tokenId: string) {
+  return apiClient.get<RegisterUserResponse>(
+    "/api/v1/swimmingLoggedUsers/register",
+    { headers: { Authorization: `Bearer ${tokenId}` } }
+  );
 }
