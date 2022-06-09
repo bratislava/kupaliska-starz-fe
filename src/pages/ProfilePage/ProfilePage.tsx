@@ -35,7 +35,7 @@ const UserInfo = ({ user }: { user: User }) => {
           <div className="text-base font-normal text-fontBlack opacity-75">
             {t("profile.name-firstname")}
           </div>
-          <div className="font-semibold text-2xl">{account?.name}</div>
+          <div className="font-semibold text-2xl">{account?.idTokenClaims?.given_name} {account?.idTokenClaims?.family_name}</div>
         </div>
         <div className="mt-8">
           <div className="text-base font-normal text-fontBlack opacity-75">
@@ -50,7 +50,7 @@ const UserInfo = ({ user }: { user: User }) => {
             </div>
             {/* TODO sklonovanie 2 roky/33 rokov*/}
             <div className="font-semibold text-2xl">
-              {user.age} {t("profile.age-full")}
+              {user.age != null && <>{user.age} {t("profile.age-full")}</>}
             </div>
           </div>
           <div>
