@@ -27,7 +27,7 @@ const UserInfo = ({ user }: { user: User }) => {
     <div className="flex flex-col md:flex-row">
       <PersonComponent
         mode={PersonComponentMode.DisplayOnlyPhoto}
-        person={{ photo: user.image }}
+        person={{ image: user.image }}
       ></PersonComponent>
 
       <div className="mt-6 md:mt-0 md:ml-12">

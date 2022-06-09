@@ -49,7 +49,7 @@ const MobileCarousel = ({ children, className }: MobileCarouselProps) => {
           return (
             <div
               key={index}
-              className={`flex flex-col transition-all mx-auto p-4 bg-white ${positionClassName}`}
+              className={`flex flex-col transition-all mx-auto p-4 ${positionClassName}`}
               style={{
                 width: "70vw",
               }}

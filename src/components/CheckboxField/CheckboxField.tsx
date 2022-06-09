@@ -55,7 +55,7 @@ const CheckboxField = ({
         />
         {label && <span className={`font-medium ml-6 ${error ? "text-error" : "text-fontBlack"} ${disabled ? "text-opacity-50" : ""}`}>{label}</span>}
       </div>
-      {error && <span className="text-error px-2 text-sm ml-7">{error}</span>}
+      {error && <div className="text-error px-2 mt-2 text-sm ml-7">{error}</div>}
     </div>
   );
 };

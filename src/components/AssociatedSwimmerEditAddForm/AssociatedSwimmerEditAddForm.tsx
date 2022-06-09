@@ -4,32 +4,25 @@ import {
   editAssociatedSwimmer,
 } from "../../store/associatedSwimmers/api";
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQueryClient } from "react-query";
 import { Button, Icon, InputField } from "../index";
 import PhotoField from "../PhotoField/PhotoField";
 import * as yup from "yup";
-import { isObject, pick } from "lodash";
+import { pick } from "lodash";
 
 const validationSchema = yup.object({
   firstname: yup.string().required("Toto pole je povinné."),
   lastname: yup.string().required("Toto pole je povinné."),
-  image: yup.lazy((value) =>
-    isObject(value)
-      ? yup
-          .object()
-          .required("Toto pole je povinné.")
-          .typeError("Toto pole je povinné")
-      : yup.string().required("Toto pole je povinné.")
-  ),
+  image: yup.string().required("Toto pole je povinné."),
   age: yup
-      .number()
-      .typeError("Toto pole je povinné.")
-      .required("Toto pole je povinné.")
-      .min(0, "Zadaný vek musí byť väčší ako 0.")
-      .max(150, "Zadaný vek musí byť menší ako 151."),
+    .number()
+    .typeError("Toto pole je povinné.")
+    .required("Toto pole je povinné.")
+    .min(0, "Zadaný vek musí byť väčší ako 0.")
+    .max(150, "Zadaný vek musí byť menší ako 151."),
   zip: yup.string().nullable(),
 });
 export const AssociatedSwimmerEditAddForm = ({
@@ -41,6 +34,7 @@ export const AssociatedSwimmerEditAddForm = ({
 }) => {
   const { t } = useTranslation();
   const [photo, setPhoto] = useState<string | null>();
+  const [photoChanged, setPhotoChanged] = useState(false);
 
   const {
     register,
@@ -56,6 +50,12 @@ export const AssociatedSwimmerEditAddForm = ({
       ? pick(swimmer, ["zip", "age", "image", "firstname", "lastname"])
       : undefined,
   });
+
+  useEffect(() => {
+    if (swimmer?.image) {
+      setPhoto(swimmer?.image);
+    }
+  }, [swimmer]);
 
   const queryClient = useQueryClient();
   const mutation = useMutation(
@@ -73,7 +73,13 @@ export const AssociatedSwimmerEditAddForm = ({
   );
 
   const onSubmit = (form: any) => {
-    mutation.mutate({ ...form, image: photo });
+    // TODO comment
+    mutation.mutate({ ...form, image: photoChanged ? photo : undefined });
+  };
+
+  const handlePhotoChange = (photo: string | null) => {
+    setPhoto(photo);
+    setPhotoChanged(true);
   };
 
   return (
@@ -121,7 +127,7 @@ export const AssociatedSwimmerEditAddForm = ({
           setError={setError}
           clearErrors={clearErrors}
           errors={errors}
-          onPhotoSet={setPhoto}
+          onPhotoSet={handlePhotoChange}
           image={photo}
         ></PhotoField>
       </div>

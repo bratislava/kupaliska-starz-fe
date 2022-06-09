@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, useMemo } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { useElementSize, useLockedBody } from "usehooks-ts";
 import FocusTrap from "focus-trap-react";
 import cx from "classnames";
@@ -6,13 +7,22 @@ import { Portal } from "react-portal";
 
 import "./Modal.css";
 
-const ModalButton = ({ button }: { button: React.ReactNode }) => {
+const ModalButton = ({
+  button,
+  onOverflowChange,
+}: {
+  button: React.ReactNode;
+  onOverflowChange: (height: number) => void;
+}) => {
   const [contentRef, { height: contentHeight }] = useElementSize();
 
-  const height = useMemo(() => contentHeight / 2, [contentHeight]);
+  const overflow = useMemo(() => contentHeight / 2, [contentHeight]);
+  useEffect(() => {
+    onOverflowChange(overflow);
+  }, [overflow]);
 
   return (
-    <div style={{ height }}>
+    <div style={{ height: overflow }}>
       <div className="transform -translate-y-2/4" ref={contentRef}>
         {button}
       </div>
@@ -36,6 +46,7 @@ const Modal = ({
   closeButton = false,
 }: PropsWithChildren<ModalProps>) => {
   useLockedBody(open);
+  const [buttonOverflow, setButtonOverflow] = useState<number>();
 
   return open ? (
     <Portal>
@@ -55,6 +66,12 @@ const Modal = ({
                 "relative bg-white rounded-lg shadow-lg overflow-y-auto",
                 modalClassName
               )}
+              /* Calculates max height of modal, subtracts the overflow of button and close button. */
+              style={{
+                maxHeight: `calc(100vh${closeButton ? " - 16px" : ""}${
+                  button && buttonOverflow ? ` - ${buttonOverflow}px` : ""
+                })`,
+              }}
             >
               {children}
             </div>
@@ -68,7 +85,12 @@ const Modal = ({
             )}
           </div>
 
-          {button && <ModalButton button={button}></ModalButton>}
+          {button && (
+            <ModalButton
+              button={button}
+              onOverflowChange={setButtonOverflow}
+            ></ModalButton>
+          )}
         </div>
       </FocusTrap>
     </Portal>

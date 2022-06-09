@@ -16,8 +16,9 @@ const SignInSignOutLink = () => {
   const [name, setName] = useState<string>();
 
   useEffect(() => {
+    console.log(account);
     if (account) {
-      setName(account.name);
+      setName(`${account.idTokenClaims?.given_name} ${account.idTokenClaims?.family_name}`);
     } else {
       setName(undefined);
     }

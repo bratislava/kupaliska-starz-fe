@@ -4,7 +4,7 @@ import "./Button.css";
 
 interface ButtonProps {
   // TODO: Rename to `type`.
-  color?: "primary" | "secondary" | "outlined" | "blueish";
+  color?: "primary" | "secondary" | "outlined" | "blueish" | "white";
   htmlType?: "button" | "submit" | "reset";
   thin?: boolean;
   onClick?: () => void;
@@ -29,18 +29,21 @@ const Button = ({
     secondary: 'text-secondary"',
     outlined: "text-primary",
     blueish: "text-primary",
+    white: "text-primary",
   }[color];
   const bgColor = {
     primary: "bg-primary",
     secondary: 'bg-secondary"',
     outlined: "bg-transparent",
     blueish: "bg-blueish",
+    white: "bg-white"
   }[color];
   const borderColor = {
     primary: "border-primary",
     secondary: 'border-secondary"',
     outlined: "border-primary",
     blueish: "border-blueish",
+    white: "border-transparent"
   }[color];
   const thinClass = thin ? "p-1" : "p-2";
   const roundedClass = rounded ? "rounded-lg" : "rounded";

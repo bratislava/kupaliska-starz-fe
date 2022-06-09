@@ -82,7 +82,7 @@ const PhotoField = ({
       <div className="flex gap-x-8">
         <div className="">
           <PersonComponent
-            person={{ photo: image }}
+            person={{ image }}
             mode={PersonComponentMode.DisplayOnlyPhoto}
             onPersonClick={openImageInput}
             errorBorder={Boolean(get(errors, "image.message"))}

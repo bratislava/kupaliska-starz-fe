@@ -22,11 +22,11 @@ interface InputProps {
   error?: string;
   leftExtra?: ReactNode;
   rightExtra?: ReactNode;
-  inputClassName?: string;
+  inputWrapperClassName?: string;
   className?: string;
   thin?: boolean;
   element?: "textarea" | "input";
-  label?: string;
+  label?: string | React.ReactNode;
   shouldUnregister?: boolean;
   max?: number;
   valueAsNumber?: boolean;
@@ -43,7 +43,7 @@ const InputField = ({
   error,
   leftExtra,
   rightExtra,
-  inputClassName = "",
+  inputWrapperClassName = "",
   thin = false,
   className = "",
   element: Input = "input",
@@ -83,7 +83,7 @@ const InputField = ({
       <div
         className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${
           thin ? "" : "px-6 py-4"
-        } flex flex-1 items-center`}
+        } flex flex-1 items-center ${inputWrapperClassName}`}
       >
         {!!leftExtra && leftExtra}
         <Input
@@ -92,7 +92,7 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`focus:outline-none h-full flex-1 min-w-0 font-normal ${inputClasses} ${inputClassName}`}
+          className={`focus:outline-none h-full flex-1 min-w-0 font-normal ${inputClasses}`}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(

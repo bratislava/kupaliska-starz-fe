@@ -59,6 +59,12 @@ export const useLogin = () => {
       return;
     }
 
+    if (isConflictError) {
+      // Redirect new user to profile edit to fill photo and age
+      history.push('/profile/edit')
+      return;
+    }
+
     afterLoginCallback();
   };
 };
