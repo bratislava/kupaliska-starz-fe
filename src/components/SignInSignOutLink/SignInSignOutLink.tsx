@@ -18,7 +18,9 @@ const SignInSignOutLink = () => {
   useEffect(() => {
     console.log(account);
     if (account) {
-      setName(`${account.idTokenClaims?.given_name} ${account.idTokenClaims?.family_name}`);
+      setName(
+        `${account.idTokenClaims?.given_name} ${account.idTokenClaims?.family_name}`
+      );
     } else {
       setName(undefined);
     }
@@ -32,7 +34,8 @@ const SignInSignOutLink = () => {
             {name}
           </Link>
         )}
-        {/* TODO: fix eslint */ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        {/* TODO: fix eslint */
+        /* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a role="button" onClick={() => logout()}>
           Odhlásiť sa
         </a>
@@ -44,8 +47,8 @@ const SignInSignOutLink = () => {
   ) {
     // inProgress check prevents sign-in button from being displayed briefly after returning from a redirect sign-in. Processing the server response takes a render cycle or two
     return (
-        // TODO: fix eslint
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      // TODO: fix eslint
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <a role="button" onClick={() => login()}>
         Prihlásiť sa
       </a>
