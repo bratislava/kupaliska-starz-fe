@@ -15,6 +15,7 @@ import {
 } from "@azure/msal-react";
 import { Redirect } from "react-router";
 import "react-loading-skeleton/dist/skeleton.css";
+import { PostLoginHandlerWrapper } from "./hooks/useLogin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,45 +56,48 @@ const renderRoute = (route: IRoute) => (
 function App() {
   const dispatch = useAppDispatch();
   const toast = useAppSelector(selectToast);
+
   useEffect(() => {
     dispatch(initPageGlobalState());
   }, [dispatch]);
   return (
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
-        <ScrollToTop>
-          <Toast
-            open={toast !== undefined}
-            type={toast?.type}
-            text={toast?.message}
-            onClose={() => {
-              dispatch(setToast(undefined));
-            }}
-            timeToClose={toast?.type === "success" ? 3000 : undefined}
-            closeButton={toast?.type !== "success"}
-          />
-          <TopBanner />
-          <main className="relative flex flex-col" style={{ flex: 1 }}>
-            <Header />
+        <PostLoginHandlerWrapper>
+          <ScrollToTop>
+            <Toast
+              open={toast !== undefined}
+              type={toast?.type}
+              text={toast?.message}
+              onClose={() => {
+                dispatch(setToast(undefined));
+              }}
+              timeToClose={toast?.type === "success" ? 3000 : undefined}
+              closeButton={toast?.type !== "success"}
+            />
+            <TopBanner />
+            <main className="relative flex flex-col" style={{ flex: 1 }}>
+              <Header />
 
-            <Switch>
-              {/* https://stackoverflow.com/a/66114844 */}
-              <Route
-                path="/refresh"
-                exact={true}
-                component={() => {
-                  // eslint-disable-next-line react-hooks/rules-of-hooks
-                  const history = useHistory();
-                  // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                  useEffect(() => history.goBack(), []);
-                  return <></>;
-                }}
-              />
-              {routes.map(renderRoute)}
-            </Switch>
-          </main>
-          <Footer />
-        </ScrollToTop>
+              <Switch>
+                {/* https://stackoverflow.com/a/66114844 */}
+                <Route
+                  path="/refresh"
+                  exact={true}
+                  component={() => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    const history = useHistory();
+                    // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                    useEffect(() => history.goBack(), []);
+                    return <></>;
+                  }}
+                />
+                {routes.map(renderRoute)}
+              </Switch>
+            </main>
+            <Footer />
+          </ScrollToTop>
+        </PostLoginHandlerWrapper>
       </ConnectedRouter>
     </QueryClientProvider>
   );

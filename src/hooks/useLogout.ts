@@ -11,7 +11,7 @@ export const useLogout = () => {
   return async () => {
     history.push("/");
 
-    const [logoutError] = await to(instance.logoutPopup());
+    const [logoutError] = await to(instance.logoutRedirect());
 
     if (logoutError) {
       console.error(logoutError);

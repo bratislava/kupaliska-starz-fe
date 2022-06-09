@@ -26,15 +26,16 @@ const TicketCardHomePage = ({
 
   const needsLogin = ticket.nameRequired && !isAuthenticated;
 
-  const redirectToOrder = () => {
-    history.push("/order", { ticketId: ticket.id });
-  };
-
   const handleClick = async () => {
+    const orderLocation = {
+      pathname: "/order",
+      state: { ticketId: ticket.id },
+    };
+
     if (needsLogin) {
-      await login(redirectToOrder);
+      await login(orderLocation);
     } else {
-      redirectToOrder();
+      history.push(orderLocation);
     }
   };
 
