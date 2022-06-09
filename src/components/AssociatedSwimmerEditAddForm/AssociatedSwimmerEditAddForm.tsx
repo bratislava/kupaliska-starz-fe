@@ -21,7 +21,7 @@ const validationSchema = yup.object({
     .number()
     .typeError("Toto pole je povinné.")
     .required("Toto pole je povinné.")
-    .min(0, "Zadaný vek musí byť väčší ako 0.")
+    .min(3, "Dieťa do 3 rokov má vstup na kúpalisko zdarma.")
     .max(150, "Zadaný vek musí byť menší ako 151."),
   zip: yup.string().nullable(),
 });

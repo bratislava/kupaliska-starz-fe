@@ -556,7 +556,7 @@ const validationSchema = yup.object({
           return schema
             .optional()
             .nullable(true)
-            .min(0, "Zadaný vek musí byť vyšší ako 0.")
+            .min(3, "Dieťa do 3 rokov má vstup na kúpalisko zdarma.")
             .max(150, "Zadaný vek musí byť nižší ako 151.")
             .transform((val) => (isNaN(val) ? null : val));
         }
