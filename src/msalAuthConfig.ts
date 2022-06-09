@@ -9,6 +9,9 @@ export const msalConfig: Configuration = {
     redirectUri: "/",
     postLogoutRedirectUri: "/",
   },
+  cache: {
+    cacheLocation: "localStorage",
+  },
   // Uncomment for verbose logging
   /*
     system: {
