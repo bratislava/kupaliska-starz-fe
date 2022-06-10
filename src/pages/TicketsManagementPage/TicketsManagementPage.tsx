@@ -364,7 +364,19 @@ const TicketsManagementPage = () => {
       ];
     });
 
-    return { activeTickets, usedTickets, activeTicketsRows, usedTicketsRows };
+    const hasActiveTickets = activeTickets.length > 0;
+    const hasUsedTickets = usedTickets.length > 0;
+    const hasTickets = hasActiveTickets || hasUsedTickets;
+
+    return {
+      hasActiveTickets,
+      hasUsedTickets,
+      hasTickets,
+      activeTickets,
+      usedTickets,
+      activeTicketsRows,
+      usedTicketsRows,
+    };
   }, [ticketsQuery.data]);
 
   const handleModalClose = () => {
@@ -383,52 +395,81 @@ const TicketsManagementPage = () => {
           <ProfileNavBar></ProfileNavBar>
           <div className="container mx-auto">
             <ProfileLine></ProfileLine>
-            <div className="text-center pb-2 md:pb-6 md:mt-14 text-xl md:text-2xl font-semibold">
-              Aktívne
-            </div>
-            <Table
-              headers={[
-                "Typ lístka",
-                "Zostáva vstupov",
-                "Držiteľ permanentky",
-                "",
-              ]}
-              rows={dataMapped.activeTicketsRows}
-              rowBackgroundClass="bg-blueish"
-            ></Table>
           </div>
-          {/* todo cannot be in container */}
-          <MobileCarousel className="md:hidden mb-10">
-            {dataMapped.activeTickets.map((ticket, index) => (
-              <Ticket
-                key={index}
-                type={"blue"}
-                ticket={ticket}
-                onDetailClick={() => setOpenedTicketDetail(ticket)}
-              ></Ticket>
-            ))}
-          </MobileCarousel>
-          <div className="container mx-auto">
-            <div className="text-center pb-2 md:pb-6 md:mt-24 text-xl md:text-2xl font-semibold">
-              Využité
-            </div>
+          {dataMapped.hasActiveTickets && (
+            <>
+              <div className="container mx-auto">
+                <div className="text-center pb-2 md:pb-6 md:mt-14 mt-10 text-xl md:text-2xl font-semibold">
+                  Aktívne
+                </div>
+                <Table
+                  headers={[
+                    "Typ lístka",
+                    "Zostáva vstupov",
+                    "Držiteľ permanentky",
+                    "",
+                  ]}
+                  rows={dataMapped.activeTicketsRows}
+                  rowBackgroundClass="bg-blueish"
+                ></Table>
+              </div>
+              {/* Carousel cannot be in container. */}
+              <MobileCarousel className="md:hidden mb-10">
+                {dataMapped.activeTickets.map((ticket, index) => (
+                    <Ticket
+                        key={index}
+                        type={"blue"}
+                        ticket={ticket}
+                        onDetailClick={() => setOpenedTicketDetail(ticket)}
+                    ></Ticket>
+                ))}
+              </MobileCarousel>
+            </>
+          )}
+          {dataMapped.hasUsedTickets && (
+            <>
+              <div className="container mx-auto">
+                <div
+                  className={cx(
+                    "text-center pb-2 md:pb-6 text-xl md:text-2xl font-semibold",
+                    {
+                      "md:mt-24 mt-14": dataMapped.hasActiveTickets,
+                      "md:mt-14 mt-10": !dataMapped.hasActiveTickets,
+                    }
+                  )}
+                >
+                  Využité
+                </div>
 
-            <Table
-              headers={["Typ lístka", "Využitý dňa", "Miesto návštevy", ""]}
-              rows={dataMapped.usedTicketsRows}
-              rowBackgroundClass="bg-white"
-            ></Table>
-          </div>
-          {/* todo cannot be in container */}
-          <MobileCarousel className="md:hidden mb-10">
-            {dataMapped.usedTickets.map((ticket, index) => (
-              <UsedTicket
-                key={index}
-                ticket={ticket}
-                onDetailClick={() => setOpenedTicketDetail(ticket)}
-              ></UsedTicket>
-            ))}
-          </MobileCarousel>
+                <Table
+                  headers={["Typ lístka", "Využitý dňa", "Miesto návštevy", ""]}
+                  rows={dataMapped.usedTicketsRows}
+                  rowBackgroundClass="bg-white"
+                ></Table>
+              </div>
+              {/* Carousel cannot be in container. */}
+              <MobileCarousel className="md:hidden mb-10">
+                {dataMapped.usedTickets.map((ticket, index) => (
+                  <UsedTicket
+                    key={index}
+                    ticket={ticket}
+                    onDetailClick={() => setOpenedTicketDetail(ticket)}
+                  ></UsedTicket>
+                ))}
+              </MobileCarousel>
+            </>
+          )}
+
+          {!dataMapped.hasTickets && (
+            <div className="container mx-auto flex items-center mt-8 md:mt-20 flex-col md:flex-row">
+              <div className="flex-grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
+                Nemáte žiadne lístky.
+              </div>
+              <div className="flex-shrink">
+                <img src="/no-tickets.svg" alt="" />
+              </div>
+            </div>
+          )}
         </section>
       )}
     </>
