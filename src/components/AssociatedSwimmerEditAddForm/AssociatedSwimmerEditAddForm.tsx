@@ -12,6 +12,11 @@ import { Button, Icon, InputField } from "../index";
 import PhotoField from "../PhotoField/PhotoField";
 import * as yup from "yup";
 import { pick } from "lodash";
+import { getObjectChanges } from "../../helpers/getObjectChanges";
+
+type FormData = Partial<
+  Pick<AssociatedSwimmer, "firstname" | "lastname" | "image" | "age" | "zip">
+>;
 
 const validationSchema = yup.object({
   firstname: yup.string().required("Toto pole je povinné."),
@@ -33,8 +38,8 @@ export const AssociatedSwimmerEditAddForm = ({
   onSaveSuccess?: () => void;
 }) => {
   const { t } = useTranslation();
+  // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
   const [photo, setPhoto] = useState<string | null>();
-  const [photoChanged, setPhotoChanged] = useState(false);
 
   const {
     register,
@@ -43,11 +48,15 @@ export const AssociatedSwimmerEditAddForm = ({
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: swimmer
-      ? pick(swimmer, ["zip", "age", "image", "firstname", "lastname"])
+      ? {
+          ...pick(swimmer, ["zip", "age", "firstname", "lastname"]),
+          // Photo is not stored in the form for performance reasons.
+          image: swimmer.image ? "set" : undefined,
+        }
       : undefined,
   });
 
@@ -59,10 +68,10 @@ export const AssociatedSwimmerEditAddForm = ({
 
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (formData) => {
+    (formData: FormData) => {
       return swimmer
-        ? editAssociatedSwimmer(swimmer.id as string, formData as any)
-        : createAssociatedSwimmer(formData as any);
+        ? editAssociatedSwimmer(swimmer.id as string, formData)
+        : createAssociatedSwimmer(formData as AssociatedSwimmer);
     },
     {
       onSuccess: () => {
@@ -72,14 +81,10 @@ export const AssociatedSwimmerEditAddForm = ({
     }
   );
 
-  const onSubmit = (form: any) => {
-    // TODO comment
-    mutation.mutate({ ...form, image: photoChanged ? photo : undefined });
-  };
-
-  const handlePhotoChange = (photo: string | null) => {
-    setPhoto(photo);
-    setPhotoChanged(true);
+  const onSubmit = (form: FormData) => {
+    // Get only changed properties, for instance, if we provide the same image it will trigger the upload on the BE.
+    const changes = getObjectChanges(swimmer ?? {}, { ...form, image: photo });
+    mutation.mutate(changes);
   };
 
   return (
@@ -122,7 +127,7 @@ export const AssociatedSwimmerEditAddForm = ({
           setError={setError}
           clearErrors={clearErrors}
           errors={errors}
-          onPhotoSet={handlePhotoChange}
+          onPhotoSet={setPhoto}
           image={photo}
         ></PhotoField>
       </div>

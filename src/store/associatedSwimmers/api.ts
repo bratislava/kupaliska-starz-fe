@@ -6,7 +6,7 @@ export interface AssociatedSwimmer {
   firstname: null | string;
   lastname: null | string;
   age: null | number;
-  zip: null | string;
+  zip?: null | string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -73,10 +73,10 @@ export function createAssociatedSwimmer(
 
 export function editAssociatedSwimmer(
   id: string,
-  associatedSwimmer: Pick<
+  associatedSwimmer: Partial<Pick<
     AssociatedSwimmer,
-    "firstname" | "lastname" | "age" | "zip" | "image" | "id"
-  >
+    "firstname" | "lastname" | "age" | "zip" | "image"
+  >>
 ) {
   return apiClientWithMsal.put<AssociatedSwimmerCreateEditResponse>(
     `/api/v1/associatedSwimmers/${id}`,

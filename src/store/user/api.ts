@@ -16,6 +16,6 @@ export function fetchUser() {
     .get<User>("/api/v1/swimmingLoggedUsers/currentUser")
 }
 
-export function updateUser(user: Pick<User, "age" | "zip" | "image">) {
+export function updateUser(user: Partial<Pick<User, "age" | "zip" | "image">>) {
   return apiClientWithMsal.put<null>("/api/v1/swimmingLoggedUsers", user);
 }

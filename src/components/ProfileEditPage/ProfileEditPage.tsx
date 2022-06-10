@@ -11,6 +11,9 @@ import { useHistory } from "react-router-dom";
 import ProfileLine from "../ProfileLine/ProfileLine";
 import ProfileBack from "../ProfileBack/ProfileBack";
 import { pick } from "lodash";
+import { getObjectChanges } from "../../helpers/getObjectChanges";
+
+type FormData = Partial<Pick<User, "image" | "age" | "zip">>;
 
 const validationSchema = yup.object({
   image: yup.string().required("Toto pole je povinné."),
@@ -34,16 +37,16 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    // TODO comment image
     defaultValues: {
       ...pick(user, ["age", "zip"]),
+      // Photo is not stored in the form for performance reasons.
       image: user.image ? "set" : undefined,
     },
   });
-  const { t } = useTranslation();
 
+  const { t } = useTranslation();
+  // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
   const [photo, setPhoto] = useState<string | null>();
-  const [photoChanged, setPhotoChanged] = useState(false);
 
   const queryClient = useQueryClient();
   const history = useHistory();
@@ -55,8 +58,8 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   }, [user]);
 
   const mutation = useMutation(
-    (formData) => {
-      return updateUser(formData as any);
+    (formData: FormData) => {
+      return updateUser(formData);
     },
     {
       onSuccess: () => {
@@ -66,14 +69,10 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     }
   );
 
-  const onSubmit = (form: any) => {
-    // TODO comment
-    mutation.mutate({ ...form, image: photoChanged ? photo : undefined });
-  };
-
-  const handlePhotoChange = (photo: string | null) => {
-    setPhoto(photo);
-    setPhotoChanged(true);
+  const onSubmit = (form: FormData) => {
+    // Get only changed properties, for instance, if we provide the same image it will trigger the upload on the BE.
+    const changes = getObjectChanges(user, { ...form, image: photo });
+    mutation.mutate(changes);
   };
 
   return (
@@ -112,7 +111,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           setError={setError}
           clearErrors={clearErrors}
           errors={errors}
-          onPhotoSet={handlePhotoChange}
+          onPhotoSet={setPhoto}
           image={photo}
         ></PhotoField>
       </div>
