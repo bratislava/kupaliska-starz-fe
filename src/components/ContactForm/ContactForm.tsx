@@ -70,7 +70,7 @@ const ContactForm = () => {
         className="col-span-2 lg:col-span-1"
         name="name"
         register={register}
-        leftExtra={<Icon name="user" />}
+        leftExtra={<Icon name="user" className="mr-4" />}
         label={t("landing.name")}
         error={errors.name?.message}
       />
@@ -78,7 +78,7 @@ const ContactForm = () => {
         className="col-span-2 lg:col-span-1"
         name="email"
         register={register}
-        leftExtra={<Icon name="mail" />}
+        leftExtra={<Icon name="mail" className="mr-4" />}
         label={t("landing.email")}
         error={errors.email?.message}
       />
