@@ -324,7 +324,7 @@ const TicketsManagementPage = () => {
     useState<TicketFromHistory | null>(null);
 
   const dataMapped = useMemo(() => {
-    if (!ticketsQuery.data) {
+    if (!ticketsQuery.data?.data) {
       return;
     }
 
@@ -416,12 +416,12 @@ const TicketsManagementPage = () => {
               {/* Carousel cannot be in container. */}
               <MobileCarousel className="md:hidden mb-10">
                 {dataMapped.activeTickets.map((ticket, index) => (
-                    <Ticket
-                        key={index}
-                        type={"blue"}
-                        ticket={ticket}
-                        onDetailClick={() => setOpenedTicketDetail(ticket)}
-                    ></Ticket>
+                  <Ticket
+                    key={index}
+                    type={"blue"}
+                    ticket={ticket}
+                    onDetailClick={() => setOpenedTicketDetail(ticket)}
+                  ></Ticket>
                 ))}
               </MobileCarousel>
             </>
