@@ -215,7 +215,12 @@ const NumberedLayout = ({
           ></NumberedLayoutIndexCounter>
         </div>
 
-        <div className={cx("flex items-center", { hidden: showIndexOutside, 'mt-4': !first })}>
+        <div
+          className={cx("flex items-center", {
+            hidden: showIndexOutside,
+            "mt-4": !first,
+          })}
+        >
           <div>
             <NumberedLayoutIndexCounter
               index={index}
@@ -250,7 +255,10 @@ const OrderPageEmail = ({
       error={errors.email?.message}
     />
   ) : (
-    <span>Lístky zašleme na <span className="font-bold text-primary">{account?.username}</span>.</span>
+    <span>
+      Lístky zašleme na{" "}
+      <span className="font-bold text-primary">{account?.username}</span>.
+    </span>
   );
 };
 
@@ -850,9 +858,7 @@ const OrderPage = () => {
 
   return ticket ? (
     <>
-      <form
-        className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12"
-      >
+      <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
         <div>
           <div className="text-2xl md:text-3xl font-semibold mb-4">
             Osobné údaje
@@ -860,7 +866,11 @@ const OrderPage = () => {
 
           <NumberedLayout index={1} first={true}>
             <div className="font-semibold text-xl mb-7">Kupujúci/a</div>
-
+            <div className="mb-2">
+              Pre nákup detskej sezónnej permanentky je{" "}
+              <span className="font-semibold">nutné</span> pridať dieťa v tomto
+              kroku.
+            </div>
             <OrderPageEmail
               requireEmail={requireEmail!}
               register={register}
