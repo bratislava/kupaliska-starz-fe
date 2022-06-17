@@ -35,7 +35,7 @@ interface PeopleListProps {
   onPersonClick?: (person: Partial<AssociatedSwimmer>) => void;
   onRemoveClick?: (person: Partial<AssociatedSwimmer>) => void;
   onAddClick?: () => void;
-  removeDisabled?: boolean
+  removeDisabled?: boolean;
 }
 
 const PeopleList = ({
@@ -45,12 +45,12 @@ const PeopleList = ({
   onRemoveClick = () => {},
   onAddClick = () => {},
   selectedPeopleIds,
-    removeDisabled = false
+  removeDisabled = false,
 }: PeopleListProps) => {
   return (
     <div className="flex overflow-x-auto pt-4">
       <div className="flex gap-x-8">
-        {(people || [] as AssociatedSwimmer[]).map((person, index) => (
+        {(people || ([] as AssociatedSwimmer[])).map((person, index) => (
           <PersonComponent
             key={index}
             person={person}
@@ -59,21 +59,22 @@ const PeopleList = ({
             onRemoveClick={onRemoveClick}
             isSelected={
               mode === PeopleListMode.OrderPageSelection &&
-              person.id !== undefined ?
-              selectedPeopleIds?.includes(person.id) : false
+              person.id !== undefined
+                ? selectedPeopleIds?.includes(person.id)
+                : false
             }
             removeDisabled={removeDisabled}
           ></PersonComponent>
         ))}
         <div
-          className="person-box border-solid border-blueish border-3 rounded-lg bg-white flex py-8 px-6 flex-col justify-between items-center cursor-pointer"
+          className="person-box border-solid border-blueish border-3 rounded-lg bg-white flex py-4 px-6 flex-col justify-between items-center cursor-pointer"
           onClick={() => onAddClick()}
         >
           <img className="w-12 h-12" src="/person-add.svg" alt="" />
-          <span className="text-center">
+          <span className="text-center mt-2">
             {(mode === PeopleListMode.Profile ||
               mode === PeopleListMode.OrderPageDisplay) &&
-              "Pridať ďalšiu osobu"}
+              "Pridať ďalšie dieťa / dospelú osobu"}
             {mode === PeopleListMode.OrderPageSelection &&
               "Pridať osobu do profilu"}
           </span>
