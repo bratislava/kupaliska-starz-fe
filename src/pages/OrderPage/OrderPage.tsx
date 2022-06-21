@@ -27,7 +27,7 @@ import {
 import { QueryObserverResult, useQuery, useQueryClient } from "react-query";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useOrderTicket } from "./useOrderTicket";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useAccount } from "@azure/msal-react";
 import { CheckPriceResponse, Ticket } from "../../models";
 import {
@@ -866,11 +866,14 @@ const OrderPage = () => {
 
           <NumberedLayout index={1} first={true}>
             <div className="font-semibold text-xl mb-7">Kupujúci/a</div>
-            <div className="mb-2">
-              Pre nákup detskej sezónnej permanentky je{" "}
-              <span className="font-semibold">nutné</span> pridať dieťa v tomto
-              kroku.
-            </div>
+            {ticket.type === "SEASONAL" && (
+              <div className="mb-2">
+                <Trans
+                  i18nKey={"buy-page.children-seasonal-reminder"}
+                  components={{ span: <span /> }}
+                />
+              </div>
+            )}
             <OrderPageEmail
               requireEmail={requireEmail!}
               register={register}

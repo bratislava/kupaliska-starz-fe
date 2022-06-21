@@ -130,7 +130,8 @@
     "claim-code": "Uplatniť zľavový kód",
     "kid-times": "x dieťa",
     "summary": "Rekapitulácia nákupu",
-    "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}}€ (max. počet {{childrenMaxNumber}})"
+    "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}}€ (max. počet {{childrenMaxNumber}})",
+    "children-seasonal-reminder": "Pre nákup detskej sezónnej permanentky je <span className='font-semibold'>nutné</span> pridať dieťa v tomto kroku."
   },
   "order-review": {
     "edit-data": "Upraviť údaje ",
