@@ -57,6 +57,7 @@ import { useOrder } from "./useOrder";
 import { orderFormToRequests } from "./formDataToRequests";
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import { environment } from "../../environment";
+import { useValidationSchemaTranslationIfPresent } from "helpers/general";
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
@@ -95,6 +96,8 @@ const OrderPageAddSwimmerModal = ({
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false);
   const [selectedSwimmersIdsEditing, setSelectedSwimmersIdsEditing] =
     useState(selectedSwimmersIds);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSelectedSwimmersIdsEditing(selectedSwimmersIds);
@@ -142,7 +145,7 @@ const OrderPageAddSwimmerModal = ({
             onClick={handleConfirm}
             disabled={selectedSwimmersIdsEditing.length < 1}
           >
-            Potvrdiť výber
+            {t("common.confirm-choice")}
           </Button>
         }
         closeButton={true}
@@ -152,7 +155,7 @@ const OrderPageAddSwimmerModal = ({
           style={{ maxWidth: "730px" }}
         >
           <div className="pb-6 text-center font-bold">
-            Momentálne máte v profile pridané tieto osoby:
+            {t("buy-page.added-people")}
           </div>
           <NumberedLayoutLine></NumberedLayoutLine>
           <PeopleList
@@ -246,19 +249,24 @@ const OrderPageEmail = ({
   const { t } = useTranslation();
   const account = useAccount();
 
+  let errorInterpreted = useValidationSchemaTranslationIfPresent(
+    errors.email?.message
+  );
+
   return requireEmail ? (
     <InputField
       className="mt-6 max-w-formMax"
       name="email"
       register={register}
-      label={<span className="text-base">Email</span>}
-      error={errors.email?.message}
+      label={<span className="text-base">{t("common.email")}</span>}
+      error={errorInterpreted}
     />
   ) : (
-    <span>
-      Lístky zašleme na{" "}
-      <span className="font-bold text-primary">{account?.username}</span>.
-    </span>
+    <Trans
+      i18nKey={"buy-page.email-send-to"}
+      components={{ span: <span /> }}
+      values={{ username: account?.username }}
+    />
   );
 };
 
@@ -285,7 +293,7 @@ const OrderPageOptionalFields = ({
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="age"
           register={register}
-          placeholder="Vek"
+          placeholder={t("buy-page.age")}
           error={errors.age?.message}
           type="number"
           valueAsNumber={true}
@@ -294,7 +302,7 @@ const OrderPageOptionalFields = ({
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="zip"
           register={register}
-          placeholder="PSČ"
+          placeholder={t("buy-page.zip")}
           error={errors.zip?.message}
         />
       </div>
@@ -415,6 +423,8 @@ const OrderPageDiscountCode = ({
 }) => {
   const [useDiscountCode, setUseDiscountCode] = useState(false);
 
+  const { t } = useTranslation();
+
   const handleUseDiscountCodeChange = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -430,7 +440,7 @@ const OrderPageDiscountCode = ({
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
-        label={<span className="text-xl">Uplatniť zľavový kód</span>}
+        label={<span className="text-xl">{t("buy-page.claim-code")}</span>}
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
@@ -458,6 +468,8 @@ const OrderPageDiscountCodeInput = ({
   setValue: UseFormSetValue<OrderFormData>;
   getValues: UseFormGetValues<OrderFormData>;
 }) => {
+  const { t } = useTranslation();
+
   const dispatchErrorToast = useErrorToast();
   const isMounted = useIsMounted();
 
@@ -497,10 +509,10 @@ const OrderPageDiscountCodeInput = ({
         onChange={(event) => setDiscountCode(event.target.value)}
         error={
           status === OrderPageDiscountCodeInputStatus.Error
-            ? "Neplatný zľavový kód."
+            ? t("buy-page.error-code")
             : undefined
         }
-        label={<span className="text-base">Vložte zľavový kód</span>}
+        label={<span className="text-base">{t("buy-page.enter-code")}</span>}
         rightExtra={
           status === OrderPageDiscountCodeInputStatus.Success ? (
             <Icon name="checkmark" className="text-success" />
@@ -510,7 +522,7 @@ const OrderPageDiscountCodeInput = ({
         className="mt-8"
       />
       <Button color="outlined" onClick={handleApply} className="mt-4">
-        Uplatniť
+        {t("buy-page.claim")}
       </Button>
     </>
   );
@@ -522,8 +534,8 @@ const validationSchema = yup.object({
     .when("$requireEmail", (requireEmail: boolean, schema: StringSchema) => {
       if (requireEmail) {
         return schema
-          .email("Zadajte platný email.")
-          .required("Zadajte platný email.");
+          .email("buy-page.email-required")
+          .required("buy-page.email-required");
       }
       return schema;
     }),
@@ -552,9 +564,7 @@ const validationSchema = yup.object({
   //   }
   //   return schema;
   // }),
-  agreement: yup
-    .boolean()
-    .isTrue("Potvrďte prosím prečítanie všeobecných obchodných podmienok."),
+  agreement: yup.boolean().isTrue("buy-page.vop-required"),
   age: yup
     .number()
     .when(
@@ -564,8 +574,8 @@ const validationSchema = yup.object({
           return schema
             .optional()
             .nullable(true)
-            .min(3, "Dieťa do 3 rokov má vstup na kúpalisko zdarma.")
-            .max(150, "Zadaný vek musí byť nižší ako 151.")
+            .min(3, "common.additional-info-toddlers")
+            .max(150, "common.additional-info-tutanchamon")
             .transform((val) => (isNaN(val) ? null : val));
         }
         return schema;
@@ -600,6 +610,8 @@ const OrderPageSummary = ({
     unknown
   >;
 }) => {
+  const { t } = useTranslation();
+
   const watchTicketAmount = watch("ticketAmount");
 
   const handleMinusClick = () => {
@@ -641,8 +653,10 @@ const OrderPageSummary = ({
         {ticket.childrenAllowed && (
           <p className="font-semibold">
             {/* TODO pluralizacia */}
-            Možnosť pridať {ticket.childrenMaxNumber} detí za zvýhodnenú cenu{" "}
-            {ticket.childrenPrice} €.
+            {t("buy-page.children-discount-children-count-and-price", {
+              childrenMaxNumber: ticket.childrenMaxNumber,
+              childrenPrice: ticket.childrenPrice,
+            })}
           </p>
         )}
       </div>
@@ -701,12 +715,17 @@ const OrderPageAdultChildrenCount = ({
     | string
     | null
   )[];
+  const { t } = useTranslation();
 
   const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren;
   const childrenCount = pricing.numberOfChildren;
 
-  const adult = adultCount > 0 ? `${adultCount}x dospelá osoba` : null;
-  const children = childrenCount > 0 ? `${childrenCount}x dieťa` : null;
+  const adult =
+    adultCount > 0 ? t("buy-page.adult-count", { count: adultCount }) : null;
+  const children =
+    childrenCount > 0
+      ? t("buy-page.children-count", { count: childrenCount })
+      : null;
 
   return <>({[adult, children].filter(Boolean).join(" + ")})</>;
 };
@@ -769,6 +788,10 @@ const OrderPage = () => {
 
   const userQuery = useQuery("user", fetchUser);
   const history = useHistory();
+
+  let errorInterpreted = useValidationSchemaTranslationIfPresent(
+    errors.agreement?.message
+  );
 
   useEffect(() => {
     if (!userQuery.data) {
@@ -850,8 +873,10 @@ const OrderPage = () => {
       })}
     >
       {priceQuery.isSuccess && !priceQuery.isFetching
-        ? `Zaplatiť ${priceQuery.data.data.data.pricing.orderPrice} €`
-        : "Zaplatiť"}
+        ? t("buy-page.pay-with-price", {
+            price: priceQuery.data.data.data.pricing.orderPrice,
+          })
+        : t("buy-page.pay")}
       <Icon className="ml-4" name="credit-card" />
     </Button>
   );
@@ -861,11 +886,13 @@ const OrderPage = () => {
       <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
         <div>
           <div className="text-2xl md:text-3xl font-semibold mb-4">
-            Osobné údaje
+            {t("buy-page.personal-info")}
           </div>
 
           <NumberedLayout index={1} first={true}>
-            <div className="font-semibold text-xl mb-7">Kupujúci/a</div>
+            <div className="font-semibold text-xl mb-7">
+              {t("buy-page.buyer")}
+            </div>
             {ticket.type === "SEASONAL" && (
               <div className="mb-2">
                 <Trans
@@ -906,7 +933,7 @@ const OrderPage = () => {
             <CheckboxField
               register={register}
               name="agreement"
-              error={errors.agreement?.message}
+              error={errorInterpreted}
               label={
                 <span className="text-xl">
                   {t("buy-page.vop")}
@@ -922,7 +949,7 @@ const OrderPage = () => {
         </div>
         <div className="mt-14 md:mt-0">
           <span className="text-2xl md:text-3xl font-semibold">
-            Rekapitulácia nákupu
+            {t("buy-page.summary")}
           </span>
           <OrderPageSummary
             ticket={ticket}
@@ -933,15 +960,10 @@ const OrderPage = () => {
           ></OrderPageSummary>
           <div className="text-gray color-fontBlack">
             {!ticket.childrenAllowed && (
-              <p className="mb-2">
-                Cena je jednotná pre všetky vekové skupiny.
-              </p>
+              <p className="mb-2">{t("common.additional-info-age")}</p>
             )}
-            <p className="mb-2">
-              Študentské a seniorské zľavy je možné uplatniť iba pri osobnom
-              nákupe priamo na kúpalisku.
-            </p>
-            <p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>
+            <p className="mb-2">{t("common.additional-info-student-senior")}</p>
+            <p>{t("common.additional-info-toddlers")}</p>
           </div>
         </div>
         <div className="block md:hidden flex justify-center">{buyButton}</div>

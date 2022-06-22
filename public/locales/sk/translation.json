@@ -36,7 +36,13 @@
     }
   },
   "common": {
-    "photo-size": "Veľkosť fotky musí byť menej ako 5MB"
+    "photo-size": "Veľkosť fotky musí byť menej ako 5MB",
+    "additional-info-age": "Cena je jednotná pre všetky vekové skupiny.",
+    "additional-info-student-senior": "Študentské a seniorské zľavy je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.",
+    "additional-info-toddlers": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
+    "additional-info-tutanchamon": "Zadaný vek musí byť nižší ako 151.",
+    "email": "Email",
+    "confirm-choice": "Potvrdiť výber"
   },
   "registration": {
     "name": "Meno",
@@ -128,10 +134,22 @@
     "code-fail": "Zadaný zľavový kód nie je platný.",
     "enter-code": "Vložte zľavový kód",
     "claim-code": "Uplatniť zľavový kód",
+    "error-code": "Neplatný zľavový kód.",
+    "claim": "Uplatniť",
     "kid-times": "x dieťa",
     "summary": "Rekapitulácia nákupu",
     "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}}€ (max. počet {{childrenMaxNumber}})",
-    "children-seasonal-reminder": "Pre nákup detskej sezónnej permanentky je <span className='font-semibold'>nutné</span> pridať dieťa v tomto kroku."
+    "children-seasonal-reminder": "Pre nákup detskej sezónnej permanentky je <span className='font-semibold'>nutné</span> pridať dieťa v tomto kroku.",
+    "buyer": "Kupujúci/a",
+    "pay": "Zaplatiť",
+    "pay-with-price": "Zaplatiť {{price}} €",
+    "adult-count": "{{count}}x dospelá osoba",
+    "children-count": "{{count}}x dieťa",
+    "children-discount-children-count-and-price": "Možnosť pridať {{childrenMaxNumber}} detí za zvýhodnenú cenu {{childrenPrice}} €.",
+    "email-required": "Zadajte platný email.",
+    "email-send-to": "Lístky zašleme na <span className='font-bold text-primary'>{{username}}</span>.",
+    "vop-required": "Potvrďte prosím prečítanie všeobecných obchodných podmienok.",
+    "added-people": "Momentálne máte v profile pridané tieto osoby:"
   },
   "order-review": {
     "edit-data": "Upraviť údaje ",
@@ -163,9 +181,6 @@
     "buy-ticket": "Chcem lístok / permanentku",
     "swimming-pools-starz": "Letné kúpaliská STaRZ",
     "how-does-it-work": "Ako funguje nákup lístkov?",
-    "additional-info-0": "Cena je jednotná pre všetky vekové skupiny.",
-    "additional-info-1": "Študentské a seniorské zľavy je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.",
-    "additional-info-2": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
     "swimming-pools-title": "Kúpaliská",
     "swimming-pools-subtitle": "Lístok a permanentku je možné uplatniť v areáloch:",
     "show-more-swimming-pools": "Zobraziť menej kúpalísk",
