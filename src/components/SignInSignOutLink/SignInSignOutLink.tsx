@@ -4,9 +4,12 @@ import { InteractionStatus } from "@azure/msal-browser";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { useLogout } from "../../hooks/useLogout";
+import { useTranslation } from "react-i18next";
 
 /* Inspired by https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/1b38e9582ae23bde40fe4bef77f3d838e838e08b/samples/msal-react-samples/react-18-sample/src/ui-components/SignInSignOutButton.jsx */
 const SignInSignOutLink = () => {
+  const { t } = useTranslation();
+
   const { inProgress } = useMsal();
   const account = useAccount();
   const isAuthenticated = useIsAuthenticated();
@@ -37,7 +40,7 @@ const SignInSignOutLink = () => {
         {/* TODO: fix eslint */
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a role="button" onClick={() => logout()}>
-          Odhlásiť sa
+          {t("common.logout")}
         </a>
       </>
     );
@@ -50,7 +53,7 @@ const SignInSignOutLink = () => {
       // TODO: fix eslint
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <a role="button" onClick={() => login()}>
-        Prihlásiť sa
+        {t("common.login")}
       </a>
     );
   } else {

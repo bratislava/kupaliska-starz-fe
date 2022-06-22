@@ -48,7 +48,9 @@
     "important-info": "Dôležité linky",
     "contact": "Kontakt",
     "field-required": "Toto pole je povinné.",
-    "back": "Späť"
+    "back": "Späť",
+    "logout": "Odhlásiť sa",
+    "login": "Prihlásiť sa"
   },
   "registration": {
     "name": "Meno",
