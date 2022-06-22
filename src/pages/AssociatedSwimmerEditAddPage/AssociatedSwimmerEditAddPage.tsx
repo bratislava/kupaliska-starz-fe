@@ -52,10 +52,11 @@ const AssociatedSwimmerEditAddPage = () => {
             <div className="mt-14">
               <div className="font-medium text-2xl mb-4 md:mb-8">
                 {editingOld
-                  ? `Ďalšia osoba č. ${
-                      (associatedSwimmersQuery.data?.index as number) + 1
-                    }`
-                  : `Pridať ďalšiu osobu`}
+                  ? t("person-add.next-person", {
+                      order:
+                        (associatedSwimmersQuery.data?.index as number) + 1,
+                    })
+                  : t("profile.add-others")}
               </div>
             </div>
 

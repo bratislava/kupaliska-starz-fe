@@ -6,6 +6,7 @@ import Resizer from "react-image-file-resizer";
 import { PersonComponent, Typography } from "components";
 import Button from "components/Button/Button";
 import { PersonComponentMode } from "../PersonComponent/PersonComponent";
+import { useValidationSchemaTranslationIfPresent } from "helpers/general";
 
 interface PhotoFieldProps {
   setValue?: any;
@@ -49,12 +50,7 @@ const PhotoField = ({
         (uri) => {
           // because performance issues when base64 img is in form
           onPhotoSet && onPhotoSet(uri ? (uri as string) : "");
-          setValue &&
-            uri &&
-            setValue(
-              "image",
-              "set"
-            );
+          setValue && uri && setValue("image", "set");
         },
         "base64"
       );
@@ -74,6 +70,10 @@ const PhotoField = ({
     file && handleImageFile(file);
   };
 
+  let errorInterpretedImage = useValidationSchemaTranslationIfPresent(
+    errors.image?.message
+  );
+
   return (
     <div>
       <Typography type="subtitle" fontWeight="medium" className="mb-3">
@@ -88,7 +88,7 @@ const PhotoField = ({
             errorBorder={Boolean(get(errors, "image.message"))}
           ></PersonComponent>
           {get(errors, "image.message") && (
-              <div className="text-error">{get(errors, "image.message")}</div>
+            <div className="text-error">{errorInterpretedImage}</div>
           )}
         </div>
         <div className="">

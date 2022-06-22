@@ -13,21 +13,22 @@ import PhotoField from "../PhotoField/PhotoField";
 import * as yup from "yup";
 import { pick } from "lodash";
 import { getObjectChanges } from "../../helpers/getObjectChanges";
+import { useValidationSchemaTranslationIfPresent } from "helpers/general";
 
 type FormData = Partial<
   Pick<AssociatedSwimmer, "firstname" | "lastname" | "image" | "age" | "zip">
 >;
 
 const validationSchema = yup.object({
-  firstname: yup.string().required("Toto pole je povinné."),
-  lastname: yup.string().required("Toto pole je povinné."),
-  image: yup.string().required("Toto pole je povinné."),
+  firstname: yup.string().required("common.field-required"),
+  lastname: yup.string().required("common.field-required"),
+  image: yup.string().required("common.field-required"),
   age: yup
     .number()
-    .typeError("Toto pole je povinné.")
-    .required("Toto pole je povinné.")
-    .min(3, "Dieťa do 3 rokov má vstup na kúpalisko zdarma.")
-    .max(150, "Zadaný vek musí byť menší ako 151."),
+    .typeError("common.field-required")
+    .required("common.field-required")
+    .min(3, "common.additional-info-toddlers")
+    .max(150, "common.additional-info-tutanchamon"),
   zip: yup.string().nullable(),
 });
 export const AssociatedSwimmerEditAddForm = ({
@@ -87,6 +88,19 @@ export const AssociatedSwimmerEditAddForm = ({
     mutation.mutate(changes);
   };
 
+  let errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(
+    errors.firstname?.message
+  );
+  let errorInterpretedLastname = useValidationSchemaTranslationIfPresent(
+    errors.lastname?.message
+  );
+  let errorInterpretedAge = useValidationSchemaTranslationIfPresent(
+    errors.age?.message
+  );
+  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(
+    errors.zip?.message
+  );
+
   return (
     <form className="grid grid-cols-1 lg:grid-cols-2">
       <div>
@@ -94,22 +108,22 @@ export const AssociatedSwimmerEditAddForm = ({
           className="col-span-2 lg:col-span-1 max-w-formMax"
           name="firstname"
           register={register}
-          label={"Meno"}
-          error={errors.firstname?.message}
+          label={t("person-add.firstname")}
+          error={errorInterpretedFirstname}
         />
         <InputField
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="lastname"
           register={register}
-          label={"Priezvisko"}
-          error={errors.lastname?.message}
+          label={t("person-add.lastname")}
+          error={errorInterpretedLastname}
         />
         <InputField
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="age"
           register={register}
-          label={"Vek"}
-          error={errors.age?.message}
+          label={t("person-add.age")}
+          error={errorInterpretedAge}
           type="number"
           valueAsNumber={true}
         />
@@ -117,8 +131,8 @@ export const AssociatedSwimmerEditAddForm = ({
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="zip"
           register={register}
-          label={"PSČ"}
-          error={errors.zip?.message}
+          label={t("person-add.zip")}
+          error={errorInterpretedZip}
         />
       </div>
       <div className="flex">

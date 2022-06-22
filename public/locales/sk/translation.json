@@ -47,7 +47,8 @@
     "privacy-conditions": "Zásady ochrany údajov",
     "important-info": "Dôležité linky",
     "contact": "Kontakt",
-    "field-required": "Toto pole je povinné."
+    "field-required": "Toto pole je povinné.",
+    "back": "Späť"
   },
   "registration": {
     "name": "Meno",
@@ -115,8 +116,8 @@
   },
   "person-add": {
     "next-person": "Ďalšia osoba č. {{order}}",
-    "forename": "Meno",
-    "firstname": "Priezvisko",
+    "firstname": "Meno",
+    "lastname": "Priezvisko",
     "email": "E-mail",
     "age": "Vek",
     "zip": "PSČ (voliteľné)",
