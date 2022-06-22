@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import "./ProfileNavBar.css";
 
@@ -25,14 +26,16 @@ const Link = ({ url, text }: LinkProps) => {
 
 const ProfileNavBar = ({
   links = [
-    { url: "tickets", text: "Lístky a permanentky" },
-    { url: "profile", text: "Osobné údaje" },
+    { url: "tickets", text: "profile.tickets-seasonal-tickets" },
+    { url: "profile", text: "profile.personal-info" },
   ],
 }: ProfileNavBarProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="profile-navbar flex flex-row justify-center">
       {links.map((link, index) => (
-        <Link url={link.url} text={link.text} key={index} />
+        <Link url={link.url} text={t(link.text)} key={index} />
       ))}
     </div>
   );

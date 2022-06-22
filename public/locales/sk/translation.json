@@ -84,7 +84,9 @@
     "sign-out": "Odhlásiť",
     "delete": "Naozaj chcete odstrániť túto osobu z vášho profilu?",
     "delete-button": "Odstrániť z profilu",
-    "edit": "Upraviť údaje"
+    "edit": "Upraviť údaje",
+    "tickets-seasonal-tickets": "Lístky a permanentky",
+    "personal-info": "Osobné údaje"
   },
   "tickets": {
     "active": "Aktívne",
