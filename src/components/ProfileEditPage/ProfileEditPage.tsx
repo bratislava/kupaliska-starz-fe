@@ -12,17 +12,18 @@ import ProfileLine from "../ProfileLine/ProfileLine";
 import ProfileBack from "../ProfileBack/ProfileBack";
 import { pick } from "lodash";
 import { getObjectChanges } from "../../helpers/getObjectChanges";
+import { useValidationSchemaTranslationIfPresent } from "helpers/general";
 
 type FormData = Partial<Pick<User, "image" | "age" | "zip">>;
 
 const validationSchema = yup.object({
-  image: yup.string().required("Toto pole je povinné."),
+  image: yup.string().required("common.field-required"),
   age: yup
     .number()
-    .typeError("Toto pole je povinné.")
-    .required("Toto pole je povinné.")
-    .min(3, "Dieťa do 3 rokov má vstup na kúpalisko zdarma.")
-    .max(150, "Zadaný vek musí byť menší ako 151."),
+    .typeError("common.field-required")
+    .required("common.field-required")
+    .min(3, "common.additional-info-toddlers")
+    .max(150, "common.additional-info-tutanchamon"),
   zip: yup.string().nullable(),
 });
 
@@ -75,6 +76,13 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     mutation.mutate(changes);
   };
 
+  let errorInterpretedAge = useValidationSchemaTranslationIfPresent(
+    errors.age?.message
+  );
+  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(
+    errors.zip?.message
+  );
+
   return (
     <form className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div>
@@ -82,8 +90,8 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           className="col-span-2 lg:col-span-1 max-w-formMax"
           name="age"
           register={register}
-          label="Vek"
-          error={errors.age?.message}
+          label={t("profile.age")}
+          error={errorInterpretedAge}
           type="number"
           valueAsNumber={true}
         />
@@ -91,8 +99,8 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="zip"
           register={register}
-          label="PSČ"
-          error={errors.zip?.message}
+          label={t("profile.zip")}
+          error={errorInterpretedZip}
         />
         <Button
           className="my-8"
@@ -139,7 +147,7 @@ const ProfileEditPage = () => {
                 className="mr-0 md:mr-4 mb-5 md:mb-0"
               />
               <div className="text-center">
-                Pre nákup permanentky je potrebné vyplniť vek a fotografiu.
+                {t("profile.age-photo-required")}
               </div>
             </div>
           )}

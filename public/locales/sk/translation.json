@@ -46,7 +46,8 @@
     "vop": "Všeobecné obchodné podmienky",
     "privacy-conditions": "Zásady ochrany údajov",
     "important-info": "Dôležité linky",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "field-required": "Toto pole je povinné."
   },
   "registration": {
     "name": "Meno",
@@ -86,7 +87,8 @@
     "delete-button": "Odstrániť z profilu",
     "edit": "Upraviť údaje",
     "tickets-seasonal-tickets": "Lístky a permanentky",
-    "personal-info": "Osobné údaje"
+    "personal-info": "Osobné údaje",
+    "age-photo-required": "Pre nákup permanentky je potrebné vyplniť vek a fotografiu."
   },
   "tickets": {
     "active": "Aktívne",
