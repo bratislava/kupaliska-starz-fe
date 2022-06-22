@@ -28,13 +28,15 @@ const TicketsManagementModal = ({
   onClose: any;
   ticket: TicketFromHistory | null;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Modal
       open={open}
       onClose={onClose}
       button={
         <Button onClick={onClose} className="px-10">
-          Skryť detail
+          {t("tickets.less-info")}
         </Button>
       }
       modalClassName="w-full md:w-max"
@@ -47,20 +49,22 @@ const TicketsManagementModal = ({
           >
             <div className="flex mb-5">
               <div className="flex flex-col justify-between flex-1">
-                <div className="font-bold mt-4">Prehľad návštev kúpalísk</div>
+                <div className="font-bold mt-4">
+                  {t("tickets.ticket-detail")}
+                </div>
                 <div className="flex justify-between">
                   <div className="mr-8">
-                    Držiteľ/ka permanentky:{" "}
+                    {t("tickets.ticket-owner")}
                     <span className="font-semibold">{ticket.ownerName}</span>
                   </div>
                   <div className="mr-8">
-                    Cena:{" "}
+                    {t("tickets.price-individual")}
                     <span className="font-semibold">{ticket.price} €</span>
                   </div>
                   {ticket.remainingEntries != null &&
                     ticket.remainingEntries !== 0 && (
                       <div className="mr-8">
-                        Počet zostavajúcich vstupov:
+                        {t("tickets.remaining-entries-indvidual")}
                         <span className="font-semibold">
                           {ticket.remainingEntries}
                         </span>
@@ -76,10 +80,10 @@ const TicketsManagementModal = ({
             <table className="table-auto w-full">
               <thead>
                 <tr className="opacity-50 text-left">
-                  <th className="font-medium py-10">Miesto</th>
-                  <th className="font-medium py-10">Dátum</th>
-                  <th className="font-medium py-10">Čas príchodu</th>
-                  <th className="font-medium py-10">Čas odchodu</th>
+                  <th className="font-medium py-10">{t("tickets.place")}</th>
+                  <th className="font-medium py-10">{t("tickets.date")}</th>
+                  <th className="font-medium py-10">{t("tickets.time-in")}</th>
+                  <th className="font-medium py-10">{t("tickets.time-out")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -100,9 +104,7 @@ const TicketsManagementModal = ({
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={4}>
-                      Pre zobrazený lístok neexistujú žiadne návštevy.
-                    </td>
+                    <td colSpan={4}>{t("tickets.no-entries")}</td>
                   </tr>
                 )}
               </tbody>
@@ -111,19 +113,20 @@ const TicketsManagementModal = ({
           <div className="md:hidden text-primary h-full mb-5">
             <div className="pt-8 px-6 pb-5 bg-blueish rounded-t-lg">
               <div className="pb-4 font-bold text-xl">
-                Prehľad návštev kúpalísk
+                {t("tickets.ticket-detail")}
               </div>
               <div className="pb-3">
-                Držiteľ/ka permanentky:{" "}
+                {t("tickets.ticket-owner")}
                 <span className="font-semibold">{ticket.ownerName}</span>
               </div>
               <div className="pb-3">
-                Cena: <span className="font-semibold">{ticket.price} €</span>
+                {t("tickets.price-individual")}
+                <span className="font-semibold">{ticket.price} €</span>
               </div>
               {ticket.remainingEntries != null &&
                 ticket.remainingEntries !== 0 && (
                   <div>
-                    Počet zostavajúcich vstupov:
+                    {t("tickets.remaining-entries-indvidual")}
                     <span className="font-semibold">
                       {ticket.remainingEntries}
                     </span>
@@ -138,19 +141,19 @@ const TicketsManagementModal = ({
                 <React.Fragment key={index}>
                   <div className="grid grid-cols-2 gap-y-3">
                     <div className="col-span-2">
-                      <div className="mb-1">Miesto</div>
+                      <div className="mb-1">{t("tickets.place")}</div>
                       <div>{entry.poolName}</div>
                     </div>
                     <div className="col-span-2">
-                      <div className="mb-1">Dátum</div>
+                      <div className="mb-1">{t("tickets.date")}</div>
                       <div> {entry.from && formatDate(entry.from)}</div>
                     </div>
                     <div>
-                      <div className="mb-1">Čas príchodu</div>
+                      <div className="mb-1">{t("tickets.time-in")}</div>
                       <div>{entry.from && formatTime(entry.from)}</div>
                     </div>
                     <div>
-                      <div className="mb-1">Čas odchodu</div>
+                      <div className="mb-1">{t("tickets.time-out")}</div>
                       <div>{entry.to && formatTime(entry.to)}</div>
                     </div>
                   </div>
@@ -171,6 +174,8 @@ interface TicketProps {
 }
 
 const Ticket = ({ type, ticket, onDetailClick }: TicketProps) => {
+  const { t } = useTranslation();
+
   const textClass = {
     blue: "text-white",
     blueish: "text-primary",
@@ -205,7 +210,7 @@ const Ticket = ({ type, ticket, onDetailClick }: TicketProps) => {
           className="absolute shadow-xs"
           onClick={onDetailClick}
         >
-          Detail lístku
+          {t("tickets.ticket-button")}
           <Icon className="ml-4" name="arrow-left" />
         </Button>
       </div>
@@ -285,14 +290,16 @@ const UsedTicket = ({
   ticket: TicketFromHistory;
   onDetailClick: () => void;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex px-8 py-6 mb-6 flex-col rounded-lg shadow-xs bg-white">
       <div className="flex flex-col pb-6">
-        <span>Typ lístka</span>
+        <span>{t("tickets.ticket-type")}</span>
         <span className="font-semibold text-xl">{ticket.type}</span>
       </div>
       <div className="flex flex-col pb-6">
-        <span>Využitý dňa</span>
+        <span>{t("tickets.entry-date")}</span>
         <span className="font-semibold text-xl">
           {ticket.entries[0] &&
             ticket.entries[0].from &&
@@ -300,7 +307,7 @@ const UsedTicket = ({
         </span>
       </div>
       <div className="flex flex-col pb-6">
-        <span>Cena</span>
+        <span>{t("tickets.price")}</span>
         <span className="font-semibold text-xl">{ticket.price} €</span>
       </div>
       <div className="flex justify-center">
@@ -309,7 +316,7 @@ const UsedTicket = ({
           className="absolute shadow-xs"
           onClick={onDetailClick}
         >
-          Viac informacií
+          {t("tickets.more-info")}
           <Icon className="ml-4" name="arrow-left" />
         </Button>
       </div>
@@ -343,7 +350,7 @@ const TicketsManagementPage = () => {
         onClick={() => setOpenedTicketDetail(ticket)}
         className="underline text-primary font-semibold"
       >
-        viac informácii
+        {t("tickets.more-info")}
       </a>,
     ]);
 
@@ -359,7 +366,7 @@ const TicketsManagementPage = () => {
           onClick={() => setOpenedTicketDetail(ticket)}
           className="underline text-primary font-semibold"
         >
-          viac informácii
+          {t("tickets.more-info")}
         </a>,
       ];
     });
@@ -400,13 +407,13 @@ const TicketsManagementPage = () => {
             <>
               <div className="container mx-auto">
                 <div className="text-center pb-2 md:pb-6 md:mt-14 mt-10 text-xl md:text-2xl font-semibold">
-                  Aktívne
+                  {t("tickets.active")}
                 </div>
                 <Table
                   headers={[
-                    "Typ lístka",
-                    "Zostáva vstupov",
-                    "Držiteľ permanentky",
+                    t("tickets.ticket-type"),
+                    t("tickets.entry-date"),
+                    t("tickets.entry-place"),
                     "",
                   ]}
                   rows={dataMapped.activeTicketsRows}
@@ -438,11 +445,16 @@ const TicketsManagementPage = () => {
                     }
                   )}
                 >
-                  Využité
+                  {t("tickets.inactive")}
                 </div>
 
                 <Table
-                  headers={["Typ lístka", "Využitý dňa", "Miesto návštevy", ""]}
+                  headers={[
+                    t("tickets.ticket-type"),
+                    t("tickets.entry-date"),
+                    t("tickets.entry-place"),
+                    "",
+                  ]}
                   rows={dataMapped.usedTicketsRows}
                   rowBackgroundClass="bg-white"
                 ></Table>
@@ -463,7 +475,7 @@ const TicketsManagementPage = () => {
           {!dataMapped.hasTickets && (
             <div className="container mx-auto flex items-center mt-8 md:mt-20 flex-col md:flex-row">
               <div className="flex-grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
-                Nemáte žiadne lístky.
+                {t("tickets.no-tickets")}
               </div>
               <div className="flex-shrink">
                 <img src="/no-tickets.svg" alt="" />
