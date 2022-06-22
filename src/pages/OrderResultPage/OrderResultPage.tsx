@@ -116,7 +116,7 @@ const OrderResultPage = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
             <div>
-              <SectionHeader title="Nákup úspešný" />
+              <SectionHeader title={t("order-result.order-successful")} />
               <Typography type="subtitle" fontWeight="bold" className="mb-4">
                 {t("order-result.thank-you")}
               </Typography>
@@ -184,7 +184,7 @@ const OrderResultPage = () => {
       ) : (
         <div className="flex flex-col flex-1 justify-between md:justify-start">
           <div>
-            <SectionHeader title="Nákup neúspešný" />
+            <SectionHeader title={t("order-result.order-failed")} />
             <Typography type="subtitle" fontWeight="bold">
               {t("order-result.sry-fault")}
             </Typography>

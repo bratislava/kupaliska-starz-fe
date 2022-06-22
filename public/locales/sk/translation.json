@@ -42,7 +42,11 @@
     "additional-info-toddlers": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
     "additional-info-tutanchamon": "Zadaný vek musí byť nižší ako 151.",
     "email": "Email",
-    "confirm-choice": "Potvrdiť výber"
+    "confirm-choice": "Potvrdiť výber",
+    "vop": "Všeobecné obchodné podmienky",
+    "privacy-conditions": "Zásady ochrany údajov",
+    "important-info": "Dôležité linky",
+    "contact": "Kontakt"
   },
   "registration": {
     "name": "Meno",
@@ -75,6 +79,8 @@
     "age-full": "rokov",
     "others": "Ďalšie osoby",
     "add-others": "Pridať ďalšiu osobu",
+    "add-others-to-profile": "Pridať ďalšiu osobu",
+    "add-other-adult-kid": "Pridať ďalšie dieťa / dospelú osobu",
     "sign-out": "Odhlásiť",
     "delete": "Naozaj chcete odstrániť túto osobu z vášho profilu?",
     "delete-button": "Odstrániť z profilu",
@@ -165,7 +171,9 @@
     "sry-fault": "Mrzí nás to ale niekde nastala chyba",
     "pls-contact": "Prosím zopakujte nákup ešte raz alebo v prípade ďalších komplikácií nás kontaktujte na kupaliska@bratislava.sk.",
     "contact-us": "Kontaktujte nás ",
-    "try-again": "Skúsiť znova "
+    "try-again": "Skúsiť znova ",
+    "order-failed": "Nákup neúspešný",
+    "order-successful": "Nákup úspešný"
   },
   "vop": {
     "title": "Všeobecné obchodné podmienky",

@@ -2,6 +2,7 @@ import React from "react";
 import "./PeopleList.css";
 import { PersonComponent } from "../";
 import { AssociatedSwimmer } from "../../store/associatedSwimmers/api";
+import { useTranslation } from "react-i18next";
 
 /**
  * Profile
@@ -47,6 +48,8 @@ const PeopleList = ({
   selectedPeopleIds,
   removeDisabled = false,
 }: PeopleListProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex overflow-x-auto pt-4">
       <div className="flex gap-x-8">
@@ -74,9 +77,9 @@ const PeopleList = ({
           <span className="text-center mt-2">
             {(mode === PeopleListMode.Profile ||
               mode === PeopleListMode.OrderPageDisplay) &&
-              "Pridať ďalšie dieťa / dospelú osobu"}
+              t("profile.add-other-adult-kid")}
             {mode === PeopleListMode.OrderPageSelection &&
-              "Pridať osobu do profilu"}
+              t("profile.add-others-to-profile")}
           </span>
         </div>
       </div>

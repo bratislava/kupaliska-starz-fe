@@ -152,7 +152,10 @@ const LandingPage = () => {
       </section>
 
       <section id="ticket-buy" className="section">
-        <SectionHeader title="Dostupné lístky" className="text-center" />
+        <SectionHeader
+          title={t("landing.available-ticket")}
+          className="text-center"
+        />
         <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
           {tickets.map((ticket) => (
             <TicketCardHomePage
