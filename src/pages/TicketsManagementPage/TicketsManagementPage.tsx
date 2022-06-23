@@ -413,7 +413,7 @@ const TicketsManagementPage = () => {
                   headers={[
                     t("tickets.ticket-type"),
                     t("tickets.entry-date"),
-                    t("tickets.entry-place"),
+                    t("tickets.season-ticket-owner"),
                     "",
                   ]}
                   rows={dataMapped.activeTicketsRows}
