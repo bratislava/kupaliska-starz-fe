@@ -180,6 +180,17 @@ const OrderResultPage = () => {
               </Button>
             </div>
           )}
+          <div className={`w-full mt-4 lg:mt-8 md:w-1/2 mx-auto lg:ml-0 p-0`}>
+            <a
+              className={`w-full h-full min-w-fit `}
+              // className={`w-full mt-4 lg:mt-8 md:w-1/2 mx-auto lg:ml-0 p-0`}
+              href="https://forms.office.com/r/wCUcKaf5Yx"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Button className={`w-full`}>{t("order-result.feedback")}</Button>
+            </a>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col flex-1 justify-between md:justify-start">
