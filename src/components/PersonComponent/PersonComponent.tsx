@@ -5,6 +5,7 @@ import { PeopleListMode } from "../PeopleList/PeopleList";
 
 import "../PeopleList/PeopleList.css";
 import { AssociatedSwimmer } from "../../store/associatedSwimmers/api";
+import { useTranslation } from "react-i18next";
 
 export enum PersonComponentMode {
   DisplayWithDescription = "DisplayWithDescription",
@@ -33,6 +34,8 @@ const PersonComponent = ({
   const removeIconRef = useRef<HTMLImageElement>(null);
   const isRemoveIconHovered = useHover(removeIconRef);
 
+  const { t } = useTranslation();
+
   const showRemoveIcon =
     (mode === PeopleListMode.Profile ||
       mode === PeopleListMode.OrderPageDisplay) &&
@@ -45,7 +48,7 @@ const PersonComponent = ({
   const showPrimaryBorder =
     mode === PeopleListMode.OrderPageDisplay ||
     (mode === PeopleListMode.OrderPageSelection && !isSelected);
-  const showGreenBorder =
+  const showGreenOverlay =
     mode === PeopleListMode.OrderPageSelection && isSelected;
   const showGreyBorder = [
     PeopleListMode.Profile,
@@ -70,10 +73,10 @@ const PersonComponent = ({
     <div className="inline-flex flex-col items-center">
       <div
         className={cx(
-          "person-box border-solid border-3 rounded-lg group relative bg-center bg-cover bg-no-repeat bg-white",
+          "person-box border-solid border-4 rounded-lg group relative bg-center bg-cover bg-no-repeat bg-white",
           { "cursor-pointer": hoverOverlay },
           { "border-primary": showPrimaryBorder && !showErrorBorder },
-          { "border-green-200": showGreenBorder && !showErrorBorder },
+          { "border-primary": showGreenOverlay && !showErrorBorder },
           { "border-stone-300": showGreyBorder && !showErrorBorder },
           { "border-error": showErrorBorder }
         )}
@@ -87,7 +90,15 @@ const PersonComponent = ({
           <>
             <div className="absolute w-full h-full rounded-lg group-hover:bg-primary opacity-75 top-0 "></div>
             <div className="absolute w-full h-full rounded-lg top-0 hidden group-hover:grid place-content-center text-white">
-              Upraviť údaje
+              {t("person-component.edit-user")}
+            </div>
+          </>
+        )}
+        {showGreenOverlay && (
+          <>
+            <div className="absolute w-full h-full bg-primary opacity-80 top-0 "></div>
+            <div className="absolute w-full h-full rounded-lg top-0 grid place-content-center text-white">
+              {t("person-component.choosen")}
             </div>
           </>
         )}
@@ -114,7 +125,9 @@ const PersonComponent = ({
             {person.firstname} {person.lastname}
           </div>
           {/* TODO: sklonovanie */}
-          <div className="mt-3 text-center">{person.age} rokov</div>
+          <div className="mt-3 text-center">
+            {t("person-component.age", { age: person.age })}
+          </div>
         </>
       )}
     </div>

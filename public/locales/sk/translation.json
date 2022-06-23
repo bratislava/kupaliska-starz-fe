@@ -167,12 +167,17 @@
     "email-required": "Zadajte platný email.",
     "email-send-to": "Lístky zašleme na <span className='font-bold text-primary'>{{username}}</span>.",
     "vop-required": "Potvrďte prosím prečítanie všeobecných obchodných podmienok.",
-    "added-people": "Momentálne máte v profile pridané tieto osoby:"
+    "added-people": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť permanentky:"
   },
   "order-review": {
     "edit-data": "Upraviť údaje ",
     "pay": "Zaplatiť ",
     "review-muted": "<p>Cena je jednotná pre všetky vekové skupiny.</p><p>Študentské a seniorské zľavy je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.</p><p>Dieťa do 3 rokov má vstup na kúpalisko zdarma.</p>"
+  },
+  "person-component": {
+    "edit-user": "Upraviť údaje",
+    "age": "{{age}} rokov",
+    "choosen": "Vybrané"
   },
   "order-result": {
     "thank-you": "Ďakujeme za váš nákup!",

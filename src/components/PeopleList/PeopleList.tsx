@@ -70,7 +70,7 @@ const PeopleList = ({
           ></PersonComponent>
         ))}
         <div
-          className="person-box border-solid border-blueish border-3 rounded-lg bg-white flex py-4 px-6 flex-col justify-between items-center cursor-pointer"
+          className="person-box border-solid border-blueish border-4 rounded-lg bg-white flex py-4 px-6 flex-col justify-between items-center cursor-pointer"
           onClick={() => onAddClick()}
         >
           <img className="w-12 h-12" src="/person-add.svg" alt="" />
