@@ -9,6 +9,8 @@ export interface TicketFromHistory {
   entries: TicketFromHistoryEntry[];
   qrCode: string;
   price: number;
+  age: number;
+  ticketColor: TicketColor;
 }
 
 export interface TicketFromHistoryEntry {
@@ -16,6 +18,11 @@ export interface TicketFromHistoryEntry {
   from: number | null;
   to: number | null;
   poolName: string;
+}
+
+export interface TicketColor {
+  text: string;
+  background: string;
 }
 
 export function fetchTicketsHistory() {

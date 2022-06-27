@@ -197,6 +197,10 @@ const Ticket = ({ type, ticket, onDetailClick }: TicketProps) => {
   return (
     <div
       className={`flex p-6 mb-6 items-center flex-col rounded-lg shadow-xs overflow-auto ${textClass} ${backgroundClass}`}
+      style={{
+        backgroundColor: ticket.ticketColor.background,
+        color: ticket.ticketColor.text,
+      }}
     >
       <span className="font-bold text-2xl mb-1">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
