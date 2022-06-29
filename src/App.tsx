@@ -60,6 +60,10 @@ function App() {
   useEffect(() => {
     dispatch(initPageGlobalState());
   }, [dispatch]);
+
+  console.log("bam");
+  console.log(process.env.REACT_APP_SENTRY_DSN);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
