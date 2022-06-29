@@ -19,7 +19,7 @@ import { MsalProvider } from "@azure/msal-react";
 import { msalInstance } from "./msalInstance";
 
 Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
+  dsn: process.env.SENTRY_DSN,
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: (process.env.REACT_APP_TRACES_SAMPLE_RATE || 1) as number,
 });
