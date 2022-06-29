@@ -64,6 +64,7 @@ function App() {
   console.log("bam");
   console.log(process.env.SENTRY_DSN);
   console.log(process.env.REACT_APP_SENTRY_DSN);
+  console.log(process.env.REACT_APP_MSAL_AUTHORITY);
 
   return (
     <QueryClientProvider client={queryClient}>
