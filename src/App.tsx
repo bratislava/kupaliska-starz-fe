@@ -62,13 +62,6 @@ function App() {
     dispatch(initPageGlobalState());
   }, [dispatch]);
 
-  console.log("bam");
-  console.log(process.env.SENTRY_DSN);
-  console.log(process.env.REACT_APP_SENTRY_DSN);
-  console.log(process.env.REACT_APP_MSAL_AUTHORITY);
-  console.log(environment.sentryDsn);
-  console.log(environment.msalAuthority);
-
   return (
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
