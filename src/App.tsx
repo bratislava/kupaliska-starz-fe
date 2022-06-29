@@ -16,6 +16,7 @@ import {
 import { Redirect } from "react-router";
 import "react-loading-skeleton/dist/skeleton.css";
 import { PostLoginHandlerWrapper } from "./hooks/useLogin";
+import { environment } from "environment";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -65,6 +66,8 @@ function App() {
   console.log(process.env.SENTRY_DSN);
   console.log(process.env.REACT_APP_SENTRY_DSN);
   console.log(process.env.REACT_APP_MSAL_AUTHORITY);
+  console.log(environment.sentryDsn);
+  console.log(environment.msalAuthority);
 
   return (
     <QueryClientProvider client={queryClient}>
