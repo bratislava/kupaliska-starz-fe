@@ -9,4 +9,5 @@ export const environment = {
   msalClientId: process.env.REACT_APP_MSAL_CLIENT_ID as string,
   msalAuthority: process.env.REACT_APP_MSAL_AUTHORITY as string,
   msalKnownAuthorities: [process.env.REACT_APP_MSAL_KNOWN_AUTHORITY as string],
+  sentryDsn: process.env.REACT_APP_SENTRY_DSN as string,
 };
