@@ -794,14 +794,6 @@ const OrderPage = () => {
             <div className="font-semibold text-xl mb-7">
               {t("buy-page.buyer")}
             </div>
-            {ticket.type === "SEASONAL" && (
-              <div className="mb-2">
-                <Trans
-                  i18nKey={"buy-page.children-seasonal-reminder"}
-                  components={{ span: <span /> }}
-                />
-              </div>
-            )}
             <OrderPageEmail
               requireEmail={requireEmail!}
               register={register}
@@ -814,11 +806,27 @@ const OrderPage = () => {
               ></OrderPageOptionalFields>
             )}
             {hasSwimmers && (
-              <OrderPagePeopleList
-                watch={watch}
-                setValue={setValue}
-                errors={errors}
-              ></OrderPagePeopleList>
+              <>
+                <div className="mt-2">
+                  {ticket.type === "SEASONAL" && (
+                    <Trans
+                      i18nKey={"buy-page.select-people-reminder-seasonal"}
+                      components={{ span: <span /> }}
+                    />
+                  )}
+                  {ticket.type === "ENTRIES" && (
+                    <Trans
+                      i18nKey={"buy-page.select-people-reminder-entries"}
+                      components={{ span: <span /> }}
+                    />
+                  )}
+                </div>
+                <OrderPagePeopleList
+                  watch={watch}
+                  setValue={setValue}
+                  errors={errors}
+                ></OrderPagePeopleList>
+              </>
             )}
           </NumberedLayout>
 
