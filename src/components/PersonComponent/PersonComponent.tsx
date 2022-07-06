@@ -22,6 +22,7 @@ interface PersonComponentProps {
   removeDisabled?: boolean;
 }
 
+/* TODO remove PeopleListMode.OrderPageDisplay */
 const PersonComponent = ({
   person,
   mode,

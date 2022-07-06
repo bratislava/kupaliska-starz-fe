@@ -41,9 +41,9 @@ import {
   FieldErrors,
   useForm,
   UseFormGetValues,
+  UseFormSetValue,
   UseFormWatch,
   useWatch,
-  UseFormSetValue,
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -77,97 +77,6 @@ const OrderPageCreateSwimmerModal = ({
         ></AssociatedSwimmerEditAddForm>
       </div>
     </Modal>
-  );
-};
-
-const OrderPageAddSwimmerModal = ({
-  data,
-  open = false,
-  onClose,
-  onConfirm = () => {},
-  selectedSwimmersIds,
-}: {
-  data: Partial<AssociatedSwimmer>[];
-  open: boolean;
-  onClose: () => void;
-  onConfirm?: (data: (string | null)[]) => void;
-  selectedSwimmersIds: (string | null)[];
-}) => {
-  const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false);
-  const [selectedSwimmersIdsEditing, setSelectedSwimmersIdsEditing] =
-    useState(selectedSwimmersIds);
-
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    setSelectedSwimmersIdsEditing(selectedSwimmersIds);
-  }, [selectedSwimmersIds]);
-
-  const handlePersonClick = (clickedPerson: Partial<AssociatedSwimmer>) => {
-    if (clickedPerson.id === undefined) {
-      return;
-    }
-    if (selectedSwimmersIdsEditing.includes(clickedPerson.id)) {
-      setSelectedSwimmersIdsEditing(
-        selectedSwimmersIdsEditing.filter((p) => p !== clickedPerson.id)
-      );
-    } else {
-      setSelectedSwimmersIdsEditing([
-        ...selectedSwimmersIdsEditing,
-        clickedPerson.id,
-      ]);
-    }
-  };
-
-  const handleConfirm = () => {
-    onConfirm(selectedSwimmersIdsEditing);
-  };
-
-  const handleAddSwimmerClick = () => {
-    setAddSwimmerModalOpen(true);
-  };
-
-  const handleAddSwimmerClose = () => {
-    setAddSwimmerModalOpen(false);
-  };
-
-  return (
-    <>
-      <OrderPageCreateSwimmerModal
-        open={addSwimmerModalOpen}
-        onClose={handleAddSwimmerClose}
-      ></OrderPageCreateSwimmerModal>
-      <Modal
-        open={open && !addSwimmerModalOpen}
-        onClose={onClose}
-        button={
-          <Button
-            onClick={handleConfirm}
-            disabled={selectedSwimmersIdsEditing.length < 1}
-          >
-            {t("common.confirm-choice")}
-          </Button>
-        }
-        closeButton={true}
-      >
-        <div
-          className="block bg-white rounded-lg p-10 text-primary shadow-lg modal-with-close-width-screen"
-          style={{ maxWidth: "730px" }}
-        >
-          <div className="pb-6 text-center font-bold">
-            {t("buy-page.added-people")}
-          </div>
-          <NumberedLayoutLine></NumberedLayoutLine>
-          <PeopleList
-            people={data}
-            onAddClick={handleAddSwimmerClick}
-            onPersonClick={handlePersonClick}
-            mode={PeopleListMode.OrderPageSelection}
-            selectedPeopleIds={selectedSwimmersIdsEditing}
-          ></PeopleList>
-        </div>
-      </Modal>
-    </>
   );
 };
 
@@ -319,7 +228,7 @@ const OrderPagePeopleList = ({
   watch: UseFormWatch<OrderFormData>;
   setValue: UseFormSetValue<OrderFormData>;
 }) => {
-  const [showAddPersonModal, setShowAddPersonModal] = useState(false);
+  const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false);
   const selectedSwimmerIds = watch("selectedSwimmerIds") as (string | null)[];
 
   const associatedSwimmersQuery = useQuery(
@@ -358,50 +267,42 @@ const OrderPagePeopleList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
-  const selectedSwimmers = useMemo(() => {
-    if (!mergedSwimmers) {
+  const handlePersonClick = (clickedPerson: Partial<AssociatedSwimmer>) => {
+    if (clickedPerson.id === undefined) {
       return;
     }
-    return mergedSwimmers.filter((s) => selectedSwimmerIds.includes(s.id));
-  }, [mergedSwimmers, selectedSwimmerIds]);
-
-  const handleOnAddClick = () => {
-    setShowAddPersonModal(true);
+    if (selectedSwimmerIds.includes(clickedPerson.id)) {
+      setValue(
+        "selectedSwimmerIds",
+        selectedSwimmerIds.filter((p) => p !== clickedPerson.id)
+      );
+    } else {
+      setValue("selectedSwimmerIds", [...selectedSwimmerIds, clickedPerson.id]);
+    }
   };
 
-  const handleModalClose = () => {
-    setShowAddPersonModal(false);
+  const handleAddSwimmerClick = () => {
+    setAddSwimmerModalOpen(true);
   };
 
-  const handleConfirm = (value: (string | null)[]) => {
-    setValue("selectedSwimmerIds", value);
-    setShowAddPersonModal(false);
-  };
-
-  const handleRemove = (swimmer: Partial<AssociatedSwimmer>) => {
-    const value = selectedSwimmerIds.filter((s) => s !== swimmer.id);
-    setValue("selectedSwimmerIds", value);
+  const handleAddSwimmerClose = () => {
+    setAddSwimmerModalOpen(false);
   };
 
   return (
     <>
-      {mergedSwimmers && (
-        <OrderPageAddSwimmerModal
-          data={mergedSwimmers}
-          open={showAddPersonModal}
-          onClose={handleModalClose}
-          selectedSwimmersIds={selectedSwimmerIds}
-          onConfirm={handleConfirm}
-        ></OrderPageAddSwimmerModal>
-      )}
+      <OrderPageCreateSwimmerModal
+        open={addSwimmerModalOpen}
+        onClose={handleAddSwimmerClose}
+      ></OrderPageCreateSwimmerModal>
 
-      {selectedSwimmers && (
+      {mergedSwimmers && (
         <PeopleList
-          people={selectedSwimmers}
-          onAddClick={handleOnAddClick}
-          onRemoveClick={handleRemove}
-          mode={PeopleListMode.OrderPageDisplay}
-          removeDisabled={selectedSwimmers.length <= 1}
+          people={mergedSwimmers as AssociatedSwimmer[]}
+          onAddClick={handleAddSwimmerClick}
+          onPersonClick={handlePersonClick}
+          mode={PeopleListMode.OrderPageSelection}
+          selectedPeopleIds={selectedSwimmerIds}
         ></PeopleList>
       )}
 
