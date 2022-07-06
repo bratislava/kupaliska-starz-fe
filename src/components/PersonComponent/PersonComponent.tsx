@@ -22,6 +22,7 @@ interface PersonComponentProps {
   removeDisabled?: boolean;
 }
 
+/* TODO remove PeopleListMode.OrderPageDisplay */
 const PersonComponent = ({
   person,
   mode,
@@ -61,6 +62,7 @@ const PersonComponent = ({
     PeopleListMode.OrderPageDisplay,
     PersonComponentMode.DisplayWithDescription,
   ].includes(mode);
+  const cursorPointer = hoverOverlay || mode === PeopleListMode.OrderPageSelection;
 
   const handlePersonClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === removeIconRef.current) {
@@ -74,7 +76,7 @@ const PersonComponent = ({
       <div
         className={cx(
           "person-box border-solid border-4 rounded-lg group relative bg-center bg-cover bg-no-repeat bg-white",
-          { "cursor-pointer": hoverOverlay },
+          { "cursor-pointer": cursorPointer },
           { "border-primary": showPrimaryBorder && !showErrorBorder },
           { "border-primary": showGreenOverlay && !showErrorBorder },
           { "border-stone-300": showGreyBorder && !showErrorBorder },

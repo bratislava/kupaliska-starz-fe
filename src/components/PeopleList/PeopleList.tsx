@@ -39,6 +39,7 @@ interface PeopleListProps {
   removeDisabled?: boolean;
 }
 
+/* TODO remove PeopleListMode.OrderPageDisplay */
 const PeopleList = ({
   people,
   mode,
