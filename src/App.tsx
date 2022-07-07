@@ -16,6 +16,7 @@ import {
 import { Redirect } from "react-router";
 import "react-loading-skeleton/dist/skeleton.css";
 import { PostLoginHandlerWrapper } from "./hooks/useLogin";
+import CookieConsent from "./components/CookieConsent/CookieConsent";
 import { environment } from "environment";
 
 const queryClient = new QueryClient({
@@ -96,6 +97,7 @@ function App() {
                 />
                 {routes.map(renderRoute)}
               </Switch>
+              <CookieConsent></CookieConsent>
             </main>
             <Footer />
           </ScrollToTop>

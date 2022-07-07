@@ -30,6 +30,8 @@ import { default as SignInSignOutLink } from "./SignInSignOutLink/SignInSignOutL
 import { default as ProfileLine } from "./ProfileLine/ProfileLine";
 import { default as ProfileBack } from "./ProfileBack/ProfileBack";
 import { default as AssociatedSwimmerEditAddForm } from "./AssociatedSwimmerEditAddForm/AssociatedSwimmerEditAddForm";
+import { default as KupaliskaSwitch } from "./Switch/KupaliskaSwitch";
+import { default as CookieConsent } from "./CookieConsent/CookieConsent";
 
 export * from "./CustomerForm";
 export * from "./CustomerInfoReviewPanel";
@@ -67,4 +69,6 @@ export {
   ProfileLine,
   ProfileBack,
   AssociatedSwimmerEditAddForm,
+  KupaliskaSwitch,
+  CookieConsent
 };
