@@ -6,7 +6,7 @@ import { Icon } from "../index";
 
 export interface AccordionItemProps {
   className?: string;
-  title: string;
+  title: string | React.ReactNode;
   secondaryTitle?: string;
   initialState?: boolean;
   isOpen?: boolean;
@@ -55,8 +55,12 @@ export const AccordionItem = ({
           )}
           onClick={handleClick}
         >
-          <div className="flex flex-row font-medium">
-            <p className="text-font text-md text-left">{title}</p>
+          <div className="flex flex-row font-medium flex-grow">
+            {typeof title === "string" ? (
+              <p className="text-font text-md text-left">{title}</p>
+            ) : (
+              <>{title}</>
+            )}
             {secondaryTitle && (
               <p className="text-md text-left text-gray-universal-500 ">
                 &nbsp;{secondaryTitle}
