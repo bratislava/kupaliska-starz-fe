@@ -1,12 +1,21 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router";
+import cx from "classnames";
 
 const Footer = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+
+  // Don't show top margin on home page as it handles its own positioning and has a different background (white).
+  // TODO: Find better solution.
+  const showTopMargin = location.pathname !== "/";
 
   return (
-    <div className="w-full bg-blueish mt-4 md:mt-24">
+    <div
+      className={cx("w-full bg-blueish", { "mt-4 md:mt-24": showTopMargin })}
+    >
       <div className="w-full flex items-center justify-between py-4 grid grid-cols-1 lg:grid-cols-3 container mx-auto">
         <div className="flex flex-col text-primary order-1 my-2 lg:my-0 lg:order-1">
           <span className="font-semibold">{t("common.contact")}</span>
