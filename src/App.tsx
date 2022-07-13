@@ -97,7 +97,7 @@ function App() {
                 />
                 {routes.map(renderRoute)}
               </Switch>
-              <CookieConsent></CookieConsent>
+              <CookieConsent />
             </main>
             <Footer />
           </ScrollToTop>
