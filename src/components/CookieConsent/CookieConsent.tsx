@@ -1,9 +1,10 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import Consent, { Cookies } from "react-cookie-consent";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { AccordionItem, Button, Modal } from "../index";
 import KupaliskaSwitch from "../Switch/KupaliskaSwitch";
 import cx from "classnames";
+import { Link } from "react-router-dom";
 
 const COOKIE_NAME = "kupaliska-gdpr";
 
@@ -35,14 +36,12 @@ const ButtonCookieConsent = ({
 // Inspired by https://github.com/bratislava/bratislava-monorepo/blob/master/apps/next/city-library/components/Molecules/CookieConsent.tsx
 const CookieConsent = () => {
   const { t } = useTranslation();
-  const [showModal, setShowModal] = React.useState(false);
-  const [isConsentSubmitted, setConsent] = React.useState(false);
-  const [securityCookies] = React.useState<boolean>(true);
-  const [performanceCookies, setPerformanceCookies] =
-    React.useState<boolean>(true);
-  const [advertisingCookies, setAdvertisingCookies] =
-    React.useState<boolean>(true);
-  const [openPanel, setOpenPanel] = React.useState<number | undefined>();
+  const [showModal, setShowModal] = useState(false);
+  const [isConsentSubmitted, setConsent] = useState(false);
+  const [securityCookies] = useState<boolean>(true);
+  const [performanceCookies, setPerformanceCookies] = useState<boolean>(true);
+  const [advertisingCookies, setAdvertisingCookies] = useState<boolean>(true);
+  const [openPanel, setOpenPanel] = useState<number | undefined>();
   // TODO: Add Google Analytics?
   // ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID ?? '');
   const closeModal = () => {
@@ -97,6 +96,30 @@ const CookieConsent = () => {
       setConsent(true);
     }, 300);
   };
+
+  const accordions = [
+    {
+      checked: securityCookies,
+      disabled: true,
+      titleText: t("cookie-consent.security-essential-title"),
+      descriptionText: t("cookie-consent.security-essential-content"),
+    },
+    {
+      checked: performanceCookies,
+      disabled: false,
+      setFunction: setPerformanceCookies,
+      titleText: t("cookie-consent.performance-title"),
+      descriptionText: t("cookie-consent.performance-content"),
+    },
+    {
+      checked: advertisingCookies,
+      disabled: false,
+      setFunction: setAdvertisingCookies,
+      titleText: t("cookie-consent.advertising-targeting-title"),
+      descriptionText: t("cookie-consent.advertising-targeting-content"),
+    },
+  ];
+
   return (
     <div>
       <Modal open={showModal} onClose={closeModal} closeButton={true}>
@@ -116,40 +139,22 @@ const CookieConsent = () => {
                 <div className="font-medium mb-4">
                   {t("cookie-consent.modal-content-title")}
                 </div>
-                {/* TODO: Remove dangerouslySetInnerHTML. */}
-                <p
-                  className="text-sm mb-8"
-                  dangerouslySetInnerHTML={{
-                    __html: t("cookie-consent.modal-content-body"),
-                  }}
-                />
+                <p className="text-sm mb-8">
+                  <Trans
+                    i18nKey={"cookie-consent.modal-content-body"}
+                    components={{
+                      gdpr: (
+                        <Link
+                          to="/gdpr"
+                          className="link"
+                          onClick={() => closeModal()}
+                        />
+                      ),
+                    }}
+                  />
+                </p>
               </div>
-              {[
-                {
-                  checked: securityCookies,
-                  disabled: true,
-                  titleText: t("cookie-consent.security-essential-title"),
-                  descriptionText: t(
-                    "cookie-consent.security-essential-content"
-                  ),
-                },
-                {
-                  checked: performanceCookies,
-                  disabled: false,
-                  setFunction: setPerformanceCookies,
-                  titleText: t("cookie-consent.performance-title"),
-                  descriptionText: t("cookie-consent.performance-content"),
-                },
-                {
-                  checked: advertisingCookies,
-                  disabled: false,
-                  setFunction: setAdvertisingCookies,
-                  titleText: t("cookie-consent.advertising-targeting-title"),
-                  descriptionText: t(
-                    "cookie-consent.advertising-targeting-content"
-                  ),
-                },
-              ].map(
+              {accordions.map(
                 (
                   {
                     checked,
@@ -249,16 +254,12 @@ const CookieConsent = () => {
         ButtonComponent={ButtonCookieConsent}
         cookieName={COOKIE_NAME}
       >
-        <div className="text-sm" tabIndex={1}>
+        <div className="text-sm">
           <div className="mb-4 text-xl font-semibold">
             {t("cookie-consent.title")}
           </div>
-          {t("cookie-consent.body")}
-          <a
-            className="text-red-600 underline cursor-pointer"
-            onClick={() => setShowModal(true)}
-            tabIndex={2}
-          >
+          {t("cookie-consent.body")}{" "}
+          <a className="link" onClick={() => setShowModal(true)}>
             {t("cookie-consent.setting")}
           </a>
         </div>

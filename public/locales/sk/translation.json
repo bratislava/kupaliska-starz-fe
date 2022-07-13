@@ -339,7 +339,7 @@
     "reject-all": "Odmietnuť všetky",
     "modal-title": "Podrobné nastavenia cookies",
     "modal-content-title": "Používanie cookies",
-    "modal-content-body": "Používame cookies na zabezpečenie základných funkcionalít webovej stránky a na zlepšenie vášho online zážitku. Pre každú kategóriu si môžete vybrať,či sa chcete prihlásiť/odhlásiť.Ďalšie podrobnosti týkajúce sa súborov cookies a iných citlivých údajov nájdete v úplnom znení v zásadách <a href='/o-nas/ochrana-osobnych-udajov' class='hover:underline'><b>ochrany osobných údajov.</b></a>",
+    "modal-content-body": "Používame cookies na zabezpečenie základných funkcionalít webovej stránky a na zlepšenie vášho online zážitku. Pre každú kategóriu si môžete vybrať,či sa chcete prihlásiť/odhlásiť.Ďalšie podrobnosti týkajúce sa súborov cookies a iných citlivých údajov nájdete v úplnom znení v zásadách <gdpr>ochrany osobných údajov</gdpr>.",
     "security-essential-title": "Bezpodmienečne nevyhnutné cookies",
     "security-essential-content": "Tieto cookies sú nevyhnutné pre správne fungovanie webovej stránky. Bez nich by webstránka nefungovala správne.",
     "performance-title": "Cookies pre výkonnosť a analýzu",
