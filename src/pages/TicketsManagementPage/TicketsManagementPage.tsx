@@ -168,39 +168,36 @@ const TicketsManagementModal = ({
   );
 };
 interface TicketProps {
-  type: "blue" | "blueish" | "white";
   ticket: TicketFromHistory;
   onDetailClick: () => void;
 }
 
-const Ticket = ({ type, ticket, onDetailClick }: TicketProps) => {
+const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
   const { t } = useTranslation();
 
+  // BE should not send explicit color, but rather button type, therefore we convert it here to real values instead
+  // of using the color from the BE.
   const textClass = {
-    blue: "text-white",
-    blueish: "text-primary",
-    white: "text-primary",
-  }[type];
+    '#07038C': "text-white",
+    '#D0ECF8': "text-primary",
+    '#FFFFFF': "text-primary",
+  }[ticket.ticketColor.background];
   const backgroundClass = {
-    blue: "bg-primary",
-    blueish: "bg-blueish",
-    white: "bg-white",
-  }[type];
+    '#07038C': "bg-primary",
+    '#D0ECF8': "bg-blueish",
+    '#FFFFFF': "bg-white",
+  }[ticket.ticketColor.background];
   const buttonColor = (
     {
-      blue: "white",
-      blueish: "primary",
-      white: "primary",
+      '#07038C': "white",
+      '#D0ECF8': "primary",
+      '#FFFFFF': "primary",
     } as const
-  )[type];
+  )[ticket.ticketColor.background];
 
   return (
     <div
       className={`flex p-6 mb-6 items-center flex-col rounded-lg shadow-xs overflow-auto ${textClass} ${backgroundClass}`}
-      style={{
-        backgroundColor: ticket.ticketColor.background,
-        color: ticket.ticketColor.text,
-      }}
     >
       <span className="font-bold text-2xl mb-1">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
@@ -429,7 +426,6 @@ const TicketsManagementPage = () => {
                 {dataMapped.activeTickets.map((ticket, index) => (
                   <Ticket
                     key={index}
-                    type={"blue"}
                     ticket={ticket}
                     onDetailClick={() => setOpenedTicketDetail(ticket)}
                   ></Ticket>
