@@ -126,7 +126,6 @@
     "zip": "PSČ (voliteľné)",
     "photo-button": "Nahrať foto"
   },
-
   "buy-page": {
     "continue": "Pokračovať ",
     "personal-info": "Osobné údaje",
@@ -324,5 +323,28 @@
         "content": "pridajte si do profilu aj vašich blízkych a nakupujte lístky a permanentky jednoducho aj pre nich"
       }
     }
+  },
+  "cookie-consent": {
+    "title": "Používanie cookies",
+    "body": "Táto webstránka používa základné cookies na zabezpečenie správneho fungovania a sledovanie cookies, ktoré nám pomáha porozumieť, ako stránku využívate. Budú zaznamenávané len po tom, ako vyjadríte svoj súhlas.",
+    "setting": "Nastavenia cookies.",
+    "accept": "Prijať všetky",
+    "accept-aria-label": "Prijať cookies",
+    "reject": "Odmietnuť všetky",
+    "reject-aria-label": "Odmietnuť cookies",
+    "switch-accept": "Povoliť",
+    "switch-decline": "Zamietnuť",
+    "save-settings": "Uložiť nastavenia",
+    "accept-all": "Prijať všetky",
+    "reject-all": "Odmietnuť všetky",
+    "modal-title": "Podrobné nastavenia cookies",
+    "modal-content-title": "Používanie cookies",
+    "modal-content-body": "Používame cookies na zabezpečenie základných funkcionalít webovej stránky a na zlepšenie vášho online zážitku. Pre každú kategóriu si môžete vybrať,či sa chcete prihlásiť/odhlásiť.Ďalšie podrobnosti týkajúce sa súborov cookies a iných citlivých údajov nájdete v úplnom znení v zásadách <gdpr>ochrany osobných údajov</gdpr>.",
+    "security-essential-title": "Bezpodmienečne nevyhnutné cookies",
+    "security-essential-content": "Tieto cookies sú nevyhnutné pre správne fungovanie webovej stránky. Bez nich by webstránka nefungovala správne.",
+    "performance-title": "Cookies pre výkonnosť a analýzu",
+    "performance-content": "Tieto cookies umožňujú webovej stránke zapamätať si voľby, ktoré ste v minulosti urobili.",
+    "advertising-targeting-title": "Cookies pre reklamu a cielenie",
+    "advertising-targeting-content": "Tieto cookies zhromažďujú informácie o tom, ako webovú stránku používate, ktoré stránky ste navštívili a na ktoré odkazy ste klikli. Všetky údaje sú anonymizované a nie je možné ich použiť na vašu identifikáciu."
   }
 }

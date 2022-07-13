@@ -1,5 +1,3 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-
 module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   darkMode: false, // or 'media' or 'class'
@@ -61,6 +59,7 @@ module.exports = {
         purpleish: "#4340A6",
         backgroundGray: "#F5F5F5",
         warningSoft: "#F8D7D4",
+        inactive: '#CCCCCC'
       },
       borderWidth: {
         3: "3px",
