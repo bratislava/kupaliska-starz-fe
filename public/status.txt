@@ -1,0 +1,2 @@
+OK
+Used by healthcheck.
