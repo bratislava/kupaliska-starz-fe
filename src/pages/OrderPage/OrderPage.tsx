@@ -70,7 +70,7 @@ const OrderPageCreateSwimmerModal = ({
     <Modal open={open} onClose={onClose} closeButton={true}>
       <div
         className="block bg-white rounded-lg p-10 text-primary shadow-lg modal-with-close-width-screen"
-        style={{ maxWidth: "730px" }}
+        style={{ maxWidth: "1100px" }}
       >
         <AssociatedSwimmerEditAddForm
           onSaveSuccess={onClose}

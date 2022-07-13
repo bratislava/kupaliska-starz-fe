@@ -135,7 +135,7 @@ export const AssociatedSwimmerEditAddForm = ({
           error={errorInterpretedZip}
         />
       </div>
-      <div className="flex">
+      <div className="flex mt-6 lg:mt-0">
         <PhotoField
           setValue={setValue}
           setError={setError}
@@ -147,7 +147,7 @@ export const AssociatedSwimmerEditAddForm = ({
       </div>
       <div>
         <Button
-          className="my-8"
+          className="mt-8"
           htmlType="button"
           onClick={handleSubmit(onSubmit, (err) => {
             console.log(err);
