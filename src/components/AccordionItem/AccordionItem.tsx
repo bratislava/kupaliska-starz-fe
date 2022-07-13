@@ -39,7 +39,7 @@ export const AccordionItem = ({
     <>
       <div
         className={cx(
-          "rounded-lg drop-shadow-[0 8 24 black] py-4 px-10",
+          "rounded-lg py-4 px-4 md:px-10",
           {
             "border-transparent border-2 border-solid shadow-lg bg-blueish":
               active,
@@ -55,7 +55,7 @@ export const AccordionItem = ({
           )}
           onClick={handleClick}
         >
-          <div className="flex flex-row font-medium flex-grow">
+          <div className="flex flex-row font-medium flex-grow text-left">
             {typeof title === "string" ? (
               <p className="text-font text-md text-left">{title}</p>
             ) : (

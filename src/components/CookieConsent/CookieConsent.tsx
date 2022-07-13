@@ -124,7 +124,7 @@ const CookieConsent = () => {
     <div>
       <Modal open={showModal} onClose={closeModal} closeButton={true}>
         <div
-          className="p-10 modal-with-close-width-screen"
+          className="p-4 md:p-10 modal-with-close-width-screen"
           style={{ maxWidth: "1100px" }}
         >
           <div className="text-xl font-semibold mb-10">
@@ -198,7 +198,7 @@ const CookieConsent = () => {
             </div>
             <div className="mt-5 flex gap-1 justify-between flex-col md:flex-row">
               <Button
-                className="px-3 py-1 text-sm rounded-sm bg-gray-900 text-white"
+                className="px-3 py-1 text-sm rounded-sm bg-gray-900 text-white mb-2 md:mb-0"
                 onClick={saveSettings}
                 color="primary"
               >
@@ -206,7 +206,7 @@ const CookieConsent = () => {
               </Button>
               <div className="flex gap-1 flex-col md:flex-row">
                 <Button
-                  className="min-w-[140px] md:mr-1 py-1 text-sm rounded-sm bg-gray-900 text-white"
+                  className="md:mr-1 py-1 text-sm rounded-sm bg-gray-900 text-white mb-2 md:mb-0"
                   onClick={declineCookies}
                   color="blueish"
                 >
