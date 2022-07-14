@@ -1,15 +1,12 @@
 .landing-page__swimming-pool-modal {
-    min-height: 550px;
     @screen md {
         width: 500px;
     }
     @screen lg {
         width: 535px;
-        min-height: 85vh;
     }
 
     @screen 2xl {
         width: 650px;
-        min-height: 75vh;
     }
 }

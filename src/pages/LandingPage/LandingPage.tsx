@@ -94,6 +94,7 @@ const LandingPage = () => {
       <Modal
         open={!!selectedSwimmingPool}
         onClose={() => dispatch(setSelectedPoolId(undefined))}
+        modalClassName="overflow-y-visible"
       >
         <div className="bg-transparent  landing-page__swimming-pool-modal rounded-lg flex">
           {selectedSwimmingPool && (
