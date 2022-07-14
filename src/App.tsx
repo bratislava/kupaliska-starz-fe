@@ -17,12 +17,25 @@ import { Redirect } from "react-router";
 import "react-loading-skeleton/dist/skeleton.css";
 import { PostLoginHandlerWrapper } from "./hooks/useLogin";
 import CookieConsent from "./components/CookieConsent/CookieConsent";
-import { environment } from "environment";
+import { AxiosError } from "axios";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      retry: (failureCount, error) => {
+        // Don't do unnecessary retries.
+        if (
+          (error as AxiosError)?.response?.status === 400 ||
+          (error as AxiosError)?.response?.status === 403
+        ) {
+          return false;
+        }
+        if (failureCount >= 3) {
+          return false;
+        }
+        return true;
+      },
     },
   },
 });
