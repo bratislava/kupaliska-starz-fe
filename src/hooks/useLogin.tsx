@@ -11,7 +11,7 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 
 export const useLogin = () => {
   const { instance } = useMsal();
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToast } = useErrorToast();
   const history = useHistory();
 
   return async (afterLoginLocation?: LocationDescriptorObject<any>) => {
@@ -38,7 +38,7 @@ export const useLogin = () => {
 const useLoginHandleRedirect = () => {
   const { instance } = useMsal();
   const logout = useLogout();
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToast } = useErrorToast();
   const history = useHistory();
 
   return async () => {

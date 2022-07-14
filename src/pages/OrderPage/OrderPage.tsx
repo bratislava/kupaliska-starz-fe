@@ -25,7 +25,7 @@ import {
   fetchAssociatedSwimmers,
 } from "../../store/associatedSwimmers/api";
 import { QueryObserverResult, useQuery, useQueryClient } from "react-query";
-import { useErrorToast } from "../../hooks/useErrorToast";
+import { ErrorWithMessages, useErrorToast } from "../../hooks/useErrorToast";
 import { useOrderTicket } from "./useOrderTicket";
 import { Trans, useTranslation } from "react-i18next";
 import { useAccount } from "@azure/msal-react";
@@ -237,7 +237,7 @@ const OrderPagePeopleList = ({
   );
   const userQuery = useQuery("user", fetchUser);
   const account = useAccount();
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToast } = useErrorToast();
 
   /* Merges the list of associated swimmers with the logged in user. */
   const mergedSwimmers = useMemo(() => {
@@ -371,7 +371,7 @@ const OrderPageDiscountCodeInput = ({
 }) => {
   const { t } = useTranslation();
 
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToast } = useErrorToast();
   const isMounted = useIsMounted();
 
   const [discountCode, setDiscountCode] = useState("");
@@ -660,7 +660,7 @@ const OrderPage = () => {
     hasTicketAmount,
   } = useOrderTicket();
   const order = useOrder();
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToastForHttpRequest } = useErrorToast();
 
   const { t } = useTranslation();
 
@@ -736,18 +736,19 @@ const OrderPage = () => {
       hasTicketAmount: hasTicketAmount!,
     });
 
-  const priceQuery = useQuery("orderPrice", ({ signal }) => {
-    const { getPriceRequest } = getRequestsFromFormData();
+  const priceQuery = useQuery(
+    "orderPrice",
+    ({ signal }) => {
+      const { getPriceRequest } = getRequestsFromFormData();
 
-    return getPrice(getPriceRequest, signal);
-  });
-
-  useEffect(() => {
-    if (priceQuery.isError) {
-      dispatchErrorToast();
+      return getPrice(getPriceRequest, signal);
+    },
+    {
+      onError: (err) => {
+        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>);
+      },
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [priceQuery.isError]);
+  );
 
   const queryClient = useQueryClient();
 

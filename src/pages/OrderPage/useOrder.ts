@@ -8,7 +8,8 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 Inspired by https://dev.azure.com/bratislava-innovation/Inovacie/_git/kupaliska-starz-fe?path=%2Fsrc%2Fstore%2Forder%2Fthunks.ts */
 export const useOrder = () => {
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToast, dispatchErrorToastForHttpRequest } =
+    useErrorToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   // TODO: types
@@ -42,11 +43,7 @@ export const useOrder = () => {
     }
 
     if (err?.response?.status === 400) {
-      dispatchErrorToast(
-        err.response.data.messages && err.response.data.messages.length > 0
-          ? err.response.data.messages[0].message
-          : "Objednávku sa nepodarilo odoslať"
-      );
+      dispatchErrorToastForHttpRequest(err, "Objednávku sa nepodarilo odoslať");
       return;
     }
 

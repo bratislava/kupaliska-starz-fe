@@ -5,7 +5,7 @@ import { useErrorToast } from "./useErrorToast";
 
 export const useLogout = () => {
   const { instance } = useMsal();
-  const dispatchErrorToast = useErrorToast();
+  const { dispatchErrorToast } = useErrorToast();
   const history = useHistory();
 
   return async () => {
