@@ -1,5 +1,6 @@
 import {
   AssociatedSwimmer,
+  AssociatedSwimmerFetchResponse,
   createAssociatedSwimmer,
   editAssociatedSwimmer,
 } from "../../store/associatedSwimmers/api";
@@ -14,6 +15,8 @@ import * as yup from "yup";
 import { pick } from "lodash";
 import { getObjectChanges } from "../../helpers/getObjectChanges";
 import { useValidationSchemaTranslationIfPresent } from "helpers/general";
+import { AxiosResponse } from "axios";
+import { produce } from "immer";
 
 type FormData = Partial<
   Pick<AssociatedSwimmer, "firstname" | "lastname" | "image" | "age" | "zip">
@@ -36,7 +39,7 @@ export const AssociatedSwimmerEditAddForm = ({
   onSaveSuccess = () => {},
 }: {
   swimmer?: AssociatedSwimmer;
-  onSaveSuccess?: () => void;
+  onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void;
 }) => {
   const { t } = useTranslation();
   // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
@@ -68,16 +71,38 @@ export const AssociatedSwimmerEditAddForm = ({
   }, [swimmer]);
 
   const queryClient = useQueryClient();
+  const isEditing = Boolean(swimmer);
+
   const mutation = useMutation(
     (formData: FormData) => {
-      return swimmer
-        ? editAssociatedSwimmer(swimmer.id as string, formData)
+      return isEditing
+        ? editAssociatedSwimmer(swimmer!.id as string, formData)
         : createAssociatedSwimmer(formData as AssociatedSwimmer);
     },
     {
-      onSuccess: () => {
+      onSuccess: (response) => {
+        // Update data to see edited content before the refetch.
+        queryClient.setQueryData<
+          AxiosResponse<AssociatedSwimmerFetchResponse> | undefined
+        >("associatedSwimmers", (old) => {
+          if (!old) {
+            return;
+          }
+
+          return produce(old, (draft) => {
+            const newSwimmer = response.data.data.associatedSwimmer;
+            if (isEditing) {
+              const index = old.data.associatedSwimmers.findIndex(
+                (swimmerInList) => swimmerInList.id === swimmer!.id
+              );
+              draft.data.associatedSwimmers[index] = newSwimmer;
+            } else {
+              draft.data.associatedSwimmers.push(newSwimmer);
+            }
+          });
+        });
         queryClient.invalidateQueries("associatedSwimmers");
-        onSaveSuccess();
+        onSaveSuccess(response.data.data.associatedSwimmer);
       },
     }
   );

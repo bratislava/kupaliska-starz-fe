@@ -7,6 +7,7 @@ import PersonComponent, {
 import { PeopleListMode } from "../../components/PeopleList/PeopleList";
 import {
   AssociatedSwimmer,
+  AssociatedSwimmerFetchResponse,
   deleteAssociatedSwimmer,
   fetchAssociatedSwimmers,
 } from "../../store/associatedSwimmers/api";
@@ -15,13 +16,17 @@ import { fetchUser, User } from "../../store/user/api";
 import { useAccount } from "@azure/msal-react";
 import { useHistory } from "react-router-dom";
 import ProfileLine from "../../components/ProfileLine/ProfileLine";
+import { AxiosResponse } from "axios";
+import { produce } from "immer";
 
 const UserInfo = ({ user }: { user: User }) => {
   const { t } = useTranslation();
   const account = useAccount();
   const history = useHistory();
 
-  const handleProfileEditClick = () => {history.push("/profile/edit")};
+  const handleProfileEditClick = () => {
+    history.push("/profile/edit");
+  };
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -35,7 +40,10 @@ const UserInfo = ({ user }: { user: User }) => {
           <div className="text-base font-normal text-fontBlack opacity-75">
             {t("profile.name-firstname")}
           </div>
-          <div className="font-semibold text-2xl">{account?.idTokenClaims?.given_name} {account?.idTokenClaims?.family_name}</div>
+          <div className="font-semibold text-2xl">
+            {account?.idTokenClaims?.given_name}{" "}
+            {account?.idTokenClaims?.family_name}
+          </div>
         </div>
         <div className="mt-8">
           <div className="text-base font-normal text-fontBlack opacity-75">
@@ -50,7 +58,11 @@ const UserInfo = ({ user }: { user: User }) => {
             </div>
             {/* TODO sklonovanie 2 roky/33 rokov*/}
             <div className="font-semibold text-2xl">
-              {user.age != null && <>{user.age} {t("profile.age-full")}</>}
+              {user.age != null && (
+                <>
+                  {user.age} {t("profile.age-full")}
+                </>
+              )}
             </div>
           </div>
           <div>
@@ -122,15 +134,26 @@ const DeleteAssociatedSwimmerModal = ({
   person: AssociatedSwimmer | null;
 }) => {
   const queryClient = useQueryClient();
-  const mutation = useMutation(
-    () => deleteAssociatedSwimmer((person as AssociatedSwimmer).id as string),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("associatedSwimmers");
-        onClose();
-      },
-    }
-  );
+  const mutation = useMutation(() => deleteAssociatedSwimmer(person!.id!), {
+    onSuccess: () => {
+      // Update data to see edited content before the refetch.
+      queryClient.setQueryData<
+        AxiosResponse<AssociatedSwimmerFetchResponse> | undefined
+      >("associatedSwimmers", (old) => {
+        if (!old) {
+          return;
+        }
+
+        return produce(old, (draft) => {
+          draft.data.associatedSwimmers = old.data.associatedSwimmers.filter(
+            (swimmerFromList) => swimmerFromList.id !== person!.id
+          );
+        });
+      });
+      queryClient.invalidateQueries("associatedSwimmers");
+      onClose();
+    },
+  });
   const handleRemove = () => {
     mutation.mutate();
   };
@@ -183,14 +206,18 @@ const ProfilePage = () => {
             {t("profile.user")}
           </div>
 
-          {userQuery.isSuccess && <UserInfo user={userQuery.data.data}></UserInfo>}
+          {userQuery.isSuccess && (
+            <UserInfo user={userQuery.data.data}></UserInfo>
+          )}
         </div>
         <div>
           <div className="font-medium text-2xl mb-4">{t("profile.others")}</div>
           <div className="flex">
             {associatedSwimmersQuery.isSuccess && (
               <AssociatedSwimmersInfo
-                associatedSwimmers={associatedSwimmersQuery.data.data.associatedSwimmers}
+                associatedSwimmers={
+                  associatedSwimmersQuery.data.data.associatedSwimmers
+                }
               />
             )}
           </div>

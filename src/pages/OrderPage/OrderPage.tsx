@@ -62,10 +62,18 @@ import { useValidationSchemaTranslationIfPresent } from "helpers/general";
 const OrderPageCreateSwimmerModal = ({
   open = false,
   onClose,
+  onAdd,
 }: {
   open: boolean;
   onClose: () => void;
+  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void;
 }) => {
+
+  const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
+    onAdd(addedSwimmer);
+    onClose();
+  }
+
   return (
     <Modal open={open} onClose={onClose} closeButton={true}>
       <div
@@ -73,7 +81,7 @@ const OrderPageCreateSwimmerModal = ({
         style={{ maxWidth: "1100px" }}
       >
         <AssociatedSwimmerEditAddForm
-          onSaveSuccess={onClose}
+          onSaveSuccess={handleSaveSuccess}
         ></AssociatedSwimmerEditAddForm>
       </div>
     </Modal>
@@ -267,17 +275,18 @@ const OrderPagePeopleList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
-  const handlePersonClick = (clickedPerson: Partial<AssociatedSwimmer>) => {
-    if (clickedPerson.id === undefined) {
+  const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>) => {
+    // `null` is current user, therefore we don't check for it
+    if (swimmerToSelect.id === undefined) {
       return;
     }
-    if (selectedSwimmerIds.includes(clickedPerson.id)) {
+    if (selectedSwimmerIds.includes(swimmerToSelect.id)) {
       setValue(
         "selectedSwimmerIds",
-        selectedSwimmerIds.filter((p) => p !== clickedPerson.id)
+        selectedSwimmerIds.filter((p) => p !== swimmerToSelect.id)
       );
     } else {
-      setValue("selectedSwimmerIds", [...selectedSwimmerIds, clickedPerson.id]);
+      setValue("selectedSwimmerIds", [...selectedSwimmerIds, swimmerToSelect.id]);
     }
   };
 
@@ -294,13 +303,14 @@ const OrderPagePeopleList = ({
       <OrderPageCreateSwimmerModal
         open={addSwimmerModalOpen}
         onClose={handleAddSwimmerClose}
+        onAdd={handleSelectSwimmer}
       ></OrderPageCreateSwimmerModal>
 
       {mergedSwimmers && (
         <PeopleList
           people={mergedSwimmers as AssociatedSwimmer[]}
           onAddClick={handleAddSwimmerClick}
-          onPersonClick={handlePersonClick}
+          onPersonClick={handleSelectSwimmer}
           mode={PeopleListMode.OrderPageSelection}
           selectedPeopleIds={selectedSwimmerIds}
         ></PeopleList>
