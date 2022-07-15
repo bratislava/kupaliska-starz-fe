@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useIsAuthenticated } from "@azure/msal-react";
 import { useHistory } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
+import cx from "classnames";
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -65,9 +66,12 @@ const TicketCardHomePage = ({
           </span>
           <div className="text-base font-normal ml-1">{t("landing.piece")}</div>
         </div>
-        <Button className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto">
+        <Button className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto" thin>
           {needsLogin ? "Prihlásiť sa" : t("landing.basket")}
-          <Icon name="shopping-cart" className="ml-2" />
+          <Icon
+            name={needsLogin ? "login" : "euro-coin"}
+            className={cx("ml-2 no-fill", { "py-1": !needsLogin })}
+          />
         </Button>
       </div>
     </div>

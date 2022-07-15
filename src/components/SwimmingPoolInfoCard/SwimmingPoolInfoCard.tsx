@@ -183,7 +183,7 @@ const SwimmingPoolInfoCard = ({
             {_expanded || modal
               ? t("landing.less-info")
               : t("landing.more-info")}
-            <Icon name="info" className="xs:block ml-2" />
+            <Icon name="info" className="xs:block ml-2 no-fill" />
           </Button>
           {swimmingPool.locationUrl && <Button
               color="outlined"

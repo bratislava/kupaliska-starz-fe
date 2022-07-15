@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Button, Icon } from "components";
-import { Typography } from "components";
+import { Button, Icon, Typography } from "components";
 
 import "./HeroBanner.css";
 import { HashLink } from "react-router-hash-link";
@@ -18,14 +17,14 @@ const HeroBanner = () => {
       <div className="container mx-auto content relative z-10">
         <Typography type="title" fontWeight="bold" className="mb-4 max-w-xs">
           <Trans
-              i18nKey={`landing.title`}
-              components={{
-                purple: <span className="text-purpleish"/>,
-              }}
+            i18nKey={`landing.title`}
+            components={{
+              purple: <span className="text-purpleish" />,
+            }}
           />
         </Typography>
         <Typography type="subtitle" className="max-w-xs">
-          {t('landing.subtitle')}
+          {t("landing.subtitle")}
         </Typography>
 
         <div
@@ -45,25 +44,23 @@ const HeroBanner = () => {
             lg:space-y-0
             lg:space-x-4
 
-            xl:w-2/5
+            xl:w-3/5
           "
         >
-          <HashLink to="/#ticket-buy" className="flex-1 w-full">
-            <Button className="w-full">
-              <span className="pr-4">{t("landing.buy-ticket")}</span>
-              <Icon name="shopping-cart" />
+          <HashLink to="/#ticket-buy">
+            <Button thin>
+              <span className="p-1 pl-5 pr-4">{t("landing.buy-ticket")}</span>
+              <Icon name="tickets" className="no-fill pr-5" />
             </Button>
           </HashLink>
-          <HashLink
-            to="/#swimming-pools"
-            className="hidden sm:block flex-1 w-full"
-          >
-            <Button className="w-full flex-1" color="outlined">
-              <span className="pr-2">{t("landing.swimming-pools-starz")}</span>
+          <HashLink to="/#swimming-pools" className="hidden sm:block">
+            <Button className="" color="outlined" thin>
+              <span className="p-1 pl-5 pr-4">
+                {t("landing.swimming-pools-starz")}
+              </span>
               <Icon
                 name="swimming-man"
-                color="primary"
-                className="hidden xs:block"
+                className="hidden xs:block no-fill pr-5"
               />
             </Button>
           </HashLink>
