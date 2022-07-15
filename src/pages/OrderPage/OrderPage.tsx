@@ -68,11 +68,10 @@ const OrderPageCreateSwimmerModal = ({
   onClose: () => void;
   onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void;
 }) => {
-
   const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
     onAdd(addedSwimmer);
     onClose();
-  }
+  };
 
   return (
     <Modal open={open} onClose={onClose} closeButton={true}>
@@ -286,7 +285,10 @@ const OrderPagePeopleList = ({
         selectedSwimmerIds.filter((p) => p !== swimmerToSelect.id)
       );
     } else {
-      setValue("selectedSwimmerIds", [...selectedSwimmerIds, swimmerToSelect.id]);
+      setValue("selectedSwimmerIds", [
+        ...selectedSwimmerIds,
+        swimmerToSelect.id,
+      ]);
     }
   };
 
@@ -560,15 +562,18 @@ const OrderPageSummary = ({
           </p>
         )}
         <p className="mt-4">{ticket.description}</p>
-        <br />
+
         {ticket.childrenAllowed && (
-          <p className="font-semibold">
-            {/* TODO pluralizacia */}
-            {t("buy-page.children-discount-children-count-and-price", {
-              childrenMaxNumber: ticket.childrenMaxNumber,
-              childrenPrice: ticket.childrenPrice,
-            })}
-          </p>
+          <>
+            <br />
+            <p className="font-semibold">
+              {/* TODO pluralizacia */}
+              {t("buy-page.children-discount-children-count-and-price", {
+                childrenMaxNumber: ticket.childrenMaxNumber,
+                childrenPrice: ticket.childrenPrice,
+              })}
+            </p>
+          </>
         )}
       </div>
       <div className="flex bg-blueish px-8 py-4 rounded-b-lg items-center">
