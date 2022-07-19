@@ -79,8 +79,8 @@ const PhotoField = ({
       <Typography type="subtitle" fontWeight="medium" className="mb-3">
         {t("buy-page.photo-title")}
       </Typography>
-      <div className="flex gap-x-8">
-        <div className="">
+      <div className="flex gap-x-8 gap-y-4 flex-col sm:flex-row">
+        <div>
           <PersonComponent
             person={{ image }}
             mode={PersonComponentMode.DisplayOnlyPhoto}
