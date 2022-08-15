@@ -21,6 +21,7 @@ export interface Ticket {
   childrenAgeTo: number | null;
   childrenAgeToWithAdult: number | null;
   childrenPhotoRequired: boolean;
+  disabled?: boolean; // Not a BE property, explained in KUP-93
 }
 
 export interface CustomerInfoFormValues {
