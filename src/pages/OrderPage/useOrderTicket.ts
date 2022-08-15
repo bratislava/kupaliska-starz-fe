@@ -25,6 +25,11 @@ export const useOrderTicket = () => {
       return {};
     }
 
+    if (ticket.disabled) {
+      history.push("/");
+      return {};
+    }
+
     const requiresLoginAndIsNotLoggedIn = ticket.nameRequired && !hasAccount;
     if (requiresLoginAndIsNotLoggedIn) {
       history.push("/");
