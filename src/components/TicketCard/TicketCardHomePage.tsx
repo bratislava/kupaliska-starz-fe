@@ -28,6 +28,9 @@ const TicketCardHomePage = ({
   const needsLogin = ticket.nameRequired && !isAuthenticated;
 
   const handleClick = async () => {
+    if (ticket.disabled) {
+      return;
+    }
     const orderLocation = {
       pathname: "/order",
       state: { ticketId: ticket.id },
@@ -42,7 +45,13 @@ const TicketCardHomePage = ({
 
   return (
     <div
-      className={`${className} transition-all rounded-lg overflow-hidden bg-white flex flex-col justify-between border-2-softGray hover:border-primary hover:bg-blueish cursor-pointer`}
+      className={cx(
+        `${className} transition-all rounded-lg overflow-hidden bg-white flex flex-col justify-between border-2-softGray`,
+        {
+          "hover:border-primary hover:bg-blueish cursor-pointer":
+            !ticket.disabled,
+        }
+      )}
       onClick={handleClick}
     >
       <div
@@ -66,13 +75,15 @@ const TicketCardHomePage = ({
           </span>
           <div className="text-base font-normal ml-1">{t("landing.piece")}</div>
         </div>
-        <Button className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto" thin>
-          {needsLogin ? "Prihlásiť sa" : t("landing.basket")}
-          <Icon
-            name={needsLogin ? "login" : "euro-coin"}
-            className={cx("ml-2 no-fill", { "py-1": !needsLogin })}
-          />
-        </Button>
+        {!ticket.disabled && (
+          <Button className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto" thin>
+            {needsLogin ? "Prihlásiť sa" : t("landing.basket")}
+            <Icon
+              name={needsLogin ? "login" : "euro-coin"}
+              className={cx("ml-2 no-fill", { "py-1": !needsLogin })}
+            />
+          </Button>
+        )}
       </div>
     </div>
   );
