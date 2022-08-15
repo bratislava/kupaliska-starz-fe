@@ -1,8 +1,9 @@
 import { ContactFormValues } from "components/ContactForm/ContactForm";
 import { apiClient } from "helpers/apiClient";
+import { Ticket } from "../../models";
 
 export function fetchTickets() {
-  return apiClient.get("/api/v1/ticketTypes");
+  return apiClient.get<{ticketTypes: Ticket[]}>("/api/v1/ticketTypes");
 }
 
 export function fetchPools(number: number) {
