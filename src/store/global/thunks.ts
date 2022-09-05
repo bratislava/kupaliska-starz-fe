@@ -28,13 +28,13 @@ export const initPageGlobalState = createAsyncThunk(
       const response = await Promise.all([fetchTickets(), fetchPools(1000000)]);
       // TODO: https://inovaciebratislava.atlassian.net/browse/KUP-93
       const currentDateTime = new Date().getTime();
-      const nonSingleEntryTicketsShouldBeDisabled =
+      const ticketsDisabled =
         currentDateTime >=
           1661119200000 /* Mon Aug 22 2022 00:00:00 GMT+0200 (Central European Summer Time) */ &&
         currentDateTime <=
           1672527600000; /* Sun Jan 01 2023 00:00:00 GMT+0100 (Central European Standard Time) */
       const ticketTypes = response[0].data.ticketTypes.map((ticketType) =>
-        ticketType.nameRequired && nonSingleEntryTicketsShouldBeDisabled
+         ticketsDisabled
           ? { ...ticketType, disabled: true }
           : ticketType
       );
