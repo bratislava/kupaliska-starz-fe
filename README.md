@@ -44,33 +44,7 @@ To make emails work after order, you have to be set in authorized recipients [he
 
 ## Deployment
 
-### Staging
-
-These are accessible through VPN only.
-
-kupaliska-backend: http://172.25.5.138:9004/
-
-kupaliska-frontend: http://172.25.5.138:9005/
-
-Presently the app is deployed from Azure git repo (TODO consolidate this) - https://dev.azure.com/bratislava-innovation/Inovacie
-
-To add it as a second remote use:
-
-```
-git remote add azure git@ssh.dev.azure.com:v3/bratislava-innovation/Inovacie/name-of-repo
-```
-
-Commits in master are deployed to staging automatically
-
-```
-git push azure master
-```
-
-You can also manually deploy, master or other branch, Pipelines -> kupaliska-starz-fe -> Run pipeline.
-
-### Production
-
-To promote to production, approve the production build step in a successful staging deploy in Azure Devops (Pipelines -> kupaliska-starz-fe -> choose build -> Review).
+The app can be deployed by standard means through [bratiska-cli](https://github.com/bratislava/bratiska-cli).
 
 ## Original create-react-app README below
 

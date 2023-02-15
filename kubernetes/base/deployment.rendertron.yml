@@ -4,7 +4,14 @@ metadata:
   name: rendertron
   labels:
     service: rendertron
+  namespace: ${NAMESPACE}
+  annotations:
+    repositoryUrl: ${BUILD_REPOSITORY_URI}
+    commit: ${COMMIT}
+    tag: ${TAG}
+    image: ${IMAGE}
 spec:
+  replicas: 1
   selector:
     matchLabels:
       service: rendertron
@@ -16,6 +23,7 @@ spec:
       containers:
         - image: dockette/rendertron
           name: rendertron
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               cpu: 500m
@@ -23,3 +31,8 @@ spec:
             requests:
               cpu: 50m
               memory: 64Mi
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      imagePullSecrets:
+        - name: ${IMAGE_PULL_SECRET}

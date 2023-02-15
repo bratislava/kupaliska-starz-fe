@@ -33,3 +33,6 @@ yarn-error.log*
 !.vscode/extensions.json
 
 .idea/*
+
+# bratiska-cli manifest files
+manifest-*.y?ml
