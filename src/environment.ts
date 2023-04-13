@@ -2,7 +2,7 @@
 // in CI build these env vars are not replaced by tokens, and the %{TOKEN}% is replaced on container startup based on env
 
 export const environment = {
-  host: import.meta.env.REACT_APP_HOST || "https://api.kupaliska.dev.bratislava.sk",
+  host: import.meta.env.REACT_APP_HOST || "http://localhost:8000",
   debug: false,
   maxTicketPurchaseLimit: 10,
   reCaptchaKey: import.meta.env.REACT_APP_RECAPTCHA_KEY,
