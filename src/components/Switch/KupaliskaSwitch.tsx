@@ -1,13 +1,14 @@
 import Switch from "react-switch";
 import React from "react";
 
+declare const preval: (code: TemplateStringsArray) => Record<string, unknown>;
+
 // https://github.com/tailwindlabs/tailwindcss/discussions/1853#discussioncomment-1239755
-// @ts-ignore
 const { onColor, offColor } = preval`
   const resolveConfig = require('tailwindcss/resolveConfig');
   const tailwindConfig = require('../../../tailwind.config');
-  const resolvedConfig = resolveConfig(tailwindConfig); 
-  
+  const resolvedConfig = resolveConfig(tailwindConfig);
+
   module.exports = {onColor: resolvedConfig.theme.colors.primary, offColor: resolvedConfig.theme.colors.inactive}
 ` as { onColor: string; offColor: string };
 

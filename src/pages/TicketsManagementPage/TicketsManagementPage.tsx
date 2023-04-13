@@ -474,10 +474,10 @@ const TicketsManagementPage = () => {
 
           {!dataMapped.hasTickets && (
             <div className="container mx-auto flex items-center mt-8 md:mt-20 flex-col md:flex-row">
-              <div className="flex-grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
+              <div className="grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
                 {t("tickets.no-tickets")}
               </div>
-              <div className="flex-shrink">
+              <div className="shrink">
                 <img src="/no-tickets.svg" alt="" />
               </div>
             </div>

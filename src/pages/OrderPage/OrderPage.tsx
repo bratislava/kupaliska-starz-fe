@@ -89,7 +89,7 @@ const OrderPageCreateSwimmerModal = ({
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
-    <div className="bg-blueish rounded-full text-primary font-semibold text-4xl w-12 flex-shrink-0 h-12 grid place-content-center">
+    <div className="bg-blueish rounded-full text-primary font-semibold text-4xl w-12 shrink-0 h-12 grid place-content-center">
       {index}
     </div>
   );
@@ -98,7 +98,7 @@ const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
 const NumberedLayoutLine = ({ className }: { className?: string }) => (
   <div
     className={cx(
-      "border border-fontBlack border-3 opacity-10 flex-grow h-0 w-full",
+      "border border-fontBlack border-3 opacity-10 grow h-0 w-full",
       className
     )}
   ></div>
@@ -578,7 +578,7 @@ const OrderPageSummary = ({
       </div>
       <div className="flex bg-blueish px-8 py-4 rounded-b-lg items-center">
         {hasTicketAmount && (
-          <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary flex-shrink-0">
+          <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary shrink-0">
             <button
               className="mr-6 leading-5	text-3xl align-top"
               onClick={handleMinusClick}

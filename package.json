@@ -6,7 +6,6 @@
   "dependencies": {
     "@azure/msal-browser": "^2.24.0",
     "@azure/msal-react": "^1.4.0",
-    "@craco/craco": "^6.1.1",
     "@hookform/resolvers": "^2.3.0",
     "@reduxjs/toolkit": "^1.5.1",
     "@sentry/react": "^6.10.0",
@@ -40,7 +39,6 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-router-hash-link": "^2.4.0",
-    "react-scripts": "4.0.3",
     "react-swipeable": "^6.1.0",
     "react-switch": "^7.0.0",
     "react-tooltip": "^4.2.19",
@@ -65,18 +63,22 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/react-router-hash-link": "^1.2.1",
     "@types/styled-components": "^5.1.9",
-    "autoprefixer": "^9.8.6",
+    "@vitejs/plugin-legacy": "^4.0.2",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.14",
     "babel-plugin-preval": "^5.1.0",
-    "postcss": "^7.0.35",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
     "postcss-nesting": "^7.0.1",
     "semantic-release": "^17.4.3",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
+    "tailwindcss": "^3.3.1",
+    "terser": "^5.16.9",
+    "vite": "^4.2.1",
+    "vite-plugin-svgr": "^2.4.0"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build"
   },
   "eslintConfig": {
     "extends": [
@@ -94,8 +96,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "resolutions": {
-    "react-scripts/eslint-webpack-plugin": "2.3.0"
   }
 }

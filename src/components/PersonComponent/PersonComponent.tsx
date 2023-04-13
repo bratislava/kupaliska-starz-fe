@@ -105,7 +105,7 @@ const PersonComponent = ({
           </>
         )}
         {showRightCorner && (
-          <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+          <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
             {showRemoveIcon && (
               <img
                 src="/red-cross-circle.svg"

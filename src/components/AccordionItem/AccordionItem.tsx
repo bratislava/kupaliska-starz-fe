@@ -55,7 +55,7 @@ export const AccordionItem = ({
           )}
           onClick={handleClick}
         >
-          <div className="flex flex-row font-medium flex-grow text-left">
+          <div className="flex flex-row font-medium grow text-left">
             {typeof title === "string" ? (
               <p className="text-font text-md text-left">{title}</p>
             ) : (
@@ -67,10 +67,10 @@ export const AccordionItem = ({
               </p>
             )}
           </div>
-          <div className="ml-5 flex-grow-0">
+          <div className="ml-5 grow-0">
             <Icon
               name="chevron"
-              className={cx("w-6 h-3", { "transform rotate-180": active })}
+              className={cx("w-6 h-3", { "rotate-180": active })}
             ></Icon>
           </div>
         </button>

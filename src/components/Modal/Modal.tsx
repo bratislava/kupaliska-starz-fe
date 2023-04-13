@@ -23,7 +23,7 @@ const ModalButton = ({
 
   return (
     <div style={{ height: overflow }}>
-      <div className="transform -translate-y-2/4" ref={contentRef}>
+      <div className="-translate-y-2/4" ref={contentRef}>
         {button}
       </div>
     </div>
@@ -79,7 +79,7 @@ const Modal = ({
               <img
                 src="/red-cross-circle.svg"
                 alt=""
-                className="absolute right-0 top-0 transform -translate-y-2/4 w-8 h-8 cursor-pointer"
+                className="absolute right-0 top-0 -translate-y-2/4 w-8 h-8 cursor-pointer"
                 onClick={() => onClose()}
               />
             )}

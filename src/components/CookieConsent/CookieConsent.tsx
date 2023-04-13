@@ -168,7 +168,7 @@ const CookieConsent = () => {
                   <AccordionItem
                     key={index}
                     title={
-                      <div className="flex justify-between flex-grow">
+                      <div className="flex justify-between grow">
                         <span>{titleText}</span>
                         <KupaliskaSwitch
                           checked={checked}

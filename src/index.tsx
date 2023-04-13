@@ -21,7 +21,7 @@ import { msalInstance } from "./msalInstance";
 Sentry.init({
   dsn: environment.sentryDsn,
   integrations: [new Integrations.BrowserTracing()],
-  tracesSampleRate: (process.env.REACT_APP_TRACES_SAMPLE_RATE || 1) as number,
+  tracesSampleRate: (import.meta.env.REACT_APP_TRACES_SAMPLE_RATE || 1) as number,
 });
 
 ReactDOM.render(
