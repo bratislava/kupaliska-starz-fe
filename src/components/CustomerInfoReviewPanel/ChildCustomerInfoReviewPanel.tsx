@@ -1,21 +1,17 @@
-import React from "react";
+import React from 'react'
 
-import { Icon } from "components";
-import { CustomerInfoFormValues } from "models";
+import { Icon } from 'components'
+import { CustomerInfoFormValues } from 'models'
 
-import "./CustomerInfoReviewPanel.css";
+import './CustomerInfoReviewPanel.css'
 
 interface CustomerInfoReviewPanelProps {
-  formValues: CustomerInfoFormValues;
-  img?: string;
-  index: number;
+  formValues: CustomerInfoFormValues
+  img?: string
+  index: number
 }
 
-const CustomerInfoReviewPanel = ({
-  img,
-  formValues,
-  index,
-}: CustomerInfoReviewPanelProps) => {
+const CustomerInfoReviewPanel = ({ img, formValues, index }: CustomerInfoReviewPanelProps) => {
   return (
     <>
       <div className="my-4 font-bold">Dieťa {index + 1}</div>
@@ -32,9 +28,7 @@ const CustomerInfoReviewPanel = ({
             )}
             {formValues.name && (
               <div
-                className={`${
-                  img ? "col-span-6" : "col-span-full"
-                } flex items-center font-bold`}
+                className={`${img ? 'col-span-6' : 'col-span-full'} flex items-center font-bold`}
               >
                 {formValues.name}
               </div>
@@ -45,14 +39,12 @@ const CustomerInfoReviewPanel = ({
           <div className="col-span-2 flex items-center justify-center">
             <Icon className="text-2xl" name="calendar" color="primary" />
           </div>
-          <div className="col-span-6 flex items-center font-bold">
-            {formValues.age}
-          </div>
+          <div className="col-span-6 flex items-center font-bold">{formValues.age}</div>
         </div>
         <div className="grid col-span-1"></div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default CustomerInfoReviewPanel;
+export default CustomerInfoReviewPanel

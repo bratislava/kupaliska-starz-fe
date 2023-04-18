@@ -1,9 +1,9 @@
-import { SectionHeader } from "components";
-import React from "react";
-import { useTranslation } from "react-i18next";
+import { SectionHeader } from 'components'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const WhyCreateAccountSection = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <section id="why-create-account" className="section">
@@ -11,7 +11,7 @@ const WhyCreateAccountSection = () => {
       {[0, 1, 2].map((index) => (
         <div
           className={`flex lg:w-8/10 mx-auto flex-col-reverse mb-10 md:mb-0 ${
-            index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+            index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
           }`}
           key={index}
         >
@@ -29,7 +29,7 @@ const WhyCreateAccountSection = () => {
         </div>
       ))}
     </section>
-  );
-};
+  )
+}
 
-export default WhyCreateAccountSection;
+export default WhyCreateAccountSection

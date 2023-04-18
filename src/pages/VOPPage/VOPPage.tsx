@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react'
 
-import { SectionHeader, Typography } from "components";
+import { SectionHeader, Typography } from 'components'
 
-import "./VOPPage.css";
-import { Trans, useTranslation } from "react-i18next";
+import './VOPPage.css'
+import { Trans, useTranslation } from 'react-i18next'
 
 const VOPPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <main className="mx-auto mt-8 xl:mt-12 container">
-      <SectionHeader title={t("vop.title")} />
+      <SectionHeader title={t('vop.title')} />
       <Trans
         i18nKey={`vop.main-text`}
         components={{
@@ -24,6 +24,6 @@ const VOPPage = () => {
         }}
       />
     </main>
-  );
-};
-export default VOPPage;
+  )
+}
+export default VOPPage

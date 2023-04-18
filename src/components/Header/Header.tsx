@@ -1,41 +1,38 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { HashLink as Link } from "react-router-hash-link";
+import { HashLink as Link } from 'react-router-hash-link'
 
-import { Icon, Typography } from "components";
-import { useTranslation } from "react-i18next";
+import { Icon, Typography } from 'components'
+import { useTranslation } from 'react-i18next'
 
 interface MenuItem {
-  to: string;
+  to: string
 }
 
 const menuItems: MenuItem[] = [
   {
-    to: "/#ticket-buy",
+    to: '/#ticket-buy',
   },
   {
-    to: "/#swimming-pools",
+    to: '/#swimming-pools',
   },
   {
-    to: "/#contact-us",
+    to: '/#contact-us',
   },
   {
-    to: "/#faqs",
+    to: '/#faqs',
   },
-];
+]
 
 const Header = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const [open, setOpen] = useState<boolean>(false)
+  const { t } = useTranslation()
 
   return (
     <>
       <div className="bg-white shadow-xs py-3 md:py-4 sticky top-0 z-50 w-full">
         <div className="container mx-auto text-fontBlack flex justify-between">
-          <Link
-            className="text-primary font-bold text-xl cursor-pointer"
-            to="/"
-          >
+          <Link className="text-primary font-bold text-xl cursor-pointer" to="/">
             STARZ
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-end">
@@ -55,13 +52,13 @@ const Header = () => {
         <div
           onClick={() => setOpen(!open)}
           className={`fixed inset-0 ${
-            open ? "block" : "hidden"
+            open ? 'block' : 'hidden'
           } md:hidden bg-fontBlack bg-opacity-30 z-10`}
         ></div>
 
         <nav
           className={`${
-            open ? "w-3/4" : "w-0"
+            open ? 'w-3/4' : 'w-0'
           } md:hidden overflow-hidden fixed top-0 right-0 bottom-0 flex-col flex flex-1 bg-white transition-all z-10`}
         >
           <div className="py-12 px-4 flex flex-col flex-1 justify-between">
@@ -88,7 +85,7 @@ const Header = () => {
             </div>
             <div>
               <Typography type="title" fontWeight="bold">
-                {t("header.watch-us")}
+                {t('header.watch-us')}
               </Typography>
               <div className="flex justify-between items-center text-primary py-4 pr-16">
                 <a
@@ -104,7 +101,7 @@ const Header = () => {
         </nav>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

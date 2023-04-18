@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import { Button, Icon, Modal, PeopleList, ProfileNavBar } from "components";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react'
+import { Button, Icon, Modal, PeopleList, ProfileNavBar } from 'components'
+import { useTranslation } from 'react-i18next'
 import PersonComponent, {
   PersonComponentMode,
-} from "../../components/PersonComponent/PersonComponent";
-import { PeopleListMode } from "../../components/PeopleList/PeopleList";
+} from '../../components/PersonComponent/PersonComponent'
+import { PeopleListMode } from '../../components/PeopleList/PeopleList'
 import {
   AssociatedSwimmer,
   AssociatedSwimmerFetchResponse,
   deleteAssociatedSwimmer,
   fetchAssociatedSwimmers,
-} from "../../store/associatedSwimmers/api";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { fetchUser, User } from "../../store/user/api";
-import { useAccount } from "@azure/msal-react";
-import { useHistory } from "react-router-dom";
-import ProfileLine from "../../components/ProfileLine/ProfileLine";
-import { AxiosResponse } from "axios";
-import { produce } from "immer";
+} from '../../store/associatedSwimmers/api'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { fetchUser, User } from '../../store/user/api'
+import { useAccount } from '@azure/msal-react'
+import { useHistory } from 'react-router-dom'
+import ProfileLine from '../../components/ProfileLine/ProfileLine'
+import { AxiosResponse } from 'axios'
+import { produce } from 'immer'
 
 const UserInfo = ({ user }: { user: User }) => {
-  const { t } = useTranslation();
-  const account = useAccount();
-  const history = useHistory();
+  const { t } = useTranslation()
+  const account = useAccount()
+  const history = useHistory()
 
   const handleProfileEditClick = () => {
-    history.push("/profile/edit");
-  };
+    history.push('/profile/edit')
+  }
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -38,36 +38,35 @@ const UserInfo = ({ user }: { user: User }) => {
       <div className="mt-6 md:mt-0 md:ml-12">
         <div>
           <div className="text-base font-normal text-fontBlack opacity-75">
-            {t("profile.name-firstname")}
+            {t('profile.name-firstname')}
           </div>
           <div className="font-semibold text-2xl">
-            {account?.idTokenClaims?.given_name}{" "}
-            {account?.idTokenClaims?.family_name}
+            {account?.idTokenClaims?.given_name} {account?.idTokenClaims?.family_name}
           </div>
         </div>
         <div className="mt-8">
           <div className="text-base font-normal text-fontBlack opacity-75">
-            {t("profile.email")}
+            {t('profile.email')}
           </div>
           <div className="font-semibold text-2xl">{account?.username}</div>
         </div>
         <div className="flex mt-8">
           <div className="mr-12">
             <div className="text-base font-normal text-fontBlack opacity-75">
-              {t("profile.age")}
+              {t('profile.age')}
             </div>
             {/* TODO sklonovanie 2 roky/33 rokov*/}
             <div className="font-semibold text-2xl">
               {user.age != null && (
                 <>
-                  {user.age} {t("profile.age-full")}
+                  {user.age} {t('profile.age-full')}
                 </>
               )}
             </div>
           </div>
           <div>
             <div className="text-base font-normal text-fontBlack opacity-75">
-              {t("profile.zip")}
+              {t('profile.zip')}
             </div>
             <div className="font-semibold text-2xl">{user.zip}</div>
           </div>
@@ -79,30 +78,29 @@ const UserInfo = ({ user }: { user: User }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const AssociatedSwimmersInfo = ({
   associatedSwimmers,
 }: {
-  associatedSwimmers: AssociatedSwimmer[];
+  associatedSwimmers: AssociatedSwimmer[]
 }) => {
-  const history = useHistory();
+  const history = useHistory()
 
-  const [swimmerToDelete, setSwimmerToDelete] =
-    useState<AssociatedSwimmer | null>(null);
+  const [swimmerToDelete, setSwimmerToDelete] = useState<AssociatedSwimmer | null>(null)
 
   const handleDeleteSwimmerModalClose = () => {
-    setSwimmerToDelete(null);
-  };
+    setSwimmerToDelete(null)
+  }
 
   const handleOnSwimmerEditClick = (swimmer: Partial<AssociatedSwimmer>) => {
-    history.push(`profile/swimmer/${swimmer.id}`);
-  };
+    history.push(`profile/swimmer/${swimmer.id}`)
+  }
 
   const handleOnSwimmerAddClick = () => {
-    history.push(`profile/swimmer/new`);
-  };
+    history.push(`profile/swimmer/new`)
+  }
 
   return (
     <>
@@ -114,49 +112,48 @@ const AssociatedSwimmersInfo = ({
       <PeopleList
         people={associatedSwimmers}
         mode={PeopleListMode.Profile}
-        onRemoveClick={(person) =>
-          setSwimmerToDelete(person as AssociatedSwimmer)
-        }
+        onRemoveClick={(person) => setSwimmerToDelete(person as AssociatedSwimmer)}
         onPersonClick={handleOnSwimmerEditClick}
         onAddClick={handleOnSwimmerAddClick}
       ></PeopleList>
     </>
-  );
-};
+  )
+}
 
 const DeleteAssociatedSwimmerModal = ({
   open = false,
   onClose,
   person = null,
 }: {
-  open: boolean;
-  onClose: any;
-  person: AssociatedSwimmer | null;
+  open: boolean
+  onClose: any
+  person: AssociatedSwimmer | null
 }) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const mutation = useMutation(() => deleteAssociatedSwimmer(person!.id!), {
     onSuccess: () => {
       // Update data to see edited content before the refetch.
-      queryClient.setQueryData<
-        AxiosResponse<AssociatedSwimmerFetchResponse> | undefined
-      >("associatedSwimmers", (old) => {
-        if (!old) {
-          return;
-        }
+      queryClient.setQueryData<AxiosResponse<AssociatedSwimmerFetchResponse> | undefined>(
+        'associatedSwimmers',
+        (old) => {
+          if (!old) {
+            return
+          }
 
-        return produce(old, (draft) => {
-          draft.data.associatedSwimmers = old.data.associatedSwimmers.filter(
-            (swimmerFromList) => swimmerFromList.id !== person!.id
-          );
-        });
-      });
-      queryClient.invalidateQueries("associatedSwimmers");
-      onClose();
+          return produce(old, (draft) => {
+            draft.data.associatedSwimmers = old.data.associatedSwimmers.filter(
+              (swimmerFromList) => swimmerFromList.id !== person!.id,
+            )
+          })
+        },
+      )
+      queryClient.invalidateQueries('associatedSwimmers')
+      onClose()
     },
-  });
+  })
   const handleRemove = () => {
-    mutation.mutate();
-  };
+    mutation.mutate()
+  }
 
   return (
     <Modal
@@ -182,18 +179,15 @@ const DeleteAssociatedSwimmerModal = ({
         )}
       </div>
     </Modal>
-  );
-};
+  )
+}
 
 const ProfilePage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const associatedSwimmersQuery = useQuery(
-    "associatedSwimmers",
-    fetchAssociatedSwimmers
-  );
+  const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
 
-  const userQuery = useQuery("user", fetchUser);
+  const userQuery = useQuery('user', fetchUser)
 
   return (
     <section className="w-full">
@@ -202,29 +196,23 @@ const ProfilePage = () => {
         <ProfileLine></ProfileLine>
         <div className="mt-14 mb-24">
           {/* TODO female/male */}
-          <div className="font-medium text-2xl mb-4 md:mb-8">
-            {t("profile.user")}
-          </div>
+          <div className="font-medium text-2xl mb-4 md:mb-8">{t('profile.user')}</div>
 
-          {userQuery.isSuccess && (
-            <UserInfo user={userQuery.data.data}></UserInfo>
-          )}
+          {userQuery.isSuccess && <UserInfo user={userQuery.data.data}></UserInfo>}
         </div>
         <div>
-          <div className="font-medium text-2xl mb-4">{t("profile.others")}</div>
+          <div className="font-medium text-2xl mb-4">{t('profile.others')}</div>
           <div className="flex">
             {associatedSwimmersQuery.isSuccess && (
               <AssociatedSwimmersInfo
-                associatedSwimmers={
-                  associatedSwimmersQuery.data.data.associatedSwimmers
-                }
+                associatedSwimmers={associatedSwimmersQuery.data.data.associatedSwimmers}
               />
             )}
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage

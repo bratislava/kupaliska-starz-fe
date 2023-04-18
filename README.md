@@ -1,4 +1,3 @@
-
 # Kupaliska FE
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template. It's using [Craco](https://www.npmjs.com/package/@craco/craco) to allow tailwind-css
@@ -17,13 +16,13 @@ npm install
 
 ### Environment
 
-Set the `REACT_APP_HOST` variable in `.env.development` file to **FULL URL** of the backend API. The default setup runs against local backend - if you don't have BE running on http://localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
+Set the `VITE_HOST` variable in `.env.development` file to **FULL URL** of the backend API. The default setup runs against local backend - if you don't have BE running on http://localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
 
 For additional informaion about VPN, please contact Martin Pinter or Patrik Kadlcik.
 
 #### Recaptcha
 
-To make recaptcha work properly, you need to set `REACT_APP_RECAPTCHA_CLIENT_SECRET` variable from [reCAPTCHA Enterprise](https://console.cloud.google.com/security/recaptcha). From there use the `kupaliska.bratislava.sk` key. (It's same key as or backend) 
+To make recaptcha work properly, you need to set `VITE_RECAPTCHA_CLIENT_SECRET` variable from [reCAPTCHA Enterprise](https://console.cloud.google.com/security/recaptcha). From there use the `kupaliska.bratislava.sk` key. (It's same key as or backend)
 To get the credentials to login, please contact Martin Pintner or Patrik Kadlcik
 
 ### Start the app
@@ -38,7 +37,7 @@ npm run start
 
 #### Ordering
 
-Testing credit card: *4263970000005262*
+Testing credit card: _4263970000005262_
 
 To make emails work after order, you have to be set in authorized recipients [here](https://app.mailgun.com/app/sending/domains/sandboxa9861f03a870473b83e62ffee945e664.mailgun.org) and when you are making order, enter the exact email.
 

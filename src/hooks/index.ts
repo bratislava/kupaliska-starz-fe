@@ -1,2 +1,2 @@
-export * from "./store";
-export * from "./useWindowSize";
+export * from './store'
+export * from './useWindowSize'

@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
-import ReactTooltip, { TooltipProps } from "react-tooltip";
+import ReactTooltip, { TooltipProps } from 'react-tooltip'
 
-import "./Tooltip.css";
+import './Tooltip.css'
 
 const Tooltip = (props: TooltipProps) => {
-  return <ReactTooltip {...props} className="tooltip" />;
-};
+  return <ReactTooltip {...props} className="tooltip" />
+}
 
-export default Tooltip;
+export default Tooltip

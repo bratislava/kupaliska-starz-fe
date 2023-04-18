@@ -2,7 +2,7 @@ resources:
   - ../../base
 
 configMapGenerator:
-- name: env
-  behavior: merge
-  envs:
-  - .env
+  - name: env
+    behavior: merge
+    envs:
+      - .env

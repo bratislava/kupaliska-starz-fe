@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react'
 
-import { Button, Icon, Typography } from "components";
+import { Button, Icon, Typography } from 'components'
 
-import "./HeroBanner.css";
-import { HashLink } from "react-router-hash-link";
-import { Trans, useTranslation } from "react-i18next";
+import './HeroBanner.css'
+import { HashLink } from 'react-router-hash-link'
+import { Trans, useTranslation } from 'react-i18next'
 
 const HeroBanner = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="relative mb-8">
@@ -24,7 +24,7 @@ const HeroBanner = () => {
           />
         </Typography>
         <Typography type="subtitle" className="max-w-xs">
-          {t("landing.subtitle")}
+          {t('landing.subtitle')}
         </Typography>
 
         <div
@@ -49,25 +49,20 @@ const HeroBanner = () => {
         >
           <HashLink to="/#ticket-buy">
             <Button thin>
-              <span className="p-1 pl-5 pr-4">{t("landing.buy-ticket")}</span>
+              <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
               <Icon name="tickets" className="no-fill pr-5" />
             </Button>
           </HashLink>
           <HashLink to="/#swimming-pools" className="hidden sm:block">
             <Button className="" color="outlined" thin>
-              <span className="p-1 pl-5 pr-4">
-                {t("landing.swimming-pools-starz")}
-              </span>
-              <Icon
-                name="swimming-man"
-                className="hidden xs:block no-fill pr-5"
-              />
+              <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
+              <Icon name="swimming-man" className="hidden xs:block no-fill pr-5" />
             </Button>
           </HashLink>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default HeroBanner;
+export default HeroBanner
