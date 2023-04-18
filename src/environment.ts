@@ -4,7 +4,7 @@
 console.log(import.meta.env)
 
 export const environment = {
-  host: import.meta.env.VITE_HOST || 'https://api.kupaliska.dev.bratislava.sk',
+  host: import.meta.env.VITE_HOST || 'http://localhost:8000',
   debug: false,
   maxTicketPurchaseLimit: 10,
   reCaptchaKey: import.meta.env.VITE_RECAPTCHA_KEY,
