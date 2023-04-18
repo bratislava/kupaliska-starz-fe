@@ -1,53 +1,53 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from 'react'
 
-import "./Button.css";
+import './Button.css'
 
 interface ButtonProps {
   // TODO: Rename to `type`.
-  color?: "primary" | "secondary" | "outlined" | "blueish" | "white";
-  htmlType?: "button" | "submit" | "reset";
-  thin?: boolean;
-  onClick?: () => void;
-  className?: string;
-  disabled?: boolean;
-  rounded?: boolean;
+  color?: 'primary' | 'secondary' | 'outlined' | 'blueish' | 'white'
+  htmlType?: 'button' | 'submit' | 'reset'
+  thin?: boolean
+  onClick?: () => void
+  className?: string
+  disabled?: boolean
+  rounded?: boolean
 }
 
 const Button = ({
-  color = "primary",
+  color = 'primary',
   children,
   onClick,
   thin = false,
   rounded = false,
-  className = "",
+  className = '',
   disabled = false,
-  htmlType = "button",
+  htmlType = 'button',
 }: PropsWithChildren<ButtonProps>) => {
   // tailwind purges values that are only interpolated in so i have to do this bad way
   const textColor = {
-    primary: "text-white",
+    primary: 'text-white',
     secondary: 'text-secondary"',
-    outlined: "text-primary",
-    blueish: "text-primary",
-    white: "text-primary",
-  }[color];
+    outlined: 'text-primary',
+    blueish: 'text-primary',
+    white: 'text-primary',
+  }[color]
   const bgColor = {
-    primary: "bg-primary",
+    primary: 'bg-primary',
     secondary: 'bg-secondary"',
-    outlined: "bg-transparent",
-    blueish: "bg-blueish",
-    white: "bg-white"
-  }[color];
+    outlined: 'bg-transparent',
+    blueish: 'bg-blueish',
+    white: 'bg-white',
+  }[color]
   const borderColor = {
-    primary: "border-primary",
+    primary: 'border-primary',
     secondary: 'border-secondary"',
-    outlined: "border-primary",
-    blueish: "border-blueish",
-    white: "border-transparent"
-  }[color];
-  const thinClass = thin ? "p-1" : "p-2";
-  const roundedClass = rounded ? "rounded-lg" : "rounded";
-  const classNames = `flex justify-center items-center focus:outline-none border-solid border-2 ${textColor} ${bgColor} ${borderColor} ${thinClass} ${roundedClass}`;
+    outlined: 'border-primary',
+    blueish: 'border-blueish',
+    white: 'border-transparent',
+  }[color]
+  const thinClass = thin ? 'p-1' : 'p-2'
+  const roundedClass = rounded ? 'rounded-lg' : 'rounded'
+  const classNames = `flex justify-center items-center focus:outline-none border-solid border-2 ${textColor} ${bgColor} ${borderColor} ${thinClass} ${roundedClass}`
 
   return (
     <button
@@ -58,7 +58,7 @@ const Button = ({
     >
       {children}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

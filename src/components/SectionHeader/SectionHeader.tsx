@@ -1,25 +1,17 @@
-import React from "react";
+import React from 'react'
 
-import { Typography } from "components";
+import { Typography } from 'components'
 
 interface SectionHeaderProps {
-  title: string;
-  subtitle?: string;
-  className?: string;
+  title: string
+  subtitle?: string
+  className?: string
 }
 
-const SectionHeader = ({
-  title,
-  subtitle,
-  className = "",
-}: SectionHeaderProps) => {
+const SectionHeader = ({ title, subtitle, className = '' }: SectionHeaderProps) => {
   return (
     <div className={`${className}`}>
-      <Typography
-        type="title"
-        fontWeight="bold"
-        className={`${!subtitle ? "mb-8" : ""}`}
-      >
+      <Typography type="title" fontWeight="bold" className={`${!subtitle ? 'mb-8' : ''}`}>
         {title}
       </Typography>
       {subtitle && (
@@ -28,7 +20,7 @@ const SectionHeader = ({
         </Typography>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SectionHeader;
+export default SectionHeader

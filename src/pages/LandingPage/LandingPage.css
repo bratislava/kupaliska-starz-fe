@@ -1,12 +1,12 @@
 .landing-page__swimming-pool-modal {
-    @screen md {
-        width: 500px;
-    }
-    @screen lg {
-        width: 535px;
-    }
+  @screen md {
+    width: 500px;
+  }
+  @screen lg {
+    width: 535px;
+  }
 
-    @screen 2xl {
-        width: 650px;
-    }
+  @screen 2xl {
+    width: 650px;
+  }
 }

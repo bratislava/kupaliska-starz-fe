@@ -1,68 +1,65 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { Link } from "react-router-dom";
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { Link } from 'react-router-dom'
 
-import { Icon, InputField, Button } from "components";
-import { useAppDispatch } from "hooks";
-import { sendContactFormActions } from "store/global";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { Trans, useTranslation } from "react-i18next";
+import { Icon, InputField, Button } from 'components'
+import { useAppDispatch } from 'hooks'
+import { sendContactFormActions } from 'store/global'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { Trans, useTranslation } from 'react-i18next'
 
 const formRules = yup.object().shape({
-  email: yup
-    .string()
-    .email("Prosím zadajte platný email")
-    .required("Toto pole je povinné"),
-  name: yup.string().required("Toto pole je povinné"),
-  message: yup.string().required("Toto pole je povinné"),
-});
+  email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
+  name: yup.string().required('Toto pole je povinné'),
+  message: yup.string().required('Toto pole je povinné'),
+})
 
 export interface ContactFormValues {
-  name: string;
-  email: string;
-  message: string;
+  name: string
+  email: string
+  message: string
 }
 
 const ContactForm = () => {
-  const dispatch = useAppDispatch();
-  const [sending, setSending] = useState<boolean>(false);
-  const { t } = useTranslation();
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const dispatch = useAppDispatch()
+  const [sending, setSending] = useState<boolean>(false)
+  const { t } = useTranslation()
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<ContactFormValues>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(formRules),
-  });
+  })
 
   const onSubmit = (values: ContactFormValues) => {
-    setSending(true);
+    setSending(true)
     executeRecaptcha &&
-      executeRecaptcha("contact_form")
+      executeRecaptcha('contact_form')
         .then(
           (token) => {
             dispatch(
               sendContactFormActions({
                 formData: values,
                 recaptchaToken: token,
-              })
+              }),
             ).then((resp) => {
-              if (resp.meta.requestStatus === "fulfilled") {
-                reset();
+              if (resp.meta.requestStatus === 'fulfilled') {
+                reset()
               }
-              setSending(false);
-            });
+              setSending(false)
+            })
           },
-          () => setSending(false)
+          () => setSending(false),
         )
-        .catch(() => setSending(false));
-  };
+        .catch(() => setSending(false))
+  }
 
   return (
     <form className="grid gap-4 grid-cols-2">
@@ -71,7 +68,7 @@ const ContactForm = () => {
         name="name"
         register={register}
         leftExtra={<Icon name="user" className="mr-4" />}
-        label={t("landing.name")}
+        label={t('landing.name')}
         error={errors.name?.message}
       />
       <InputField
@@ -79,14 +76,14 @@ const ContactForm = () => {
         name="email"
         register={register}
         leftExtra={<Icon name="mail" className="mr-4" />}
-        label={t("landing.email")}
+        label={t('landing.email')}
         error={errors.email?.message}
       />
       <InputField
         className="col-span-2"
         name="message"
         register={register}
-        placeholder={t("landing.message")}
+        placeholder={t('landing.message')}
         error={errors.message?.message}
         element="textarea"
       />
@@ -94,10 +91,7 @@ const ContactForm = () => {
         <Trans i18nKey="landing.recaptcha" components={{ a: <a /> }} />
       </span>
       <span className="col-span-full font-medium">
-        <Trans
-          i18nKey="landing.gdpr-info"
-          components={{ Link: <Link to="/gdpr" /> }}
-        />
+        <Trans i18nKey="landing.gdpr-info" components={{ Link: <Link to="/gdpr" /> }} />
       </span>
       <Button
         disabled={sending}
@@ -105,10 +99,10 @@ const ContactForm = () => {
         htmlType="button"
         onClick={handleSubmit(onSubmit)}
       >
-        {t("landing.send-message")} <Icon className="ml-4" name="paper-plane" />
+        {t('landing.send-message')} <Icon className="ml-4" name="paper-plane" />
       </Button>
     </form>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm

@@ -1,11 +1,4 @@
-import React, {
-  ChangeEvent,
-  PropsWithChildren,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AssociatedSwimmerEditAddForm,
   Button,
@@ -14,29 +7,20 @@ import {
   InputField,
   Modal,
   Tooltip,
-} from "../../components";
-import { useWindowSize } from "../../hooks";
-import cx from "classnames";
-import PeopleList, {
-  PeopleListMode,
-} from "../../components/PeopleList/PeopleList";
-import {
-  AssociatedSwimmer,
-  fetchAssociatedSwimmers,
-} from "../../store/associatedSwimmers/api";
-import { QueryObserverResult, useQuery, useQueryClient } from "react-query";
-import { ErrorWithMessages, useErrorToast } from "../../hooks/useErrorToast";
-import { useOrderTicket } from "./useOrderTicket";
-import { Trans, useTranslation } from "react-i18next";
-import { useAccount } from "@azure/msal-react";
-import { CheckPriceResponse, Ticket } from "../../models";
-import {
-  checkDiscountCode,
-  DiscountCodeResponse,
-  getPrice,
-} from "../../store/order/api";
-import to from "await-to-js";
-import { AxiosError, AxiosResponse } from "axios";
+} from '../../components'
+import { useWindowSize } from '../../hooks'
+import cx from 'classnames'
+import PeopleList, { PeopleListMode } from '../../components/PeopleList/PeopleList'
+import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
+import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useOrderTicket } from './useOrderTicket'
+import { Trans, useTranslation } from 'react-i18next'
+import { useAccount } from '@azure/msal-react'
+import { CheckPriceResponse, Ticket } from '../../models'
+import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
+import to from 'await-to-js'
+import { AxiosError, AxiosResponse } from 'axios'
 import {
   FieldErrors,
   useForm,
@@ -44,65 +28,62 @@ import {
   UseFormSetValue,
   UseFormWatch,
   useWatch,
-} from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { NumberSchema, StringSchema } from "yup";
-import { useIsMounted } from "usehooks-ts";
-import { fetchUser } from "../../store/user/api";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "./OrderPage.css";
-import { Link, useHistory } from "react-router-dom";
-import { useOrder } from "./useOrder";
-import { orderFormToRequests } from "./formDataToRequests";
-import { UseFormRegister } from "react-hook-form/dist/types/form";
-import { environment } from "../../environment";
-import { useValidationSchemaTranslationIfPresent } from "helpers/general";
+} from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { NumberSchema, StringSchema } from 'yup'
+import { useIsMounted } from 'usehooks-ts'
+import { fetchUser } from '../../store/user/api'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import './OrderPage.css'
+import { Link, useHistory } from 'react-router-dom'
+import { useOrder } from './useOrder'
+import { orderFormToRequests } from './formDataToRequests'
+import { UseFormRegister } from 'react-hook-form/dist/types/form'
+import { environment } from '../../environment'
+import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
   onClose,
   onAdd,
 }: {
-  open: boolean;
-  onClose: () => void;
-  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void;
+  open: boolean
+  onClose: () => void
+  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void
 }) => {
   const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
-    onAdd(addedSwimmer);
-    onClose();
-  };
+    onAdd(addedSwimmer)
+    onClose()
+  }
 
   return (
     <Modal open={open} onClose={onClose} closeButton={true}>
       <div
         className="block bg-white rounded-lg p-10 text-primary shadow-lg modal-with-close-width-screen"
-        style={{ maxWidth: "1100px" }}
+        style={{ maxWidth: '1100px' }}
       >
         <AssociatedSwimmerEditAddForm
           onSaveSuccess={handleSaveSuccess}
         ></AssociatedSwimmerEditAddForm>
       </div>
     </Modal>
-  );
-};
+  )
+}
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
-    <div className="bg-blueish rounded-full text-primary font-semibold text-4xl w-12 flex-shrink-0 h-12 grid place-content-center">
+    <div className="bg-blueish rounded-full text-primary font-semibold text-4xl w-12 shrink-0 h-12 grid place-content-center">
       {index}
     </div>
-  );
-};
+  )
+}
 
 const NumberedLayoutLine = ({ className }: { className?: string }) => (
   <div
-    className={cx(
-      "border border-fontBlack border-3 opacity-10 flex-grow h-0 w-full",
-      className
-    )}
+    className={cx('border border-fontBlack border-3 opacity-10 grow h-0 w-full', className)}
   ></div>
-);
+)
 
 /* Creates this effect https://imgur.com/TLn9kOW */
 const NumberedLayout = ({
@@ -110,97 +91,89 @@ const NumberedLayout = ({
   index,
   first = false,
 }: PropsWithChildren<{ index: number; first?: boolean }>) => {
-  const { width } = useWindowSize();
-  const absoluteDiv = useRef<any>();
-  const [showIndexOutside, setShowIndexOutside] = useState<boolean>(true);
+  const { width } = useWindowSize()
+  const absoluteDiv = useRef<any>()
+  const [showIndexOutside, setShowIndexOutside] = useState<boolean>(true)
   useEffect(() => {
-    const left = absoluteDiv.current.getBoundingClientRect().left;
-    setShowIndexOutside(left >= 20);
-  }, [width]);
+    const left = absoluteDiv.current.getBoundingClientRect().left
+    setShowIndexOutside(left >= 20)
+  }, [width])
 
   return (
     <>
-      {!first && showIndexOutside && (
-        <NumberedLayoutLine className="my-5"></NumberedLayoutLine>
-      )}
+      {!first && showIndexOutside && <NumberedLayoutLine className="my-5"></NumberedLayoutLine>}
       <div className="relative">
         <div
-          style={{ left: "-88px" }}
+          style={{ left: '-88px' }}
           ref={absoluteDiv}
-          className={cx("absolute", { invisible: !showIndexOutside })}
+          className={cx('absolute', { invisible: !showIndexOutside })}
         >
-          <NumberedLayoutIndexCounter
-            index={index}
-          ></NumberedLayoutIndexCounter>
+          <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
         </div>
 
         <div
-          className={cx("flex items-center", {
+          className={cx('flex items-center', {
             hidden: showIndexOutside,
-            "mt-4": !first,
+            'mt-4': !first,
           })}
         >
           <div>
-            <NumberedLayoutIndexCounter
-              index={index}
-            ></NumberedLayoutIndexCounter>
+            <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
           </div>
           <NumberedLayoutLine className="ml-4"></NumberedLayoutLine>
         </div>
         <div className="p-3">{children}</div>
       </div>
     </>
-  );
-};
+  )
+}
 
 const OrderPageEmail = ({
   requireEmail,
   register,
   errors,
 }: {
-  requireEmail: boolean;
-  register: UseFormRegister<OrderFormData>;
-  errors: FieldErrors<OrderFormData>;
+  requireEmail: boolean
+  register: UseFormRegister<OrderFormData>
+  errors: FieldErrors<OrderFormData>
 }) => {
-  const { t } = useTranslation();
-  const account = useAccount();
+  const { t } = useTranslation()
+  const account = useAccount()
 
-  let errorInterpreted = useValidationSchemaTranslationIfPresent(
-    errors.email?.message
-  );
+  let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
   return requireEmail ? (
     <InputField
       className="mt-6 max-w-formMax"
       name="email"
       register={register}
-      label={<span className="text-base">{t("common.email")}</span>}
+      label={<span className="text-base">{t('common.email')}</span>}
       error={errorInterpreted}
     />
   ) : (
     <Trans
-      i18nKey={"buy-page.email-send-to"}
+      i18nKey={'buy-page.email-send-to'}
       components={{ span: <span /> }}
       values={{ username: account?.username }}
     />
-  );
-};
+  )
+}
 
 const OrderPageOptionalFields = ({
   register,
   errors,
 }: {
-  register: UseFormRegister<OrderFormData>;
-  errors: FieldErrors<OrderFormData>;
+  register: UseFormRegister<OrderFormData>
+  errors: FieldErrors<OrderFormData>
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
       <label className="font-medium text-fontBlack text-base flex items-center mt-6">
-        {t("buy-page.optional")}
-        <div data-for="tooltip-customer-form" data-tip={t("buy-page.help-us")}>
+        {t('buy-page.optional')}
+        <div data-for="tooltip-customer-form" data-tip={t('buy-page.help-us')}>
           <Icon className="ml-4" name="question-mark" color="blueish" />
         </div>
       </label>
@@ -209,7 +182,7 @@ const OrderPageOptionalFields = ({
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="age"
           register={register}
-          placeholder={t("buy-page.age")}
+          placeholder={t('buy-page.age')}
           error={errors.age?.message}
           type="number"
           valueAsNumber={true}
@@ -218,33 +191,30 @@ const OrderPageOptionalFields = ({
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
           name="zip"
           register={register}
-          placeholder={t("buy-page.zip")}
+          placeholder={t('buy-page.zip')}
           error={errors.zip?.message}
         />
       </div>
     </>
-  );
-};
+  )
+}
 
 const OrderPagePeopleList = ({
   errors,
   watch,
   setValue,
 }: {
-  errors: FieldErrors<OrderFormData>;
-  watch: UseFormWatch<OrderFormData>;
-  setValue: UseFormSetValue<OrderFormData>;
+  errors: FieldErrors<OrderFormData>
+  watch: UseFormWatch<OrderFormData>
+  setValue: UseFormSetValue<OrderFormData>
 }) => {
-  const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false);
-  const selectedSwimmerIds = watch("selectedSwimmerIds") as (string | null)[];
+  const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
+  const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
 
-  const associatedSwimmersQuery = useQuery(
-    "associatedSwimmers",
-    fetchAssociatedSwimmers
-  );
-  const userQuery = useQuery("user", fetchUser);
-  const account = useAccount();
-  const { dispatchErrorToast } = useErrorToast();
+  const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
+  const userQuery = useQuery('user', fetchUser)
+  const account = useAccount()
+  const { dispatchErrorToast } = useErrorToast()
 
   /* Merges the list of associated swimmers with the logged in user. */
   const mergedSwimmers = useMemo(() => {
@@ -261,44 +231,41 @@ const OrderPagePeopleList = ({
         },
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]
-    );
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [associatedSwimmersQuery.data, userQuery.data]);
+  }, [associatedSwimmersQuery.data, userQuery.data])
 
-  const error = associatedSwimmersQuery.error || userQuery.error;
+  const error = associatedSwimmersQuery.error || userQuery.error
 
   useEffect(() => {
     if (error) {
-      dispatchErrorToast();
+      dispatchErrorToast()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [error])
 
   const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>) => {
     // `null` is current user, therefore we don't check for it
     if (swimmerToSelect.id === undefined) {
-      return;
+      return
     }
     if (selectedSwimmerIds.includes(swimmerToSelect.id)) {
       setValue(
-        "selectedSwimmerIds",
-        selectedSwimmerIds.filter((p) => p !== swimmerToSelect.id)
-      );
+        'selectedSwimmerIds',
+        selectedSwimmerIds.filter((p) => p !== swimmerToSelect.id),
+      )
     } else {
-      setValue("selectedSwimmerIds", [
-        ...selectedSwimmerIds,
-        swimmerToSelect.id,
-      ]);
+      setValue('selectedSwimmerIds', [...selectedSwimmerIds, swimmerToSelect.id])
     }
-  };
+  }
 
   const handleAddSwimmerClick = () => {
-    setAddSwimmerModalOpen(true);
-  };
+    setAddSwimmerModalOpen(true)
+  }
 
   const handleAddSwimmerClose = () => {
-    setAddSwimmerModalOpen(false);
-  };
+    setAddSwimmerModalOpen(false)
+  }
 
   return (
     <>
@@ -319,41 +286,39 @@ const OrderPagePeopleList = ({
       )}
 
       <div className="text-error px-2 text-sm">
-        {errors.selectedSwimmerIds?.map((field) => field.message).join("/n")}
+        {errors.selectedSwimmerIds?.map((field) => field.message).join('/n')}
       </div>
     </>
-  );
-};
+  )
+}
 
 const OrderPageDiscountCode = ({
   ticket,
   setValue,
   getValues,
 }: {
-  ticket: Ticket;
-  setValue: UseFormSetValue<OrderFormData>;
-  getValues: UseFormGetValues<OrderFormData>;
+  ticket: Ticket
+  setValue: UseFormSetValue<OrderFormData>
+  getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const [useDiscountCode, setUseDiscountCode] = useState(false);
+  const [useDiscountCode, setUseDiscountCode] = useState(false)
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const handleUseDiscountCodeChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    const { checked } = event.target;
-    setUseDiscountCode(checked);
-    if (!checked && getValues("discountCode") != null) {
-      setValue("discountCode", null);
+  const handleUseDiscountCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target
+    setUseDiscountCode(checked)
+    if (!checked && getValues('discountCode') != null) {
+      setValue('discountCode', null)
     }
-  };
+  }
 
   return (
     <>
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
-        label={<span className="text-xl">{t("buy-page.claim-code")}</span>}
+        label={<span className="text-xl">{t('buy-page.claim-code')}</span>}
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
@@ -363,8 +328,8 @@ const OrderPageDiscountCode = ({
         ></OrderPageDiscountCodeInput>
       )}
     </>
-  );
-};
+  )
+}
 
 enum OrderPageDiscountCodeInputStatus {
   None,
@@ -377,43 +342,42 @@ const OrderPageDiscountCodeInput = ({
   setValue,
   getValues,
 }: {
-  ticket: Ticket;
-  setValue: UseFormSetValue<OrderFormData>;
-  getValues: UseFormGetValues<OrderFormData>;
+  ticket: Ticket
+  setValue: UseFormSetValue<OrderFormData>
+  getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const { dispatchErrorToast } = useErrorToast();
-  const isMounted = useIsMounted();
+  const { dispatchErrorToast } = useErrorToast()
+  const isMounted = useIsMounted()
 
-  const [discountCode, setDiscountCode] = useState("");
-  const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None);
+  const [discountCode, setDiscountCode] = useState('')
+  const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None)
 
   const handleApply = async () => {
-    if (getValues("discountCode") != null) {
-      setValue("discountCode", null);
+    if (getValues('discountCode') != null) {
+      setValue('discountCode', null)
     }
-    setStatus(OrderPageDiscountCodeInputStatus.None);
+    setStatus(OrderPageDiscountCodeInputStatus.None)
 
-    const [error, response] = await to<
-      AxiosResponse<DiscountCodeResponse>,
-      AxiosError
-    >(checkDiscountCode(ticket.id, discountCode));
+    const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
+      checkDiscountCode(ticket.id, discountCode),
+    )
     if (!isMounted()) {
-      return;
+      return
     }
     if (response) {
-      setValue("discountCode", response.data.discountCode);
-      setStatus(OrderPageDiscountCodeInputStatus.Success);
-      return;
+      setValue('discountCode', response.data.discountCode)
+      setStatus(OrderPageDiscountCodeInputStatus.Success)
+      return
     }
-    const errorStatus = error?.response?.status;
+    const errorStatus = error?.response?.status
     if (errorStatus === 404 || errorStatus === 400) {
-      setStatus(OrderPageDiscountCodeInputStatus.Error);
+      setStatus(OrderPageDiscountCodeInputStatus.Error)
     } else {
-      dispatchErrorToast();
+      dispatchErrorToast()
     }
-  };
+  }
 
   return (
     <>
@@ -421,11 +385,9 @@ const OrderPageDiscountCodeInput = ({
         value={discountCode}
         onChange={(event) => setDiscountCode(event.target.value)}
         error={
-          status === OrderPageDiscountCodeInputStatus.Error
-            ? t("buy-page.error-code")
-            : undefined
+          status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
         }
-        label={<span className="text-base">{t("buy-page.enter-code")}</span>}
+        label={<span className="text-base">{t('buy-page.enter-code')}</span>}
         rightExtra={
           status === OrderPageDiscountCodeInputStatus.Success ? (
             <Icon name="checkmark" className="text-success" />
@@ -435,37 +397,27 @@ const OrderPageDiscountCodeInput = ({
         className="mt-8"
       />
       <Button color="outlined" onClick={handleApply} className="mt-4">
-        {t("buy-page.claim")}
+        {t('buy-page.claim')}
       </Button>
     </>
-  );
-};
+  )
+}
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .when("$requireEmail", (requireEmail: boolean, schema: StringSchema) => {
-      if (requireEmail) {
-        return schema
-          .email("buy-page.email-required")
-          .required("buy-page.email-required");
-      }
-      return schema;
-    }),
+  email: yup.string().when('$requireEmail', (requireEmail: boolean, schema: StringSchema) => {
+    if (requireEmail) {
+      return schema.email('buy-page.email-required').required('buy-page.email-required')
+    }
+    return schema
+  }),
   ticketAmount: yup
     .number()
-    .when(
-      "$hasTicketAmount",
-      (hasTicketAmount: boolean, schema: NumberSchema) => {
-        if (hasTicketAmount) {
-          return schema
-            .min(1)
-            .max(environment.maxTicketPurchaseLimit)
-            .required();
-        }
-        return schema;
+    .when('$hasTicketAmount', (hasTicketAmount: boolean, schema: NumberSchema) => {
+      if (hasTicketAmount) {
+        return schema.min(1).max(environment.maxTicketPurchaseLimit).required()
       }
-    ),
+      return schema
+    }),
   /* TODO: improve */
   discountCode: yup.object().nullable(true),
   /* TODO: improve */
@@ -477,35 +429,29 @@ const validationSchema = yup.object({
   //   }
   //   return schema;
   // }),
-  agreement: yup.boolean().isTrue("buy-page.vop-required"),
+  agreement: yup.boolean().isTrue('buy-page.vop-required'),
   age: yup
     .number()
-    .when(
-      "$hasOptionalFields",
-      (hasOptionalFields: boolean, schema: NumberSchema) => {
-        if (hasOptionalFields) {
-          return schema
-            .optional()
-            .nullable(true)
-            .min(3, "common.additional-info-toddlers")
-            .max(150, "common.additional-info-tutanchamon")
-            .transform((val) => (isNaN(val) ? null : val));
-        }
-        return schema;
+    .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: NumberSchema) => {
+      if (hasOptionalFields) {
+        return schema
+          .optional()
+          .nullable(true)
+          .min(3, 'common.additional-info-toddlers')
+          .max(150, 'common.additional-info-tutanchamon')
+          .transform((val) => (isNaN(val) ? null : val))
       }
-    ),
+      return schema
+    }),
   zip: yup
     .string()
-    .when(
-      "$hasOptionalFields",
-      (hasOptionalFields: boolean, schema: StringSchema) => {
-        if (hasOptionalFields) {
-          return schema.optional().nullable(true);
-        }
-        return schema;
+    .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: StringSchema) => {
+      if (hasOptionalFields) {
+        return schema.optional().nullable(true)
       }
-    ),
-});
+      return schema
+    }),
+})
 
 const OrderPageSummary = ({
   ticket,
@@ -514,29 +460,26 @@ const OrderPageSummary = ({
   watch,
   priceQuery,
 }: {
-  ticket: Ticket;
-  hasTicketAmount: boolean;
-  setValue: UseFormSetValue<OrderFormData>;
-  watch: UseFormWatch<OrderFormData>;
-  priceQuery: QueryObserverResult<
-    AxiosResponse<CheckPriceResponse, any>,
-    unknown
-  >;
+  ticket: Ticket
+  hasTicketAmount: boolean
+  setValue: UseFormSetValue<OrderFormData>
+  watch: UseFormWatch<OrderFormData>
+  priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const watchTicketAmount = watch("ticketAmount");
+  const watchTicketAmount = watch('ticketAmount')
 
   const handleMinusClick = () => {
     if (watchTicketAmount! > 1) {
-      setValue("ticketAmount", watchTicketAmount! - 1);
+      setValue('ticketAmount', watchTicketAmount! - 1)
     }
-  };
+  }
   const handlePlusClick = () => {
     if (watchTicketAmount! < environment.maxTicketPurchaseLimit) {
-      setValue("ticketAmount", watchTicketAmount! + 1);
+      setValue('ticketAmount', watchTicketAmount! + 1)
     }
-  };
+  }
 
   return (
     <div className="rounded-lg bg-white shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
@@ -548,7 +491,7 @@ const OrderPageSummary = ({
         {ticket.childrenAllowed && (
           <p className="mt-2 font-bold">
             {priceQuery.isFetching ? (
-              <div style={{ maxWidth: "200px" }}>
+              <div style={{ maxWidth: '200px' }}>
                 <Skeleton />
               </div>
             ) : (
@@ -568,7 +511,7 @@ const OrderPageSummary = ({
             <br />
             <p className="font-semibold">
               {/* TODO pluralizacia */}
-              {t("buy-page.children-discount-children-count-and-price", {
+              {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticket.childrenMaxNumber,
                 childrenPrice: ticket.childrenPrice,
               })}
@@ -578,7 +521,7 @@ const OrderPageSummary = ({
       </div>
       <div className="flex bg-blueish px-8 py-4 rounded-b-lg items-center">
         {hasTicketAmount && (
-          <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary flex-shrink-0">
+          <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary shrink-0">
             <button
               className="mr-6 leading-5	text-3xl align-top"
               onClick={handleMinusClick}
@@ -608,76 +551,57 @@ const OrderPageSummary = ({
               <Skeleton />
             ) : (
               priceQuery.isSuccess && (
-                <OrderPagePrice
-                  pricing={priceQuery.data?.data.data.pricing}
-                ></OrderPagePrice>
+                <OrderPagePrice pricing={priceQuery.data?.data.data.pricing}></OrderPagePrice>
               )
             )}
           </SkeletonTheme>
         </span>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const OrderPageAdultChildrenCount = ({
   pricing,
   watch,
 }: {
-  pricing: CheckPriceResponse["data"]["pricing"];
-  watch: UseFormWatch<OrderFormData>;
+  pricing: CheckPriceResponse['data']['pricing']
+  watch: UseFormWatch<OrderFormData>
 }) => {
-  const watchSelectedSwimmerIds = watch("selectedSwimmerIds") as (
-    | string
-    | null
-  )[];
-  const { t } = useTranslation();
+  const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
+  const { t } = useTranslation()
 
-  const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren;
-  const childrenCount = pricing.numberOfChildren;
+  const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
+  const childrenCount = pricing.numberOfChildren
 
-  const adult =
-    adultCount > 0 ? t("buy-page.adult-count", { count: adultCount }) : null;
-  const children =
-    childrenCount > 0
-      ? t("buy-page.children-count", { count: childrenCount })
-      : null;
+  const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
+  const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
 
-  return <>({[adult, children].filter(Boolean).join(" + ")})</>;
-};
+  return <>({[adult, children].filter(Boolean).join(' + ')})</>
+}
 
-const OrderPagePrice = ({
-  pricing,
-}: {
-  pricing: CheckPriceResponse["data"]["pricing"];
-}) => {
+const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
   const fullPrice =
     pricing.discount > 0 ? (
       <div className="inline-block strikethrough-diagonal mr-2">
         {pricing.orderPrice + pricing.discount} €
       </div>
-    ) : null;
-  const orderPrice = <div className="inline-block">{pricing.orderPrice} €</div>;
+    ) : null
+  const orderPrice = <div className="inline-block">{pricing.orderPrice} €</div>
   return (
     <>
       {fullPrice}
       {orderPrice}
     </>
-  );
-};
+  )
+}
 
 const OrderPage = () => {
-  const {
-    ticket,
-    requireEmail,
-    hasOptionalFields,
-    hasSwimmers,
-    hasTicketAmount,
-  } = useOrderTicket();
-  const order = useOrder();
-  const { dispatchErrorToastForHttpRequest } = useErrorToast();
+  const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = useOrderTicket()
+  const order = useOrder()
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const {
     register,
@@ -688,7 +612,7 @@ const OrderPage = () => {
     control,
     formState: { errors },
   } = useForm<OrderFormData>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(validationSchema),
     defaultValues: {
       ...(hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
@@ -700,18 +624,16 @@ const OrderPage = () => {
       hasSwimmers,
       hasTicketAmount,
     },
-  });
+  })
 
-  const userQuery = useQuery("user", fetchUser);
-  const history = useHistory();
+  const userQuery = useQuery('user', fetchUser)
+  const history = useHistory()
 
-  let errorInterpreted = useValidationSchemaTranslationIfPresent(
-    errors.agreement?.message
-  );
+  let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
 
   useEffect(() => {
     if (!userQuery.data) {
-      return;
+      return
     }
 
     if (
@@ -721,10 +643,10 @@ const OrderPage = () => {
     ) {
       // If the ticket requires swimmers ("requireName") and the user has no age or image profile he/she has to fill it
       // in, so he/she is redirected.
-      history.push("/profile/edit");
+      history.push('/profile/edit')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userQuery.data]);
+  }, [userQuery.data])
 
   // Must be any, otherwise type checking fails.
   //
@@ -734,14 +656,9 @@ const OrderPage = () => {
   // Maximum call stack size exceeded  TSINTERNAL
   const watchPriceChange = useWatch<any>({
     // Those properties are those who trigger possible change of the price.
-    name: [
-      "ticketAmount",
-      "discountCode",
-      "selectedSwimmerIds",
-      "ticketAmount",
-    ],
+    name: ['ticketAmount', 'discountCode', 'selectedSwimmerIds', 'ticketAmount'],
     control,
-  });
+  })
 
   const getRequestsFromFormData = () =>
     orderFormToRequests(getValues(), ticket!, {
@@ -749,36 +666,36 @@ const OrderPage = () => {
       hasOptionalFields: hasOptionalFields!,
       hasSwimmers: hasSwimmers!,
       hasTicketAmount: hasTicketAmount!,
-    });
+    })
 
   const priceQuery = useQuery(
-    "orderPrice",
+    'orderPrice',
     ({ signal }) => {
-      const { getPriceRequest } = getRequestsFromFormData();
+      const { getPriceRequest } = getRequestsFromFormData()
 
-      return getPrice(getPriceRequest, signal);
+      return getPrice(getPriceRequest, signal)
     },
     {
       onError: (err) => {
-        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>);
+        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-    }
-  );
+    },
+  )
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     // If the price should change, cancel current queries and fetch a new price.
-    queryClient.cancelQueries("orderPrice");
-    queryClient.refetchQueries("orderPrice");
+    queryClient.cancelQueries('orderPrice')
+    queryClient.refetchQueries('orderPrice')
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchPriceChange]);
+  }, [watchPriceChange])
 
   const onSubmit = async () => {
-    const { orderRequest } = getRequestsFromFormData();
+    const { orderRequest } = getRequestsFromFormData()
 
-    await order(orderRequest);
-  };
+    await order(orderRequest)
+  }
 
   const buyButton = (
     <Button
@@ -786,30 +703,28 @@ const OrderPage = () => {
       htmlType="button"
       disabled={priceQuery.isFetching || priceQuery.isError}
       onClick={handleSubmit(onSubmit, (err) => {
-        console.log(err);
+        console.log(err)
       })}
     >
       {priceQuery.isSuccess && !priceQuery.isFetching
-        ? t("buy-page.pay-with-price", {
+        ? t('buy-page.pay-with-price', {
             price: priceQuery.data.data.data.pricing.orderPrice,
           })
-        : t("buy-page.pay")}
+        : t('buy-page.pay')}
       <Icon className="ml-4" name="credit-card" />
     </Button>
-  );
+  )
 
   return ticket ? (
     <>
       <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
         <div>
           <div className="text-2xl md:text-3xl font-semibold mb-4">
-            {t("buy-page.personal-info")}
+            {t('buy-page.personal-info')}
           </div>
 
           <NumberedLayout index={1} first={true}>
-            <div className="font-semibold text-xl mb-7">
-              {t("buy-page.buyer")}
-            </div>
+            <div className="font-semibold text-xl mb-7">{t('buy-page.buyer')}</div>
             <OrderPageEmail
               requireEmail={requireEmail!}
               register={register}
@@ -824,15 +739,15 @@ const OrderPage = () => {
             {hasSwimmers && (
               <>
                 <div className="mt-2">
-                  {ticket.type === "SEASONAL" && (
+                  {ticket.type === 'SEASONAL' && (
                     <Trans
-                      i18nKey={"buy-page.select-people-reminder-seasonal"}
+                      i18nKey={'buy-page.select-people-reminder-seasonal'}
                       components={{ span: <span /> }}
                     />
                   )}
-                  {ticket.type === "ENTRIES" && (
+                  {ticket.type === 'ENTRIES' && (
                     <Trans
-                      i18nKey={"buy-page.select-people-reminder-entries"}
+                      i18nKey={'buy-page.select-people-reminder-entries'}
                       components={{ span: <span /> }}
                     />
                   )}
@@ -861,9 +776,9 @@ const OrderPage = () => {
               error={errorInterpreted}
               label={
                 <span className="text-xl">
-                  {t("buy-page.vop")}
+                  {t('buy-page.vop')}
                   <Link to="/vop" target="_blank" className="link text-primary">
-                    {t("buy-page.vop-link")}
+                    {t('buy-page.vop-link')}
                   </Link>
                   .
                 </span>
@@ -873,9 +788,7 @@ const OrderPage = () => {
           <div className="hidden md:block">{buyButton}</div>
         </div>
         <div className="mt-14 md:mt-0">
-          <span className="text-2xl md:text-3xl font-semibold">
-            {t("buy-page.summary")}
-          </span>
+          <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
           <OrderPageSummary
             ticket={ticket}
             hasTicketAmount={hasTicketAmount!}
@@ -884,11 +797,9 @@ const OrderPage = () => {
             priceQuery={priceQuery}
           ></OrderPageSummary>
           <div className="text-gray color-fontBlack">
-            {!ticket.childrenAllowed && (
-              <p className="mb-2">{t("common.additional-info-age")}</p>
-            )}
-            <p className="mb-2">{t("common.additional-info-student-senior")}</p>
-            <p>{t("common.additional-info-toddlers")}</p>
+            {!ticket.childrenAllowed && <p className="mb-2">{t('common.additional-info-age')}</p>}
+            <p className="mb-2">{t('common.additional-info-student-senior')}</p>
+            <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
         <div className="block md:hidden flex justify-center">{buyButton}</div>
@@ -896,17 +807,17 @@ const OrderPage = () => {
     </>
   ) : (
     <></>
-  );
-};
-
-export interface OrderFormData {
-  email?: string;
-  ticketAmount?: number;
-  discountCode?: DiscountCodeResponse["discountCode"] | null;
-  selectedSwimmerIds?: (string | null)[];
-  agreement?: boolean;
-  age?: number;
-  zip?: string;
+  )
 }
 
-export default OrderPage;
+export interface OrderFormData {
+  email?: string
+  ticketAmount?: number
+  discountCode?: DiscountCodeResponse['discountCode'] | null
+  selectedSwimmerIds?: (string | null)[]
+  agreement?: boolean
+  age?: number
+  zip?: string
+}
+
+export default OrderPage

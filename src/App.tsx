@@ -1,23 +1,20 @@
-import React, { useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ConnectedRouter } from "connected-react-router";
-import { Route, Switch, useHistory } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ConnectedRouter } from 'connected-react-router'
+import { Route, Switch, useHistory } from 'react-router-dom'
 
-import { history } from "store";
-import { Route as IRoute, routes } from "helpers/routes";
+import { history } from 'store'
+import { Route as IRoute, routes } from 'helpers/routes'
 
-import { Footer, Header, ScrollToTop, Toast, TopBanner } from "components";
-import { useAppDispatch, useAppSelector } from "hooks";
-import { initPageGlobalState, selectToast, setToast } from "store/global";
-import {
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-} from "@azure/msal-react";
-import { Redirect } from "react-router";
-import "react-loading-skeleton/dist/skeleton.css";
-import { PostLoginHandlerWrapper } from "./hooks/useLogin";
-import CookieConsent from "./components/CookieConsent/CookieConsent";
-import { AxiosError } from "axios";
+import { Footer, Header, ScrollToTop, Toast, TopBanner } from 'components'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { initPageGlobalState, selectToast, setToast } from 'store/global'
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
+import { Redirect } from 'react-router'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { PostLoginHandlerWrapper } from './hooks/useLogin'
+import CookieConsent from './components/CookieConsent/CookieConsent'
+import { AxiosError } from 'axios'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,27 +26,27 @@ const queryClient = new QueryClient({
           (error as AxiosError)?.response?.status === 400 ||
           (error as AxiosError)?.response?.status === 403
         ) {
-          return false;
+          return false
         }
         if (failureCount >= 3) {
-          return false;
+          return false
         }
-        return true;
+        return true
       },
     },
   },
-});
+})
 
 const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
   return (
     <>
       <AuthenticatedTemplate>{children}</AuthenticatedTemplate>
       <UnauthenticatedTemplate>
-        <Redirect to={"/"} />
+        <Redirect to={'/'} />
       </UnauthenticatedTemplate>
     </>
-  );
-};
+  )
+}
 
 const renderRoute = (route: IRoute) => (
   <Route
@@ -66,15 +63,15 @@ const renderRoute = (route: IRoute) => (
       )
     }
   />
-);
+)
 
 function App() {
-  const dispatch = useAppDispatch();
-  const toast = useAppSelector(selectToast);
+  const dispatch = useAppDispatch()
+  const toast = useAppSelector(selectToast)
 
   useEffect(() => {
-    dispatch(initPageGlobalState());
-  }, [dispatch]);
+    dispatch(initPageGlobalState())
+  }, [dispatch])
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -86,10 +83,10 @@ function App() {
               type={toast?.type}
               text={toast?.message}
               onClose={() => {
-                dispatch(setToast(undefined));
+                dispatch(setToast(undefined))
               }}
-              timeToClose={toast?.type === "success" ? 3000 : undefined}
-              closeButton={toast?.type !== "success"}
+              timeToClose={toast?.type === 'success' ? 3000 : undefined}
+              closeButton={toast?.type !== 'success'}
             />
             <TopBanner />
             <main className="relative flex flex-col" style={{ flex: 1 }}>
@@ -102,10 +99,10 @@ function App() {
                   exact={true}
                   component={() => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
-                    const history = useHistory();
+                    const history = useHistory()
                     // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                    useEffect(() => history.goBack(), []);
-                    return <></>;
+                    useEffect(() => history.goBack(), [])
+                    return <></>
                   }}
                 />
                 {routes.map(renderRoute)}
@@ -117,7 +114,7 @@ function App() {
         </PostLoginHandlerWrapper>
       </ConnectedRouter>
     </QueryClientProvider>
-  );
+  )
 }
 
-export default App;
+export default App

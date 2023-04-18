@@ -1,16 +1,16 @@
-import { Configuration } from "@azure/msal-browser";
-import { environment } from "./environment";
+import { Configuration } from '@azure/msal-browser'
+import { environment } from './environment'
 
 export const msalConfig: Configuration = {
   auth: {
     clientId: environment.msalClientId,
     authority: environment.msalAuthority,
     knownAuthorities: environment.msalKnownAuthorities,
-    redirectUri: "/",
-    postLogoutRedirectUri: "/",
+    redirectUri: '/',
+    postLogoutRedirectUri: '/',
   },
   cache: {
-    cacheLocation: "localStorage",
+    cacheLocation: 'localStorage',
   },
   // Uncomment for verbose logging
   /*
@@ -40,8 +40,8 @@ export const msalConfig: Configuration = {
         }
     }
     */
-};
+}
 
 export const msalLoginRequest = {
   scopes: [],
-};
+}

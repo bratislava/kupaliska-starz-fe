@@ -1,48 +1,48 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { RootState } from "store";
-import { initPageGlobalState, fetchPoolActions } from "./thunks";
-import { SwimmingPoolResponse, Ticket } from "models";
-import { swimmingPoolResponseToSwimmingPool } from "helpers/adapters";
+import { RootState } from 'store'
+import { initPageGlobalState, fetchPoolActions } from './thunks'
+import { SwimmingPoolResponse, Ticket } from 'models'
+import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
 
 export interface GlobalState {
-  availableTickets: Ticket[];
-  pools: SwimmingPoolResponse[];
-  status: "idle" | "loading" | "failed";
-  selectedPoolId?: string;
+  availableTickets: Ticket[]
+  pools: SwimmingPoolResponse[]
+  status: 'idle' | 'loading' | 'failed'
+  selectedPoolId?: string
   toast?: {
-    type: "success" | "error" | "info";
-    message: string;
-  };
+    type: 'success' | 'error' | 'info'
+    message: string
+  }
 }
 
 const initialState: GlobalState = {
   availableTickets: [],
   pools: [],
-  status: "idle",
-};
+  status: 'idle',
+}
 
 // reducers
 
 export const counterSlice = createSlice({
-  name: "global",
+  name: 'global',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     setSelectedPoolId: (state, action: PayloadAction<string | undefined>) => {
-      state.selectedPoolId = action.payload;
+      state.selectedPoolId = action.payload
     },
     setToast: (
       state,
       action: PayloadAction<
         | {
-            type: "success" | "error" | "info";
-            message: string;
+            type: 'success' | 'error' | 'info'
+            message: string
           }
         | undefined
-      >
+      >,
     ) => {
-      state.toast = action.payload;
+      state.toast = action.payload
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -50,61 +50,51 @@ export const counterSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPoolActions.pending, (state) => {
-        state.status = "loading";
+        state.status = 'loading'
       })
-      .addCase(
-        fetchPoolActions.fulfilled,
-        (state, action: PayloadAction<SwimmingPoolResponse>) => {
-          state.status = "idle";
-          const pools = [...state.pools];
-          const index = pools.findIndex(
-            (pool) => pool.id === action.payload.id
-          );
-          if (index !== -1) {
-            pools[index] = action.payload;
-          }
-          state.pools = pools;
+      .addCase(fetchPoolActions.fulfilled, (state, action: PayloadAction<SwimmingPoolResponse>) => {
+        state.status = 'idle'
+        const pools = [...state.pools]
+        const index = pools.findIndex((pool) => pool.id === action.payload.id)
+        if (index !== -1) {
+          pools[index] = action.payload
         }
-      )
+        state.pools = pools
+      })
       .addCase(initPageGlobalState.pending, (state) => {
-        state.status = "loading";
+        state.status = 'loading'
       })
       .addCase(
         initPageGlobalState.fulfilled,
         (
           state,
           action: PayloadAction<{
-            ticketTypes: Ticket[];
-            swimmingPools: SwimmingPoolResponse[];
-          }>
+            ticketTypes: Ticket[]
+            swimmingPools: SwimmingPoolResponse[]
+          }>,
         ) => {
-          state.status = "idle";
-          state.availableTickets = action.payload.ticketTypes;
-          state.pools = action.payload.swimmingPools;
-        }
-      );
+          state.status = 'idle'
+          state.availableTickets = action.payload.ticketTypes
+          state.pools = action.payload.swimmingPools
+        },
+      )
   },
-});
+})
 
 // actions
-export const { setSelectedPoolId, setToast } = counterSlice.actions;
+export const { setSelectedPoolId, setToast } = counterSlice.actions
 
 //selector
-export const selectAvailableTickets = (state: RootState) =>
-  state.global.availableTickets;
+export const selectAvailableTickets = (state: RootState) => state.global.availableTickets
 export const selectPools = (state: RootState) =>
-  state.global.pools.map((poolResp) =>
-    swimmingPoolResponseToSwimmingPool(poolResp)
-  );
+  state.global.pools.map((poolResp) => swimmingPoolResponseToSwimmingPool(poolResp))
 export const selectSelectedPool = (state: RootState) => {
-  const pool = state.global.pools.find(
-    (pool) => pool.id === state.global.selectedPoolId
-  );
+  const pool = state.global.pools.find((pool) => pool.id === state.global.selectedPoolId)
   if (pool) {
-    return swimmingPoolResponseToSwimmingPool(pool);
+    return swimmingPoolResponseToSwimmingPool(pool)
   }
-  return undefined;
-};
-export const selectToast = (state: RootState) => state.global.toast;
+  return undefined
+}
+export const selectToast = (state: RootState) => state.global.toast
 
-export default counterSlice.reducer;
+export default counterSlice.reducer

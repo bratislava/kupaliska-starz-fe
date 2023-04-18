@@ -1,15 +1,15 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
-import "./ProfileNavBar.css";
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { NavLink } from 'react-router-dom'
+import './ProfileNavBar.css'
 
 interface LinkProps {
-  url: string;
-  text: string;
+  url: string
+  text: string
 }
 
 interface ProfileNavBarProps {
-  links?: LinkProps[];
+  links?: LinkProps[]
 }
 
 const Link = ({ url, text }: LinkProps) => {
@@ -21,16 +21,16 @@ const Link = ({ url, text }: LinkProps) => {
         {text}
       </span>
     </NavLink>
-  );
-};
+  )
+}
 
 const ProfileNavBar = ({
   links = [
-    { url: "tickets", text: "profile.tickets-seasonal-tickets" },
-    { url: "profile", text: "profile.personal-info" },
+    { url: 'tickets', text: 'profile.tickets-seasonal-tickets' },
+    { url: 'profile', text: 'profile.personal-info' },
   ],
 }: ProfileNavBarProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="profile-navbar flex flex-row justify-center">
@@ -38,7 +38,7 @@ const ProfileNavBar = ({
         <Link url={link.url} text={t(link.text)} key={index} />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default ProfileNavBar;
+export default ProfileNavBar

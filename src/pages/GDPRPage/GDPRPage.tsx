@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react'
 
-import { SectionHeader, Typography } from "components";
+import { SectionHeader, Typography } from 'components'
 
-import "./GDPRPage.css";
-import { Trans, useTranslation } from "react-i18next";
+import './GDPRPage.css'
+import { Trans, useTranslation } from 'react-i18next'
 
 const GDPRPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <main className="container mx-auto mt-8 xl:mt-12">
-      <SectionHeader title={t("gdpr.title")} />
+      <SectionHeader title={t('gdpr.title')} />
       <Trans
         i18nKey={`gdpr.main-text`}
         components={{
@@ -24,7 +24,7 @@ const GDPRPage = () => {
         }}
       />
     </main>
-  );
-};
+  )
+}
 
-export default GDPRPage;
+export default GDPRPage

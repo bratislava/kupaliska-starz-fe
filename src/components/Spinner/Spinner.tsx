@@ -1,8 +1,8 @@
-import { Icon } from "components";
-import React from "react";
+import { Icon } from 'components'
+import React from 'react'
 
 const Spinner = () => {
-  return <Icon name="spinner" className="animate-spin" color="primary" />;
-};
+  return <Icon name="spinner" className="animate-spin" color="primary" />
+}
 
-export default Spinner;
+export default Spinner
