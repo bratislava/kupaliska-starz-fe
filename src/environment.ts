@@ -1,8 +1,6 @@
 // in local development, these should be set using .env.development
 // in CI build these env vars are not replaced by tokens, and the %{TOKEN}% is replaced on container startup based on env
 
-console.log(import.meta.env)
-
 export const environment = {
   host: import.meta.env.VITE_HOST || 'http://localhost:8000',
   debug: false,
