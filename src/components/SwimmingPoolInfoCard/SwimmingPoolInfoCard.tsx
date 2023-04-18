@@ -1,112 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import { SwimmingPool } from "models";
+import { SwimmingPool } from 'models'
 
-import { Button, Icon, Typography, Spinner } from "components";
+import { Button, Icon, Typography, Spinner } from 'components'
 
-import "./SwimmingPoolInfoCard.css";
-import { useWindowSize } from "hooks";
-import { useTranslation } from "react-i18next";
+import './SwimmingPoolInfoCard.css'
+import { useWindowSize } from 'hooks'
+import { useTranslation } from 'react-i18next'
 
 interface SwimmingPoolInfoCardProps {
-  swimmingPool: SwimmingPool;
-  onActionButtonClick?: (swimmingPool: SwimmingPool) => boolean;
-  modal?: boolean;
-  className?: string;
+  swimmingPool: SwimmingPool
+  onActionButtonClick?: (swimmingPool: SwimmingPool) => boolean
+  modal?: boolean
+  className?: string
 }
 
 const SwimmingPoolInfoCard = ({
   swimmingPool,
   onActionButtonClick = (pool: SwimmingPool) => {
-    return true;
+    return true
   },
   modal = false,
-  className = "",
+  className = '',
 }: SwimmingPoolInfoCardProps) => {
-  const [_expanded, setExpanded] = useState<boolean>(modal);
-  const { width } = useWindowSize();
+  const [_expanded, setExpanded] = useState<boolean>(modal)
+  const { width } = useWindowSize()
   const _onActionButtonClick = () => {
-    const shouldExpand =
-      onActionButtonClick && onActionButtonClick(swimmingPool);
+    const shouldExpand = onActionButtonClick && onActionButtonClick(swimmingPool)
     if (shouldExpand) {
-      setExpanded(!_expanded);
+      setExpanded(!_expanded)
     }
-  };
-  const { t } = useTranslation();
+  }
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (width && width >= 768) {
-      setExpanded(false);
+      setExpanded(false)
     }
-  }, [width]);
+  }, [width])
   return (
     <div
       className={`${className} grid bg-white swimming-pool-card__container ${
-        modal ? "rounded-lg shadow-lg" : ""
+        modal ? 'rounded-lg shadow-lg' : ''
       } bg-transparent`}
     >
       <div className={`sm:rounded-none row-span-1 rounded-t-lg relative`}>
         <img
           className={`swimming-pool-card__image rounded-t-lg md:rounded-lg ${
-            !modal ? "md:shadow-lg" : ""
+            !modal ? 'md:shadow-lg' : ''
           } relative`}
-          src={
-            swimmingPool.image
-              ? swimmingPool.image.originalFile
-              : "/kupalisko-delfin.png"
-          }
-          alt={
-            swimmingPool.image
-              ? swimmingPool.image.altText
-              : t("landing.alt-img-text")
-          }
+          src={swimmingPool.image ? swimmingPool.image.originalFile : '/kupalisko-delfin.png'}
+          alt={swimmingPool.image ? swimmingPool.image.altText : t('landing.alt-img-text')}
         />
-        <div
-          className={`${
-            !modal ? "md:hidden" : ""
-          } wave-overlay absolute inset-0`}
-        />
+        <div className={`${!modal ? 'md:hidden' : ''} wave-overlay absolute inset-0`} />
       </div>
       <div
         className={`${
-          modal ? "text-center px-12 2xl:px-16" : "pb-4 px-4"
+          modal ? 'text-center px-12 2xl:px-16' : 'pb-4 px-4'
         } row-span-11 pt-4 flex-col flex`}
       >
         <Typography type="subtitle" fontWeight="bold" color="primary">
           {swimmingPool.name}
         </Typography>
-        {!(_expanded || modal) ||
-        (swimmingPool.expandedDescription && swimmingPool.waterTemp) ? (
+        {!(_expanded || modal) || (swimmingPool.expandedDescription && swimmingPool.waterTemp) ? (
           <div className="flex-1">
             <p className="my-4 whitespace-pre-wrap">
-              {_expanded || modal
-                ? swimmingPool.expandedDescription
-                : swimmingPool.description}
+              {_expanded || modal ? swimmingPool.expandedDescription : swimmingPool.description}
             </p>
             {(_expanded || modal) && (
-              <div className={`flex-col flex ${modal ? "items-center" : ""}`}>
+              <div className={`flex-col flex ${modal ? 'items-center' : ''}`}>
                 <>
-                  <div
-                    className={`flex flex-col md:w-7/10 ${
-                      modal ? "items-center" : ""
-                    }`}
-                  >
+                  <div className={`flex flex-col md:w-7/10 ${modal ? 'items-center' : ''}`}>
                     {swimmingPool.openingHours &&
                       swimmingPool.openingHours.map((line, index) => (
-                        <div
-                          key={line.intervalString}
-                          className={`flex w-9/10 text-primary mt-4`}
-                        >
+                        <div key={line.intervalString} className={`flex w-9/10 text-primary mt-4`}>
                           <div className="flex flex-col justify-center text-left font-bold">
                             {line.intervalString}
                           </div>
                           <div className="flex flex-1 ml-4">
                             <div className="flex flex-col text-left">
                               {line.dayStrings.map((dayStr) => (
-                                <span
-                                  key={dayStr.day}
-                                  className={`text-left text-${dayStr.color}`}
-                                >
+                                <span key={dayStr.day} className={`text-left text-${dayStr.color}`}>
                                   {dayStr.day}
                                 </span>
                               ))}
@@ -129,32 +103,23 @@ const SwimmingPoolInfoCard = ({
                   </div>
                   <div
                     className={`flex flex-wrap justify-center ${
-                      modal ? "md:justify-center" : "md:justify-start"
+                      modal ? 'md:justify-center' : 'md:justify-start'
                     } items-center my-4`}
                   >
                     {swimmingPool.facilities &&
                       swimmingPool.facilities.map((facility) => (
-                        <div
-                          key={facility}
-                          className="my-1 mr-1 rounded p-2 border-2-softGray"
-                        >
+                        <div key={facility} className="my-1 mr-1 rounded p-2 border-2-softGray">
                           <Icon name={facility} color="secondary" />
                         </div>
                       ))}
                   </div>
                   <div
                     className={`flex justify-center ${
-                      modal ? "md:justify-center" : "md:justify-start"
+                      modal ? 'md:justify-center' : 'md:justify-start'
                     } items-center mb-4 text-secondary`}
                   >
-                    <Icon
-                      className="text-2xl mr-2"
-                      name="waves"
-                      color="secondary"
-                    />
-                    <span className="text-primary text-lg">
-                      {swimmingPool.waterTemp}°
-                    </span>
+                    <Icon className="text-2xl mr-2" name="waves" color="secondary" />
+                    <span className="text-primary text-lg">{swimmingPool.waterTemp}°</span>
                   </div>
                 </>
               </div>
@@ -170,45 +135,41 @@ const SwimmingPoolInfoCard = ({
 
         <div
           className={`${
-            modal ? "w-7/10 xl:9/10 2xl:w-8/10" : ""
+            modal ? 'w-7/10 xl:9/10 2xl:w-8/10' : ''
           } flex flex-col w-full xl:px-4 xs:flex-row  relative self-center justify-between`}
         >
           <Button
             thin
             onClick={_onActionButtonClick}
-            className={`${
-              modal ? "relative -bottom-4" : ""
-            } flex-1 mb-4 xs:mb-0 xs:mr-2`}
+            className={`${modal ? 'relative -bottom-4' : ''} flex-1 mb-4 xs:mb-0 xs:mr-2`}
           >
-            {_expanded || modal
-              ? t("landing.less-info")
-              : t("landing.more-info")}
+            {_expanded || modal ? t('landing.less-info') : t('landing.more-info')}
             <Icon name="info" className="xs:block ml-2 no-fill" />
           </Button>
-          {swimmingPool.locationUrl && <Button
+          {swimmingPool.locationUrl && (
+            <Button
               color="outlined"
               disabled={!swimmingPool.locationUrl}
               thin
-              className={`${
-                  modal ? "relative -bottom-4" : ""
-              } flex-1 bg-white xs:ml-2`}
-          >
-            <a
+              className={`${modal ? 'relative -bottom-4' : ''} flex-1 bg-white xs:ml-2`}
+            >
+              <a
                 href={swimmingPool.locationUrl}
                 target="_blank"
                 rel="noreferrer nopener"
                 className="flex items-center"
-            >
-              {t("landing.navigate")}
-              <div className="ml-2">
-                <Icon name="navigate" color="primary" className="xs:block" />
-              </div>
-            </a>
-          </Button>}
+              >
+                {t('landing.navigate')}
+                <div className="ml-2">
+                  <Icon name="navigate" color="primary" className="xs:block" />
+                </div>
+              </a>
+            </Button>
+          )}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SwimmingPoolInfoCard;
+export default SwimmingPoolInfoCard

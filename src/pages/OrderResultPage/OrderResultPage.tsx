@@ -1,49 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import { useLocation } from "react-router";
-import qs from "qs";
+import { useLocation } from 'react-router'
+import qs from 'qs'
 
-import { Button, Icon, SectionHeader, Typography } from "components";
-import { useAppDispatch, useWindowSize } from "hooks";
-import { getFinalOrderDataActions } from "store/order";
-import { HashLink } from "react-router-hash-link";
-import { convertBase64ToBlob } from "helpers/general";
-import { useTranslation } from "react-i18next";
+import { Button, Icon, SectionHeader, Typography } from 'components'
+import { useAppDispatch, useWindowSize } from 'hooks'
+import { getFinalOrderDataActions } from 'store/order'
+import { HashLink } from 'react-router-hash-link'
+import { convertBase64ToBlob } from 'helpers/general'
+import { useTranslation } from 'react-i18next'
 
 const OrderResultPage = () => {
-  const dispatch = useAppDispatch();
-  const { height } = useWindowSize();
-  const location = useLocation();
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch()
+  const { height } = useWindowSize()
+  const location = useLocation()
+  const { t } = useTranslation()
 
   const [queryParams, setQueryParams] = useState<{
-    success?: string;
-    orderId?: string;
-    orderAccessToken?: string;
-  }>();
-  const [ticketsPdf, setTicketsPdf] = useState<string | undefined>();
+    success?: string
+    orderId?: string
+    orderAccessToken?: string
+  }>()
+  const [ticketsPdf, setTicketsPdf] = useState<string | undefined>()
   // const [myTickets, setMyTickets] = useState<string[]>([]);
   // const [childrenTickets, setChildrenTickets] = useState<string[]>([]);
 
   useEffect(() => {
-    setQueryParams(qs.parse(location.search.substring(1)));
-  }, [location]);
+    setQueryParams(qs.parse(location.search.substring(1)))
+  }, [location])
 
   useEffect(() => {
-    if (
-      queryParams &&
-      queryParams.success &&
-      queryParams.orderId &&
-      queryParams.orderAccessToken
-    ) {
+    if (queryParams && queryParams.success && queryParams.orderId && queryParams.orderAccessToken) {
       dispatch(
         getFinalOrderDataActions({
           orderId: queryParams.orderId,
           accessToken: queryParams.orderAccessToken,
-        })
+        }),
       ).then((resp) => {
-        if (resp.meta.requestStatus === "fulfilled") {
-          setTicketsPdf(resp.payload.pdf);
+        if (resp.meta.requestStatus === 'fulfilled') {
+          setTicketsPdf(resp.payload.pdf)
           // setMyTickets(
           //   resp.payload.tickets.reduce(
           //     (
@@ -63,23 +58,23 @@ const OrderResultPage = () => {
           //   )
           // );
         }
-      });
+      })
     }
-  }, [queryParams]);
+  }, [queryParams])
 
   const downloadTickets = async (ticketsPdfHref: string) => {
-    const blob = convertBase64ToBlob(ticketsPdfHref, "application/pdf");
+    const blob = convertBase64ToBlob(ticketsPdfHref, 'application/pdf')
 
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveOrOpenBlob(blob);
-      return;
+      window.navigator.msSaveOrOpenBlob(blob)
+      return
     }
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "Lístok na kúpaliská STaRZ";
-    link.click();
-  };
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = 'Lístok na kúpaliská STaRZ'
+    link.click()
+  }
 
   // const noImageCondition = () => (childrenTickets.length > 4 || myTickets.length > 8);
 
@@ -110,19 +105,17 @@ const OrderResultPage = () => {
 
   return (
     <main className="container mx-auto py-8 grid grid-cols-1 gap-4 lg:grid-cols-2 h-full">
-      {queryParams?.success === "true" ? (
-        <div
-          className={`flex flex-col flex-1 justify-between md:justify-start`}
-        >
+      {queryParams?.success === 'true' ? (
+        <div className={`flex flex-col flex-1 justify-between md:justify-start`}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
             <div>
-              <SectionHeader title={t("order-result.order-successful")} />
+              <SectionHeader title={t('order-result.order-successful')} />
               <Typography type="subtitle" fontWeight="bold" className="mb-4">
-                {t("order-result.thank-you")}
+                {t('order-result.thank-you')}
               </Typography>
-              <p>{t("order-result.ticket-send")}</p>
-              <p className="mb-4">{t("order-result.pls-download")}</p>
-              <p className="text-sm">{t("order-result.pls-qr")}</p>
+              <p>{t('order-result.ticket-send')}</p>
+              <p className="mb-4">{t('order-result.pls-download')}</p>
+              <p className="text-sm">{t('order-result.pls-qr')}</p>
             </div>
             <div
               className={`hidden md:block lg:hidden col-span-1 bg-no-repeat bg-top bg-contain min-h-1/2vh`}
@@ -175,7 +168,7 @@ const OrderResultPage = () => {
                 onClick={() => downloadTickets(ticketsPdf)}
                 className={`w-full mt-4 lg:mt-8 md:w-1/2 mx-auto lg:ml-0`}
               >
-                {t("order-result.download-tickets")}
+                {t('order-result.download-tickets')}
                 <Icon className="ml-4" name="download" />
               </Button>
             </div>
@@ -188,32 +181,29 @@ const OrderResultPage = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <Button className={`w-full`}>{t("order-result.feedback")}</Button>
+              <Button className={`w-full`}>{t('order-result.feedback')}</Button>
             </a>
           </div>
         </div>
       ) : (
         <div className="flex flex-col flex-1 justify-between md:justify-start">
           <div>
-            <SectionHeader title={t("order-result.order-failed")} />
+            <SectionHeader title={t('order-result.order-failed')} />
             <Typography type="subtitle" fontWeight="bold">
-              {t("order-result.sry-fault")}
+              {t('order-result.sry-fault')}
             </Typography>
-            <p>{t("order-result.pls-contact")}</p>
+            <p>{t('order-result.pls-contact')}</p>
           </div>
           <div className="mt-4 md:mt-12">
             <HashLink to="/#contact-us">
-              <Button
-                className={`mb-4 w-full md:w-1/2 mx-auto lg:ml-0`}
-                color="outlined"
-              >
-                {t("order-result.contact-us")}
+              <Button className={`mb-4 w-full md:w-1/2 mx-auto lg:ml-0`} color="outlined">
+                {t('order-result.contact-us')}
                 <Icon className="ml-4" name="mail" />
               </Button>
             </HashLink>
             <HashLink to="/#ticket-buy">
               <Button className={`w-full md:w-1/2 mx-auto lg:ml-0`}>
-                {t("order-result.try-again")}
+                {t('order-result.try-again')}
                 <Icon className="ml-4" name="retry" />
               </Button>
             </HashLink>
@@ -222,12 +212,12 @@ const OrderResultPage = () => {
       )}
       <div
         className={`hidden lg:block col-span-1 bg-no-repeat ${
-          height && height > 1100 ? "bg-top" : "bg-center"
+          height && height > 1100 ? 'bg-top' : 'bg-center'
         } bg-contain`}
         style={{ backgroundImage: 'url("thankyou-image.png")' }}
       />
     </main>
-  );
-};
+  )
+}
 
-export default OrderResultPage;
+export default OrderResultPage

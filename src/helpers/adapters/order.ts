@@ -1,11 +1,11 @@
-import { CartItem, CustomerInfoFormValues, DiscountCodeState, OrderRequest } from "models";
+import { CartItem, CustomerInfoFormValues, DiscountCodeState, OrderRequest } from 'models'
 
 export const orderFormValuesToOrderRequest = (form: {
-  customer: CustomerInfoFormValues;
-  cartItem: CartItem;
-  photos: { photo?: string; childrenPhotos?: string[] };
-  recaptchaToken: string,
-  discountCodeState?: DiscountCodeState,
+  customer: CustomerInfoFormValues
+  cartItem: CartItem
+  photos: { photo?: string; childrenPhotos?: string[] }
+  recaptchaToken: string
+  discountCodeState?: DiscountCodeState
 }): OrderRequest => ({
   tickets: [
     {
@@ -30,13 +30,14 @@ export const orderFormValuesToOrderRequest = (form: {
           age: child.age,
           ...(child.photo &&
             form.photos.childrenPhotos && {
-            photo: form.photos.childrenPhotos[index],
-          }),
+              photo: form.photos.childrenPhotos[index],
+            }),
         })),
       }),
     },
   ],
   agreement: form.customer.agreement,
   recaptcha: form.recaptchaToken,
-  ...(form.discountCodeState && form.discountCodeState.status === "OK") && { discountCode: form.discountCodeState.code }
-});
+  ...(form.discountCodeState &&
+    form.discountCodeState.status === 'OK' && { discountCode: form.discountCodeState.code }),
+})

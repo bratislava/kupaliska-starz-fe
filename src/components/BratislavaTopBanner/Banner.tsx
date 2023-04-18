@@ -1,26 +1,19 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from 'react'
 
-import { Icon } from "components";
-import SignInSignOutLink from "../SignInSignOutLink/SignInSignOutLink";
+import { Icon } from 'components'
+import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
 
 const SocialMediaButton = ({
   children,
   paddingR = true,
 }: PropsWithChildren<{ paddingR?: boolean }>) => (
-  <button
-    className={`bg-transparent ${
-      paddingR ? "p-2" : "pl-2 py-2"
-    } focus:outline-none`}
-  >
+  <button className={`bg-transparent ${paddingR ? 'p-2' : 'pl-2 py-2'} focus:outline-none`}>
     {children}
   </button>
-);
+)
 
 const Banner = () => (
-  <aside
-    className="flex bg-backgroundGray items-center"
-    style={{ height: "50px" }}
-  >
+  <aside className="flex bg-backgroundGray items-center" style={{ height: '50px' }}>
     <div className="container mx-auto flex justify-between">
       <div className="flex items-center">
         <img className="pr-3" alt="" src="/logo-bratislava.svg" />
@@ -41,6 +34,6 @@ const Banner = () => (
       </div>
     </div>
   </aside>
-);
+)
 
-export default Banner;
+export default Banner

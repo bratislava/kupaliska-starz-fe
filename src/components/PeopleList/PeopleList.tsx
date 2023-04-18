@@ -1,8 +1,8 @@
-import React from "react";
-import "./PeopleList.css";
-import { PersonComponent } from "../";
-import { AssociatedSwimmer } from "../../store/associatedSwimmers/api";
-import { useTranslation } from "react-i18next";
+import React from 'react'
+import './PeopleList.css'
+import { PersonComponent } from '../'
+import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Profile
@@ -24,19 +24,19 @@ import { useTranslation } from "react-i18next";
  *   - Grey border, green if selected
  */
 export enum PeopleListMode {
-  Profile = "Profile",
-  OrderPageDisplay = "OrderPageDisplay",
-  OrderPageSelection = "OrderPageSelection",
+  Profile = 'Profile',
+  OrderPageDisplay = 'OrderPageDisplay',
+  OrderPageSelection = 'OrderPageSelection',
 }
 
 interface PeopleListProps {
-  people: Partial<AssociatedSwimmer>[];
-  selectedPeopleIds?: (null | string)[];
-  mode: PeopleListMode;
-  onPersonClick?: (person: Partial<AssociatedSwimmer>) => void;
-  onRemoveClick?: (person: Partial<AssociatedSwimmer>) => void;
-  onAddClick?: () => void;
-  removeDisabled?: boolean;
+  people: Partial<AssociatedSwimmer>[]
+  selectedPeopleIds?: (null | string)[]
+  mode: PeopleListMode
+  onPersonClick?: (person: Partial<AssociatedSwimmer>) => void
+  onRemoveClick?: (person: Partial<AssociatedSwimmer>) => void
+  onAddClick?: () => void
+  removeDisabled?: boolean
 }
 
 /* TODO remove PeopleListMode.OrderPageDisplay */
@@ -49,7 +49,7 @@ const PeopleList = ({
   selectedPeopleIds,
   removeDisabled = false,
 }: PeopleListProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="flex overflow-x-auto pt-4">
@@ -62,8 +62,7 @@ const PeopleList = ({
             onPersonClick={onPersonClick}
             onRemoveClick={onRemoveClick}
             isSelected={
-              mode === PeopleListMode.OrderPageSelection &&
-              person.id !== undefined
+              mode === PeopleListMode.OrderPageSelection && person.id !== undefined
                 ? selectedPeopleIds?.includes(person.id)
                 : false
             }
@@ -76,16 +75,14 @@ const PeopleList = ({
         >
           <img className="w-12 h-12" src="/person-add.svg" alt="" />
           <span className="text-center mt-2">
-            {(mode === PeopleListMode.Profile ||
-              mode === PeopleListMode.OrderPageDisplay) &&
-              t("profile.add-other-adult-kid")}
-            {mode === PeopleListMode.OrderPageSelection &&
-              t("profile.add-others-to-profile")}
+            {(mode === PeopleListMode.Profile || mode === PeopleListMode.OrderPageDisplay) &&
+              t('profile.add-other-adult-kid')}
+            {mode === PeopleListMode.OrderPageSelection && t('profile.add-others-to-profile')}
           </span>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PeopleList;
+export default PeopleList

@@ -5,5 +5,5 @@ button.kupaliska-button[disabled] {
 }
 
 button.kupaliska-button:active {
-  background-color: theme("colors.secondary");
+  background-color: theme('colors.secondary');
 }

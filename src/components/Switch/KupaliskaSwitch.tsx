@@ -1,7 +1,7 @@
-import Switch from "react-switch";
-import React from "react";
+import Switch from 'react-switch'
+import React from 'react'
 
-declare const preval: (code: TemplateStringsArray) => Record<string, unknown>;
+declare const preval: (code: TemplateStringsArray) => Record<string, unknown>
 
 // https://github.com/tailwindlabs/tailwindcss/discussions/1853#discussioncomment-1239755
 const { onColor, offColor } = preval`
@@ -10,7 +10,7 @@ const { onColor, offColor } = preval`
   const resolvedConfig = resolveConfig(tailwindConfig);
 
   module.exports = {onColor: resolvedConfig.theme.colors.primary, offColor: resolvedConfig.theme.colors.inactive}
-` as { onColor: string; offColor: string };
+` as { onColor: string; offColor: string }
 
 const KupaliskaSwitch = (props: React.ComponentProps<typeof Switch>) => {
   return (
@@ -26,7 +26,7 @@ const KupaliskaSwitch = (props: React.ComponentProps<typeof Switch>) => {
     >
       {props.children}
     </Switch>
-  );
-};
+  )
+}
 
-export default KupaliskaSwitch;
+export default KupaliskaSwitch

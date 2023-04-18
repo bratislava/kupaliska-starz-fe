@@ -1,18 +1,18 @@
-import React, { useEffect, PropsWithChildren } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, PropsWithChildren } from 'react'
+import { useHistory } from 'react-router-dom'
 
 function ScrollToTop({ children }: PropsWithChildren<{}>) {
-  const history = useHistory();
+  const history = useHistory()
   useEffect(() => {
     const unlisten = history.listen(() => {
-      window.scrollTo(0, 0);
-    });
+      window.scrollTo(0, 0)
+    })
     return () => {
-      unlisten();
-    };
-  }, []);
+      unlisten()
+    }
+  }, [])
 
-  return <>{children}</>;
+  return <>{children}</>
 }
 
-export default ScrollToTop;
+export default ScrollToTop

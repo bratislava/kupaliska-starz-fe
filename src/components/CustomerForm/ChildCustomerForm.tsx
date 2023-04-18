@@ -1,30 +1,30 @@
-import React, { useEffect } from "react";
-import { Icon, InputField } from "components";
-import { get } from "lodash";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react'
+import { Icon, InputField } from 'components'
+import { get } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
-import PhotoField from "components/PhotoField/PhotoField";
+import PhotoField from 'components/PhotoField/PhotoField'
 
 interface ChildCustomerFormProps {
-  register: any;
-  unregister: any;
-  setValue?: any;
-  fieldNamePrefix?: string;
-  setError: any;
-  clearErrors: any;
-  errors?: any;
-  className?: string;
-  onPhotoSet?: (photo: string) => void;
-  image?: string;
-  childPhotoRequired?: boolean;
-  onClear?: () => void;
+  register: any
+  unregister: any
+  setValue?: any
+  fieldNamePrefix?: string
+  setError: any
+  clearErrors: any
+  errors?: any
+  className?: string
+  onPhotoSet?: (photo: string) => void
+  image?: string
+  childPhotoRequired?: boolean
+  onClear?: () => void
 }
 
 const ChildCustomerForm = ({
   register,
   unregister,
   fieldNamePrefix,
-  className = "",
+  className = '',
   setValue,
   setError,
   clearErrors,
@@ -35,26 +35,23 @@ const ChildCustomerForm = ({
   onClear,
 }: ChildCustomerFormProps) => {
   const _errors = fieldNamePrefix
-    ? get(errors, `${fieldNamePrefix ? fieldNamePrefix : ""}`)
-    : errors;
-  const { t } = useTranslation();
+    ? get(errors, `${fieldNamePrefix ? fieldNamePrefix : ''}`)
+    : errors
+  const { t } = useTranslation()
 
   useEffect(() => {
     return () => {
-      unregister &&
-        unregister(`${fieldNamePrefix ? fieldNamePrefix + ".photo" : "photo"}`);
-      unregister &&
-        unregister(`${fieldNamePrefix ? fieldNamePrefix + ".name" : "name"}`);
-      unregister &&
-        unregister(`${fieldNamePrefix ? fieldNamePrefix + ".age" : "age"}`);
-    };
-  }, []);
+      unregister && unregister(`${fieldNamePrefix ? fieldNamePrefix + '.photo' : 'photo'}`)
+      unregister && unregister(`${fieldNamePrefix ? fieldNamePrefix + '.name' : 'name'}`)
+      unregister && unregister(`${fieldNamePrefix ? fieldNamePrefix + '.age' : 'age'}`)
+    }
+  }, [])
   useEffect(() => {
     register &&
-      register(`${fieldNamePrefix ? fieldNamePrefix + ".photo" : "photo"}`, {
+      register(`${fieldNamePrefix ? fieldNamePrefix + '.photo' : 'photo'}`, {
         shouldUnregister: true,
-      });
-  }, [register, fieldNamePrefix]);
+      })
+  }, [register, fieldNamePrefix])
 
   return (
     <div className={`grid grid-cols-2 gap-4 lg:grid-cols-4 ${className}`}>
@@ -62,9 +59,9 @@ const ChildCustomerForm = ({
         <InputField
           leftExtra={<Icon name="user" />}
           register={register}
-          name={`${fieldNamePrefix ? fieldNamePrefix + ".name" : "name"}`}
-          placeholder={t("buy-page.name")}
-          error={get(_errors, "name.message")}
+          name={`${fieldNamePrefix ? fieldNamePrefix + '.name' : 'name'}`}
+          placeholder={t('buy-page.name')}
+          error={get(_errors, 'name.message')}
           shouldUnregister={true}
         />
         {onClear && (
@@ -82,10 +79,10 @@ const ChildCustomerForm = ({
       <InputField
         leftExtra={<Icon name="calendar" />}
         register={register}
-        name={`${fieldNamePrefix ? fieldNamePrefix + ".age" : "age"}`}
-        placeholder={t("buy-page.age")}
+        name={`${fieldNamePrefix ? fieldNamePrefix + '.age' : 'age'}`}
+        placeholder={t('buy-page.age')}
         className={`col-span-1`}
-        error={get(_errors, "age.message")}
+        error={get(_errors, 'age.message')}
         shouldUnregister={true}
       />
       {onClear && (
@@ -111,7 +108,7 @@ const ChildCustomerForm = ({
       {/*  />*/}
       {/*)}*/}
     </div>
-  );
-};
+  )
+}
 
-export default ChildCustomerForm;
+export default ChildCustomerForm

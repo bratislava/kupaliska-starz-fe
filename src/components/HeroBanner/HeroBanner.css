@@ -3,10 +3,10 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url("assets/images/hero_mobile.png");
+  background-image: url('assets/images/hero_mobile.png');
 
   @screen sm {
-    background-image: url("assets/images/hero.png");
+    background-image: url('assets/images/hero.png');
     height: 65vh;
   }
   @screen lg {
@@ -25,10 +25,10 @@
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: contain;
-  background-image: url("assets/images/hero_overlay_mobile.png");
+  background-image: url('assets/images/hero_overlay_mobile.png');
 
   @screen sm {
-    background-image: url("assets/images/hero_overlay.png");
+    background-image: url('assets/images/hero_overlay.png');
   }
 
   @screen 2xl {

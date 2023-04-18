@@ -6,66 +6,65 @@
   @font-face {
     font-family: Work Sans;
     font-weight: 100 900;
-    src: url(assets/fonts/work-sans/WorkSans-VariableFont_wght.ttf)
-      format("ttf");
+    src: url(assets/fonts/work-sans/WorkSans-VariableFont_wght.ttf) format('ttf');
     font-style: normal;
   }
   .border-2-softGray {
     @apply border-solid border-2 border-fontBlack border-opacity-10;
   }
   .ml-container {
-    padding-left: theme("container.padding.DEFAULT");
+    padding-left: theme('container.padding.DEFAULT');
     @screen xs {
-      margin-left: calc((100vw - theme("container.xs")) / 2);
-      padding-left: theme("container.padding.xs");
+      margin-left: calc((100vw - theme('container.xs')) / 2);
+      padding-left: theme('container.padding.xs');
     }
     @screen sm {
-      margin-left: calc((100vw - theme("container.sm")) / 2);
-      padding-left: theme("container.padding.sm");
+      margin-left: calc((100vw - theme('container.sm')) / 2);
+      padding-left: theme('container.padding.sm');
     }
     @screen md {
-      margin-left: calc((100vw - theme("container.md")) / 2);
-      padding-left: theme("container.padding.md");
+      margin-left: calc((100vw - theme('container.md')) / 2);
+      padding-left: theme('container.padding.md');
     }
     @screen lg {
-      margin-left: calc((100vw - theme("container.lg")) / 2);
-      padding-left: theme("container.padding.lg");
+      margin-left: calc((100vw - theme('container.lg')) / 2);
+      padding-left: theme('container.padding.lg');
     }
     @screen xl {
-      margin-left: calc((100vw - theme("container.xl")) / 2);
-      padding-left: theme("container.padding.xl");
+      margin-left: calc((100vw - theme('container.xl')) / 2);
+      padding-left: theme('container.padding.xl');
     }
     @screen 2xl {
-      margin-left: calc((100vw - theme("container.2xl")) / 2);
-      padding-left: theme("container.padding.2xl");
+      margin-left: calc((100vw - theme('container.2xl')) / 2);
+      padding-left: theme('container.padding.2xl');
     }
   }
 
   .mr-container {
-    padding-right: theme("container.padding.DEFAULT");
+    padding-right: theme('container.padding.DEFAULT');
     @screen xs {
-      margin-right: calc((100vw - theme("container.xs")) / 2);
-      padding-right: theme("container.padding.xs");
+      margin-right: calc((100vw - theme('container.xs')) / 2);
+      padding-right: theme('container.padding.xs');
     }
     @screen sm {
-      margin-right: calc((100vw - theme("container.sm")) / 2);
-      padding-right: theme("container.padding.sm");
+      margin-right: calc((100vw - theme('container.sm')) / 2);
+      padding-right: theme('container.padding.sm');
     }
     @screen md {
-      margin-right: calc((100vw - theme("container.md")) / 2);
-      padding-right: theme("container.padding.md");
+      margin-right: calc((100vw - theme('container.md')) / 2);
+      padding-right: theme('container.padding.md');
     }
     @screen lg {
-      margin-right: calc((100vw - theme("container.lg")) / 2);
-      padding-right: theme("container.padding.lg");
+      margin-right: calc((100vw - theme('container.lg')) / 2);
+      padding-right: theme('container.padding.lg');
     }
     @screen xl {
-      margin-right: calc((100vw - theme("container.xl")) / 2);
-      padding-right: theme("container.padding.xl");
+      margin-right: calc((100vw - theme('container.xl')) / 2);
+      padding-right: theme('container.padding.xl');
     }
     @screen 2xl {
-      margin-right: calc((100vw - theme("container.2xl")) / 2);
-      padding-right: theme("container.padding.2xl");
+      margin-right: calc((100vw - theme('container.2xl')) / 2);
+      padding-right: theme('container.padding.2xl');
     }
   }
 }
@@ -106,7 +105,7 @@
 }
 
 .square:after {
-  content: "";
+  content: '';
   display: block;
   padding-bottom: 100%;
 }
@@ -124,7 +123,7 @@ html {
 }
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   flex: 1;
   flex-direction: column;
   display: flex;

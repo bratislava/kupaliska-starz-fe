@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 
-import { push } from "connected-react-router";
+import { push } from 'connected-react-router'
 
 import {
   Button,
@@ -10,8 +10,8 @@ import {
   SectionHeader,
   Spinner,
   TicketCard,
-} from "components";
-import { useAppDispatch, useAppSelector } from "hooks";
+} from 'components'
+import { useAppDispatch, useAppSelector } from 'hooks'
 import {
   orderActions,
   selectCart,
@@ -20,13 +20,13 @@ import {
   selectOrderDiscountCode,
   selectOrderPrice,
   selectOrderStateStatus,
-} from "store/order";
+} from 'store/order'
 
-import "./OrderReviewPage.css";
-import { CustomerInfoFormValues } from "models";
-import { orderFormValuesToOrderRequest } from "helpers/adapters";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { Trans, useTranslation } from "react-i18next";
+import './OrderReviewPage.css'
+import { CustomerInfoFormValues } from 'models'
+import { orderFormValuesToOrderRequest } from 'helpers/adapters'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { Trans, useTranslation } from 'react-i18next'
 
 // const paymentMethods = [
 //   {
@@ -48,24 +48,24 @@ import { Trans, useTranslation } from "react-i18next";
 // ];
 
 const OrderReviewPage = () => {
-  const dispatch = useAppDispatch();
-  const cartItem = useAppSelector(selectCart);
-  const formValues = useAppSelector(selectCustomerInfoFormValues);
-  const customerPhotos = useAppSelector(selectCustomerInfoPhotos);
-  const orderStateStatus = useAppSelector(selectOrderStateStatus);
-  const discountCode = useAppSelector(selectOrderDiscountCode);
-  const totalPrice = useAppSelector(selectOrderPrice);
-  const { executeRecaptcha } = useGoogleReCaptcha();
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch()
+  const cartItem = useAppSelector(selectCart)
+  const formValues = useAppSelector(selectCustomerInfoFormValues)
+  const customerPhotos = useAppSelector(selectCustomerInfoPhotos)
+  const orderStateStatus = useAppSelector(selectOrderStateStatus)
+  const discountCode = useAppSelector(selectOrderDiscountCode)
+  const totalPrice = useAppSelector(selectOrderPrice)
+  const { executeRecaptcha } = useGoogleReCaptcha()
+  const { t } = useTranslation()
 
   useEffect(() => {
-    (!formValues || !cartItem) && dispatch(push("/"));
-  }, [formValues]);
+    ;(!formValues || !cartItem) && dispatch(push('/'))
+  }, [formValues])
 
   const onPay = async () => {
     if (cartItem && formValues && executeRecaptcha) {
-      const token = await executeRecaptcha("order");
-      console.log(token);
+      const token = await executeRecaptcha('order')
+      console.log(token)
       dispatch(
         orderActions(
           orderFormValuesToOrderRequest({
@@ -74,15 +74,15 @@ const OrderReviewPage = () => {
             photos: customerPhotos,
             recaptchaToken: token,
             discountCodeState: discountCode,
-          })
-        )
-      );
+          }),
+        ),
+      )
     }
-  };
+  }
 
   return (
     <main className="container grid-ordering mx-auto grid gap-8 py-8 grid-cols-1 md:grid-cols-2">
-      {orderStateStatus === "loading" && (
+      {orderStateStatus === 'loading' && (
         <div className="bg-fontBlack bg-opacity-50 fixed inset-0 flex items-center justify-center">
           <Spinner />
         </div>
@@ -91,19 +91,12 @@ const OrderReviewPage = () => {
       <section className="col-span-1">
         <SectionHeader title="Kontrola údajov" />
         {formValues && (
-          <CustomerInfoReviewPanel
-            formValues={formValues}
-            img={customerPhotos.photo}
-          />
+          <CustomerInfoReviewPanel formValues={formValues} img={customerPhotos.photo} />
         )}
         <div
           className="divider"
           style={
-            !(
-              formValues &&
-              formValues.children &&
-              formValues.children.length > 0
-            )
+            !(formValues && formValues.children && formValues.children.length > 0)
               ? { marginBottom: 0 }
               : {}
           }
@@ -117,9 +110,7 @@ const OrderReviewPage = () => {
                 key={child.name}
                 formValues={child as CustomerInfoFormValues}
                 img={
-                  customerPhotos.childrenPhotos
-                    ? customerPhotos.childrenPhotos[index]
-                    : undefined
+                  customerPhotos.childrenPhotos ? customerPhotos.childrenPhotos[index] : undefined
                 }
               />
               <div className="divider" style={{ marginBottom: 0 }} />
@@ -129,16 +120,12 @@ const OrderReviewPage = () => {
           <Trans i18nKey="landing.recaptcha" components={{ a: <a /> }} />
         </div>
         <div className="flex flex-col w-full lg:w-1/2">
-          <Button
-            onClick={() => dispatch(push("/order"))}
-            className="w-full mb-4"
-            color="outlined"
-          >
-            {t("order-review.edit-data")}
+          <Button onClick={() => dispatch(push('/order'))} className="w-full mb-4" color="outlined">
+            {t('order-review.edit-data')}
             <Icon className="ml-4" name="pencil" />
           </Button>
           <Button className="w-full mb-4" onClick={onPay}>
-            {t("order-review.pay")}
+            {t('order-review.pay')}
             {totalPrice}
             € <Icon className="ml-4" name="credit-card" />
           </Button>
@@ -174,37 +161,27 @@ const OrderReviewPage = () => {
               />
               {cartItem.childrenNumber > 0 && (
                 <div className="w-full flex justify-between p-4 shadow-xs rounded-lg border-2-softGray mt-2">
-                  <span className="text-xl font-bold">
-                    + {cartItem.childrenNumber}x dieťa
-                  </span>
+                  <span className="text-xl font-bold">+ {cartItem.childrenNumber}x dieťa</span>
                   <div>
                     <span
                       className={`text-xl font-bold ${
-                        discountCode && discountCode.status === "OK"
-                          ? "strikediag"
-                          : ""
+                        discountCode && discountCode.status === 'OK' ? 'strikediag' : ''
                       }`}
                     >
                       {Math.floor(
                         cartItem.childrenNumber *
-                          (cartItem.ticket.childrenPrice
-                            ? cartItem.ticket.childrenPrice
-                            : 0) *
-                          100
+                          (cartItem.ticket.childrenPrice ? cartItem.ticket.childrenPrice : 0) *
+                          100,
                       ) / 100}
                       €
                     </span>
-                    {discountCode && discountCode.status === "OK" && (
+                    {discountCode && discountCode.status === 'OK' && (
                       <span className="text-xl font-bold ml-2 text-primary">
                         {Math.floor(
                           cartItem.childrenNumber *
-                            (cartItem.ticket.childrenPrice
-                              ? cartItem.ticket.childrenPrice
-                              : 0) *
-                            (discountCode.amount
-                              ? (100 - discountCode.amount) / 100
-                              : 1) *
-                            100
+                            (cartItem.ticket.childrenPrice ? cartItem.ticket.childrenPrice : 0) *
+                            (discountCode.amount ? (100 - discountCode.amount) / 100 : 1) *
+                            100,
                         ) / 100}
                         €
                       </span>
@@ -213,17 +190,14 @@ const OrderReviewPage = () => {
                 </div>
               )}
               <div className="text-fontBlack hidden md:block text-opacity-50 font-medium my-4 mx-3 xs:mx-6">
-                <Trans
-                  i18nKey={"order-review.review-muted"}
-                  components={{ p: <p /> }}
-                />
+                <Trans i18nKey={'order-review.review-muted'} components={{ p: <p /> }} />
               </div>
             </div>
           )}
         </div>
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default OrderReviewPage;
+export default OrderReviewPage

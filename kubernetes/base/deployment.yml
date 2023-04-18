@@ -25,9 +25,9 @@ spec:
           name: app
           imagePullPolicy: IfNotPresent
           ports:
-          - name: http
-            containerPort: ${APP_PORT}
-            protocol: TCP
+            - name: http
+              containerPort: ${APP_PORT}
+              protocol: TCP
           resources:
             limits:
               cpu: 500m
