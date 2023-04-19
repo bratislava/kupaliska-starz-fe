@@ -6,6 +6,7 @@ import OrderFailure from '../../components/OrderFailure/OrderFailure'
 import OrderSuccess from 'components/OrderSuccess/OrderSuccess'
 import qs from 'qs'
 import { useErrorToast } from '../../hooks/useErrorToast'
+import { Spinner } from '../../components'
 
 type Params = {
   success?: string
@@ -22,8 +23,16 @@ const WithParams = ({ params }: { params: Params }) => {
     { staleTime: Infinity, onError: () => dispatchErrorToast() },
   )
 
+  if (query.isLoading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <Spinner />
+      </div>
+    )
+  }
+
   if (query.data) {
-    return <OrderSuccess response={query.data} />
+    return <OrderSuccess response={query.data.data} />
   }
 
   return null
