@@ -1,32 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import {
+  AccordionItem,
+  ContactForm,
   HeroBanner,
   MobileCarousel,
-  TicketBuyDiagramCard,
-  Typography,
-  SwimmingPoolInfoCard,
-  Button,
-  Icon,
-  Modal,
   SectionHeader,
-  ContactForm,
+  TicketBuyDiagramCard,
   TicketCardHomePage,
-  AccordionItem,
+  Typography,
   WhyCreateAccountSection,
 } from 'components'
 import { useAppDispatch, useAppSelector, useWindowSize } from 'hooks'
-import {
-  fetchPoolActions,
-  selectAvailableTickets,
-  selectPools,
-  selectSelectedPool,
-  setSelectedPoolId,
-} from 'store/global'
-import { SwimmingPool } from 'models'
+import { selectAvailableTickets } from 'store/global'
 
 import './LandingPage.css'
-import { assignItemsToColumns } from 'helpers/general'
 import { Trans, useTranslation } from 'react-i18next'
 import { useIsAuthenticated } from '@azure/msal-react'
 
@@ -48,66 +36,15 @@ const items = [
 const faqsn = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 const LandingPage = () => {
-  const [allSwimmingPools, setAllSwimmingPools] = useState<boolean>(false)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
   const { width } = useWindowSize()
   const dispatch = useAppDispatch()
   const tickets = useAppSelector(selectAvailableTickets)
-  const swimmingPools = useAppSelector(selectPools)
-  const selectedSwimmingPool = useAppSelector(selectSelectedPool)
   const { t } = useTranslation()
   const isAuthenticated = useIsAuthenticated()
 
-  useEffect(() => {
-    if (width && width <= 768 && selectedSwimmingPool) {
-      dispatch(setSelectedPoolId(undefined))
-    }
-  }, [width])
-
-  const moreDetailOnSwimmingPoolHandler = (swimmingPool: SwimmingPool) => {
-    dispatch(fetchPoolActions(swimmingPool.id))
-    if (width && width >= 768) {
-      dispatch(setSelectedPoolId(swimmingPool.id))
-      return false
-    } else {
-      return true
-    }
-  }
-
-  const getNumberOfSwimmingPoolCols = () => {
-    if (width) {
-      if (width >= 1024) {
-        return 3
-      }
-      if (width >= 768) {
-        return 2
-      }
-    }
-
-    return 1
-  }
-
   return (
     <main className="bg-white">
-      <Modal
-        open={!!selectedSwimmingPool}
-        onClose={() => dispatch(setSelectedPoolId(undefined))}
-        modalClassName="overflow-y-visible"
-      >
-        <div className="bg-transparent  landing-page__swimming-pool-modal rounded-lg flex">
-          {selectedSwimmingPool && (
-            <SwimmingPoolInfoCard
-              className="flex-1 flex-col"
-              onActionButtonClick={() => {
-                dispatch(setSelectedPoolId(undefined))
-                return false
-              }}
-              swimmingPool={selectedSwimmingPool}
-              modal
-            />
-          )}
-        </div>
-      </Modal>
       <HeroBanner />
       <section id="ticket-buy-diagram" className="my-4 lg:my-16">
         <Typography type="title" fontWeight="bold" className="text-center mb-8">
@@ -180,36 +117,11 @@ const LandingPage = () => {
           title={t('landing.swimming-pools-title')}
           subtitle={t('landing.swimming-pools-subtitle')}
         />
-        <div className="md:grid md:gap-x-16 md:grid-cols-2 lg:gap-x-32 lg:grid-cols-3 auto-rows-fr">
-          {(allSwimmingPools
-            ? assignItemsToColumns(getNumberOfSwimmingPoolCols(), swimmingPools)
-            : assignItemsToColumns(
-                getNumberOfSwimmingPoolCols(),
-                swimmingPools.slice(0, width && width >= 1024 ? 3 : 2),
-              )
-          ).map((swimmingPoolsCol, index) => (
-            <div key={`col-${index}`} className="flex flex-col">
-              {swimmingPoolsCol.map((swimmingPool) => (
-                <SwimmingPoolInfoCard
-                  key={swimmingPool.id}
-                  swimmingPool={swimmingPool}
-                  className={`lg:col-span-1 my-4`}
-                  onActionButtonClick={moreDetailOnSwimmingPoolHandler}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-        <Button
-          onClick={() => setAllSwimmingPools(!allSwimmingPools)}
-          className="w-full md:w-1/2 lg:w-1/4 mx-auto"
-          color={'blueish'}
-        >
-          {allSwimmingPools
-            ? t('landing.show-more-swimming-pools')
-            : t('landing.show-less-swimming-pools')}
-          <Icon className="ml-4" name={`${allSwimmingPools ? 'arrow-up' : 'arrow-down'}`} />
-        </Button>
+        <iframe
+          src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
+          className="w-full h-[80vh] min-h-[200px] max-h-[800px]"
+          title="Mapa kúpalísk"
+        />
       </section>
       <section id="contact-us" className="section">
         <SectionHeader title={t('landing.questions')} />
