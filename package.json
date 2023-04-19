@@ -42,6 +42,7 @@
     "react-swipeable": "^6.1.0",
     "react-switch": "^7.0.0",
     "react-tooltip": "^4.2.19",
+    "swiper": "^9.2.3",
     "typescript": "^4.2.4",
     "usehooks-ts": "2.1.1",
     "yup": "^0.32.9"
