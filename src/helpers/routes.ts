@@ -37,7 +37,7 @@ const routes: Route[] = [
   {
     path: '/:lang?/profile',
     exact: true,
-    component: React.lazy(() => import('pages/ProfilePage/ProfilePage')),
+    component: React.lazy(() => import('pages/ProfilePage/ProfilePageV2')),
     requireAuth: true,
   },
   {

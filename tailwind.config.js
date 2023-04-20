@@ -59,6 +59,7 @@ module.exports = {
         backgroundGray: '#F5F5F5',
         warningSoft: '#F8D7D4',
         inactive: '#CCCCCC',
+        divider: '#D6D6D6',
       },
       borderWidth: {
         3: '3px',
