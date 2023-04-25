@@ -11,12 +11,13 @@ import {
   Typography,
   WhyCreateAccountSection,
 } from 'components'
-import { useAppDispatch, useAppSelector, useWindowSize } from 'hooks'
+import { useAppSelector } from 'hooks'
 import { selectAvailableTickets } from 'store/global'
 
 import './LandingPage.css'
 import { Trans, useTranslation } from 'react-i18next'
 import { useIsAuthenticated } from '@azure/msal-react'
+import { environment } from '../../environment'
 
 const items = [
   {
@@ -34,11 +35,10 @@ const items = [
 ]
 
 const faqsn = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+const preseason = environment.featureFlag.preseasonHomepage
 
 const LandingPage = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
-  const { width } = useWindowSize()
-  const dispatch = useAppDispatch()
   const tickets = useAppSelector(selectAvailableTickets)
   const { t } = useTranslation()
   const isAuthenticated = useIsAuthenticated()
@@ -87,42 +87,46 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section id="ticket-buy" className="section">
-        <SectionHeader title={t('landing.available-ticket')} className="text-center" />
-        <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
-          {tickets.map((ticket) => (
-            <TicketCardHomePage
-              className="col-span-8 md:col-span-4"
-              key={ticket.id}
-              ticket={ticket}
-            />
-          ))}
-        </div>
-        <div className="flex flex-col text-center my-8 text-sm leading-loose">
-          <span>{t('common.additional-info-age')}</span>
-          <span>{t('common.additional-info-student-senior')}</span>
-          <span>{t('common.additional-info-toddlers')}</span>
-        </div>
-      </section>
+      {!preseason && (
+        <section id="ticket-buy" className="section">
+          <SectionHeader title={t('landing.available-ticket')} className="text-center" />
+          <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
+            {tickets.map((ticket) => (
+              <TicketCardHomePage
+                className="col-span-8 md:col-span-4"
+                key={ticket.id}
+                ticket={ticket}
+              />
+            ))}
+          </div>
+          <div className="flex flex-col text-center my-8 text-sm leading-loose">
+            <span>{t('common.additional-info-age')}</span>
+            <span>{t('common.additional-info-student-senior')}</span>
+            <span>{t('common.additional-info-toddlers')}</span>
+          </div>
+        </section>
+      )}
 
-      {!isAuthenticated && <WhyCreateAccountSection></WhyCreateAccountSection>}
+      {!isAuthenticated && !preseason && <WhyCreateAccountSection></WhyCreateAccountSection>}
 
       <section id="divider" className="section">
         <img src="/swimmers.svg" className="mx-auto" alt="" />
       </section>
 
-      <section id="swimming-pools" className="section">
-        <SectionHeader
-          className="text-center"
-          title={t('landing.swimming-pools-title')}
-          subtitle={t('landing.swimming-pools-subtitle')}
-        />
-        <iframe
-          src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
-          className="w-full h-[80vh] min-h-[200px] max-h-[800px]"
-          title="Mapa kúpalísk"
-        />
-      </section>
+      {!preseason && (
+        <section id="swimming-pools" className="section">
+          <SectionHeader
+            className="text-center"
+            title={t('landing.swimming-pools-title')}
+            subtitle={t('landing.swimming-pools-subtitle')}
+          />
+          <iframe
+            src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
+            className="w-full h-[80vh] min-h-[200px] max-h-[800px]"
+            title="Mapa kúpalísk"
+          />
+        </section>
+      )}
       <section id="contact-us" className="section">
         <SectionHeader title={t('landing.questions')} />
         <div className="grid gap-8 grid-cols-4">

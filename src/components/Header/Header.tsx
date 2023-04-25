@@ -4,23 +4,33 @@ import { HashLink as Link } from 'react-router-hash-link'
 
 import { Icon, Typography } from 'components'
 import { useTranslation } from 'react-i18next'
+import { environment } from '../../environment'
 
 interface MenuItem {
   to: string
+  key: string
 }
 
 const menuItems: MenuItem[] = [
-  {
-    to: '/#ticket-buy',
-  },
-  {
-    to: '/#swimming-pools',
-  },
+  ...(environment.featureFlag.preseasonHomepage
+    ? []
+    : [
+        {
+          to: '/#ticket-buy',
+          key: 'header.menu-items.0.text',
+        },
+        {
+          to: '/#swimming-pools',
+          key: 'header.menu-items.1.text',
+        },
+      ]),
   {
     to: '/#contact-us',
+    key: 'header.menu-items.2.text',
   },
   {
     to: '/#faqs',
+    key: 'header.menu-items.3.text',
   },
 ]
 
@@ -36,9 +46,9 @@ const Header = () => {
             STARZ
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-end">
-            {menuItems.map((menuItem, index) => (
+            {menuItems.map((menuItem) => (
               <Link key={menuItem.to} className="px-4" to={menuItem.to}>
-                {t(`header.menu-items.${index}.text`)}
+                {t(menuItem.key)}
               </Link>
             ))}
           </nav>
@@ -72,14 +82,14 @@ const Header = () => {
                   <Icon name="close" color="primary" />
                 </button>
               </div>
-              {menuItems.map((menuItem, index) => (
+              {menuItems.map((menuItem) => (
                 <Link
                   onClick={() => setOpen(false)}
                   key={menuItem.to}
                   className="py-4 font-bold"
                   to={menuItem.to}
                 >
-                  {t(`header.menu-items.${index}.text`)}
+                  {t(menuItem.key)}
                 </Link>
               ))}
             </div>
