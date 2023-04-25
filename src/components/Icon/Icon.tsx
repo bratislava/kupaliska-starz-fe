@@ -4,6 +4,7 @@ import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrow-down.s
 import { ReactComponent as ArrowLeftIcon } from '../../assets/icons/arrow-left.svg'
 import { ReactComponent as ArrowRightIcon } from '../../assets/icons/arrow-right.svg'
 import { ReactComponent as ArrowUpIcon } from '../../assets/icons/arrow-up.svg'
+import { ReactComponent as BinIcon } from '../../assets/icons/bin.svg'
 import { ReactComponent as BratislavaLogoIcon } from '../../assets/icons/bratislava-logo.svg'
 import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import { ReactComponent as CaretDownIcon } from '../../assets/icons/caret-down.svg'
@@ -53,6 +54,7 @@ const iconMap = {
   'arrow-left': ArrowLeftIcon,
   'arrow-right': ArrowRightIcon,
   'arrow-up': ArrowUpIcon,
+  bin: BinIcon,
   'bratislava-logo': BratislavaLogoIcon,
   calendar: CalendarIcon,
   'caret-down': CaretDownIcon,
@@ -94,8 +96,10 @@ const iconMap = {
   'youtube-logo': YoutubeLogoIcon,
 }
 
+export type IconName = keyof typeof iconMap
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
-  name: keyof typeof iconMap
+  name: IconName
   color?: 'primary' | 'secondary' | 'white' | 'fontBlack' | 'blueish'
   className?: string
 }

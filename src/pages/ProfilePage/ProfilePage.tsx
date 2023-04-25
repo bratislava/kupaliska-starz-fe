@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Icon, Modal, PeopleList, ProfileNavBar } from 'components'
+import { Button, Icon, Modal, PeopleList, ProfileNavBar, Typography } from 'components'
 import { useTranslation } from 'react-i18next'
 import PersonComponent, {
   PersonComponentMode,
@@ -18,6 +18,8 @@ import { useHistory } from 'react-router-dom'
 import ProfileLine from '../../components/ProfileLine/ProfileLine'
 import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
+import ProfilePageUser from '../../components/ProfilePage/ProfilePageUser'
+import ProfilePageSwimmers from '../../components/ProfilePage/ProfilePageSwimmers'
 
 const UserInfo = ({ user }: { user: User }) => {
   const { t } = useTranslation()
@@ -194,20 +196,11 @@ const ProfilePage = () => {
       <div className="container mx-auto">
         <ProfileNavBar></ProfileNavBar>
         <ProfileLine></ProfileLine>
-        <div className="mt-14 mb-24">
-          {/* TODO female/male */}
-          <div className="font-medium text-2xl mb-4 md:mb-8">{t('profile.user')}</div>
-
-          {userQuery.isSuccess && <UserInfo user={userQuery.data.data}></UserInfo>}
-        </div>
-        <div>
-          <div className="font-medium text-2xl mb-4">{t('profile.others')}</div>
-          <div className="flex">
-            {associatedSwimmersQuery.isSuccess && (
-              <AssociatedSwimmersInfo
-                associatedSwimmers={associatedSwimmersQuery.data.data.associatedSwimmers}
-              />
-            )}
+        <div className="mx-auto container flex flex-col py-8 gap-8 mt-14">
+          <Typography type="title">Môj profil</Typography>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <ProfilePageUser />
+            <ProfilePageSwimmers />
           </div>
         </div>
       </div>

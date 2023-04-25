@@ -36,7 +36,7 @@ export const AssociatedSwimmerEditAddForm = ({
   swimmer,
   onSaveSuccess = () => {},
 }: {
-  swimmer?: AssociatedSwimmer
+  swimmer?: AssociatedSwimmer | null
   onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void
 }) => {
   const { t } = useTranslation()
