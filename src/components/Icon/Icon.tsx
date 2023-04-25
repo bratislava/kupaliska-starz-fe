@@ -37,6 +37,7 @@ import { ReactComponent as RetryIcon } from '../../assets/icons/retry.svg'
 import { ReactComponent as ShowerIcon } from '../../assets/icons/shower.svg'
 import { ReactComponent as SpinnerIcon } from '../../assets/icons/spinner.svg'
 import { ReactComponent as SwimmingManIcon } from '../../assets/icons/swimming-man.svg'
+import { ReactComponent as ThreeDotsIcon } from '../../assets/icons/three-dots.svg'
 import { ReactComponent as TicketsIcon } from '../../assets/icons/tickets.svg'
 import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
 import { ReactComponent as VolleyballIcon } from '../../assets/icons/volleyball.svg'
@@ -85,6 +86,7 @@ const iconMap = {
   shower: ShowerIcon,
   spinner: SpinnerIcon,
   'swimming-man': SwimmingManIcon,
+  'three-dots': ThreeDotsIcon,
   tickets: TicketsIcon,
   user: UserIcon,
   volleyball: VolleyballIcon,
