@@ -19,7 +19,7 @@ const OrderPageCreateSwimmerModal = ({
   onAdd,
 }: {
   open: boolean
-  swimmer: AssociatedSwimmer | null
+  swimmer?: AssociatedSwimmer
   onClose: () => void
   onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void
 }) => {
@@ -108,8 +108,8 @@ const DeleteAssociatedSwimmerModal = ({
 const ProfilePageSwimmers = () => {
   const [addEditSwimmerModal, setAddEditSwimmerModal] = useState<{
     open: boolean
-    swimmer: AssociatedSwimmer | null
-  }>({ open: false, swimmer: null })
+    swimmer?: AssociatedSwimmer
+  }>({ open: false })
 
   const [swimmerToDelete, setSwimmerToDelete] = useState<AssociatedSwimmer | null>(null)
 
@@ -127,7 +127,7 @@ const ProfilePageSwimmers = () => {
       <OrderPageCreateSwimmerModal
         open={addEditSwimmerModal.open}
         swimmer={addEditSwimmerModal.swimmer}
-        onClose={() => setAddEditSwimmerModal({ open: false, swimmer: null })}
+        onClose={() => setAddEditSwimmerModal({ open: false })}
         onAdd={() => {}}
       />
 

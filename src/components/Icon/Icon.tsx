@@ -7,6 +7,7 @@ import { ReactComponent as ArrowUpIcon } from '../../assets/icons/arrow-up.svg'
 import { ReactComponent as BinIcon } from '../../assets/icons/bin.svg'
 import { ReactComponent as BratislavaLogoIcon } from '../../assets/icons/bratislava-logo.svg'
 import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
+import { ReactComponent as CastleIcon } from '../../assets/icons/castle.svg'
 import { ReactComponent as CaretDownIcon } from '../../assets/icons/caret-down.svg'
 import { ReactComponent as ChangingRoomIcon } from '../../assets/icons/changing-room.svg'
 import { ReactComponent as ChangingRoomsIcon } from '../../assets/icons/changing_rooms.svg'
@@ -41,6 +42,7 @@ import { ReactComponent as SwimmingManIcon } from '../../assets/icons/swimming-m
 import { ReactComponent as ThreeDotsIcon } from '../../assets/icons/three-dots.svg'
 import { ReactComponent as TicketsIcon } from '../../assets/icons/tickets.svg'
 import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
+import { ReactComponent as UploadIcon } from '../../assets/icons/upload.svg'
 import { ReactComponent as VolleyballIcon } from '../../assets/icons/volleyball.svg'
 import { ReactComponent as WavesIcon } from '../../assets/icons/waves.svg'
 import { ReactComponent as YoutubeLogoIcon } from '../../assets/icons/youtube-logo.svg'
@@ -57,6 +59,7 @@ const iconMap = {
   bin: BinIcon,
   'bratislava-logo': BratislavaLogoIcon,
   calendar: CalendarIcon,
+  castle: CastleIcon,
   'caret-down': CaretDownIcon,
   'changing-room': ChangingRoomIcon,
   changing_rooms: ChangingRoomsIcon,
@@ -91,6 +94,7 @@ const iconMap = {
   'three-dots': ThreeDotsIcon,
   tickets: TicketsIcon,
   user: UserIcon,
+  upload: UploadIcon,
   volleyball: VolleyballIcon,
   waves: WavesIcon,
   'youtube-logo': YoutubeLogoIcon,

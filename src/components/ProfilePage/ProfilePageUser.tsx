@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Spinner } from '../index'
+import { Button, Icon, Spinner } from '../index'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
 import { useAccount } from '@azure/msal-react'
@@ -18,7 +18,9 @@ const ProfilePageUser = () => {
             konte.
           </p>
         </div>
-        <Button>Spravovať v konte</Button>
+        <Button>
+          <Icon className="mr-2" name="castle" color="white" /> Spravovať v konte
+        </Button>
       </div>
       <div className="gap-6 flex flex-col p-6">
         <div className="gap-6 flex flex-col sm:flex-row">
@@ -35,7 +37,7 @@ const ProfilePageUser = () => {
               </p>
             </div>
             <Button className="self-start" color="outlined">
-              Nahrať fotku
+              <Icon className="mr-2" name="upload" /> Nahrať fotku
             </Button>
           </div>
         </div>
