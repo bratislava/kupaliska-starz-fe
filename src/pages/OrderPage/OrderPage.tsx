@@ -22,6 +22,7 @@ import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/o
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
 import {
+  Controller,
   FieldErrors,
   useForm,
   UseFormGetValues,
@@ -42,6 +43,7 @@ import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { environment } from '../../environment'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import Turnstile from 'react-turnstile'
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
@@ -600,6 +602,8 @@ const OrderPage = () => {
   const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = useOrderTicket()
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
+  console.log('Halo')
+  const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
 
   const { t } = useTranslation()
 
@@ -693,7 +697,7 @@ const OrderPage = () => {
 
   const onSubmit = async () => {
     const { orderRequest } = getRequestsFromFormData()
-
+    console.log(orderRequest)
     await order(orderRequest)
   }
 
@@ -770,6 +774,40 @@ const OrderPage = () => {
           </NumberedLayout>
 
           <NumberedLayout index={3} first={false}>
+            <Controller
+              name="recaptchaToken"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <>
+                  <Turnstile
+                    theme="light"
+                    sitekey={import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY ?? ''}
+                    onVerify={(token) => {
+                      setCaptchaWarning('hide')
+                      onChange(token)
+                    }}
+                    onError={(error) => {
+                      // logger.error("Turnstile error:", error);
+                      setCaptchaWarning('show')
+                      return onChange(null)
+                    }}
+                    onTimeout={() => {
+                      // logger.error("Turnstile timeout");
+                      setCaptchaWarning('show')
+                      onChange(null)
+                    }}
+                    onExpire={() => {
+                      // logger.warn("Turnstile expire - should refresh automatically");
+                      onChange(null)
+                    }}
+                    className="mb-2 self-center"
+                  />
+                  {captchaWarning === 'show' && (
+                    <p className="text-p3 italic">{t('captcha_warning')}</p>
+                  )}
+                </>
+              )}
+            />
             <CheckboxField
               register={register}
               name="agreement"
@@ -818,6 +856,7 @@ export interface OrderFormData {
   agreement?: boolean
   age?: number
   zip?: string
+  recaptchaToken: string
 }
 
 export default OrderPage
