@@ -4,7 +4,10 @@ import { Button, Icon, Typography } from 'components'
 
 import './HeroBanner.css'
 import { HashLink } from 'react-router-hash-link'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+import { environment } from '../../environment'
+
+const preseason = environment.featureFlag.preseasonHomepage
 
 const HeroBanner = () => {
   const { t } = useTranslation()
@@ -16,19 +19,17 @@ const HeroBanner = () => {
       </div>
       <div className="container mx-auto content relative z-10">
         <Typography type="title" fontWeight="bold" className="mb-4 max-w-xs">
-          <Trans
-            i18nKey={`landing.title`}
-            components={{
-              purple: <span className="text-purpleish" />,
-            }}
-          />
+          {preseason ? t('landing.title-preseason') : t(`landing.title`)}
         </Typography>
-        <Typography type="subtitle" className="max-w-xs">
-          {t('landing.subtitle')}
-        </Typography>
+        {!preseason && (
+          <Typography type="subtitle" className="max-w-xs">
+            {t('landing.subtitle')}
+          </Typography>
+        )}
 
-        <div
-          className="
+        {!preseason && (
+          <div
+            className="
             flex
             space-x-4
             w-full
@@ -46,20 +47,21 @@ const HeroBanner = () => {
 
             xl:w-3/5
           "
-        >
-          <HashLink to="/#ticket-buy">
-            <Button thin>
-              <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
-              <Icon name="tickets" className="no-fill pr-5" />
-            </Button>
-          </HashLink>
-          <HashLink to="/#swimming-pools" className="hidden sm:block">
-            <Button className="" color="outlined" thin>
-              <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
-              <Icon name="swimming-man" className="hidden xs:block no-fill pr-5" />
-            </Button>
-          </HashLink>
-        </div>
+          >
+            <HashLink to="/#ticket-buy">
+              <Button thin>
+                <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
+                <Icon name="tickets" className="no-fill pr-5" />
+              </Button>
+            </HashLink>
+            <HashLink to="/#swimming-pools" className="hidden sm:block">
+              <Button className="" color="outlined" thin>
+                <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
+                <Icon name="swimming-man" className="hidden xs:block no-fill pr-5" />
+              </Button>
+            </HashLink>
+          </div>
+        )}
       </div>
     </div>
   )
