@@ -41,7 +41,6 @@ const ContactForm = () => {
   })
 
   const onSubmit = (values: ContactFormValues) => {
-    console.log(values)
     setSending(true)
     dispatch(
       sendContactFormActions({

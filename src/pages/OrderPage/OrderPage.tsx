@@ -602,7 +602,6 @@ const OrderPage = () => {
   const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = useOrderTicket()
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
-  console.log('Halo')
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
 
   const { t } = useTranslation()
@@ -697,7 +696,6 @@ const OrderPage = () => {
 
   const onSubmit = async () => {
     const { orderRequest } = getRequestsFromFormData()
-    console.log(orderRequest)
     await order(orderRequest)
   }
 
