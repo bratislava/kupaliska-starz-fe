@@ -35,14 +35,14 @@ const Dialog = ({
       {cloneElement(
         wrapper,
         {},
-        <AriaDialog className="bg-white rounded-lg">
+        <AriaDialog className="bg-white rounded-lg flex flex-col max-h-screen">
           <div className="flex flex-row items-center justify-between gap-6 px-6 py-4 border-b-2 border-b-divider">
             <Heading className="text-gray-800 text-xl font-semibold">{title}</Heading>
             <Button onPress={() => onClose()}>
               <Icon name="close" className="no-fill" />
             </Button>
           </div>
-          <div className="p-8">{children}</div>
+          <div className="p-8 overflow-auto">{children}</div>
           {footerButton && (
             <div className="flex flex-col items-end px-6 py-4 border-t-2 border-t-divider">
               {footerButton}

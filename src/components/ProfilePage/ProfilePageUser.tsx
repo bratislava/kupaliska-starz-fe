@@ -70,6 +70,7 @@ const ProfilePageUser = () => {
               <Button
                 className="self-start"
                 color="outlined"
+                disabled={!isFetched}
                 onClick={() => setIsPhotoModalOpen(true)}
               >
                 <Icon className="mr-2 no-fill" name="upload" /> Nahrať fotku

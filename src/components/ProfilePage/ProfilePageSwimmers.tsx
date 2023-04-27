@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AssociatedSwimmerEditAddForm, Button, Icon, Modal, Spinner } from '../index'
+import { AssociatedSwimmerEditAddForm, Button, Icon, Spinner } from '../index'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   AssociatedSwimmer,
@@ -111,10 +111,7 @@ const ProfilePageSwimmers = () => {
     setSwimmerToDelete(null)
   }
 
-  const { data, isLoading, isError, isFetched } = useQuery(
-    'associatedSwimmers',
-    fetchAssociatedSwimmers,
-  )
+  const { data, isLoading, isFetched } = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
 
   return (
     <>
