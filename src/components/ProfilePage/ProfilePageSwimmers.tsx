@@ -11,6 +11,7 @@ import ThreeDots from '../ThreeDots/ThreeDots'
 import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import PersonComponent, { PersonComponentMode } from '../PersonComponent/PersonComponent'
+import Dialog from '../Dialog/Dialog'
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
@@ -29,17 +30,17 @@ const OrderPageCreateSwimmerModal = ({
   }
 
   return (
-    <Modal open={open} onClose={onClose} closeButton={true}>
-      <div
-        className="block bg-white rounded-lg p-10 text-primary shadow-lg modal-with-close-width-screen"
-        style={{ maxWidth: '1100px' }}
-      >
-        <AssociatedSwimmerEditAddForm
-          onSaveSuccess={handleSaveSuccess}
-          swimmer={swimmer}
-        ></AssociatedSwimmerEditAddForm>
-      </div>
-    </Modal>
+    <Dialog
+      title={swimmer ? 'Upraviť osobu' : 'Pridať osobu'}
+      open={open}
+      onClose={onClose}
+      className="w-full lg:w-7/12"
+    >
+      <AssociatedSwimmerEditAddForm
+        onSaveSuccess={handleSaveSuccess}
+        swimmer={swimmer}
+      ></AssociatedSwimmerEditAddForm>
+    </Dialog>
   )
 }
 
@@ -79,21 +80,14 @@ const DeleteAssociatedSwimmerModal = ({
   }
 
   return (
-    <Modal
+    <Dialog
+      title="Odstrániť z profilu"
       open={open}
       onClose={onClose}
-      button={
-        <Button onClick={handleRemove} className="px-10">
-          Odstrániť z profilu
-        </Button>
-      }
-      modalClassName="w-full md:w-max max-w-sm"
-      closeButton={true}
+      footerButton={<Button onClick={handleRemove}>Odstrániť</Button>}
     >
-      <div className="flex flex-col p-10 items-center">
-        <span className="text-primary font-semibold text-xl mb-5 text-center">
-          Naozaj chcete odstrániť túto osobu z vášho profilu?
-        </span>
+      <div className="flex flex-col gap-4">
+        <span>Naozaj chcete odstrániť túto osobu z vášho profilu?</span>
         {person && (
           <PersonComponent
             person={person}
@@ -101,7 +95,7 @@ const DeleteAssociatedSwimmerModal = ({
           ></PersonComponent>
         )}
       </div>
-    </Modal>
+    </Dialog>
   )
 }
 
@@ -148,7 +142,7 @@ const ProfilePageSwimmers = () => {
             disabled={!isFetched}
             onClick={() => setAddEditSwimmerModal({ open: true })}
           >
-            <Icon className="mr-2" name="plus" color="white" /> Pridať
+            <Icon className="mr-2 no-fill" name="plus" color="white" /> Pridať
           </Button>
         </div>
 
@@ -161,11 +155,11 @@ const ProfilePageSwimmers = () => {
           <div className="gap-3 flex flex-col p-6">
             {data.data.associatedSwimmers.map((swimmer) => (
               <div
-                className="px-4 py-3 gap-4 flex items-center h-20 rounded-lg bg-backgroundGray"
+                className="px-4 py-3 gap-4 flex items-center rounded-lg bg-backgroundGray"
                 key={swimmer.id}
               >
                 <div
-                  className="h-14 w-12 bg-cover bg-center rounded-lg bg-backgroundGray"
+                  className="h-14 w-12 bg-cover bg-center rounded-lg bg-backgroundGray shrink-0"
                   style={{
                     backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
                   }}

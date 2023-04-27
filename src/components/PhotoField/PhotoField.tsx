@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
 import Resizer from 'react-image-file-resizer'
 
-import { PersonComponent, Typography } from 'components'
+import { Icon, PersonComponent, Typography } from 'components'
 import Button from 'components/Button/Button'
 import { PersonComponentMode } from '../PersonComponent/PersonComponent'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
@@ -73,9 +73,6 @@ const PhotoField = ({
 
   return (
     <div>
-      <Typography type="subtitle" fontWeight="medium" className="mb-3">
-        {t('buy-page.photo-title')}
-      </Typography>
       <div className="flex gap-x-8 gap-y-4 flex-col sm:flex-row">
         <div>
           <PersonComponent
@@ -87,9 +84,6 @@ const PhotoField = ({
           {get(errors, 'image.message') && (
             <div className="text-error">{errorInterpretedImage}</div>
           )}
-        </div>
-        <div className="">
-          <p className="leading-tight md:leading-normal">{t('buy-page.photo-description')}</p>
           <input
             ref={imageInputRef}
             type="file"
@@ -97,14 +91,17 @@ const PhotoField = ({
             accept=".jpg,.png,.jpeg"
             onChange={handleImageChange}
           />
-          <div className="text-sm my-2">{t('buy-page.max-size')}</div>
-          <Button
-            color="outlined"
-            rounded
-            className="w-full lg:w-1/2 mb-4"
-            onClick={openImageInput}
-          >
-            {t('buy-page.photo-upload')}
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="gap-1 flex flex-col">
+            <p className="text-sm">
+              Pre kúpu permanentky je potrebné zadať aj fotografiu.
+              <br />
+              Tá slúži na priradenie permanentky k jej majiteľovi.
+            </p>
+          </div>
+          <Button className="self-start" color="outlined" onClick={openImageInput}>
+            <Icon className="mr-2" name="upload" /> {t('buy-page.photo-upload')}
           </Button>
         </div>
       </div>

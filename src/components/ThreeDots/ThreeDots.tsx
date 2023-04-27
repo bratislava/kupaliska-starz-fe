@@ -17,25 +17,32 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
   return (
     <DialogTrigger>
       <Button>
-        <Icon name="three-dots" />
+        <Icon name="three-dots" className="no-fill" />
       </Button>
       <Popover>
         <Dialog className="py-2 bg-white inline-flex flex-col items-start rounded-lg drop-shadow-lg overflow-clip">
-          {buttons.map((button, index) => (
-            <Button
-              key={index}
-              className={cx(
-                'px-5 bg-white gap-2.5 inline-flex items-center self-stretch text-left hover:bg-gray-100',
-                button.className,
-              )}
-              onPress={button.onPress}
-            >
-              <div className="py-3 flex-1 gap-3 flex items-center flex-grow">
-                <Icon name={button.icon} />
-                <p className="flex-1 text-base leading-6 m-0">{button.title}</p>
-              </div>
-            </Button>
-          ))}
+          {({ close }) => (
+            <>
+              {buttons.map((button, index) => (
+                <Button
+                  key={index}
+                  className={cx(
+                    'px-5 bg-white gap-2.5 inline-flex items-center self-stretch text-left hover:bg-gray-100',
+                    button.className,
+                  )}
+                  onPress={() => {
+                    close()
+                    button.onPress()
+                  }}
+                >
+                  <div className="py-3 flex-1 gap-3 flex items-center flex-grow">
+                    <Icon name={button.icon} className="no-fill" />
+                    <p className="flex-1 text-base leading-6 m-0">{button.title}</p>
+                  </div>
+                </Button>
+              ))}
+            </>
+          )}
         </Dialog>
       </Popover>
     </DialogTrigger>

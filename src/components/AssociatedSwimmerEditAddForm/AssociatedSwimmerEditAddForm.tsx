@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueryClient } from 'react-query'
-import { Button, Icon, InputField } from '../index'
+import { Button, Icon, InputField, Typography } from '../index'
 import PhotoField from '../PhotoField/PhotoField'
 import * as yup from 'yup'
 import { pick } from 'lodash'
@@ -151,7 +151,10 @@ export const AssociatedSwimmerEditAddForm = ({
           error={errorInterpretedZip}
         />
       </div>
-      <div className="flex mt-6 lg:mt-0">
+      <div className="flex flex-col mt-6 lg:mt-0">
+        <Typography type="subtitle" fontWeight="medium" className="mb-3">
+          {t('buy-page.photo-title')}
+        </Typography>
         <PhotoField
           setValue={setValue}
           setError={setError}
