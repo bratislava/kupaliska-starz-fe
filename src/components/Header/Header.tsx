@@ -30,7 +30,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-white shadow-xs py-3 md:py-4 sticky top-0 z-50 w-full">
+      <div className="bg-white shadow-xs py-3 md:py-4 sticky top-0 z-40 w-full">
         <div className="container mx-auto text-fontBlack flex justify-between">
           <Link className="text-primary font-bold text-xl cursor-pointer" to="/">
             STARZ
