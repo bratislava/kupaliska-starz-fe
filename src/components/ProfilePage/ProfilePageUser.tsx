@@ -3,7 +3,7 @@ import { Icon, Spinner, Button } from '../index'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
 import { useAccount } from '@azure/msal-react'
-import ProfilePageAgeModal from './ProfilePageAgeModal'
+import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
 import { Button as AriaButton } from 'react-aria-components'
 import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 
@@ -18,23 +18,23 @@ const ProfilePageUser = () => {
     <>
       {data && (
         <>
-          <ProfilePageAgeModal
-            type="age"
-            user={data.data}
-            open={isAgeModalOpen}
-            onClose={() => setIsAgeModalOpen(false)}
-          />
-          <ProfilePageAgeModal
-            type="zip"
-            user={data.data}
-            open={isZipModalOpen}
-            onClose={() => setIsZipModalOpen(false)}
-          />
-          <ProfilePagePhotoModal
-            user={data.data}
-            open={isPhotoModalOpen}
-            onClose={() => setIsPhotoModalOpen(false)}
-          />
+          {isAgeModalOpen && (
+            <ProfilePageAgeZipModal
+              type="age"
+              user={data.data}
+              onClose={() => setIsAgeModalOpen(false)}
+            />
+          )}
+          {isZipModalOpen && (
+            <ProfilePageAgeZipModal
+              type="zip"
+              user={data.data}
+              onClose={() => setIsZipModalOpen(false)}
+            />
+          )}
+          {isPhotoModalOpen && (
+            <ProfilePagePhotoModal user={data.data} onClose={() => setIsPhotoModalOpen(false)} />
+          )}
         </>
       )}
       <div className="bg-white rounded-lg lg:col-span-7">

@@ -13,44 +13,11 @@ import { produce } from 'immer'
 import PersonComponent, { PersonComponentMode } from '../PersonComponent/PersonComponent'
 import Dialog from '../Dialog/Dialog'
 
-const OrderPageCreateSwimmerModal = ({
-  open = false,
-  swimmer,
-  onClose,
-  onAdd,
-}: {
-  open: boolean
-  swimmer?: AssociatedSwimmer
-  onClose: () => void
-  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void
-}) => {
-  const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
-    onAdd(addedSwimmer)
-    onClose()
-  }
-
-  return (
-    <Dialog
-      title={swimmer ? 'Upraviť osobu' : 'Pridať osobu'}
-      open={open}
-      onClose={onClose}
-      className="w-full lg:w-7/12"
-    >
-      <AssociatedSwimmerEditAddForm
-        onSaveSuccess={handleSaveSuccess}
-        swimmer={swimmer}
-      ></AssociatedSwimmerEditAddForm>
-    </Dialog>
-  )
-}
-
 const DeleteAssociatedSwimmerModal = ({
-  open = false,
   onClose,
   person = null,
 }: {
-  open: boolean
-  onClose: any
+  onClose: () => void
   person: AssociatedSwimmer | null
 }) => {
   const queryClient = useQueryClient()
@@ -82,7 +49,7 @@ const DeleteAssociatedSwimmerModal = ({
   return (
     <Dialog
       title="Odstrániť z profilu"
-      open={open}
+      open={true}
       onClose={onClose}
       footerButton={<Button onClick={handleRemove}>Odstrániť</Button>}
     >
@@ -115,18 +82,19 @@ const ProfilePageSwimmers = () => {
 
   return (
     <>
-      <OrderPageCreateSwimmerModal
-        open={addEditSwimmerModal.open}
-        swimmer={addEditSwimmerModal.swimmer}
-        onClose={() => setAddEditSwimmerModal({ open: false })}
-        onAdd={() => {}}
-      />
+      {Boolean(swimmerToDelete) && (
+        <DeleteAssociatedSwimmerModal
+          onClose={handleDeleteSwimmerModalClose}
+          person={swimmerToDelete}
+        ></DeleteAssociatedSwimmerModal>
+      )}
 
-      <DeleteAssociatedSwimmerModal
-        open={Boolean(swimmerToDelete)}
-        onClose={handleDeleteSwimmerModalClose}
-        person={swimmerToDelete}
-      ></DeleteAssociatedSwimmerModal>
+      {addEditSwimmerModal.open && (
+        <AssociatedSwimmerEditAddForm
+          swimmer={addEditSwimmerModal.swimmer}
+          onClose={() => setAddEditSwimmerModal({ open: false })}
+        ></AssociatedSwimmerEditAddForm>
+      )}
 
       <div className="inline-flex flex-col rounded-lg bg-white lg:col-span-5">
         <div className="px-6 py-4 gap-6 flex border-b-2 border-b-divider">

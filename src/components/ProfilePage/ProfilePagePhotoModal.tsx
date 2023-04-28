@@ -13,7 +13,6 @@ import Dialog from '../Dialog/Dialog'
 import PhotoField from '../PhotoField/PhotoField'
 
 type ProfilePagePhotoModalProps = {
-  open: boolean
   user: User
   onClose: () => void
 }
@@ -22,7 +21,7 @@ const validationSchema = yup.object({
   image: yup.string().required('common.field-required'),
 })
 
-const ProfilePagePhotoModal = ({ open, user, onClose }: ProfilePagePhotoModalProps) => {
+const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) => {
   const {
     handleSubmit,
     setValue,
@@ -75,7 +74,7 @@ const ProfilePagePhotoModal = ({ open, user, onClose }: ProfilePagePhotoModalPro
 
   return (
     <Dialog
-      open={open}
+      open={true}
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
