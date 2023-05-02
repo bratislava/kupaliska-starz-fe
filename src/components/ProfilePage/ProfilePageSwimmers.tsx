@@ -12,6 +12,7 @@ import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import PersonComponent, { PersonComponentMode } from '../PersonComponent/PersonComponent'
 import Dialog from '../Dialog/Dialog'
+import cx from 'classnames'
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
@@ -134,13 +135,11 @@ const ProfilePageSwimmers = () => {
             <p className="text-xl font-semibold">Priradené osoby</p>
             <p>Pridajte do profilu osoby a zakúpte pre ne lístky a permanentky.</p>
           </div>
-          <Button
-            className="self-start"
-            disabled={!isFetched}
-            onClick={() => setAddEditSwimmerModal({ open: true })}
-          >
-            <Icon className="mr-2 no-fill" name="plus" color="white" /> Pridať
-          </Button>
+          {data && data.data.associatedSwimmers.length > 0 && (
+            <Button className="self-start" onClick={() => setAddEditSwimmerModal({ open: true })}>
+              <Icon className="mr-2 no-fill" name="plus" color="white" /> Pridať
+            </Button>
+          )}
         </div>
 
         {isLoading && (
@@ -149,7 +148,12 @@ const ProfilePageSwimmers = () => {
           </div>
         )}
         {data && (
-          <div className="gap-3 flex flex-col p-6">
+          <div
+            className={cx(
+              'flex flex-col p-6',
+              data.data.associatedSwimmers.length ? 'gap-3' : 'gap-6',
+            )}
+          >
             {data.data.associatedSwimmers.map((swimmer) => (
               <div
                 className="px-4 py-3 gap-4 flex items-center rounded-lg bg-backgroundGray"
@@ -186,6 +190,27 @@ const ProfilePageSwimmers = () => {
                 />
               </div>
             ))}
+            {data.data.associatedSwimmers.length === 0 && (
+              <>
+                <div className="flex flex-col gap-3 items-center">
+                  <div
+                    className="w-18 h-18 rounded-full bg-primary bg-opacity-[0.08] flex justify-center items-center text-primary"
+                    aria-hidden
+                  >
+                    <Icon name="groups" className="no-fill" />
+                  </div>
+                  <span className="font-semibold text-md">Nemáte priradené žiadne osoby.</span>
+                </div>
+                <div className="flex justify-center">
+                  <Button
+                    className="self-start"
+                    onClick={() => setAddEditSwimmerModal({ open: true })}
+                  >
+                    <Icon className="mr-2 no-fill" name="plus" color="white" /> Pridať
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

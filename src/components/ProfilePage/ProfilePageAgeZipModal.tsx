@@ -12,7 +12,7 @@ import { pick } from 'lodash'
 import { useValidationSchemaTranslationIfPresent } from '../../helpers/general'
 import Dialog from '../Dialog/Dialog'
 
-type ProfilePageAgeModalProps = {
+type ProfilePageAgeZipModalProps = {
   type: 'age' | 'zip'
   open: boolean
   user: User
@@ -21,36 +21,41 @@ type ProfilePageAgeModalProps = {
 
 type FormData = Partial<Pick<User, 'age' | 'zip'>>
 
-const validationSchemaAge = yup.object({
-  age: yup
-    .number()
-    .typeError('common.field-required')
-    .required('common.field-required')
-    .min(3, 'common.additional-info-toddlers')
-    .max(150, 'common.additional-info-tutanchamon'),
-})
-
-const validationSchemaZip = yup.object({
-  zip: yup.string().nullable(),
-})
-
-const getSchemeByType = (type: 'age' | 'zip') => {
-  if (type === 'age') {
-    return validationSchemaAge
-  }
-  if (type === 'zip') {
-    return validationSchemaZip
-  }
+const dataByType = {
+  age: {
+    schema: yup.object({
+      age: yup
+        .number()
+        .typeError('common.field-required')
+        .required('common.field-required')
+        .min(3, 'common.additional-info-toddlers')
+        .max(150, 'common.additional-info-tutanchamon'),
+    }),
+    title: 'Vek',
+    explanationSemiBold: 'Prečo potrebujeme váš vek?',
+    explanation:
+      'Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme vedeli lepšie prispôsobovať naše ponúkané služby.',
+  },
+  zip: {
+    schema: yup.object({
+      zip: yup.string().nullable(),
+    }),
+    title: 'PSČ',
+    explanationSemiBold: 'Prečo potrebujeme vaše PSČ?',
+    explanation:
+      'Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme vedeli lepšie prispôsobovať naše ponúkané služby.',
+  },
 }
 
-const ProfilePageAgeModal = ({ type, open, user, onClose }: ProfilePageAgeModalProps) => {
+const ProfilePageAgeZipModal = ({ type, open, user, onClose }: ProfilePageAgeZipModalProps) => {
+  const { schema, title, explanationSemiBold, explanation } = dataByType[type]
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(getSchemeByType(type)!),
+    resolver: yupResolver(schema),
     defaultValues: {
       ...pick(user, [type]),
     },
@@ -93,15 +98,12 @@ const ProfilePageAgeModal = ({ type, open, user, onClose }: ProfilePageAgeModalP
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
-      title={'Fotografia'}
+      title={title}
       className="max-w-[488px] container"
     >
       <div className="flex flex-col gap-1">
-        <span className="font-semibold">Prečo potrebujeme váš vek?</span>
-        <span>
-          Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme
-          vedeli lepšie prispôsobovať naše ponúkané služby.
-        </span>
+        <span className="font-semibold">{explanationSemiBold}</span>
+        <span>{explanation}</span>
         {type === 'age' && (
           <InputField
             name="age"
@@ -119,4 +121,4 @@ const ProfilePageAgeModal = ({ type, open, user, onClose }: ProfilePageAgeModalP
   )
 }
 
-export default ProfilePageAgeModal
+export default ProfilePageAgeZipModal

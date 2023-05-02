@@ -3,12 +3,12 @@ import { Icon, Spinner, Button } from '../index'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
 import { useAccount } from '@azure/msal-react'
-import ProfilePageAgeModal from './ProfilePageAgeModal'
+import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
 import { Button as AriaButton } from 'react-aria-components'
 import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 
 const ProfilePageUser = () => {
-  const { data, isLoading, isFetched } = useQuery('user', fetchUser)
+  const { data, isLoading, isError } = useQuery('user', fetchUser)
   const account = useAccount()
   const [isAgeModalOpen, setIsAgeModalOpen] = useState(false)
   const [isZipModalOpen, setIsZipModalOpen] = useState(false)
@@ -18,13 +18,13 @@ const ProfilePageUser = () => {
     <>
       {data && (
         <>
-          <ProfilePageAgeModal
+          <ProfilePageAgeZipModal
             type="age"
             user={data.data}
             open={isAgeModalOpen}
             onClose={() => setIsAgeModalOpen(false)}
           />
-          <ProfilePageAgeModal
+          <ProfilePageAgeZipModal
             type="zip"
             user={data.data}
             open={isZipModalOpen}
@@ -70,7 +70,7 @@ const ProfilePageUser = () => {
               <Button
                 className="self-start"
                 color="outlined"
-                disabled={!isFetched}
+                disabled={isLoading || isError}
                 onClick={() => setIsPhotoModalOpen(true)}
               >
                 <Icon className="mr-2 no-fill" name="upload" /> Nahrať fotku
@@ -82,7 +82,6 @@ const ProfilePageUser = () => {
             <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
               <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
                 <p>Meno a priezvisko</p>
-                {/*<UIPomoc className="w-6 " />*/}
               </div>
               <p>
                 {account?.idTokenClaims?.given_name} {account?.idTokenClaims?.family_name}
@@ -91,7 +90,6 @@ const ProfilePageUser = () => {
             <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
               <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
                 <p>E-mail</p>
-                {/*<UIPomoc className="w-6 " />*/}
               </div>
               <p>{account?.username}</p>
             </div>
@@ -108,19 +106,23 @@ const ProfilePageUser = () => {
                 <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
                   <p>Vek</p>
                 </div>
-                <p className="grow">{data.data.age}</p>
-                <AriaButton onPress={() => setIsAgeModalOpen(true)} aria-label="Upraviť vek">
-                  <Icon name="pencil" className="no-fill" />
-                </AriaButton>
+                <div className="flex grow">
+                  <p className="grow">{data.data.age}</p>
+                  <AriaButton onPress={() => setIsAgeModalOpen(true)} aria-label="Upraviť vek">
+                    <Icon name="pencil" className="no-fill" />
+                  </AriaButton>
+                </div>
               </div>
               <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
                 <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
                   <p>PSČ</p>
                 </div>
-                <p className="grow">{data.data.zip}</p>
-                <AriaButton onPress={() => setIsZipModalOpen(true)} aria-label="Upraviť PSČ">
-                  <Icon name="pencil" className="no-fill" />
-                </AriaButton>
+                <div className="flex grow">
+                  <p className="grow">{data.data.zip}</p>
+                  <AriaButton onPress={() => setIsZipModalOpen(true)} aria-label="Upraviť PSČ">
+                    <Icon name="pencil" className="no-fill" />
+                  </AriaButton>
+                </div>
               </div>
             </>
           )}

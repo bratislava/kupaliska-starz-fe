@@ -21,6 +21,7 @@ import { ReactComponent as EuroCoinIcon } from '../../assets/icons/euro-coin.svg
 import { ReactComponent as FacebookLogoIcon } from '../../assets/icons/facebook-logo.svg'
 import { ReactComponent as FoodIcon } from '../../assets/icons/food.svg'
 import { ReactComponent as FootballIcon } from '../../assets/icons/football.svg'
+import { ReactComponent as GroupsIcon } from '../../assets/icons/groups.svg'
 import { ReactComponent as HashtagIcon } from '../../assets/icons/hashtag.svg'
 import { ReactComponent as InfoIcon } from '../../assets/icons/info.svg'
 import { ReactComponent as InstagramLogoIcon } from '../../assets/icons/instagram-logo.svg'
@@ -73,6 +74,7 @@ const iconMap = {
   'facebook-logo': FacebookLogoIcon,
   food: FoodIcon,
   football: FootballIcon,
+  groups: GroupsIcon,
   hashtag: HashtagIcon,
   info: InfoIcon,
   'instagram-logo': InstagramLogoIcon,

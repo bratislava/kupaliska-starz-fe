@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Button, Icon, Modal, ProfileNavBar } from 'components'
+import { Button, Icon, Modal, ProfileNavBar, Spinner } from 'components'
 import { useTranslation } from 'react-i18next'
 import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
 import cx from 'classnames'
@@ -344,7 +344,7 @@ const TicketsManagementPage = () => {
       activeTicketsRows,
       usedTicketsRows,
     }
-  }, [ticketsQuery.data])
+  }, [t, ticketsQuery.data])
 
   const handleModalClose = () => {
     setOpenedTicketDetail(null)
@@ -363,6 +363,11 @@ const TicketsManagementPage = () => {
         <div className="container mx-auto">
           <ProfileLine></ProfileLine>
         </div>
+        {ticketsQuery.isLoading && (
+          <div className="flex justify-center p-6">
+            <Spinner />
+          </div>
+        )}
         {dataMapped && (
           <>
             {dataMapped.hasActiveTickets && (

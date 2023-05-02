@@ -38,7 +38,7 @@ const Dialog = ({
         <AriaDialog className="bg-white rounded-lg flex flex-col max-h-screen">
           <div className="flex flex-row items-center justify-between gap-6 px-6 py-4 border-b-2 border-b-divider">
             <Heading className="text-gray-800 text-xl font-semibold">{title}</Heading>
-            <Button onPress={() => onClose()}>
+            <Button onPress={() => onClose()} aria-label="Zatvoriť">
               <Icon name="close" className="no-fill" />
             </Button>
           </div>
