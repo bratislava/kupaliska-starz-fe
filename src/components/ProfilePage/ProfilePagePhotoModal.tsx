@@ -80,7 +80,7 @@ const ProfilePagePhotoModal = ({ open, user, onClose }: ProfilePagePhotoModalPro
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
       title={'Nahrať fotografiu'}
-      className="max-w-[488px] container"
+      className="max-w-[488px]"
     >
       <div className="flex flex-col gap-1">
         <PhotoField

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AssociatedSwimmerEditAddForm, Button, Icon, Spinner } from '../index'
+import { Button, Icon, Spinner } from '../index'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   AssociatedSwimmer,
@@ -10,52 +10,22 @@ import {
 import ThreeDots from '../ThreeDots/ThreeDots'
 import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
-import PersonComponent, { PersonComponentMode } from '../PersonComponent/PersonComponent'
 import Dialog from '../Dialog/Dialog'
 import cx from 'classnames'
-
-const OrderPageCreateSwimmerModal = ({
-  open = false,
-  swimmer,
-  onClose,
-  onAdd,
-}: {
-  open: boolean
-  swimmer?: AssociatedSwimmer
-  onClose: () => void
-  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void
-}) => {
-  const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
-    onAdd(addedSwimmer)
-    onClose()
-  }
-
-  return (
-    <Dialog
-      title={swimmer ? 'Upraviť osobu' : 'Pridať osobu'}
-      open={open}
-      onClose={onClose}
-      className="w-full lg:w-7/12"
-    >
-      <AssociatedSwimmerEditAddForm
-        onSaveSuccess={handleSaveSuccess}
-        swimmer={swimmer}
-      ></AssociatedSwimmerEditAddForm>
-    </Dialog>
-  )
-}
+import AssociatedSwimmerEditAddFormModal from '../AssociatedSwimmerEditAddForm/AssociatedSwimmerEditAddFormModal'
+import Photo from '../Photo/Photo'
+import { useTranslation } from 'react-i18next'
 
 const DeleteAssociatedSwimmerModal = ({
-  open = false,
   onClose,
-  person = null,
+  person,
 }: {
-  open: boolean
   onClose: any
-  person: AssociatedSwimmer | null
+  person: AssociatedSwimmer
 }) => {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
-  const mutation = useMutation(() => deleteAssociatedSwimmer(person!.id!), {
+  const mutation = useMutation(() => deleteAssociatedSwimmer(person.id!), {
     onSuccess: () => {
       // Update data to see edited content before the refetch.
       queryClient.setQueryData<AxiosResponse<AssociatedSwimmerFetchResponse> | undefined>(
@@ -67,7 +37,7 @@ const DeleteAssociatedSwimmerModal = ({
 
           return produce(old, (draft) => {
             draft.data.associatedSwimmers = old.data.associatedSwimmers.filter(
-              (swimmerFromList) => swimmerFromList.id !== person!.id,
+              (swimmerFromList) => swimmerFromList.id !== person.id,
             )
           })
         },
@@ -83,18 +53,20 @@ const DeleteAssociatedSwimmerModal = ({
   return (
     <Dialog
       title="Odstrániť z profilu"
-      open={open}
+      open={true}
       onClose={onClose}
       footerButton={<Button onClick={handleRemove}>Odstrániť</Button>}
+      className="max-w-[488px]"
     >
       <div className="flex flex-col gap-4">
         <span>Naozaj chcete odstrániť túto osobu z vášho profilu?</span>
-        {person && (
-          <PersonComponent
-            person={person}
-            mode={PersonComponentMode.DisplayWithDescription}
-          ></PersonComponent>
-        )}
+        <div className="flex flex-col gap-1 items-center">
+          <Photo size="normal" photo={person.image} />
+          <div className="mt-2">
+            {person.firstname} {person.lastname}
+          </div>
+          <div>{t('person-component.age', { age: person.age })}</div>
+        </div>
       </div>
     </Dialog>
   )
@@ -116,18 +88,18 @@ const ProfilePageSwimmers = () => {
 
   return (
     <>
-      <OrderPageCreateSwimmerModal
-        open={addEditSwimmerModal.open}
-        swimmer={addEditSwimmerModal.swimmer}
-        onClose={() => setAddEditSwimmerModal({ open: false })}
-        onAdd={() => {}}
-      />
-
-      <DeleteAssociatedSwimmerModal
-        open={Boolean(swimmerToDelete)}
-        onClose={handleDeleteSwimmerModalClose}
-        person={swimmerToDelete}
-      ></DeleteAssociatedSwimmerModal>
+      {addEditSwimmerModal.open && (
+        <AssociatedSwimmerEditAddFormModal
+          swimmer={addEditSwimmerModal.swimmer}
+          onClose={() => setAddEditSwimmerModal({ open: false })}
+        />
+      )}
+      {swimmerToDelete && (
+        <DeleteAssociatedSwimmerModal
+          onClose={handleDeleteSwimmerModalClose}
+          person={swimmerToDelete}
+        ></DeleteAssociatedSwimmerModal>
+      )}
 
       <div className="inline-flex flex-col rounded-lg bg-white lg:col-span-5">
         <div className="px-6 py-4 gap-6 flex border-b-2 border-b-divider">
@@ -159,12 +131,7 @@ const ProfilePageSwimmers = () => {
                 className="px-4 py-3 gap-4 flex items-center rounded-lg bg-backgroundGray"
                 key={swimmer.id}
               >
-                <div
-                  className="h-14 w-12 bg-cover bg-center rounded-lg bg-backgroundGray shrink-0"
-                  style={{
-                    backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
-                  }}
-                ></div>
+                <Photo size="small" photo={swimmer.image} />
                 <div className="flex flex-col flex-grow">
                   <p className="font-semibold">
                     {swimmer.firstname} {swimmer.lastname}

@@ -99,7 +99,7 @@ const ProfilePageAgeZipModal = ({ type, open, user, onClose }: ProfilePageAgeZip
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
       title={title}
-      className="max-w-[488px] container"
+      className="max-w-[488px]"
     >
       <div className="flex flex-col gap-1">
         <span className="font-semibold">{explanationSemiBold}</span>

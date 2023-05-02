@@ -2,6 +2,7 @@ import React, { cloneElement, PropsWithChildren, ReactElement, ReactNode } from 
 import { Button, Dialog as AriaDialog, Heading, Modal } from 'react-aria-components'
 
 import { Icon } from '../index'
+import cx from 'classnames'
 
 type DialogProps = {
   title: string
@@ -30,12 +31,12 @@ const Dialog = ({
           onClose()
         }
       }}
-      className={className}
+      className={cx('container px-0 m-2', className)}
     >
       {cloneElement(
         wrapper,
         {},
-        <AriaDialog className="bg-white rounded-lg flex flex-col max-h-screen">
+        <AriaDialog className="bg-white rounded-lg flex flex-col max-h-[calc(100vh-8px)] max-w-[calc(100vw-8px)]">
           <div className="flex flex-row items-center justify-between gap-6 px-6 py-4 border-b-2 border-b-divider">
             <Heading className="text-gray-800 text-xl font-semibold">{title}</Heading>
             <Button onPress={() => onClose()} aria-label="Zatvoriť">

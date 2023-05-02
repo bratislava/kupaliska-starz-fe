@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Icon, Spinner, Button } from '../index'
+import { Button, Icon, Spinner } from '../index'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
 import { useAccount } from '@azure/msal-react'
 import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
 import { Button as AriaButton } from 'react-aria-components'
 import ProfilePagePhotoModal from './ProfilePagePhotoModal'
+import Photo from '../Photo/Photo'
 
 const ProfilePageUser = () => {
   const { data, isLoading, isError } = useQuery('user', fetchUser)
@@ -52,12 +53,7 @@ const ProfilePageUser = () => {
         </div>
         <div className="gap-6 flex flex-col p-6">
           <div className="gap-6 flex flex-col sm:flex-row">
-            <div
-              className="gap-2.5 flex justify-center items-center rounded-lg p-2.5 w-[132px] h-[156px] bg-backgroundGray [box-shadow:0px_0px_0px_2px_rgba(214,_214,_214,_1)_inset] [box-shadow-width:2px]"
-              style={{
-                backgroundImage: data?.data.image ? `url(${data?.data.image})` : undefined,
-              }}
-            ></div>
+            <Photo photo={data?.data.image} size="normal" />
             <div className="flex flex-col gap-4">
               <div className="gap-1 flex flex-col">
                 <p className="font-semibold">Fotografia</p>

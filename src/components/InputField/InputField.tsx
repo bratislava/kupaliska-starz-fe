@@ -2,6 +2,7 @@ import React, { ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
 import './InputField.css'
+import cx from 'classnames'
 
 interface InputProps {
   type?: 'text' | 'number' | 'email' | 'password'
@@ -26,6 +27,7 @@ interface InputProps {
   shouldUnregister?: boolean
   max?: number
   valueAsNumber?: boolean
+  newLabel?: boolean
 }
 
 const InputField = ({
@@ -47,33 +49,36 @@ const InputField = ({
   shouldUnregister = false,
   max,
   valueAsNumber,
+  newLabel = false,
 }: InputProps) => {
   const [focused, setFocus] = useState<boolean>(false)
   const registerValues: UseFormRegisterReturn | undefined = useMemo(
     () => (register ? register(name, { shouldUnregister, valueAsNumber }) : undefined),
-    [register, name, shouldUnregister],
+    [register, name, shouldUnregister, valueAsNumber],
   )
-  let inputClasses = ''
-  let inputWrapperClasses = ''
-  let labelClasses = ''
-  if (error !== undefined) {
-    inputWrapperClasses = 'border-error text-error'
-    inputClasses = 'placeholder-error text-error'
-    labelClasses = 'text-error font-medium text-xl mb-3'
-  } else if (focused) {
-    inputWrapperClasses = 'border-primary text-primary'
-    inputClasses = 'text-fontBlack'
-    labelClasses = 'text-primary font-medium text-xl'
-  } else {
-    inputWrapperClasses = 'border-2-softGray text-fontBlack text-opacity-10'
-    inputClasses = 'text-fontBlack'
-    labelClasses = 'text-fontBlack font-medium text-xl'
-  }
+
+  const inputClasses = cx({
+    'placeholder-error text-error': error !== undefined,
+    'text-fontBlack': !error,
+  })
+
+  const inputWrapperClasses = cx({
+    'border-error text-error': error !== undefined,
+    'border-primary text-primary': !error && focused,
+    'border-2-softGray text-fontBlack text-opacity-10': !error && !focused,
+  })
+
+  const labelClasses = cx(newLabel ? 'font-semibold mb-1' : 'font-medium text-xl mb-3', {
+    'text-error': error !== undefined,
+    'text-primary': !error && focused,
+    'text-fontBlack': !error && !focused,
+  })
+
   return (
     <div className={`flex-col w-full ${className}`}>
       {label && (
-        <div className="mb-3">
-          <label className={`font-medium ${labelClasses}`}>{label}</label>
+        <div>
+          <label className={labelClasses}>{label}</label>
         </div>
       )}
       <div

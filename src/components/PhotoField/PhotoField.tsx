@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
 import Resizer from 'react-image-file-resizer'
 
-import { Icon, PersonComponent, Typography } from 'components'
+import { Icon } from 'components'
 import Button from 'components/Button/Button'
-import { PersonComponentMode } from '../PersonComponent/PersonComponent'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import Photo from '../Photo/Photo'
 
 interface PhotoFieldProps {
   setValue?: any
@@ -73,14 +73,9 @@ const PhotoField = ({
 
   return (
     <div>
-      <div className="flex gap-x-8 gap-y-4 flex-col sm:flex-row">
+      <div className="flex gap-4 flex-col sm:flex-row">
         <div>
-          <PersonComponent
-            person={{ image }}
-            mode={PersonComponentMode.DisplayOnlyPhoto}
-            onPersonClick={openImageInput}
-            errorBorder={Boolean(get(errors, 'image.message'))}
-          ></PersonComponent>
+          <Photo photo={image} size="normal" onClick={openImageInput} className="curser-pointer" />
           {get(errors, 'image.message') && (
             <div className="text-error">{errorInterpretedImage}</div>
           )}
