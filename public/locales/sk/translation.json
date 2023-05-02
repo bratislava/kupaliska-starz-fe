@@ -219,6 +219,7 @@
     "message": "Správa",
     "recaptcha": "Táto stránka je chránená reCAPTCHA a platia pravidlá <a className='link text-primary' target='_blank' rel='noreferrer' href='https://policies.google.com/privacy'> ochrany súkromia</a> a <a className='link text-primary' target='_blank' rel='noreferrer' href='https://policies.google.com/terms' > použitia služby</a> od Google.",
     "gdpr-info": "Bližšie informácie o spracúvaní osobných údajov nájdete <Link to='/gdpr' className='link text-primary'> tu</Link>.",
+    "captchaWarning": "Nepodarilo sa overiť, či nie ste robot. Ak sa formulár nedá odoslať, vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).",
     "send-message": "Odoslať správu ",
     "alt-img-text": "Nahradny obrazok kupaliska",
     "less-info": "Menej info",
