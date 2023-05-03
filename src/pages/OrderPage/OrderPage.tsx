@@ -1,16 +1,7 @@
 import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  AssociatedSwimmerEditAddForm,
-  Button,
-  CheckboxField,
-  Icon,
-  InputField,
-  Modal,
-  Tooltip,
-} from '../../components'
+import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { useWindowSize } from '../../hooks'
 import cx from 'classnames'
-import PeopleList, { PeopleListMode } from '../../components/PeopleList/PeopleList'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
@@ -43,35 +34,9 @@ import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { environment } from '../../environment'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import Turnstile from 'react-turnstile'
-
-const OrderPageCreateSwimmerModal = ({
-  open = false,
-  onClose,
-  onAdd,
-}: {
-  open: boolean
-  onClose: () => void
-  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void
-}) => {
-  const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
-    onAdd(addedSwimmer)
-    onClose()
-  }
-
-  return (
-    <Modal open={open} onClose={onClose} closeButton={true}>
-      <div
-        className="block bg-white rounded-lg p-10 text-primary shadow-lg modal-with-close-width-screen"
-        style={{ maxWidth: '1100px' }}
-      >
-        <AssociatedSwimmerEditAddForm
-          onSaveSuccess={handleSaveSuccess}
-        ></AssociatedSwimmerEditAddForm>
-      </div>
-    </Modal>
-  )
-}
+import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -82,9 +47,7 @@ const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
 }
 
 const NumberedLayoutLine = ({ className }: { className?: string }) => (
-  <div
-    className={cx('border border-fontBlack border-3 opacity-10 grow h-0 w-full', className)}
-  ></div>
+  <div className={cx('border border-fontBlack opacity-10 grow h-0 w-full', className)}></div>
 )
 
 /* Creates this effect https://imgur.com/TLn9kOW */
@@ -218,7 +181,7 @@ const OrderPagePeopleList = ({
   const account = useAccount()
   const { dispatchErrorToast } = useErrorToast()
 
-  /* Merges the list of associated swimmers with the logged in user. */
+  /* Merges the list of associated swimmers with the logged-in user. */
   const mergedSwimmers = useMemo(() => {
     return (
       associatedSwimmersQuery.data &&
@@ -261,30 +224,22 @@ const OrderPagePeopleList = ({
     }
   }
 
-  const handleAddSwimmerClick = () => {
-    setAddSwimmerModalOpen(true)
-  }
-
-  const handleAddSwimmerClose = () => {
-    setAddSwimmerModalOpen(false)
-  }
-
   return (
     <>
-      <OrderPageCreateSwimmerModal
-        open={addSwimmerModalOpen}
-        onClose={handleAddSwimmerClose}
-        onAdd={handleSelectSwimmer}
-      ></OrderPageCreateSwimmerModal>
+      {addSwimmerModalOpen && (
+        <AssociatedSwimmerEditAddModal
+          onClose={() => setAddSwimmerModalOpen(false)}
+          onSaveSuccess={handleSelectSwimmer}
+        ></AssociatedSwimmerEditAddModal>
+      )}
 
       {mergedSwimmers && (
-        <PeopleList
-          people={mergedSwimmers as AssociatedSwimmer[]}
-          onAddClick={handleAddSwimmerClick}
-          onPersonClick={handleSelectSwimmer}
-          mode={PeopleListMode.OrderPageSelection}
-          selectedPeopleIds={selectedSwimmerIds}
-        ></PeopleList>
+        <OrderPageSwimmersList
+          selectedSwimmerIds={selectedSwimmerIds}
+          swimmers={mergedSwimmers}
+          onSelectSwimmer={handleSelectSwimmer}
+          onAddSwimmer={() => setAddSwimmerModalOpen(true)}
+        />
       )}
 
       <div className="text-error px-2 text-sm">
@@ -487,7 +442,7 @@ const OrderPageSummary = ({
     <div className="rounded-lg bg-white shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
       <div className="p-8">
         <div className="font-semibold text-2xl">
-          {hasTicketAmount && `${watchTicketAmount}x `}
+          {hasTicketAmount && `${watchTicketAmount}× `}
           {ticket.name}
         </div>
         {ticket.childrenAllowed && (
