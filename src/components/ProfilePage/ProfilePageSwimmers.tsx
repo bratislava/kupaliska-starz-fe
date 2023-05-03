@@ -12,9 +12,9 @@ import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
 import cx from 'classnames'
-import AssociatedSwimmerEditAddFormModal from '../AssociatedSwimmerEditAddForm/AssociatedSwimmerEditAddFormModal'
 import Photo from '../Photo/Photo'
 import { useTranslation } from 'react-i18next'
+import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 
 const DeleteAssociatedSwimmerModal = ({
   onClose,
@@ -84,12 +84,12 @@ const ProfilePageSwimmers = () => {
     setSwimmerToDelete(null)
   }
 
-  const { data, isLoading, isFetched } = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
+  const { data, isLoading } = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
 
   return (
     <>
       {addEditSwimmerModal.open && (
-        <AssociatedSwimmerEditAddFormModal
+        <AssociatedSwimmerEditAddModal
           swimmer={addEditSwimmerModal.swimmer}
           onClose={() => setAddEditSwimmerModal({ open: false })}
         />

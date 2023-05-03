@@ -76,8 +76,14 @@ const PhotoField = ({
   return (
     <div>
       <div className="flex gap-4 flex-col sm:flex-row">
-        <div>
-          <Photo photo={image} size="normal" onClick={openImageInput} className="curser-pointer" />
+        <div className="sm:max-w-[132px]">
+          <Photo
+            photo={image}
+            size="normal"
+            onClick={openImageInput}
+            className="curser-pointer"
+            error={Boolean(get(errors, 'image.message'))}
+          />
           {get(errors, 'image.message') && (
             <div className="text-error">{errorInterpretedImage}</div>
           )}

@@ -1,13 +1,5 @@
 import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  AssociatedSwimmerEditAddForm,
-  Button,
-  CheckboxField,
-  Icon,
-  InputField,
-  Modal,
-  Tooltip,
-} from '../../components'
+import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { useWindowSize } from '../../hooks'
 import cx from 'classnames'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
@@ -41,35 +33,8 @@ import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { environment } from '../../environment'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import { Checkbox, Button as AriaButton } from 'react-aria-components'
-
-const OrderPageCreateSwimmerModal = ({
-  open = false,
-  onClose,
-  onAdd,
-}: {
-  open: boolean
-  onClose: () => void
-  onAdd: (addedSwimmer: Partial<AssociatedSwimmer>) => void
-}) => {
-  const handleSaveSuccess = (addedSwimmer: Partial<AssociatedSwimmer>) => {
-    onAdd(addedSwimmer)
-    onClose()
-  }
-
-  return (
-    <Modal open={open} onClose={onClose} closeButton={true}>
-      <div
-        className="block bg-white rounded-lg p-10 text-primary shadow-lg modal-with-close-width-screen"
-        style={{ maxWidth: '1100px' }}
-      >
-        <AssociatedSwimmerEditAddForm
-          onSaveSuccess={handleSaveSuccess}
-        ></AssociatedSwimmerEditAddForm>
-      </div>
-    </Modal>
-  )
-}
+import { Button as AriaButton, Checkbox } from 'react-aria-components'
+import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -80,9 +45,7 @@ const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
 }
 
 const NumberedLayoutLine = ({ className }: { className?: string }) => (
-  <div
-    className={cx('border border-fontBlack border-3 opacity-10 grow h-0 w-full', className)}
-  ></div>
+  <div className={cx('border border-fontBlack opacity-10 grow h-0 w-full', className)}></div>
 )
 
 /* Creates this effect https://imgur.com/TLn9kOW */
@@ -216,7 +179,7 @@ const OrderPagePeopleList = ({
   const account = useAccount()
   const { dispatchErrorToast } = useErrorToast()
 
-  /* Merges the list of associated swimmers with the logged in user. */
+  /* Merges the list of associated swimmers with the logged-in user. */
   const mergedSwimmers = useMemo(() => {
     return (
       associatedSwimmersQuery.data &&
@@ -232,8 +195,7 @@ const OrderPagePeopleList = ({
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [associatedSwimmersQuery.data, userQuery.data])
+  }, [associatedSwimmersQuery.data, userQuery.data, account?.idTokenClaims])
 
   const error = associatedSwimmersQuery.error || userQuery.error
 
@@ -259,21 +221,13 @@ const OrderPagePeopleList = ({
     }
   }
 
-  const handleAddSwimmerClick = () => {
-    setAddSwimmerModalOpen(true)
-  }
-
-  const handleAddSwimmerClose = () => {
-    setAddSwimmerModalOpen(false)
-  }
-
   return (
     <>
       {addSwimmerModalOpen && (
-        <AssociatedSwimmerEditAddForm
-          onClose={handleAddSwimmerClose}
+        <AssociatedSwimmerEditAddModal
+          onClose={() => setAddSwimmerModalOpen(false)}
           onSaveSuccess={handleSelectSwimmer}
-        ></AssociatedSwimmerEditAddForm>
+        ></AssociatedSwimmerEditAddModal>
       )}
 
       {mergedSwimmers && (

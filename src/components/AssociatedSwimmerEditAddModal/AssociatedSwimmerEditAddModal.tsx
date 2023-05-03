@@ -21,6 +21,11 @@ import Dialog from '../Dialog/Dialog'
 
 type FormData = Partial<Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'age' | 'zip'>>
 
+type AssociatedSwimmerEditAddFormModalProps = {
+  swimmer?: AssociatedSwimmer | null
+  onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void
+  onClose?: () => void
+}
 const validationSchema = yup.object({
   firstname: yup.string().required('common.field-required'),
   lastname: yup.string().required('common.field-required'),
@@ -33,15 +38,11 @@ const validationSchema = yup.object({
     .max(150, 'common.additional-info-tutanchamon'),
   zip: yup.string().nullable(),
 })
-export const AssociatedSwimmerEditAddForm = ({
+export const AssociatedSwimmerEditAddModal = ({
   swimmer,
-  onClose = () => {},
   onSaveSuccess = () => {},
-}: {
-  onClose?: () => void
-  swimmer?: AssociatedSwimmer | null
-  onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void
-}) => {
+  onClose = () => {},
+}: AssociatedSwimmerEditAddFormModalProps) => {
   const { t } = useTranslation()
   // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
   const [photo, setPhoto] = useState<string | null>()
@@ -123,16 +124,9 @@ export const AssociatedSwimmerEditAddForm = ({
 
   return (
     <Dialog
-      title={swimmer ? 'Upraviť osobu' : 'Pridať osobu'}
-      footerButton={
-        <Button htmlType="submit">
-          {t('profile.save')}
-          <Icon className="ml-4" name="arrow-left" />
-        </Button>
-      }
+      title={swimmer ? 'Upraviť osobu' : 'Nová osoba'}
       open={true}
-      onClose={onClose}
-      className="max-w-[800px] container"
+      footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={
         <form
           onSubmit={handleSubmit(onSubmit, (err) => {
@@ -140,55 +134,60 @@ export const AssociatedSwimmerEditAddForm = ({
           })}
         />
       }
+      className="max-w-[800px]"
+      onClose={onClose}
     >
-      <div>
-        <InputField
-          className="col-span-2 lg:col-span-1 max-w-formMax"
-          name="firstname"
-          register={register}
-          label={t('person-add.firstname')}
-          error={errorInterpretedFirstname}
-        />
-        <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
-          name="lastname"
-          register={register}
-          label={t('person-add.lastname')}
-          error={errorInterpretedLastname}
-        />
-        <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
-          name="age"
-          register={register}
-          label={t('person-add.age')}
-          error={errorInterpretedAge}
-          type="number"
-          valueAsNumber={true}
-        />
-        <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
-          name="zip"
-          register={register}
-          label={t('person-add.zip')}
-          error={errorInterpretedZip}
-        />
-      </div>
-      <div className="flex flex-col mt-6 lg:mt-0">
-        <Typography type="subtitle" fontWeight="medium" className="mb-3">
-          {t('buy-page.photo-title')}
-        </Typography>
-        <PhotoField
-          setValue={setValue}
-          setError={setError}
-          clearErrors={clearErrors}
-          errors={errors}
-          onPhotoSet={setPhoto}
-          image={photo}
-          showLabel
-        ></PhotoField>
+      <div className="flex flex-col gap-12">
+        <div>
+          <PhotoField
+            setValue={setValue}
+            setError={setError}
+            clearErrors={clearErrors}
+            errors={errors}
+            onPhotoSet={setPhoto}
+            image={photo}
+            showLabel
+          ></PhotoField>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <InputField
+            className="col-span-1 lg:col-span-2 max-w-formMax"
+            name="firstname"
+            register={register}
+            label={t('person-add.firstname')}
+            error={errorInterpretedFirstname}
+            newLabel
+          />
+          <InputField
+            className="col-span-1 lg:col-span-2 max-w-formMax"
+            name="lastname"
+            register={register}
+            label={t('person-add.lastname')}
+            error={errorInterpretedLastname}
+            newLabel
+          />
+          <InputField
+            className="col-span-1 lg:col-span-1 max-w-formMax"
+            name="age"
+            register={register}
+            label={t('person-add.age')}
+            error={errorInterpretedAge}
+            type="number"
+            valueAsNumber={true}
+            newLabel
+          />
+          <InputField
+            className="col-span-1 lg:col-span-1 max-w-formMax"
+            name="zip"
+            register={register}
+            label={t('person-add.zip')}
+            error={errorInterpretedZip}
+            newLabel
+          />
+        </div>
       </div>
     </Dialog>
   )
 }
 
-export default AssociatedSwimmerEditAddForm
+export default AssociatedSwimmerEditAddModal
