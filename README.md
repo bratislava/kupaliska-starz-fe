@@ -22,8 +22,8 @@ For additional informaion about VPN, please contact Martin Pinter or Patrik Kadl
 
 #### Recaptcha
 
-To make recaptcha work properly, you need to set `VITE_RECAPTCHA_CLIENT_SECRET` variable from [reCAPTCHA Enterprise](https://console.cloud.google.com/security/recaptcha). From there use the `kupaliska.bratislava.sk` key. (It's same key as or backend)
-To get the credentials to login, please contact Martin Pintner or Patrik Kadlcik
+To make recaptcha work properly, you need to set `RECAPTCHA_CLIENT_SECRET` variable from [cloudflare](https://dash.cloudflare.com/d22f6ea707b439784e5300382443257b/turnstile). From there use the `kupaliska.bratislava.sk` site key.
+To get the credentials to login, please contact Martin Pinter.
 
 ### Start the app
 
