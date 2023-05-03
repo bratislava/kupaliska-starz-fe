@@ -37,6 +37,7 @@ export interface CustomerInfoFormValues {
   }[]
   agreement: boolean
   discountCodeEnabled: boolean
+  recaptchaToken: string
 }
 
 export interface OrderRequest {
@@ -55,7 +56,7 @@ export interface OrderRequest {
     }[]
   }[]
   agreement: boolean
-  recaptcha: string
+  token: string
 }
 
 export interface CartItem {

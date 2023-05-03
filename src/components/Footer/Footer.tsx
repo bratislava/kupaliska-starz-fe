@@ -10,7 +10,7 @@ const Footer = () => {
 
   // Don't show top margin on home page as it handles its own positioning and has a different background (white).
   // TODO: Find better solution.
-  const showTopMargin = location.pathname !== '/'
+  const showTopMargin = location.pathname !== '/' && location.pathname !== '/order-result'
 
   return (
     <div className={cx('w-full bg-blueish', { 'mt-4 md:mt-24': showTopMargin })}>

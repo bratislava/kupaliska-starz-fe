@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import { Icon, InputField, Button } from 'components'
 import { useAppDispatch } from 'hooks'
 import { sendContactFormActions } from 'store/global'
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import Turnstile from 'react-turnstile'
 import { Trans, useTranslation } from 'react-i18next'
 
 const formRules = yup.object().shape({
@@ -21,18 +21,20 @@ export interface ContactFormValues {
   name: string
   email: string
   message: string
+  recaptchaToken: string
 }
 
 const ContactForm = () => {
   const dispatch = useAppDispatch()
   const [sending, setSending] = useState<boolean>(false)
   const { t } = useTranslation()
-  const { executeRecaptcha } = useGoogleReCaptcha()
+  const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<ContactFormValues>({
     mode: 'onChange',
     resolver: yupResolver(formRules),
@@ -40,25 +42,16 @@ const ContactForm = () => {
 
   const onSubmit = (values: ContactFormValues) => {
     setSending(true)
-    executeRecaptcha &&
-      executeRecaptcha('contact_form')
-        .then(
-          (token) => {
-            dispatch(
-              sendContactFormActions({
-                formData: values,
-                recaptchaToken: token,
-              }),
-            ).then((resp) => {
-              if (resp.meta.requestStatus === 'fulfilled') {
-                reset()
-              }
-              setSending(false)
-            })
-          },
-          () => setSending(false),
-        )
-        .catch(() => setSending(false))
+    dispatch(
+      sendContactFormActions({
+        formData: values,
+      }),
+    ).then((resp) => {
+      if (resp.meta.requestStatus === 'fulfilled') {
+        reset()
+      }
+      setSending(false)
+    })
   }
 
   return (
@@ -93,6 +86,39 @@ const ContactForm = () => {
       <span className="col-span-full font-medium">
         <Trans i18nKey="landing.gdpr-info" components={{ Link: <Link to="/gdpr" /> }} />
       </span>
+
+      <Controller
+        name="recaptchaToken"
+        control={control}
+        render={({ field: { onChange } }) => (
+          <>
+            <Turnstile
+              theme="light"
+              sitekey={import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY ?? ''}
+              onVerify={(token) => {
+                setCaptchaWarning('hide')
+                onChange(token)
+              }}
+              onError={(error) => {
+                // logger.error("Turnstile error:", error);
+                setCaptchaWarning('show')
+                return onChange(null)
+              }}
+              onTimeout={() => {
+                // logger.error("Turnstile timeout");
+                setCaptchaWarning('show')
+                onChange(null)
+              }}
+              onExpire={() => {
+                // logger.warn("Turnstile expire - should refresh automatically");
+                onChange(null)
+              }}
+              className="mb-2 self-center"
+            />
+            {captchaWarning === 'show' && <p className="text-p3 italic">{t('captchaWarning')}</p>}
+          </>
+        )}
+      />
       <Button
         disabled={sending}
         className="col-span-full lg:col-span-1"

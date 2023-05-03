@@ -53,14 +53,12 @@ export const initPageGlobalState = createAsyncThunk(
 )
 export const sendContactFormActions = createAsyncThunk(
   'global/sendContactForm',
-  async (
-    values: { formData: ContactFormValues; recaptchaToken: string },
-    { rejectWithValue, dispatch },
-  ) => {
+  async (values: { formData: ContactFormValues }, { rejectWithValue, dispatch }) => {
     try {
+      const { recaptchaToken, ...restFormData } = values.formData
       const { status, data } = await sendContactForm({
-        ...values.formData,
-        recaptcha: values.recaptchaToken,
+        ...restFormData,
+        token: recaptchaToken,
         agreement: true,
       })
       dispatch(

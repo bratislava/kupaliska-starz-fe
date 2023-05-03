@@ -4,7 +4,6 @@ export const orderFormValuesToOrderRequest = (form: {
   customer: CustomerInfoFormValues
   cartItem: CartItem
   photos: { photo?: string; childrenPhotos?: string[] }
-  recaptchaToken: string
   discountCodeState?: DiscountCodeState
 }): OrderRequest => ({
   tickets: [
@@ -37,7 +36,7 @@ export const orderFormValuesToOrderRequest = (form: {
     },
   ],
   agreement: form.customer.agreement,
-  recaptcha: form.recaptchaToken,
+  token: form.customer.recaptchaToken,
   ...(form.discountCodeState &&
     form.discountCodeState.status === 'OK' && { discountCode: form.discountCodeState.code }),
 })
