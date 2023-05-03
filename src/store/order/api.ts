@@ -18,12 +18,8 @@ export interface FinalOrderTicket {
 }
 
 export interface FinalOrderResponse {
-  data: {
-    payload: {
-      tickets: FinalOrderTicket[]
-      pdf: string
-    }
-  }
+  tickets: FinalOrderTicket[]
+  pdf: string
 }
 
 export function getFinalOrder(orderId: string, accessToken: string) {
