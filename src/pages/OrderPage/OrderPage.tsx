@@ -779,7 +779,7 @@ const OrderPage = () => {
                 <>
                   <Turnstile
                     theme="light"
-                    sitekey={import.meta.env.RECAPTCHA_CLIENT_SECRET ?? ''}
+                    sitekey={import.meta.env.VITE_RECAPTCHA_CLIENT_SECRET ?? ''}
                     onVerify={(token) => {
                       setCaptchaWarning('hide')
                       onChange(token)
