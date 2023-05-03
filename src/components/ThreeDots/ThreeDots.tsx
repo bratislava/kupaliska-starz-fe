@@ -1,5 +1,5 @@
 import React from 'react'
-import { DialogTrigger, Button, Popover, Dialog } from 'react-aria-components'
+import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
 import { Icon } from '../index'
 import { IconName } from '../Icon/Icon'
 import cx from 'classnames'

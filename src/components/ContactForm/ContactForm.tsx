@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
 
-import { Icon, InputField, Button } from 'components'
+import { Button, Icon, InputField } from 'components'
 import { useAppDispatch } from 'hooks'
 import { sendContactFormActions } from 'store/global'
 import Turnstile from 'react-turnstile'

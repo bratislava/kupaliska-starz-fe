@@ -4,7 +4,6 @@ import { get } from 'lodash'
 
 import { Icon, InputField, Tooltip } from 'components'
 import { useTranslation } from 'react-i18next'
-import PhotoField from 'components/PhotoField/PhotoField'
 
 interface CustomerFormProps {
   register: any

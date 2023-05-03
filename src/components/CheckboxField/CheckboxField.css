@@ -1,4 +1,5 @@
-.checkbox-field > input.checkbox, .react-aria-checkbox {
+.checkbox-field > input.checkbox,
+.react-aria-checkbox {
   appearance: none;
   @apply border-solid border-fontBlack border-opacity-10 border-2 rounded w-4 h-4 p-3 focus:outline-none transition-all;
 }
@@ -8,7 +9,8 @@
   @apply border-solid border-fontBlack border-opacity-10 border-2 rounded-full w-4 h-4 p-2 focus:outline-none transition-all;
 }
 
-.checkbox-field > input.checkbox:checked, [data-selected] .react-aria-checkbox {
+.checkbox-field > input.checkbox:checked,
+[data-selected] .react-aria-checkbox {
   @apply bg-primary border-primary;
   background-image: url('assets/icons/checkmark.svg');
   background-position: center;

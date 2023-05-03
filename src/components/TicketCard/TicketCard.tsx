@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Typography, Button, InputField } from 'components'
+import { Button, InputField, Typography } from 'components'
 
 import { Ticket } from 'models'
 import { getPrice } from 'helpers/general'
