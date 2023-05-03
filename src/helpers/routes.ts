@@ -41,28 +41,6 @@ const routes: Route[] = [
     requireAuth: true,
   },
   {
-    path: '/:lang?/swimmer/new',
-    exact: true,
-    component: React.lazy(
-      () => import('pages/AssociatedSwimmerEditAddPage/AssociatedSwimmerEditAddPage'),
-    ),
-    requireAuth: true,
-  },
-  {
-    path: '/:lang?/swimmer/:id',
-    exact: true,
-    component: React.lazy(
-      () => import('pages/AssociatedSwimmerEditAddPage/AssociatedSwimmerEditAddPage'),
-    ),
-    requireAuth: true,
-  },
-  {
-    path: '/:lang?/profile/edit',
-    exact: true,
-    component: React.lazy(() => import('components/ProfileEditPage/ProfileEditPage')),
-    requireAuth: true,
-  },
-  {
     path: '/:lang?/tickets',
     exact: true,
     component: React.lazy(() => import('pages/TicketsManagementPage/TicketsManagementPage')),
