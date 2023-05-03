@@ -94,6 +94,10 @@
   }
 }
 
+.react-aria-ModalOverlay {
+  @apply fixed h-screen w-screen flex items-center justify-center left-0 top-0 bg-gray-800 bg-opacity-[48%] z-50;
+}
+
 .square {
   width: 100%;
 }
