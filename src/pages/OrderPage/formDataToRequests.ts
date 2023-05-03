@@ -53,6 +53,7 @@ export function orderFormToRequests(
     orderRequest.email = formData.email
   }
   orderRequest.agreement = formData.agreement
+  orderRequest.token = formData.recaptchaToken
 
   return { getPriceRequest, orderRequest }
 }

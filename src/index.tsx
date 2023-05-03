@@ -12,7 +12,6 @@ import App from './App'
 import './i18n'
 
 import './index.css'
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
 import { environment } from './environment'
 import { MsalProvider } from '@azure/msal-react'
 import { msalInstance } from './msalInstance'
@@ -26,13 +25,11 @@ Sentry.init({
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <GoogleReCaptchaProvider reCaptchaKey={environment.reCaptchaKey} useEnterprise={true}>
-        <Provider store={store}>
-          <MsalProvider instance={msalInstance}>
-            <App />
-          </MsalProvider>
-        </Provider>
-      </GoogleReCaptchaProvider>
+      <Provider store={store}>
+        <MsalProvider instance={msalInstance}>
+          <App />
+        </MsalProvider>
+      </Provider>
     </Suspense>
   </React.StrictMode>,
   document.getElementById('root'),

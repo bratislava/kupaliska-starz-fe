@@ -25,7 +25,6 @@ import {
 import './OrderReviewPage.css'
 import { CustomerInfoFormValues } from 'models'
 import { orderFormValuesToOrderRequest } from 'helpers/adapters'
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { Trans, useTranslation } from 'react-i18next'
 
 // const paymentMethods = [
@@ -55,7 +54,6 @@ const OrderReviewPage = () => {
   const orderStateStatus = useAppSelector(selectOrderStateStatus)
   const discountCode = useAppSelector(selectOrderDiscountCode)
   const totalPrice = useAppSelector(selectOrderPrice)
-  const { executeRecaptcha } = useGoogleReCaptcha()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -63,16 +61,13 @@ const OrderReviewPage = () => {
   }, [formValues])
 
   const onPay = async () => {
-    if (cartItem && formValues && executeRecaptcha) {
-      const token = await executeRecaptcha('order')
-      console.log(token)
+    if (cartItem && formValues) {
       dispatch(
         orderActions(
           orderFormValuesToOrderRequest({
             customer: formValues,
             cartItem,
             photos: customerPhotos,
-            recaptchaToken: token,
             discountCodeState: discountCode,
           }),
         ),

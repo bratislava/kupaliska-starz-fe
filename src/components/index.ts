@@ -9,7 +9,6 @@ import { default as TicketBuyDiagramCard } from './TicketBuyDiagramCard/TicketBu
 import { TicketCardHomePage, TicketCard } from './TicketCard'
 import { default as InputField } from './InputField/InputField'
 import { default as CheckboxField } from './CheckboxField/CheckboxField'
-import { default as SwimmingPoolInfoCard } from './SwimmingPoolInfoCard/SwimmingPoolInfoCard'
 import { default as Icon } from './Icon/Icon'
 import { default as Modal } from './Modal/Modal'
 import { default as SectionHeader } from './SectionHeader/SectionHeader'
@@ -46,7 +45,6 @@ export {
   TicketCard,
   TicketCardHomePage,
   InputField,
-  SwimmingPoolInfoCard,
   Icon,
   Modal,
   SectionHeader,
