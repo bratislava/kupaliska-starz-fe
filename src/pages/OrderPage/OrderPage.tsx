@@ -10,7 +10,6 @@ import {
 } from '../../components'
 import { useWindowSize } from '../../hooks'
 import cx from 'classnames'
-import PeopleList, { PeopleListMode } from '../../components/PeopleList/PeopleList'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
@@ -42,6 +41,7 @@ import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { environment } from '../../environment'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import { Checkbox, Button as AriaButton } from 'react-aria-components'
 
 const OrderPageCreateSwimmerModal = ({
   open = false,
@@ -269,20 +269,45 @@ const OrderPagePeopleList = ({
 
   return (
     <>
-      <OrderPageCreateSwimmerModal
-        open={addSwimmerModalOpen}
-        onClose={handleAddSwimmerClose}
-        onAdd={handleSelectSwimmer}
-      ></OrderPageCreateSwimmerModal>
+      {addSwimmerModalOpen && (
+        <AssociatedSwimmerEditAddForm
+          onClose={handleAddSwimmerClose}
+          onSaveSuccess={handleSelectSwimmer}
+        ></AssociatedSwimmerEditAddForm>
+      )}
 
       {mergedSwimmers && (
-        <PeopleList
-          people={mergedSwimmers as AssociatedSwimmer[]}
-          onAddClick={handleAddSwimmerClick}
-          onPersonClick={handleSelectSwimmer}
-          mode={PeopleListMode.OrderPageSelection}
-          selectedPeopleIds={selectedSwimmerIds}
-        ></PeopleList>
+        <div className="gap-3 flex flex-col pt-3">
+          {mergedSwimmers.map((swimmer) => (
+            <Checkbox
+              className="px-4 py-3 gap-4 flex items-center rounded-lg bg-white cursor-pointer"
+              key={swimmer.id}
+              isSelected={selectedSwimmerIds?.includes(swimmer.id)}
+              onChange={() => handleSelectSwimmer(swimmer)}
+            >
+              <div
+                className="h-14 w-12 bg-cover bg-center rounded-lg bg-backgroundGray shrink-0"
+                style={{
+                  backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
+                }}
+              ></div>
+              <div className="flex flex-col flex-grow">
+                <p className="font-semibold">
+                  {swimmer.firstname} {swimmer.lastname}
+                </p>
+                <p className="text-sm">{swimmer.age}</p>
+              </div>
+              <div className="xyz" />
+            </Checkbox>
+          ))}
+          <AriaButton
+            onPress={() => setAddSwimmerModalOpen(true)}
+            className="flex items-center font-semibold px-3 py-2 self-start"
+          >
+            <Icon name="plus" className="mr-2 no-fill text-gray-700"></Icon>
+            Pridať osobu
+          </AriaButton>
+        </div>
       )}
 
       <div className="text-error px-2 text-sm">
@@ -485,7 +510,7 @@ const OrderPageSummary = ({
     <div className="rounded-lg bg-white shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
       <div className="p-8">
         <div className="font-semibold text-2xl">
-          {hasTicketAmount && `${watchTicketAmount}x `}
+          {hasTicketAmount && `${watchTicketAmount}× `}
           {ticket.name}
         </div>
         {ticket.childrenAllowed && (

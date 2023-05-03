@@ -19,23 +19,23 @@ const ProfilePageUser = () => {
     <>
       {data && (
         <>
-          <ProfilePageAgeZipModal
-            type="age"
-            user={data.data}
-            open={isAgeModalOpen}
-            onClose={() => setIsAgeModalOpen(false)}
-          />
-          <ProfilePageAgeZipModal
-            type="zip"
-            user={data.data}
-            open={isZipModalOpen}
-            onClose={() => setIsZipModalOpen(false)}
-          />
-          <ProfilePagePhotoModal
-            user={data.data}
-            open={isPhotoModalOpen}
-            onClose={() => setIsPhotoModalOpen(false)}
-          />
+          {isAgeModalOpen && (
+            <ProfilePageAgeZipModal
+              type="age"
+              user={data.data}
+              onClose={() => setIsAgeModalOpen(false)}
+            />
+          )}
+          {isZipModalOpen && (
+            <ProfilePageAgeZipModal
+              type="zip"
+              user={data.data}
+              onClose={() => setIsZipModalOpen(false)}
+            />
+          )}
+          {isPhotoModalOpen && (
+            <ProfilePagePhotoModal user={data.data} onClose={() => setIsPhotoModalOpen(false)} />
+          )}
         </>
       )}
       <div className="bg-white rounded-lg lg:col-span-7">

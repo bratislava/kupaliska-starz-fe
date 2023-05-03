@@ -12,9 +12,8 @@ import { pick } from 'lodash'
 import { useValidationSchemaTranslationIfPresent } from '../../helpers/general'
 import Dialog from '../Dialog/Dialog'
 
-type ProfilePageAgeZipModalProps = {
+type ProfilePageAgeModalProps = {
   type: 'age' | 'zip'
-  open: boolean
   user: User
   onClose: () => void
 }
@@ -47,7 +46,7 @@ const dataByType = {
   },
 }
 
-const ProfilePageAgeZipModal = ({ type, open, user, onClose }: ProfilePageAgeZipModalProps) => {
+const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalProps) => {
   const { schema, title, explanationSemiBold, explanation } = dataByType[type]
   const {
     register,
@@ -94,7 +93,7 @@ const ProfilePageAgeZipModal = ({ type, open, user, onClose }: ProfilePageAgeZip
 
   return (
     <Dialog
-      open={open}
+      open={true}
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}

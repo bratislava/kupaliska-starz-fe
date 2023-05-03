@@ -17,6 +17,7 @@ import { getObjectChanges } from '../../helpers/getObjectChanges'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
+import Dialog from '../Dialog/Dialog'
 
 type FormData = Partial<Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'age' | 'zip'>>
 
@@ -34,8 +35,10 @@ const validationSchema = yup.object({
 })
 export const AssociatedSwimmerEditAddForm = ({
   swimmer,
+  onClose = () => {},
   onSaveSuccess = () => {},
 }: {
+  onClose?: () => void
   swimmer?: AssociatedSwimmer | null
   onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void
 }) => {
@@ -102,6 +105,7 @@ export const AssociatedSwimmerEditAddForm = ({
         )
         queryClient.invalidateQueries('associatedSwimmers')
         onSaveSuccess(response.data.data.associatedSwimmer)
+        onClose()
       },
     },
   )
@@ -118,7 +122,25 @@ export const AssociatedSwimmerEditAddForm = ({
   let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
-    <form className="grid grid-cols-1 lg:grid-cols-2">
+    <Dialog
+      title={swimmer ? 'Upraviť osobu' : 'Pridať osobu'}
+      footerButton={
+        <Button htmlType="submit">
+          {t('profile.save')}
+          <Icon className="ml-4" name="arrow-left" />
+        </Button>
+      }
+      open={true}
+      onClose={onClose}
+      className="max-w-[800px] container"
+      wrapper={
+        <form
+          onSubmit={handleSubmit(onSubmit, (err) => {
+            console.log(err)
+          })}
+        />
+      }
+    >
       <div>
         <InputField
           className="col-span-2 lg:col-span-1 max-w-formMax"
@@ -165,19 +187,7 @@ export const AssociatedSwimmerEditAddForm = ({
           showLabel
         ></PhotoField>
       </div>
-      <div>
-        <Button
-          className="mt-8"
-          htmlType="button"
-          onClick={handleSubmit(onSubmit, (err) => {
-            console.log(err)
-          })}
-        >
-          {t('profile.save')}
-          <Icon className="ml-4" name="arrow-left" />
-        </Button>
-      </div>
-    </form>
+    </Dialog>
   )
 }
 
