@@ -10,6 +10,7 @@ import { useAppDispatch } from 'hooks'
 import { sendContactFormActions } from 'store/global'
 import Turnstile from 'react-turnstile'
 import { Trans, useTranslation } from 'react-i18next'
+import { environment } from '../../environment'
 
 const formRules = yup.object().shape({
   email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
@@ -94,7 +95,7 @@ const ContactForm = () => {
           <>
             <Turnstile
               theme="light"
-              sitekey={import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY ?? ''}
+              sitekey={environment.turnstileSiteKey ?? ''}
               onVerify={(token) => {
                 setCaptchaWarning('hide')
                 onChange(token)
