@@ -11,12 +11,26 @@ export function getPrice(order: any, abortSignal?: AbortSignal) {
   })
 }
 
+export interface FinalOrderTicket {
+  id: string
+  isChildren: boolean
+  qrCode: string
+}
+
+export interface FinalOrderResponse {
+  tickets: FinalOrderTicket[]
+  pdf: string
+}
+
 export function getFinalOrder(orderId: string, accessToken: string) {
-  return apiClientWithMsalIfAvailable.get(`/api/v1/orders/${orderId}/successful`, {
-    headers: {
-      'Order-Authorization': accessToken,
+  return apiClientWithMsalIfAvailable.get<FinalOrderResponse>(
+    `/api/v1/orders/${orderId}/successful`,
+    {
+      headers: {
+        'Order-Authorization': accessToken,
+      },
     },
-  })
+  )
 }
 
 export interface DiscountCodeResponse {

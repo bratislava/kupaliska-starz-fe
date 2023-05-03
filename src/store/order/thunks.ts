@@ -43,24 +43,6 @@ export const orderActions = createAsyncThunk(
   },
 )
 
-export const getFinalOrderDataActions = createAsyncThunk(
-  'order/getFinalOrderData',
-  async (data: { orderId: string; accessToken: string }, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await getFinalOrder(data.orderId, data.accessToken)
-      return response.data
-    } catch (err) {
-      dispatch(
-        setToast({
-          type: 'error',
-          message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
-        }),
-      )
-      return rejectWithValue(err.response)
-    }
-  },
-)
-
 export const checkDiscountCodeActions = createAsyncThunk(
   'order/checkDiscountCode',
   async (data: { ticketTypeId: string; discountCode: string }, { rejectWithValue, dispatch }) => {
