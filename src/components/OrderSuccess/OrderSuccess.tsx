@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 type OrderSuccessProps = { response: FinalOrderResponse }
 
 const OrderSuccess = ({ response }: OrderSuccessProps) => {
-  const { tickets, pdf } = response.data.payload
+  const { tickets, pdf } = response
 
   const downloadTickets = () => {
     const blob = convertBase64ToBlob(pdf, 'application/pdf')
