@@ -45,19 +45,10 @@ const PageWrapper = ({ children }: PropsWithChildren<{}>) => {
 const OrderResultPage = () => {
   const location = useLocation()
   const params = qs.parse(location.search.substring(1)) as Params
-
-  if (params.success !== 'true' || !params.orderId || !params.orderAccessToken) {
-    return (
-      <PageWrapper>
-        <OrderFailure />
-      </PageWrapper>
-    )
-  }
+  const showFailure = params.success !== 'true' || !params.orderId || !params.orderAccessToken
 
   return (
-    <PageWrapper>
-      <WithParams params={params} />
-    </PageWrapper>
+    <PageWrapper>{showFailure ? <OrderFailure /> : <WithParams params={params} />}</PageWrapper>
   )
 }
 
