@@ -162,6 +162,7 @@ export const AssociatedSwimmerEditAddForm = ({
           errors={errors}
           onPhotoSet={setPhoto}
           image={photo}
+          showLabel
         ></PhotoField>
       </div>
       <div>

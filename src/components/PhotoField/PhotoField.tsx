@@ -15,6 +15,7 @@ interface PhotoFieldProps {
   errors?: any
   onPhotoSet?: (photo: string | null) => void
   image?: string | null
+  showLabel?: boolean
 }
 
 const PhotoField = ({
@@ -24,6 +25,7 @@ const PhotoField = ({
   errors,
   onPhotoSet,
   image,
+  showLabel = false,
 }: PhotoFieldProps) => {
   const imageInputRef = useRef<HTMLInputElement | null>(null)
   const { t } = useTranslation()
@@ -89,6 +91,7 @@ const PhotoField = ({
         </div>
         <div className="flex flex-col gap-4">
           <div className="gap-1 flex flex-col">
+            {showLabel && <span className="font-semibold">Fotografia</span>}
             <p className="text-sm">
               Pre kúpu permanentky je potrebné zadať aj fotografiu.
               <br />
