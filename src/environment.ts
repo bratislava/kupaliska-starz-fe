@@ -12,4 +12,12 @@ export const environment = {
   featureFlag: {
     preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
   },
+  cognito: {
+    userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID as string,
+    userPoolWebClientId: import.meta.env.VITE_COGNITO_USER_POOL_WEB_CLIENT_ID as string,
+    identityPoolId: import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID as string,
+    region: import.meta.env.VITE_AWS_REGION as string,
+  },
+  cityAccountBackendUrl: import.meta.env.VITE_CITY_ACCOUNT_BACKEND_URL as string,
+  cityAccountFrontendUrl: import.meta.env.VITE_CITY_ACCOUNT_FRONTEND_URL as string,
 }
