@@ -110,7 +110,7 @@ const LandingPage = () => {
       </section>
 
       {!preseason && (
-        <section id="swimming-pools" className="section">
+        <section id="swimming-pools" className="section flex flex-col items-center">
           <SectionHeader
             className="text-center"
             title={t('landing.swimming-pools-title')}
