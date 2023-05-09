@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
 
-import { Button, Icon, InputField } from 'components'
+import { Button, CheckboxField, Icon, InputField } from 'components'
 import { useAppDispatch } from 'hooks'
 import { sendContactFormActions } from 'store/global'
 import Turnstile from 'react-turnstile'
@@ -16,6 +16,7 @@ const formRules = yup.object().shape({
   email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
   name: yup.string().required('Toto pole je povinné'),
   message: yup.string().required('Toto pole je povinné'),
+  agreement: yup.boolean().isTrue('Toto pole je povinné'),
 })
 
 export interface ContactFormValues {
@@ -23,6 +24,7 @@ export interface ContactFormValues {
   email: string
   message: string
   recaptchaToken: string
+  agreement: boolean
 }
 
 const ContactForm = () => {
@@ -56,38 +58,40 @@ const ContactForm = () => {
   }
 
   return (
-    <form className="grid gap-4 grid-cols-2">
+    <form className="flex gap-4 flex-col">
       <InputField
-        className="col-span-2 lg:col-span-1"
         name="name"
         register={register}
-        leftExtra={<Icon name="user" className="mr-4" />}
         label={t('landing.name')}
+        newLabel
         error={errors.name?.message}
       />
       <InputField
-        className="col-span-2 lg:col-span-1"
         name="email"
         register={register}
-        leftExtra={<Icon name="mail" className="mr-4" />}
         label={t('landing.email')}
+        newLabel
         error={errors.email?.message}
       />
       <InputField
-        className="col-span-2"
         name="message"
         register={register}
-        placeholder={t('landing.message')}
+        label={t('landing.message')}
         error={errors.message?.message}
+        newLabel
         element="textarea"
       />
-      <span className="text-sm text-gray-400 col-span-full">
-        <Trans i18nKey="landing.recaptcha" components={{ a: <a /> }} />
-      </span>
-      <span className="col-span-full font-medium">
-        <Trans i18nKey="landing.gdpr-info" components={{ Link: <Link to="/gdpr" /> }} />
-      </span>
-
+      <CheckboxField
+        register={register}
+        name="agreement"
+        label={
+          <Trans
+            i18nKey="landing.gdpr-info"
+            components={{ Link: <Link to="/gdpr" className="underline" /> }}
+          />
+        }
+        error={errors.agreement?.message}
+      />
       <Controller
         name="recaptchaToken"
         control={control}
@@ -114,19 +118,14 @@ const ContactForm = () => {
                 // logger.warn("Turnstile expire - should refresh automatically");
                 onChange(null)
               }}
-              className="mb-2 self-center"
+              className="mb-2 self-center empty:hidden"
             />
             {captchaWarning === 'show' && <p className="text-p3 italic">{t('captchaWarning')}</p>}
           </>
         )}
       />
-      <Button
-        disabled={sending}
-        className="col-span-full lg:col-span-1"
-        htmlType="button"
-        onClick={handleSubmit(onSubmit)}
-      >
-        {t('landing.send-message')} <Icon className="ml-4" name="paper-plane" />
+      <Button disabled={sending} htmlType="button" onClick={handleSubmit(onSubmit)}>
+        {t('landing.send-message')} <Icon className="ml-4 no-fill" name="paper-plane" />
       </Button>
     </form>
   )

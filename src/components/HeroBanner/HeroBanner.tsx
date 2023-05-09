@@ -6,6 +6,7 @@ import './HeroBanner.css'
 import { HashLink } from 'react-router-hash-link'
 import { useTranslation } from 'react-i18next'
 import { environment } from '../../environment'
+import cx from 'classnames'
 
 const preseason = environment.featureFlag.preseasonHomepage
 
@@ -17,15 +18,18 @@ const HeroBanner = () => {
       <div className="relative hero-image w-full">
         <div className="wave w-full h-full absolute bottom-0"></div>
       </div>
-      <div className="container mx-auto content relative z-10">
-        <Typography type="title" fontWeight="bold" className="mb-4 max-w-xs">
-          {preseason ? t('landing.title-preseason') : t(`landing.title`)}
-        </Typography>
-        {!preseason && (
-          <Typography type="subtitle" className="max-w-xs">
-            {t('landing.subtitle')}
+      <div
+        className={cx('container mx-auto content relative z-10 ', {
+          // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
+          'xl:min-h-[228px]': preseason,
+        })}
+      >
+        <div className="max-w-xs 2xl:max-w-md">
+          <Typography type="title" fontWeight="bold" className="mb-4">
+            {preseason ? t('landing.title-preseason') : t(`landing.title`)}
           </Typography>
-        )}
+          {!preseason && <Typography type="subtitle">{t('landing.subtitle')}</Typography>}
+        </div>
 
         {!preseason && (
           <div

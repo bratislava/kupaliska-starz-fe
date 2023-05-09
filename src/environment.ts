@@ -10,7 +10,7 @@ export const environment = {
   msalKnownAuthorities: [import.meta.env.VITE_MSAL_KNOWN_AUTHORITY as string],
   sentryDsn: import.meta.env.VITE_SENTRY_DSN as string,
   featureFlag: {
-    preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
+    preseasonHomepage: true,
   },
   turnstileSiteKey: import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY as string,
 }

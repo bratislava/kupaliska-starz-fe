@@ -68,7 +68,7 @@ const InputField = ({
     'border-2-softGray text-fontBlack text-opacity-10': !error && !focused,
   })
 
-  const labelClasses = cx(newLabel ? 'font-semibold mb-1' : 'font-medium text-xl mb-3', {
+  const labelClasses = cx(newLabel ? 'block font-semibold mb-1' : 'font-medium text-xl mb-3', {
     'text-error': error !== undefined,
     'text-primary': !error && focused,
     'text-fontBlack': !error && !focused,

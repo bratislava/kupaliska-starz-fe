@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
@@ -7,6 +7,7 @@ import cx from 'classnames'
 const Footer = () => {
   const { t } = useTranslation()
   const location = useLocation()
+  const currentYear = useRef(new Date().getFullYear())
 
   // Don't show top margin on home page as it handles its own positioning and has a different background (white).
   // TODO: Find better solution.
@@ -36,7 +37,7 @@ const Footer = () => {
           >
             Inovácie mesta Bratislava
           </a>
-          | 2022
+          | {currentYear.current}
         </div>
         <div className="flex flex-col text-primary lg:items-end order-2 lg:order-3 my-2 lg:my-0">
           <span className="font-semibold">{t('common.important-info')}</span>
