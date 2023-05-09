@@ -87,6 +87,9 @@ const LandingPage = () => {
 
       {!preseason && (
         <div className="bg-backgroundGray">
+          {/* Prevent margin collapsing
+           https://stackoverflow.com/a/33132624/2711737 */}
+          <div className="h-[0.05px]" />
           <section id="ticket-buy" className="section flex flex-col items-center">
             <SectionHeader title={t('landing.available-ticket')} className="text-center" />
             <HomepageTickets />

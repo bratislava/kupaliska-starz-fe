@@ -87,8 +87,10 @@ const HomepageTickets = () => {
                     onClick={() => handleClick(ticket)}
                   >
                     <span className="grow font-semibold">{ticket.name}</span>
-                    <div className="flex items-center justify-between">
-                      <span className="lg:w-[108px]">{ticket.price.toFixed(2)}€</span>
+                    <div className="flex items-center justify-between gap-x-8">
+                      <span className="lg:w-[108px]">
+                        <span className="font-semibold">{ticket.price.toFixed(2)} €</span> / kus
+                      </span>
                       {!ticket.disabled && (
                         <Button
                           className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto"
