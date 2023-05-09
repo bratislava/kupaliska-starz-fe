@@ -49,7 +49,7 @@ export const getAccessToken = async () => {
   // keep eventListenerReference in scope so we can remove it later
   let eventListenerReference: undefined | ((event: any) => void)
   const promise = new Promise<string>((resolve, reject) => {
-    setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 5000)
+    const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 5000)
     eventListenerReference = (event) => {
       // ignore if origin is not our iframe or we receive unexpected message format
       if (event.origin === `${environment.cityAccountFrontendUrl}`) {
@@ -59,11 +59,13 @@ export const getAccessToken = async () => {
           validCityAccountPostMessageTypes.includes(event.data.type)
         ) {
           if (event.data.type === 'UNAUTHORIZED') {
+            clearTimeout(timeout)
             reject(new Error(UNAUTHORIZED_MESSAGE))
           } else if (
             event.data.type === 'ACCESS_TOKEN' &&
             typeof event.data.payload?.accessToken === 'string'
           ) {
+            clearTimeout(timeout)
             resolve(event.data.payload.accessToken)
           } else {
             // do not accept or reject, wait until timeout for correctly looking message
