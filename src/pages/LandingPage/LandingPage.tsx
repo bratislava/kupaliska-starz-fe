@@ -7,17 +7,16 @@ import {
   MobileCarousel,
   SectionHeader,
   TicketBuyDiagramCard,
-  TicketCardHomePage,
   Typography,
   WhyCreateAccountSection,
 } from 'components'
-import { useAppSelector } from 'hooks'
-import { selectAvailableTickets } from 'store/global'
 
 import './LandingPage.css'
 import { Trans, useTranslation } from 'react-i18next'
 import { useIsAuthenticated } from '@azure/msal-react'
 import { environment } from '../../environment'
+import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
+import { range } from 'lodash'
 
 const items = [
   {
@@ -34,12 +33,11 @@ const items = [
   },
 ]
 
-const faqsn = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+const faqsn = range(1, 16)
 const preseason = environment.featureFlag.preseasonHomepage
 
 const LandingPage = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
-  const tickets = useAppSelector(selectAvailableTickets)
   const { t } = useTranslation()
   const isAuthenticated = useIsAuthenticated()
 
@@ -88,23 +86,21 @@ const LandingPage = () => {
       </section>
 
       {!preseason && (
-        <section id="ticket-buy" className="section">
-          <SectionHeader title={t('landing.available-ticket')} className="text-center" />
-          <div className="lg:w-8/10 grid grid-cols-8 gap-4 lg:gap-x-24 lg:gap-y-12 mx-auto">
-            {tickets.map((ticket) => (
-              <TicketCardHomePage
-                className="col-span-8 md:col-span-4"
-                key={ticket.id}
-                ticket={ticket}
-              />
-            ))}
-          </div>
-          <div className="flex flex-col text-center my-8 text-sm leading-loose">
-            <span>{t('common.additional-info-age')}</span>
-            <span>{t('common.additional-info-student-senior')}</span>
-            <span>{t('common.additional-info-toddlers')}</span>
-          </div>
-        </section>
+        <div className="bg-backgroundGray">
+          {/* Prevent margin collapsing
+           https://stackoverflow.com/a/33132624/2711737 */}
+          <div className="h-[0.05px]" />
+          <section id="ticket-buy" className="section flex flex-col items-center">
+            <SectionHeader title={t('landing.available-ticket')} className="text-center" />
+            <HomepageTickets />
+
+            <div className="flex flex-col text-center my-8 text-sm leading-loose">
+              <span>{t('common.additional-info-age')}</span>
+              <span>{t('common.additional-info-student-senior')}</span>
+              <span>{t('common.additional-info-toddlers')}</span>
+            </div>
+          </section>
+        </div>
       )}
 
       {!isAuthenticated && !preseason && <WhyCreateAccountSection></WhyCreateAccountSection>}
@@ -114,7 +110,7 @@ const LandingPage = () => {
       </section>
 
       {!preseason && (
-        <section id="swimming-pools" className="section">
+        <section id="swimming-pools" className="section flex flex-col items-center">
           <SectionHeader
             className="text-center"
             title={t('landing.swimming-pools-title')}
@@ -122,7 +118,7 @@ const LandingPage = () => {
           />
           <iframe
             src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
-            className="w-full h-[80vh] min-h-[200px] max-h-[800px]"
+            className="w-full h-[80vh] min-h-[200px] max-h-[624px] max-w-[1110px]"
             title="Mapa kúpalísk"
           />
         </section>
@@ -149,30 +145,29 @@ const LandingPage = () => {
             <div className="col-span-1" key={index}>
               <AccordionItem
                 key={index}
-                title={t(`landing.faq-mutiple.${faq}.title`)}
+                title={t(`landing.faq-multiple.${faq}.title`)}
                 paddingVariant="narrow"
                 isOpen={index === openFaqIndex}
                 onOpen={() => {
                   openFaqIndex === index ? setOpenFaqIndex(undefined) : setOpenFaqIndex(index)
                 }}
               >
-                {typeof t(`landing.faq-mutiple.${faq}.content`) === 'string' ? (
-                  <span>
+                {typeof t(`landing.faq-multiple.${faq}.content`) === 'string' ? (
+                  <span className="flex flex-col gap-2">
                     <Trans
-                      i18nKey={`landing.faq-mutiple.${faq}.content`}
+                      i18nKey={`landing.faq-multiple.${faq}.content`}
                       components={{
-                        section: <section />,
+                        p: <p />,
                         div: <div />,
-                        a: <a />,
-                        strong: <strong />,
+                        a: <a className="underline" />,
+                        mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
                         li: <li />,
-                        ol: <ol />,
-                        h4: <h4 />,
+                        ul: <ul className="list-disc" />,
                       }}
                     />
                   </span>
                 ) : (
-                  t(`landing.faq-mutiple.${faq}.content`)
+                  t(`landing.faq-multiple.${faq}.content`)
                 )}
               </AccordionItem>
             </div>
