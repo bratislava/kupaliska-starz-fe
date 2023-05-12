@@ -12,10 +12,9 @@ import { initPageGlobalState, selectToast, setToast } from 'store/global'
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
 import { Redirect } from 'react-router'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { PostLoginHandlerWrapper } from './hooks/useLogin'
 import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
-import { PostLoginHandlerWrapper as CityAccountPostLoginHandlerWrapper } from 'hooks/useCityAccount'
+import { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,45 +76,42 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
-        {/* CityAccountPostLoginHandlerWrapper added just as a proof of concept, will replace existing MSAL setup in subsequent PR(s) */}
-        <CityAccountPostLoginHandlerWrapper>
-          <PostLoginHandlerWrapper>
-            <ScrollToTop>
-              <Toast
-                open={toast !== undefined}
-                type={toast?.type}
-                text={toast?.message}
-                onClose={() => {
-                  dispatch(setToast(undefined))
-                }}
-                timeToClose={toast?.type === 'success' ? 3000 : undefined}
-                closeButton={toast?.type !== 'success'}
-              />
-              <TopBanner />
-              <main className="relative flex flex-col" style={{ flex: 1 }}>
-                <Header />
+        <CityAccountAccessTokenProvider>
+          <ScrollToTop>
+            <Toast
+              open={toast !== undefined}
+              type={toast?.type}
+              text={toast?.message}
+              onClose={() => {
+                dispatch(setToast(undefined))
+              }}
+              timeToClose={toast?.type === 'success' ? 3000 : undefined}
+              closeButton={toast?.type !== 'success'}
+            />
+            <TopBanner />
+            <main className="relative flex flex-col" style={{ flex: 1 }}>
+              <Header />
 
-                <Switch>
-                  {/* https://stackoverflow.com/a/66114844 */}
-                  <Route
-                    path="/refresh"
-                    exact={true}
-                    component={() => {
-                      // eslint-disable-next-line react-hooks/rules-of-hooks
-                      const history = useHistory()
-                      // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                      useEffect(() => history.goBack(), [])
-                      return <></>
-                    }}
-                  />
-                  {routes.map(renderRoute)}
-                </Switch>
-                <CookieConsent />
-              </main>
-              <Footer />
-            </ScrollToTop>
-          </PostLoginHandlerWrapper>
-        </CityAccountPostLoginHandlerWrapper>
+              <Switch>
+                {/* https://stackoverflow.com/a/66114844 */}
+                <Route
+                  path="/refresh"
+                  exact={true}
+                  component={() => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    const history = useHistory()
+                    // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                    useEffect(() => history.goBack(), [])
+                    return <></>
+                  }}
+                />
+                {routes.map(renderRoute)}
+              </Switch>
+              <CookieConsent />
+            </main>
+            <Footer />
+          </ScrollToTop>
+        </CityAccountAccessTokenProvider>
       </ConnectedRouter>
     </QueryClientProvider>
   )

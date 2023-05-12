@@ -13,15 +13,15 @@ import {
 } from '../../store/associatedSwimmers/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchUser, User } from '../../store/user/api'
-import { useAccount } from '@azure/msal-react'
 import { useHistory } from 'react-router-dom'
 import ProfileLine from '../../components/ProfileLine/ProfileLine'
 import { AxiosResponse } from 'axios'
 import { produce } from 'immer'
+import { useAccount } from '../../hooks/useAccount'
 
 const UserInfo = ({ user }: { user: User }) => {
   const { t } = useTranslation()
-  const account = useAccount()
+  const { data: account } = useAccount()
   const history = useHistory()
 
   const handleProfileEditClick = () => {
@@ -41,14 +41,14 @@ const UserInfo = ({ user }: { user: User }) => {
             {t('profile.name-firstname')}
           </div>
           <div className="font-semibold text-2xl">
-            {account?.idTokenClaims?.given_name} {account?.idTokenClaims?.family_name}
+            {account?.given_name} {account?.family_name}
           </div>
         </div>
         <div className="mt-8">
           <div className="text-base font-normal text-fontBlack opacity-75">
             {t('profile.email')}
           </div>
-          <div className="font-semibold text-2xl">{account?.username}</div>
+          <div className="font-semibold text-2xl">{account?.email}</div>
         </div>
         <div className="flex mt-8">
           <div className="mr-12">

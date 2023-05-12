@@ -1,13 +1,11 @@
 import { environment } from '../environment'
-import { getAccessToken } from './cityAccountToken'
 import { CityAccountUser } from './cityAccountDto'
 
 export const UNAUTHORIZED_MESSAGE = 'Unauthorized'
 
 export const cityAccountFrontendSSOUrl = `${environment.cityAccountFrontendUrl}/sso`
 
-export const getAccount = async () => {
-  const accessToken = await getAccessToken()
+export const getAccount = async (accessToken: string) => {
   const result = await fetch(`${environment.cityAccountBackendUrl}/auth/user`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -25,13 +23,13 @@ export const getAccount = async () => {
 }
 
 export const redirectToLogin = () => {
-  const url = new URL(`${environment.cityAccountFrontendUrl}/login`)
-  url.searchParams.set('returnUrl', window.location.href)
+  const url = new URL(`${environment.cityAccountFrontendUrl}/prihlasenie`)
+  url.searchParams.set('from', window.location.href)
   window.location.href = url.toString()
 }
 
 export const redirectToLogout = () => {
   const url = new URL(`${environment.cityAccountFrontendUrl}/logout`)
-  url.searchParams.set('returnUrl', window.location.href)
+  url.searchParams.set('from', window.location.href)
   window.location.href = url.toString()
 }
