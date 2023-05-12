@@ -124,7 +124,7 @@ const ContactForm = () => {
         )}
       />
       <Button disabled={sending} htmlType="button" onClick={handleSubmit(onSubmit)}>
-        {t('landing.send-message')} <Icon className="ml-4 no-fill" name="paper-plane" />
+        {t('landing.send-message')} <Icon className="ml-4 no-fill" name="send" />
       </Button>
     </form>
   )
