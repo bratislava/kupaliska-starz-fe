@@ -15,6 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { PostLoginHandlerWrapper } from './hooks/useLogin'
 import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
+import { PostLoginHandlerWrapper as CityAccountPostLoginHandlerWrapper } from 'hooks/useCityAccount'
 
 import '@fontsource/inter'
 
@@ -78,42 +79,45 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
-        <PostLoginHandlerWrapper>
-          <ScrollToTop>
-            <Toast
-              open={toast !== undefined}
-              type={toast?.type}
-              text={toast?.message}
-              onClose={() => {
-                dispatch(setToast(undefined))
-              }}
-              timeToClose={toast?.type === 'success' ? 3000 : undefined}
-              closeButton={toast?.type !== 'success'}
-            />
-            <TopBanner />
-            <main className="relative flex flex-col" style={{ flex: 1 }}>
-              <Header />
+        {/* CityAccountPostLoginHandlerWrapper added just as a proof of concept, will replace existing MSAL setup in subsequent PR(s) */}
+        <CityAccountPostLoginHandlerWrapper>
+          <PostLoginHandlerWrapper>
+            <ScrollToTop>
+              <Toast
+                open={toast !== undefined}
+                type={toast?.type}
+                text={toast?.message}
+                onClose={() => {
+                  dispatch(setToast(undefined))
+                }}
+                timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                closeButton={toast?.type !== 'success'}
+              />
+              <TopBanner />
+              <main className="relative flex flex-col" style={{ flex: 1 }}>
+                <Header />
 
-              <Switch>
-                {/* https://stackoverflow.com/a/66114844 */}
-                <Route
-                  path="/refresh"
-                  exact={true}
-                  component={() => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    const history = useHistory()
-                    // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                    useEffect(() => history.goBack(), [])
-                    return <></>
-                  }}
-                />
-                {routes.map(renderRoute)}
-              </Switch>
-              <CookieConsent />
-            </main>
-            <Footer />
-          </ScrollToTop>
-        </PostLoginHandlerWrapper>
+                <Switch>
+                  {/* https://stackoverflow.com/a/66114844 */}
+                  <Route
+                    path="/refresh"
+                    exact={true}
+                    component={() => {
+                      // eslint-disable-next-line react-hooks/rules-of-hooks
+                      const history = useHistory()
+                      // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                      useEffect(() => history.goBack(), [])
+                      return <></>
+                    }}
+                  />
+                  {routes.map(renderRoute)}
+                </Switch>
+                <CookieConsent />
+              </main>
+              <Footer />
+            </ScrollToTop>
+          </PostLoginHandlerWrapper>
+        </CityAccountPostLoginHandlerWrapper>
       </ConnectedRouter>
     </QueryClientProvider>
   )
