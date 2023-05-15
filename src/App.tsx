@@ -17,6 +17,8 @@ import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
 import { PostLoginHandlerWrapper as CityAccountPostLoginHandlerWrapper } from 'hooks/useCityAccount'
 
+import '@fontsource/inter'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

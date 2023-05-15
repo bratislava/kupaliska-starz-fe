@@ -12,6 +12,7 @@ export const environment = {
   featureFlag: {
     preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
   },
+  turnstileSiteKey: import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY as string,
   cityAccountBackendUrl: import.meta.env.VITE_CITY_ACCOUNT_BACKEND_URL as string,
   cityAccountFrontendUrl: import.meta.env.VITE_CITY_ACCOUNT_FRONTEND_URL as string,
 }

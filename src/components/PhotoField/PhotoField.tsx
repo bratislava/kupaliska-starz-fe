@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
 import Resizer from 'react-image-file-resizer'
 
-import { PersonComponent, Typography } from 'components'
+import { Icon } from 'components'
 import Button from 'components/Button/Button'
-import { PersonComponentMode } from '../PersonComponent/PersonComponent'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import Photo from '../Photo/Photo'
 
 interface PhotoFieldProps {
   setValue?: any
@@ -15,6 +15,7 @@ interface PhotoFieldProps {
   errors?: any
   onPhotoSet?: (photo: string | null) => void
   image?: string | null
+  showLabel?: boolean
 }
 
 const PhotoField = ({
@@ -24,6 +25,7 @@ const PhotoField = ({
   errors,
   onPhotoSet,
   image,
+  showLabel = false,
 }: PhotoFieldProps) => {
   const imageInputRef = useRef<HTMLInputElement | null>(null)
   const { t } = useTranslation()
@@ -73,23 +75,18 @@ const PhotoField = ({
 
   return (
     <div>
-      <Typography type="subtitle" fontWeight="medium" className="mb-3">
-        {t('buy-page.photo-title')}
-      </Typography>
-      <div className="flex gap-x-8 gap-y-4 flex-col sm:flex-row">
-        <div>
-          <PersonComponent
-            person={{ image }}
-            mode={PersonComponentMode.DisplayOnlyPhoto}
-            onPersonClick={openImageInput}
-            errorBorder={Boolean(get(errors, 'image.message'))}
-          ></PersonComponent>
+      <div className="flex gap-4 flex-col sm:flex-row">
+        <div className="sm:max-w-[132px]">
+          <Photo
+            photo={image}
+            size="normal"
+            onClick={openImageInput}
+            className="curser-pointer"
+            error={Boolean(get(errors, 'image.message'))}
+          />
           {get(errors, 'image.message') && (
             <div className="text-error">{errorInterpretedImage}</div>
           )}
-        </div>
-        <div className="">
-          <p className="leading-tight md:leading-normal">{t('buy-page.photo-description')}</p>
           <input
             ref={imageInputRef}
             type="file"
@@ -97,14 +94,18 @@ const PhotoField = ({
             accept=".jpg,.png,.jpeg"
             onChange={handleImageChange}
           />
-          <div className="text-sm my-2">{t('buy-page.max-size')}</div>
-          <Button
-            color="outlined"
-            rounded
-            className="w-full lg:w-1/2 mb-4"
-            onClick={openImageInput}
-          >
-            {t('buy-page.photo-upload')}
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="gap-1 flex flex-col">
+            {showLabel && <span className="font-semibold">Fotografia</span>}
+            <p className="text-sm">
+              Pre kúpu permanentky je potrebné zadať aj fotografiu.
+              <br />
+              Tá slúži na priradenie permanentky k jej majiteľovi.
+            </p>
+          </div>
+          <Button className="self-start" color="outlined" onClick={openImageInput}>
+            <Icon className="mr-2" name="upload" /> {t('buy-page.photo-upload')}
           </Button>
         </div>
       </div>

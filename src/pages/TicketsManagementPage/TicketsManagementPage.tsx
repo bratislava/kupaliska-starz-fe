@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Button, Icon, Modal, ProfileNavBar } from 'components'
+import { Button, Icon, Modal, ProfileNavBar, Spinner } from 'components'
 import { useTranslation } from 'react-i18next'
 import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
 import cx from 'classnames'
@@ -344,7 +344,7 @@ const TicketsManagementPage = () => {
       activeTicketsRows,
       usedTicketsRows,
     }
-  }, [ticketsQuery.data])
+  }, [t, ticketsQuery.data])
 
   const handleModalClose = () => {
     setOpenedTicketDetail(null)
@@ -357,89 +357,97 @@ const TicketsManagementPage = () => {
         ticket={openedTicketDetail}
         onClose={handleModalClose}
       ></TicketsManagementModal>
-      {dataMapped && (
-        <section className="w-full">
-          <ProfileNavBar></ProfileNavBar>
-          <div className="container mx-auto">
-            <ProfileLine></ProfileLine>
+
+      <section className="w-full">
+        <ProfileNavBar></ProfileNavBar>
+        <div className="container mx-auto">
+          <ProfileLine></ProfileLine>
+        </div>
+        {ticketsQuery.isLoading && (
+          <div className="flex justify-center p-6">
+            <Spinner />
           </div>
-          {dataMapped.hasActiveTickets && (
-            <>
-              <div className="container mx-auto">
-                <div className="text-center pb-2 md:pb-6 md:mt-14 mt-10 text-xl md:text-2xl font-semibold">
-                  {t('tickets.active')}
+        )}
+        {dataMapped && (
+          <>
+            {dataMapped.hasActiveTickets && (
+              <>
+                <div className="container mx-auto">
+                  <div className="text-center pb-2 md:pb-6 md:mt-14 mt-10 text-xl md:text-2xl font-semibold">
+                    {t('tickets.active')}
+                  </div>
+                  <Table
+                    headers={[
+                      t('tickets.ticket-type'),
+                      t('tickets.entry-date'),
+                      t('tickets.season-ticket-owner'),
+                      '',
+                    ]}
+                    rows={dataMapped.activeTicketsRows}
+                    rowBackgroundClass="bg-blueish"
+                  ></Table>
                 </div>
-                <Table
-                  headers={[
-                    t('tickets.ticket-type'),
-                    t('tickets.entry-date'),
-                    t('tickets.season-ticket-owner'),
-                    '',
-                  ]}
-                  rows={dataMapped.activeTicketsRows}
-                  rowBackgroundClass="bg-blueish"
-                ></Table>
-              </div>
-              {/* Carousel cannot be in container. */}
-              <MobileCarousel className="md:hidden mb-10">
-                {dataMapped.activeTickets.map((ticket, index) => (
-                  <Ticket
-                    key={index}
-                    ticket={ticket}
-                    onDetailClick={() => setOpenedTicketDetail(ticket)}
-                  ></Ticket>
-                ))}
-              </MobileCarousel>
-            </>
-          )}
-          {dataMapped.hasUsedTickets && (
-            <>
-              <div className="container mx-auto">
-                <div
-                  className={cx('text-center pb-2 md:pb-6 text-xl md:text-2xl font-semibold', {
-                    'md:mt-24 mt-14': dataMapped.hasActiveTickets,
-                    'md:mt-14 mt-10': !dataMapped.hasActiveTickets,
-                  })}
-                >
-                  {t('tickets.inactive')}
+                {/* Carousel cannot be in container. */}
+                <MobileCarousel className="md:hidden mb-10">
+                  {dataMapped.activeTickets.map((ticket, index) => (
+                    <Ticket
+                      key={index}
+                      ticket={ticket}
+                      onDetailClick={() => setOpenedTicketDetail(ticket)}
+                    ></Ticket>
+                  ))}
+                </MobileCarousel>
+              </>
+            )}
+            {dataMapped.hasUsedTickets && (
+              <>
+                <div className="container mx-auto">
+                  <div
+                    className={cx('text-center pb-2 md:pb-6 text-xl md:text-2xl font-semibold', {
+                      'md:mt-24 mt-14': dataMapped.hasActiveTickets,
+                      'md:mt-14 mt-10': !dataMapped.hasActiveTickets,
+                    })}
+                  >
+                    {t('tickets.inactive')}
+                  </div>
+
+                  <Table
+                    headers={[
+                      t('tickets.ticket-type'),
+                      t('tickets.entry-date'),
+                      t('tickets.entry-place'),
+                      '',
+                    ]}
+                    rows={dataMapped.usedTicketsRows}
+                    rowBackgroundClass="bg-white"
+                  ></Table>
                 </div>
+                {/* Carousel cannot be in container. */}
+                <MobileCarousel className="md:hidden mb-10">
+                  {dataMapped.usedTickets.map((ticket, index) => (
+                    <UsedTicket
+                      key={index}
+                      ticket={ticket}
+                      onDetailClick={() => setOpenedTicketDetail(ticket)}
+                    ></UsedTicket>
+                  ))}
+                </MobileCarousel>
+              </>
+            )}
 
-                <Table
-                  headers={[
-                    t('tickets.ticket-type'),
-                    t('tickets.entry-date'),
-                    t('tickets.entry-place'),
-                    '',
-                  ]}
-                  rows={dataMapped.usedTicketsRows}
-                  rowBackgroundClass="bg-white"
-                ></Table>
+            {!dataMapped.hasTickets && (
+              <div className="container mx-auto flex items-center mt-8 md:mt-20 flex-col md:flex-row">
+                <div className="grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
+                  {t('tickets.no-tickets')}
+                </div>
+                <div className="shrink">
+                  <img src="/no-tickets.svg" alt="" />
+                </div>
               </div>
-              {/* Carousel cannot be in container. */}
-              <MobileCarousel className="md:hidden mb-10">
-                {dataMapped.usedTickets.map((ticket, index) => (
-                  <UsedTicket
-                    key={index}
-                    ticket={ticket}
-                    onDetailClick={() => setOpenedTicketDetail(ticket)}
-                  ></UsedTicket>
-                ))}
-              </MobileCarousel>
-            </>
-          )}
-
-          {!dataMapped.hasTickets && (
-            <div className="container mx-auto flex items-center mt-8 md:mt-20 flex-col md:flex-row">
-              <div className="grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
-                {t('tickets.no-tickets')}
-              </div>
-              <div className="shrink">
-                <img src="/no-tickets.svg" alt="" />
-              </div>
-            </div>
-          )}
-        </section>
-      )}
+            )}
+          </>
+        )}
+      </section>
     </>
   )
 }

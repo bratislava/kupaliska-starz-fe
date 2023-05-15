@@ -20,15 +20,10 @@ import { default as ScrollToTop } from './ScrollToTop/ScrollToTop'
 import { default as AccordionItem } from './AccordionItem/AccordionItem'
 import { default as WhyCreateAccountSection } from './WhyCreateAccount/WhyCreateAccountSection'
 import { default as ProfileNavBar } from './ProfileNavBar/ProfileNavBar'
-import { default as PeopleList } from './PeopleList/PeopleList'
-import { default as PersonComponent } from './PersonComponent/PersonComponent'
 import { default as ProfileEdit } from './ProfileEditPage/ProfileEditPage'
-import { default as PersonEdit } from '../pages/AssociatedSwimmerEditAddPage/AssociatedSwimmerEditAddPage'
-import { default as Profile } from '../pages/ProfilePage/ProfilePage'
 import { default as SignInSignOutLink } from './SignInSignOutLink/SignInSignOutLink'
 import { default as ProfileLine } from './ProfileLine/ProfileLine'
 import { default as ProfileBack } from './ProfileBack/ProfileBack'
-import { default as AssociatedSwimmerEditAddForm } from './AssociatedSwimmerEditAddForm/AssociatedSwimmerEditAddForm'
 import { default as KupaliskaSwitch } from './Switch/KupaliskaSwitch'
 import { default as CookieConsent } from './CookieConsent/CookieConsent'
 
@@ -57,15 +52,10 @@ export {
   ScrollToTop,
   WhyCreateAccountSection,
   ProfileNavBar,
-  PeopleList,
-  PersonComponent,
   ProfileEdit,
-  PersonEdit,
-  Profile,
   SignInSignOutLink,
   ProfileLine,
   ProfileBack,
-  AssociatedSwimmerEditAddForm,
   KupaliskaSwitch,
   CookieConsent,
 }
