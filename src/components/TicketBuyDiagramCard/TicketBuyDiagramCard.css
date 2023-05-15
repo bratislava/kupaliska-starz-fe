@@ -10,7 +10,7 @@
     height: 55vh;
   }
   @screen md {
-    height: auto;
+    height: 50vh;
   }
 }
 
