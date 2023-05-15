@@ -29,7 +29,6 @@ import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg'
 import { ReactComponent as MailIcon } from '../../assets/icons/mail.svg'
 import { ReactComponent as MenuIcon } from '../../assets/icons/menu.svg'
 import { ReactComponent as NavigateIcon } from '../../assets/icons/navigate.svg'
-import { ReactComponent as PaperPlaneIcon } from '../../assets/icons/paper-plane.svg'
 import { ReactComponent as ParkingIcon } from '../../assets/icons/parking.svg'
 import { ReactComponent as PencilIcon } from '../../assets/icons/pencil.svg'
 import { ReactComponent as PlaygroundIcon } from '../../assets/icons/playground.svg'
@@ -37,6 +36,7 @@ import { ReactComponent as PlusIcon } from '../../assets/icons/plus.svg'
 import { ReactComponent as QuestionMarkIcon } from '../../assets/icons/question-mark.svg'
 import { ReactComponent as RestaurantIcon } from '../../assets/icons/restaurant.svg'
 import { ReactComponent as RetryIcon } from '../../assets/icons/retry.svg'
+import { ReactComponent as SendIcon } from '../../assets/icons/send.svg'
 import { ReactComponent as ShowerIcon } from '../../assets/icons/shower.svg'
 import { ReactComponent as SpinnerIcon } from '../../assets/icons/spinner.svg'
 import { ReactComponent as SwimmingManIcon } from '../../assets/icons/swimming-man.svg'
@@ -82,7 +82,6 @@ const iconMap = {
   mail: MailIcon,
   menu: MenuIcon,
   navigate: NavigateIcon,
-  'paper-plane': PaperPlaneIcon,
   parking: ParkingIcon,
   pencil: PencilIcon,
   playground: PlaygroundIcon,
@@ -90,6 +89,7 @@ const iconMap = {
   'question-mark': QuestionMarkIcon,
   restaurant: RestaurantIcon,
   retry: RetryIcon,
+  send: SendIcon,
   shower: ShowerIcon,
   spinner: SpinnerIcon,
   'swimming-man': SwimmingManIcon,
