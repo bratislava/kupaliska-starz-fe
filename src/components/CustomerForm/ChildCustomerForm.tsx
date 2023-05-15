@@ -3,8 +3,6 @@ import { Icon, InputField } from 'components'
 import { get } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import PhotoField from 'components/PhotoField/PhotoField'
-
 interface ChildCustomerFormProps {
   register: any
   unregister: any

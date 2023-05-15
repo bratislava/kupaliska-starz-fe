@@ -1,4 +1,4 @@
-import React, { useEffect, PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 function ScrollToTop({ children }: PropsWithChildren<{}>) {

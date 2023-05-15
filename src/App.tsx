@@ -16,6 +16,8 @@ import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
 import { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
 
+import '@fontsource/inter'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

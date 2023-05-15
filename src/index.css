@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
-    font-family: Work Sans;
-    font-weight: 100 900;
-    src: url(assets/fonts/work-sans/WorkSans-VariableFont_wght.ttf) format('ttf');
-    font-style: normal;
-  }
   .border-2-softGray {
     @apply border-solid border-2 border-fontBlack border-opacity-10;
   }
@@ -98,6 +92,10 @@
       transparent 52.25%
     );
   }
+}
+
+.react-aria-ModalOverlay {
+  @apply fixed h-screen w-screen flex items-center justify-center left-0 top-0 bg-gray-800 bg-opacity-[48%] z-50;
 }
 
 .square {
