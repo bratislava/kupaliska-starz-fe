@@ -75,7 +75,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
           }
 
           return produce(old, (draft) => {
-            draft!.data = { ...old!.data, ...formData }
+            draft.data = { ...old.data, ...formData }
           })
         })
         queryClient.invalidateQueries('user')

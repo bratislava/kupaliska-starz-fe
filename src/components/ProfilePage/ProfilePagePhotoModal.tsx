@@ -59,7 +59,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
           }
 
           return produce(old, (draft) => {
-            draft!.data = { ...old!.data, image }
+            draft.data = { ...old.data, image }
           })
         })
         queryClient.invalidateQueries('user')
