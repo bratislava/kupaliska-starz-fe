@@ -16,6 +16,7 @@ import { AxiosError } from 'axios'
 import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
 
 import '@fontsource/inter'
+import RegisterUserGuard from './hooks/RegisterUserGuard'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -73,40 +74,42 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
         <CityAccountAccessTokenProvider>
-          <ScrollToTop>
-            <Toast
-              open={toast !== undefined}
-              type={toast?.type}
-              text={toast?.message}
-              onClose={() => {
-                dispatch(setToast(undefined))
-              }}
-              timeToClose={toast?.type === 'success' ? 3000 : undefined}
-              closeButton={toast?.type !== 'success'}
-            />
-            <TopBanner />
-            <main className="relative flex flex-col" style={{ flex: 1 }}>
-              <Header />
+          <RegisterUserGuard>
+            <ScrollToTop>
+              <Toast
+                open={toast !== undefined}
+                type={toast?.type}
+                text={toast?.message}
+                onClose={() => {
+                  dispatch(setToast(undefined))
+                }}
+                timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                closeButton={toast?.type !== 'success'}
+              />
+              <TopBanner />
+              <main className="relative flex flex-col" style={{ flex: 1 }}>
+                <Header />
 
-              <Switch>
-                {/* https://stackoverflow.com/a/66114844 */}
-                <Route
-                  path="/refresh"
-                  exact={true}
-                  component={() => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    const history = useHistory()
-                    // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                    useEffect(() => history.goBack(), [])
-                    return <></>
-                  }}
-                />
-                {routes.map(renderRoute)}
-              </Switch>
-              <CookieConsent />
-            </main>
-            <Footer />
-          </ScrollToTop>
+                <Switch>
+                  {/* https://stackoverflow.com/a/66114844 */}
+                  <Route
+                    path="/refresh"
+                    exact={true}
+                    component={() => {
+                      // eslint-disable-next-line react-hooks/rules-of-hooks
+                      const history = useHistory()
+                      // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                      useEffect(() => history.goBack(), [])
+                      return <></>
+                    }}
+                  />
+                  {routes.map(renderRoute)}
+                </Switch>
+                <CookieConsent />
+              </main>
+              <Footer />
+            </ScrollToTop>
+          </RegisterUserGuard>
         </CityAccountAccessTokenProvider>
       </ConnectedRouter>
     </QueryClientProvider>
