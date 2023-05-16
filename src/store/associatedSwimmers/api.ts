@@ -1,4 +1,4 @@
-import { apiClientWithMsal } from '../../helpers/apiClient'
+import { apiClientWithAccessToken } from '../../helpers/apiClient'
 
 export interface AssociatedSwimmer {
   id: string | null
@@ -18,7 +18,7 @@ export interface AssociatedSwimmerFetchResponse {
 }
 
 export function fetchAssociatedSwimmers() {
-  return apiClientWithMsal.get<AssociatedSwimmerFetchResponse>('/api/v1/associatedSwimmers')
+  return apiClientWithAccessToken.get<AssociatedSwimmerFetchResponse>('/api/v1/associatedSwimmers')
   // {
   //   responseType: 'json',
   //   transformResponse: [(response: AssociatedSwimmerFetchResponse) => {
@@ -39,7 +39,7 @@ export interface AssociatedSwimmerDeleteResponse {
 }
 
 export function deleteAssociatedSwimmer(id: string) {
-  return apiClientWithMsal.delete<AssociatedSwimmerDeleteResponse>(
+  return apiClientWithAccessToken.delete<AssociatedSwimmerDeleteResponse>(
     `/api/v1/associatedSwimmers/${id}`,
   )
 }
@@ -60,7 +60,7 @@ export interface AssociatedSwimmerCreateEditResponse {
 export function createAssociatedSwimmer(
   associatedSwimmer: Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'age' | 'zip' | 'image'>,
 ) {
-  return apiClientWithMsal.post<AssociatedSwimmerCreateEditResponse>(
+  return apiClientWithAccessToken.post<AssociatedSwimmerCreateEditResponse>(
     '/api/v1/associatedSwimmers',
     associatedSwimmer,
   )
@@ -72,7 +72,7 @@ export function editAssociatedSwimmer(
     Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'age' | 'zip' | 'image'>
   >,
 ) {
-  return apiClientWithMsal.put<AssociatedSwimmerCreateEditResponse>(
+  return apiClientWithAccessToken.put<AssociatedSwimmerCreateEditResponse>(
     `/api/v1/associatedSwimmers/${id}`,
     associatedSwimmer,
   )

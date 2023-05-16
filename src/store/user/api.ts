@@ -1,4 +1,4 @@
-import { apiClientWithMsal } from 'helpers/apiClient'
+import { apiClientWithAccessToken } from 'helpers/apiClient'
 
 export interface User {
   id: string
@@ -12,9 +12,9 @@ export interface User {
 }
 
 export function fetchUser() {
-  return apiClientWithMsal.get<User>('/api/v1/swimmingLoggedUsers/currentUser')
+  return apiClientWithAccessToken.get<User>('/api/v1/swimmingLoggedUsers/currentUser')
 }
 
 export function updateUser(user: Partial<Pick<User, 'age' | 'zip' | 'image'>>) {
-  return apiClientWithMsal.put<null>('/api/v1/swimmingLoggedUsers', user)
+  return apiClientWithAccessToken.put<null>('/api/v1/swimmingLoggedUsers', user)
 }

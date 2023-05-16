@@ -1,4 +1,4 @@
-import { apiClientWithMsal } from '../../helpers/apiClient'
+import { apiClientWithAccessToken } from '../../helpers/apiClient'
 
 export interface TicketFromHistory {
   id: string
@@ -26,5 +26,5 @@ export interface TicketColor {
 }
 
 export function fetchTicketsHistory() {
-  return apiClientWithMsal.get<TicketFromHistory[]>('/api/v1/orders/tickets')
+  return apiClientWithAccessToken.get<TicketFromHistory[]>('/api/v1/orders/tickets')
 }
