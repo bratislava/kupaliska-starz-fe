@@ -7,7 +7,6 @@ import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 import { useOrderTicket } from './useOrderTicket'
 import { Trans, useTranslation } from 'react-i18next'
-import { useAccount } from '@azure/msal-react'
 import { CheckPriceResponse, Ticket } from '../../models'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
 import to from 'await-to-js'
@@ -103,7 +102,7 @@ const OrderPageEmail = ({
   errors: FieldErrors<OrderFormData>
 }) => {
   const { t } = useTranslation()
-  const account = useAccount()
+  const { data: account } = useAccount()
 
   let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
@@ -119,7 +118,7 @@ const OrderPageEmail = ({
     <Trans
       i18nKey={'buy-page.email-send-to'}
       components={{ span: <span /> }}
-      values={{ username: account?.username }}
+      values={{ username: account?.email }}
     />
   )
 }
@@ -178,7 +177,7 @@ const OrderPagePeopleList = ({
 
   const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
   const userQuery = useQuery('user', fetchUser)
-  const account = useAccount()
+  const { data: account } = useAccount()
   const { dispatchErrorToast } = useErrorToast()
 
   /* Merges the list of associated swimmers with the logged-in user. */
@@ -191,8 +190,8 @@ const OrderPagePeopleList = ({
           age: userQuery.data.data.age,
           zip: userQuery.data.data.zip,
           image: userQuery.data.data.image,
-          firstname: account?.idTokenClaims?.given_name as string,
-          lastname: account?.idTokenClaims?.family_name as string,
+          firstname: account?.given_name as string,
+          lastname: account?.family_name as string,
         },
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]

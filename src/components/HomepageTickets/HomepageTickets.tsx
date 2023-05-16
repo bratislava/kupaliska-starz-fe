@@ -4,10 +4,10 @@ import { selectAvailableTickets } from '../../store/global'
 import { Ticket } from '../../models'
 import { Button, Icon } from '../index'
 import cx from 'classnames'
-import { useIsAuthenticated } from '@azure/msal-react'
 import { useLogin } from '../../hooks/useLogin'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import useCityAccountAccessToken from 'hooks/useCityAccount'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
@@ -18,7 +18,8 @@ const partitionTickets = (tickets: Ticket[]) => ({
 const HomepageTickets = () => {
   const tickets = useAppSelector(selectAvailableTickets)
   const { t } = useTranslation()
-  const isAuthenticated = useIsAuthenticated()
+  const { status } = useCityAccountAccessToken()
+  const isAuthenticated = status === 'authenticated'
   const history = useHistory()
   const login = useLogin()
 

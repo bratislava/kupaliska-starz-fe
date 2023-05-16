@@ -1,21 +1,6 @@
-import { useMsal } from '@azure/msal-react'
-import { useHistory } from 'react-router-dom'
-import to from 'await-to-js'
-import { useErrorToast } from './useErrorToast'
+import { redirectToLogout } from 'helpers/cityAccountApi'
 
-export const useLogout = () => {
-  const { instance } = useMsal()
-  const { dispatchErrorToast } = useErrorToast()
-  const history = useHistory()
-
-  return async () => {
-    history.push('/')
-
-    const [logoutError] = await to(instance.logoutRedirect())
-
-    if (logoutError) {
-      console.error(logoutError)
-      dispatchErrorToast()
-    }
-  }
+export const useLogout = () => async () => {
+  localStorage.removeItem('accessToken')
+  return redirectToLogout()
 }

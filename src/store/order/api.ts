@@ -1,14 +1,18 @@
-import { apiClient, apiClientWithMsalIfAvailable } from 'helpers/apiClient'
+import { apiClient, apiClientWithAccessTokenIfAvailable } from 'helpers/apiClient'
 import { CheckPriceResponse, OrderRequest } from 'models'
 
 export function order(data: OrderRequest) {
-  return apiClientWithMsalIfAvailable.post('/api/v1/orders', data)
+  return apiClientWithAccessTokenIfAvailable.post('/api/v1/orders', data)
 }
 
 export function getPrice(order: any, abortSignal?: AbortSignal) {
-  return apiClientWithMsalIfAvailable.post<CheckPriceResponse>('/api/v1/orders/getPrice', order, {
-    signal: abortSignal,
-  })
+  return apiClientWithAccessTokenIfAvailable.post<CheckPriceResponse>(
+    '/api/v1/orders/getPrice',
+    order,
+    {
+      signal: abortSignal,
+    },
+  )
 }
 
 export interface FinalOrderTicket {
@@ -23,7 +27,7 @@ export interface FinalOrderResponse {
 }
 
 export function getFinalOrder(orderId: string, accessToken: string) {
-  return apiClientWithMsalIfAvailable.get<FinalOrderResponse>(
+  return apiClientWithAccessTokenIfAvailable.get<FinalOrderResponse>(
     `/api/v1/orders/${orderId}/successful`,
     {
       headers: {

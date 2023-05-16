@@ -9,15 +9,14 @@ import { Route as IRoute, routes } from 'helpers/routes'
 import { Footer, Header, ScrollToTop, Toast, TopBanner } from 'components'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { initPageGlobalState, selectToast, setToast } from 'store/global'
-import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
 import { Redirect } from 'react-router'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { PostLoginHandlerWrapper } from './hooks/useLogin'
 import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
-import { PostLoginHandlerWrapper as CityAccountPostLoginHandlerWrapper } from 'hooks/useCityAccount'
+import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
 
 import '@fontsource/inter'
+import RegisterUserGuard from './hooks/RegisterUserGuard'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,14 +40,9 @@ const queryClient = new QueryClient({
 })
 
 const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
-  return (
-    <>
-      <AuthenticatedTemplate>{children}</AuthenticatedTemplate>
-      <UnauthenticatedTemplate>
-        <Redirect to={'/'} />
-      </UnauthenticatedTemplate>
-    </>
-  )
+  const { status } = useCityAccountAccessToken()
+  if (status === 'initializing') return null
+  return status === 'authenticated' ? children : <Redirect to={'/'} />
 }
 
 const renderRoute = (route: IRoute) => (
@@ -79,9 +73,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ConnectedRouter history={history}>
-        {/* CityAccountPostLoginHandlerWrapper added just as a proof of concept, will replace existing MSAL setup in subsequent PR(s) */}
-        <CityAccountPostLoginHandlerWrapper>
-          <PostLoginHandlerWrapper>
+        <CityAccountAccessTokenProvider>
+          <RegisterUserGuard>
             <ScrollToTop>
               <Toast
                 open={toast !== undefined}
@@ -116,8 +109,8 @@ function App() {
               </main>
               <Footer />
             </ScrollToTop>
-          </PostLoginHandlerWrapper>
-        </CityAccountPostLoginHandlerWrapper>
+          </RegisterUserGuard>
+        </CityAccountAccessTokenProvider>
       </ConnectedRouter>
     </QueryClientProvider>
   )

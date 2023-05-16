@@ -1,57 +1,78 @@
-import { getAccessToken } from 'helpers/cityAccountToken'
-import { useQuery } from 'react-query'
-import { getAccount, redirectToLogin, redirectToLogout } from 'helpers/cityAccountApi'
-import React, { PropsWithChildren, useState, useEffect } from 'react'
-import { useEffectOnce } from 'usehooks-ts'
+import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
+import React, { useState } from 'react'
+import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 
-// hooks are mimicking the functionality previously provided for msal
-// if everything works, some of this usage can be simplified
+type CityAccountAccessTokenAuthenticationStatus =
+  | 'initializing'
+  | 'authenticated'
+  | 'unauthenticated'
 
-// TODO most of this is untested, just an idea + login/logout need work on the city-acccount side
-
-export const useIsAuthenticated = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('accessToken'))
-  useEffectOnce(() => {
-    getAccessToken().then((result) => setIsAuthenticated(!!result))
-  })
-  return isAuthenticated
+interface CityAccountAccessTokenState {
+  status: CityAccountAccessTokenAuthenticationStatus
+  accessToken: string | null
+  sub: string | undefined
+  refreshToken: () => void
 }
 
-export const useAccount = () => {
-  const isAuthenticated = useIsAuthenticated()
-  const { data } = useQuery('city-account', getAccount, {
-    enabled: isAuthenticated,
-  })
-  return data
-}
+export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
 
-export const useLogout = () => async () => {
-  localStorage.removeItem('accessToken')
-  return redirectToLogout()
-}
+const CityAccountAccessTokenContext = React.createContext<CityAccountAccessTokenState>(
+  {} as CityAccountAccessTokenState,
+)
 
-export const useLogin = () => async () => redirectToLogin()
+export const CityAccountAccessTokenProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isInitializing, setIsInitializing] = useState(true)
+  // unfortunately useLocalStorage expects JSON-serializable object, therefore not storing as simple string
+  const [accessTokenState, setAccessTokenState] = useLocalStorage<{ accessToken: string | null }>(
+    ACCESS_TOKEN_STORAGE_KEY,
+    { accessToken: null },
+  )
 
-/**
- * Waits for login status, if successful render the content (the page).
- */
-export const PostLoginHandlerWrapper = ({ children }: PropsWithChildren<{}>) => {
-  const [showContent, setShowContent] = useState(false)
-  // TODO msal version did much more, verify how much of that is needed for same behaviour
-  useEffectOnce(() => {
-    getAccessToken().finally(() => {
-      setShowContent(true)
+  const accessToken = accessTokenState.accessToken
+  let jwtAccessToken = null
+  try {
+    jwtAccessToken = accessToken ? jwtDecode<JwtPayload>(accessToken) : null
+  } catch (error) {
+    // since the token is validated every time before our code stores it this shouldn't happen
+    // TODO send to faro
+    console.error('Invalid token found in local storage:', accessToken, error)
+  }
+  let status: CityAccountAccessTokenAuthenticationStatus = 'initializing'
+  if (!isInitializing) {
+    status = !!jwtAccessToken ? 'authenticated' : 'unauthenticated'
+  }
+
+  const refreshToken = () =>
+    getAccessTokenFromIFrame().then((token) => {
+      setAccessTokenState({ accessToken: checkTokenValid(token) })
+      return token
     })
+
+  useEffectOnce(() => {
+    // if we already token that looks valid in local storage, don't refresh
+    if (checkTokenValid(accessToken)) {
+      setIsInitializing(false)
+    } else {
+      refreshToken().finally(() => setIsInitializing(false))
+    }
   })
+  // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
+  return (
+    <CityAccountAccessTokenContext.Provider
+      value={{ sub: jwtAccessToken?.sub, accessToken: accessToken, status, refreshToken }}
+    >
+      {isInitializing ? null : children}
+    </CityAccountAccessTokenContext.Provider>
+  )
+}
 
-  // --- only for testing ---
-  const account = useAccount()
-
-  useEffect(() => {
-    console.log('account changed', account)
-  }, [account])
-
-  // --- testing end ---
-
-  return showContent ? <>{children}</> : <></>
+export default function useCityAccountAccessToken() {
+  const context = React.useContext(CityAccountAccessTokenContext)
+  if (context === undefined) {
+    throw new Error(
+      'useCityAccountAccessToken must be used within a CityAccountAccessTokenProvider',
+    )
+  }
+  return context
 }

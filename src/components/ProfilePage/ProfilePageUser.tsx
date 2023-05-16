@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Icon, Spinner } from '../index'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
-import { useAccount } from '@azure/msal-react'
+import { useAccount } from '../../hooks/useAccount'
 import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
 import { Button as AriaButton } from 'react-aria-components'
 import ProfilePagePhotoModal from './ProfilePagePhotoModal'
@@ -80,14 +80,14 @@ const ProfilePageUser = () => {
                 <p>Meno a priezvisko</p>
               </div>
               <p>
-                {account?.idTokenClaims?.given_name} {account?.idTokenClaims?.family_name}
+                {account.data?.given_name} {account.data?.family_name}
               </p>
             </div>
             <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
               <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
                 <p>E-mail</p>
               </div>
-              <p>{account?.username}</p>
+              <p>{account.data?.email}</p>
             </div>
           </div>
           <div className="h-0.5 bg-divider" />

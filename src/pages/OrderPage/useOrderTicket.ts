@@ -2,13 +2,13 @@ import { useMemo } from 'react'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
 import { useHistory } from 'react-router-dom'
-import { useAccount } from '@azure/msal-react'
 import { Ticket } from '../../models'
+import { useAccount } from '../../hooks/useAccount'
 
 /* Retrieves the ticket id from history state, gets the ticket, redirects if necessary and return the info needed. */
 export const useOrderTicket = () => {
   const tickets = useAppSelector(selectAvailableTickets)
-  const account = useAccount()
+  const { data: account } = useAccount()
   const history = useHistory<{ ticketId?: string }>()
   const hasAccount = Boolean(account)
 
@@ -36,8 +36,8 @@ export const useOrderTicket = () => {
       return {}
     }
 
-    const requireEmail = !Boolean(account)
-    const hasOptionalFields = !ticket.nameRequired && !account
+    const requireEmail = !hasAccount
+    const hasOptionalFields = !ticket.nameRequired && !hasAccount
     const hasSwimmers = ticket.nameRequired
     const hasTicketAmount = !ticket.nameRequired
     return {

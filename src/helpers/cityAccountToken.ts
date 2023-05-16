@@ -7,14 +7,15 @@ import { UNAUTHORIZED_MESSAGE, cityAccountFrontendSSOUrl } from './cityAccountAp
 /**
  * returns the same token if it's well formed and not expired
  * otherwise returns null
- * could be sync but jwtDecode throws
  */
-const checkTokenValid = async (token: string | null | undefined) => {
+export const checkTokenValid = (token: string | null | undefined) => {
   if (!token) return null
-  const [jwtDecodeError, decodedToken] = await to(Promise.resolve(jwtDecode<JwtPayload>(token)))
-  if (jwtDecodeError) {
+  let decodedToken = null
+  try {
+    decodedToken = jwtDecode<JwtPayload>(token)
+  } catch (error) {
     // TODO send to faro
-    console.warn(jwtDecodeError)
+    console.error('Error decoding token when checking validity:', token, error)
     return null
   }
   if (decodedToken && (decodedToken.exp || 0) * 1000 > Date.now()) {
@@ -23,24 +24,7 @@ const checkTokenValid = async (token: string | null | undefined) => {
   return null
 }
 
-export const getAccessToken = async () => {
-  let token: string | null = null
-  // look for accessToken in query params - this is the case when we are redirected from city-account
-  const urlParams = new URLSearchParams(window.location.search)
-  token = await checkTokenValid(urlParams.get('accessToken'))
-  if (token) {
-    // store in local storage for subsequent requests
-    localStorage.setItem('cognitoAccessToken', token)
-    // remove accessToken from query params
-    urlParams.delete('accessToken')
-    window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`)
-    return token
-  }
-
-  // look for unexpired token in local storage
-  token = await checkTokenValid(localStorage.getItem('cognitoAccessToken'))
-  if (token) return token
-
+export const getAccessTokenFromIFrame = async () => {
   // attempt to receive the token from city-account iframe
   const iframe = document.createElement('iframe')
   iframe.src = cityAccountFrontendSSOUrl
@@ -91,10 +75,8 @@ export const getAccessToken = async () => {
       'eventListenerReference is undefined when attempting to remove it - this should not happen',
     )
   }
-  token = await checkTokenValid(accessToken)
+  const token = await checkTokenValid(accessToken)
   if (token) {
-    // store in local storage for subsequent requests
-    localStorage.setItem('cognitoAccessToken', token)
     return token
   }
   console.warn('None or invalid token received from iframe', postMessageError, accessToken)
