@@ -15,7 +15,7 @@ interface CityAccountAccessTokenState {
   refreshToken: () => void
 }
 
-const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
+export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
 
 const CityAccountAccessTokenContext = React.createContext<CityAccountAccessTokenState>(
   {} as CityAccountAccessTokenState,

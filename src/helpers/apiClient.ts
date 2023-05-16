@@ -1,16 +1,29 @@
 import axios, { AxiosRequestHeaders } from 'axios'
 import qs from 'qs'
 import { environment } from '../environment'
-import { getMsalIdToken } from './getMsalIdToken'
-import { msalInstance } from '../msalInstance'
+import { ACCESS_TOKEN_STORAGE_KEY } from '../hooks/useCityAccount'
 
-enum WithMsal {
+enum WithAccessToken {
   None,
   Required,
   IfAvailable,
 }
 
-const createApiClient = (withMsal = WithMsal.None) => {
+const getAccessToken = () => {
+  const token = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
+  if (!token) {
+    throw new Error('No access token in local storage')
+  }
+
+  const parsedToken = JSON.parse(token)
+  if (!parsedToken?.accessToken) {
+    throw new Error('No access token in local storage')
+  }
+
+  return parsedToken.accessToken as string
+}
+
+const createApiClient = (withAccessToken = WithAccessToken.None) => {
   const newApiClient = axios.create({
     responseType: 'json',
     baseURL: environment.host,
@@ -27,24 +40,21 @@ const createApiClient = (withMsal = WithMsal.None) => {
     return config
   })
 
-  if (withMsal === WithMsal.Required) {
+  if (withAccessToken === WithAccessToken.Required) {
     newApiClient.interceptors.request.use(async (config) => {
-      const msalIdToken = await getMsalIdToken()
-      ;(config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${msalIdToken}`
+      const accessToken = getAccessToken()
+      ;(config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${accessToken}`
 
       return config
     })
   }
 
-  if (withMsal === WithMsal.IfAvailable) {
+  if (withAccessToken === WithAccessToken.IfAvailable) {
     newApiClient.interceptors.request.use(async (config) => {
-      const hasAccount = msalInstance.getActiveAccount()
-      if (!hasAccount) {
-        return config
-      }
-
-      const msalIdToken = await getMsalIdToken()
-      ;(config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${msalIdToken}`
+      try {
+        const accessToken = getAccessToken()
+        ;(config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${accessToken}`
+      } catch (e) {}
 
       return config
     })
@@ -54,5 +64,5 @@ const createApiClient = (withMsal = WithMsal.None) => {
 }
 
 export const apiClient = createApiClient()
-export const apiClientWithMsal = createApiClient(WithMsal.Required)
-export const apiClientWithMsalIfAvailable = createApiClient(WithMsal.IfAvailable)
+export const apiClientWithMsal = createApiClient(WithAccessToken.IfAvailable)
+export const apiClientWithMsalIfAvailable = createApiClient(WithAccessToken.Required)
