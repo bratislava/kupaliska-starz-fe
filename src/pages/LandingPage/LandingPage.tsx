@@ -13,10 +13,10 @@ import {
 
 import './LandingPage.css'
 import { Trans, useTranslation } from 'react-i18next'
-import { useIsAuthenticated } from '@azure/msal-react'
 import { environment } from '../../environment'
 import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 import { range } from 'lodash'
+import useCityAccountAccessToken from 'hooks/useCityAccount'
 
 const items = [
   {
@@ -39,7 +39,8 @@ const preseason = environment.featureFlag.preseasonHomepage
 const LandingPage = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
   const { t } = useTranslation()
-  const isAuthenticated = useIsAuthenticated()
+  const { status } = useCityAccountAccessToken()
+  const isAuthenticated = status === 'authenticated'
 
   return (
     <main className="bg-white">
