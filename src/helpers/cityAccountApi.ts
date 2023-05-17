@@ -22,9 +22,9 @@ export const getAccount = async (accessToken: string) => {
   return result.json() as Partial<CityAccountUser>
 }
 
-export const redirectToLogin = () => {
+export const redirectToLogin = (fromUrl?: string) => {
   const url = new URL(`${environment.cityAccountFrontendUrl}/prihlasenie`)
-  url.searchParams.set('from', window.location.href)
+  url.searchParams.set('from', fromUrl ?? window.location.href)
   window.location.href = url.toString()
 }
 

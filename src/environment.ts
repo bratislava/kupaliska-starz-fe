@@ -11,6 +11,8 @@ export const environment = {
   sentryDsn: import.meta.env.VITE_SENTRY_DSN as string,
   featureFlag: {
     preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
+    showCityAccountLoginInformationModalOnce:
+      import.meta.env.VITE_FEATURE_FLAG_SHOW_CITY_ACCOUNT_LOGIN_INFORMATION_MODAL_ONCE === 'true',
   },
   turnstileSiteKey: import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY as string,
   cityAccountBackendUrl: import.meta.env.VITE_CITY_ACCOUNT_BACKEND_URL as string,
