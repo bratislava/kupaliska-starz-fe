@@ -15,11 +15,6 @@ const routes: Route[] = [
     component: React.lazy(() => import('pages/OrderPage/OrderPage')),
   },
   {
-    path: '/:lang?/order-review',
-    exact: true,
-    component: React.lazy(() => import('pages/OrderReviewPage/OrderReviewPage')),
-  },
-  {
     path: '/:lang?/order-result',
     exact: true,
     component: React.lazy(() => import('pages/OrderResultPage/OrderResultPage')),
