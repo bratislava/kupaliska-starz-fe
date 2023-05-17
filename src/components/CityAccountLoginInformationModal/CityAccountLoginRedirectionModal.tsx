@@ -44,17 +44,19 @@ const CityAccountLoginRedirectionModal = () => {
       title={'Budete presmerovaní na Bratislavské konto'}
       className="max-w-[592px]"
     >
-      <div className="flex flex-col gap-2">
-        <p>Nákup lístka na kúpalisko od tohto roka funguje cez Bratislavské konto.</p>
-        <p>
-          Ak ste si minulý rok pri kúpe lístka na kúpalisko vytvárali svoj účet, môžete si
-          Bratislavské konto pre túto e-mailovú adresu aktivovať a nepotrebujete prejsť celou
-          registráciou.
-        </p>
-        <p>
-          Ak už máte vytvorené Bratislavské konto, môžete sa prihlásiť pomocou svojich
-          prihlasovacích údajov.
-        </p>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
+          <p>Nákup lístka na kúpalisko od tohto roka funguje cez Bratislavské konto.</p>
+          <p>
+            Ak ste si minulý rok pri kúpe lístka na kúpalisko vytvárali svoj účet, môžete si
+            Bratislavské konto pre túto e-mailovú adresu aktivovať a{' '}
+            <strong>nepotrebujete prejsť celou registráciou</strong>.
+          </p>
+          <p>
+            Ak už máte vytvorené Bratislavské konto, môžete sa prihlásiť pomocou svojich
+            prihlasovacích údajov.
+          </p>
+        </div>
         <Button color="primary" onClick={state.onSuccessCallback} className="w-full">
           Pokračovať na stránku
         </Button>
