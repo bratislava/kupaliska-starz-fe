@@ -18,6 +18,10 @@ interface PhotoFieldProps {
   showLabel?: boolean
 }
 
+// https://github.com/onurzorluer/react-image-file-resizer/issues/68#issuecomment-1400516800
+// @ts-expect-error
+const resizer: typeof Resizer = Resizer.default || Resizer
+
 const PhotoField = ({
   setValue,
   setError,
@@ -42,7 +46,7 @@ const PhotoField = ({
         return
       }
       clearErrors('image')
-      Resizer.imageFileResizer(
+      resizer.imageFileResizer(
         file,
         400,
         400,
