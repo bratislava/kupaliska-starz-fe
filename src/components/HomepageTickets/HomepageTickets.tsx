@@ -34,15 +34,14 @@ const HomepageTickets = () => {
     if (ticket.disabled) {
       return
     }
-    const orderLocation = {
-      pathname: '/order',
-      state: { ticketId: ticket.id },
-    }
 
     if (ticketNeedsLogin(ticket)) {
-      await login(orderLocation)
+      await login(`${window.location.origin}/order?ticketId=${ticket.id}`)
     } else {
-      history.push(orderLocation)
+      history.push({
+        pathname: '/order',
+        state: { ticketId: ticket.id },
+      })
     }
   }
 
