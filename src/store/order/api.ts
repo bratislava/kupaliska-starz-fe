@@ -1,18 +1,39 @@
-import { apiClient, apiClientWithAccessTokenIfAvailable } from 'helpers/apiClient'
+import {
+  apiClient,
+  apiClientWithAccessToken,
+  apiClientWithAccessTokenIfAvailable,
+} from 'helpers/apiClient'
 import { CheckPriceResponse, OrderRequest } from 'models'
+import { CityAccountAccessTokenAuthenticationStatus } from '../../hooks/useCityAccount'
 
-export function order(data: OrderRequest) {
-  return apiClientWithAccessTokenIfAvailable.post('/api/v1/orders', data)
+export function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuthenticationStatus) {
+  if (authStatus === 'authenticated') {
+    return apiClientWithAccessToken.post('/api/v1/orders', data)
+  }
+  if (authStatus === 'unauthenticated') {
+    return apiClient.post('/api/v1/orders/unauthenticated', data)
+  }
+
+  return Promise.reject(new Error('Unsupported auth status'))
 }
 
-export function getPrice(order: any, abortSignal?: AbortSignal) {
-  return apiClientWithAccessTokenIfAvailable.post<CheckPriceResponse>(
-    '/api/v1/orders/getPrice',
-    order,
-    {
+export function getPrice(
+  order: any,
+  authStatus: CityAccountAccessTokenAuthenticationStatus,
+  abortSignal?: AbortSignal,
+) {
+  if (authStatus === 'authenticated') {
+    return apiClientWithAccessToken.post<CheckPriceResponse>('/api/v1/orders/getPrice', order, {
       signal: abortSignal,
-    },
-  )
+    })
+  }
+  if (authStatus === 'unauthenticated') {
+    return apiClient.post<CheckPriceResponse>('/api/v1/orders/getPrice/unauthenticated', order, {
+      signal: abortSignal,
+    })
+  }
+
+  return Promise.reject(new Error('Unsupported auth status'))
 }
 
 export interface FinalOrderTicket {

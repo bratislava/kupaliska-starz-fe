@@ -37,6 +37,7 @@ import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEdi
 import Turnstile from 'react-turnstile'
 import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import { useAccount } from 'hooks/useAccount'
+import useCityAccount from 'hooks/useCityAccount'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -558,7 +559,7 @@ const OrderPage = () => {
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
-
+  const { status } = useCityAccount()
   const { t } = useTranslation()
 
   const {
@@ -631,7 +632,7 @@ const OrderPage = () => {
     ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
 
-      return getPrice(getPriceRequest, signal)
+      return getPrice(getPriceRequest, status, signal)
     },
     {
       onError: (err) => {
