@@ -7,6 +7,7 @@ import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
 import { Button as AriaButton } from 'react-aria-components'
 import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 import Photo from '../Photo/Photo'
+import { environment } from '../../environment'
 
 const ProfilePageUser = () => {
   const { data, isLoading, isError } = useQuery('user', fetchUser)
@@ -47,9 +48,11 @@ const ProfilePageUser = () => {
               konte.
             </p>
           </div>
-          <Button>
-            <Icon className="mr-2 no-fill" name="castle" /> Spravovať v konte
-          </Button>
+          <a href={`${environment.cityAccountFrontendUrl}/moj-profil`}>
+            <Button>
+              <Icon className="mr-2 no-fill" name="castle" /> Spravovať v konte
+            </Button>
+          </a>
         </div>
         <div className="gap-6 flex flex-col p-6">
           <div className="gap-6 flex flex-col sm:flex-row">
