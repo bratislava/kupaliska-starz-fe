@@ -3,7 +3,6 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 
 import { globalReducer } from './global'
-import { orderReducer } from './order'
 
 export const history = createBrowserHistory()
 
@@ -12,7 +11,6 @@ const middleware = [routerMiddleware(history), ...getDefaultMiddleware()] as con
 export const store = configureStore({
   reducer: {
     router: connectRouter(history),
-    order: orderReducer,
     global: globalReducer,
   },
   middleware,

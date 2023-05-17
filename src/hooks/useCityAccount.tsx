@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 
-type CityAccountAccessTokenAuthenticationStatus =
+export type CityAccountAccessTokenAuthenticationStatus =
   | 'initializing'
   | 'authenticated'
   | 'unauthenticated'
