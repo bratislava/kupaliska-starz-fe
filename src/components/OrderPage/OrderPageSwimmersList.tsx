@@ -2,6 +2,7 @@ import React from 'react'
 import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
 import { Button as AriaButton, Checkbox } from 'react-aria-components'
 import { Icon } from '../index'
+import { useTranslation } from 'react-i18next'
 
 type OrderPageSwimmersListSwimmer =
   | AssociatedSwimmer
@@ -27,6 +28,7 @@ const OrderPageSwimmersList = ({
   onSelectSwimmer = () => {},
   onAddSwimmer = () => {},
 }: OrderPageSwimmersListProps) => {
+  const { t } = useTranslation()
   return (
     <div className="gap-3 flex flex-col pt-3">
       {swimmers.map((swimmer) => (
@@ -46,7 +48,10 @@ const OrderPageSwimmersList = ({
             <p className="font-semibold">
               {swimmer.firstname} {swimmer.lastname}
             </p>
-            <p className="text-sm">{swimmer.age}</p>
+            <p className="text-sm">
+              {swimmer.age != null &&
+                t('common.age-interval', { postProcess: 'interval', count: swimmer.age })}
+            </p>
           </div>
           <div className="react-aria-checkbox" />
         </Checkbox>

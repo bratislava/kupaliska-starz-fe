@@ -7,8 +7,11 @@ import cx from 'classnames'
 import Photo from '../Photo/Photo'
 import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
+import { useTranslation } from 'react-i18next'
 
 const ProfilePageSwimmers = () => {
+  const { t } = useTranslation()
+
   const [addEditSwimmerModal, setAddEditSwimmerModal] = useState<{
     open: boolean
     swimmer?: AssociatedSwimmer
@@ -72,7 +75,11 @@ const ProfilePageSwimmers = () => {
                   <p className="font-semibold">
                     {swimmer.firstname} {swimmer.lastname}
                   </p>
-                  <p className="text-sm">{swimmer.age}</p>
+                  <p className="text-sm">
+                    {' '}
+                    {swimmer.age != null &&
+                      t('common.age-interval', { postProcess: 'interval', count: swimmer.age })}
+                  </p>
                 </div>
 
                 <ThreeDots
