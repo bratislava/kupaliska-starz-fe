@@ -1,62 +1,32 @@
-import { useMemo } from 'react'
-import { useAppSelector } from '../../hooks'
-import { selectAvailableTickets } from '../../store/global'
-import { useHistory } from 'react-router-dom'
 import { Ticket } from '../../models'
-import { useLocation } from 'react-router'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
+import { useQuery } from 'react-query'
+import { fetchUser } from '../../store/user/api'
 
-/* Retrieves the ticket id from history state, gets the ticket, redirects if necessary and return the info needed. */
-export const useOrderTicket = () => {
-  const tickets = useAppSelector(selectAvailableTickets)
+export const useOrderTicket = (ticket: Ticket) => {
   const { status } = useCityAccountAccessToken()
-  const history = useHistory<{ ticketId?: string }>()
-  const location = useLocation()
 
   const hasAccount = status === 'authenticated'
 
-  return useMemo(() => {
-    const searchParamsTicketId = new URLSearchParams(history.location.search).get('ticketId')
-    if (searchParamsTicketId) {
-      const { pathname } = location
-      // Removes the ticketId from the url and moves it to history state
-      history.replace(pathname, { ticketId: searchParamsTicketId })
-    }
+  const hasSwimmers = ticket.nameRequired
+  const userQuery = useQuery('user', fetchUser, { enabled: hasSwimmers })
+  const requireEmail = !hasAccount
+  const hasOptionalFields = !ticket.nameRequired && !hasAccount
+  const hasTicketAmount = !ticket.nameRequired
+  const displayMissingInformationWarning =
+    hasSwimmers && userQuery.data?.data
+      ? userQuery.data.data.image == null || userQuery.data.data.age == null
+      : false
+  const userQueryNotLoadedIfNeeded = hasSwimmers && !userQuery.data
+  const sendDisabled = displayMissingInformationWarning || userQueryNotLoadedIfNeeded
 
-    const ticketId = searchParamsTicketId ?? history.location.state?.ticketId
-    if (!ticketId) {
-      history.push('/')
-      return {}
-    }
-
-    const ticket = tickets.find((t: Ticket) => t.id === ticketId)
-    if (!ticket) {
-      history.push('/')
-      return {}
-    }
-
-    if (ticket.disabled) {
-      history.push('/')
-      return {}
-    }
-
-    const requiresLoginAndIsNotLoggedIn = ticket.nameRequired && !hasAccount
-    if (requiresLoginAndIsNotLoggedIn) {
-      history.push('/')
-      return {}
-    }
-
-    const requireEmail = !hasAccount
-    const hasOptionalFields = !ticket.nameRequired && !hasAccount
-    const hasSwimmers = ticket.nameRequired
-    const hasTicketAmount = !ticket.nameRequired
-    return {
-      ticket,
-      requireEmail,
-      hasOptionalFields,
-      hasSwimmers,
-      hasTicketAmount,
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  return {
+    ticket,
+    requireEmail,
+    hasOptionalFields,
+    hasSwimmers,
+    hasTicketAmount,
+    displayMissingInformationWarning,
+    sendDisabled,
+  }
 }

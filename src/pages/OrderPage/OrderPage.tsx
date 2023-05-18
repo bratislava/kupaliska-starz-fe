@@ -40,7 +40,6 @@ import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersL
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
-import { NumberFormatter } from '@internationalized/number'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
@@ -173,10 +172,12 @@ const OrderPagePeopleList = ({
   errors,
   watch,
   setValue,
+  displayMissingInformationWarning,
 }: {
   errors: FieldErrors<OrderFormData>
   watch: UseFormWatch<OrderFormData>
   setValue: UseFormSetValue<OrderFormData>
+  displayMissingInformationWarning: boolean
 }) => {
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
@@ -203,13 +204,9 @@ const OrderPagePeopleList = ({
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [associatedSwimmersQuery.data, userQuery.data])
+  }, [account?.family_name, account?.given_name, associatedSwimmersQuery.data, userQuery.data])
 
   const error = associatedSwimmersQuery.error || userQuery.error
-  const displayMissingInformationWarning = userQuery.data?.data
-    ? userQuery.data.data.image == null || userQuery.data.data.age == null
-    : false
 
   useEffect(() => {
     if (error) {
@@ -584,8 +581,15 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
   )
 }
 
-const OrderPage = () => {
-  const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = useOrderTicket()
+const OrderPage = ({ ticket }: { ticket: Ticket }) => {
+  const {
+    requireEmail,
+    hasOptionalFields,
+    hasSwimmers,
+    hasTicketAmount,
+    displayMissingInformationWarning,
+    sendDisabled,
+  } = useOrderTicket(ticket)
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
@@ -614,7 +618,7 @@ const OrderPage = () => {
       hasTicketAmount,
     },
   })
-  let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
+  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
 
   // Must be any, otherwise type checking fails.
   //
@@ -629,11 +633,11 @@ const OrderPage = () => {
   })
 
   const getRequestsFromFormData = () =>
-    orderFormToRequests(getValues(), ticket!, {
-      requireEmail: requireEmail!,
-      hasOptionalFields: hasOptionalFields!,
-      hasSwimmers: hasSwimmers!,
-      hasTicketAmount: hasTicketAmount!,
+    orderFormToRequests(getValues(), ticket, {
+      requireEmail,
+      hasOptionalFields,
+      hasSwimmers,
+      hasTicketAmount,
     })
 
   const priceQuery = useQuery(
@@ -669,7 +673,7 @@ const OrderPage = () => {
     <Button
       className="mt-14 md:mt-16"
       htmlType="button"
-      disabled={priceQuery.isFetching || priceQuery.isError}
+      disabled={priceQuery.isFetching || priceQuery.isError || sendDisabled}
       onClick={handleSubmit(onSubmit, (err) => {
         console.log(err)
       })}
@@ -694,7 +698,7 @@ const OrderPage = () => {
           <NumberedLayout index={1} first={true}>
             <div className="font-semibold text-xl mb-7">{t('buy-page.buyer')}</div>
             <OrderPageEmail
-              requireEmail={requireEmail!}
+              requireEmail={requireEmail}
               register={register}
               errors={errors}
             ></OrderPageEmail>
@@ -724,6 +728,7 @@ const OrderPage = () => {
                   watch={watch}
                   setValue={setValue}
                   errors={errors}
+                  displayMissingInformationWarning={displayMissingInformationWarning}
                 ></OrderPagePeopleList>
               </>
             )}
@@ -764,7 +769,7 @@ const OrderPage = () => {
                       // logger.warn("Turnstile expire - should refresh automatically");
                       onChange(null)
                     }}
-                    className="mb-2 self-center"
+                    className="mb-4 self-center"
                   />
                   {captchaWarning === 'show' && (
                     <p className="text-p3 italic">{t('captcha_warning')}</p>
@@ -793,7 +798,7 @@ const OrderPage = () => {
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
           <OrderPageSummary
             ticket={ticket}
-            hasTicketAmount={hasTicketAmount!}
+            hasTicketAmount={hasTicketAmount}
             setValue={setValue}
             watch={watch}
             priceQuery={priceQuery}
