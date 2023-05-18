@@ -620,13 +620,7 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
   })
   const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
 
-  // Must be any, otherwise type checking fails.
-  //
-  // Failed to compile.
-  //
-  // fork-ts-checker-webpack-plugin error in undefined(undefined,undefined):
-  // Maximum call stack size exceeded  TSINTERNAL
-  const watchPriceChange = useWatch<any>({
+  const watchPriceChange = useWatch({
     // Those properties are those who trigger possible change of the price.
     name: ['ticketAmount', 'discountCode', 'selectedSwimmerIds', 'ticketAmount'],
     control,
