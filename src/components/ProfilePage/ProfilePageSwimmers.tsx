@@ -7,6 +7,8 @@ import cx from 'classnames'
 import Photo from '../Photo/Photo'
 import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { AxiosError } from 'axios'
 
 const ProfilePageSwimmers = () => {
   const [addEditSwimmerModal, setAddEditSwimmerModal] = useState<{
@@ -20,7 +22,13 @@ const ProfilePageSwimmers = () => {
     setSwimmerToDelete(null)
   }
 
-  const { data, isLoading } = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
+
+  const { data, isLoading } = useQuery('associatedSwimmers', fetchAssociatedSwimmers, {
+    onError: (err) => {
+      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+    },
+  })
 
   return (
     <>

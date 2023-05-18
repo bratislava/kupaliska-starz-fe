@@ -6,11 +6,12 @@ import {
 } from '../../store/associatedSwimmers/api'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 import Photo from '../Photo/Photo'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 type ProfilePageDeleteAssociatedSwimmerModalProps = {
   swimmer: AssociatedSwimmer
@@ -22,6 +23,8 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
   onClose,
 }: ProfilePageDeleteAssociatedSwimmerModalProps) => {
   const { t } = useTranslation()
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
+
   const queryClient = useQueryClient()
   const mutation = useMutation(() => deleteAssociatedSwimmer(swimmer.id!), {
     onSuccess: () => {
@@ -42,6 +45,9 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
       )
       queryClient.invalidateQueries('associatedSwimmers')
       onClose()
+    },
+    onError: (err) => {
+      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
     },
   })
   const handleRemove = () => {
