@@ -15,9 +15,10 @@ import * as yup from 'yup'
 import { pick } from 'lodash'
 import { getObjectChanges } from '../../helpers/getObjectChanges'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 type FormData = Partial<Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'age' | 'zip'>>
 
@@ -76,6 +77,7 @@ export const AssociatedSwimmerEditAddModal = ({
 
   const queryClient = useQueryClient()
   const isEditing = Boolean(swimmer)
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const mutation = useMutation(
     (formData: FormData) => {
@@ -109,6 +111,9 @@ export const AssociatedSwimmerEditAddModal = ({
         queryClient.invalidateQueries('associatedSwimmers')
         onSaveSuccess(response.data.data.associatedSwimmer)
         onClose()
+      },
+      onError: (err) => {
+        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
     },
   )

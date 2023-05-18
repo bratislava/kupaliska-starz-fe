@@ -1,6 +1,6 @@
 import React from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import { Button, InputField } from '../index'
 import { updateUser, User } from '../../store/user/api'
@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { pick } from 'lodash'
 import { useValidationSchemaTranslationIfPresent } from '../../helpers/general'
 import Dialog from '../Dialog/Dialog'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 type ProfilePageAgeZipModalProps = {
   type: 'age' | 'zip'
@@ -61,6 +62,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
   })
 
   const { t } = useTranslation()
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const queryClient = useQueryClient()
   const mutation = useMutation(
@@ -80,6 +82,9 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
         })
         queryClient.invalidateQueries('user')
         onClose()
+      },
+      onError: (err) => {
+        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
     },
   )
