@@ -7,6 +7,8 @@ import ProfileLine from '../../components/ProfileLine/ProfileLine'
 import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
 import { useQuery } from 'react-query'
 import { partition } from 'lodash'
+import { AxiosError } from 'axios'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
@@ -287,7 +289,13 @@ const UsedTicket = ({
 
 const TicketsManagementPage = () => {
   const { t } = useTranslation()
-  const ticketsQuery = useQuery('tickets', fetchTicketsHistory)
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
+
+  const ticketsQuery = useQuery('tickets', fetchTicketsHistory, {
+    onError: (err) => {
+      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+    },
+  })
   const [openedTicketDetail, setOpenedTicketDetail] = useState<TicketFromHistory | null>(null)
 
   const dataMapped = useMemo(() => {
