@@ -9,8 +9,11 @@ import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/Asso
 import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 import { AxiosError } from 'axios'
+import { useTranslation } from 'react-i18next'
 
 const ProfilePageSwimmers = () => {
+  const { t } = useTranslation()
+
   const [addEditSwimmerModal, setAddEditSwimmerModal] = useState<{
     open: boolean
     swimmer?: AssociatedSwimmer
@@ -80,7 +83,11 @@ const ProfilePageSwimmers = () => {
                   <p className="font-semibold">
                     {swimmer.firstname} {swimmer.lastname}
                   </p>
-                  <p className="text-sm">{swimmer.age}</p>
+                  <p className="text-sm">
+                    {' '}
+                    {swimmer.age != null &&
+                      t('common.age-interval', { postProcess: 'interval', count: swimmer.age })}
+                  </p>
                 </div>
 
                 <ThreeDots
