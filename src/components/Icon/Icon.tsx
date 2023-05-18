@@ -45,6 +45,7 @@ import { ReactComponent as TicketsIcon } from '../../assets/icons/tickets.svg'
 import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
 import { ReactComponent as UploadIcon } from '../../assets/icons/upload.svg'
 import { ReactComponent as VolleyballIcon } from '../../assets/icons/volleyball.svg'
+import { ReactComponent as WarningIcon } from '../../assets/icons/warning.svg'
 import { ReactComponent as WavesIcon } from '../../assets/icons/waves.svg'
 import { ReactComponent as YoutubeLogoIcon } from '../../assets/icons/youtube-logo.svg'
 
@@ -98,6 +99,7 @@ const iconMap = {
   user: UserIcon,
   upload: UploadIcon,
   volleyball: VolleyballIcon,
+  warning: WarningIcon,
   waves: WavesIcon,
   'youtube-logo': YoutubeLogoIcon,
 }
