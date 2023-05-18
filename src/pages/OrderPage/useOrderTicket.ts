@@ -3,17 +3,17 @@ import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
 import { useHistory } from 'react-router-dom'
 import { Ticket } from '../../models'
-import { useAccount } from '../../hooks/useAccount'
 import { useLocation } from 'react-router'
+import useCityAccountAccessToken from '../../hooks/useCityAccount'
 
 /* Retrieves the ticket id from history state, gets the ticket, redirects if necessary and return the info needed. */
 export const useOrderTicket = () => {
   const tickets = useAppSelector(selectAvailableTickets)
-  const { data: account } = useAccount()
+  const { status } = useCityAccountAccessToken()
   const history = useHistory<{ ticketId?: string }>()
   const location = useLocation()
 
-  const hasAccount = Boolean(account)
+  const hasAccount = status === 'authenticated'
 
   return useMemo(() => {
     const searchParamsTicketId = new URLSearchParams(history.location.search).get('ticketId')
