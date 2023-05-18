@@ -1,5 +1,6 @@
 import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
+import { Button as AriaButton } from 'react-aria-components'
 import { useWindowSize } from '../../hooks'
 import cx from 'classnames'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
@@ -27,7 +28,7 @@ import { useIsMounted } from 'usehooks-ts'
 import { fetchUser } from '../../store/user/api'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import './OrderPage.css'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useOrder } from './useOrder'
 import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
@@ -38,6 +39,8 @@ import Turnstile from 'react-turnstile'
 import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
+import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
+import { currencyFormatter } from '../../helpers/currencyFormatter'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -169,12 +172,15 @@ const OrderPagePeopleList = ({
   errors,
   watch,
   setValue,
+  displayMissingInformationWarning,
 }: {
   errors: FieldErrors<OrderFormData>
   watch: UseFormWatch<OrderFormData>
   setValue: UseFormSetValue<OrderFormData>
+  displayMissingInformationWarning: boolean
 }) => {
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
+  const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
   const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
 
   const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
@@ -198,8 +204,7 @@ const OrderPagePeopleList = ({
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [associatedSwimmersQuery.data, userQuery.data])
+  }, [account?.family_name, account?.given_name, associatedSwimmersQuery.data, userQuery.data])
 
   const error = associatedSwimmersQuery.error || userQuery.error
 
@@ -227,6 +232,12 @@ const OrderPagePeopleList = ({
 
   return (
     <>
+      {missingInformationModalOpen && userQuery.data?.data && (
+        <OrderMissingInformationProfileModal
+          user={userQuery.data.data}
+          onClose={() => setMissingInformationModalOpen(false)}
+        ></OrderMissingInformationProfileModal>
+      )}
       {addSwimmerModalOpen && (
         <AssociatedSwimmerEditAddModal
           onClose={() => setAddSwimmerModalOpen(false)}
@@ -234,6 +245,20 @@ const OrderPagePeopleList = ({
         ></AssociatedSwimmerEditAddModal>
       )}
 
+      {displayMissingInformationWarning && (
+        <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+          <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+          <div>
+            Pre kúpu permanentky je potrebné doplniť fotografiu a vek.{' '}
+            <AriaButton
+              onPress={() => setMissingInformationModalOpen(true)}
+              className="underline font-semibold"
+            >
+              Doplniť povinné údaje
+            </AriaButton>
+          </div>
+        </div>
+      )}
       {mergedSwimmers && (
         <OrderPageSwimmersList
           selectedSwimmerIds={selectedSwimmerIds}
@@ -542,10 +567,12 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
   const fullPrice =
     pricing.discount > 0 ? (
       <div className="inline-block strikethrough-diagonal mr-2">
-        {pricing.orderPrice + pricing.discount} €
+        {currencyFormatter.format(pricing.orderPrice + pricing.discount)}
       </div>
     ) : null
-  const orderPrice = <div className="inline-block">{pricing.orderPrice} €</div>
+  const orderPrice = (
+    <div className="inline-block">{currencyFormatter.format(pricing.orderPrice)}</div>
+  )
   return (
     <>
       {fullPrice}
@@ -554,8 +581,15 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
   )
 }
 
-const OrderPage = () => {
-  const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = useOrderTicket()
+const OrderPage = ({ ticket }: { ticket: Ticket }) => {
+  const {
+    requireEmail,
+    hasOptionalFields,
+    hasSwimmers,
+    hasTicketAmount,
+    displayMissingInformationWarning,
+    sendDisabled,
+  } = useOrderTicket(ticket)
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
@@ -584,47 +618,20 @@ const OrderPage = () => {
       hasTicketAmount,
     },
   })
+  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
 
-  const userQuery = useQuery('user', fetchUser)
-  const history = useHistory()
-
-  let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
-
-  useEffect(() => {
-    if (!userQuery.data) {
-      return
-    }
-
-    if (
-      userQuery.data &&
-      hasSwimmers &&
-      (userQuery.data.data.age == null || userQuery.data.data.image == null)
-    ) {
-      // If the ticket requires swimmers ("requireName") and the user has no age or image profile he/she has to fill it
-      // in, so he/she is redirected.
-      history.push('/profile/edit')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userQuery.data])
-
-  // Must be any, otherwise type checking fails.
-  //
-  // Failed to compile.
-  //
-  // fork-ts-checker-webpack-plugin error in undefined(undefined,undefined):
-  // Maximum call stack size exceeded  TSINTERNAL
-  const watchPriceChange = useWatch<any>({
+  const watchPriceChange = useWatch({
     // Those properties are those who trigger possible change of the price.
     name: ['ticketAmount', 'discountCode', 'selectedSwimmerIds', 'ticketAmount'],
     control,
   })
 
   const getRequestsFromFormData = () =>
-    orderFormToRequests(getValues(), ticket!, {
-      requireEmail: requireEmail!,
-      hasOptionalFields: hasOptionalFields!,
-      hasSwimmers: hasSwimmers!,
-      hasTicketAmount: hasTicketAmount!,
+    orderFormToRequests(getValues(), ticket, {
+      requireEmail,
+      hasOptionalFields,
+      hasSwimmers,
+      hasTicketAmount,
     })
 
   const priceQuery = useQuery(
@@ -638,6 +645,7 @@ const OrderPage = () => {
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
+      retry: false,
     },
   )
 
@@ -659,14 +667,14 @@ const OrderPage = () => {
     <Button
       className="mt-14 md:mt-16"
       htmlType="button"
-      disabled={priceQuery.isFetching || priceQuery.isError}
+      disabled={priceQuery.isFetching || priceQuery.isError || sendDisabled}
       onClick={handleSubmit(onSubmit, (err) => {
         console.log(err)
       })}
     >
       {priceQuery.isSuccess && !priceQuery.isFetching
         ? t('buy-page.pay-with-price', {
-            price: priceQuery.data.data.data.pricing.orderPrice,
+            price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
           })
         : t('buy-page.pay')}
       <Icon className="ml-4" name="credit-card" />
@@ -684,7 +692,7 @@ const OrderPage = () => {
           <NumberedLayout index={1} first={true}>
             <div className="font-semibold text-xl mb-7">{t('buy-page.buyer')}</div>
             <OrderPageEmail
-              requireEmail={requireEmail!}
+              requireEmail={requireEmail}
               register={register}
               errors={errors}
             ></OrderPageEmail>
@@ -714,6 +722,7 @@ const OrderPage = () => {
                   watch={watch}
                   setValue={setValue}
                   errors={errors}
+                  displayMissingInformationWarning={displayMissingInformationWarning}
                 ></OrderPagePeopleList>
               </>
             )}
@@ -754,7 +763,7 @@ const OrderPage = () => {
                       // logger.warn("Turnstile expire - should refresh automatically");
                       onChange(null)
                     }}
-                    className="mb-2 self-center"
+                    className="mb-4 self-center"
                   />
                   {captchaWarning === 'show' && (
                     <p className="text-p3 italic">{t('captcha_warning')}</p>
@@ -783,7 +792,7 @@ const OrderPage = () => {
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
           <OrderPageSummary
             ticket={ticket}
-            hasTicketAmount={hasTicketAmount!}
+            hasTicketAmount={hasTicketAmount}
             setValue={setValue}
             watch={watch}
             priceQuery={priceQuery}
