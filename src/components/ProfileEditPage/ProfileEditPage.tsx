@@ -13,6 +13,8 @@ import ProfileBack from '../ProfileBack/ProfileBack'
 import { pick } from 'lodash'
 import { getObjectChanges } from '../../helpers/getObjectChanges'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import { AxiosError } from 'axios'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -51,6 +53,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
 
   const queryClient = useQueryClient()
   const history = useHistory()
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   useEffect(() => {
     if (user?.image) {
@@ -66,6 +69,9 @@ const ProfileEditForm = ({ user }: { user: User }) => {
       onSuccess: () => {
         queryClient.invalidateQueries('user')
         history.push('/profile')
+      },
+      onError: (err) => {
+        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
     },
   )
@@ -124,7 +130,13 @@ const ProfileEditForm = ({ user }: { user: User }) => {
 }
 
 const ProfileEditPage = () => {
-  const userQuery = useQuery('user', fetchUser)
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
+
+  const userQuery = useQuery('user', fetchUser, {
+    onError: (err) => {
+      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+    },
+  })
   const { t } = useTranslation()
 
   return (

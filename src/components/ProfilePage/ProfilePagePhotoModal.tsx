@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import { Button } from '../index'
 import { updateUser, User } from '../../store/user/api'
@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { pick } from 'lodash'
 import Dialog from '../Dialog/Dialog'
 import PhotoField from '../PhotoField/PhotoField'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 type ProfilePagePhotoModalProps = {
   user: User
@@ -45,6 +46,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
   }, [user])
 
   const { t } = useTranslation()
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const queryClient = useQueryClient()
   const mutation = useMutation(
@@ -64,6 +66,9 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
         })
         queryClient.invalidateQueries('user')
         onClose()
+      },
+      onError: (err) => {
+        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
     },
   )

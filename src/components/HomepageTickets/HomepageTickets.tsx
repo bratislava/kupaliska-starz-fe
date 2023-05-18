@@ -93,7 +93,7 @@ const HomepageTickets = () => {
                       </span>
                       {!ticket.disabled && (
                         <Button
-                          className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto"
+                          className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
                           thin
                           onClick={() => handleClick(ticket)}
                           color={needsLogin ? 'primary' : 'outlined'}

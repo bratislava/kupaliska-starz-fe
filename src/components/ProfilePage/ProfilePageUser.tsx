@@ -7,9 +7,18 @@ import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
 import { Button as AriaButton } from 'react-aria-components'
 import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 import Photo from '../Photo/Photo'
+import { environment } from '../../environment'
+import { AxiosError } from 'axios'
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
 const ProfilePageUser = () => {
-  const { data, isLoading, isError } = useQuery('user', fetchUser)
+  const { dispatchErrorToastForHttpRequest } = useErrorToast()
+
+  const { data, isLoading, isError } = useQuery('user', fetchUser, {
+    onError: (err) => {
+      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+    },
+  })
   const account = useAccount()
   const [isAgeModalOpen, setIsAgeModalOpen] = useState(false)
   const [isZipModalOpen, setIsZipModalOpen] = useState(false)
@@ -47,9 +56,11 @@ const ProfilePageUser = () => {
               konte.
             </p>
           </div>
-          <Button>
-            <Icon className="mr-2 no-fill" name="castle" /> Spravovať v konte
-          </Button>
+          <a href={`${environment.cityAccountFrontendUrl}/moj-profil`}>
+            <Button>
+              <Icon className="mr-2 no-fill" name="castle" /> Spravovať v konte
+            </Button>
+          </a>
         </div>
         <div className="gap-6 flex flex-col p-6">
           <div className="gap-6 flex flex-col sm:flex-row">
