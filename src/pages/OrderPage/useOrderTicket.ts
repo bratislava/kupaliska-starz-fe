@@ -57,6 +57,5 @@ export const useOrderTicket = () => {
       hasSwimmers,
       hasTicketAmount,
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [hasAccount, history, location, tickets])
 }
