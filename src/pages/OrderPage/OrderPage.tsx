@@ -1,4 +1,12 @@
-import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  ChangeEvent,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
 import { useWindowSize } from '../../hooks'
@@ -41,6 +49,7 @@ import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
+import { last } from 'lodash'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -181,6 +190,8 @@ const OrderPagePeopleList = ({
 }) => {
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
+  // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
+  const [swimmerListSizeWherePrefillDone, setSwimmerListSizeWherePrefillDone] = useState(0)
   const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
 
   const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
@@ -205,6 +216,31 @@ const OrderPagePeopleList = ({
       ]
     )
   }, [account?.family_name, account?.given_name, associatedSwimmersQuery.data, userQuery.data])
+
+  useEffect(() => {
+    // prefill each time the list of associated swimmers grow
+    if (!mergedSwimmers?.length) return
+    if (swimmerListSizeWherePrefillDone === mergedSwimmers.length) return
+    if (swimmerListSizeWherePrefillDone === 0) {
+      // initial prefill, add everyone
+      setValue(
+        'selectedSwimmerIds',
+        mergedSwimmers.map((swimmer) => swimmer.id),
+      )
+    } else {
+      // when new people are added keep the way previous ones were preselected
+      // we assume the length can only grow by one and can't shorten
+      const lastSwimmer = last(mergedSwimmers)
+      if (lastSwimmer) {
+        setValue('selectedSwimmerIds', [...selectedSwimmerIds, lastSwimmer.id])
+      } else {
+        console.warn(
+          'Empty mergedSwimmers list when trying to add to preselected - should never happen',
+        )
+      }
+    }
+    setSwimmerListSizeWherePrefillDone(mergedSwimmers.length)
+  }, [mergedSwimmers, selectedSwimmerIds, setValue, swimmerListSizeWherePrefillDone])
 
   const error = associatedSwimmersQuery.error || userQuery.error
 
