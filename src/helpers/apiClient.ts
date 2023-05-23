@@ -64,5 +64,5 @@ const createApiClient = (withAccessToken = WithAccessToken.None) => {
 }
 
 export const apiClient = createApiClient()
-export const apiClientWithAccessToken = createApiClient(WithAccessToken.IfAvailable)
-export const apiClientWithAccessTokenIfAvailable = createApiClient(WithAccessToken.Required)
+export const apiClientWithAccessToken = createApiClient(WithAccessToken.Required)
+export const apiClientWithAccessTokenIfAvailable = createApiClient(WithAccessToken.IfAvailable)
