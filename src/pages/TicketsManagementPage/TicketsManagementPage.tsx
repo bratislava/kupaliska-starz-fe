@@ -10,6 +10,9 @@ import { partition } from 'lodash'
 import { AxiosError } from 'axios'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 
+// the best indication we get from backend ¯\_(ツ)_/¯
+const ONE_TIME_TICKET_TYPE = 'Jednorazový lístok'
+
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
   new Date(timestamp).toLocaleTimeString('sk-SK', {
@@ -183,7 +186,9 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <span className="font-bold text-2xl mb-1">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
       <span className="font-semibold mb-3 text-xl text-center">{ticket.type}</span>
-      <span className="text-center mb-6">{ticket.ownerName}</span>
+      <span className="text-center mb-6">
+        {ticket.type === ONE_TIME_TICKET_TYPE ? '' : ticket.ownerName}
+      </span>
       <div className="flex justify-center">
         <Button color={buttonColor} className="absolute shadow-xs" onClick={onDetailClick}>
           {t('tickets.ticket-button')}
@@ -311,7 +316,8 @@ const TicketsManagementPage = () => {
     const activeTicketsRows = activeTickets.map((ticket) => [
       ticket.type,
       ticket.remainingEntries,
-      ticket.ownerName,
+      // don't show owner name for 1 time tickets, so that we don't imply these are bound
+      ticket.type === ONE_TIME_TICKET_TYPE ? '' : ticket.ownerName,
       // eslint-disable-next-line react/jsx-key,jsx-a11y/anchor-is-valid
       <a
         role="button"
@@ -387,7 +393,7 @@ const TicketsManagementPage = () => {
                   <Table
                     headers={[
                       t('tickets.ticket-type'),
-                      t('tickets.entry-date'),
+                      t('tickets.entries-left'),
                       t('tickets.season-ticket-owner'),
                       '',
                     ]}
