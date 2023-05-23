@@ -10,6 +10,7 @@ import Photo from '../Photo/Photo'
 import { environment } from '../../environment'
 import { AxiosError } from 'axios'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useTranslation } from 'react-i18next'
 
 const ProfilePageUser = () => {
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
@@ -23,6 +24,7 @@ const ProfilePageUser = () => {
   const [isAgeModalOpen, setIsAgeModalOpen] = useState(false)
   const [isZipModalOpen, setIsZipModalOpen] = useState(false)
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false)
+  const { t } = useTranslation()
 
   return (
     <>
@@ -114,7 +116,10 @@ const ProfilePageUser = () => {
                   <p>Vek</p>
                 </div>
                 <div className="flex grow">
-                  <p className="grow">{data.data.age}</p>
+                  <p className="grow">
+                    {data.data.age != null &&
+                      t('common.age-interval', { postProcess: 'interval', count: data.data.age })}
+                  </p>
                   <AriaButton onPress={() => setIsAgeModalOpen(true)} aria-label="Upraviť vek">
                     <Icon name="pencil" className="no-fill" />
                   </AriaButton>
