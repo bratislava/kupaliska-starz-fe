@@ -8,6 +8,7 @@ import { useLogin } from '../../hooks/useLogin'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
+import { currencyFormatter } from '../../helpers/currencyFormatter'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
@@ -89,7 +90,7 @@ const HomepageTickets = () => {
                     <span className="grow font-semibold">{ticket.name}</span>
                     <div className="flex items-center justify-between gap-x-8">
                       <span className="lg:w-[108px] font-semibold lg:text-right">
-                        {ticket.price.toFixed(2)} €
+                        {currencyFormatter.format(ticket.price)}
                       </span>
                       {!ticket.disabled && (
                         <Button
