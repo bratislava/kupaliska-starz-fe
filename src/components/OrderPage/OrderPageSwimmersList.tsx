@@ -61,7 +61,7 @@ const OrderPageSwimmersList = ({
         className="flex items-center font-semibold px-3 py-2 self-start"
       >
         <Icon name="plus" className="mr-2 no-fill text-gray-700" />
-        Pridať osobu
+        Pridať dieťa / dospelú osobu
       </AriaButton>
     </div>
   )
