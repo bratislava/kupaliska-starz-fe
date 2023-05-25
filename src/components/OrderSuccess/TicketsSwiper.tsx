@@ -15,10 +15,10 @@ import { Icon } from '../index'
 type TicketProps = { ticket: FinalOrderTicket }
 
 const Ticket = ({ ticket }: TicketProps) => {
-  // TODO: We don't have enough information from BE to display this.
   return (
     <div className="gap-6 inline-flex flex-col items-center w-full px-8">
       <img className="w-full" src={ticket.qrCode} alt="" />
+      {/* TODO: We don't have enough information from BE to display this. */}
       {/*<div className="gap-4 flex flex-col items-start w-full">*/}
       {/*  <div className="text-center w-full">*/}
       {/*    /!*<p className="text-xl font-semibold leading-7 inline m-0">*!/*/}
