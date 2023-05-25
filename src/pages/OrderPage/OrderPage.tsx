@@ -706,12 +706,9 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
     <>
       <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
         <div>
-          <div className="text-2xl md:text-3xl font-semibold mb-4">
-            {t('buy-page.personal-info')}
-          </div>
+          <div className="text-2xl md:text-3xl font-semibold mb-4">{t('buy-page.cart')}</div>
 
           <NumberedLayout index={1} first={true}>
-            <div className="font-semibold text-xl mb-7">{t('buy-page.buyer')}</div>
             <OrderPageEmail
               requireEmail={requireEmail}
               register={register}
@@ -820,7 +817,7 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
           ></OrderPageSummary>
           <div className="text-gray color-fontBlack">
             {!ticket.childrenAllowed && <p className="mb-2">{t('common.additional-info-age')}</p>}
-            <p className="mb-2">{t('common.additional-info-student-senior')}</p>
+            {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>

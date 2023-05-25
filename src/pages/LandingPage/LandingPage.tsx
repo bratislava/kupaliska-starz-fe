@@ -4,10 +4,7 @@ import {
   AccordionItem,
   ContactForm,
   HeroBanner,
-  MobileCarousel,
   SectionHeader,
-  TicketBuyDiagramCard,
-  Typography,
   WhyCreateAccountSection,
 } from 'components'
 
@@ -17,21 +14,7 @@ import { environment } from '../../environment'
 import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
-
-const items = [
-  {
-    imgSrc: '/ticket-buy-diagram-1.png',
-  },
-  {
-    imgSrc: '/ticket-buy-diagram-2.png',
-  },
-  {
-    imgSrc: '/ticket-buy-diagram-3.png',
-  },
-  {
-    imgSrc: '/ticket-buy-diagram-4.png',
-  },
-]
+import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 
 const faqsn = range(1, 16)
 const preseason = environment.featureFlag.preseasonHomepage
@@ -45,46 +28,7 @@ const LandingPage = () => {
   return (
     <main className="bg-white">
       <HeroBanner />
-      <section id="ticket-buy-diagram" className="my-4 lg:my-16">
-        <Typography type="title" fontWeight="bold" className="text-center mb-8">
-          {t('landing.how-does-it-work')}
-        </Typography>
-        <MobileCarousel className="md:hidden">
-          {items.map((item, index) => (
-            <TicketBuyDiagramCard
-              imgSrc={item.imgSrc}
-              key={item.imgSrc}
-              text={
-                <Trans
-                  i18nKey={`landing.steps.${index}`}
-                  components={{ p: <p />, strong: <strong /> }}
-                />
-              }
-              index={index + 1}
-            />
-          ))}
-        </MobileCarousel>
-        <div className="hidden md:block w-full wave-background">
-          <div className="container mx-auto grid grid-cols-2 gap-y-16 gap-x-8 lg:gap-x-12 xl:gap-x-16 lg:grid-cols-12 bg-transparent py-16">
-            {items.map((item, index) => (
-              <div key={item.imgSrc} className={`col-span-1 lg:col-span-3`}>
-                <div className="w-8/10 lg:w-full mx-auto">
-                  <TicketBuyDiagramCard
-                    imgSrc={item.imgSrc}
-                    text={
-                      <Trans
-                        i18nKey={`landing.steps.${index}`}
-                        components={{ p: <p />, strong: <strong /> }}
-                      />
-                    }
-                    index={index + 1}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomepageHowTo />
 
       {!preseason && (
         <div className="bg-backgroundGray">

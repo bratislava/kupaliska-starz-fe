@@ -37,8 +37,8 @@
   },
   "common": {
     "photo-size": "Veľkosť fotky musí byť menej ako 5MB",
-    "additional-info-age": "Cena je jednotná pre všetky vekové skupiny.",
-    "additional-info-student-senior": "Študentské a seniorské zľavy je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.",
+    "additional-info-age": "Cena jednorazových lístkov je jednotná pre všetky vekové skupiny.",
+    "additional-info-student-senior": "Zľavy pre seniorov a držiteľov ŤZP/ŤZP-S preukazu na jednorazové lístky je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.",
     "additional-info-toddlers": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
     "additional-info-tutanchamon": "Zadaný vek musí byť nižší ako 151.",
     "email": "Email",
@@ -129,7 +129,7 @@
   },
   "buy-page": {
     "continue": "Pokračovať ",
-    "personal-info": "Osobné údaje",
+    "cart": "Nákupný košík",
     "season-ticket-owner": "Držiteľ permanentky",
     "ticket-owner": "Vlastník lístka",
     "children-tooltip": "Deti vo veku od 3 do 10 rokov môžu<br/> navštíviť kúpalisko aj v sprievode inej<br/> dospelej osoby, ako je držiteľ sezónnej<br/> permanentky.<br/><br/> Deti vo veku od 10 do 18 rokov môžu svoju<br/> sezónnu vstupenku využívať aj bez<br/> sprievodu dospelej osoby.",
@@ -159,7 +159,6 @@
     "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}} € (max. počet {{childrenMaxNumber}})",
     "select-people-reminder-seasonal": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť permanentky:",
     "select-people-reminder-entries": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť lístky:",
-    "buyer": "Kupujúci/a",
     "pay": "Zaplatiť",
     "pay-with-price": "Zaplatiť {{price}}",
     "adult-count": "{{count}}× dospelá osoba",
@@ -221,10 +220,10 @@
     "more-info": "Viac info",
     "navigate": "Navigovať",
     "steps": {
-      "0": "<p>Vyberiete si z ponuky dostupných lístkov a permanentiek na ľubovoľné kúpalisko v ktorýkoľvek deň.</p>",
-      "1": "<p>Lístky si kúpite vyplnením osobných údajov a permanentky prihlásením do Bratislavského konta.</p>",
-      "2": "<p>Pri vstupe ukážete QR kód - nájdete ho v emaili alebo v Bratislavskom konte. Vďaka tomu nemusíte čakať v rade.</p>",
-      "3": "<p>Lístky a permanentky platia počas celej letnej sezóny na všetkých mestských kúpaliskách.</p>"
+      "0": "Vyberiete si z ponuky dostupných lístkov a permanentiek na ľubovoľné kúpalisko v ktorýkoľvek deň.",
+      "1": "Lístky si kúpite vyplnením osobných údajov a permanentky prihlásením do Bratislavského konta.",
+      "2": "Pri vstupe ukážete QR kód - nájdete ho v emaili alebo v Bratislavskom konte. Vďaka tomu nemusíte čakať v rade.",
+      "3": "Lístky a permanentky platia počas celej letnej sezóny na všetkých mestských kúpaliskách."
     },
     "piece": " / kus",
     "basket": " Do košíka ",

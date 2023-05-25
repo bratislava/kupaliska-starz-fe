@@ -49,7 +49,7 @@ const HomepageTickets = () => {
     <div className="flex flex-col gap-8 lg:gap-10">
       {[
         {
-          name: 'Celodenné lístky',
+          name: 'Jednorazové lístky',
           description:
             'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
           tickets: dayTickets,

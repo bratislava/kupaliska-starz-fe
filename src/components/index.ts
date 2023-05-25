@@ -5,7 +5,6 @@ import { default as HeroBanner } from './HeroBanner/HeroBanner'
 import { default as Typography } from './Typography/Typography'
 import { default as Button } from './Button/Button'
 import { default as MobileCarousel } from './MobileCarousel/MobileCarousel'
-import { default as TicketBuyDiagramCard } from './TicketBuyDiagramCard/TicketBuyDiagramCard'
 import { TicketCard } from './TicketCard'
 import { default as InputField } from './InputField/InputField'
 import { default as CheckboxField } from './CheckboxField/CheckboxField'
@@ -36,7 +35,6 @@ export {
   Typography,
   Button,
   MobileCarousel,
-  TicketBuyDiagramCard,
   TicketCard,
   InputField,
   Icon,
