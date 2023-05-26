@@ -16,7 +16,6 @@ const formRules = yup.object().shape({
   email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
   name: yup.string().required('Toto pole je povinné'),
   message: yup.string().required('Toto pole je povinné'),
-  agreement: yup.boolean().isTrue('Toto pole je povinné'),
 })
 
 export interface ContactFormValues {
@@ -24,7 +23,6 @@ export interface ContactFormValues {
   email: string
   message: string
   recaptchaToken: string
-  agreement: boolean
 }
 
 const ContactForm = () => {
@@ -81,17 +79,12 @@ const ContactForm = () => {
         newLabel
         element="textarea"
       />
-      <CheckboxField
-        register={register}
-        name="agreement"
-        label={
-          <Trans
-            i18nKey="landing.gdpr-info"
-            components={{ Link: <Link to="/gdpr" className="underline" /> }}
-          />
-        }
-        error={errors.agreement?.message}
-      />
+      <span>
+        <Trans
+          i18nKey="landing.gdpr-info"
+          components={{ Link: <Link to="/gdpr" className="underline" /> }}
+        />
+      </span>
       <Controller
         name="recaptchaToken"
         control={control}
