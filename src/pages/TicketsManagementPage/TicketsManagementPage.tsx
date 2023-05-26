@@ -192,7 +192,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <div className="flex justify-center">
         <Button color={buttonColor} className="absolute shadow-xs" onClick={onDetailClick}>
           {t('tickets.ticket-button')}
-          <Icon className="ml-4" name="arrow-left" />
+          <Icon className="ml-4 no-fill" name="arrow-right" />
         </Button>
       </div>
     </div>
@@ -285,7 +285,7 @@ const UsedTicket = ({
       <div className="flex justify-center">
         <Button color="blueish" className="absolute shadow-xs" onClick={onDetailClick}>
           {t('tickets.more-info')}
-          <Icon className="ml-4" name="arrow-left" />
+          <Icon className="ml-4 no-fill" name="arrow-right" />
         </Button>
       </div>
     </div>

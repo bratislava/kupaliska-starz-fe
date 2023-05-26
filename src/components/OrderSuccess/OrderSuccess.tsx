@@ -26,39 +26,45 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center container mx-auto py-8 gap-8 max-w-[1112px]">
-      <div className="flex gap-6 flex-col max-w-[592px]">
-        <Typography type="title" fontWeight="medium">
-          Ďakujeme za nákup!
-        </Typography>
-        <div className="flex gap-4 flex-col">
-          <p>
-            Na stránke nájdete lístok ako QR kód, ktorým sa môžete preukázať pri vstupe. Rovnako
-            máte možnosť si lístok stiahnuť do vášho zariadenia.
-          </p>
-          <p>
-            Lístok sme zaslali aj na váš e-mail. Pri vstupe na kúpalisko sa preukážte platným
-            lístkom a v prípade vyzvania aj dokladom totožnosti.
-          </p>
-        </div>
-        <Link to="/" className="self-start">
-          <Button className="">
-            Pokračovať na domovskú stránku <Icon className="ml-4" name="arrow-left" />
-          </Button>
-        </Link>
-      </div>
-      <div className="w-full max-w-[384px] rounded-2xl border-2 border-solid border-[#D6D6D6]">
-        <div className="px-6 py-4 border-b-2 border-solid border-[#D6D6D6]">
-          <Typography type="subtitle">
-            {tickets.length > 1 ? 'Vaše lístky' : 'Váš lístok'}
+    <div className="container mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-center py-8 gap-8 max-w-[1112px] mx-auto">
+        <div className="flex gap-6 flex-col max-w-[592px]">
+          <Typography type="title" fontWeight="medium">
+            Ďakujeme za nákup!
           </Typography>
+          <div className="flex gap-4 flex-col">
+            <p>
+              Na stránke nájdete lístok ako QR kód, ktorým sa môžete preukázať pri vstupe. Rovnako
+              máte možnosť si lístok stiahnuť do vášho zariadenia. Lístok sme zaslali aj na váš
+              e-mail.
+            </p>
+          </div>
+          <Link to="https://forms.office.com/e/tpB1R623sd" className="self-start">
+            <Button>
+              Zanechať spätnú väzbu <Icon className="ml-4 no-fill" name="arrow-right" />
+            </Button>
+          </Link>
+          <Link to="/" className="self-start">
+            <Button color="outlined">
+              Pokračovať na domovskú stránku <Icon className="ml-4 no-fill" name="arrow-right" />
+            </Button>
+          </Link>
         </div>
-        <div className="flex-col gap-6 px-8 py-6">
-          <TicketsSwiper tickets={tickets} />
-          <Button color="outlined" className="w-full" onClick={downloadTickets}>
-            <Icon name="download" className="mr-2" />
-            {tickets.length > 1 ? 'Stiahnuť lístky' : 'Stiahnuť lístok'}
-          </Button>
+        <div className="w-full max-w-[384px] rounded-2xl border-2 border-solid border-[#D6D6D6]">
+          <div className="px-6 py-4 border-b-2 border-solid border-[#D6D6D6] text-center">
+            <Typography type="subtitle">
+              {tickets.length > 1 ? 'Vaše lístky' : 'Váš lístok'}
+            </Typography>
+          </div>
+          <div className="py-6">
+            <TicketsSwiper tickets={tickets} />
+            <div className="px-8">
+              <Button color="outlined" className="w-full" onClick={downloadTickets}>
+                <Icon name="download" className="mr-2" />
+                {tickets.length > 1 ? 'Stiahnuť lístky' : 'Stiahnuť lístok'}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

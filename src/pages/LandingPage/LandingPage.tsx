@@ -65,6 +65,7 @@ const LandingPage = () => {
             src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
             className="w-full h-[80vh] min-h-[200px] max-h-[624px] max-w-[1110px]"
             title="Mapa kúpalísk"
+            allow="geolocation; fullscreen"
           />
         </section>
       )}
