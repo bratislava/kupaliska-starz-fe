@@ -2,6 +2,7 @@ import axios, { AxiosRequestHeaders } from 'axios'
 import qs from 'qs'
 import { environment } from '../environment'
 import { ACCESS_TOKEN_STORAGE_KEY } from '../hooks/useCityAccount'
+import { checkTokenValid } from './cityAccountToken'
 
 enum WithAccessToken {
   None,
@@ -16,7 +17,7 @@ const getAccessToken = () => {
   }
 
   const parsedToken = JSON.parse(token)
-  if (!parsedToken?.accessToken) {
+  if (!checkTokenValid(parsedToken?.accessToken)) {
     throw new Error('No access token in local storage')
   }
 

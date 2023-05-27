@@ -1,9 +1,11 @@
 import { setToast } from '../store/global'
 import { useAppDispatch } from './store'
 import { AxiosError } from 'axios'
+import useCityAccountAccessToken from './useCityAccount'
 
 export const useErrorToast = () => {
   const dispatch = useAppDispatch()
+  const { refreshToken } = useCityAccountAccessToken()
 
   const dispatchErrorToast = (message?: string) =>
     dispatch(
@@ -26,6 +28,8 @@ export const useErrorToast = () => {
     })()
 
     dispatchErrorToast(message)
+    // if the error is because of expired access, refreshing solves the issue, if it's not it doesn't hurt
+    refreshToken()
   }
 
   return { dispatchErrorToast, dispatchErrorToastForHttpRequest }
