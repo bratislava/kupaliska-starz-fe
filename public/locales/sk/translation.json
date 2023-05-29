@@ -212,7 +212,7 @@
     "name": "Meno",
     "email": "Email",
     "message": "Správa",
-    "gdpr-info": "Súhlasím so spracovaním osobných údajov. Bližšie údaje o spracovaní osobných údajov nájdete na <Link>tomto odkaze</Link>.",
+    "gdpr-info": "Odoslaním kontaktného formuláru potvrdzujem, že som sa oboznámil/a s podmienkami spracúvania osobných údajov. Informácie o spracúvaní osobných údajov sú dostupné na <Link>tomto odkaze</Link>.",
     "captchaWarning": "Nepodarilo sa overiť, či nie ste robot. Ak sa formulár nedá odoslať, vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).",
     "send-message": "Odoslať správu ",
     "alt-img-text": "Nahradny obrazok kupaliska",
