@@ -11,25 +11,41 @@ import { FinalOrderTicket } from '../../store/order/api'
 import cx from 'classnames'
 import { Button as AriaButton } from 'react-aria-components'
 import { Icon } from '../index'
+import AppleWalletImage from '../../assets/images/apple_wallet.svg'
+import GoogleWalletImage from '../../assets/images/google_wallet.svg'
+import { useAppSelector } from '../../hooks'
+import { selectAvailableTickets } from '../../store/global'
+import { environment } from '../../environment'
 
 type TicketProps = { ticket: FinalOrderTicket }
 
 const Ticket = ({ ticket }: TicketProps) => {
+  const tickets = useAppSelector(selectAvailableTickets)
+
+  const ticketType = tickets.find((t) => t.id === ticket.ticketTypeId)
+
   return (
     <div className="gap-6 inline-flex flex-col items-center w-full px-8">
       <img className="w-full" src={ticket.qrCode} alt="" />
-      {/* TODO: We don't have enough information from BE to display this. */}
-      {/*<div className="gap-4 flex flex-col items-start w-full">*/}
-      {/*  <div className="text-center w-full">*/}
-      {/*    /!*<p className="text-xl font-semibold leading-7 inline m-0">*!/*/}
-      {/*    /!*  Celodenný lístok*!/*/}
-      {/*    /!*  <br />*!/*/}
-      {/*    /!*</p>*!/*/}
-      {/*    <p className="text-base font-normal leading-6 inline m-0">*/}
-      {/*      {ticket.isChildren ? 'Detský lístok' : 'Dospelý lístok'}*/}
-      {/*    </p>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      {ticketType && <span className="text-xl font-semibold leading-7">{ticketType.name}</span>}
+      <div className="flex gap-2.5 flex-col sm:flex-row items-center">
+        <a
+          href={`${environment.host}/api/v1/orders/appleWallet/${ticket.id}`}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Pridať do Peňaženky Apple"
+        >
+          <img src={AppleWalletImage} alt="" />
+        </a>
+        <a
+          href={`${environment.host}/api/v1/orders/googlePay/${ticket.id}`}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Pridať do služby Google Peňaženka"
+        >
+          <img src={GoogleWalletImage} alt="" />
+        </a>
+      </div>
     </div>
   )
 }
@@ -87,7 +103,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
         className="mb-4"
       >
         {tickets.map((ticket) => (
-          <SwiperSlide key={ticket.id} className={cx({ 'pb-10': tickets.length > 1 })}>
+          <SwiperSlide key={ticket.id} className={cx({ 'pb-11': tickets.length > 1 })}>
             <Ticket ticket={ticket} />
           </SwiperSlide>
         ))}

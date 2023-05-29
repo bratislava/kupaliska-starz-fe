@@ -39,18 +39,23 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
               e-mail.
             </p>
           </div>
-          <Link to="https://forms.office.com/e/tpB1R623sd" className="self-start">
+          <a
+            href="https://forms.office.com/e/tpB1R623sd"
+            className="link self-start"
+            rel="noreferrer"
+            target="_blank"
+          >
             <Button>
               Zanechať spätnú väzbu <Icon className="ml-4 no-fill" name="arrow-right" />
             </Button>
-          </Link>
+          </a>
           <Link to="/" className="self-start">
             <Button color="outlined">
               Pokračovať na domovskú stránku <Icon className="ml-4 no-fill" name="arrow-right" />
             </Button>
           </Link>
         </div>
-        <div className="w-full max-w-[384px] rounded-2xl border-2 border-solid border-[#D6D6D6]">
+        <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-[#D6D6D6]">
           <div className="px-6 py-4 border-b-2 border-solid border-[#D6D6D6] text-center">
             <Typography type="subtitle">
               {tickets.length > 1 ? 'Vaše lístky' : 'Váš lístok'}
@@ -58,10 +63,11 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
           </div>
           <div className="py-6">
             <TicketsSwiper tickets={tickets} />
-            <div className="px-8">
+            <div className="flex px-8 flex-col gap-4 items-center">
+              <span className="text-sm">alebo</span>
               <Button color="outlined" className="w-full" onClick={downloadTickets}>
                 <Icon name="download" className="mr-2" />
-                {tickets.length > 1 ? 'Stiahnuť lístky' : 'Stiahnuť lístok'}
+                {tickets.length > 1 ? 'Stiahnuť všetky lístky' : 'Stiahnuť lístok'}
               </Button>
             </div>
           </div>

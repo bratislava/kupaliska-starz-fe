@@ -40,7 +40,8 @@ export interface FinalOrderTicket {
   id: string
   isChildren: boolean
   qrCode: string
-  name: string
+  name: string | null
+  ticketTypeId: string
 }
 
 export interface FinalOrderResponse {
