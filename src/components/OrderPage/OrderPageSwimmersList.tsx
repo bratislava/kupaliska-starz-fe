@@ -3,6 +3,7 @@ import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
 import { Button as AriaButton, Checkbox } from 'react-aria-components'
 import { Icon } from '../index'
 import { useTranslation } from 'react-i18next'
+import { useOrderPageTicket } from '../../pages/OrderPage/useOrderPageTicket'
 
 type OrderPageSwimmersListSwimmer =
   | AssociatedSwimmer
@@ -28,6 +29,8 @@ const OrderPageSwimmersList = ({
   onSelectSwimmer = () => {},
   onAddSwimmer = () => {},
 }: OrderPageSwimmersListProps) => {
+  const { isSeniorOrDisabledTicket } = useOrderPageTicket()
+
   const { t } = useTranslation()
   return (
     <div className="gap-3 flex flex-col pt-3">
@@ -61,7 +64,9 @@ const OrderPageSwimmersList = ({
         className="flex items-center font-semibold px-3 py-2 self-start"
       >
         <Icon name="plus" className="mr-2 no-fill text-gray-700" />
-        Pridať dieťa / dospelú osobu
+        {isSeniorOrDisabledTicket
+          ? 'Pridať dieťa / dospelú osobu (senior alebo ŤZP/ŤZP-S)'
+          : 'Pridať dieťa / dospelú osobu'}
       </AriaButton>
     </div>
   )

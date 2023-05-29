@@ -22,7 +22,7 @@ import {
 } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { NumberSchema, StringSchema } from 'yup'
+import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 import { useIsMounted } from 'usehooks-ts'
 import { fetchUser } from '../../store/user/api'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
@@ -310,7 +310,7 @@ const OrderPageDiscountCode = ({
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
-        label={<span className="text-xl">{t('buy-page.claim-code')}</span>}
+        label={t('buy-page.claim-code')}
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
@@ -422,6 +422,17 @@ const validationSchema = yup.object({
   //   return schema;
   // }),
   agreement: yup.boolean().isTrue('buy-page.vop-required'),
+  seniorOrDisabledAgreement: yup
+    .boolean()
+    .when(
+      '$isSeniorOrDisabledTicket',
+      (isSeniorOrDisabledTicket: boolean, schema: BooleanSchema) => {
+        if (isSeniorOrDisabledTicket) {
+          return schema.isTrue('buy-page.senior-agreement-required')
+        }
+        return schema
+      },
+    ),
   age: yup
     .number()
     .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: NumberSchema) => {
@@ -588,8 +599,15 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
 }
 
 const OrderPage = () => {
-  const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount, sendDisabled } =
-    useOrderPageTicket()
+  const {
+    ticket,
+    requireEmail,
+    hasOptionalFields,
+    hasSwimmers,
+    hasTicketAmount,
+    sendDisabled,
+    isSeniorOrDisabledTicket,
+  } = useOrderPageTicket()
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
@@ -616,9 +634,15 @@ const OrderPage = () => {
       hasOptionalFields,
       hasSwimmers,
       hasTicketAmount,
+      isSeniorOrDisabledTicket,
     },
   })
-  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.agreement?.message)
+  const errorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
+    errors.agreement?.message,
+  )
+  const errorSeniorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
+    errors.seniorOrDisabledAgreement?.message,
+  )
 
   const watchPriceChange = useWatch({
     // Those properties are those who trigger possible change of the price.
@@ -681,6 +705,7 @@ const OrderPage = () => {
     </Button>
   )
 
+  // TODO: Remove
   return ticket ? (
     <>
       <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
@@ -765,9 +790,9 @@ const OrderPage = () => {
             <CheckboxField
               register={register}
               name="agreement"
-              error={errorInterpreted}
+              error={errorAgreementInterpreted}
               label={
-                <span className="text-xl">
+                <span>
                   {t('buy-page.vop')}
                   <Link to="/vop" target="_blank" className="link text-primary">
                     {t('buy-page.vop-link')}
@@ -776,6 +801,35 @@ const OrderPage = () => {
                 </span>
               }
             />
+            {isSeniorOrDisabledTicket && (
+              <>
+                <CheckboxField
+                  className="my-4"
+                  register={register}
+                  name="seniorOrDisabledAgreement"
+                  error={errorSeniorAgreementInterpreted}
+                  label={
+                    <span>
+                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 62 a viac rokov
+                      alebo sú držitelia ŤZP / ŤZP-S preukazu.
+                    </span>
+                  }
+                />
+                <div className="ml-[52px] flex flex-col gap-2 italic">
+                  <span>
+                    Kúpou lístka súhlasíte s podmienkou preukázania sa preukazom ŤZP / ŤZP-S alebo
+                    dokladom totožnosti pri vstupe na kúpalisko.
+                  </span>
+                  <span>
+                    Informácia o spracúvaní osobných údajov je dostupná{' '}
+                    <Link to="/vop" target="_blank" className="link text-primary">
+                      tu
+                    </Link>
+                    .
+                  </span>
+                </div>
+              </>
+            )}
           </NumberedLayout>
           <div className="hidden md:block">{buyButton}</div>
         </div>
@@ -806,6 +860,7 @@ export interface OrderFormData {
   discountCode?: DiscountCodeResponse['discountCode'] | null
   selectedSwimmerIds?: (string | null)[]
   agreement?: boolean
+  seniorOrDisabledAgreement?: boolean
   age?: number
   zip?: string
   recaptchaToken: string

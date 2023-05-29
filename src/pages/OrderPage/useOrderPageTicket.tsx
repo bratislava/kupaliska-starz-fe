@@ -13,6 +13,7 @@ export interface OrderPageTicket {
   hasTicketAmount: boolean
   displayMissingInformationWarning: boolean
   sendDisabled: boolean
+  isSeniorOrDisabledTicket: boolean
 }
 
 const Context = createContext<OrderPageTicket | undefined>(undefined)
@@ -36,6 +37,7 @@ export const OrderPageTicketProvider = ({
       : false
   const userQueryNotLoadedIfNeeded = hasSwimmers && !userQuery.data
   const sendDisabled = displayMissingInformationWarning || userQueryNotLoadedIfNeeded
+  const isSeniorOrDisabledTicket = ticket.isSeniorIsDisabled
 
   return (
     <Context.Provider
@@ -47,6 +49,7 @@ export const OrderPageTicketProvider = ({
         hasTicketAmount,
         displayMissingInformationWarning,
         sendDisabled,
+        isSeniorOrDisabledTicket,
       }}
     >
       {children}
