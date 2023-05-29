@@ -166,7 +166,8 @@
     "children-discount-children-count-and-price": "Možnosť pridať {{childrenMaxNumber}} detí za zvýhodnenú cenu {{childrenPrice}} €.",
     "email-required": "Zadajte platný email.",
     "email-send-to": "Lístky zašleme na <span className='font-bold text-primary'>{{username}}</span>.",
-    "vop-required": "Potvrďte prosím prečítanie všeobecných obchodných podmienok."
+    "vop-required": "Potvrďte prosím prečítanie všeobecných obchodných podmienok.",
+    "senior-agreement-required": "Toto pole je povinné."
   },
   "person-component": {
     "edit-user": "Upraviť údaje",

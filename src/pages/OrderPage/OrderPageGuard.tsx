@@ -6,6 +6,7 @@ import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { Ticket } from '../../models'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
+import { OrderPageTicketProvider } from './useOrderPageTicket'
 
 const OrderPageGuard = () => {
   const tickets = useAppSelector(selectAvailableTickets)
@@ -40,7 +41,11 @@ const OrderPageGuard = () => {
     return <Redirect to={'/'} />
   }
 
-  return <OrderPage ticket={ticket} />
+  return (
+    <OrderPageTicketProvider ticket={ticket}>
+      <OrderPage />
+    </OrderPageTicketProvider>
+  )
 }
 
 export default OrderPageGuard
