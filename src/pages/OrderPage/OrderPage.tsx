@@ -1,12 +1,4 @@
-import React, {
-  ChangeEvent,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
 import { useWindowSize } from '../../hooks'
@@ -14,7 +6,6 @@ import cx from 'classnames'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
-import { useOrderTicket } from './useOrderTicket'
 import { Trans, useTranslation } from 'react-i18next'
 import { CheckPriceResponse, Ticket } from '../../models'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
@@ -49,7 +40,7 @@ import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
-import { last } from 'lodash'
+import { useOrderPageTicket } from './useOrderPageTicket'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -107,14 +98,13 @@ const NumberedLayout = ({
 }
 
 const OrderPageEmail = ({
-  requireEmail,
   register,
   errors,
 }: {
-  requireEmail: boolean
   register: UseFormRegister<OrderFormData>
   errors: FieldErrors<OrderFormData>
 }) => {
+  const { requireEmail } = useOrderPageTicket()
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
@@ -181,13 +171,12 @@ const OrderPagePeopleList = ({
   errors,
   watch,
   setValue,
-  displayMissingInformationWarning,
 }: {
   errors: FieldErrors<OrderFormData>
   watch: UseFormWatch<OrderFormData>
   setValue: UseFormSetValue<OrderFormData>
-  displayMissingInformationWarning: boolean
 }) => {
+  const { displayMissingInformationWarning } = useOrderPageTicket()
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
   // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
@@ -297,14 +286,13 @@ const OrderPagePeopleList = ({
 }
 
 const OrderPageDiscountCode = ({
-  ticket,
   setValue,
   getValues,
 }: {
-  ticket: Ticket
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
+  const { ticket } = useOrderPageTicket()
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -458,18 +446,15 @@ const validationSchema = yup.object({
 })
 
 const OrderPageSummary = ({
-  ticket,
-  hasTicketAmount,
   setValue,
   watch,
   priceQuery,
 }: {
-  ticket: Ticket
-  hasTicketAmount: boolean
   setValue: UseFormSetValue<OrderFormData>
   watch: UseFormWatch<OrderFormData>
   priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
 }) => {
+  const { ticket, hasTicketAmount } = useOrderPageTicket()
   const { t } = useTranslation()
 
   const watchTicketAmount = watch('ticketAmount')
@@ -602,15 +587,9 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
   )
 }
 
-const OrderPage = ({ ticket }: { ticket: Ticket }) => {
-  const {
-    requireEmail,
-    hasOptionalFields,
-    hasSwimmers,
-    hasTicketAmount,
-    displayMissingInformationWarning,
-    sendDisabled,
-  } = useOrderTicket(ticket)
+const OrderPage = () => {
+  const { ticket, requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount, sendDisabled } =
+    useOrderPageTicket()
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
@@ -709,11 +688,7 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
           <div className="text-2xl md:text-3xl font-semibold mb-4">{t('buy-page.cart')}</div>
 
           <NumberedLayout index={1} first={true}>
-            <OrderPageEmail
-              requireEmail={requireEmail}
-              register={register}
-              errors={errors}
-            ></OrderPageEmail>
+            <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
             {hasOptionalFields && (
               <OrderPageOptionalFields
                 register={register}
@@ -740,7 +715,6 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
                   watch={watch}
                   setValue={setValue}
                   errors={errors}
-                  displayMissingInformationWarning={displayMissingInformationWarning}
                 ></OrderPagePeopleList>
               </>
             )}
@@ -748,7 +722,6 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
 
           <NumberedLayout index={2} first={false}>
             <OrderPageDiscountCode
-              ticket={ticket}
               setValue={setValue}
               getValues={getValues}
             ></OrderPageDiscountCode>
@@ -809,8 +782,6 @@ const OrderPage = ({ ticket }: { ticket: Ticket }) => {
         <div className="mt-14 md:mt-0">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
           <OrderPageSummary
-            ticket={ticket}
-            hasTicketAmount={hasTicketAmount}
             setValue={setValue}
             watch={watch}
             priceQuery={priceQuery}
