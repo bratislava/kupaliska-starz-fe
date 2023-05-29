@@ -753,40 +753,6 @@ const OrderPage = () => {
           </NumberedLayout>
 
           <NumberedLayout index={3} first={false}>
-            <Controller
-              name="recaptchaToken"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <>
-                  <Turnstile
-                    theme="light"
-                    sitekey={environment.turnstileSiteKey ?? ''}
-                    onVerify={(token) => {
-                      setCaptchaWarning('hide')
-                      onChange(token)
-                    }}
-                    onError={(error) => {
-                      // logger.error("Turnstile error:", error);
-                      setCaptchaWarning('show')
-                      return onChange(null)
-                    }}
-                    onTimeout={() => {
-                      // logger.error("Turnstile timeout");
-                      setCaptchaWarning('show')
-                      onChange(null)
-                    }}
-                    onExpire={() => {
-                      // logger.warn("Turnstile expire - should refresh automatically");
-                      onChange(null)
-                    }}
-                    className="mb-4 self-center"
-                  />
-                  {captchaWarning === 'show' && (
-                    <p className="text-p3 italic">{t('captcha_warning')}</p>
-                  )}
-                </>
-              )}
-            />
             <CheckboxField
               register={register}
               name="agreement"
@@ -830,6 +796,43 @@ const OrderPage = () => {
                 </div>
               </>
             )}
+            <Controller
+              name="recaptchaToken"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <>
+                  <Turnstile
+                    theme="light"
+                    sitekey={environment.turnstileSiteKey ?? ''}
+                    onVerify={(token) => {
+                      setCaptchaWarning('hide')
+                      onChange(token)
+                    }}
+                    onError={(error) => {
+                      // logger.error("Turnstile error:", error);
+                      setCaptchaWarning('show')
+                      return onChange(null)
+                    }}
+                    onTimeout={() => {
+                      // logger.error("Turnstile timeout");
+                      setCaptchaWarning('show')
+                      onChange(null)
+                    }}
+                    onExpire={() => {
+                      // logger.warn("Turnstile expire - should refresh automatically");
+                      onChange(null)
+                    }}
+                    className="mt-4 self-center"
+                  />
+                  {captchaWarning === 'show' && (
+                    <p className="text-p3 mt-1 text-error">
+                      Nepodarilo sa overiť, či nie ste robot. Ak sa objednávka nedá zaplatiť,
+                      vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).
+                    </p>
+                  )}
+                </>
+              )}
+            />
           </NumberedLayout>
           <div className="hidden md:block">{buyButton}</div>
         </div>
