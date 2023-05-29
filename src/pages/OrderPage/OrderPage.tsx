@@ -705,157 +705,146 @@ const OrderPage = () => {
     </Button>
   )
 
-  // TODO: Remove
-  return ticket ? (
-    <>
-      <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
-        <div>
-          <div className="text-2xl md:text-3xl font-semibold mb-4">{t('buy-page.cart')}</div>
+  return (
+    <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
+      <div>
+        <div className="text-2xl md:text-3xl font-semibold mb-4">{t('buy-page.cart')}</div>
 
-          <NumberedLayout index={1} first={true}>
-            <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
-            {hasOptionalFields && (
-              <OrderPageOptionalFields
-                register={register}
+        <NumberedLayout index={1} first={true}>
+          <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
+          {hasOptionalFields && (
+            <OrderPageOptionalFields register={register} errors={errors}></OrderPageOptionalFields>
+          )}
+          {hasSwimmers && (
+            <>
+              <div className="mt-2">
+                {ticket.type === 'SEASONAL' && (
+                  <Trans
+                    i18nKey={'buy-page.select-people-reminder-seasonal'}
+                    components={{ span: <span /> }}
+                  />
+                )}
+                {ticket.type === 'ENTRIES' && (
+                  <Trans
+                    i18nKey={'buy-page.select-people-reminder-entries'}
+                    components={{ span: <span /> }}
+                  />
+                )}
+              </div>
+              <OrderPagePeopleList
+                watch={watch}
+                setValue={setValue}
                 errors={errors}
-              ></OrderPageOptionalFields>
-            )}
-            {hasSwimmers && (
-              <>
-                <div className="mt-2">
-                  {ticket.type === 'SEASONAL' && (
-                    <Trans
-                      i18nKey={'buy-page.select-people-reminder-seasonal'}
-                      components={{ span: <span /> }}
-                    />
-                  )}
-                  {ticket.type === 'ENTRIES' && (
-                    <Trans
-                      i18nKey={'buy-page.select-people-reminder-entries'}
-                      components={{ span: <span /> }}
-                    />
-                  )}
-                </div>
-                <OrderPagePeopleList
-                  watch={watch}
-                  setValue={setValue}
-                  errors={errors}
-                ></OrderPagePeopleList>
-              </>
-            )}
-          </NumberedLayout>
+              ></OrderPagePeopleList>
+            </>
+          )}
+        </NumberedLayout>
 
-          <NumberedLayout index={2} first={false}>
-            <OrderPageDiscountCode
-              setValue={setValue}
-              getValues={getValues}
-            ></OrderPageDiscountCode>
-          </NumberedLayout>
+        <NumberedLayout index={2} first={false}>
+          <OrderPageDiscountCode setValue={setValue} getValues={getValues}></OrderPageDiscountCode>
+        </NumberedLayout>
 
-          <NumberedLayout index={3} first={false}>
-            <CheckboxField
-              register={register}
-              name="agreement"
-              error={errorAgreementInterpreted}
-              label={
+        <NumberedLayout index={3} first={false}>
+          <CheckboxField
+            register={register}
+            name="agreement"
+            error={errorAgreementInterpreted}
+            label={
+              <span>
+                {t('buy-page.vop')}
+                <Link to="/vop" target="_blank" className="link text-primary">
+                  {t('buy-page.vop-link')}
+                </Link>
+                .
+              </span>
+            }
+          />
+          {isSeniorOrDisabledTicket && (
+            <>
+              <CheckboxField
+                className="my-4"
+                register={register}
+                name="seniorOrDisabledAgreement"
+                error={errorSeniorAgreementInterpreted}
+                label={
+                  <span>
+                    Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 62 a viac rokov
+                    alebo sú držitelia ŤZP / ŤZP-S preukazu.
+                  </span>
+                }
+              />
+              <div className="ml-[52px] flex flex-col gap-2 italic">
                 <span>
-                  {t('buy-page.vop')}
+                  Kúpou lístka súhlasíte s podmienkou preukázania sa preukazom ŤZP / ŤZP-S alebo
+                  dokladom totožnosti pri vstupe na kúpalisko.
+                </span>
+                <span>
+                  Informácia o spracúvaní osobných údajov je dostupná{' '}
                   <Link to="/vop" target="_blank" className="link text-primary">
-                    {t('buy-page.vop-link')}
+                    tu
                   </Link>
                   .
                 </span>
-              }
-            />
-            {isSeniorOrDisabledTicket && (
+              </div>
+            </>
+          )}
+          <Controller
+            name="recaptchaToken"
+            control={control}
+            render={({ field: { onChange } }) => (
               <>
-                <CheckboxField
-                  className="my-4"
-                  register={register}
-                  name="seniorOrDisabledAgreement"
-                  error={errorSeniorAgreementInterpreted}
-                  label={
-                    <span>
-                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 62 a viac rokov
-                      alebo sú držitelia ŤZP / ŤZP-S preukazu.
-                    </span>
-                  }
+                <Turnstile
+                  theme="light"
+                  sitekey={environment.turnstileSiteKey ?? ''}
+                  onVerify={(token) => {
+                    setCaptchaWarning('hide')
+                    onChange(token)
+                  }}
+                  onError={(error) => {
+                    // logger.error("Turnstile error:", error);
+                    setCaptchaWarning('show')
+                    return onChange(null)
+                  }}
+                  onTimeout={() => {
+                    // logger.error("Turnstile timeout");
+                    setCaptchaWarning('show')
+                    onChange(null)
+                  }}
+                  onExpire={() => {
+                    // logger.warn("Turnstile expire - should refresh automatically");
+                    onChange(null)
+                  }}
+                  className="mt-4 self-center"
                 />
-                <div className="ml-[52px] flex flex-col gap-2 italic">
-                  <span>
-                    Kúpou lístka súhlasíte s podmienkou preukázania sa preukazom ŤZP / ŤZP-S alebo
-                    dokladom totožnosti pri vstupe na kúpalisko.
-                  </span>
-                  <span>
-                    Informácia o spracúvaní osobných údajov je dostupná{' '}
-                    <Link to="/vop" target="_blank" className="link text-primary">
-                      tu
-                    </Link>
-                    .
-                  </span>
-                </div>
+                {captchaWarning === 'show' && (
+                  <p className="text-p3 mt-1 text-error">
+                    Nepodarilo sa overiť, či nie ste robot. Ak sa objednávka nedá zaplatiť,
+                    vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).
+                  </p>
+                )}
               </>
             )}
-            <Controller
-              name="recaptchaToken"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <>
-                  <Turnstile
-                    theme="light"
-                    sitekey={environment.turnstileSiteKey ?? ''}
-                    onVerify={(token) => {
-                      setCaptchaWarning('hide')
-                      onChange(token)
-                    }}
-                    onError={(error) => {
-                      // logger.error("Turnstile error:", error);
-                      setCaptchaWarning('show')
-                      return onChange(null)
-                    }}
-                    onTimeout={() => {
-                      // logger.error("Turnstile timeout");
-                      setCaptchaWarning('show')
-                      onChange(null)
-                    }}
-                    onExpire={() => {
-                      // logger.warn("Turnstile expire - should refresh automatically");
-                      onChange(null)
-                    }}
-                    className="mt-4 self-center"
-                  />
-                  {captchaWarning === 'show' && (
-                    <p className="text-p3 mt-1 text-error">
-                      Nepodarilo sa overiť, či nie ste robot. Ak sa objednávka nedá zaplatiť,
-                      vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).
-                    </p>
-                  )}
-                </>
-              )}
-            />
-          </NumberedLayout>
-          <div className="hidden md:block">{buyButton}</div>
+          />
+        </NumberedLayout>
+        <div className="hidden md:block">{buyButton}</div>
+      </div>
+      <div className="mt-14 md:mt-0">
+        <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
+        <OrderPageSummary
+          setValue={setValue}
+          watch={watch}
+          priceQuery={priceQuery}
+        ></OrderPageSummary>
+        <div className="text-gray color-fontBlack">
+          {ticket.type === 'ENTRIES' && !ticket.nameRequired && (
+            <p className="mb-2">{t('common.additional-info-age')}</p>
+          )}
+          {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
+          <p>{t('common.additional-info-toddlers')}</p>
         </div>
-        <div className="mt-14 md:mt-0">
-          <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
-          <OrderPageSummary
-            setValue={setValue}
-            watch={watch}
-            priceQuery={priceQuery}
-          ></OrderPageSummary>
-          <div className="text-gray color-fontBlack">
-            {ticket.type === 'ENTRIES' && !ticket.nameRequired && (
-              <p className="mb-2">{t('common.additional-info-age')}</p>
-            )}
-            {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
-            <p>{t('common.additional-info-toddlers')}</p>
-          </div>
-        </div>
-        <div className="block md:hidden flex justify-center">{buyButton}</div>
-      </form>
-    </>
-  ) : (
-    <></>
+      </div>
+      <div className="block md:hidden flex justify-center">{buyButton}</div>
+    </form>
   )
 }
 
