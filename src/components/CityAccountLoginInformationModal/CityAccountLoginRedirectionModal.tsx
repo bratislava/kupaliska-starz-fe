@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useContext } from 'react'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
+import { Link } from 'react-router-dom'
 
 type State = {
   open: boolean
@@ -47,18 +48,39 @@ const CityAccountLoginRedirectionModal = () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-6">
           <p>
-            Ak už máte Bratislavské konto vytvorené, môžete sa prihlásiť pomocou svojich
-            prihlasovacích údajov.
+            Ak už máte Bratislavské konto vytvorené, jednoducho sa prihlásite. Nová registrácia trvá
+            len pár sekúnd.
           </p>
           <p>
-            Ak ste si minulý rok pri kúpe lístka na kúpalisko vytvárali svoj účet, kvôli ochrane
-            osobných údajov tieto účty ani dáta nebolo možné do Bratislavského konta preniesť. Nová
-            registrácia je rýchla a jednoduchá a zaberie vám iba pár sekúnd.
+            V súlade so zákonnými podmienkami spracúvania osobných údajov, sme vaše údaje z
+            minuloročnej registrácie pri kúpe lístka, nemohli použiť na vytvorenie účtu v
+            Bratislavskom konte.
           </p>
         </div>
         <Button color="primary" onClick={state.onSuccessCallback} className="w-full">
           Pokračovať na stránku
         </Button>
+        <div className="flex flex-col gap-4 text-sm italic">
+          <p>
+            Vaše údaje, týkajúce sa registrácie do Bratislavského konta spracúva ako prevádzkovateľ{' '}
+            <a
+              href="https://bratislava.sk/ochrana-osobnych-udajov"
+              target="_blank"
+              rel="noreferrer"
+              className="link font-semibold"
+            >
+              Hlavné mesto Bratislava
+            </a>
+            .
+          </p>
+          <p>
+            Vaše údaje súvisiace s kúpou lístka spracúva ako prevádzkovateľ{' '}
+            <Link className="link font-semibold" to="/gdpr">
+              STARZ
+            </Link>
+            .
+          </p>
+        </div>
       </div>
     </Dialog>
   )
