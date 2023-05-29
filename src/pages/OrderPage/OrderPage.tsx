@@ -841,7 +841,9 @@ const OrderPage = () => {
             priceQuery={priceQuery}
           ></OrderPageSummary>
           <div className="text-gray color-fontBlack">
-            {!ticket.childrenAllowed && <p className="mb-2">{t('common.additional-info-age')}</p>}
+            {ticket.type === 'ENTRIES' && !ticket.nameRequired && (
+              <p className="mb-2">{t('common.additional-info-age')}</p>
+            )}
             {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
