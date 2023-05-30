@@ -75,7 +75,7 @@ const CityAccountLoginRedirectionModal = () => {
           </p>
           <p>
             Vaše údaje súvisiace s kúpou lístka spracúva ako prevádzkovateľ{' '}
-            <Link className="link font-semibold" to="/gdpr">
+            <Link className="link font-semibold" to="/gdpr" target="_blank">
               STARZ
             </Link>
             .
