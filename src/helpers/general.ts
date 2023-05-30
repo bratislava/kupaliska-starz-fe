@@ -1,5 +1,6 @@
 import i18n from '../i18n'
 import { useTranslation } from 'react-i18next'
+import { TicketFromHistory } from 'store/tickets-history/api'
 
 export const getPrice = (price: number) => Math.floor(price * 100) / 100
 
@@ -33,3 +34,5 @@ export const useValidationSchemaTranslationIfPresent = (error?: string) => {
   }
   return errorInterpreted
 }
+
+export const isDisposableTicket = (ticket: TicketFromHistory) => ticket.remainingEntries == null
