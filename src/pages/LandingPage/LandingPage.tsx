@@ -16,7 +16,7 @@ import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 
-const faqsn = range(1, 16)
+const faqsn = range(1, 22)
 const preseason = environment.featureFlag.preseasonHomepage
 
 const LandingPage = () => {
@@ -109,6 +109,8 @@ const LandingPage = () => {
                         mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
                         li: <li />,
                         ul: <ul className="list-disc" />,
+                        em: <em />,
+                        strong: <strong />,
                       }}
                     />
                   </span>
