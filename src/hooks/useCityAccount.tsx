@@ -1,6 +1,6 @@
 import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
-import React, { useState } from 'react'
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 export type CityAccountAccessTokenAuthenticationStatus =
@@ -22,7 +22,9 @@ const CityAccountAccessTokenContext = React.createContext<CityAccountAccessToken
 )
 
 export const CityAccountAccessTokenProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isInitializing, setIsInitializing] = useState(true)
+  const [initializationState, setInitializationState] = useState<'idle' | 'initializing' | 'ready'>(
+    'idle',
+  )
   // unfortunately useLocalStorage expects JSON-serializable object, therefore not storing as simple string
   const [accessTokenState, setAccessTokenState] = useLocalStorage<{ accessToken: string | null }>(
     ACCESS_TOKEN_STORAGE_KEY,
@@ -39,30 +41,40 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
     console.error('Invalid token found in local storage:', accessToken, error)
   }
   let status: CityAccountAccessTokenAuthenticationStatus = 'initializing'
-  if (!isInitializing) {
+  if (initializationState === 'ready') {
     status = !!jwtAccessToken ? 'authenticated' : 'unauthenticated'
   }
 
-  const refreshToken = () =>
-    getAccessTokenFromIFrame().then((token) => {
-      setAccessTokenState({ accessToken: checkTokenValid(token) })
-      return token
-    })
+  const refreshToken = useCallback(
+    () =>
+      getAccessTokenFromIFrame().then((token) => {
+        setAccessTokenState({ accessToken: checkTokenValid(token) })
+        return token
+      }),
+    [setAccessTokenState],
+  )
 
-  useEffectOnce(() => {
-    // if we already token that looks valid in local storage, don't refresh
+  // could be 'useEffectOnce' withou the extra initi logic, but regular useEffect listening on refreshToken ensures we unsubscribe correct eventListener, even if refreshToken implementation changes in the future
+  useEffect(() => {
+    // if we have token that looks valid in local storage, allow immediate interaction
     if (checkTokenValid(accessToken)) {
-      setIsInitializing(false)
-    } else {
-      refreshToken().finally(() => setIsInitializing(false))
+      setInitializationState('ready')
     }
-  })
+    // always refresh on page reload (happens in background if valid token is available in storage)
+    if (initializationState === 'idle') {
+      setInitializationState('initializing')
+      refreshToken().finally(() => setInitializationState('ready'))
+    }
+    // alway refresh on page refocus
+    window.addEventListener('focus', refreshToken)
+    return () => window.removeEventListener('focus', refreshToken)
+  }, [accessToken, initializationState, refreshToken])
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
     <CityAccountAccessTokenContext.Provider
       value={{ sub: jwtAccessToken?.sub, accessToken: accessToken, status, refreshToken }}
     >
-      {isInitializing ? null : children}
+      {initializationState === 'ready' ? children : null}
     </CityAccountAccessTokenContext.Provider>
   )
 }
