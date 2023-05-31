@@ -14,6 +14,7 @@ export const environment = {
     showCityAccountLoginInformationModalOnce:
       import.meta.env.VITE_FEATURE_FLAG_SHOW_CITY_ACCOUNT_LOGIN_INFORMATION_MODAL_ONCE === 'true',
   },
+  isProd: import.meta.env.VITE_IS_PROD === 'true',
   turnstileSiteKey: import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY as string,
   cityAccountBackendUrl: import.meta.env.VITE_CITY_ACCOUNT_BACKEND_URL as string,
   cityAccountFrontendUrl: import.meta.env.VITE_CITY_ACCOUNT_FRONTEND_URL as string,

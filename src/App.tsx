@@ -20,6 +20,7 @@ import RegisterUserGuard from './hooks/RegisterUserGuard'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
+import { environment } from './environment'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -73,52 +74,64 @@ function App() {
     dispatch(initPageGlobalState())
   }, [dispatch])
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ConnectedRouter history={history}>
-        <CityAccountAccessTokenProvider>
-          <RegisterUserGuard>
-            <CityAccountLoginRedirectionModalContextProvider>
-              <ScrollToTop>
-                <CityAccountLoginRedirectionModal />
-                <Toast
-                  open={toast !== undefined}
-                  type={toast?.type}
-                  text={toast?.message}
-                  onClose={() => {
-                    dispatch(setToast(undefined))
-                  }}
-                  timeToClose={toast?.type === 'success' ? 3000 : undefined}
-                  closeButton={toast?.type !== 'success'}
-                />
-                <TopBanner />
-                <main className="relative flex flex-col" style={{ flex: 1 }}>
-                  <Header />
+  const isProd = environment.isProd
 
-                  <Switch>
-                    {/* https://stackoverflow.com/a/66114844 */}
-                    <Route
-                      path="/refresh"
-                      exact={true}
-                      component={() => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        const history = useHistory()
-                        // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                        useEffect(() => history.goBack(), [])
-                        return <></>
-                      }}
-                    />
-                    {routes.map(renderRoute)}
-                  </Switch>
-                  <CookieConsent />
-                </main>
-                <Footer />
-              </ScrollToTop>
-            </CityAccountLoginRedirectionModalContextProvider>
-          </RegisterUserGuard>
-        </CityAccountAccessTokenProvider>
-      </ConnectedRouter>
-    </QueryClientProvider>
+  return (
+    <>
+      {isProd && (
+        <script
+          defer
+          data-domain="kupaliska.bratislava.sk"
+          src="https://plausible.io/js/script.hash.js"
+        ></script>
+      )}
+
+      <QueryClientProvider client={queryClient}>
+        <ConnectedRouter history={history}>
+          <CityAccountAccessTokenProvider>
+            <RegisterUserGuard>
+              <CityAccountLoginRedirectionModalContextProvider>
+                <ScrollToTop>
+                  <CityAccountLoginRedirectionModal />
+                  <Toast
+                    open={toast !== undefined}
+                    type={toast?.type}
+                    text={toast?.message}
+                    onClose={() => {
+                      dispatch(setToast(undefined))
+                    }}
+                    timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                    closeButton={toast?.type !== 'success'}
+                  />
+                  <TopBanner />
+                  <main className="relative flex flex-col" style={{ flex: 1 }}>
+                    <Header />
+
+                    <Switch>
+                      {/* https://stackoverflow.com/a/66114844 */}
+                      <Route
+                        path="/refresh"
+                        exact={true}
+                        component={() => {
+                          // eslint-disable-next-line react-hooks/rules-of-hooks
+                          const history = useHistory()
+                          // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                          useEffect(() => history.goBack(), [])
+                          return <></>
+                        }}
+                      />
+                      {routes.map(renderRoute)}
+                    </Switch>
+                    <CookieConsent />
+                  </main>
+                  <Footer />
+                </ScrollToTop>
+              </CityAccountLoginRedirectionModalContextProvider>
+            </RegisterUserGuard>
+          </CityAccountAccessTokenProvider>
+        </ConnectedRouter>
+      </QueryClientProvider>
+    </>
   )
 }
 
