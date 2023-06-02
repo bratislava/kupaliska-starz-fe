@@ -35,4 +35,4 @@ export const useValidationSchemaTranslationIfPresent = (error?: string) => {
   return errorInterpreted
 }
 
-export const isDisposableTicket = (ticket: TicketFromHistory) => ticket.remainingEntries == null
+export const isDisposableTicket = (ticket: TicketFromHistory) => ticket.remainingEntries != null
