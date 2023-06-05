@@ -64,7 +64,7 @@ const CityAccountLoginRedirectionModal = () => {
           <p>
             Vaše údaje, týkajúce sa registrácie do Bratislavského konta spracúva ako prevádzkovateľ{' '}
             <a
-              href="https://bratislava.sk/ochrana-osobnych-udajov"
+              href="https://bratislava.sk/konto/vyhlasenie-o-spracovani-osobnych-udajov"
               target="_blank"
               rel="noreferrer"
               className="link font-semibold"
