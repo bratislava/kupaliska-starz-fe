@@ -15,6 +15,7 @@ import { getObjectChanges } from '../../helpers/getObjectChanges'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { AxiosError } from 'axios'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import logger from 'helpers/logger'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -108,7 +109,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           className="my-8"
           htmlType="button"
           onClick={handleSubmit(onSubmit, (err) => {
-            console.log(err)
+            logger.error(err)
           })}
         >
           {t('profile.save')}

@@ -9,6 +9,7 @@ export const environment = {
   msalAuthority: import.meta.env.VITE_MSAL_AUTHORITY as string,
   msalKnownAuthorities: [import.meta.env.VITE_MSAL_KNOWN_AUTHORITY as string],
   sentryDsn: import.meta.env.VITE_SENTRY_DSN as string,
+  faroSecret: import.meta.env.VITE_FARO_SECRET as string,
   featureFlag: {
     preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
     showCityAccountLoginInformationModalOnce:

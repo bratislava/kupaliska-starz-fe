@@ -41,6 +41,7 @@ import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { useOrderPageTicket } from './useOrderPageTicket'
+import logger from 'helpers/logger'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -693,7 +694,7 @@ const OrderPage = () => {
       htmlType="button"
       disabled={priceQuery.isFetching || priceQuery.isError || sendDisabled}
       onClick={handleSubmit(onSubmit, (err) => {
-        console.log(err)
+        logger.error(err)
       })}
     >
       {priceQuery.isSuccess && !priceQuery.isFetching

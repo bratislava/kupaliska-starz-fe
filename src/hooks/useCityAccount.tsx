@@ -2,6 +2,7 @@ import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountTo
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
+import logger from 'helpers/logger'
 
 export type CityAccountAccessTokenAuthenticationStatus =
   | 'initializing'
@@ -37,8 +38,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
     jwtAccessToken = accessToken ? jwtDecode<JwtPayload>(accessToken) : null
   } catch (error) {
     // since the token is validated every time before our code stores it this shouldn't happen
-    // TODO send to faro
-    console.error('Invalid token found in local storage:', accessToken, error)
+    logger.error('Invalid token found in local storage:', accessToken, error)
   }
   let status: CityAccountAccessTokenAuthenticationStatus = 'initializing'
   if (initializationState === 'ready') {

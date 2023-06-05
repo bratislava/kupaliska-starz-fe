@@ -19,6 +19,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import logger from 'helpers/logger'
 
 type FormData = Partial<Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'age' | 'zip'>>
 
@@ -137,7 +138,7 @@ export const AssociatedSwimmerEditAddModal = ({
       wrapper={
         <form
           onSubmit={handleSubmit(onSubmit, (err) => {
-            console.log(err)
+            logger.error(err)
           })}
         />
       }

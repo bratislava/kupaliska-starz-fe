@@ -1,5 +1,6 @@
 import { environment } from '../environment'
 import { CityAccountUser } from './cityAccountDto'
+import logger from './logger'
 
 export const UNAUTHORIZED_MESSAGE = 'Unauthorized'
 
@@ -15,7 +16,7 @@ export const getAccount = async (accessToken: string) => {
     if (result.status === 401) {
       throw new Error(UNAUTHORIZED_MESSAGE)
     } else {
-      // TODO log to faro
+      logger.error('Error fetching account', result)
       throw new Error('Error fetching account')
     }
   }

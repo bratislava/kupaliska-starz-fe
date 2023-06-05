@@ -1,3 +1,4 @@
+import './helpers/logger'
 import React, { useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ConnectedRouter } from 'connected-react-router'
@@ -21,6 +22,7 @@ import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import { environment } from './environment'
+import logger from './helpers/logger'
 
 const queryClient = new QueryClient({
   defaultOptions: {

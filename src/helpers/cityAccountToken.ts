@@ -3,6 +3,7 @@ import to from 'await-to-js'
 import { environment } from '../environment'
 import { validCityAccountPostMessageTypes } from './cityAccountDto'
 import { UNAUTHORIZED_MESSAGE, cityAccountFrontendSSOUrl } from './cityAccountApi'
+import logger from './logger'
 
 /**
  * returns the same token if it's well formed and not expired
@@ -14,8 +15,7 @@ export const checkTokenValid = (token: string | null | undefined) => {
   try {
     decodedToken = jwtDecode<JwtPayload>(token)
   } catch (error) {
-    // TODO send to faro
-    console.error('Error decoding token when checking validity:', token, error)
+    logger.error('Error decoding token when checking validity:', token, error)
     return null
   }
   if (decodedToken && (decodedToken.exp || 0) * 1000 > Date.now()) {
@@ -53,12 +53,10 @@ export const getAccessTokenFromIFrame = async () => {
             resolve(event.data.payload.accessToken)
           } else {
             // do not accept or reject, wait until timeout for correctly looking message
-            // TODO log to faro
-            console.warn('Unexpected postMessage received from iframe', event.data)
+            logger.warn('Unexpected postMessage received from iframe', event.data)
           }
         } else {
-          // TODO log to faro
-          console.warn('Unexpected postMessage received from iframe', event.data)
+          logger.warn('Unexpected postMessage received from iframe', event.data)
         }
       }
     }
@@ -70,8 +68,7 @@ export const getAccessTokenFromIFrame = async () => {
   if (eventListenerReference) {
     window.removeEventListener('message', eventListenerReference)
   } else {
-    // TODO send to faro
-    console.warn(
+    logger.warn(
       'eventListenerReference is undefined when attempting to remove it - this should not happen',
     )
   }
@@ -79,6 +76,6 @@ export const getAccessTokenFromIFrame = async () => {
   if (token) {
     return token
   }
-  console.warn('None or invalid token received from iframe', postMessageError, accessToken)
+  logger.warn('None or invalid token received from iframe', postMessageError, accessToken)
   return null
 }

@@ -14,6 +14,7 @@ import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 import { updateUser, User } from '../../store/user/api'
+import logger from 'helpers/logger'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -110,7 +111,7 @@ export const OrderMissingInformationProfileModal = ({
       wrapper={
         <form
           onSubmit={handleSubmit(onSubmit, (err) => {
-            console.log(err)
+            logger.error(err)
           })}
         />
       }
