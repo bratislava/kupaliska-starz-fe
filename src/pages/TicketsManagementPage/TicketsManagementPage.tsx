@@ -9,7 +9,7 @@ import { useQuery } from 'react-query'
 import { partition } from 'lodash'
 import { AxiosError } from 'axios'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
-import { isDisposableTicket } from 'helpers/general'
+import { isOneTimeTicket } from 'helpers/general'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
@@ -184,7 +184,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <span className="font-bold text-2xl mb-1">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
       <span className="font-semibold mb-3 text-xl text-center">{ticket.type}</span>
-      <span className="text-center mb-6">{isDisposableTicket(ticket) ? '' : ticket.ownerName}</span>
+      <span className="text-center mb-6">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
       <div className="flex justify-center">
         <Button color={buttonColor} className="absolute shadow-xs" onClick={onDetailClick}>
           {t('tickets.ticket-button')}
@@ -313,7 +313,7 @@ const TicketsManagementPage = () => {
       ticket.type,
       ticket.remainingEntries,
       // don't show owner name for 1 time tickets, so that we don't imply these are bound
-      isDisposableTicket(ticket) ? '' : ticket.ownerName,
+      isOneTimeTicket(ticket) ? '' : ticket.ownerName,
       // eslint-disable-next-line react/jsx-key,jsx-a11y/anchor-is-valid
       <a
         role="button"
