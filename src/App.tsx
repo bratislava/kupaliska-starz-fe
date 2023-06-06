@@ -21,8 +21,6 @@ import RegisterUserGuard from './hooks/RegisterUserGuard'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
-import { environment } from './environment'
-import logger from './helpers/logger'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,18 +74,8 @@ function App() {
     dispatch(initPageGlobalState())
   }, [dispatch])
 
-  const isProd = environment.isProd
-
   return (
     <>
-      {isProd && (
-        <script
-          defer
-          data-domain="kupaliska.bratislava.sk"
-          src="https://plausible.io/js/script.hash.js"
-        ></script>
-      )}
-
       <QueryClientProvider client={queryClient}>
         <ConnectedRouter history={history}>
           <CityAccountAccessTokenProvider>
