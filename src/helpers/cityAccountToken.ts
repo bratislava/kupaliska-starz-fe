@@ -29,11 +29,11 @@ export const getAccessTokenFromIFrame = async () => {
   const iframe = document.createElement('iframe')
   iframe.src = cityAccountFrontendSSOUrl
   iframe.style.display = 'none'
-  // create a promise which resolves when postMessage is received from iframe, or times out after 5 seconds
+  // create a promise which resolves when postMessage is received from iframe, or times out after 8 seconds
   // keep eventListenerReference in scope so we can remove it later
   let eventListenerReference: undefined | ((event: any) => void)
   const promise = new Promise<string>((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 5000)
+    const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 8000)
     eventListenerReference = (event) => {
       // ignore if origin is not our iframe or we receive unexpected message format
       if (event.origin === `${environment.cityAccountFrontendUrl}`) {
@@ -75,6 +75,10 @@ export const getAccessTokenFromIFrame = async () => {
   const token = await checkTokenValid(accessToken)
   if (token) {
     return token
+  }
+  if (postMessageError && postMessageError.message === UNAUTHORIZED_MESSAGE) {
+    // all as it should be, user is not logged in
+    return null
   }
   logger.warn('None or invalid token received from iframe', postMessageError, accessToken)
   return null
