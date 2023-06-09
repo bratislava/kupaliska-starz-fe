@@ -81,14 +81,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
       const tokenFromQuery = urlParams.get('access_token')
       if (checkTokenValid(tokenFromQuery)) {
         setAccessTokenState({ accessToken: tokenFromQuery })
-        // remove token from query params
-        // TODO this breaks the redirect for orderticket, couldn't find a quick way to fix it, keeping it in and creating an issues as the login problems are more pressing
-        urlParams.delete('access_token')
-        const urlWithoutToken =
-          urlParams.size === 0
-            ? window.location.pathname
-            : `${window.location.pathname}?${urlParams}`
-        window.history.replaceState({}, '', urlWithoutToken)
+        // TOOD would be nice to clear the token from query params, but this breaks the order redirect, fix so that it works
         setInitializationState('ready')
       }
     } catch (error) {
