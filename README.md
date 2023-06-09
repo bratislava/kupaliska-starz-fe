@@ -1,12 +1,12 @@
 # Kupaliska FE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template. It's using [Craco](https://www.npmjs.com/package/@craco/craco) to allow tailwind-css
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template. We are using [Vite](https://vitejs.dev) to allow tailwind-css
 
 ## Development Setup
 
 ### Dependencies
 
-Before you start you need to have [backend](https://dev.azure.com/bratislava-innovation/Inovacie/_git/kupaliska-starz-be) up and running.
+Before you start you need to have [backend](https://github.com/bratislava/kupaliska-starz-be) up and running.
 
 Install dependencies:
 
@@ -18,7 +18,7 @@ npm install
 
 Set the `VITE_HOST` variable in `.env.development` file to **FULL URL** of the backend API. The default setup runs against local backend - if you don't have BE running on http://localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
 
-For additional informaion about VPN, please contact Martin Pinter or Patrik Kadlcik.
+For additional informaion about VPN, please contact Martin Pinter.
 
 #### Recaptcha
 
