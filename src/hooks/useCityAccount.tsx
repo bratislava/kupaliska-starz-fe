@@ -47,28 +47,55 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
 
   const refreshToken = useCallback(
     () =>
-      getAccessTokenFromIFrame().then((token) => {
-        setAccessTokenState({ accessToken: checkTokenValid(token) })
-        return token
-      }),
+      getAccessTokenFromIFrame()
+        .then((token) => {
+          setAccessTokenState({ accessToken: checkTokenValid(token) })
+          return token
+        })
+        .catch((error) => {
+          logger.error('getAccessTokenFromIFrame error', error)
+        }),
     [setAccessTokenState],
   )
 
-  // could be 'useEffectOnce' withou the extra initi logic, but regular useEffect listening on refreshToken ensures we unsubscribe correct eventListener, even if refreshToken implementation changes in the future
+  // could be 'useEffectOnce' without the extra init logic, but regular useEffect listening on refreshToken ensures we unsubscribe correct eventListener, even if refreshToken implementation changes in the future
   useEffect(() => {
+    if (initializationState !== 'idle') {
+      // keep the refocus event listener with newest refreshToken
+      window.addEventListener('focus', refreshToken)
+      return () => window.removeEventListener('focus', refreshToken)
+    }
+    setInitializationState('initializing')
     // if we have token that looks valid in local storage, allow immediate interaction
     if (checkTokenValid(accessToken)) {
       setInitializationState('ready')
+    } else {
+      // clear invalid token, as a sanity check & to prevent any in-between states
+      setAccessTokenState({ accessToken: null })
     }
-    // always refresh on page reload (happens in background if valid token is available in storage)
-    if (initializationState === 'idle') {
-      setInitializationState('initializing')
-      refreshToken().finally(() => setInitializationState('ready'))
+    // look for token in query params - this is fallback for browsers which have trouble with iframe
+    // TODO passing tokens in query params is not really recommended, rewrite once we do the amplify fix in city-account
+    // get access token from query params, failure for any reason continues with iframe approach as usual
+    try {
+      const urlParams = new URLSearchParams(window.location.search)
+      const tokenFromQuery = urlParams.get('access_token')
+      if (checkTokenValid(tokenFromQuery)) {
+        setAccessTokenState({ accessToken: tokenFromQuery })
+        // remove token from query params
+        urlParams.delete('access_token')
+        window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`)
+        setInitializationState('ready')
+      }
+    } catch (error) {
+      logger.error('Error token from query', error)
     }
+
+    // alway try refreshing from iframe - if one of previous approaches worked this happens in the background
+    refreshToken().finally(() => setInitializationState('ready'))
     // alway refresh on page refocus
     window.addEventListener('focus', refreshToken)
     return () => window.removeEventListener('focus', refreshToken)
-  }, [accessToken, initializationState, refreshToken])
+  }, [accessToken, initializationState, refreshToken, setAccessTokenState])
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
     <CityAccountAccessTokenContext.Provider
