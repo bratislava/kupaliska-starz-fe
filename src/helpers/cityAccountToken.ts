@@ -80,6 +80,14 @@ export const getAccessTokenFromIFrame = async () => {
     // all as it should be, user is not logged in
     return null
   }
-  logger.warn('None or invalid token received from iframe', postMessageError, accessToken)
-  return null
+  if (postMessageError) {
+    logger.error('Error when waiting for token from iframe', postMessageError, accessToken)
+    throw postMessageError
+  } else {
+    logger.warn(
+      'None or invalid token received from iframe for possibly authorized user - returning null',
+      token,
+    )
+    return null
+  }
 }
