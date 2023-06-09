@@ -82,12 +82,9 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
       if (checkTokenValid(tokenFromQuery)) {
         setAccessTokenState({ accessToken: tokenFromQuery })
         // remove token from query params
-        urlParams.delete('access_token')
-        const urlWithoutToken =
-          urlParams.size === 0
-            ? window.location.pathname
-            : `${window.location.pathname}?${urlParams}`
-        window.history.replaceState({}, '', urlWithoutToken)
+        const urlWithoutToken = new URL(window.location.href)
+        urlWithoutToken.searchParams.delete('access_token')
+        window.history.replaceState({}, '', urlWithoutToken.href)
         setInitializationState('ready')
       }
     } catch (error) {
