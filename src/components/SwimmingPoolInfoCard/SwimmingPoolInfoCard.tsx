@@ -28,7 +28,7 @@ const SwimmingPoolInfoCard = ({ swimmingPool, className = '' }: SwimmingPoolInfo
         <Typography type="subtitle" fontWeight="bold">
           {swimmingPool.name}
         </Typography>
-        {swimmingPool.expandedDescription && swimmingPool.waterTemp ? (
+        {swimmingPool.description ? (
           <div className="flex-1">
             <p className="my-4 whitespace-pre-wrap">{swimmingPool.description}</p>
           </div>
