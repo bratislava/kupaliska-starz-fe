@@ -15,6 +15,7 @@ import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
+import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
 
 const faqsn = range(1, 22)
 const preseason = environment.featureFlag.preseasonHomepage
@@ -28,6 +29,7 @@ const LandingPage = () => {
   return (
     <main className="bg-white">
       <HeroBanner />
+      <SwimmingPoolsInfo />
       <HomepageHowTo />
 
       {!preseason && (
