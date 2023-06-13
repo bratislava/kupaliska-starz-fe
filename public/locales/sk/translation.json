@@ -218,6 +218,8 @@
     "captchaWarning": "Nepodarilo sa overiť, či nie ste robot. Ak sa formulár nedá odoslať, vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).",
     "send-message": "Odoslať správu ",
     "alt-img-text": "Nahradny obrazok kupaliska",
+    "alert-text": "Kvôli plánovanej technickej údržbe môže v dňoch 15.-19. júna 2023 dochádzať k priebežným výpadkom na tejto stránke. Ďakujeme za pochopenie.",
+    "alert-text-close": "Zavrieť upozornenie",
     "less-info": "Menej info",
     "more-info": "Viac info",
     "navigate": "Navigovať",

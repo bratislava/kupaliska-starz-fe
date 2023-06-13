@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { ReactComponent as AccommodationIcon } from '../../assets/icons/accommodation.svg'
+import { ReactComponent as AlertIcon } from '../../assets/icons/alert.svg'
 import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrow-down.svg'
 import { ReactComponent as ArrowLeftIcon } from '../../assets/icons/arrow-left.svg'
 import { ReactComponent as ArrowRightIcon } from '../../assets/icons/arrow-right.svg'
@@ -53,6 +54,7 @@ import './Icon.css'
 
 const iconMap = {
   accommodation: AccommodationIcon,
+  alert: AlertIcon,
   // add other icons here, using the format "file-name: IconComponent"
   'arrow-down': ArrowDownIcon,
   'arrow-left': ArrowLeftIcon,
