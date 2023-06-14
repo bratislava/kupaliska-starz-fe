@@ -27,30 +27,28 @@ const SwimmingPoolsInfo = () => {
   }
 
   return (
-    <div className="py-16">
-      <div className="container mx-auto">
-        <h2 className="text-center font-bold text-fontBlack mb-8 text-2xl xs:text-3xl 2xl:text-4xl">
-          {t('landing.assumed-opening')}
-        </h2>
-        <div className="md:grid md:gap-x-16 md:grid-cols-2 lg:gap-x-32 lg:grid-cols-3 auto-rows-fr pb-8">
-          {(allSwimmingPools
-            ? assignItemsToColumns(getNumberOfSwimmingPoolCols(), swimmingPools)
-            : assignItemsToColumns(
-                getNumberOfSwimmingPoolCols(),
-                swimmingPools.slice(0, width && width >= 1024 ? 3 : 2),
-              )
-          ).map((swimmingPoolsCol, index) => (
-            <div key={`col-${index}`} className="flex flex-col">
-              {swimmingPoolsCol.map((swimmingPool) => (
-                <SwimmingPoolInfoCard
-                  key={swimmingPool.id}
-                  swimmingPool={swimmingPool}
-                  className={`lg:col-span-1 my-4`}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+    <div className="py-16 container mx-auto">
+      <h2 className="text-center font-bold text-fontBlack mb-8 text-2xl xs:text-3xl 2xl:text-4xl">
+        {t('landing.assumed-opening')}
+      </h2>
+      <div className="md:grid md:gap-x-16 md:grid-cols-2 lg:gap-x-32 lg:grid-cols-3 auto-rows-fr pb-8">
+        {(allSwimmingPools
+          ? assignItemsToColumns(getNumberOfSwimmingPoolCols(), swimmingPools)
+          : assignItemsToColumns(
+              getNumberOfSwimmingPoolCols(),
+              swimmingPools.slice(0, width && width >= 1024 ? 3 : 2),
+            )
+        ).map((swimmingPoolsCol, index) => (
+          <div key={`col-${index}`} className="flex flex-col">
+            {swimmingPoolsCol.map((swimmingPool) => (
+              <SwimmingPoolInfoCard
+                key={swimmingPool.id}
+                swimmingPool={swimmingPool}
+                className={`lg:col-span-1 my-4`}
+              />
+            ))}
+          </div>
+        ))}
       </div>
       <Button
         onClick={() => setAllSwimmingPools(!allSwimmingPools)}
