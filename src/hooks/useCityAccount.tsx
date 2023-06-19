@@ -1,6 +1,6 @@
 import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useLocalStorage } from 'usehooks-ts'
+import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import logger from 'helpers/logger'
 
@@ -59,12 +59,16 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
   )
 
   // could be 'useEffectOnce' without the extra init logic, but regular useEffect listening on refreshToken ensures we unsubscribe correct eventListener, even if refreshToken implementation changes in the future
-  useEffect(() => {
+  useEffectOnce(() => {
     logger.info('CityAccountAccessTokenProvider initializationState', initializationState)
     if (initializationState !== 'idle') {
       // keep the refocus event listener with newest refreshToken
-      window.addEventListener('focus', refreshToken)
-      return () => window.removeEventListener('focus', refreshToken)
+      logger.info(
+        'THIS SHOULD NOT HAPPEN - CityAccountAccessTokenProvider initializationState',
+        initializationState,
+      )
+      // window.addEventListener('focus', refreshToken)
+      // return () => window.removeEventListener('focus', refreshToken)
     }
     setInitializationState('initializing')
     // if we have token that looks valid in local storage, allow immediate interaction
@@ -89,20 +93,21 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
         // remove token from query params
         const urlWithoutToken = new URL(window.location.href)
         urlWithoutToken.searchParams.delete('access_token')
-        // window.history.replaceState({}, '', urlWithoutToken.href)
+        window.history.replaceState({}, '', urlWithoutToken.href)
+        window.addEventListener('focus', refreshToken)
         setInitializationState('ready')
+        return () => window.removeEventListener('focus', refreshToken)
       }
     } catch (error) {
       logger.error('Error token from query', error)
     }
 
     // alway try refreshing from iframe - if one of previous approaches worked this happens in the background
-    // refreshToken().finally(() => setInitializationState('ready'))
-    setInitializationState('ready')
+    refreshToken().finally(() => setInitializationState('ready'))
     // alway refresh on page refocus
     window.addEventListener('focus', refreshToken)
     return () => window.removeEventListener('focus', refreshToken)
-  }, [accessToken, initializationState, refreshToken, setAccessTokenState])
+  })
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
     <CityAccountAccessTokenContext.Provider
