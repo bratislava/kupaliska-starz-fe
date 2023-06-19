@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Icon } from 'components'
 import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
@@ -14,9 +15,11 @@ const SocialMediaButton = ({
 )
 
 const Banner = () => {
+  const { t } = useTranslation()
+
   return (
     <>
-      <AlertBanner />
+      <AlertBanner text={t('landing.alert-text')} />
       <aside className="flex bg-backgroundGray items-center" style={{ height: '50px' }}>
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
