@@ -7,7 +7,7 @@ import {
 import { environment } from '../environment'
 import pino from 'pino'
 
-const isProd = true
+const { isProd, faroSecret } = environment
 
 const sendLogsToFaro = isProd
 // logs must be serialized when pushed to faro
@@ -18,12 +18,12 @@ let mutableFaro: Faro | null = null
 if (sendLogsToFaro) {
   mutableFaro = initializeFaro({
     url: 'https://faro.bratislava.sk/collect',
-    apiKey: environment.faroSecret,
+    apiKey: faroSecret,
     instrumentations: [new ErrorsInstrumentation(), new ConsoleInstrumentation()],
     app: {
       name: 'kupaliska-starz-fe',
       version: '1.0.0',
-      environment: 'staging',
+      environment: 'production',
     },
   })
 }
