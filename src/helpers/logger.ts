@@ -7,7 +7,7 @@ import {
 import { environment } from '../environment'
 import pino from 'pino'
 
-const { isProd } = environment
+const isProd = true
 
 const sendLogsToFaro = isProd
 // logs must be serialized when pushed to faro
@@ -23,7 +23,7 @@ if (sendLogsToFaro) {
     app: {
       name: 'kupaliska-starz-fe',
       version: '1.0.0',
-      environment: 'production',
+      environment: 'staging',
     },
   })
 }
