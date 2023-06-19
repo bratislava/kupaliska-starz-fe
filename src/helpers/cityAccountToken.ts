@@ -72,11 +72,12 @@ export const getAccessTokenFromIFrame = async () => {
       'eventListenerReference is undefined when attempting to remove it - this should not happen',
     )
   }
-  const token = await checkTokenValid(accessToken)
+  const token = checkTokenValid(accessToken)
   if (token) {
     return token
   }
   if (postMessageError && postMessageError.message === UNAUTHORIZED_MESSAGE) {
+    logger.warn('Unauthorized message received from iframe', accessToken)
     // all as it should be, user is not logged in
     return null
   }
