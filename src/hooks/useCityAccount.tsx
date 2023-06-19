@@ -60,6 +60,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
 
   // could be 'useEffectOnce' without the extra init logic, but regular useEffect listening on refreshToken ensures we unsubscribe correct eventListener, even if refreshToken implementation changes in the future
   useEffect(() => {
+    logger.info('CityAccountAccessTokenProvider initializationState', initializationState)
     if (initializationState !== 'idle') {
       // keep the refocus event listener with newest refreshToken
       window.addEventListener('focus', refreshToken)
@@ -68,23 +69,27 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
     setInitializationState('initializing')
     // if we have token that looks valid in local storage, allow immediate interaction
     if (checkTokenValid(accessToken)) {
+      logger.info('CityAccountAccessTokenProvider token found in local storage')
       setInitializationState('ready')
     } else {
       // clear invalid token, as a sanity check & to prevent any in-between states
       setAccessTokenState({ accessToken: null })
     }
+    logger.info('CityAccountAccessTokenProvider checking token from query params')
     // look for token in query params - this is fallback for browsers which have trouble with iframe
     // TODO passing tokens in query params is not really recommended, rewrite once we do the amplify fix in city-account
     // get access token from query params, failure for any reason continues with iframe approach as usual
     try {
       const urlParams = new URLSearchParams(window.location.search)
+      logger.info('CityAccountAccessTokenProvider urlParams', urlParams)
       const tokenFromQuery = urlParams.get('access_token')
       if (checkTokenValid(tokenFromQuery)) {
+        logger.info('CityAccountAccessTokenProvider token found in query params')
         setAccessTokenState({ accessToken: tokenFromQuery })
         // remove token from query params
         const urlWithoutToken = new URL(window.location.href)
         urlWithoutToken.searchParams.delete('access_token')
-        window.history.replaceState({}, '', urlWithoutToken.href)
+        // window.history.replaceState({}, '', urlWithoutToken.href)
         setInitializationState('ready')
       }
     } catch (error) {
@@ -92,7 +97,8 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
     }
 
     // alway try refreshing from iframe - if one of previous approaches worked this happens in the background
-    refreshToken().finally(() => setInitializationState('ready'))
+    // refreshToken().finally(() => setInitializationState('ready'))
+    setInitializationState('ready')
     // alway refresh on page refocus
     window.addEventListener('focus', refreshToken)
     return () => window.removeEventListener('focus', refreshToken)
