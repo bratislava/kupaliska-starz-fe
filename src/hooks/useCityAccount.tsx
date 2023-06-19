@@ -46,67 +46,81 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
   }
 
   const refreshToken = useCallback(
-    () =>
+    (isInitialRefresh: boolean) =>
       getAccessTokenFromIFrame()
         .then((token) => {
-          setAccessTokenState({ accessToken: checkTokenValid(token) })
+          if (token) {
+            setAccessTokenState({ accessToken: token })
+          } else if (!isInitialRefresh) {
+            setAccessTokenState({ accessToken: null })
+          }
           return token
         })
         .catch((error) => {
           logger.error('getAccessTokenFromIFrame error', error)
+          return null
         }),
     [setAccessTokenState],
   )
 
-  // could be 'useEffectOnce' without the extra init logic, but regular useEffect listening on refreshToken ensures we unsubscribe correct eventListener, even if refreshToken implementation changes in the future
-  useEffectOnce(() => {
-    logger.info('CityAccountAccessTokenProvider initializationState', initializationState)
-    if (initializationState !== 'idle') {
-      // keep the refocus event listener with newest refreshToken
-      logger.info(
-        'THIS SHOULD NOT HAPPEN - CityAccountAccessTokenProvider initializationState',
-        initializationState,
-      )
-      // window.addEventListener('focus', refreshToken)
-      // return () => window.removeEventListener('focus', refreshToken)
-    }
-    setInitializationState('initializing')
-    // if we have token that looks valid in local storage, allow immediate interaction
-    if (checkTokenValid(accessToken)) {
-      logger.info('CityAccountAccessTokenProvider token found in local storage')
-      setInitializationState('ready')
-    } else {
-      // clear invalid token, as a sanity check & to prevent any in-between states
+  const validateTokenInLocalStorage = useCallback(() => {
+    if (!checkTokenValid(accessToken)) {
       setAccessTokenState({ accessToken: null })
+      return null
+    } else {
+      return accessToken
     }
-    logger.info('CityAccountAccessTokenProvider checking token from query params')
-    // look for token in query params - this is fallback for browsers which have trouble with iframe
-    // TODO passing tokens in query params is not really recommended, rewrite once we do the amplify fix in city-account
-    // get access token from query params, failure for any reason continues with iframe approach as usual
+  }, [accessToken, setAccessTokenState])
+
+  useEffect(() => {
+    // prevent stale token in storage, in case iframe refresh does not work
+    window.addEventListener('focus', validateTokenInLocalStorage)
+    return () => {
+      window.removeEventListener('focus', validateTokenInLocalStorage)
+    }
+  }, [validateTokenInLocalStorage])
+
+  const getTokenFromUrl = useCallback(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search)
-      logger.info('CityAccountAccessTokenProvider urlParams', urlParams)
+      logger.info('Looking for CityAccountAccessToken in query params')
       const tokenFromQuery = urlParams.get('access_token')
       if (checkTokenValid(tokenFromQuery)) {
-        logger.info('CityAccountAccessTokenProvider token found in query params')
+        logger.info('CityAccountAccessToken found in query params')
         setAccessTokenState({ accessToken: tokenFromQuery })
         // remove token from query params
         const urlWithoutToken = new URL(window.location.href)
         urlWithoutToken.searchParams.delete('access_token')
         window.history.replaceState({}, '', urlWithoutToken.href)
-        window.addEventListener('focus', refreshToken)
-        setInitializationState('ready')
-        return () => window.removeEventListener('focus', refreshToken)
+        return tokenFromQuery
       }
     } catch (error) {
       logger.error('Error token from query', error)
     }
+    return null
+  }, [setAccessTokenState])
 
-    // alway try refreshing from iframe - if one of previous approaches worked this happens in the background
-    refreshToken().finally(() => setInitializationState('ready'))
-    // alway refresh on page refocus
-    window.addEventListener('focus', refreshToken)
-    return () => window.removeEventListener('focus', refreshToken)
+  useEffectOnce(() => {
+    setInitializationState('initializing')
+    validateTokenInLocalStorage()
+    // try getting token from iframe - this tends to fail randomly
+    refreshToken(true)
+      .then((token) => {
+        // fallback token in url if coming from login - also clears it from url
+        getTokenFromUrl()
+        if (token) {
+          // iframe works, refresh from it on refocus
+          window.addEventListener('focus', () => refreshToken(false))
+        }
+      })
+      .catch((error) => {
+        logger.error('refreshToken error', error)
+        // fallback token in url if coming from login
+        getTokenFromUrl()
+      })
+      .finally(() => {
+        setInitializationState('ready')
+      })
   })
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
