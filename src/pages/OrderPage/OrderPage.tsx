@@ -23,7 +23,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
-import { useIsMounted } from 'usehooks-ts'
+import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
 import { fetchUser } from '../../store/user/api'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import './OrderPage.css'
@@ -455,6 +455,7 @@ const validationSchema = yup.object({
       }
       return schema
     }),
+  recaptchaToken: yup.string().required('landing.captcha-warning-required'),
 })
 
 const OrderPageSummary = ({
@@ -612,8 +613,10 @@ const OrderPage = () => {
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
+  const { count: captchaKey, increment: incrementCaptchaKey } = useCounter(0)
   const { status } = useCityAccount()
   const { t } = useTranslation()
+  const isClient = useIsClient()
 
   const {
     register,
@@ -683,7 +686,13 @@ const OrderPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchPriceChange])
 
+  useTimeout(() => {
+    if (!isClient || captchaWarning === 'hide') return
+    setCaptchaWarning('show')
+  }, 3000)
+
   const onSubmit = async () => {
+    incrementCaptchaKey()
     const { orderRequest } = getRequestsFromFormData()
     await order(orderRequest)
   }
@@ -796,6 +805,8 @@ const OrderPage = () => {
               <>
                 <Turnstile
                   theme="light"
+                  key={captchaKey}
+                  refreshExpired={'auto'}
                   sitekey={environment.turnstileSiteKey ?? ''}
                   onVerify={(token) => {
                     setCaptchaWarning('hide')
@@ -818,10 +829,10 @@ const OrderPage = () => {
                   className="mt-4 self-center"
                 />
                 {captchaWarning === 'show' && (
-                  <p className="text-p3 mt-1 text-error">
-                    Nepodarilo sa overiť, či nie ste robot. Ak sa objednávka nedá zaplatiť,
-                    vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).
-                  </p>
+                  <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
+                )}
+                {errors.recaptchaToken && (
+                  <p className="text-p3 mt-1 text-error">{t('landing.captcha-warning-required')}</p>
                 )}
               </>
             )}
