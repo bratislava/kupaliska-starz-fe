@@ -689,7 +689,7 @@ const OrderPage = () => {
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') return
     setCaptchaWarning('show')
-  }, 3000)
+  }, 10000)
 
   const onSubmit = async () => {
     incrementCaptchaKey()
