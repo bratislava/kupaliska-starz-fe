@@ -216,7 +216,7 @@
     "message": "Správa",
     "gdpr-info": "Odoslaním kontaktného formuláru potvrdzujem, že som sa oboznámil/a s <Link>podmienkami spracúvania osobných údajov.</Link>",
     "captcha-not-verified": "Nepodarilo sa overiť, či nie ste robot. Ak sa formulár nedá odoslať, vyskúšajte prosím iný prehliadač (Chrome, Edge alebo Safari).",
-    "captcha-warning-required": "Potvrdte prosím, že nie ste robot.",
+    "captcha-warning-required": "Potvrďte prosím, že nie ste robot.",
     "send-message": "Odoslať správu ",
     "alt-img-text": "Nahradny obrazok kupaliska",
     "alert-text": "",
