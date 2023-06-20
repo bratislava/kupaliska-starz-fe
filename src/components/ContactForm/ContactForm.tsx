@@ -11,11 +11,13 @@ import { sendContactFormActions } from 'store/global'
 import Turnstile from 'react-turnstile'
 import { Trans, useTranslation } from 'react-i18next'
 import { environment } from '../../environment'
+import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 
 const formRules = yup.object().shape({
   email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
   name: yup.string().required('Toto pole je povinné'),
   message: yup.string().required('Toto pole je povinné'),
+  recaptchaToken: yup.string().required('landing.captcha-warning-required'),
 })
 
 export interface ContactFormValues {
@@ -29,7 +31,11 @@ const ContactForm = () => {
   const dispatch = useAppDispatch()
   const [sending, setSending] = useState<boolean>(false)
   const { t } = useTranslation()
+  const isClient = useIsClient()
+
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
+  const { count: captchaKey, increment: incrementCaptchaKey } = useCounter(0)
+
   const {
     register,
     handleSubmit,
@@ -41,8 +47,14 @@ const ContactForm = () => {
     resolver: yupResolver(formRules),
   })
 
+  useTimeout(() => {
+    if (!isClient || captchaWarning === 'hide') return
+    setCaptchaWarning('show')
+  }, 3000)
+
   const onSubmit = (values: ContactFormValues) => {
     setSending(true)
+    incrementCaptchaKey()
     dispatch(
       sendContactFormActions({
         formData: values,
@@ -92,6 +104,8 @@ const ContactForm = () => {
           <>
             <Turnstile
               theme="light"
+              key={captchaKey}
+              refreshExpired={'auto'}
               sitekey={environment.turnstileSiteKey ?? ''}
               onVerify={(token) => {
                 setCaptchaWarning('hide')
@@ -113,7 +127,12 @@ const ContactForm = () => {
               }}
               className="mb-2 empty:hidden"
             />
-            {captchaWarning === 'show' && <p className="text-p3 italic">{t('captchaWarning')}</p>}
+            {captchaWarning === 'show' && (
+              <p className="text-p3 italic">{t('landing.captcha-not-verified')}</p>
+            )}
+            {errors.recaptchaToken && (
+              <p className="text-p3 mt-1 text-error">{t('landing.captcha-warning-required')}</p>
+            )}
           </>
         )}
       />
