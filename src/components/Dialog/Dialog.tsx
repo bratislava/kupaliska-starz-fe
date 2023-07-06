@@ -36,7 +36,7 @@ const Dialog = ({
       {cloneElement(
         wrapper,
         {},
-        <AriaDialog className="bg-white rounded-lg flex flex-col max-h-[calc(100vh-8px)] max-w-[calc(100vw-8px)]">
+        <AriaDialog className="bg-white rounded-lg flex flex-col max-h-[calc(70vh-8px)] max-w-[calc(100vw-8px)]">
           <div className="flex flex-row items-center justify-between gap-6 px-6 py-4 border-b-2 border-b-divider">
             <Heading className="text-gray-800 text-xl font-semibold">{title}</Heading>
             <Button onPress={() => onClose()} aria-label="Zatvoriť">
