@@ -89,7 +89,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "dev": "vite --host"
   },
   "eslintConfig": {
     "extends": [

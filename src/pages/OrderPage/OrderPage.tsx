@@ -518,6 +518,7 @@ const OrderPageSummary = ({
                 childrenPrice: ticket.childrenPrice,
               })}
             </p>
+            <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
           </>
         )}
       </div>
