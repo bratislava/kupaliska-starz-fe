@@ -107,7 +107,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
     refreshToken(true)
       .then((token) => {
         // fallback token in url if coming from login - also clears it from url
-        getTokenFromUrl()
+        // getTokenFromUrl()
         if (token) {
           // iframe works, refresh from it on refocus
           window.addEventListener('focus', () => refreshToken(false))
@@ -116,7 +116,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
       .catch((error) => {
         logger.error('refreshToken error', error)
         // fallback token in url if coming from login
-        getTokenFromUrl()
+        // getTokenFromUrl()
       })
       .finally(() => {
         setInitializationState('ready')
