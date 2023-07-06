@@ -631,9 +631,6 @@ const OrderPage = () => {
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      email: 'adam.grund@gmail.com',
-      age: 45,
-      agreement: true,
       ...(hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
       ...(hasTicketAmount ? { ticketAmount: 1 } : {}),
     },
@@ -699,7 +696,6 @@ const OrderPage = () => {
     incrementCaptchaKey()
     const { orderRequest } = getRequestsFromFormData()
     await order(orderRequest)
-    // await order(orderRequest)
   }
 
   const buyButton = (
