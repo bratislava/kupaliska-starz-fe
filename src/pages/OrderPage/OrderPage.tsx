@@ -241,6 +241,9 @@ const OrderPagePeopleList = ({
     }
   }
 
+  const shouldDisplayMissingInformationWarning =
+    displayMissingInformationWarning && selectedSwimmerIds.includes(null)
+
   return (
     <>
       {missingInformationModalOpen && userQuery.data?.data && (
@@ -256,7 +259,7 @@ const OrderPagePeopleList = ({
         ></AssociatedSwimmerEditAddModal>
       )}
 
-      {displayMissingInformationWarning && (
+      {shouldDisplayMissingInformationWarning && (
         <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
           <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
           <div>
@@ -526,7 +529,7 @@ const OrderPageSummary = ({
         {hasTicketAmount && (
           <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary shrink-0">
             <button
-              className="mr-6 leading-5	text-3xl align-top"
+              className="mr-6 leading-5 text-3xl align-top"
               onClick={handleMinusClick}
               type="button"
             >
@@ -643,6 +646,9 @@ const OrderPage = () => {
       isSeniorOrDisabledTicket,
     },
   })
+
+  const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
+
   const errorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.agreement?.message,
   )
@@ -701,11 +707,15 @@ const OrderPage = () => {
     setOrderRequestPending(false)
   }
 
+  const shouldSendDisabled = sendDisabled && selectedSwimmerIds.includes(null)
+
   const buyButton = (
     <Button
       className="mt-14 md:mt-16"
       htmlType="button"
-      disabled={priceQuery.isFetching || priceQuery.isError || sendDisabled || orderRequestPending}
+      disabled={
+        priceQuery.isFetching || priceQuery.isError || shouldSendDisabled || orderRequestPending
+      }
       onClick={handleSubmit(onSubmit, (err) => {
         logger.error(err)
       })}
