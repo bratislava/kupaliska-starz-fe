@@ -707,6 +707,8 @@ const OrderPage = () => {
     setOrderRequestPending(false)
   }
 
+  // photo and age is required for every selected swimmer, so when main swimmer isn't selected we should not prompt user to fill those attributes and
+  // we should not block the form when main swimmer, marked as 'null', isn't selected and those attributes is missing
   const shouldSendDisabled = sendDisabled && selectedSwimmerIds.includes(null)
 
   const buyButton = (
