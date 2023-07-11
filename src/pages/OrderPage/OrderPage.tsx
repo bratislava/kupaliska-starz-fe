@@ -611,6 +611,7 @@ const OrderPage = () => {
     sendDisabled,
     isSeniorOrDisabledTicket,
   } = useOrderPageTicket()
+  const [orderRequestPending, setOrderRequestPending] = useState(false)
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
   const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
@@ -695,14 +696,16 @@ const OrderPage = () => {
   const onSubmit = async () => {
     incrementCaptchaKey()
     const { orderRequest } = getRequestsFromFormData()
+    setOrderRequestPending(true)
     await order(orderRequest)
+    setOrderRequestPending(false)
   }
 
   const buyButton = (
     <Button
       className="mt-14 md:mt-16"
       htmlType="button"
-      disabled={priceQuery.isFetching || priceQuery.isError || sendDisabled}
+      disabled={priceQuery.isFetching || priceQuery.isError || sendDisabled || orderRequestPending}
       onClick={handleSubmit(onSubmit, (err) => {
         logger.error(err)
       })}
