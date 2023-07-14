@@ -27,7 +27,6 @@ import { default as KupaliskaSwitch } from './Switch/KupaliskaSwitch'
 import { default as CookieConsent } from './CookieConsent/CookieConsent'
 
 export * from './CustomerForm'
-export * from './CustomerInfoReviewPanel'
 export {
   TopBanner,
   Header,

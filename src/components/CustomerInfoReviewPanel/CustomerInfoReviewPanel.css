@@ -1,9 +1,0 @@
-.custom-grid-rows {
-  grid-template-rows: minmax(0, 2fr) minmax(2rem, 0.8fr) minmax(2rem, 0.8fr);
-  @screen md {
-    grid-template-rows: minmax(0, 2fr) minmax(2rem, 0.6fr) minmax(2rem, 0.6fr);
-  }
-  @screen lg {
-    grid-template-rows: minmax(0, 2fr) minmax(0, 1.5fr) minmax(0, 1.5fr);
-  }
-}
