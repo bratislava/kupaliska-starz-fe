@@ -152,7 +152,7 @@ const OrderPageOptionalFields = ({
           name="age"
           register={register}
           placeholder={t('buy-page.age')}
-          error={errors.age?.message}
+          error={errors.age?.message ? t(`${errors.age?.message}`) : undefined}
           type="number"
           valueAsNumber={true}
         />
@@ -439,6 +439,7 @@ const validationSchema = yup.object({
     ),
   age: yup
     .number()
+    .integer('common.age-integer')
     .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: NumberSchema) => {
       if (hasOptionalFields) {
         return schema

@@ -40,6 +40,7 @@
     "additional-info-age": "Cena jednorazových lístkov je jednotná pre všetky vekové skupiny.",
     "additional-info-student-senior": "Zľavy pre seniorov a držiteľov ŤZP/ŤZP-S preukazu na jednorazové lístky je možné uplatniť iba pri osobnom nákupe priamo na kúpalisku.",
     "additional-info-toddlers": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
+    "age-integer": "Vek musí byť celé číslo.",
     "additional-info-tutanchamon": "Zadaný vek musí byť nižší ako 151.",
     "email": "Email",
     "confirm-choice": "Potvrdiť výber",
