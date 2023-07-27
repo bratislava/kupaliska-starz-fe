@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react'
-import { Button, Icon, Modal, ProfileNavBar, Spinner } from 'components'
+import { Button, Icon, Modal, Spinner } from 'components'
 import { useTranslation } from 'react-i18next'
 import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
 import cx from 'classnames'
-import ProfileLine from '../../components/ProfileLine/ProfileLine'
 import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
 import { useQuery } from 'react-query'
 import { partition } from 'lodash'
@@ -369,10 +368,6 @@ const TicketsManagementPage = () => {
       ></TicketsManagementModal>
 
       <section className="w-full">
-        <ProfileNavBar></ProfileNavBar>
-        <div className="container mx-auto">
-          <ProfileLine></ProfileLine>
-        </div>
         {ticketsQuery.isLoading && (
           <div className="flex justify-center p-6">
             <Spinner />
