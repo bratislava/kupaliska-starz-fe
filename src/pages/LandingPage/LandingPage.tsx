@@ -29,7 +29,9 @@ const LandingPage = () => {
   return (
     <main className="bg-white">
       <HeroBanner />
-      <SwimmingPoolsInfo />
+      {/* https://github.com/bratislava/kupaliska-starz-fe/issues/138 */}
+      {/* this will come back next year, therefore not erasing just commenting out */}
+      {/* <SwimmingPoolsInfo /> */}
       <HomepageHowTo />
 
       {!preseason && (
