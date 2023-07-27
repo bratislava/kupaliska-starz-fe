@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
+import './Header.css'
 
 import { HashLink as Link } from 'react-router-hash-link'
+import { NavLink } from 'react-router-dom'
+
+import cx from 'classnames'
 
 import { Icon, Typography } from 'components'
 import { useTranslation } from 'react-i18next'
 import { environment } from '../../environment'
+import { IconName } from 'components/Icon/Icon'
+import useCityAccountAccessToken from 'hooks/useCityAccount'
 
 interface MenuItem {
   to: string
   key: string
+  icon?: IconName
+  iconActive?: IconName
 }
 
 const menuItems: MenuItem[] = [
@@ -34,23 +42,70 @@ const menuItems: MenuItem[] = [
   },
 ]
 
+const menuItemsAuthenticated: MenuItem[] = [
+  {
+    to: '/tickets',
+    icon: 'tickets-black',
+    key: 'header.menu-items.4.text',
+  },
+  {
+    to: '/profile',
+    icon: 'profile',
+    key: 'header.menu-items.5.text',
+  },
+]
+
+const Divider = () => {
+  return <div className="border-b-solid border-b-2 my-4" />
+}
+
 const Header = () => {
+  const { status } = useCityAccountAccessToken()
+
+  const hasAccount = status === 'authenticated'
   const [open, setOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
   return (
     <>
-      <div className="bg-white shadow-xs py-3 md:py-4 sticky top-0 z-40 w-full">
+      <div className="bg-white shadow-xs py-3 md:py-4 sticky top-0 z-40 w-full header">
         <div className="container mx-auto text-fontBlack flex justify-between">
           <Link className="text-primary font-bold text-xl cursor-pointer" to="/">
             STARZ
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-end">
-            {menuItems.map((menuItem) => (
-              <Link key={menuItem.to} className="px-4" to={menuItem.to}>
-                {t(menuItem.key)}
-              </Link>
+            {menuItems.map((menuItem, index) => (
+              <div key={menuItem.to} className={cx('flex', { relative: menuItem.icon })}>
+                {menuItem.icon && <Icon name={menuItem.icon} className={'ml-2 no-fill'} />}
+                <Link
+                  className={cx('px-4', {
+                    'border-r': hasAccount && index === 3,
+                    'after:absolute': menuItem.icon,
+                    'after:inset-0': menuItem.icon,
+                  })}
+                  to={menuItem.to}
+                >
+                  {t(menuItem.key)}
+                </Link>
+              </div>
             ))}
+            {hasAccount && <Divider />}
+            {hasAccount &&
+              menuItemsAuthenticated.map((menuItem, index) => (
+                <div key={menuItem.to} className={cx('flex', { relative: menuItem.icon })}>
+                  {menuItem.icon && <Icon name={menuItem.icon} className={'ml-2 no-fill'} />}
+                  <NavLink
+                    className={cx('px-4', {
+                      'border-r': hasAccount && index === 3,
+                      'after:absolute': menuItem.icon,
+                      'after:inset-0': menuItem.icon,
+                    })}
+                    to={menuItem.to}
+                  >
+                    {t(menuItem.key)}
+                  </NavLink>
+                </div>
+              ))}
           </nav>
           <button
             onClick={() => setOpen(!open)}
@@ -92,6 +147,18 @@ const Header = () => {
                   {t(menuItem.key)}
                 </Link>
               ))}
+              {hasAccount && <Divider />}
+              {hasAccount &&
+                menuItemsAuthenticated.map((menuItem, index) => (
+                  <NavLink
+                    onClick={() => setOpen(false)}
+                    key={menuItem.to}
+                    className="py-4 font-bold"
+                    to={menuItem.to}
+                  >
+                    {t(menuItem.key)}
+                  </NavLink>
+                ))}
             </div>
             <div>
               <Typography type="title" fontWeight="bold">
