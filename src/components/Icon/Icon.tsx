@@ -34,6 +34,7 @@ import { ReactComponent as ParkingIcon } from '../../assets/icons/parking.svg'
 import { ReactComponent as PencilIcon } from '../../assets/icons/pencil.svg'
 import { ReactComponent as PlaygroundIcon } from '../../assets/icons/playground.svg'
 import { ReactComponent as PlusIcon } from '../../assets/icons/plus.svg'
+import { ReactComponent as ProfileIcon } from '../../assets/icons/profile.svg'
 import { ReactComponent as QuestionMarkIcon } from '../../assets/icons/question-mark.svg'
 import { ReactComponent as RestaurantIcon } from '../../assets/icons/restaurant.svg'
 import { ReactComponent as RetryIcon } from '../../assets/icons/retry.svg'
@@ -43,6 +44,7 @@ import { ReactComponent as SpinnerIcon } from '../../assets/icons/spinner.svg'
 import { ReactComponent as SwimmingManIcon } from '../../assets/icons/swimming-man.svg'
 import { ReactComponent as ThreeDotsIcon } from '../../assets/icons/three-dots.svg'
 import { ReactComponent as TicketsIcon } from '../../assets/icons/tickets.svg'
+import { ReactComponent as TicketsBlackIcon } from '../../assets/icons/tickets-black.svg'
 import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
 import { ReactComponent as UploadIcon } from '../../assets/icons/upload.svg'
 import { ReactComponent as VolleyballIcon } from '../../assets/icons/volleyball.svg'
@@ -89,6 +91,7 @@ const iconMap = {
   pencil: PencilIcon,
   playground: PlaygroundIcon,
   plus: PlusIcon,
+  profile: ProfileIcon,
   'question-mark': QuestionMarkIcon,
   restaurant: RestaurantIcon,
   retry: RetryIcon,
@@ -98,6 +101,7 @@ const iconMap = {
   'swimming-man': SwimmingManIcon,
   'three-dots': ThreeDotsIcon,
   tickets: TicketsIcon,
+  'tickets-black': TicketsBlackIcon,
   user: UserIcon,
   upload: UploadIcon,
   volleyball: VolleyballIcon,

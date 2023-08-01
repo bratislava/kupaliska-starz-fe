@@ -12,10 +12,6 @@
   "password-forget": "Zabudli ste heslo?",
   "signup": "Registrácia",
   "header": {
-    "0": "Nákup lístka",
-    "1": "Kúpaliská",
-    "2": "Kontakt",
-    "3": "Často kladené otázky",
     "signin-header": "Prihlásiť",
     "logo": "Hlavné mesto SR Bratislava",
     "or": "Alebo",
@@ -32,6 +28,12 @@
       },
       "3": {
         "text": "Často kladené otázky"
+      },
+      "4": {
+        "text": "Moje lístky"
+      },
+      "5": {
+        "text": "Profil"
       }
     }
   },
