@@ -58,7 +58,7 @@ const HomepageTickets = () => {
         {
           name: 'Vstupové permanentky',
           description:
-            'Platí na 10 celodenných vstupov počas celej sezóny bez ohľadu na vek. Možnosť využiť ho na všetkých našich kúpaliskách v Bratislave! Vhodné pre pravidelných návštevníkov, ktorí sa nechcú zaviazať kúpou sezónnej permanentky.',
+            'Platí na 10 vstupov počas celej sezóny bez ohľadu na vek. Možnosť využiť ho na všetkých našich kúpaliskách v Bratislave!',
           tickets: entryTickets,
         },
         {
