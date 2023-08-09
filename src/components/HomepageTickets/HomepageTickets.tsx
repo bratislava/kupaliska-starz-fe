@@ -12,7 +12,11 @@ import { currencyFormatter } from '../../helpers/currencyFormatter'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
-  entryTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired),
+  entryTickets: tickets
+    .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
+    .map((ticket) => {
+      return { ...ticket, disabled: true } //https://github.com/bratislava/kupaliska-starz-fe/issues/145
+    }),
   seasonalTickets: tickets.filter((ticket) => ticket.type === 'SEASONAL'),
 })
 
@@ -92,20 +96,19 @@ const HomepageTickets = () => {
                       <span className="lg:w-[108px] font-semibold lg:text-right">
                         {currencyFormatter.format(ticket.price)}
                       </span>
-                      {!ticket.disabled && (
-                        <Button
-                          className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
-                          thin
-                          onClick={() => handleClick(ticket)}
-                          color={needsLogin ? 'primary' : 'outlined'}
-                        >
-                          {needsLogin ? 'Prihlásiť sa' : t('landing.basket')}
-                          <Icon
-                            name={needsLogin ? 'login' : 'euro-coin'}
-                            className={cx('ml-2 no-fill', { 'py-1': !needsLogin })}
-                          />
-                        </Button>
-                      )}
+                      <Button
+                        className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
+                        thin
+                        onClick={() => handleClick(ticket)}
+                        color={needsLogin ? 'primary' : 'outlined'}
+                        disabled={ticket.disabled}
+                      >
+                        {needsLogin ? 'Prihlásiť sa' : t('landing.basket')}
+                        <Icon
+                          name={needsLogin ? 'login' : 'euro-coin'}
+                          className={cx('ml-2 no-fill', { 'py-1': !needsLogin })}
+                        />
+                      </Button>
                     </div>
                   </div>
                 )
