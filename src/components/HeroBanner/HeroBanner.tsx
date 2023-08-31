@@ -28,7 +28,7 @@ const HeroBanner = () => {
           <Typography type="title" fontWeight="bold" className="mb-4">
             {preseason ? t('landing.title-preseason') : t(`landing.title`)}
           </Typography>
-          {!preseason && <Typography type="subtitle">{t('landing.subtitle')}</Typography>}
+          <Typography type="subtitle">{preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')}</Typography>
         </div>
 
         {!preseason && (
