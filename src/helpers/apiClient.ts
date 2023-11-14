@@ -19,12 +19,11 @@ const getAccessToken = () => {
     throw new Error('No access token in cookie storage')
   }
 
-  const parsedToken = JSON.parse(token)
-  if (!checkTokenValid(parsedToken?.accessToken)) {
-    throw new Error('No access token in cookie storage')
+  if (!checkTokenValid(token)) {
+    throw new Error('Not valid access token in cookie storage')
   }
 
-  return parsedToken.accessToken as string
+  return token
 }
 
 const createApiClient = (withAccessToken = WithAccessToken.None) => {
