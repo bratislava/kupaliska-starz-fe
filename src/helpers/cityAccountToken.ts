@@ -1,8 +1,5 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode'
-import to from 'await-to-js'
 import { environment } from '../environment'
-import { validCityAccountPostMessageTypes } from './cityAccountDto'
-import { UNAUTHORIZED_MESSAGE, cityAccountFrontendSSOUrl } from './cityAccountApi'
 import logger from './logger'
 
 /**
@@ -24,71 +21,34 @@ export const checkTokenValid = (token: string | null | undefined) => {
   return null
 }
 
-export const getAccessTokenFromIFrame = async () => {
-  // attempt to receive the token from city-account iframe
-  const iframe = document.createElement('iframe')
-  iframe.src = cityAccountFrontendSSOUrl
-  iframe.style.display = 'none'
-  // create a promise which resolves when postMessage is received from iframe, or times out after 8 seconds
-  // keep eventListenerReference in scope so we can remove it later
-  let eventListenerReference: undefined | ((event: any) => void)
-  const promise = new Promise<string>((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 8000)
-    eventListenerReference = (event) => {
-      // ignore if origin is not our iframe or we receive unexpected message format
-      if (event.origin === `${environment.cityAccountFrontendUrl}`) {
-        if (
-          typeof event.data === 'object' &&
-          event.data != null &&
-          validCityAccountPostMessageTypes.includes(event.data.type)
-        ) {
-          if (event.data.type === 'UNAUTHORIZED') {
-            clearTimeout(timeout)
-            reject(new Error(UNAUTHORIZED_MESSAGE))
-          } else if (
-            event.data.type === 'ACCESS_TOKEN' &&
-            typeof event.data.payload?.accessToken === 'string'
-          ) {
-            clearTimeout(timeout)
-            resolve(event.data.payload.accessToken)
-          } else {
-            // do not accept or reject, wait until timeout for correctly looking message
-            logger.warn('Unexpected postMessage received from iframe', event.data)
-          }
-        } else {
-          logger.warn('Unexpected postMessage received from iframe', event.data)
-        }
-      }
-    }
-    window.addEventListener('message', eventListenerReference)
+/**
+ * Makes a request to the cognito endpoint to get an access token
+ * @param refreshToken token from cookie
+ * @returns
+ */
+export const getAccessTokenFromRefreshToken = async (refreshToken: string) => {
+  const res = await fetch(`${environment.cognitoUrl}`, {
+    headers: {
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth',
+      'Content-Type': 'application/x-amz-json-1.1',
+    },
+    mode: 'cors',
+    cache: 'no-cache',
+    method: 'POST',
+    body: JSON.stringify({
+      ClientId: environment.cognitoClientId,
+      AuthFlow: 'REFRESH_TOKEN',
+      AuthParameters: {
+        REFRESH_TOKEN: refreshToken,
+      },
+    }),
   })
-  document.body.appendChild(iframe)
-  const [postMessageError, accessToken] = await to<string>(promise)
-  document.body.removeChild(iframe)
-  if (eventListenerReference) {
-    window.removeEventListener('message', eventListenerReference)
-  } else {
-    logger.warn(
-      'eventListenerReference is undefined when attempting to remove it - this should not happen',
-    )
+
+  const data = await res.json()
+
+  if (!data?.AuthenticationResult?.AccessToken) {
+    throw new Error('Unauthorized')
   }
-  const token = checkTokenValid(accessToken)
-  if (token) {
-    return token
-  }
-  if (postMessageError && postMessageError.message === UNAUTHORIZED_MESSAGE) {
-    logger.warn('Unauthorized message received from iframe', accessToken)
-    // all as it should be, user is not logged in
-    return null
-  }
-  if (postMessageError) {
-    logger.error('Error when waiting for token from iframe', postMessageError, accessToken)
-    throw postMessageError
-  } else {
-    logger.warn(
-      'None or invalid token received from iframe for possibly authorized user - returning null',
-      token,
-    )
-    return null
-  }
+
+  return data.AuthenticationResult.AccessToken
 }

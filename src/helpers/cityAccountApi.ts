@@ -7,6 +7,11 @@ export const UNAUTHORIZED_MESSAGE = 'Unauthorized'
 export const cityAccountFrontendSSOUrl = `${environment.cityAccountFrontendUrl}/sso`
 
 export const getAccount = async (accessToken: string) => {
+  if (!accessToken) {
+    logger.error('No access token provided')
+    throw new Error('No access token provided')
+  }
+
   const result = await fetch(`${environment.cityAccountBackendUrl}/auth/user`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,

@@ -19,4 +19,7 @@ export const environment = {
   turnstileSiteKey: import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY as string,
   cityAccountBackendUrl: import.meta.env.VITE_CITY_ACCOUNT_BACKEND_URL as string,
   cityAccountFrontendUrl: import.meta.env.VITE_CITY_ACCOUNT_FRONTEND_URL as string,
+  cognitoCookieStorageDomain: import.meta.env.VITE_COGNITO_COOKIE_STORAGE_DOMAIN as string,
+  cognitoClientId: import.meta.env.VITE_COGNITO_CLIENT_ID as string,
+  cognitoUrl: import.meta.env.VITE_COGNITO_URL as string,
 }

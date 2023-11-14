@@ -1,8 +1,11 @@
 import axios, { AxiosRequestHeaders } from 'axios'
 import qs from 'qs'
 import { environment } from '../environment'
-import { ACCESS_TOKEN_STORAGE_KEY } from '../hooks/useCityAccount'
+import { ACCESS_TOKEN_COOKIE_KEY } from '../hooks/useCityAccount'
 import { checkTokenValid } from './cityAccountToken'
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies()
 
 enum WithAccessToken {
   None,
@@ -11,14 +14,14 @@ enum WithAccessToken {
 }
 
 const getAccessToken = () => {
-  const token = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
+  const token = cookies.get(ACCESS_TOKEN_COOKIE_KEY)
   if (!token) {
-    throw new Error('No access token in local storage')
+    throw new Error('No access token in cookie storage')
   }
 
   const parsedToken = JSON.parse(token)
   if (!checkTokenValid(parsedToken?.accessToken)) {
-    throw new Error('No access token in local storage')
+    throw new Error('No access token in cookie storage')
   }
 
   return parsedToken.accessToken as string
