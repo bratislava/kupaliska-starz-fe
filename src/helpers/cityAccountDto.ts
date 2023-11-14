@@ -17,17 +17,3 @@ export interface CityAccountUser {
   phone_number_verified: string
   sub: string
 }
-
-// mirrors the definitions in konto.bratislava.sk:
-
-export enum PostMessageTypes {
-  ACCESS_TOKEN = 'ACCESS_TOKEN',
-  UNAUTHORIZED = 'UNAUTHORIZED',
-}
-
-export interface CityAccountPostMessage {
-  type: PostMessageTypes
-  payload?: Record<string, string>
-}
-
-export const validCityAccountPostMessageTypes = Object.values(PostMessageTypes)
