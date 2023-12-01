@@ -11,7 +11,9 @@ import App from './App'
 
 import './i18n'
 
+import '@bratislava/component-library/dist/assets/style.css'
 import './index.css'
+
 import { environment } from './environment'
 import { MsalProvider } from '@azure/msal-react'
 import { msalInstance } from './msalInstance'

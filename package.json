@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@amcef/eslint-config": "^1.0.0",
+    "@bratislava/eslint-plugin-no-raw-text-or-elements": "^0.0.1",
     "@codedependant/semantic-release-docker": "^3.1.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/exec": "^5.0.0",
@@ -90,7 +91,8 @@
     "start": "vite",
     "build": "vite build",
     "prettier": "prettier --write .",
-    "dev": "vite --host"
+    "dev": "vite --host",
+    "lint": "eslint src"
   },
   "eslintConfig": {
     "extends": [

@@ -8,6 +8,16 @@ export interface Route {
   requireAuth?: boolean
 }
 
+const styleGuideRoute = () => {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    return {
+      path: '/styleguide',
+      exact: false,
+      component: React.lazy(() => import('pages/StyleGuide/StyleGuide')),
+    }
+  }
+}
+
 const routes: Route[] = [
   {
     path: '/:lang?/order',
@@ -29,6 +39,7 @@ const routes: Route[] = [
     exact: true,
     component: React.lazy(() => import('pages/GDPRPage/GDPRPage')),
   },
+  styleGuideRoute() || {} as Route,
   {
     path: '/:lang?/profile',
     exact: true,
