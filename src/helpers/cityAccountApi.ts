@@ -30,7 +30,7 @@ export const redirectToLogin = (fromUrl?: string) => {
 }
 
 export const redirectToLogout = () => {
-  const url = new URL(`${environment.cityAccountFrontendUrl}/logout`)
+  const url = new URL(`${environment.cityAccountFrontendUrl}/odhlasenie`)
   url.searchParams.set('from', window.location.href)
   window.location.href = url.toString()
 }
