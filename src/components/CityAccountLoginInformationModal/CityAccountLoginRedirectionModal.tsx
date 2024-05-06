@@ -51,11 +51,6 @@ const CityAccountLoginRedirectionModal = () => {
             Ak už máte Bratislavské konto vytvorené, jednoducho sa prihlásite. Nová registrácia trvá
             len pár sekúnd.
           </p>
-          <p>
-            V súlade so zákonnými podmienkami spracúvania osobných údajov, sme vaše údaje z
-            minuloročnej registrácie pri kúpe lístka, nemohli použiť na vytvorenie účtu v
-            Bratislavskom konte.
-          </p>
         </div>
         <Button color="primary" onClick={state.onSuccessCallback} className="w-full">
           Pokračovať na stránku
