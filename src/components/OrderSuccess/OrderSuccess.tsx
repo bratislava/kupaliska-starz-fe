@@ -40,7 +40,7 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
             </p>
           </div>
           <a
-            href="https://forms.office.com/e/tpB1R623sd"
+            href="https://bravo.staffino.com/bratislava/id=WWsxW0aq"
             className="link self-start"
             rel="noreferrer"
             target="_blank"
