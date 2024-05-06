@@ -266,58 +266,54 @@
         "content": "<p>Áno. Pri všetkých typoch lístka je <strong>možnosť opätovného príchodu</strong>, takže či už si chcete odbehnúť na obed alebo vyskúšať v priebehu dňa iné kúpalisko, máte túto možnosť. Pri odchode z kúpaliska vyhľadajte zamestnanca kúpaliska, ktorý zaznačí váš odchod.</p>"
       },
       "7": {
-        "title": "Minulý rok som si pri kúpe už zakladal účet, prečo si ho musím teraz založiť znova?",
-        "content": "<p>Počas minulého roku sme možnosť vytvorenia účtu iba testovali, pričom tento rok sme službu zahrnuli do novospusteného Bratislavského konta. Žiaľ, kvôli ochrane osobných údajov z právneho hľadiska nemáme právo spracovávať vaše osobné údaje za účelom premigrovania dát a tak vám nemôžeme Bratislavské konto vytvoriť automaticky. Registrácia do Bratislavského konta je ale veľmi rýchla a jednoduchá.</p>"
-      },
-      "8": {
         "title": "Ako si viem založiť Bratislavské konto?",
         "content": "<p>Konto si založíte jednoducho, kliknutím na tlačidlo <em>Prihlásiť sa</em> pri výbere permanentky alebo v hlavičke stránky. Vyplníte osobné údaje a na zadaný e-mail vám príde overovací kód. Pre kúpu permanentky je po registrácii potrebné doplniť aj vašu fotografiu a vek.</p>"
       },
-      "9": {
+      "8": {
         "title": "Prečo odo mňa pri nákupe permanentky žiadate fotografiu?",
         "content": "<p>Vaše meno a fotografia, ktorú uvediete pri nákupe, nám pomôže permanentku priradiť k jej majiteľovi či majiteľke. Nahrávajte preto, prosím, fotografiu, kde je Vám dobre vidieť tvár, nemáte šiltovku alebo okuliare. Týmto spôsobom vieme zaistiť rýchly priebeh pri kontrolovaní lístkov pri vstupe na kúpalisko a zabránime ich zneužívaniu. Vaše údaje neposkytujeme žiadnym tretím stranám a spracúvame ich podľa platných nariadení GDPR.</p>"
       },
-      "10": {
+      "9": {
         "title": "Viem si skontrolovať, koľko vstupov mi zostáva na permanentke?",
         "content": "<p>Samozrejme. Všetky svoje lístky a permanentky, aj s informáciami o zostávajúcom počte vstupov, nájdete na jednom mieste vo svojom účte v sekcii <em>Lístky.</em> Okrem počtu zostávajúcich vstupov si môžete pozrieť aj prehľad vašej histórie návštev.</p>"
       },
-      "11": {
+      "10": {
         "title": "Prečo vzniklo Bratislavské konto?",
         "content": "<p>Projekt Bratislavské konto vzniklo na základe testovania potrieb obyvateľov a obyvateliek mesta Bratislava, ktorí sa jasne vyjadrili, že by prijali digitalizáciu a transformáciu mestských služieb. Viac informácii o Bratislavskom konte nájdete tu na <a href=\"https://bratislava.sk/konto\">https://bratislava.sk/konto</a>.</p>"
       },
-      "12": {
-        "title": "Viem so založeným kontom robiť aj niečo iné okrem kúpy lístka na kúpalisko?",
-        "content": "<p>V Bratislavskom konte sa momentálne nachádza najmä služba digitálnej platby dane z nehnuteľností a čoskoro pribudnú prvé transformované elektronické služby mesta Bratislava - žiadosť o záväzné stanovisko k investičnej činnosti. Aby sme šetrili váš čas strávený vyhľadávaním na internete, už teraz v konte nájdete odkazy na služby, ktoré poskytuje mesto a mestské organizácie cez iné portály a mohli by sa vám zísť.</p><p>Postupne máme za cieľ pridať do konta všetky služby, ktoré mesto obyvateľom a obyvateľkám poskytuje. Ide však o komplexný proces, pretože služby, ktoré chceme v konte poskytovať, z papierov len nekopírujeme, ale pozeráme sa na ne v celom ich kontexte z pohľadu žiadateľov a žiadateliek, ale aj z pohľadu nášho úradu. Chceme, aby boli žiadosti jednoduché, rýchle, efektívne a pýtali sme si len tie údaje, ktoré naozaj potrebujeme. Všetko, čo ste doteraz s mestom riešili papierovo a fyzicky, tak budete môcť postupom času vybaviť digitálne kedykoľvek a kdekoľvek budete potrebovať.</p>"
+      "11": {
+        "title": "Aké služby nájdem v konte?",
+        "content": "<p>V Bratislavskom konte sa momentálne nachádza najmä služba digitálnej platby dane z nehnuteľností, žiadosť o záväzné stanovisko k investičnej činnosti, žiadosť o stanovisko k investičnému zámeru a priznanie k dani z nehnuteľností. Prihlásenie cez Bratislavské konto využíva aj služba online nákupu lístkov na bratislavské kúpaliská.<br/><br/>Aby sme šetrili váš čas strávený vyhľadávaním na internete, už teraz v konte nájdete odkazy na služby, ktoré poskytuje mesto a mestské organizácie cez iné portály a mohli by sa vám zísť.<br/><br/>Postupne máme za cieľ pridať do konta všetky služby, ktoré mesto obyvateľom a obyvateľkám poskytuje. </p>"
       },
-      "13": {
+      "12": {
         "title": "Som študent. Prečo neponúkate aj zľavu na ISIC?",
         "content": "<p>Pri online nákupoch neposkytujeme možnosť uplatnenia študentskej zľavy. Ceny online lístkov sú totiž výhodnejšie ako ceny priamo na mieste.</p><p>Ak ste ešte nedovŕšili 18 rokov, môžete požiadať jedného z vašich rodičov, aby si kúpili sezónnu permanentku, a zároveň k nej dokúpili zvýhodnenú detskú permanentku. Ak máte viac ako 10 rokov, túto permanentku môžete využívať aj pri návšteve kúpaliska bez dospelej osoby.</p>"
       },
-      "14": {
+      "13": {
         "title": "Som držiteľ Multisport karty. Prečo ju nemôžem uplatniť aj na online nákup?",
         "content": "<p>Pre uplatnenie Multisport karty je potrebné aj jej fyzické naskenovanie pri vstupe cez čítačku, ktorá je pripojená na počítač. Na kúpaliskách sa tento skener nachádza spravidla na pokladniach a preto nie je možné umožniť držiteľom Multisport karty vstup na kúpalisko mimo pokladne.</p>"
       },
-      "15": {
+      "14": {
         "title": "Som senior. Prečo neponúkate pri lístkoch zľavu?",
         "content": "<p>Pri online nákupe jednorazového lístka neposkytujeme možnosť uplatnenia zľavy. Pre seniorov nad 62 rokov ale poskytujeme zvýhodnenú permanentku na celú sezónu len za 49€, ku ktorej je možné dokúpiť aj zvýhodnené detské permanentky len za 1€ až pre 5 detí. Keďže výhodnejšia sezónka je viazaná na vek, môžete byť pri kontrole lístku vyzvaní, aby ste sa preukázali dokladom totožnosti.</p><p>Ak si však predsa len želáte uplatniť vašu zľavu na jednorazový lístok, môžete tak urobiť pri osobnom nákupe priamo na kúpalisku.</p>"
       },
-      "16": {
+      "15": {
         "title": "Som držiteľ ŤZP / ŤZP-S preukazu. Prečo neponúkate pri lístkoch zľavu?",
         "content": "<p>Pri online nákupe jednorazového lístka neposkytujeme možnosť uplatnenia zľavy. Pre držiteľov ŤZP / ŤZP-S preukazov ale poskytujeme zvýhodnenú permanentku na celú sezónu len za 49€, ku ktorej je možné dokúpiť aj zvýhodnené detské permanentky len za 1€ až pre 5 detí. Upozorňujeme, že pri kontrole lístku môžete byť vyzvaní, aby ste sa preukázali ŤZP / ŤZP-S preukazom.</p><p>Ak si však predsa len želáte uplatniť vašu zľavu na jednorazový lístok, môžete tak urobiť pri osobnom nákupe priamo na kúpalisku.</p>"
       },
-      "17": {
+      "16": {
         "title": "Rád by som kúpil jednorazové lístky pre seba a svoje dieťa / deti. Ponúkate aj detské lístky?",
         "content": "<p>Pri online nákupe sú ceny jednotné pre všetky vekové skupiny. Môžete si ale zakúpiť sezónnu permanentku a dokúpiť k nej zvýhodnené detské permanentky - až pre 5 detí do 18 rokov za 1€ a využívať ich neobmedzene počas celej sezóny.</p><p>Detské lístky si môžete zakúpiť aj pri osobnom nákupe priamo na kúpalisku.</p>"
       },
-      "18": {
+      "17": {
         "title": "Viem si ku sezónnej permanentke dokúpiť aj permanentku pre manžela/manželku, partnera/partnerku, kamaráta/kamarátku?",
         "content": "<p>Využite možnosť nákupu aj pre svojich blízkych – či už ide o dospelé osoby alebo deti. Pri nákupe si iba jednoducho pridáte ďalšie dospelé osoby alebo deti, nahráte ich fotografie a vek. Cena pre dospelú osobu zostáva rovnaká a cena za detskú sezónnu permanentku je zvýhodnená, v hodnote 1€ za dieťa.</p>"
       },
-      "19": {
+      "18": {
         "title": "Kúpil som si sezónnu permanentku a k tomu zvýhodnené detské permanentky pre moje deti. Musia teraz deti chodiť na kúpalisko iba so mnou?",
         "content": "<ul><li><p><em>Deti mladšie ako 10 rokov (vo veku 3-9 rokov)</em> môžu detskú sezónnu permanentku využívať aj v sprievode inej dospelej osoby, ktorá má riadne zakúpený vstup na kúpalisko. Buď prostredníctvom online nákupu, alebo priamo na pokladni kúpaliska.</p></li><li><p><em>Dieťa staršie ako 10 rokov (vo veku 10-18 rokov)</em> so zakúpenou detskou sezónnou permanentkou môže ísť na kúpalisko aj samé alebo s kamarátmi bez sprievodu dospelej osoby.</p></li></ul>"
       },
-      "20": {
+      "19": {
         "title": "Nestihol som lístky/permanentky využiť počas letnej sezóny. Viem ich prosím vymeniť za vstupy na iné športoviská alebo preniesť do ďalšej sezóny?",
         "content": "<p>Bohužiaľ, lístky sú neprenosné a môžete ich míňať iba počas trvania aktuálnej letnej sezóny. Lístky poskytujeme bez viazanosti na konkrétny deň alebo prevádzku, čo by malo uľahčiť ich čerpanie.</p>"
       }
