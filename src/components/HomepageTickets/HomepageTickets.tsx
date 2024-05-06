@@ -12,11 +12,7 @@ import { currencyFormatter } from '../../helpers/currencyFormatter'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
-  entryTickets: tickets
-    .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
-    .map((ticket) => {
-      return { ...ticket, disabled: true } //https://github.com/bratislava/kupaliska-starz-fe/issues/145
-    }),
+  entryTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired),
   seasonalTickets: tickets.filter((ticket) => ticket.type === 'SEASONAL'),
 })
 
