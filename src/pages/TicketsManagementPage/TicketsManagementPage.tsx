@@ -305,7 +305,7 @@ const TicketsManagementPage = () => {
 
     const [activeTickets, usedTickets] = partition(
       ticketsQuery.data.data,
-      (ticket) => ticket.remainingEntries !== 0,
+      (ticket) => ticket.remainingEntries !== 0 && new Date(ticket.validTo) > new Date(),
     )
 
     const activeTicketsRows = activeTickets.map((ticket) => [
