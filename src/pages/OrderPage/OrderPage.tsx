@@ -800,21 +800,29 @@ const OrderPage = () => {
                   </span>
                 }
               />
-              <div className="ml-[52px] flex flex-col gap-2 italic">
+              <div className="flex flex-col gap-2 italic">
                 <span>
                   Kúpou lístka súhlasíte s podmienkou preukázania sa preukazom ŤZP / ŤZP-S alebo
                   dokladom totožnosti pri vstupe na kúpalisko.
                 </span>
-                <span>
-                  Informácia o spracúvaní osobných údajov je dostupná{' '}
-                  <Link to="/vop" target="_blank" className="link text-primary">
-                    tu
-                  </Link>
-                  .
-                </span>
               </div>
             </>
           )}
+          <div className="pt-3 italic">
+            Kúpou lístka alebo permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
+            <Link
+              to="https://kupaliska.bratislava.sk/gdpr"
+              target="_blank"
+              className="link text-primary "
+            >
+              podmienkami spracúvania osobných údajov
+            </Link>{' '}
+            príspevkovej organizácie{' '}
+            <Link to="http://starz.sk/" target="_blank" className="link text-primary">
+              STaRZ
+            </Link>{' '}
+            ako prevádzkovateľa osobných údajov.
+          </div>
           <Controller
             name="recaptchaToken"
             control={control}
