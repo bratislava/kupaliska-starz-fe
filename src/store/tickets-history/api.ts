@@ -11,6 +11,7 @@ export interface TicketFromHistory {
   price: number
   age: number
   ticketColor: TicketColor
+  validTo: string
 }
 
 export interface TicketFromHistoryEntry {
