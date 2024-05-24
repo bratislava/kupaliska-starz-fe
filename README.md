@@ -35,6 +35,12 @@ npm run start
 
 ### Additional development information
 
+#### Preseason
+
+We control whether to display the offseason page by setting the `VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE` env var.
+
+See `usePreseason.ts` hook for more details on testing and overrides.
+
 #### Ordering
 
 For payment we use Global Payments gateway.

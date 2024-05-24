@@ -21,6 +21,7 @@ import RegisterUserGuard from './hooks/RegisterUserGuard'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
+import { PreseasonProvider } from 'hooks/usePreseason'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,43 +81,45 @@ function App() {
         <ConnectedRouter history={history}>
           <CityAccountAccessTokenProvider>
             <RegisterUserGuard>
-              <CityAccountLoginRedirectionModalContextProvider>
-                <ScrollToTop>
-                  <CityAccountLoginRedirectionModal />
-                  <Toast
-                    open={toast !== undefined}
-                    type={toast?.type}
-                    text={toast?.message}
-                    onClose={() => {
-                      dispatch(setToast(undefined))
-                    }}
-                    timeToClose={toast?.type === 'success' ? 3000 : undefined}
-                    closeButton={toast?.type !== 'success'}
-                  />
-                  <TopBanner />
-                  <main className="relative flex flex-col" style={{ flex: 1 }}>
-                    <Header />
+              <PreseasonProvider>
+                <CityAccountLoginRedirectionModalContextProvider>
+                  <ScrollToTop>
+                    <CityAccountLoginRedirectionModal />
+                    <Toast
+                      open={toast !== undefined}
+                      type={toast?.type}
+                      text={toast?.message}
+                      onClose={() => {
+                        dispatch(setToast(undefined))
+                      }}
+                      timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                      closeButton={toast?.type !== 'success'}
+                    />
+                    <TopBanner />
+                    <main className="relative flex flex-col" style={{ flex: 1 }}>
+                      <Header />
 
-                    <Switch>
-                      {/* https://stackoverflow.com/a/66114844 */}
-                      <Route
-                        path="/refresh"
-                        exact={true}
-                        component={() => {
-                          // eslint-disable-next-line react-hooks/rules-of-hooks
-                          const history = useHistory()
-                          // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                          useEffect(() => history.goBack(), [])
-                          return <></>
-                        }}
-                      />
-                      {routes.map(renderRoute)}
-                    </Switch>
-                    <CookieConsent />
-                  </main>
-                  <Footer />
-                </ScrollToTop>
-              </CityAccountLoginRedirectionModalContextProvider>
+                      <Switch>
+                        {/* https://stackoverflow.com/a/66114844 */}
+                        <Route
+                          path="/refresh"
+                          exact={true}
+                          component={() => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            const history = useHistory()
+                            // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                            useEffect(() => history.goBack(), [])
+                            return <></>
+                          }}
+                        />
+                        {routes.map(renderRoute)}
+                      </Switch>
+                      <CookieConsent />
+                    </main>
+                    <Footer />
+                  </ScrollToTop>
+                </CityAccountLoginRedirectionModalContextProvider>
+              </PreseasonProvider>
             </RegisterUserGuard>
           </CityAccountAccessTokenProvider>
         </ConnectedRouter>
