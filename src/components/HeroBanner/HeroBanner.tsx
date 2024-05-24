@@ -5,13 +5,12 @@ import { Button, Icon, Typography } from 'components'
 import './HeroBanner.css'
 import { HashLink } from 'react-router-hash-link'
 import { useTranslation } from 'react-i18next'
-import { environment } from '../../environment'
 import cx from 'classnames'
-
-const preseason = environment.featureFlag.preseasonHomepage
+import { usePreseason } from 'hooks/usePreseason'
 
 const HeroBanner = () => {
   const { t } = useTranslation()
+  const preseason = usePreseason()
 
   return (
     <div className="relative mb-8">
@@ -28,7 +27,9 @@ const HeroBanner = () => {
           <Typography type="title" fontWeight="bold" className="mb-4">
             {preseason ? t('landing.title-preseason') : t(`landing.title`)}
           </Typography>
-          <Typography type="subtitle">{preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')}</Typography>
+          <Typography type="subtitle">
+            {preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')}
+          </Typography>
         </div>
 
         {!preseason && (

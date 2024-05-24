@@ -8,9 +8,9 @@ import cx from 'classnames'
 
 import { Icon, Typography } from 'components'
 import { useTranslation } from 'react-i18next'
-import { environment } from '../../environment'
 import { IconName } from 'components/Icon/Icon'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
+import { usePreseason } from 'hooks/usePreseason'
 
 interface MenuItem {
   to: string
@@ -19,52 +19,53 @@ interface MenuItem {
   iconActive?: IconName
 }
 
-const menuItems: MenuItem[] = [
-  ...(environment.featureFlag.preseasonHomepage
-    ? []
-    : [
-        {
-          to: '/#ticket-buy',
-          key: 'header.menu-items.0.text',
-        },
-        {
-          to: '/#swimming-pools',
-          key: 'header.menu-items.1.text',
-        },
-      ]),
-  {
-    to: '/#contact-us',
-    key: 'header.menu-items.2.text',
-  },
-  {
-    to: '/#faqs',
-    key: 'header.menu-items.3.text',
-  },
-]
-
-const menuItemsAuthenticated: MenuItem[] = [
-  {
-    to: '/tickets',
-    icon: 'tickets-black',
-    key: 'header.menu-items.4.text',
-  },
-  {
-    to: '/profile',
-    icon: 'profile',
-    key: 'header.menu-items.5.text',
-  },
-]
-
 const Divider = () => {
   return <div className="border-b-solid border-b-2 my-4" />
 }
 
 const Header = () => {
   const { status } = useCityAccountAccessToken()
+  const preseason = usePreseason()
 
   const hasAccount = status === 'authenticated'
   const [open, setOpen] = useState<boolean>(false)
   const { t } = useTranslation()
+
+  const menuItems: MenuItem[] = [
+    ...(preseason
+      ? []
+      : [
+          {
+            to: '/#ticket-buy',
+            key: 'header.menu-items.0.text',
+          },
+          {
+            to: '/#swimming-pools',
+            key: 'header.menu-items.1.text',
+          },
+        ]),
+    {
+      to: '/#contact-us',
+      key: 'header.menu-items.2.text',
+    },
+    {
+      to: '/#faqs',
+      key: 'header.menu-items.3.text',
+    },
+  ]
+
+  const menuItemsAuthenticated: MenuItem[] = [
+    {
+      to: '/tickets',
+      icon: 'tickets-black',
+      key: 'header.menu-items.4.text',
+    },
+    {
+      to: '/profile',
+      icon: 'profile',
+      key: 'header.menu-items.5.text',
+    },
+  ]
 
   return (
     <>

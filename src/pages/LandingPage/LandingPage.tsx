@@ -10,17 +10,17 @@ import {
 
 import './LandingPage.css'
 import { Trans, useTranslation } from 'react-i18next'
-import { environment } from '../../environment'
 import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
+import { usePreseason } from 'hooks/usePreseason'
 
 const faqsn = range(1, 22)
-const preseason = environment.featureFlag.preseasonHomepage
 
 const LandingPage = () => {
+  const preseason = usePreseason()
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
