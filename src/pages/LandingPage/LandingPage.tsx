@@ -17,7 +17,7 @@ import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
 import { usePreseason } from 'hooks/usePreseason'
 
-const faqsn = range(1, 22)
+const faqsn = range(1, 21)
 
 const LandingPage = () => {
   const preseason = usePreseason()
