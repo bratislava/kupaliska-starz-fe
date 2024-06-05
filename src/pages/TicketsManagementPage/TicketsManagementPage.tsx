@@ -159,18 +159,18 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
   // BE should not send explicit color, but rather button type, therefore we convert it here to real values instead
   // of using the color from the BE.
   const textClass = {
-    '#07038C': 'text-white',
+    '#0A07F5': 'text-white',
     '#D0ECF8': 'text-primary',
     '#FFFFFF': 'text-primary',
   }[ticket.ticketColor.background]
   const backgroundClass = {
-    '#07038C': 'bg-primary',
+    '#0A07F5': 'bg-primary',
     '#D0ECF8': 'bg-blueish',
     '#FFFFFF': 'bg-white',
   }[ticket.ticketColor.background]
   const buttonColor = (
     {
-      '#07038C': 'white',
+      '#0A07F5': 'white',
       '#D0ECF8': 'primary',
       '#FFFFFF': 'primary',
     } as const

@@ -46,7 +46,7 @@ module.exports = {
         25: '6.25rem',
       },
       colors: {
-        primary: '#07038C',
+        primary: '#0A07F5',
         secondary: '#7CCEF2',
         bratislavaRed: '#F23005',
         fontBlack: '#333333',
