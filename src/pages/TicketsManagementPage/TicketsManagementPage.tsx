@@ -153,24 +153,25 @@ interface TicketProps {
   onDetailClick: () => void
 }
 
+// TODO separate to a new file
 const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
   const { t } = useTranslation()
 
   // BE should not send explicit color, but rather button type, therefore we convert it here to real values instead
   // of using the color from the BE.
   const textClass = {
-    '#07038C': 'text-white',
+    '#0A07F5': 'text-white',
     '#D0ECF8': 'text-primary',
     '#FFFFFF': 'text-primary',
   }[ticket.ticketColor.background]
   const backgroundClass = {
-    '#07038C': 'bg-primary',
+    '#0A07F5': 'bg-primary',
     '#D0ECF8': 'bg-blueish',
     '#FFFFFF': 'bg-white',
   }[ticket.ticketColor.background]
   const buttonColor = (
     {
-      '#07038C': 'white',
+      '#0A07F5': 'white',
       '#D0ECF8': 'primary',
       '#FFFFFF': 'primary',
     } as const
@@ -185,7 +186,11 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <span className="font-semibold mb-3 text-xl text-center">{ticket.type}</span>
       <span className="text-center mb-6">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
       <div className="flex justify-center">
-        <Button color={buttonColor} className="absolute shadow-xs" onClick={onDetailClick}>
+        <Button
+          color={buttonColor}
+          className="absolute shadow-xs bg-sunscreen"
+          onClick={onDetailClick}
+        >
           {t('tickets.ticket-button')}
           <Icon className="ml-4 no-fill" name="arrow-right" />
         </Button>
@@ -262,7 +267,7 @@ const UsedTicket = ({
   const { t } = useTranslation()
 
   return (
-    <div className="flex px-8 py-6 mb-6 flex-col rounded-lg shadow-xs bg-white">
+    <div className="flex px-8 py-6 mb-6 flex-col rounded-lg shadow-xs bg-sunscreen">
       <div className="flex flex-col pb-6">
         <span>{t('tickets.ticket-type')}</span>
         <span className="font-semibold text-xl">{ticket.type}</span>
@@ -424,7 +429,7 @@ const TicketsManagementPage = () => {
                       '',
                     ]}
                     rows={dataMapped.usedTicketsRows}
-                    rowBackgroundClass="bg-white"
+                    rowBackgroundClass="bg-sunscreen"
                   ></Table>
                 </div>
                 {/* Carousel cannot be in container. */}

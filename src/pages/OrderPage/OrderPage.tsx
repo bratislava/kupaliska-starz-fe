@@ -488,7 +488,7 @@ const OrderPageSummary = ({
   }
 
   return (
-    <div className="rounded-lg bg-white shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
+    <div className="rounded-lg bg-sunscreen shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
       <div className="p-8">
         <div className="font-semibold text-2xl">
           {hasTicketAmount && `${watchTicketAmount}× `}

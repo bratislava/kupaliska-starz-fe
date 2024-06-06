@@ -5,6 +5,7 @@ import { Button, InputField, Typography } from 'components'
 import { Ticket } from 'models'
 import { getPrice } from 'helpers/general'
 
+// TODO delete this file
 interface TicketCardProps {
   ticket: Ticket
   className?: string

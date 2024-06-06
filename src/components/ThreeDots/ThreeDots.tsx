@@ -20,14 +20,14 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
         <Icon name="three-dots" className="no-fill" />
       </Button>
       <Popover>
-        <Dialog className="py-2 bg-white inline-flex flex-col items-start rounded-lg drop-shadow-lg overflow-clip">
+        <Dialog className="py-2 bg-sunscreen inline-flex flex-col items-start rounded-lg drop-shadow-lg overflow-clip">
           {({ close }) => (
             <>
               {buttons.map((button, index) => (
                 <Button
                   key={index}
                   className={cx(
-                    'px-5 bg-white gap-2.5 inline-flex items-center self-stretch text-left hover:bg-gray-100',
+                    'px-5 bg-sunscreen gap-2.5 inline-flex items-center self-stretch text-left hover:bg-gray-100',
                     button.className,
                   )}
                   onPress={() => {

@@ -17,7 +17,7 @@ import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
 import { usePreseason } from 'hooks/usePreseason'
 
-const faqsn = range(1, 22)
+const faqsn = range(1, 21)
 
 const LandingPage = () => {
   const preseason = usePreseason()
@@ -27,7 +27,7 @@ const LandingPage = () => {
   const isAuthenticated = status === 'authenticated'
 
   return (
-    <main className="bg-white">
+    <main className="bg-sunscreen">
       <HeroBanner />
       {/* https://github.com/bratislava/kupaliska-starz-fe/issues/138 */}
       {/* this will come back next year, therefore not erasing just commenting out */}

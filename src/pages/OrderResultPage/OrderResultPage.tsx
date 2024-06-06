@@ -39,7 +39,7 @@ const WithParams = ({ params }: { params: Params }) => {
 }
 
 const PageWrapper = ({ children }: PropsWithChildren<{}>) => {
-  return <main className="bg-white grow">{children}</main>
+  return <main className="bg-sunscreen grow">{children}</main>
 }
 
 const OrderResultPage = () => {

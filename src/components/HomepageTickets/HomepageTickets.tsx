@@ -82,7 +82,7 @@ const HomepageTickets = () => {
                   <div
                     key={ticket.id}
                     className={cx(
-                      'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-white',
+                      'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
                       { 'cursor-pointer': !ticket.disabled },
                     )}
                     onClick={() => handleClick(ticket)}
