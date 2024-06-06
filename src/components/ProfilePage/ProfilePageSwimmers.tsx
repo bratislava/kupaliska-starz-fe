@@ -48,7 +48,7 @@ const ProfilePageSwimmers = () => {
         ></ProfilePageDeleteAssociatedSwimmerModal>
       )}
 
-      <div className="inline-flex flex-col rounded-lg bg-white lg:col-span-5">
+      <div className="inline-flex flex-col rounded-lg bg-sunscreen lg:col-span-5">
         <div className="px-6 py-4 gap-6 flex border-b-2 border-b-divider flex-col sm:flex-row">
           <div className="flex-1 gap-1 flex flex-col flex-grow">
             <p className="text-xl font-semibold">Priradené osoby</p>

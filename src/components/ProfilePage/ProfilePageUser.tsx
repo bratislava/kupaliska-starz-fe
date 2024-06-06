@@ -49,7 +49,7 @@ const ProfilePageUser = () => {
           )}
         </>
       )}
-      <div className="bg-white rounded-lg lg:col-span-7">
+      <div className="bg-sunscreen rounded-lg lg:col-span-7">
         <div className="px-6 py-4 gap-6 flex items-start sm:items-center border-b-2 border-b-divider flex-col sm:flex-row">
           <div className="flex flex-1 flex-col gap-1">
             <p className="font-semibold text-xl">Osobné údaje</p>

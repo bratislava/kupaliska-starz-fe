@@ -69,7 +69,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-white shadow-xs py-3 md:py-4 sticky top-0 z-40 w-full header">
+      <div className="bg-sunscreen shadow-xs py-3 md:py-4 sticky top-0 z-40 w-full header">
         <div className="container mx-auto text-fontBlack flex justify-between">
           <Link className="text-primary font-bold text-xl cursor-pointer" to="/">
             STARZ
@@ -125,7 +125,7 @@ const Header = () => {
         <nav
           className={`${
             open ? 'w-3/4' : 'w-0'
-          } md:hidden overflow-hidden fixed top-0 right-0 bottom-0 flex-col flex flex-1 bg-white transition-all z-10`}
+          } md:hidden overflow-hidden fixed top-0 right-0 bottom-0 flex-col flex flex-1 bg-sunscreen transition-all z-10`}
         >
           <div className="py-12 px-4 flex flex-col flex-1 justify-between">
             <div className="flex flex-col">

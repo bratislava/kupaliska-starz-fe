@@ -80,7 +80,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       {/* Arrows must be implemented on our own to be outside the swiper. */}
       {displayButtons.previous && (
         <AriaButton
-          className="border-divider border-2 rounded-full w-12 h-12 absolute top-[calc(50%-48px)] -left-6 z-10 flex justify-center items-center bg-white"
+          className="border-divider border-2 rounded-full w-12 h-12 absolute top-[calc(50%-48px)] -left-6 z-10 flex justify-center items-center bg-sunscreen"
           onPress={handlePrevious}
         >
           <Icon name="arrow-left" className="no-fill font-fontBlack" />
@@ -88,7 +88,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       )}
       {displayButtons.next && (
         <AriaButton
-          className="border-divider border-2 rounded-full w-12 h-12 absolute top-[calc(50%-48px)] -right-6 z-10 flex justify-center items-center bg-white"
+          className="border-divider border-2 rounded-full w-12 h-12 absolute top-[calc(50%-48px)] -right-6 z-10 flex justify-center items-center bg-sunscreen"
           onPress={handleNext}
         >
           <Icon name="arrow-right" className="no-fill font-fontBlack" />

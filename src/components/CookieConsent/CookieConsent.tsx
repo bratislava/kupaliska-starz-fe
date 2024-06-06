@@ -209,7 +209,7 @@ const CookieConsent = () => {
         ariaDeclineLabel={t('cookie-consent.reject-aria-label')}
         flipButtons
         buttonWrapperClasses="flex flex-wrap gap-x-6 gap-y-3"
-        containerClasses="bg-white rounded-lg container mx-auto shadow-lg mb-4 md:mb-6 flex-col px-10 py-8 gap-y-8"
+        containerClasses="bg-sunscreen rounded-lg container mx-auto shadow-lg mb-4 md:mb-6 flex-col px-10 py-8 gap-y-8"
         contentStyle={{
           flex: undefined, // to override defaults
           margin: undefined, // to override defaults

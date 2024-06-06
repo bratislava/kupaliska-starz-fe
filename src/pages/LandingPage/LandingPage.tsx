@@ -27,7 +27,7 @@ const LandingPage = () => {
   const isAuthenticated = status === 'authenticated'
 
   return (
-    <main className="bg-white">
+    <main className="bg-sunscreen">
       <HeroBanner />
       {/* https://github.com/bratislava/kupaliska-starz-fe/issues/138 */}
       {/* this will come back next year, therefore not erasing just commenting out */}

@@ -153,6 +153,7 @@ interface TicketProps {
   onDetailClick: () => void
 }
 
+// TODO separate to a new file
 const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
   const { t } = useTranslation()
 
@@ -185,7 +186,11 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <span className="font-semibold mb-3 text-xl text-center">{ticket.type}</span>
       <span className="text-center mb-6">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
       <div className="flex justify-center">
-        <Button color={buttonColor} className="absolute shadow-xs" onClick={onDetailClick}>
+        <Button
+          color={buttonColor}
+          className="absolute shadow-xs bg-sunscreen"
+          onClick={onDetailClick}
+        >
           {t('tickets.ticket-button')}
           <Icon className="ml-4 no-fill" name="arrow-right" />
         </Button>
@@ -262,7 +267,7 @@ const UsedTicket = ({
   const { t } = useTranslation()
 
   return (
-    <div className="flex px-8 py-6 mb-6 flex-col rounded-lg shadow-xs bg-white">
+    <div className="flex px-8 py-6 mb-6 flex-col rounded-lg shadow-xs bg-sunscreen">
       <div className="flex flex-col pb-6">
         <span>{t('tickets.ticket-type')}</span>
         <span className="font-semibold text-xl">{ticket.type}</span>
@@ -424,7 +429,7 @@ const TicketsManagementPage = () => {
                       '',
                     ]}
                     rows={dataMapped.usedTicketsRows}
-                    rowBackgroundClass="bg-white"
+                    rowBackgroundClass="bg-sunscreen"
                   ></Table>
                 </div>
                 {/* Carousel cannot be in container. */}

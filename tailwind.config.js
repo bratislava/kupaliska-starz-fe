@@ -60,6 +60,7 @@ module.exports = {
         warningSoft: '#F8D7D4',
         inactive: '#CCCCCC',
         divider: '#D6D6D6',
+        sunscreen: '#FFF9F0',
       },
       borderWidth: {
         3: '3px',
