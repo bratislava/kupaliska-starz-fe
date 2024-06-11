@@ -36,7 +36,6 @@ const HeroBanner = () => {
           <div
             className="
             flex
-            space-x-4
             w-full
             mt-8
             mb-16
