@@ -41,6 +41,7 @@ import { ReactComponent as RetryIcon } from '../../assets/icons/retry.svg'
 import { ReactComponent as SendIcon } from '../../assets/icons/send.svg'
 import { ReactComponent as ShowerIcon } from '../../assets/icons/shower.svg'
 import { ReactComponent as SpinnerIcon } from '../../assets/icons/spinner.svg'
+import { ReactComponent as StarzLogoIcon } from '../../assets/icons/starz_logo.svg'
 import { ReactComponent as SwimmingManIcon } from '../../assets/icons/swimming-man.svg'
 import { ReactComponent as ThreeDotsIcon } from '../../assets/icons/three-dots.svg'
 import { ReactComponent as TicketsIcon } from '../../assets/icons/tickets.svg'
@@ -98,6 +99,7 @@ const iconMap = {
   send: SendIcon,
   shower: ShowerIcon,
   spinner: SpinnerIcon,
+  'starz-logo': StarzLogoIcon,
   'swimming-man': SwimmingManIcon,
   'three-dots': ThreeDotsIcon,
   tickets: TicketsIcon,

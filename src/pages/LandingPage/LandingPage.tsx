@@ -67,7 +67,7 @@ const LandingPage = () => {
           />
           <iframe
             src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
-            className="w-full h-[80vh] min-h-[200px] max-h-[624px] max-w-[1110px]"
+            className="w-full h-[80vh] min-h-[200px] max-h-[628px] max-w-[1143px] border-2 rounded-2xl border-primary"
             title="Mapa kúpalísk"
             allow="geolocation; fullscreen"
           />
@@ -81,7 +81,7 @@ const LandingPage = () => {
           </div>
           <div className="hidden col-span-2 md:block">
             <img
-              src="/contact-form-image.png"
+              src="/contact-form-image.svg"
               alt="decoration for contact form"
               className="w-full lg:w-8/10 xl:w-7/10 mx-auto"
             />

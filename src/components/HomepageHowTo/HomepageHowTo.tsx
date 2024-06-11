@@ -29,10 +29,10 @@ const HomepageHowTo = () => {
     () =>
       items.map((item, index) => (
         <div
-          className="relative inline-flex flex-col gap-y-8 items-center flex-1 px-6 pt-16 pb-6 bg-sunscreen border-2 rounded-2xl border-secondary"
+          className="relative inline-flex flex-col gap-y-8 items-center flex-1 px-6 pt-16 pb-6 bg-sunscreen border-2 rounded-2xl border-orange"
           key={index}
         >
-          <div className="absolute flex flex-col items-center justify-center bg-secondary rounded-full text-2xl font-semibold text-primary w-16 h-16 -top-8">
+          <div className="absolute flex flex-col items-center justify-center bg-orange rounded-full text-2xl font-semibold text-white w-16 h-16 -top-8">
             {index + 1}
           </div>
           <div className="w-28 h-28 pl-0.5 pt-1 pb-0.5">

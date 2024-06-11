@@ -72,7 +72,7 @@ const Header = () => {
       <div className="bg-sunscreen shadow-xs py-3 md:py-4 sticky top-0 z-40 w-full header">
         <div className="container mx-auto text-fontBlack flex justify-between">
           <Link className="text-primary font-bold text-xl cursor-pointer" to="/">
-            STARZ
+            <Icon name="starz-logo" className="hidden xs:block no-fill pr-5" />
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-end">
             {menuItems.map((menuItem, index) => (
