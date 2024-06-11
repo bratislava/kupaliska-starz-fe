@@ -41,10 +41,9 @@ const HeroBanner = () => {
             mt-8
             mb-16
 
-            md:flex-col
-            md:space-y-4
-            md:space-x-0
-            md:w-1/2
+            flex-col
+            space-y-4
+            space-x-0
 
             lg:flex-row
             lg:space-y-0
@@ -59,7 +58,7 @@ const HeroBanner = () => {
                 <Icon name="tickets" className="no-fill pr-5" />
               </Button>
             </HashLink>
-            <HashLink to="/#swimming-pools" className="hidden sm:block">
+            <HashLink to="/#swimming-pools" className="block">
               <Button className="" color="outlined" thin>
                 <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
                 <Icon name="swimming-man" className="hidden xs:block no-fill pr-5" />
