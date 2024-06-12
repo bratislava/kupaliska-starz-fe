@@ -31,7 +31,7 @@ const Banner = () => {
           <div className="items-center flex">
             <SignInSignOutLink></SignInSignOutLink>
             <a
-              href="https://www.facebook.com/STaRZ-Spr%C3%A1va-telov%C3%BDchovn%C3%BDch-a-rekrea%C4%8Dn%C3%BDch-zariaden%C3%AD-hlavn%C3%A9ho-mesta-SR-513951915371509"
+              href="https://www.facebook.com/STaRZ.Bratislava.official"
               target="_blank"
               rel="noreferrer"
               className="hidden md:block ml-10"
