@@ -2,11 +2,12 @@ import { environment } from '../environment'
 import { CityAccountUser } from './cityAccountDto'
 import logger from './logger'
 
-export const UNAUTHORIZED_MESSAGE = 'Unauthorized'
-
-export const cityAccountFrontendSSOUrl = `${environment.cityAccountFrontendUrl}/sso`
-
 export const getAccount = async (accessToken: string) => {
+  if (!accessToken) {
+    logger.error('No access token provided')
+    throw new Error('No access token provided')
+  }
+
   const result = await fetch(`${environment.cityAccountBackendUrl}/auth/user`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -14,7 +15,7 @@ export const getAccount = async (accessToken: string) => {
   })
   if (!result.ok) {
     if (result.status === 401) {
-      throw new Error(UNAUTHORIZED_MESSAGE)
+      throw new Error('Unauthorized')
     } else {
       logger.error('Error fetching account', result)
       throw new Error('Error fetching account')

@@ -1,8 +1,10 @@
-import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
+import { checkTokenValid, getAccessTokenFromRefreshToken } from 'helpers/cityAccountToken'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import logger from 'helpers/logger'
+import Cookies from 'universal-cookie'
+import { useEffectOnce } from 'usehooks-ts'
+import { environment } from '../environment'
 
 export type CityAccountAccessTokenAuthenticationStatus =
   | 'initializing'
@@ -13,119 +15,117 @@ interface CityAccountAccessTokenState {
   status: CityAccountAccessTokenAuthenticationStatus
   accessToken: string | null
   sub: string | undefined
-  refreshToken: () => void
+  refreshToken: () => Promise<null | undefined>
 }
 
-export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
+const cookies = new Cookies()
+
+export const ACCESS_TOKEN_COOKIE_KEY = 'accessToken'
+export const REFRESH_TOKEN_COOKIE_KEY = 'refreshToken'
 
 const CityAccountAccessTokenContext = React.createContext<CityAccountAccessTokenState>(
   {} as CityAccountAccessTokenState,
 )
 
 export const CityAccountAccessTokenProvider = ({ children }: { children: React.ReactNode }) => {
-  const [initializationState, setInitializationState] = useState<'idle' | 'initializing' | 'ready'>(
-    'idle',
-  )
+  const [initializationState, setInitializationState] = useState<
+    'initializing' | 'ready' | 'refetched'
+  >('initializing')
+
   // unfortunately useLocalStorage expects JSON-serializable object, therefore not storing as simple string
-  const [accessTokenState, setAccessTokenState] = useLocalStorage<{ accessToken: string | null }>(
-    ACCESS_TOKEN_STORAGE_KEY,
-    { accessToken: null },
+  const [accessToken, setAccessToken] = useState<string | null>(
+    cookies.get(ACCESS_TOKEN_COOKIE_KEY),
   )
 
-  const accessToken = accessTokenState.accessToken
+  const removeAccessToken = useCallback(() => {
+    setAccessToken(null)
+    cookies.remove(ACCESS_TOKEN_COOKIE_KEY, {
+      domain: environment.cognitoCookieStorageDomain,
+    })
+  }, [])
+
   let jwtAccessToken = null
   try {
     jwtAccessToken = accessToken ? jwtDecode<JwtPayload>(accessToken) : null
   } catch (error) {
     // since the token is validated every time before our code stores it this shouldn't happen
-    logger.error('Invalid token found in local storage:', accessToken, error)
+    logger.error('Invalid accessToken found:', accessToken, error)
   }
   let status: CityAccountAccessTokenAuthenticationStatus = 'initializing'
   if (initializationState === 'ready') {
     status = !!jwtAccessToken ? 'authenticated' : 'unauthenticated'
   }
 
-  const refreshToken = useCallback(
-    (isInitialRefresh: boolean) =>
-      getAccessTokenFromIFrame()
-        .then((token) => {
-          if (token) {
-            setAccessTokenState({ accessToken: token })
-          } else if (!isInitialRefresh) {
-            setAccessTokenState({ accessToken: null })
-          }
-          return token
-        })
-        .catch((error) => {
-          logger.error('getAccessTokenFromIFrame error', error)
-          return null
-        }),
-    [setAccessTokenState],
-  )
+  const onRefreshToken = useCallback(async () => {
+    const refreshToken = cookies.get(REFRESH_TOKEN_COOKIE_KEY)
 
-  const validateTokenInLocalStorage = useCallback(() => {
+    if (!refreshToken) {
+      removeAccessToken()
+      setInitializationState('ready')
+      cookies.remove(ACCESS_TOKEN_COOKIE_KEY, {
+        domain: environment.cognitoCookieStorageDomain,
+      })
+      return null
+    }
+
+    let newAccessToken = null
+
+    try {
+      newAccessToken = await getAccessTokenFromRefreshToken(refreshToken)
+    } catch (error) {
+      logger.error('getAccessTokenFromRefreshToken error', error)
+      removeAccessToken()
+      setInitializationState('ready')
+      cookies.remove(REFRESH_TOKEN_COOKIE_KEY, {
+        domain: environment.cognitoCookieStorageDomain,
+      })
+      return null
+    }
+
+    cookies.set(ACCESS_TOKEN_COOKIE_KEY, newAccessToken, {
+      domain: environment.cognitoCookieStorageDomain,
+      path: '/',
+      secure: environment.cognitoCookieStorageDomain !== 'localhost',
+      sameSite: true,
+    })
+
+    setInitializationState('ready')
+    setAccessToken(newAccessToken)
+  }, [])
+
+  const validateTokenInStorage = useCallback(() => {
     if (!checkTokenValid(accessToken)) {
-      setAccessTokenState({ accessToken: null })
+      removeAccessToken()
       return null
     } else {
+      setInitializationState('ready')
       return accessToken
     }
-  }, [accessToken, setAccessTokenState])
+  }, [accessToken, setAccessToken])
 
   useEffect(() => {
     // prevent stale token in storage, in case iframe refresh does not work
-    window.addEventListener('focus', validateTokenInLocalStorage)
+    window.addEventListener('focus', validateTokenInStorage)
     return () => {
-      window.removeEventListener('focus', validateTokenInLocalStorage)
+      window.removeEventListener('focus', validateTokenInStorage)
     }
-  }, [validateTokenInLocalStorage])
-
-  const getTokenFromUrl = useCallback(() => {
-    try {
-      const urlParams = new URLSearchParams(window.location.search)
-      logger.info('Looking for CityAccountAccessToken in query params')
-      const tokenFromQuery = urlParams.get('access_token')
-      if (checkTokenValid(tokenFromQuery)) {
-        logger.info('CityAccountAccessToken found in query params')
-        setAccessTokenState({ accessToken: tokenFromQuery })
-        // remove token from query params
-        const urlWithoutToken = new URL(window.location.href)
-        urlWithoutToken.searchParams.delete('access_token')
-        window.history.replaceState({}, '', urlWithoutToken.href)
-        return tokenFromQuery
-      }
-    } catch (error) {
-      logger.error('Error token from query', error)
-    }
-    return null
-  }, [setAccessTokenState])
+  }, [validateTokenInStorage])
 
   useEffectOnce(() => {
-    setInitializationState('initializing')
-    validateTokenInLocalStorage()
-    // try getting token from iframe - this tends to fail randomly
-    refreshToken(true)
-      .then((token) => {
-        // fallback token in url if coming from login - also clears it from url
-        getTokenFromUrl()
-        if (token) {
-          // iframe works, refresh from it on refocus
-          window.addEventListener('focus', () => refreshToken(false))
-        }
-      })
-      .catch((error) => {
-        logger.error('refreshToken error', error)
-        // fallback token in url if coming from login
-        getTokenFromUrl()
-      })
-      .finally(() => {
-        setInitializationState('ready')
-      })
+    const token = validateTokenInStorage()
+
+    if (!token) onRefreshToken()
   })
+
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
     <CityAccountAccessTokenContext.Provider
-      value={{ sub: jwtAccessToken?.sub, accessToken: accessToken, status, refreshToken }}
+      value={{
+        sub: jwtAccessToken?.sub,
+        accessToken: accessToken,
+        status,
+        refreshToken: onRefreshToken,
+      }}
     >
       {initializationState === 'ready' ? children : null}
     </CityAccountAccessTokenContext.Provider>
