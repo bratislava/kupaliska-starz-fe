@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
+import { useAccount } from 'hooks/useAccount'
+import { useCityAccountLogoutRedirectionModal } from 'components/CityAccountLogoutInformationModal/CityAccountLogoutRedirectionModal'
+import { AccountType } from 'helpers/cityAccountDto'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
@@ -20,11 +23,16 @@ const HomepageTickets = () => {
   const tickets = useAppSelector(selectAvailableTickets)
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
+  const { data: account } = useAccount()
+
   const isAuthenticated = status === 'authenticated'
   const history = useHistory()
   const login = useLogin()
+  const { open } = useCityAccountLogoutRedirectionModal()
 
   const ticketNeedsLogin = (ticket: Ticket) => ticket.nameRequired && !isAuthenticated
+  const ticketNeedsRelogin = (ticket: Ticket) =>
+    ticket.nameRequired && isAuthenticated && account?.['custom:account_type'] !== AccountType.FO
 
   const { dayTickets, entryTickets, seasonalTickets } = useMemo(
     () => partitionTickets(tickets),
@@ -38,6 +46,8 @@ const HomepageTickets = () => {
 
     if (ticketNeedsLogin(ticket)) {
       await login(`${window.location.origin}/order?ticketId=${ticket.id}`)
+    } else if (ticketNeedsRelogin(ticket)) {
+      open(() => {})
     } else {
       history.push({
         pathname: '/order',
@@ -76,7 +86,8 @@ const HomepageTickets = () => {
             </div>
             <div className="flex flex-col gap-3">
               {tickets?.map((ticket) => {
-                const needsLogin = ticket.nameRequired && !isAuthenticated
+                const needsLogin = ticketNeedsLogin(ticket)
+                const needsReloginToFOAccountType = ticketNeedsRelogin(ticket)
 
                 return (
                   <div
@@ -96,13 +107,19 @@ const HomepageTickets = () => {
                         className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
                         thin
                         onClick={() => handleClick(ticket)}
-                        color={needsLogin ? 'primary' : 'outlined'}
+                        color={needsLogin || needsReloginToFOAccountType ? 'primary' : 'outlined'}
                         disabled={ticket.disabled}
                       >
-                        {needsLogin ? 'Prihlásiť sa' : t('landing.basket')}
+                        {needsLogin
+                          ? 'Prihlásiť sa'
+                          : needsReloginToFOAccountType
+                          ? t('landing.sign-off')
+                          : t('landing.basket')}
                         <Icon
-                          name={needsLogin ? 'login' : 'euro-coin'}
-                          className={cx('ml-2 no-fill', { 'py-1': !needsLogin })}
+                          name={needsLogin || needsReloginToFOAccountType ? 'login' : 'euro-coin'}
+                          className={cx('ml-2 no-fill', {
+                            'py-1': !needsLogin && !needsReloginToFOAccountType,
+                          })}
                         />
                       </Button>
                     </div>
