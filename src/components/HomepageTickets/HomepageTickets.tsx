@@ -113,7 +113,7 @@ const HomepageTickets = () => {
                         {needsLogin
                           ? 'Prihlásiť sa'
                           : needsReloginToFOAccountType
-                          ? t('landing.sign-off')
+                          ? t('landing.more-info-button')
                           : t('landing.basket')}
                         <Icon
                           name={needsLogin || needsReloginToFOAccountType ? 'login' : 'euro-coin'}
