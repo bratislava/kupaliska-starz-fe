@@ -28,7 +28,7 @@ const HomepageTickets = () => {
   const isAuthenticated = status === 'authenticated'
   const history = useHistory()
   const login = useLogin()
-  const { open } = useCityAccountLogoutRedirectionModal()
+  const { open, close } = useCityAccountLogoutRedirectionModal()
 
   const ticketNeedsLogin = (ticket: Ticket) => ticket.nameRequired && !isAuthenticated
   const ticketNeedsRelogin = (ticket: Ticket) =>
@@ -47,7 +47,9 @@ const HomepageTickets = () => {
     if (ticketNeedsLogin(ticket)) {
       await login(`${window.location.origin}/order?ticketId=${ticket.id}`)
     } else if (ticketNeedsRelogin(ticket)) {
-      open(() => {})
+      open(() => {
+        close()
+      })
     } else {
       history.push({
         pathname: '/order',
