@@ -22,6 +22,9 @@ import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import { PreseasonProvider } from 'hooks/usePreseason'
+import CityAccountLogoutRedirectionModal, {
+  CityAccountLogoutRedirectionModalContextProvider,
+} from 'components/CityAccountLogoutInformationModal/CityAccountLogoutRedirectionModal'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -83,41 +86,44 @@ function App() {
             <RegisterUserGuard>
               <PreseasonProvider>
                 <CityAccountLoginRedirectionModalContextProvider>
-                  <ScrollToTop>
-                    <CityAccountLoginRedirectionModal />
-                    <Toast
-                      open={toast !== undefined}
-                      type={toast?.type}
-                      text={toast?.message}
-                      onClose={() => {
-                        dispatch(setToast(undefined))
-                      }}
-                      timeToClose={toast?.type === 'success' ? 3000 : undefined}
-                      closeButton={toast?.type !== 'success'}
-                    />
-                    <TopBanner />
-                    <main className="relative flex flex-col" style={{ flex: 1 }}>
-                      <Header />
+                  <CityAccountLogoutRedirectionModalContextProvider>
+                    <ScrollToTop>
+                      <CityAccountLoginRedirectionModal />
+                      <CityAccountLogoutRedirectionModal />
+                      <Toast
+                        open={toast !== undefined}
+                        type={toast?.type}
+                        text={toast?.message}
+                        onClose={() => {
+                          dispatch(setToast(undefined))
+                        }}
+                        timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                        closeButton={toast?.type !== 'success'}
+                      />
+                      <TopBanner />
+                      <main className="relative flex flex-col" style={{ flex: 1 }}>
+                        <Header />
 
-                      <Switch>
-                        {/* https://stackoverflow.com/a/66114844 */}
-                        <Route
-                          path="/refresh"
-                          exact={true}
-                          component={() => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            const history = useHistory()
-                            // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                            useEffect(() => history.goBack(), [])
-                            return <></>
-                          }}
-                        />
-                        {routes.map(renderRoute)}
-                      </Switch>
-                      <CookieConsent />
-                    </main>
-                    <Footer />
-                  </ScrollToTop>
+                        <Switch>
+                          {/* https://stackoverflow.com/a/66114844 */}
+                          <Route
+                            path="/refresh"
+                            exact={true}
+                            component={() => {
+                              // eslint-disable-next-line react-hooks/rules-of-hooks
+                              const history = useHistory()
+                              // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                              useEffect(() => history.goBack(), [])
+                              return <></>
+                            }}
+                          />
+                          {routes.map(renderRoute)}
+                        </Switch>
+                        <CookieConsent />
+                      </main>
+                      <Footer />
+                    </ScrollToTop>
+                  </CityAccountLogoutRedirectionModalContextProvider>
                 </CityAccountLoginRedirectionModalContextProvider>
               </PreseasonProvider>
             </RegisterUserGuard>

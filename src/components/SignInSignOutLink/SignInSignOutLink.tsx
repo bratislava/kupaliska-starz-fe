@@ -4,6 +4,7 @@ import { useLogin } from '../../hooks/useLogin'
 import { useLogout } from '../../hooks/useLogout'
 import { useTranslation } from 'react-i18next'
 import { useAccount } from '../../hooks/useAccount'
+import { AccountType } from 'helpers/cityAccountDto'
 
 /* Inspired by https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/1b38e9582ae23bde40fe4bef77f3d838e838e08b/samples/msal-react-samples/react-18-sample/src/ui-components/SignInSignOutButton.jsx */
 const SignInSignOutLink = () => {
@@ -19,8 +20,13 @@ const SignInSignOutLink = () => {
   const [name, setName] = useState<string>()
 
   useEffect(() => {
-    if (account) {
+    if (account?.['custom:account_type'] === AccountType.FO) {
       setName(`${account?.given_name} ${account?.family_name}`)
+    } else if (
+      account?.['custom:account_type'] === AccountType.PO ||
+      account?.['custom:account_type'] === AccountType.FOP
+    ) {
+      setName(`${account?.name}`)
     } else {
       setName(undefined)
     }

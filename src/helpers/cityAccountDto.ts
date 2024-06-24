@@ -8,14 +8,22 @@ export interface CityAccountUser {
   address: string
   'custom:sing_in_at': string
   'custom:tier': string
+  'custom:account_type': AccountType
   email: string
   email_verified: string
-  family_name: string
-  given_name: string
+  family_name?: string
+  given_name?: string
+  name?: string
   idUser: string
   phone_number: string
   phone_number_verified: string
   sub: string
+}
+
+export enum AccountType {
+  FO = 'fo',
+  PO = 'po',
+  FOP = 'fo-p',
 }
 
 // mirrors the definitions in konto.bratislava.sk:
