@@ -33,3 +33,7 @@ export function registerUser(tokenId: string) {
     headers: { Authorization: `Bearer ${tokenId}` },
   })
 }
+
+export function fetchGeneral() {
+  return apiClient.get(`/api/v1/general`)
+}
