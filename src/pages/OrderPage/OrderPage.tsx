@@ -43,6 +43,7 @@ import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { useOrderPageTicket } from './useOrderPageTicket'
 import logger from 'helpers/logger'
 import { AccountType } from 'helpers/cityAccountDto'
+import { ROUTES } from 'helpers/constants'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -800,7 +801,7 @@ const OrderPage = () => {
             label={
               <span>
                 {t('buy-page.vop')}
-                <Link to="/vop" target="_blank" className="link text-primary">
+                <Link to={ROUTES.VOP} target="_blank" className="link text-primary">
                   {t('buy-page.vop-link')}
                 </Link>
                 .
@@ -831,11 +832,7 @@ const OrderPage = () => {
           )}
           <div className="pt-3 italic">
             Kúpou lístka alebo permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
-            <Link
-              to="https://kupaliska.bratislava.sk/gdpr"
-              target="_blank"
-              className="link text-primary "
-            >
+            <Link to={ROUTES.GDPR} target="_blank" className="link text-primary ">
               podmienkami spracúvania osobných údajov
             </Link>{' '}
             príspevkovej organizácie{' '}

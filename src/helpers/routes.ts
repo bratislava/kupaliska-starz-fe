@@ -1,4 +1,5 @@
 import React, { ComponentType } from 'react'
+import { ROUTES } from './constants'
 
 export interface Route {
   path: string
@@ -10,33 +11,38 @@ export interface Route {
 
 const routes: Route[] = [
   {
-    path: '/:lang?/order',
+    path: `/:lang?${ROUTES.ORDER}`,
     exact: true,
     component: React.lazy(() => import('pages/OrderPage/OrderPageGuard')),
   },
   {
-    path: '/:lang?/order-result',
+    path: `/:lang?${ROUTES.ORDER_SUCCESSFUL}`,
     exact: true,
-    component: React.lazy(() => import('pages/OrderResultPage/OrderResultPage')),
+    component: React.lazy(() => import('pages/OrderResultPage/OrderResultSuccessfulPage')),
   },
   {
-    path: '/:lang?/vop',
+    path: `/:lang?${ROUTES.ORDER_UNSUCCESSFUL}`,
+    exact: true,
+    component: React.lazy(() => import('pages/OrderResultPage/OrderResultUnsuccessfulPage')),
+  },
+  {
+    path: `/:lang?${ROUTES.VOP}`,
     exact: true,
     component: React.lazy(() => import('pages/VOPPage/VOPPage')),
   },
   {
-    path: '/:lang?/gdpr',
+    path: `/:lang?${ROUTES.GDPR}`,
     exact: true,
     component: React.lazy(() => import('pages/GDPRPage/GDPRPage')),
   },
   {
-    path: '/:lang?/profile',
+    path: `/:lang?${ROUTES.PROFILE}`,
     exact: true,
     component: React.lazy(() => import('pages/ProfilePage/ProfilePage')),
     requireAuth: true,
   },
   {
-    path: '/:lang?/tickets',
+    path: `/:lang?${ROUTES.TICKETS}`,
     exact: true,
     component: React.lazy(() => import('pages/TicketsManagementPage/TicketsManagementPage')),
     requireAuth: true,

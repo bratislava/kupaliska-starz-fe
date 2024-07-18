@@ -16,6 +16,7 @@ import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { AxiosError } from 'axios'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 import logger from 'helpers/logger'
+import { ROUTES } from 'helpers/constants'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -69,7 +70,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('user')
-        history.push('/profile')
+        history.push(ROUTES.PROFILE)
       },
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
