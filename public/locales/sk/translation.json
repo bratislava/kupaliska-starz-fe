@@ -164,6 +164,8 @@
     "select-people-reminder-seasonal": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť permanentky:",
     "select-people-reminder-entries": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť lístky:",
     "pay": "Zaplatiť",
+    "pay-with-google-pay": "Google Pay",
+    "pay-with-apple-pay": "Apple Pay",
     "pay-with-price": "Zaplatiť {{price}}",
     "adult-count": "{{count}}× dospelá osoba",
     "children-count": "{{count}}× dieťa",

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { ReactComponent as AccommodationIcon } from '../../assets/icons/accommodation.svg'
 import { ReactComponent as AlertIcon } from '../../assets/icons/alert.svg'
+import { ReactComponent as ApplePayIcon } from '../../assets/icons/apple-pay.svg'
 import { ReactComponent as ArrowDownIcon } from '../../assets/icons/arrow-down.svg'
 import { ReactComponent as ArrowLeftIcon } from '../../assets/icons/arrow-left.svg'
 import { ReactComponent as ArrowRightIcon } from '../../assets/icons/arrow-right.svg'
@@ -22,6 +23,7 @@ import { ReactComponent as EuroCoinIcon } from '../../assets/icons/euro-coin.svg
 import { ReactComponent as FacebookLogoIcon } from '../../assets/icons/facebook-logo.svg'
 import { ReactComponent as FoodIcon } from '../../assets/icons/food.svg'
 import { ReactComponent as FootballIcon } from '../../assets/icons/football.svg'
+import { ReactComponent as GooglePayIcon } from '../../assets/icons/google-pay.svg'
 import { ReactComponent as GroupsIcon } from '../../assets/icons/groups.svg'
 import { ReactComponent as HashtagIcon } from '../../assets/icons/hashtag.svg'
 import { ReactComponent as InfoIcon } from '../../assets/icons/info.svg'
@@ -59,6 +61,7 @@ const iconMap = {
   accommodation: AccommodationIcon,
   alert: AlertIcon,
   // add other icons here, using the format "file-name: IconComponent"
+  'apple-pay': ApplePayIcon,
   'arrow-down': ArrowDownIcon,
   'arrow-left': ArrowLeftIcon,
   'arrow-right': ArrowRightIcon,
@@ -80,6 +83,7 @@ const iconMap = {
   'facebook-logo': FacebookLogoIcon,
   food: FoodIcon,
   football: FootballIcon,
+  'google-pay': GooglePayIcon,
   groups: GroupsIcon,
   hashtag: HashtagIcon,
   info: InfoIcon,

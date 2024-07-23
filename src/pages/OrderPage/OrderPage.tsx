@@ -44,6 +44,7 @@ import { useOrderPageTicket } from './useOrderPageTicket'
 import logger from 'helpers/logger'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
+import { PaymentMethod } from 'helpers/types'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -115,7 +116,7 @@ const OrderPageEmail = ({
 
   return requireEmail ? (
     <InputField
-      className="mt-6 max-w-formMax"
+      className="max-w-formMax"
       name="email"
       register={register}
       label={<span className="text-base">{t('common.email')}</span>}
@@ -722,11 +723,11 @@ const OrderPage = () => {
     setCaptchaWarning('show')
   }, 10000)
 
-  const onSubmit = async () => {
+  const onSubmit = async (paymentMethod?: PaymentMethod) => {
     incrementCaptchaKey()
     const { orderRequest } = getRequestsFromFormData()
     setOrderRequestPending(true)
-    await order(orderRequest)
+    await order(orderRequest, paymentMethod)
     setOrderRequestPending(false)
   }
 
@@ -734,9 +735,16 @@ const OrderPage = () => {
   // we should not block the form when main swimmer, marked as 'null', isn't selected and those attributes is missing
   const shouldSendDisabled = sendDisabled && selectedSwimmerIds.includes(null)
 
-  const buyButton = (
+  interface BuyButtonProps {
+    onSubmit: () => Promise<void>
+    iconBefore?: JSX.Element
+    iconAfter?: JSX.Element
+    text: string
+  }
+
+  const BuyButton = ({ onSubmit, iconBefore, iconAfter, text }: BuyButtonProps) => (
     <Button
-      className="mt-14 md:mt-16"
+      className="w-3/4"
       htmlType="button"
       disabled={
         priceQuery.isFetching || priceQuery.isError || shouldSendDisabled || orderRequestPending
@@ -745,19 +753,60 @@ const OrderPage = () => {
         logger.error(err)
       })}
     >
-      {priceQuery.isSuccess && !priceQuery.isFetching
-        ? t('buy-page.pay-with-price', {
-            price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
-          })
-        : t('buy-page.pay')}
-      <Icon className="ml-4" name="credit-card" />
+      {iconBefore}
+      {text}
+      {iconAfter}
     </Button>
   )
 
+  const payByCard = () => (
+    <BuyButton
+      onSubmit={() => onSubmit()}
+      iconAfter={
+        <Icon
+          className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+          name="credit-card"
+        />
+      }
+      text={
+        priceQuery.isSuccess && !priceQuery.isFetching
+          ? t('buy-page.pay-with-price', {
+              price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+            })
+          : t('buy-page.pay')
+      }
+    />
+  )
+
+  const payByGoolePay = () => (
+    <BuyButton
+      onSubmit={() => onSubmit(PaymentMethod.GPAY)}
+      iconAfter={
+        <Icon
+          name="google-pay"
+          className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
+        ></Icon>
+      }
+      text={t('buy-page.pay-with-google-pay')}
+    />
+  )
+
+  const payByApplePay = () => (
+    <BuyButton
+      onSubmit={() => onSubmit(PaymentMethod.APAY)}
+      iconAfter={
+        <Icon
+          name="apple-pay"
+          className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
+        ></Icon>
+      }
+      text={t('buy-page.pay-with-apple-pay')}
+    />
+  )
   return (
-    <form className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
+    <form className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
       <div>
-        <div className="text-2xl md:text-3xl font-semibold mb-4">{t('buy-page.cart')}</div>
+        <div className="text-2xl md:text-3xl font-semibold mb-3">{t('buy-page.cart')}</div>
 
         <NumberedLayout index={1} first={true}>
           <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
@@ -881,7 +930,11 @@ const OrderPage = () => {
             )}
           />
         </NumberedLayout>
-        <div className="hidden md:block">{buyButton}</div>
+        <div className="mt-4 md:mt-2">
+          <div className="hidden md:block w-3/4">{payByApplePay()}</div>
+          <div className="hidden md:block mt-3 w-3/4">{payByGoolePay()}</div>
+          <div className="hidden md:block mt-3 w-3/4">{payByCard()}</div>
+        </div>
       </div>
       <div className="mt-14 md:mt-0">
         <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
@@ -898,7 +951,11 @@ const OrderPage = () => {
           <p>{t('common.additional-info-toddlers')}</p>
         </div>
       </div>
-      <div className="block md:hidden flex justify-center">{buyButton}</div>
+      <div className="mt-6 md:mt-8">
+        <div className="block md:hidden flex justify-center">{payByApplePay()}</div>
+        <div className="block md:hidden flex justify-center mt-3">{payByGoolePay()}</div>
+        <div className="block md:hidden flex justify-center mt-3">{payByCard()}</div>
+      </div>
     </form>
   )
 }
