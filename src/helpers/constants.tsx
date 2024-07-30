@@ -10,8 +10,8 @@ export const ROUTES = {
 }
 
 export const ANCHORS = {
-  TICKET_BUY: '/#kupa-listku',
+  TICKET_BUY: '/#nakup-listka',
   SWIMMING_POOLS: '/#kupaliska',
   CONTACT_US: '/#kontaktujte-nas',
-  FAQS: '/#najcastejsie-otazky',
+  FAQS: '/#casto-kladene-otazky',
 }

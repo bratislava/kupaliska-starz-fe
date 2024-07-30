@@ -39,7 +39,7 @@ const LandingPage = () => {
           {/* Prevent margin collapsing
            https://stackoverflow.com/a/33132624/2711737 */}
           <div className="h-[0.05px]" />
-          <section id="kupa-listku" className="section flex flex-col items-center">
+          <section id="nakup-listka" className="section flex flex-col items-center">
             <SectionHeader title={t('landing.available-ticket')} className="text-center" />
             <HomepageTickets />
 
@@ -88,7 +88,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <section id="najcastejsie-otazky" className="section">
+      <section id="casto-kladene-otazky" className="section">
         <SectionHeader title={t('landing.faq')} className="text-center" />
         <div className="grid grid-cols-1 gap-y-4 w-full md:w-8/10 xl:w-6/10 mx-auto">
           {Object.keys(faqsn).map((faq, index) => (
