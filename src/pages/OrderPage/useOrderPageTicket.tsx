@@ -14,6 +14,7 @@ export interface OrderPageTicket {
   displayMissingInformationWarning: boolean
   sendDisabled: boolean
   isSeniorOrDisabledTicket: boolean
+  hasNameRequired: boolean
 }
 
 const Context = createContext<OrderPageTicket | undefined>(undefined)
@@ -27,6 +28,7 @@ export const OrderPageTicketProvider = ({
   const hasAccount = status === 'authenticated'
 
   const hasSwimmers = ticket.nameRequired
+  const hasNameRequired = ticket.nameRequired
   const userQuery = useQuery('user', fetchUser, { enabled: hasSwimmers })
   const requireEmail = !hasAccount
   const hasOptionalFields = !ticket.nameRequired && !hasAccount
@@ -50,6 +52,7 @@ export const OrderPageTicketProvider = ({
         displayMissingInformationWarning,
         sendDisabled,
         isSeniorOrDisabledTicket,
+        hasNameRequired,
       }}
     >
       {children}

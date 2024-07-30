@@ -42,6 +42,7 @@ import OrderMissingInformationProfileModal from '../../components/OrderMissingIn
 import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { useOrderPageTicket } from './useOrderPageTicket'
 import logger from 'helpers/logger'
+import { AccountType } from 'helpers/cityAccountDto'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -188,6 +189,7 @@ const OrderPagePeopleList = ({
   const userQuery = useQuery('user', fetchUser)
   const { data: account } = useAccount()
   const { dispatchErrorToast } = useErrorToast()
+  const { t } = useTranslation()
 
   /* Merges the list of associated swimmers with the logged-in user. */
   const mergedSwimmers = useMemo(() => {
@@ -201,18 +203,31 @@ const OrderPagePeopleList = ({
           image: userQuery.data.data.image,
           firstname: account?.given_name as string,
           lastname: account?.family_name as string,
+          isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
         },
         ...associatedSwimmersQuery.data.data.associatedSwimmers,
       ]
     )
-  }, [account?.family_name, account?.given_name, associatedSwimmersQuery.data, userQuery.data])
+  }, [
+    account?.family_name,
+    account?.given_name,
+    account?.['custom:account_type'],
+    associatedSwimmersQuery.data,
+    userQuery.data,
+  ])
 
   useEffect(() => {
     // initial prefill when we get the list of associated swimmers
     if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
     setValue(
       'selectedSwimmerIds',
-      mergedSwimmers.map((swimmer) => swimmer.id),
+      mergedSwimmers
+        .filter(
+          (swimmer) =>
+            !('isPhysicalEntity' in swimmer) ||
+            ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
+        )
+        .map((swimmer) => swimmer.id),
     )
     setSwimmerListSizePrefillDone(true)
   }, [mergedSwimmers, selectedSwimmerIds, setValue, swimmerListSizePrefillDone])
@@ -271,6 +286,12 @@ const OrderPagePeopleList = ({
               Doplniť povinné údaje
             </AriaButton>
           </div>
+        </div>
+      )}
+      {account?.['custom:account_type'] && account?.['custom:account_type'] !== AccountType.FO && (
+        <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+          <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+          <div>{t('common.physical-person-only')}</div>
         </div>
       )}
       {mergedSwimmers && (
