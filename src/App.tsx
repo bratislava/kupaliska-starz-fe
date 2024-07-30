@@ -22,6 +22,7 @@ import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import { PreseasonProvider } from 'hooks/usePreseason'
+import { ROUTES } from 'helpers/constants'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -112,6 +113,10 @@ function App() {
                             return <></>
                           }}
                         />
+                        <Redirect strict from="/order" to={ROUTES.ORDER} />
+                        <Redirect from="/order-result" to={ROUTES.HOME} />
+                        <Redirect strict from="/profile" to={ROUTES.PROFILE} />
+                        <Redirect strict from="/tickets" to={ROUTES.TICKETS} />
                         {routes.map(renderRoute)}
                       </Switch>
                       <CookieConsent />
