@@ -5,7 +5,7 @@ import { useWindowSize } from '../../hooks'
 import cx from 'classnames'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
 import { Trans, useTranslation } from 'react-i18next'
 import { CheckPriceResponse, Ticket } from '../../models'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
@@ -32,7 +32,11 @@ import { useOrder } from './useOrder'
 import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { environment } from '../../environment'
-import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import {
+  ErrorWithMessages,
+  getErrorMessagesFromHttpRequest,
+  useValidationSchemaTranslationIfPresent,
+} from 'helpers/general'
 import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import Turnstile from 'react-turnstile'
 import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
@@ -780,6 +784,16 @@ const OrderPage = () => {
                   />
                 )}
               </div>
+              {priceQuery.error && (
+                <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+                  <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+                  <div>
+                    {getErrorMessagesFromHttpRequest(
+                      priceQuery.error as AxiosError<ErrorWithMessages, any>,
+                    )}
+                  </div>
+                </div>
+              )}
               <OrderPagePeopleList
                 watch={watch}
                 setValue={setValue}
