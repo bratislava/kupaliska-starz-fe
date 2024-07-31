@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
+import { ROUTES } from 'helpers/constants'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
@@ -37,10 +38,10 @@ const HomepageTickets = () => {
     }
 
     if (ticketNeedsLogin(ticket)) {
-      await login(`${window.location.origin}/order?ticketId=${ticket.id}`)
+      await login(`${window.location.origin}${ROUTES.ORDER}?ticketId=${ticket.id}`)
     } else {
       history.push({
-        pathname: '/order',
+        pathname: ROUTES.ORDER,
         state: { ticketId: ticket.id },
       })
     }

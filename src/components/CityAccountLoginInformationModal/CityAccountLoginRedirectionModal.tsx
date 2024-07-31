@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useContext } from 'react'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 import { Link } from 'react-router-dom'
+import { ROUTES } from 'helpers/constants'
 
 type State = {
   open: boolean
@@ -70,7 +71,7 @@ const CityAccountLoginRedirectionModal = () => {
           </p>
           <p>
             Vaše údaje súvisiace s kúpou lístka spracúva ako prevádzkovateľ{' '}
-            <Link className="link font-semibold" to="/gdpr" target="_blank">
+            <Link className="link font-semibold" to={ROUTES.GDPR} target="_blank">
               STARZ
             </Link>
             .

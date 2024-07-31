@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
 import cx from 'classnames'
+import { ROUTES } from 'helpers/constants'
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -11,7 +12,10 @@ const Footer = () => {
 
   // Don't show top margin on home page as it handles its own positioning and has a different background (white).
   // TODO: Find better solution.
-  const showTopMargin = location.pathname !== '/' && location.pathname !== '/order-result'
+  const showTopMargin =
+    location.pathname !== ROUTES.HOME &&
+    location.pathname !== ROUTES.ORDER_SUCCESSFUL &&
+    location.pathname !== ROUTES.ORDER_UNSUCCESSFUL
 
   return (
     <div className={cx('w-full bg-blueish', { 'mt-4 md:mt-24': showTopMargin })}>
@@ -41,10 +45,10 @@ const Footer = () => {
         </div>
         <div className="flex flex-col text-primary lg:items-end order-2 lg:order-3 my-2 lg:my-0">
           <span className="font-semibold">{t('common.important-info')}</span>
-          <Link className="link" to="/vop">
+          <Link className="link" to={ROUTES.VOP}>
             {t('common.vop')}
           </Link>
-          <Link className="link" to="/gdpr">
+          <Link className="link" to={ROUTES.GDPR}>
             {t('common.privacy-conditions')}
           </Link>
         </div>

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { IconName } from 'components/Icon/Icon'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { usePreseason } from 'hooks/usePreseason'
+import { ANCHORS, ROUTES } from 'helpers/constants'
 
 interface MenuItem {
   to: string
@@ -36,32 +37,32 @@ const Header = () => {
       ? []
       : [
           {
-            to: '/#ticket-buy',
+            to: ANCHORS.TICKET_BUY,
             key: 'header.menu-items.0.text',
           },
           {
-            to: '/#swimming-pools',
+            to: ANCHORS.SWIMMING_POOLS,
             key: 'header.menu-items.1.text',
           },
         ]),
     {
-      to: '/#contact-us',
+      to: ANCHORS.CONTACT_US,
       key: 'header.menu-items.2.text',
     },
     {
-      to: '/#faqs',
+      to: ANCHORS.FAQS,
       key: 'header.menu-items.3.text',
     },
   ]
 
   const menuItemsAuthenticated: MenuItem[] = [
     {
-      to: '/tickets',
+      to: ROUTES.TICKETS,
       icon: 'tickets-black',
       key: 'header.menu-items.4.text',
     },
     {
-      to: '/profile',
+      to: ROUTES.PROFILE,
       icon: 'profile',
       key: 'header.menu-items.5.text',
     },
