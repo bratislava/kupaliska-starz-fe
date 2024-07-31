@@ -778,7 +778,7 @@ const OrderPage = () => {
     />
   )
 
-  const payByGoolePay = () => (
+  const payByGoole = () => (
     <BuyButton
       onSubmit={() => onSubmit(PaymentMethod.GPAY)}
       iconAfter={
@@ -791,7 +791,7 @@ const OrderPage = () => {
     />
   )
 
-  const payByApplePay = () => (
+  const payByApple = () => (
     <BuyButton
       onSubmit={() => onSubmit(PaymentMethod.APAY)}
       iconAfter={
@@ -931,8 +931,8 @@ const OrderPage = () => {
           />
         </NumberedLayout>
         <div className="mt-4 md:mt-2">
-          <div className="hidden md:block w-3/4">{payByApplePay()}</div>
-          <div className="hidden md:block mt-3 w-3/4">{payByGoolePay()}</div>
+          <div className="hidden md:block w-3/4">{payByApple()}</div>
+          <div className="hidden md:block mt-3 w-3/4">{payByGoole()}</div>
           <div className="hidden md:block mt-3 w-3/4">{payByCard()}</div>
         </div>
       </div>
@@ -952,8 +952,8 @@ const OrderPage = () => {
         </div>
       </div>
       <div className="mt-6 md:mt-8">
-        <div className="block md:hidden flex justify-center">{payByApplePay()}</div>
-        <div className="block md:hidden flex justify-center mt-3">{payByGoolePay()}</div>
+        <div className="block md:hidden flex justify-center">{payByApple()}</div>
+        <div className="block md:hidden flex justify-center mt-3">{payByGoole()}</div>
         <div className="block md:hidden flex justify-center mt-3">{payByCard()}</div>
       </div>
     </form>
