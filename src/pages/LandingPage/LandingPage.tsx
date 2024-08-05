@@ -13,17 +13,18 @@ import { Trans, useTranslation } from 'react-i18next'
 import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
+import { useGeneralDataContext } from 'hooks/GeneralDataContext'
 import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
-import { usePreseason } from 'hooks/usePreseason'
 
 const faqsn = range(1, 21)
 
 const LandingPage = () => {
-  const preseason = usePreseason()
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
+  const generalData = useGeneralDataContext()
+
   const isAuthenticated = status === 'authenticated'
 
   return (
@@ -34,7 +35,7 @@ const LandingPage = () => {
       {/* <SwimmingPoolsInfo /> */}
       <HomepageHowTo />
 
-      {!preseason && (
+      {!generalData?.data?.data.isOffSeason && (
         <div className="bg-backgroundGray">
           {/* Prevent margin collapsing
            https://stackoverflow.com/a/33132624/2711737 */}
@@ -52,13 +53,15 @@ const LandingPage = () => {
         </div>
       )}
 
-      {!isAuthenticated && !preseason && <WhyCreateAccountSection></WhyCreateAccountSection>}
+      {!isAuthenticated && !generalData?.data?.data.isOffSeason && (
+        <WhyCreateAccountSection></WhyCreateAccountSection>
+      )}
 
       <section id="divider" className="section">
         <img src="/swimmers.svg" className="mx-auto" alt="" />
       </section>
 
-      {!preseason && (
+      {!generalData?.data?.data.isOffSeason && (
         <section id="kupaliska" className="section flex flex-col items-center">
           <SectionHeader
             className="text-center"

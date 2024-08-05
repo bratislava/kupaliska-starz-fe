@@ -1,8 +1,7 @@
-import { AxiosResponse } from 'axios'
 import React, { PropsWithChildren, ReactNode, createContext, useContext } from 'react'
+import { AxiosResponse } from 'axios'
 import { UseQueryResult } from 'react-query'
 import { useGeneralDataQuery } from './useGeneralDataQuery'
-import { environment } from '../environment'
 
 export type GeneralData = {
   id: string
@@ -14,8 +13,6 @@ export type GeneralData = {
   isOffSeason: boolean
   offSeasonTitle: string
   offSeasonSubtitle: string
-  mainImageAddress: string
-  logoAddress: string
   createdAt: string
   updatedAt: string
   deletedAt: string
@@ -37,10 +34,6 @@ export const GeneralDataProvider = ({ children }: PropsWithChildren<ReactNode>) 
 /** Get general info from database */
 export const useGeneralDataContext = () => {
   const context = useContext(GeneralDataContext)
-  // fallback to no-override behavior in case it would be used without context
-  if (!context) {
-    return environment.featureFlag.preseasonHomepage
-  }
 
   return context
 }
