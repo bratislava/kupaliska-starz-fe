@@ -29,7 +29,7 @@ export const useErrorToast = () => {
 
     dispatchErrorToast(message)
     // if the error is because of expired access, refreshing solves the issue, if it's not it doesn't hurt
-    refreshToken()
+    refreshToken(false)
   }
 
   return { dispatchErrorToast, dispatchErrorToastForHttpRequest }

@@ -13,7 +13,7 @@ interface CityAccountAccessTokenState {
   status: CityAccountAccessTokenAuthenticationStatus
   accessToken: string | null
   sub: string | undefined
-  refreshToken: () => void
+  refreshToken: (isInitialRefresh: boolean) => Promise<string | null>
 }
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
