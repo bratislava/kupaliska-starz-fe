@@ -1,5 +1,6 @@
 import { ContactFormValues } from 'components/ContactForm/ContactForm'
 import { apiClient } from 'helpers/apiClient'
+import { GeneralData } from 'hooks/GeneralDataContext'
 import { Ticket } from '../../models'
 
 export function fetchTickets() {
@@ -35,5 +36,5 @@ export function registerUser(tokenId: string) {
 }
 
 export function fetchGeneral() {
-  return apiClient.get(`/api/v1/general`)
+  return apiClient.get<GeneralData>(`/api/v1/general`)
 }

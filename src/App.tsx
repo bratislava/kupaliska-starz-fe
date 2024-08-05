@@ -23,7 +23,7 @@ import CityAccountLoginRedirectionModal, {
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import { PreseasonProvider } from 'hooks/usePreseason'
 import { ROUTES } from 'helpers/constants'
-import { GeneralDataProvider } from 'hooks/useGeneralData'
+import { GeneralDataProvider } from 'hooks/GeneralDataContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {

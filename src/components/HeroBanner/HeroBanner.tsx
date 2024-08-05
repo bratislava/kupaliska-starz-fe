@@ -8,10 +8,62 @@ import { useTranslation } from 'react-i18next'
 import cx from 'classnames'
 import { usePreseason } from 'hooks/usePreseason'
 import { ANCHORS } from 'helpers/constants'
+import { useGeneralDataContext } from 'hooks/GeneralDataContext'
 
 const HeroBanner = () => {
   const { t } = useTranslation()
   const preseason = usePreseason()
+  const generalData = useGeneralDataContext()
+
+  const getTitle = () => {
+    if (generalData?.data?.data) {
+      const data = generalData.data.data
+      if (data.isOffSeason) {
+        if (data.offSeasonTitle) {
+          return data.offSeasonTitle
+        } else {
+          return t('landing.title-offseason')
+        }
+      } else if (!data.isOffSeason) {
+        if (data.seasonTitle) {
+          return data.seasonTitle
+        } else {
+          return t(`landing.title`)
+        }
+      }
+    } else {
+      if (preseason) {
+        t('landing.title-preseason')
+      } else {
+        t(`landing.title`)
+      }
+    }
+  }
+
+  const getSubtitle = () => {
+    if (generalData?.data?.data) {
+      const data = generalData.data.data
+      if (data.isOffSeason) {
+        if (data.offSeasonSubtitle) {
+          return data.offSeasonSubtitle
+        } else {
+          return t('landing.subtitle-offseason')
+        }
+      } else if (!data.isOffSeason) {
+        if (data.seasonSubtitle) {
+          return data.seasonSubtitle
+        } else {
+          return t(`landing.subtitle`)
+        }
+      }
+    } else {
+      if (preseason) {
+        t('landing.subtitle-preseason')
+      } else {
+        t(`landing.subtitle`)
+      }
+    }
+  }
 
   return (
     <div className="relative mb-8">
@@ -26,11 +78,9 @@ const HeroBanner = () => {
       >
         <div className="max-w-xs 2xl:max-w-md">
           <Typography type="title" fontWeight="bold" className="mb-4">
-            {preseason ? t('landing.title-preseason') : t(`landing.title`)}
+            {getTitle()}
           </Typography>
-          <Typography type="subtitle">
-            {preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')}
-          </Typography>
+          <Typography type="subtitle">{getSubtitle()}</Typography>
         </div>
 
         {!preseason && (
