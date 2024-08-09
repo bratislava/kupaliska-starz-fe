@@ -45,6 +45,7 @@ import logger from 'helpers/logger'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import { PaymentMethod } from 'helpers/types'
+import PayButton from './PayButton'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -723,7 +724,7 @@ const OrderPage = () => {
     setCaptchaWarning('show')
   }, 10000)
 
-  const onSubmit = async (paymentMethod?: PaymentMethod) => {
+  const onSubmit = async (paymentMethod: PaymentMethod) => {
     incrementCaptchaKey()
     const { orderRequest } = getRequestsFromFormData()
     setOrderRequestPending(true)
@@ -735,74 +736,88 @@ const OrderPage = () => {
   // we should not block the form when main swimmer, marked as 'null', isn't selected and those attributes is missing
   const shouldSendDisabled = sendDisabled && selectedSwimmerIds.includes(null)
 
-  interface BuyButtonProps {
-    onSubmit: () => Promise<void>
-    iconBefore?: JSX.Element
-    iconAfter?: JSX.Element
-    text: string
+  const renderPayButton = (paymentMethod: PaymentMethod) => {
+    let text
+    let icon
+
+    switch (paymentMethod) {
+      case PaymentMethod.APAY:
+        icon = (
+          <Icon
+            name="apple-pay"
+            className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
+          ></Icon>
+        )
+        break
+      case PaymentMethod.GPAY:
+        icon = (
+          <Icon
+            name="google-pay"
+            className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
+          ></Icon>
+        )
+        break
+      case PaymentMethod.CARD:
+        icon = (
+          <Icon
+            className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+            name="credit-card"
+          />
+        )
+        break
+      default:
+        icon = (
+          <Icon
+            className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+            name="credit-card"
+          />
+        )
+        break
+    }
+    switch (paymentMethod) {
+      case PaymentMethod.APAY:
+        text = t('buy-page.pay-with-apple-pay')
+        break
+      case PaymentMethod.GPAY:
+        text = t('buy-page.pay-with-google-pay')
+        break
+      case PaymentMethod.CARD:
+        text =
+          priceQuery.isSuccess && !priceQuery.isFetching
+            ? t('buy-page.pay-with-price', {
+                price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+              })
+            : t('buy-page.pay')
+        break
+      default:
+        text =
+          priceQuery.isSuccess && !priceQuery.isFetching
+            ? t('buy-page.pay-with-price', {
+                price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+              })
+            : t('buy-page.pay')
+        break
+    }
+
+    const handleSubmitWithErrorHandling = handleSubmit(
+      () => onSubmit(paymentMethod),
+      (err) => {
+        logger.error(err)
+      },
+    )
+
+    return (
+      <PayButton
+        handleSubmit={handleSubmitWithErrorHandling}
+        icon={icon}
+        text={text}
+        disabled={
+          priceQuery.isFetching || priceQuery.isError || shouldSendDisabled || orderRequestPending
+        }
+      />
+    )
   }
 
-  const BuyButton = ({ onSubmit, iconBefore, iconAfter, text }: BuyButtonProps) => (
-    <Button
-      className="w-3/4"
-      htmlType="button"
-      disabled={
-        priceQuery.isFetching || priceQuery.isError || shouldSendDisabled || orderRequestPending
-      }
-      onClick={handleSubmit(onSubmit, (err) => {
-        logger.error(err)
-      })}
-    >
-      {iconBefore}
-      {text}
-      {iconAfter}
-    </Button>
-  )
-
-  const payByCard = () => (
-    <BuyButton
-      onSubmit={() => onSubmit()}
-      iconAfter={
-        <Icon
-          className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
-          name="credit-card"
-        />
-      }
-      text={
-        priceQuery.isSuccess && !priceQuery.isFetching
-          ? t('buy-page.pay-with-price', {
-              price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
-            })
-          : t('buy-page.pay')
-      }
-    />
-  )
-
-  const payByGoole = () => (
-    <BuyButton
-      onSubmit={() => onSubmit(PaymentMethod.GPAY)}
-      iconAfter={
-        <Icon
-          name="google-pay"
-          className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
-        ></Icon>
-      }
-      text={t('buy-page.pay-with-google-pay')}
-    />
-  )
-
-  const payByApple = () => (
-    <BuyButton
-      onSubmit={() => onSubmit(PaymentMethod.APAY)}
-      iconAfter={
-        <Icon
-          name="apple-pay"
-          className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
-        ></Icon>
-      }
-      text={t('buy-page.pay-with-apple-pay')}
-    />
-  )
   return (
     <form className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
       <div>
@@ -931,9 +946,9 @@ const OrderPage = () => {
           />
         </NumberedLayout>
         <div className="mt-4 md:mt-2">
-          <div className="hidden md:block w-3/4">{payByApple()}</div>
-          <div className="hidden md:block mt-3 w-3/4">{payByGoole()}</div>
-          <div className="hidden md:block mt-3 w-3/4">{payByCard()}</div>
+          <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
+          <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.GPAY)}</div>
+          <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.CARD)}</div>
         </div>
       </div>
       <div className="mt-14 md:mt-0">
@@ -952,9 +967,15 @@ const OrderPage = () => {
         </div>
       </div>
       <div className="mt-6 md:mt-8">
-        <div className="block md:hidden flex justify-center">{payByApple()}</div>
-        <div className="block md:hidden flex justify-center mt-3">{payByGoole()}</div>
-        <div className="block md:hidden flex justify-center mt-3">{payByCard()}</div>
+        <div className="block md:hidden flex justify-center">
+          {renderPayButton(PaymentMethod.APAY)}
+        </div>
+        <div className="block md:hidden flex justify-center mt-3">
+          {renderPayButton(PaymentMethod.GPAY)}
+        </div>
+        <div className="block md:hidden flex justify-center mt-3">
+          {renderPayButton(PaymentMethod.CARD)}
+        </div>
       </div>
     </form>
   )
