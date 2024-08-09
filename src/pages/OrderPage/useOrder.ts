@@ -3,6 +3,7 @@ import { order } from '../../store/order/api'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { AxiosError, AxiosResponse } from 'axios'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
+import { PaymentMethod } from 'helpers/types'
 
 /* Sends the order request and handles the necessary logic.
 
@@ -12,8 +13,8 @@ export const useOrder = () => {
   const { status } = useCityAccountAccessToken()
 
   // TODO: types
-  return async (request: any) => {
-    const requestWithRecaptcha = { ...request }
+  return async (request: any, paymentMethod?: PaymentMethod) => {
+    const requestWithRecaptcha = { ...request, paymentMethod }
 
     const [err, response] = await to<AxiosResponse<any>, AxiosError<any>>(
       order(requestWithRecaptcha, status),

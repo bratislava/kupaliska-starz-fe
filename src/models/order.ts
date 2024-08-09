@@ -1,3 +1,5 @@
+import { PaymentMethod } from 'helpers/types'
+
 export interface Ticket {
   id: string
   name: string
@@ -39,8 +41,10 @@ export interface CustomerInfoFormValues {
   agreement: boolean
   discountCodeEnabled: boolean
   recaptchaToken: string
+  paymentMethod: PaymentMethod
 }
 
+// TODO this is mostly same as CustomerInfoFormValues it should be merged also both of them is outdated
 export interface OrderRequest {
   tickets: {
     quantity: number
@@ -58,6 +62,7 @@ export interface OrderRequest {
   }[]
   agreement: boolean
   token: string
+  paymentMethod: PaymentMethod
 }
 
 export interface CartItem {

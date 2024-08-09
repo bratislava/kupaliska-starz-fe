@@ -39,4 +39,5 @@ export const orderFormValuesToOrderRequest = (form: {
   token: form.customer.recaptchaToken,
   ...(form.discountCodeState &&
     form.discountCodeState.status === 'OK' && { discountCode: form.discountCodeState.code }),
+  paymentMethod: form.customer.paymentMethod,
 })
