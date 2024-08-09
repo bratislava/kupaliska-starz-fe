@@ -1,6 +1,7 @@
 import i18n from '../i18n'
 import { useTranslation } from 'react-i18next'
 import { TicketFromHistory } from 'store/tickets-history/api'
+import { AxiosError } from 'axios'
 
 export const assignItemsToColumns = (numberOfColumns: 1 | 2 | 3, items: any[]): any[][] => {
   const result: any[][] = Array.from({ length: numberOfColumns }, () => [])
@@ -53,3 +54,22 @@ export const useValidationSchemaTranslationIfPresent = (error?: string) => {
 
 export const isOneTimeTicket = (ticket: TicketFromHistory) =>
   ticket.remainingEntries != null && ticket.remainingEntries + (ticket.entries?.length || 0) <= 1
+
+export type ErrorWithMessages = {
+  messages: { type: string; message: string }[]
+}
+
+export const getErrorMessagesFromHttpRequest = <T extends ErrorWithMessages>(
+  error: AxiosError<T>,
+  defaultMessage?: string,
+) => {
+  const message = (() => {
+    const messages = error?.response?.data?.messages
+    if (!messages) {
+      return defaultMessage
+    }
+    return messages.map((m) => m.message).join('\n')
+  })()
+
+  return message
+}
