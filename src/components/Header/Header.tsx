@@ -10,8 +10,8 @@ import { Icon, Typography } from 'components'
 import { useTranslation } from 'react-i18next'
 import { IconName } from 'components/Icon/Icon'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
-import { usePreseason } from 'hooks/usePreseason'
 import { ANCHORS, ROUTES } from 'helpers/constants'
+import { useGeneralDataContext } from 'hooks/GeneralDataContext'
 
 interface MenuItem {
   to: string
@@ -26,14 +26,14 @@ const Divider = () => {
 
 const Header = () => {
   const { status } = useCityAccountAccessToken()
-  const preseason = usePreseason()
+  const generalData = useGeneralDataContext()
 
   const hasAccount = status === 'authenticated'
   const [open, setOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
   const menuItems: MenuItem[] = [
-    ...(preseason
+    ...(generalData?.data?.data.isOffSeason
       ? []
       : [
           {

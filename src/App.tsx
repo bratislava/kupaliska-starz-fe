@@ -23,6 +23,7 @@ import CityAccountLoginRedirectionModal, {
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import { PreseasonProvider } from 'hooks/usePreseason'
 import { ROUTES } from 'helpers/constants'
+import { GeneralDataProvider } from 'hooks/GeneralDataContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -82,49 +83,51 @@ function App() {
         <ConnectedRouter history={history}>
           <CityAccountAccessTokenProvider>
             <RegisterUserGuard>
-              <PreseasonProvider>
-                <CityAccountLoginRedirectionModalContextProvider>
-                  <ScrollToTop>
-                    <CityAccountLoginRedirectionModal />
-                    <Toast
-                      open={toast !== undefined}
-                      type={toast?.type}
-                      text={toast?.message}
-                      onClose={() => {
-                        dispatch(setToast(undefined))
-                      }}
-                      timeToClose={toast?.type === 'success' ? 3000 : undefined}
-                      closeButton={toast?.type !== 'success'}
-                    />
-                    <TopBanner />
-                    <main className="relative flex flex-col" style={{ flex: 1 }}>
-                      <Header />
+              <GeneralDataProvider>
+                <PreseasonProvider>
+                  <CityAccountLoginRedirectionModalContextProvider>
+                    <ScrollToTop>
+                      <CityAccountLoginRedirectionModal />
+                      <Toast
+                        open={toast !== undefined}
+                        type={toast?.type}
+                        text={toast?.message}
+                        onClose={() => {
+                          dispatch(setToast(undefined))
+                        }}
+                        timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                        closeButton={toast?.type !== 'success'}
+                      />
+                      <TopBanner />
+                      <main className="relative flex flex-col" style={{ flex: 1 }}>
+                        <Header />
 
-                      <Switch>
-                        {/* https://stackoverflow.com/a/66114844 */}
-                        <Route
-                          path="/refresh"
-                          exact={true}
-                          component={() => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            const history = useHistory()
-                            // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                            useEffect(() => history.goBack(), [])
-                            return <></>
-                          }}
-                        />
-                        <Redirect strict from="/order" to={ROUTES.ORDER} />
-                        <Redirect from="/order-result" to={ROUTES.HOME} />
-                        <Redirect strict from="/profile" to={ROUTES.PROFILE} />
-                        <Redirect strict from="/tickets" to={ROUTES.TICKETS} />
-                        {routes.map(renderRoute)}
-                      </Switch>
-                      <CookieConsent />
-                    </main>
-                    <Footer />
-                  </ScrollToTop>
-                </CityAccountLoginRedirectionModalContextProvider>
-              </PreseasonProvider>
+                        <Switch>
+                          {/* https://stackoverflow.com/a/66114844 */}
+                          <Route
+                            path="/refresh"
+                            exact={true}
+                            component={() => {
+                              // eslint-disable-next-line react-hooks/rules-of-hooks
+                              const history = useHistory()
+                              // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
+                              useEffect(() => history.goBack(), [])
+                              return <></>
+                            }}
+                          />
+                          <Redirect strict from="/order" to={ROUTES.ORDER} />
+                          <Redirect from="/order-result" to={ROUTES.HOME} />
+                          <Redirect strict from="/profile" to={ROUTES.PROFILE} />
+                          <Redirect strict from="/tickets" to={ROUTES.TICKETS} />
+                          {routes.map(renderRoute)}
+                        </Switch>
+                        <CookieConsent />
+                      </main>
+                      <Footer />
+                    </ScrollToTop>
+                  </CityAccountLoginRedirectionModalContextProvider>
+                </PreseasonProvider>
+              </GeneralDataProvider>
             </RegisterUserGuard>
           </CityAccountAccessTokenProvider>
         </ConnectedRouter>

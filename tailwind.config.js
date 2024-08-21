@@ -62,6 +62,8 @@ module.exports = {
         divider: '#D6D6D6',
         sunscreen: '#FFF9F0',
         orange: '#F4AA3D',
+        white: '#FFFFFF',
+        black: '#1F1F1F',
       },
       borderWidth: {
         3: '3px',

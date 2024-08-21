@@ -206,9 +206,8 @@
   "landing": {
     "title": "Zakúp si lístok alebo permanentku",
     "subtitle": "a užívaj si leto na ktoromkoľvek \nz našich kúpalísk v Bratislave.",
-    "title-offseason": "Letná sezóna 2023 bola ukončená.",
     "subtitle-offseason": "Ďakujeme za návštevu a tešíme sa na vás v ďalšom roku.",
-    "title-preseason": "Pripravujeme spustenie mestských kúpalísk",
+    "title-offseason": "Pripravujeme spustenie mestských kúpalísk",
     "subtitle-preseason": "Už čoskoro si budete môcť zakúpiť lístok alebo permanentku a užiť si zlaté časy pri vode.",
     "available-ticket": "Dostupné lístky",
     "buy-ticket": "Chcem lístok / permanentku",
@@ -229,7 +228,6 @@
     "captcha-warning-required": "Potvrďte prosím, že nie ste robot.",
     "send-message": "Odoslať správu ",
     "alt-img-text": "Nahradny obrazok kupaliska",
-    "alert-text": "",
     "less-info": "Menej info",
     "more-info": "Viac info",
     "navigate": "Navigovať",

@@ -1,25 +1,13 @@
-import React, { PropsWithChildren } from 'react'
-import { useTranslation } from 'react-i18next'
+import React from 'react'
 
 import { Icon } from 'components'
 import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
 import AlertBanner from 'components/AlertBanner/AlertBanner'
 
-const SocialMediaButton = ({
-  children,
-  paddingR = true,
-}: PropsWithChildren<{ paddingR?: boolean }>) => (
-  <button className={`bg-transparent ${paddingR ? 'p-2' : 'pl-2 py-2'} focus:outline-none`}>
-    {children}
-  </button>
-)
-
 const Banner = () => {
-  const { t } = useTranslation()
-
   return (
     <>
-      <AlertBanner text={t('landing.alert-text')} />
+      <AlertBanner />
       <aside className="flex bg-backgroundGray items-center" style={{ height: '50px' }}>
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
