@@ -14,7 +14,7 @@ import { ROUTES } from 'helpers/constants'
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
   entryTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired),
-  seasonalTickets: tickets.filter((ticket) => ticket.type === 'SEASONAL'),
+  seasonalTickets: null,
 })
 
 const HomepageTickets = () => {
@@ -93,6 +93,7 @@ const HomepageTickets = () => {
                       <span className="lg:w-[108px] font-semibold lg:text-right">
                         {currencyFormatter.format(ticket.price)}
                       </span>
+                      {/* {ticket.type !== 'SEASONAL' && ( */}
                       <Button
                         className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
                         thin
@@ -108,6 +109,7 @@ const HomepageTickets = () => {
                           })}
                         />
                       </Button>
+                      {/* )} */}
                     </div>
                   </div>
                 )
