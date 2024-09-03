@@ -13,7 +13,9 @@ import { ROUTES } from 'helpers/constants'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
-  entryTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired),
+  entryTickets: tickets
+    .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
+    .map((ticket) => ({ ...ticket, disabled: true })),
   seasonalTickets: tickets
     .filter((ticket) => ticket.type === 'SEASONAL')
     .map((ticket) => ({ ...ticket, disabled: true })),
