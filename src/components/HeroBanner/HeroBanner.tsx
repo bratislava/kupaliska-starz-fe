@@ -26,10 +26,10 @@ const HeroBanner = () => {
       >
         <div className="max-w-xs 2xl:max-w-md">
           <Typography type="title" fontWeight="bold" className="mb-4">
-            {preseason ? t('landing.title-preseason') : t(`landing.title`)}
+            {preseason ? t('landing.title-offseason') : t(`landing.title`)}
           </Typography>
           <Typography type="subtitle">
-            {preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')}
+            {preseason ? t('landing.subtitle-offseason') : t('landing.subtitle')}
           </Typography>
         </div>
 
