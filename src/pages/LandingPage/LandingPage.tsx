@@ -66,7 +66,7 @@ const LandingPage = () => {
             subtitle={t('landing.swimming-pools-subtitle')}
           />
           <iframe
-            src="https://cdn-api.bratislava.sk/static-pages/sport-grounds-map/index.html?lang=sk"
+            src="https://static-pages.s3.bratislava.sk/sport-grounds-map/index.html?lang=sk"
             className="w-full h-[80vh] min-h-[200px] max-h-[628px] max-w-[1143px] border-2 rounded-2xl border-primary"
             title="Mapa kúpalísk"
             allow="geolocation; fullscreen"
