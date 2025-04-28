@@ -4,7 +4,7 @@
 export const environment = {
   host: import.meta.env.VITE_HOST || 'http://localhost:8000',
   debug: false,
-  maxTicketPurchaseLimit: 10,
+  maxTicketPurchaseLimit: 50,
   faroSecret: import.meta.env.VITE_FARO_SECRET as string,
   featureFlag: {
     preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
