@@ -9,7 +9,9 @@ export interface Ticket {
   priceWithoutTax: number
   priceTax: number
   childrenAllowed: boolean
-  childrenPrice: number | null
+  childrenPriceWithTax: number | null
+  childrenPriceWithoutTax: number | null
+  childrenPriceTax: number | null
   validFrom: string | null
   validTo: string | null
   hasTicketDuration: boolean
@@ -82,8 +84,16 @@ export interface DiscountCodeState {
 export interface CheckPriceResponse {
   data: {
     pricing: {
-      orderPrice: number
-      discount: number
+      orderPrice: {
+        priceWithTax: number
+        priceWithoutTax: number
+        priceTax: number
+      }
+      discount: {
+        priceWithTax: number
+        priceWithoutTax: number
+        priceTax: number
+      }
       numberOfChildren: number
     }
   }
