@@ -95,7 +95,7 @@ const HomepageTickets = () => {
                     <span className="grow font-semibold">{ticket.name}</span>
                     <div className="flex items-center justify-between gap-x-8">
                       <span className="lg:w-[108px] font-semibold lg:text-right">
-                        {currencyFormatter.format(ticket.price)}
+                        {currencyFormatter.format(ticket.priceWithTax)}
                       </span>
                       <Button
                         className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"

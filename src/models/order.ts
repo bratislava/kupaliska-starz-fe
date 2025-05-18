@@ -5,7 +5,9 @@ export interface Ticket {
   name: string
   description: string
   type: 'ENTRIES' | 'SEASONAL'
-  price: number
+  priceWithTax: number
+  priceWithoutTax: number
+  priceTax: number
   childrenAllowed: boolean
   childrenPrice: number | null
   validFrom: string | null
