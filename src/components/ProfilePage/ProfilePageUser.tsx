@@ -9,14 +9,15 @@ import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 import Photo from '../Photo/Photo'
 import { environment } from '../../environment'
 import { AxiosError } from 'axios'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
 import { useTranslation } from 'react-i18next'
+import { ErrorWithMessages } from 'helpers/general'
 
 const ProfilePageUser = () => {
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const { data, isLoading, isError } = useQuery('user', fetchUser, {
-    onError: (err) => {
+    onError: (err: AxiosError<ErrorWithMessages>) => {
       dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
     },
   })

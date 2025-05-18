@@ -547,7 +547,7 @@ const OrderPageSummary = ({
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticket.childrenMaxNumber,
-                childrenPrice: ticket.childrenPrice,
+                childrenPrice: ticket.childrenPriceWithTax,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
@@ -617,13 +617,13 @@ const OrderPageAdultChildrenCount = ({
 
 const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
   const fullPrice =
-    pricing.discount > 0 ? (
+    pricing.discount.priceWithTax > 0 ? (
       <div className="inline-block strikethrough-diagonal mr-2">
-        {currencyFormatter.format(pricing.orderPrice + pricing.discount)}
+        {currencyFormatter.format(pricing.orderPrice.priceWithTax + pricing.discount.priceWithTax)}
       </div>
     ) : null
   const orderPrice = (
-    <div className="inline-block">{currencyFormatter.format(pricing.orderPrice)}</div>
+    <div className="inline-block">{currencyFormatter.format(pricing.orderPrice.priceWithTax)}</div>
   )
   return (
     <>
@@ -664,6 +664,7 @@ const OrderPage = () => {
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
     defaultValues: {
+      email: 'adam.grund@gmail.com',
       ...(hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
       ...(hasTicketAmount ? { ticketAmount: 1 } : {}),
     },
@@ -789,7 +790,9 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+                price: currencyFormatter.format(
+                  priceQuery.data.data.data.pricing.orderPrice.priceWithTax,
+                ),
               })
             : t('buy-page.pay')
         break
@@ -797,7 +800,9 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+                price: currencyFormatter.format(
+                  priceQuery.data.data.data.pricing.orderPrice.priceWithTax,
+                ),
               })
             : t('buy-page.pay')
         break
