@@ -8,7 +8,8 @@ export interface Ticket {
   priceWithVat: number
   vatPercentage: number
   childrenAllowed: boolean
-  childrenPrice: number | null
+  childrenPriceWithVat: number | null
+  childrenVatPercentage: number | null
   validFrom: string | null
   validTo: string | null
   hasTicketDuration: boolean
@@ -81,7 +82,7 @@ export interface DiscountCodeState {
 export interface CheckPriceResponse {
   data: {
     pricing: {
-      orderPrice: number
+      orderPriceWithVat: number
       discount: number
       numberOfChildren: number
     }
