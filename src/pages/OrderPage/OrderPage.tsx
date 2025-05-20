@@ -547,7 +547,7 @@ const OrderPageSummary = ({
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticket.childrenMaxNumber,
-                childrenPrice: ticket.childrenPrice,
+                childrenPrice: ticket.childrenPriceWithVat,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
@@ -619,11 +619,11 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
   const fullPrice =
     pricing.discount > 0 ? (
       <div className="inline-block strikethrough-diagonal mr-2">
-        {currencyFormatter.format(pricing.orderPrice + pricing.discount)}
+        {currencyFormatter.format(pricing.orderPriceWithVat + pricing.discount)}
       </div>
     ) : null
   const orderPrice = (
-    <div className="inline-block">{currencyFormatter.format(pricing.orderPrice)}</div>
+    <div className="inline-block">{currencyFormatter.format(pricing.orderPriceWithVat)}</div>
   )
   return (
     <>
@@ -789,7 +789,9 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+                price: currencyFormatter.format(
+                  priceQuery.data.data.data.pricing.orderPriceWithVat,
+                ),
               })
             : t('buy-page.pay')
         break
@@ -797,7 +799,9 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(priceQuery.data.data.data.pricing.orderPrice),
+                price: currencyFormatter.format(
+                  priceQuery.data.data.data.pricing.orderPriceWithVat,
+                ),
               })
             : t('buy-page.pay')
         break

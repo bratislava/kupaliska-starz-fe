@@ -7,8 +7,8 @@ import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-hist
 import { useQuery } from 'react-query'
 import { partition } from 'lodash'
 import { AxiosError } from 'axios'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
-import { isOneTimeTicket } from 'helpers/general'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { ErrorWithMessages, isOneTimeTicket } from 'helpers/general'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
@@ -55,7 +55,7 @@ const TicketsManagementModal = ({
                   </div>
                   <div className="mr-8">
                     {t('tickets.price-individual')}
-                    <span className="font-semibold">{ticket.price} €</span>
+                    <span className="font-semibold">{ticket.priceWithVat} €</span>
                   </div>
                   {ticket.remainingEntries != null && ticket.remainingEntries !== 0 && (
                     <div className="mr-8">
@@ -106,7 +106,7 @@ const TicketsManagementModal = ({
               </div>
               <div className="pb-3">
                 {t('tickets.price-individual')}
-                <span className="font-semibold">{ticket.price} €</span>
+                <span className="font-semibold">{ticket.priceWithVat} €</span>
               </div>
               {ticket.remainingEntries != null && ticket.remainingEntries !== 0 && (
                 <div>
@@ -280,7 +280,7 @@ const UsedTicket = ({
       </div>
       <div className="flex flex-col pb-6">
         <span>{t('tickets.price')}</span>
-        <span className="font-semibold text-xl">{ticket.price} €</span>
+        <span className="font-semibold text-xl">{ticket.priceWithVat} €</span>
       </div>
       <div className="flex justify-center">
         <Button color="blueish" className="absolute shadow-xs" onClick={onDetailClick}>

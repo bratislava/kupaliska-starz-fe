@@ -8,7 +8,8 @@ export interface TicketFromHistory {
   ownerId: string
   entries: TicketFromHistoryEntry[]
   qrCode: string
-  price: number
+  priceWithVat: number
+  vatPercentage: number
   age: number
   ticketColor: TicketColor
   validTo: string
