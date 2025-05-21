@@ -69,7 +69,7 @@ const HomepageTickets = () => {
         {
           name: 'Sezónne permanentky',
           description:
-            'Neobmedzený vstup počas celej sezóny na všetky našé kúpaliská v Bratislave. Možnosť zakúpiť spolu s detskou permanentkou až pre 5 detí za zvýhodnenú cenu 1€ za dieťa. ',
+            'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská v Bratislave. Možnosť zakúpiť spolu s detskou permanentkou až pre 3 deti za zvýhodnenú cenu 1€ za dieťa. ',
           tickets: seasonalTickets,
         },
       ].map(({ name, description, tickets }, index) => (

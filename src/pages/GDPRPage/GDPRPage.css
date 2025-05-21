@@ -20,3 +20,26 @@ ol li ol li ol {
 ol li ol li ol li {
   @apply ml-8;
 }
+
+h1 {
+  @apply text-2xl font-bold;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+h2 {
+  @apply text-xl font-bold;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  /* text-align: center; */
+}
+
+h3 {
+  @apply text-lg font-bold;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+strong {
+  @apply font-bold;
+}

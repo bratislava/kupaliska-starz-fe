@@ -44,7 +44,6 @@ const LandingPage = () => {
             <HomepageTickets />
 
             <div className="flex flex-col text-center my-8 text-sm leading-loose">
-              <span>{t('common.additional-info-age')}</span>
               <span>{t('common.additional-info-student-senior')}</span>
               <span>{t('common.additional-info-toddlers')}</span>
             </div>
