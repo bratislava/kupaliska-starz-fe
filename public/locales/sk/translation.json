@@ -98,6 +98,8 @@
     "age-photo-required": "Pre nákup permanentky je potrebné vyplniť vek a fotografiu."
   },
   "tickets": {
+    "childrenConirmationModalText": "Ak chcete pridať deti k permanentke, musíte to urobiť pred platbou. Po zaplatení už úpravy nebudú možné.",
+    "childrenConirmationModalTextConfirmation": "Rozumiem",
     "active": "Aktívne",
     "ticket-type": "Typ lístka",
     "entries-left": "Zostáva vstupov",
@@ -227,7 +229,7 @@
     "captcha-warning-required": "Potvrďte prosím, že nie ste robot.",
     "send-message": "Odoslať správu ",
     "alt-img-text": "Nahradny obrazok kupaliska",
-    "alert-text": "Predaj online lístkov na kúpaliská bol ukončený. V prípade teplého počasia budú niektoré kúpaliská stále otvorené a vstupenky bude možné zakúpiť priamo pri vstupe. Informácie o otváracích hodinách jednotlivých kúpalísk nájdete na mape.",
+    "alert-text": "",
     "less-info": "Menej info",
     "more-info": "Viac info",
     "navigate": "Navigovať",
