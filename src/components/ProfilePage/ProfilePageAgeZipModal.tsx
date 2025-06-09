@@ -9,30 +9,37 @@ import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { pick } from 'lodash'
-import { useValidationSchemaTranslationIfPresent } from '../../helpers/general'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '../../helpers/general'
 import Dialog from '../Dialog/Dialog'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import DatePicker from 'components/DatePicker/DatePicker'
+import dayjs from 'dayjs'
 
 type ProfilePageAgeZipModalProps = {
-  type: 'age' | 'zip'
+  type: 'dateOfBirth' | 'zip'
   user: User
   onClose: () => void
 }
 
-type FormData = Partial<Pick<User, 'age' | 'zip'>>
+type FormData = Partial<Pick<User, 'dateOfBirth' | 'zip'>>
+
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+const THREE_YEARS_AGO = dayjs().subtract(3, 'years').startOf('day').toDate()
+const HUNDRED_FIFTY_YEARS_FROM_NOW = dayjs().subtract(150, 'years').startOf('day')
 
 const dataByType = {
-  age: {
+  dateOfBirth: {
     schema: yup.object({
-      age: yup
-        .number()
+      dateOfBirth: yup
+        .date()
         .typeError('common.field-required')
         .required('common.field-required')
-        .min(3, 'common.additional-info-toddlers')
-        .max(150, 'common.additional-info-tutanchamon'),
+        .max(THREE_YEARS_AGO, 'common.additional-info-toddlers')
+        .min(HUNDRED_FIFTY_YEARS_FROM_NOW, 'common.additional-info-tutanchamon'),
     }),
-    title: 'Vek',
-    explanationSemiBold: 'Prečo potrebujeme váš vek?',
+    title: 'Dátum narodenia',
+    explanationSemiBold: 'Prečo potrebujeme váš dátum narodenia?',
     explanation:
       'Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme vedeli lepšie prispôsobovať naše ponúkané služby.',
   },
@@ -53,6 +60,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema),
@@ -93,7 +101,9 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
     mutation.mutate(form)
   }
 
-  const errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
+  const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
+    errors.dateOfBirth?.message,
+  )
   const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
@@ -108,13 +118,14 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       <div className="flex flex-col gap-1">
         <span className="font-semibold">{explanationSemiBold}</span>
         <span>{explanation}</span>
-        {type === 'age' && (
-          <InputField
-            name="age"
-            register={register}
-            type="number"
-            valueAsNumber={true}
-            error={errorInterpretedAge}
+        {type === 'dateOfBirth' && (
+          <DatePicker
+            label={t('person-add.dateOfBirth')}
+            errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
+            required={true}
+            onChange={(value) => {
+              setValue('dateOfBirth', value ? new Date(value).toISOString() : null)
+            }}
           />
         )}
         {type === 'zip' && (

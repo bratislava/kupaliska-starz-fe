@@ -33,7 +33,7 @@ const ProfilePageUser = () => {
         <>
           {isAgeModalOpen && (
             <ProfilePageAgeZipModal
-              type="age"
+              type="dateOfBirth"
               user={data.data}
               onClose={() => setIsAgeModalOpen(false)}
             />
@@ -114,14 +114,17 @@ const ProfilePageUser = () => {
             <>
               <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
                 <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
-                  <p>Vek</p>
+                  <p>Dátum narodenia</p>
                 </div>
                 <div className="flex grow">
                   <p className="grow">
                     {data.data.age != null &&
                       t('common.age-interval', { postProcess: 'interval', count: data.data.age })}
                   </p>
-                  <AriaButton onPress={() => setIsAgeModalOpen(true)} aria-label="Upraviť vek">
+                  <AriaButton
+                    onPress={() => setIsAgeModalOpen(true)}
+                    aria-label="Upraviť dátum narodenia"
+                  >
                     <Icon name="pencil" className="no-fill" />
                   </AriaButton>
                 </div>

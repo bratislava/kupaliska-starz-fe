@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueryClient } from 'react-query'
 import { produce } from 'immer'
+import dayjs from 'dayjs'
 import { pick } from 'lodash'
 import * as yup from 'yup'
 
@@ -21,8 +22,11 @@ import {
   createAssociatedSwimmer,
   editAssociatedSwimmer,
 } from '../../store/associatedSwimmers/api'
+import DatePicker from 'components/DatePicker/DatePicker'
 
-type FormData = Partial<Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'age' | 'zip'>>
+type FormData = Partial<
+  Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'dateOfBirth' | 'zip'>
+>
 
 type AssociatedSwimmerEditAddFormModalProps = {
   swimmer?: AssociatedSwimmer | null
@@ -30,16 +34,21 @@ type AssociatedSwimmerEditAddFormModalProps = {
   onClose?: () => void
 }
 
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+const THREE_YEARS_AGO = dayjs().subtract(3, 'years').startOf('day').toDate()
+const HUNDRED_FIFTY_YEARS_FROM_NOW = dayjs().subtract(150, 'years').startOf('day')
+
 const validationSchema = yup.object({
   firstname: yup.string().required('common.field-required'),
   lastname: yup.string().required('common.field-required'),
   image: yup.string().required('common.field-required'),
-  age: yup
-    .number()
+  dateOfBirth: yup
+    .date()
     .typeError('common.field-required')
     .required('common.field-required')
-    .min(3, 'common.additional-info-toddlers')
-    .max(150, 'common.additional-info-tutanchamon'),
+    .max(THREE_YEARS_AGO, 'common.additional-info-toddlers')
+    .min(HUNDRED_FIFTY_YEARS_FROM_NOW, 'common.additional-info-tutanchamon'),
   zip: yup.string().nullable(),
 })
 
@@ -64,7 +73,7 @@ export const AssociatedSwimmerEditAddModal = ({
     resolver: yupResolver(validationSchema),
     defaultValues: swimmer
       ? {
-          ...pick(swimmer, ['zip', 'age', 'firstname', 'lastname']),
+          ...pick(swimmer, ['zip', 'dateOfBirth', 'firstname', 'lastname']),
           // Photo is not stored in the form for performance reasons.
           image: swimmer.image ? 'set' : undefined,
         }
@@ -128,9 +137,10 @@ export const AssociatedSwimmerEditAddModal = ({
 
   let errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
   let errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
-  let errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
+  let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
+    errors.dateOfBirth?.message,
+  )
   let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
-
   return (
     <Dialog
       title={swimmer ? 'Upraviť osobu' : 'Nová osoba'}
@@ -175,15 +185,14 @@ export const AssociatedSwimmerEditAddModal = ({
             error={errorInterpretedLastname}
             newLabel
           />
-          <InputField
-            className="col-span-1 lg:col-span-1 max-w-formMax"
-            name="age"
-            register={register}
-            label={t('person-add.age')}
-            error={errorInterpretedAge}
-            type="number"
-            valueAsNumber={true}
-            newLabel
+
+          <DatePicker
+            label={t('person-add.dateOfBirth')}
+            errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
+            required={true}
+            onChange={(value) => {
+              setValue('dateOfBirth', value ? new Date(value).toISOString() : null)
+            }}
           />
           <InputField
             className="col-span-1 lg:col-span-1 max-w-formMax"

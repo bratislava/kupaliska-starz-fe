@@ -8,29 +8,36 @@ import PhotoField from '../PhotoField/PhotoField'
 import * as yup from 'yup'
 import { pick } from 'lodash'
 import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { AxiosError, AxiosResponse } from 'axios'
 import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
 import { updateUser, User } from '../../store/user/api'
 import logger from 'helpers/logger'
+import DatePicker from 'components/DatePicker/DatePicker'
+import dayjs from 'dayjs'
 
-type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
+type FormData = Partial<Pick<User, 'image' | 'dateOfBirth' | 'zip'>>
 
 type OrderMissingInformationProfileModalProps = {
   user: User
   onClose?: () => void
 }
 
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+const THREE_YEARS_AGO = dayjs().subtract(3, 'years').startOf('day').toDate()
+const HUNDRED_FIFTY_YEARS_FROM_NOW = dayjs().subtract(150, 'years').startOf('day')
+
 const validationSchema = yup.object({
   image: yup.string().required('common.field-required'),
-  age: yup
-    .number()
+  dateOfBirth: yup
+    .date()
     .typeError('common.field-required')
     .required('common.field-required')
-    .min(3, 'common.additional-info-toddlers')
-    .max(150, 'common.additional-info-tutanchamon'),
+    .max(THREE_YEARS_AGO, 'common.additional-info-toddlers')
+    .min(HUNDRED_FIFTY_YEARS_FROM_NOW, 'common.additional-info-tutanchamon'),
   zip: yup.string().nullable(),
 })
 
@@ -54,7 +61,7 @@ export const OrderMissingInformationProfileModal = ({
     resolver: yupResolver(validationSchema),
     defaultValues: user
       ? {
-          ...pick(user, ['zip', 'age']),
+          ...pick(user, ['zip', 'dateOfBirth']),
           // Photo is not stored in the form for performance reasons.
           image: user.image ? 'set' : undefined,
         }
@@ -100,7 +107,9 @@ export const OrderMissingInformationProfileModal = ({
     mutation.mutate(changes)
   }
 
-  let errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
+  let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
+    errors.dateOfBirth?.message,
+  )
   let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
@@ -131,15 +140,13 @@ export const OrderMissingInformationProfileModal = ({
           ></PhotoField>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <InputField
-            className="col-span-1 lg:col-span-1 max-w-formMax"
-            name="age"
-            register={register}
-            label={t('person-add.age')}
-            error={errorInterpretedAge}
-            type="number"
-            valueAsNumber={true}
-            newLabel
+          <DatePicker
+            label={t('person-add.dateOfBirth')}
+            errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
+            required={true}
+            onChange={(value) => {
+              setValue('dateOfBirth', value ? new Date(value).toISOString() : null)
+            }}
           />
           <InputField
             className="col-span-1 lg:col-span-1 max-w-formMax"

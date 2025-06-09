@@ -3,6 +3,7 @@ import { apiClientWithAccessToken } from 'helpers/apiClient'
 export interface User {
   id: string
   externalId: string
+  dateOfBirth: string | null
   age: number | null
   zip: string | null
   image: string | null
