@@ -191,7 +191,7 @@ export const AssociatedSwimmerEditAddModal = ({
             errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
             required={true}
             onChange={(value) => {
-              setValue('dateOfBirth', value ? new Date(value).toISOString() : undefined)
+              setValue('dateOfBirth', value ? new Date(value).toISOString() : null)
             }}
           />
           <InputField
