@@ -95,7 +95,8 @@
     "edit": "Upraviť údaje",
     "tickets-seasonal-tickets": "Lístky a permanentky",
     "personal-info": "Osobné údaje",
-    "age-photo-required": "Pre nákup permanentky je potrebné vyplniť vek a fotografiu."
+    "age-photo-required": "Pre nákup permanentky je potrebné vyplniť vek a fotografiu.",
+    "open-calendar": "Otvoriť kalendár"
   },
   "tickets": {
     "childrenConirmationModalText": "Ak chcete pridať deti k permanentke, musíte to urobiť pred platbou. Po zaplatení už úpravy nebudú možné.",
@@ -127,6 +128,7 @@
     "next-person": "Ďalšia osoba č. {{order}}",
     "firstname": "Meno",
     "lastname": "Priezvisko",
+    "dateOfBirth": "Dátum narodenia",
     "email": "E-mail",
     "age": "Vek",
     "zip": "PSČ (voliteľné)",

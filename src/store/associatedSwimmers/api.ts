@@ -5,7 +5,7 @@ export interface AssociatedSwimmer {
   swimmingLoggedUserId: string
   firstname: null | string
   lastname: null | string
-  age: null | number
+  dateOfBirth: null | string
   zip?: null | string
   createdAt: string
   updatedAt: string
@@ -58,7 +58,10 @@ export interface AssociatedSwimmerCreateEditResponse {
 }
 
 export function createAssociatedSwimmer(
-  associatedSwimmer: Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'age' | 'zip' | 'image'>,
+  associatedSwimmer: Pick<
+    AssociatedSwimmer,
+    'firstname' | 'lastname' | 'dateOfBirth' | 'zip' | 'image'
+  >,
 ) {
   return apiClientWithAccessToken.post<AssociatedSwimmerCreateEditResponse>(
     '/api/v1/associatedSwimmers',
@@ -69,7 +72,7 @@ export function createAssociatedSwimmer(
 export function editAssociatedSwimmer(
   id: string,
   associatedSwimmer: Partial<
-    Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'age' | 'zip' | 'image'>
+    Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'dateOfBirth' | 'zip' | 'image'>
   >,
 ) {
   return apiClientWithAccessToken.put<AssociatedSwimmerCreateEditResponse>(
