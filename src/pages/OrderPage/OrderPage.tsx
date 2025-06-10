@@ -283,8 +283,8 @@ const OrderPagePeopleList = ({
       )}
 
       {shouldDisplayMissingInformationWarning && (
-        <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
-          <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+        <div className="flex py-4 px-5 bg-error rounded-lg gap-x-3 my-6 text-white">
+          <Icon name="warning" className="no-fill text-white"></Icon>
           <div>
             Pre kúpu permanentky je potrebné doplniť fotografiu a dátum narodenia.{' '}
             <AriaButton
@@ -298,7 +298,7 @@ const OrderPagePeopleList = ({
       )}
       {account?.['custom:account_type'] && account?.['custom:account_type'] !== AccountType.FO && (
         <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
-          <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+          <Icon name="warning" className="no-fill text-white"></Icon>
           <div>{t('common.physical-person-only')}</div>
         </div>
       )}
