@@ -820,7 +820,7 @@ const OrderPage = () => {
     return (
       <PayButton
         onSubmit={() => {
-          if (ticket.type === 'SEASONAL') {
+          if (ticket.type === 'SEASONAL' && ticket.childrenAllowed) {
             setChildrenConfirmationModalOpen(true)
             setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
           } else {
@@ -921,7 +921,7 @@ const OrderPage = () => {
                   error={errorSeniorAgreementInterpreted}
                   label={
                     <span>
-                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 62 a viac rokov
+                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 65 a viac rokov
                       alebo sú držitelia ŤZP / ŤZP-S preukazu.
                     </span>
                   }
