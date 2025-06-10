@@ -114,7 +114,7 @@ const ProfilePageUser = () => {
             <>
               <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
                 <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
-                  <p>Dátum narodenia</p>
+                  <p>Vek</p>
                 </div>
                 <div className="flex grow">
                   <p className="grow">
