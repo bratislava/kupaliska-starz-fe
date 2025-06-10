@@ -93,7 +93,7 @@ function App() {
                       onClose={() => {
                         dispatch(setToast(undefined))
                       }}
-                      timeToClose={toast?.type === 'success' ? 3000 : undefined}
+                      timeToClose={toast?.type === 'success' ? 3000 : 5000}
                       closeButton={toast?.type !== 'success'}
                     />
                     <TopBanner />
