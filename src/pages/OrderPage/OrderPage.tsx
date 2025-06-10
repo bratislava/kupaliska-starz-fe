@@ -667,9 +667,8 @@ const OrderPage = () => {
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      email: 'adam.grund@gmail.com',
       ...(hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
-      ...(hasTicketAmount ? { ticketAmount: 9 } : {}),
+      ...(hasTicketAmount ? { ticketAmount: 1 } : {}),
     },
     context: {
       requireEmail,
