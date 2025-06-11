@@ -834,7 +834,7 @@ const OrderPage = () => {
           priceQuery.isError ||
           shouldSendDisabled ||
           orderRequestPending ||
-          getRequestsFromFormData().orderRequest.tickets.length > 0
+          getRequestsFromFormData().orderRequest.tickets.length === 0
         }
       />
     )
