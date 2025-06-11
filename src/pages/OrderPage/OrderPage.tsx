@@ -830,7 +830,11 @@ const OrderPage = () => {
         icon={icon}
         text={text}
         disabled={
-          priceQuery.isFetching || priceQuery.isError || shouldSendDisabled || orderRequestPending
+          priceQuery.isFetching ||
+          priceQuery.isError ||
+          shouldSendDisabled ||
+          orderRequestPending ||
+          getRequestsFromFormData().orderRequest.tickets.length > 0
         }
       />
     )
