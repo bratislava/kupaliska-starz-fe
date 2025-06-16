@@ -80,7 +80,7 @@ const OrderPageSwimmersList = ({
       >
         <Icon name="plus" className="mr-2 no-fill text-gray-700" />
         {isSeniorOrDisabledTicket
-          ? 'Pridať dieťa / dospelú osobu (senior alebo ŤZP/ŤZP-S)'
+          ? 'Pridať osobu (senior alebo ŤZP/ŤZP-S)'
           : 'Pridať dieťa / dospelú osobu'}
       </AriaButton>
     </div>
