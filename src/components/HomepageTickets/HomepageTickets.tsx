@@ -17,7 +17,10 @@ const partitionTickets = (tickets: Ticket[]) => ({
     .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
     .map((ticket) => ({ ...ticket, disabled: false })),
   seasonalTickets: tickets
-    .filter((ticket) => ticket.type === 'SEASONAL')
+    .filter((ticket) => ticket.type === 'SEASONAL' && ticket.childrenAllowed === false)
+    .map((ticket) => ({ ...ticket, disabled: false })),
+  seasonalTicketsWithChildren: tickets
+    .filter((ticket) => ticket.type === 'SEASONAL' && ticket.childrenAllowed === true)
     .map((ticket) => ({ ...ticket, disabled: false })),
 })
 
@@ -31,7 +34,7 @@ const HomepageTickets = () => {
   const login = useLogin()
 
   const ticketNeedsLogin = (ticket: Ticket) => ticket.nameRequired && !isAuthenticated
-  const { dayTickets, entryTickets, seasonalTickets } = useMemo(
+  const { dayTickets, entryTickets, seasonalTickets, seasonalTicketsWithChildren } = useMemo(
     () => partitionTickets(tickets),
     [tickets],
   )
@@ -67,9 +70,15 @@ const HomepageTickets = () => {
           tickets: entryTickets,
         },
         {
-          name: 'Sezónne permanentky',
+          name: 'Sezónne permanentky so zvýhodnenou cenou pre deti',
           description:
             'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská v Bratislave. Možnosť zakúpiť spolu s detskou permanentkou až pre 3 deti za zvýhodnenú cenu 9,90€ za dieťa. ',
+          tickets: seasonalTicketsWithChildren,
+        },
+        {
+          name: 'Sezónne permanentky',
+          description:
+            'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská v Bratislave.',
           tickets: seasonalTickets,
         },
       ].map(({ name, description, tickets }, index) => (
