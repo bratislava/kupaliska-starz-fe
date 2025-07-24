@@ -17,10 +17,7 @@ const partitionTickets = (tickets: Ticket[]) => ({
     .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
     .map((ticket) => ({ ...ticket, disabled: false })),
   seasonalTickets: tickets
-    .filter((ticket) => ticket.type === 'SEASONAL' && ticket.childrenAllowed === false)
-    .map((ticket) => ({ ...ticket, disabled: false })),
-  seasonalTicketsWithChildren: tickets
-    .filter((ticket) => ticket.type === 'SEASONAL' && ticket.childrenAllowed === true)
+    .filter((ticket) => ticket.type === 'SEASONAL')
     .map((ticket) => ({ ...ticket, disabled: false })),
 })
 
@@ -34,7 +31,7 @@ const HomepageTickets = () => {
   const login = useLogin()
 
   const ticketNeedsLogin = (ticket: Ticket) => ticket.nameRequired && !isAuthenticated
-  const { dayTickets, entryTickets, seasonalTickets, seasonalTicketsWithChildren } = useMemo(
+  const { dayTickets, entryTickets, seasonalTickets } = useMemo(
     () => partitionTickets(tickets),
     [tickets],
   )
@@ -56,32 +53,30 @@ const HomepageTickets = () => {
 
   return (
     <div className="flex flex-col gap-8 lg:gap-10">
+      <span>{t('common.additional-info-toddlers')}</span>
       {[
         {
           name: 'Jednorazové lístky',
           description:
             'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
+          descriptionFooter: t('common.additional-info-student-senior'),
           tickets: dayTickets,
         },
         {
           name: 'Vstupové permanentky',
           description:
             'Platí na 10 vstupov počas celej sezóny bez ohľadu na vek. Jedna permanentka je viazaná na jednu osobu a je neprenosná.',
+          descriptionFooter: '',
           tickets: entryTickets,
-        },
-        {
-          name: 'Sezónne permanentky so zvýhodnenou cenou pre deti',
-          description:
-            'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská v Bratislave. Možnosť zakúpiť spolu s detskou permanentkou až pre 3 deti za zvýhodnenú cenu 9,90€ za dieťa. ',
-          tickets: seasonalTicketsWithChildren,
         },
         {
           name: 'Sezónne permanentky',
           description:
-            'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská v Bratislave.',
+            'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská a 90 minútový vstup denne na Mestskú Plaváreň Pasienky. K sezónnej permanentke pre dospelých a ŤZP/ŤZP-S je možné zakúpiť detskú permanentku až pre 3 deti za zvýhodnenú cenu 9,90 € za dieťa.',
+          descriptionFooter: '',
           tickets: seasonalTickets,
         },
-      ].map(({ name, description, tickets }, index) => (
+      ].map(({ name, description, descriptionFooter, tickets }, index) => (
         <div key={index} className="max-w-[904px]">
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-3 text-center lg:text-left">
@@ -126,6 +121,7 @@ const HomepageTickets = () => {
                 )
               })}
             </div>
+            {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
           </div>
         </div>
       ))}
