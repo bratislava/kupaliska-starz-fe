@@ -42,11 +42,6 @@ const LandingPage = () => {
           <section id="nakup-listka" className="section flex flex-col items-center">
             <SectionHeader title={t('landing.available-ticket')} className="text-center" />
             <HomepageTickets />
-
-            <div className="flex flex-col text-center my-8 text-sm leading-loose">
-              <span>{t('common.additional-info-student-senior')}</span>
-              <span>{t('common.additional-info-toddlers')}</span>
-            </div>
           </section>
         </div>
       )}
