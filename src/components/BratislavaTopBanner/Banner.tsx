@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Icon } from 'components'
 import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
 import AlertBanner from 'components/AlertBanner/AlertBanner'
+import { fetchGeneralSettings } from 'store/global/api'
+import { useQuery } from 'react-query'
 
 const SocialMediaButton = ({
   children,
@@ -15,11 +17,16 @@ const SocialMediaButton = ({
 )
 
 const Banner = () => {
-  const { t } = useTranslation()
+  const { data: generalSettings } = useQuery({
+    queryKey: ['generalSettings'],
+    queryFn: fetchGeneralSettings,
+  })
 
   return (
     <>
-      <AlertBanner text={t('landing.alert-text')} />
+      {generalSettings?.data.showAlert && (
+        <AlertBanner text={generalSettings?.data.alertText ?? ''} />
+      )}
       <aside className="flex bg-backgroundGray items-center" style={{ height: '50px' }}>
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
