@@ -18,7 +18,7 @@ const partitionTickets = (tickets: Ticket[]) => ({
     .map((ticket) => ({ ...ticket, disabled: false })),
   seasonalTickets: tickets
     .filter((ticket) => ticket.type === 'SEASONAL')
-    .map((ticket) => ({ ...ticket, disabled: false })),
+    .map((ticket) => ({ ...ticket, disabled: true })),
 })
 
 const HomepageTickets = () => {
