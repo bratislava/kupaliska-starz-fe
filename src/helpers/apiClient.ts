@@ -6,9 +6,9 @@ import { ACCESS_TOKEN_STORAGE_KEY } from '../hooks/useCityAccount'
 import { checkTokenValid } from './cityAccountToken'
 
 enum WithAccessToken {
-  None,
-  Required,
-  IfAvailable,
+  None = 0,
+  Required = 1,
+  IfAvailable = 2,
 }
 
 const getAccessToken = () => {

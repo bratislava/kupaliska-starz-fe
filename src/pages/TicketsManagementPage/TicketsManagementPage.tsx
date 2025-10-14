@@ -306,7 +306,7 @@ const TicketsManagementPage = () => {
 
   const dataMapped = useMemo(() => {
     if (!ticketsQuery.data?.data) {
-      return
+      return undefined
     }
 
     const [activeTickets, usedTickets] = partition(
@@ -371,7 +371,7 @@ const TicketsManagementPage = () => {
         open={Boolean(openedTicketDetail)}
         ticket={openedTicketDetail}
         onClose={handleModalClose}
-       />
+      />
 
       <section className="w-full">
         {ticketsQuery.isLoading && (
@@ -396,7 +396,7 @@ const TicketsManagementPage = () => {
                     ]}
                     rows={dataMapped.activeTicketsRows}
                     rowBackgroundClass="bg-blueish"
-                   />
+                  />
                 </div>
                 {/* Carousel cannot be in container. */}
                 <MobileCarousel className="md:hidden mb-10">
@@ -405,7 +405,7 @@ const TicketsManagementPage = () => {
                       key={index}
                       ticket={ticket}
                       onDetailClick={() => setOpenedTicketDetail(ticket)}
-                     />
+                    />
                   ))}
                 </MobileCarousel>
               </>
@@ -431,7 +431,7 @@ const TicketsManagementPage = () => {
                     ]}
                     rows={dataMapped.usedTicketsRows}
                     rowBackgroundClass="bg-sunscreen"
-                   />
+                  />
                 </div>
                 {/* Carousel cannot be in container. */}
                 <MobileCarousel className="md:hidden mb-10">
@@ -440,7 +440,7 @@ const TicketsManagementPage = () => {
                       key={index}
                       ticket={ticket}
                       onDetailClick={() => setOpenedTicketDetail(ticket)}
-                     />
+                    />
                   ))}
                 </MobileCarousel>
               </>

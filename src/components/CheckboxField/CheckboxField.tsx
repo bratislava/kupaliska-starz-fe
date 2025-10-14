@@ -42,11 +42,17 @@ const CheckboxField = ({
           disabled={disabled}
           name={registerValues ? registerValues.name : name}
           onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
-            registerValues && registerValues.onBlur(event)
+            if (registerValues) {
+              registerValues.onBlur(event)
+            }
           }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            onChange && onChange(event)
-            registerValues && registerValues.onChange(event)
+            if (onChange) {
+              onChange(event)
+            }
+            if (registerValues) {
+              registerValues.onChange(event)
+            }
           }}
           ref={registerValues && registerValues.ref}
         />

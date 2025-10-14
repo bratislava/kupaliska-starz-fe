@@ -100,14 +100,22 @@ const InputField = ({
             event: React.FocusEvent<HTMLTextAreaElement> | React.FocusEvent<HTMLInputElement>,
           ) => {
             setFocus(false)
-            registerValues && registerValues.onBlur(event)
-            onBlur && onBlur(event)
+            if (registerValues) {
+              registerValues.onBlur(event)
+            }
+            if (onBlur) {
+              onBlur(event)
+            }
           }}
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>,
           ) => {
-            onChange && onChange(event)
-            registerValues && registerValues.onChange(event)
+            if (onChange) {
+              onChange(event)
+            }
+            if (registerValues) {
+              registerValues.onChange(event)
+            }
           }}
           ref={registerValues && registerValues.ref}
           rows={8}

@@ -39,16 +39,19 @@ const ChildCustomerForm = ({
 
   useEffect(() => {
     return () => {
-      unregister && unregister(`${fieldNamePrefix ? `${fieldNamePrefix }.photo` : 'photo'}`)
-      unregister && unregister(`${fieldNamePrefix ? `${fieldNamePrefix }.name` : 'name'}`)
-      unregister && unregister(`${fieldNamePrefix ? `${fieldNamePrefix }.age` : 'age'}`)
+      if (unregister) {
+        unregister(`${fieldNamePrefix ? `${fieldNamePrefix}.photo` : 'photo'}`)
+        unregister(`${fieldNamePrefix ? `${fieldNamePrefix}.name` : 'name'}`)
+        unregister(`${fieldNamePrefix ? `${fieldNamePrefix}.age` : 'age'}`)
+      }
     }
   }, [])
   useEffect(() => {
-    register &&
-      register(`${fieldNamePrefix ? `${fieldNamePrefix }.photo` : 'photo'}`, {
+    if (register) {
+      register(`${fieldNamePrefix ? `${fieldNamePrefix}.photo` : 'photo'}`, {
         shouldUnregister: true,
       })
+    }
   }, [register, fieldNamePrefix])
 
   return (
@@ -57,7 +60,7 @@ const ChildCustomerForm = ({
         <InputField
           leftExtra={<Icon name="user" />}
           register={register}
-          name={`${fieldNamePrefix ? `${fieldNamePrefix }.name` : 'name'}`}
+          name={`${fieldNamePrefix ? `${fieldNamePrefix}.name` : 'name'}`}
           placeholder={t('buy-page.name')}
           error={get(_errors, 'name.message')}
           shouldUnregister={true}
@@ -77,7 +80,7 @@ const ChildCustomerForm = ({
       <InputField
         leftExtra={<Icon name="calendar" />}
         register={register}
-        name={`${fieldNamePrefix ? `${fieldNamePrefix }.age` : 'age'}`}
+        name={`${fieldNamePrefix ? `${fieldNamePrefix}.age` : 'age'}`}
         placeholder={t('buy-page.age')}
         className={`col-span-1`}
         error={get(_errors, 'age.message')}

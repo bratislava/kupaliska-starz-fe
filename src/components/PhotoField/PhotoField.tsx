@@ -55,8 +55,12 @@ const PhotoField = ({
         0,
         (uri) => {
           // because performance issues when base64 img is in form
-          onPhotoSet && onPhotoSet(uri ? (uri as string) : '')
-          setValue && uri && setValue('image', 'set')
+          if (onPhotoSet) {
+            onPhotoSet(uri ? (uri as string) : '')
+          }
+          if (setValue && uri) {
+            setValue('image', 'set')
+          }
         },
         'base64',
       )
@@ -72,7 +76,9 @@ const PhotoField = ({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length ? e.target.files[0] : undefined
 
-    file && handleImageFile(file)
+    if (file) {
+      handleImageFile(file)
+    }
   }
 
   const errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)

@@ -82,7 +82,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       onSuccess: (response, formData) => {
         queryClient.setQueryData<AxiosResponse<User> | undefined>('user', (old) => {
           if (!old) {
-            return
+            return undefined
           }
 
           return produce(old, (draft) => {

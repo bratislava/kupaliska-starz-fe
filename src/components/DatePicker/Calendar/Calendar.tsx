@@ -1,7 +1,6 @@
 import { createCalendar } from '@internationalized/date'
 import { Button, Icon } from 'components'
-import React from 'react'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { useCalendar, useLocale } from 'react-aria'
 import { Button as AriaButton } from 'react-aria-components'
 import { useCalendarState } from 'react-stately'

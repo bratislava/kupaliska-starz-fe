@@ -58,7 +58,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
       onSuccess: (response, formData) => {
         queryClient.setQueryData<AxiosResponse<User> | undefined>('user', (old) => {
           if (!old) {
-            return
+            return undefined
           }
 
           return produce(old, (draft) => {
@@ -95,7 +95,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
           errors={errors}
           onPhotoSet={setImage}
           image={image}
-         />
+        />
       </div>
     </Dialog>
   )

@@ -86,7 +86,7 @@ export const OrderMissingInformationProfileModal = ({
       onSuccess: (response, formData) => {
         queryClient.setQueryData<AxiosResponse<User> | undefined>('user', (old) => {
           if (!old) {
-            return
+            return undefined
           }
 
           return produce(old, (draft) => {
@@ -138,7 +138,7 @@ export const OrderMissingInformationProfileModal = ({
             onPhotoSet={setPhoto}
             image={photo}
             showLabel
-           />
+          />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <DatePicker

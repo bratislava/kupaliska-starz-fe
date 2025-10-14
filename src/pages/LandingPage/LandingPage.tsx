@@ -93,7 +93,11 @@ const LandingPage = () => {
                 paddingVariant="narrow"
                 isOpen={index === openFaqIndex}
                 onOpen={() => {
-                  openFaqIndex === index ? setOpenFaqIndex(undefined) : setOpenFaqIndex(index)
+                  if (openFaqIndex === index) {
+                    setOpenFaqIndex(undefined)
+                  } else {
+                    setOpenFaqIndex(index)
+                  }
                 }}
               >
                 {typeof t(`landing.faq-multiple.${faq}.content`) === 'string' ? (

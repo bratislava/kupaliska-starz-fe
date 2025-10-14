@@ -1,5 +1,4 @@
-import React from 'react'
-import { createContext, PropsWithChildren, useContext } from 'react'
+import React, { createContext, PropsWithChildren, useContext } from 'react'
 import { useQuery } from 'react-query'
 
 import useCityAccountAccessToken from '../../hooks/useCityAccount'

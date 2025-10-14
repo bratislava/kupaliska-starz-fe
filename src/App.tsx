@@ -106,9 +106,9 @@ function App() {
                           exact={true}
                           component={() => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
-                            const history = useHistory()
+                            const historyHook = useHistory()
                             // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                            useEffect(() => history.goBack(), [])
+                            useEffect(() => historyHook.goBack(), [])
                             return <></>
                           }}
                         />

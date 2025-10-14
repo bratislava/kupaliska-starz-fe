@@ -77,7 +77,7 @@ const HomepageTickets = () => {
             descriptionFooter: '',
             tickets: seasonalTickets,
           },
-        ].map(({ name, description, descriptionFooter, tickets }, index) => (
+        ].map(({ name, description, descriptionFooter, tickets: ticketList }, index) => (
           <div key={index} className="max-w-[904px]">
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-3 text-center lg:text-left">
@@ -85,7 +85,7 @@ const HomepageTickets = () => {
                 <p>{description}</p>
               </div>
               <div className="flex flex-col gap-3">
-                {tickets?.map((ticket) => {
+                {ticketList?.map((ticket) => {
                   const needsLogin = ticketNeedsLogin(ticket)
 
                   return (

@@ -7,7 +7,10 @@ import { CheckPriceResponse, OrderRequest } from 'models'
 
 import { CityAccountAccessTokenAuthenticationStatus } from '../../hooks/useCityAccount'
 
-export async function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuthenticationStatus) {
+export async function order(
+  data: OrderRequest,
+  authStatus: CityAccountAccessTokenAuthenticationStatus,
+) {
   if (authStatus === 'authenticated') {
     return apiClientWithAccessToken.post('/api/v1/orders', data)
   }
@@ -19,19 +22,23 @@ export async function order(data: OrderRequest, authStatus: CityAccountAccessTok
 }
 
 export async function getPrice(
-  order: any,
+  orderData: any,
   authStatus: CityAccountAccessTokenAuthenticationStatus,
   abortSignal?: AbortSignal,
 ) {
   if (authStatus === 'authenticated') {
-    return apiClientWithAccessToken.post<CheckPriceResponse>('/api/v1/orders/getPrice', order, {
+    return apiClientWithAccessToken.post<CheckPriceResponse>('/api/v1/orders/getPrice', orderData, {
       signal: abortSignal,
     })
   }
   if (authStatus === 'unauthenticated') {
-    return apiClient.post<CheckPriceResponse>('/api/v1/orders/getPrice/unauthenticated', order, {
-      signal: abortSignal,
-    })
+    return apiClient.post<CheckPriceResponse>(
+      '/api/v1/orders/getPrice/unauthenticated',
+      orderData,
+      {
+        signal: abortSignal,
+      },
+    )
   }
 
   return Promise.reject(new Error('Unsupported auth status'))

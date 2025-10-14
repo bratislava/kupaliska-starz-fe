@@ -34,7 +34,7 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
         'associatedSwimmers',
         (old) => {
           if (!old) {
-            return
+            return undefined
           }
 
           return produce(old, (draft) => {

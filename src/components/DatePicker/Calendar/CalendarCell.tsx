@@ -1,7 +1,6 @@
 import { CalendarDate } from '@internationalized/date'
 import cx from 'classnames'
-import React from 'react'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { useCalendarCell } from 'react-aria'
 import { CalendarState } from 'react-stately'
 

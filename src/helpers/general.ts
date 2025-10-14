@@ -42,15 +42,12 @@ export const convertBase64ToBlob = (base64Image: string, contentType?: string) =
 }
 
 export const useValidationSchemaTranslationIfPresent = (error?: string) => {
-  let errorInterpreted = undefined
   const { t } = useTranslation()
 
   if (error && i18n.exists(error)) {
-    errorInterpreted = t(error)
-  } else {
-    errorInterpreted = error
+    return t(error)
   }
-  return errorInterpreted
+  return error
 }
 
 export const isOneTimeTicket = (ticket: TicketFromHistory) =>

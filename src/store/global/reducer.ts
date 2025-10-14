@@ -3,7 +3,7 @@ import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
 import { SwimmingPoolResponse, Ticket } from 'models'
 import { RootState } from 'store'
 
-import { fetchPoolActions,initPageGlobalState } from './thunks'
+import { fetchPoolActions, initPageGlobalState } from './thunks'
 
 export interface GlobalState {
   availableTickets: Ticket[]
@@ -89,9 +89,9 @@ export const selectAvailableTickets = (state: RootState) => state.global.availab
 export const selectPools = (state: RootState) =>
   state.global.pools.map((poolResp) => swimmingPoolResponseToSwimmingPool(poolResp))
 export const selectSelectedPool = (state: RootState) => {
-  const pool = state.global.pools.find((pool) => pool.id === state.global.selectedPoolId)
-  if (pool) {
-    return swimmingPoolResponseToSwimmingPool(pool)
+  const selectedPool = state.global.pools.find((pool) => pool.id === state.global.selectedPoolId)
+  if (selectedPool) {
+    return swimmingPoolResponseToSwimmingPool(selectedPool)
   }
   return undefined
 }

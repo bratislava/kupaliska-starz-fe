@@ -2,7 +2,7 @@ import to from 'await-to-js'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 import { environment } from '../environment'
-import { cityAccountFrontendSSOUrl,UNAUTHORIZED_MESSAGE } from './cityAccountApi'
+import { cityAccountFrontendSSOUrl, UNAUTHORIZED_MESSAGE } from './cityAccountApi'
 import { validCityAccountPostMessageTypes } from './cityAccountDto'
 import logger from './logger'
 
@@ -12,17 +12,16 @@ import logger from './logger'
  */
 export const checkTokenValid = (token: string | null | undefined) => {
   if (!token) return null
-  let decodedToken = null
   try {
-    decodedToken = jwtDecode<JwtPayload>(token)
+    const decodedToken = jwtDecode<JwtPayload>(token)
+    if (decodedToken && (decodedToken.exp || 0) * 1000 > Date.now()) {
+      return token
+    }
+    return null
   } catch (error) {
     logger.error('Error decoding token when checking validity:', token, error)
     return null
   }
-  if (decodedToken && (decodedToken.exp || 0) * 1000 > Date.now()) {
-    return token
-  }
-  return null
 }
 
 export const getAccessTokenFromIFrame = async () => {

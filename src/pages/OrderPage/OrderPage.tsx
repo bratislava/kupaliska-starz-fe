@@ -275,13 +275,13 @@ const OrderPagePeopleList = ({
         <OrderMissingInformationProfileModal
           user={userQuery.data.data}
           onClose={() => setMissingInformationModalOpen(false)}
-         />
+        />
       )}
       {addSwimmerModalOpen && (
         <AssociatedSwimmerEditAddModal
           onClose={() => setAddSwimmerModalOpen(false)}
           onSaveSuccess={handleSelectSwimmer}
-         />
+        />
       )}
 
       {shouldDisplayMissingInformationWarning && (
@@ -348,20 +348,16 @@ const OrderPageDiscountCode = ({
         label={t('buy-page.claim-code')}
       />
       {useDiscountCode && (
-        <OrderPageDiscountCodeInput
-          ticket={ticket}
-          setValue={setValue}
-          getValues={getValues}
-         />
+        <OrderPageDiscountCodeInput ticket={ticket} setValue={setValue} getValues={getValues} />
       )}
     </>
   )
 }
 
 enum OrderPageDiscountCodeInputStatus {
-  None,
-  Success,
-  Error,
+  None = 0,
+  Success = 1,
+  Error = 2,
 }
 
 const OrderPageDiscountCodeInput = ({
@@ -536,7 +532,7 @@ const OrderPageSummary = ({
                 <OrderPageAdultChildrenCount
                   pricing={priceQuery.data?.data.data.pricing}
                   watch={watch}
-                 />
+                />
               )
             )}
           </p>
@@ -755,7 +751,7 @@ const OrderPage = () => {
           <Icon
             name="apple-pay"
             className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
-           />
+          />
         )
         break
       case PaymentMethod.GPAY:
@@ -763,7 +759,7 @@ const OrderPage = () => {
           <Icon
             name="google-pay"
             className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
-           />
+          />
         )
         break
       case PaymentMethod.CARD:
@@ -890,11 +886,7 @@ const OrderPage = () => {
                     </div>
                   </div>
                 )}
-                <OrderPagePeopleList
-                  watch={watch}
-                  setValue={setValue}
-                  errors={errors}
-                 />
+                <OrderPagePeopleList watch={watch} setValue={setValue} errors={errors} />
               </>
             )}
           </NumberedLayout>
@@ -1001,11 +993,7 @@ const OrderPage = () => {
         </div>
         <div className="mt-14 md:mt-0">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
-          <OrderPageSummary
-            setValue={setValue}
-            watch={watch}
-            priceQuery={priceQuery}
-           />
+          <OrderPageSummary setValue={setValue} watch={watch} priceQuery={priceQuery} />
           <div className="text-gray color-fontBlack">
             {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>

@@ -150,7 +150,9 @@ const CookieConsent = () => {
                           checked={checked}
                           disabled={disabled}
                           onChange={(value, e) => {
-                            setFunction && setFunction(value)
+                            if (setFunction) {
+                              setFunction(value)
+                            }
                             // To not collapse/open the accordion.
                             e.preventDefault()
                             e.stopPropagation()
@@ -161,7 +163,11 @@ const CookieConsent = () => {
                     paddingVariant="narrow"
                     isOpen={openPanel === index}
                     onOpen={() => {
-                      openPanel === index ? setOpenPanel(undefined) : setOpenPanel(index)
+                      if (openPanel === index) {
+                        setOpenPanel(undefined)
+                      } else {
+                        setOpenPanel(index)
+                      }
                     }}
                     className={cx({ 'mt-4': index !== 0 })}
                   >

@@ -103,7 +103,7 @@ export const AssociatedSwimmerEditAddModal = ({
           'associatedSwimmers',
           (old) => {
             if (!old) {
-              return
+              return undefined
             }
 
             return produce(old, (draft) => {
@@ -135,7 +135,9 @@ export const AssociatedSwimmerEditAddModal = ({
     mutation.mutate(changes)
   }
 
-  const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
+  const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(
+    errors.firstname?.message,
+  )
   const errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
@@ -166,7 +168,7 @@ export const AssociatedSwimmerEditAddModal = ({
             onPhotoSet={setPhoto}
             image={photo}
             showLabel
-           />
+          />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <InputField

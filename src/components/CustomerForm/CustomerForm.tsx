@@ -36,10 +36,11 @@ const CustomerForm = ({
   const { t } = useTranslation()
 
   useEffect(() => {
-    register &&
-      register(`${fieldNamePrefix ? `${fieldNamePrefix }.photo` : 'photo'}`, {
+    if (register) {
+      register(`${fieldNamePrefix ? `${fieldNamePrefix}.photo` : 'photo'}`, {
         shouldUnregister: false,
       })
+    }
   }, [register, fieldNamePrefix])
 
   return (
@@ -50,7 +51,7 @@ const CustomerForm = ({
           <InputField
             leftExtra={<Icon name="user" />}
             register={register}
-            name={`${fieldNamePrefix ? `${fieldNamePrefix }.name` : 'name'}`}
+            name={`${fieldNamePrefix ? `${fieldNamePrefix}.name` : 'name'}`}
             placeholder={t('buy-page.name')}
             className={`col-span-1`}
             error={get(_errors, 'name.message')}
@@ -60,7 +61,7 @@ const CustomerForm = ({
         <InputField
           leftExtra={<Icon name="mail" />}
           register={register}
-          name={`${fieldNamePrefix ? `${fieldNamePrefix }.email` : 'email'}`}
+          name={`${fieldNamePrefix ? `${fieldNamePrefix}.email` : 'email'}`}
           placeholder={t('buy-page.email')}
           className={`col-span-1`}
           error={get(_errors, 'email.message')}
@@ -88,7 +89,7 @@ const CustomerForm = ({
             <InputField
               leftExtra={<Icon name="hashtag" />}
               register={register}
-              name={`${fieldNamePrefix ? `${fieldNamePrefix }.zip` : 'zip'}`}
+              name={`${fieldNamePrefix ? `${fieldNamePrefix}.zip` : 'zip'}`}
               placeholder={t('buy-page.zip')}
               className={`col-span-1`}
               error={get(_errors, 'zip.message')}
@@ -98,7 +99,7 @@ const CustomerForm = ({
               leftExtra={<Icon name="calendar" />}
               register={register}
               type="number"
-              name={`${fieldNamePrefix ? `${fieldNamePrefix }.age` : 'age'}`}
+              name={`${fieldNamePrefix ? `${fieldNamePrefix}.age` : 'age'}`}
               placeholder={t('buy-page.age')}
               className={`col-span-1`}
               error={get(_errors, 'age.message')}

@@ -20,7 +20,6 @@ const Toast = ({
   closeButton,
 }: PropsWithChildren<ToastProps>) => {
   const [_open, _setOpen] = useState<boolean>(open)
-  let visualClasses = ''
 
   useEffect(() => {
     _setOpen(open)
@@ -33,7 +32,9 @@ const Toast = ({
 
   useEffect(() => {
     if (!_open) {
-      onClose && onClose()
+      if (onClose) {
+        onClose()
+      }
     }
   }, [_open])
 
