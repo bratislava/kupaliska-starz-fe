@@ -62,7 +62,7 @@ export const AccordionItem = ({
           )}
         </div>
         <div className="ml-5 grow-0">
-          <Icon name="chevron" className={cx('w-6 h-3', { 'rotate-180': active })}></Icon>
+          <Icon name="chevron" className={cx('w-6 h-3', { 'rotate-180': active })} />
         </div>
       </AriaButton>
       <div

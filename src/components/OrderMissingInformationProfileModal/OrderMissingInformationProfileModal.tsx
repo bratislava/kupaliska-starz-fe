@@ -138,7 +138,7 @@ export const OrderMissingInformationProfileModal = ({
             onPhotoSet={setPhoto}
             image={photo}
             showLabel
-          ></PhotoField>
+           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <DatePicker

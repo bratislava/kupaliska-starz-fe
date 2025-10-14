@@ -46,7 +46,7 @@ const LandingPage = () => {
         </div>
       )}
 
-      {!isAuthenticated && !preseason && <WhyCreateAccountSection></WhyCreateAccountSection>}
+      {!isAuthenticated && !preseason && <WhyCreateAccountSection />}
 
       <section id="divider" className="section">
         <img src="/swimmers.svg" className="mx-auto" alt="" />

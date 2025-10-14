@@ -15,7 +15,7 @@ const HeroBanner = () => {
   return (
     <div className="relative mb-8">
       <div className="relative hero-image w-full">
-        <div className="wave w-full h-full absolute bottom-0"></div>
+        <div className="wave w-full h-full absolute bottom-0" />
       </div>
       <div
         className={cx('container mx-auto content relative z-10 ', {

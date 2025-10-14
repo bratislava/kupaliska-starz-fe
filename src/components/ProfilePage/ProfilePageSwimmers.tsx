@@ -46,7 +46,7 @@ const ProfilePageSwimmers = () => {
         <ProfilePageDeleteAssociatedSwimmerModal
           swimmer={swimmerToDelete}
           onClose={handleDeleteSwimmerModalClose}
-        ></ProfilePageDeleteAssociatedSwimmerModal>
+         />
       )}
 
       <div className="inline-flex flex-col rounded-lg bg-sunscreen lg:col-span-5">

@@ -95,7 +95,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
           errors={errors}
           onPhotoSet={setImage}
           image={image}
-        ></PhotoField>
+         />
       </div>
     </Dialog>
   )

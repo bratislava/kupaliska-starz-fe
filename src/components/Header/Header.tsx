@@ -119,7 +119,7 @@ const Header = () => {
           className={`fixed inset-0 ${
             open ? 'block' : 'hidden'
           } md:hidden bg-fontBlack bg-opacity-30 z-10`}
-        ></div>
+         />
 
         <nav
           className={`${

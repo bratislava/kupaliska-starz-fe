@@ -126,7 +126,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           errors={errors}
           onPhotoSet={setPhoto}
           image={photo}
-        ></PhotoField>
+         />
       </div>
     </form>
   )
@@ -145,8 +145,8 @@ const ProfileEditPage = () => {
   return (
     <section className="w-full">
       <div className="container mx-auto">
-        <ProfileBack></ProfileBack>
-        <ProfileLine></ProfileLine>
+        <ProfileBack />
+        <ProfileLine />
 
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null || userQuery.data.data.image == null) && (
@@ -158,7 +158,7 @@ const ProfileEditPage = () => {
         <div className="mt-14">
           <div className="font-medium text-2xl mb-4 md:mb-8">{t('profile.user')}</div>
         </div>
-        {userQuery.isSuccess && <ProfileEditForm user={userQuery.data.data}></ProfileEditForm>}
+        {userQuery.isSuccess && <ProfileEditForm user={userQuery.data.data} />}
       </div>
     </section>
   )

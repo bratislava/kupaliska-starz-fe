@@ -70,7 +70,7 @@ const TicketsManagementModal = ({
                 <img alt="" src={ticket.qrCode} width={120} height={120} />
               </div>
             </div>
-            <div className="w-full h-0.5 bg-primary opacity-30 rounded"></div>
+            <div className="w-full h-0.5 bg-primary opacity-30 rounded" />
             <table className="table-auto w-full">
               <thead>
                 <tr className="opacity-50 text-left">
@@ -116,7 +116,7 @@ const TicketsManagementModal = ({
                 </div>
               )}
             </div>
-            <div className="h-0.5 bg-primary opacity-30 rounded mx-6"></div>
+            <div className="h-0.5 bg-primary opacity-30 rounded mx-6" />
             <div className="px-6 py-4">
               {ticket.entries.length === 0 && 'Pre zobrazený lístok neexistujú žiadne návštevy.'}
               {ticket.entries.map((entry, index) => (
@@ -139,7 +139,7 @@ const TicketsManagementModal = ({
                       <div>{entry.to && formatTime(entry.to)}</div>
                     </div>
                   </div>
-                  <div className="h-0.5 bg-primary opacity-30 rounded my-4"></div>
+                  <div className="h-0.5 bg-primary opacity-30 rounded my-4" />
                 </React.Fragment>
               ))}
             </div>
@@ -250,7 +250,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
                 )
               })}
             </tr>
-            {rowIndex !== rows.length - 1 && <tr style={{ height: '40px' }}></tr>}
+            {rowIndex !== rows.length - 1 && <tr style={{ height: '40px' }} />}
           </React.Fragment>
         ))}
       </tbody>
@@ -371,7 +371,7 @@ const TicketsManagementPage = () => {
         open={Boolean(openedTicketDetail)}
         ticket={openedTicketDetail}
         onClose={handleModalClose}
-      ></TicketsManagementModal>
+       />
 
       <section className="w-full">
         {ticketsQuery.isLoading && (
@@ -396,7 +396,7 @@ const TicketsManagementPage = () => {
                     ]}
                     rows={dataMapped.activeTicketsRows}
                     rowBackgroundClass="bg-blueish"
-                  ></Table>
+                   />
                 </div>
                 {/* Carousel cannot be in container. */}
                 <MobileCarousel className="md:hidden mb-10">
@@ -405,7 +405,7 @@ const TicketsManagementPage = () => {
                       key={index}
                       ticket={ticket}
                       onDetailClick={() => setOpenedTicketDetail(ticket)}
-                    ></Ticket>
+                     />
                   ))}
                 </MobileCarousel>
               </>
@@ -431,7 +431,7 @@ const TicketsManagementPage = () => {
                     ]}
                     rows={dataMapped.usedTicketsRows}
                     rowBackgroundClass="bg-sunscreen"
-                  ></Table>
+                   />
                 </div>
                 {/* Carousel cannot be in container. */}
                 <MobileCarousel className="md:hidden mb-10">
@@ -440,7 +440,7 @@ const TicketsManagementPage = () => {
                       key={index}
                       ticket={ticket}
                       onDetailClick={() => setOpenedTicketDetail(ticket)}
-                    ></UsedTicket>
+                     />
                   ))}
                 </MobileCarousel>
               </>

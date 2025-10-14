@@ -86,7 +86,7 @@ const Modal = ({
           </div>
 
           {button && (
-            <ModalButton button={button} onOverflowChange={setButtonOverflow}></ModalButton>
+            <ModalButton button={button} onOverflowChange={setButtonOverflow} />
           )}
         </div>
       </FocusTrap>

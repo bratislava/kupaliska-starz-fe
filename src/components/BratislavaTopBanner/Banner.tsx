@@ -36,7 +36,7 @@ const Banner = () => {
             </span>
           </div>
           <div className="items-center flex">
-            <SignInSignOutLink></SignInSignOutLink>
+            <SignInSignOutLink />
             <a
               href="https://www.facebook.com/STaRZ.Bratislava.official"
               target="_blank"

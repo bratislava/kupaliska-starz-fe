@@ -26,7 +26,7 @@ const Footer = () => {
             Správa telovýchovných a rekreačných zariadení hlavného mesta Slovenskej republiky
             Bratislavy
           </span>
-          <span></span>
+          <span />
           <span>Junácka 4, 831 04 Bratislava 3</span>
           <span>IČO: 00179663</span>
           <span>DIČ: 2020801695</span>

@@ -60,7 +60,7 @@ const OrderPageSwimmersList = ({
               style={{
                 backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
               }}
-            ></div>
+             />
             <div className="flex flex-col flex-grow">
               <p className="font-semibold">
                 {swimmer.firstname} {swimmer.lastname}

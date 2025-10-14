@@ -63,7 +63,7 @@ const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
 }
 
 const NumberedLayoutLine = ({ className }: { className?: string }) => (
-  <div className={cx('border border-fontBlack opacity-10 grow h-0 w-full', className)}></div>
+  <div className={cx('border border-fontBlack opacity-10 grow h-0 w-full', className)} />
 )
 
 /* Creates this effect https://imgur.com/TLn9kOW */
@@ -82,14 +82,14 @@ const NumberedLayout = ({
 
   return (
     <>
-      {!first && showIndexOutside && <NumberedLayoutLine className="my-5"></NumberedLayoutLine>}
+      {!first && showIndexOutside && <NumberedLayoutLine className="my-5" />}
       <div className="relative">
         <div
           style={{ left: '-88px' }}
           ref={absoluteDiv}
           className={cx('absolute', { invisible: !showIndexOutside })}
         >
-          <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
+          <NumberedLayoutIndexCounter index={index} />
         </div>
 
         <div
@@ -99,9 +99,9 @@ const NumberedLayout = ({
           })}
         >
           <div>
-            <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
+            <NumberedLayoutIndexCounter index={index} />
           </div>
-          <NumberedLayoutLine className="ml-4"></NumberedLayoutLine>
+          <NumberedLayoutLine className="ml-4" />
         </div>
         <div className="p-3">{children}</div>
       </div>
@@ -275,18 +275,18 @@ const OrderPagePeopleList = ({
         <OrderMissingInformationProfileModal
           user={userQuery.data.data}
           onClose={() => setMissingInformationModalOpen(false)}
-        ></OrderMissingInformationProfileModal>
+         />
       )}
       {addSwimmerModalOpen && (
         <AssociatedSwimmerEditAddModal
           onClose={() => setAddSwimmerModalOpen(false)}
           onSaveSuccess={handleSelectSwimmer}
-        ></AssociatedSwimmerEditAddModal>
+         />
       )}
 
       {shouldDisplayMissingInformationWarning && (
         <div className="flex py-4 px-5 bg-error rounded-lg gap-x-3 my-6 text-white">
-          <Icon name="warning" className="no-fill text-white"></Icon>
+          <Icon name="warning" className="no-fill text-white" />
           <div>
             Pre kúpu permanentky je potrebné doplniť fotografiu a dátum narodenia.{' '}
             <AriaButton
@@ -300,7 +300,7 @@ const OrderPagePeopleList = ({
       )}
       {account?.['custom:account_type'] && account?.['custom:account_type'] !== AccountType.FO && (
         <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
-          <Icon name="warning" className="no-fill text-white"></Icon>
+          <Icon name="warning" className="no-fill text-white" />
           <div>{t('common.physical-person-only')}</div>
         </div>
       )}
@@ -352,7 +352,7 @@ const OrderPageDiscountCode = ({
           ticket={ticket}
           setValue={setValue}
           getValues={getValues}
-        ></OrderPageDiscountCodeInput>
+         />
       )}
     </>
   )
@@ -536,7 +536,7 @@ const OrderPageSummary = ({
                 <OrderPageAdultChildrenCount
                   pricing={priceQuery.data?.data.data.pricing}
                   watch={watch}
-                ></OrderPageAdultChildrenCount>
+                 />
               )
             )}
           </p>
@@ -589,7 +589,7 @@ const OrderPageSummary = ({
               <Skeleton />
             ) : (
               priceQuery.isSuccess && (
-                <OrderPagePrice pricing={priceQuery.data?.data.data.pricing}></OrderPagePrice>
+                <OrderPagePrice pricing={priceQuery.data?.data.data.pricing} />
               )
             )}
           </SkeletonTheme>
@@ -755,7 +755,7 @@ const OrderPage = () => {
           <Icon
             name="apple-pay"
             className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
-          ></Icon>
+           />
         )
         break
       case PaymentMethod.GPAY:
@@ -763,7 +763,7 @@ const OrderPage = () => {
           <Icon
             name="google-pay"
             className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
-          ></Icon>
+           />
         )
         break
       case PaymentMethod.CARD:
@@ -862,7 +862,7 @@ const OrderPage = () => {
           <div className="text-2xl md:text-3xl font-semibold mb-3">{t('buy-page.cart')}</div>
 
           <NumberedLayout index={1} first={true}>
-            <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
+            <OrderPageEmail register={register} errors={errors} />
             {hasOptionalFields && <OrderPageOptionalFields register={register} errors={errors} />}
             {hasSwimmers && (
               <>
@@ -882,7 +882,7 @@ const OrderPage = () => {
                 </div>
                 {priceQuery.error && (
                   <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
-                    <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+                    <Icon name="warning" className="no-fill text-[#E07B04]" />
                     <div>
                       {getErrorMessagesFromHttpRequest(
                         priceQuery.error as AxiosError<ErrorWithMessages, any>,
@@ -894,7 +894,7 @@ const OrderPage = () => {
                   watch={watch}
                   setValue={setValue}
                   errors={errors}
-                ></OrderPagePeopleList>
+                 />
               </>
             )}
           </NumberedLayout>
@@ -1005,7 +1005,7 @@ const OrderPage = () => {
             setValue={setValue}
             watch={watch}
             priceQuery={priceQuery}
-          ></OrderPageSummary>
+           />
           <div className="text-gray color-fontBlack">
             {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>

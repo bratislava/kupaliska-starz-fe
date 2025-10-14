@@ -24,7 +24,7 @@ const Photo = ({ photo, size, className, error = false }: PhotoProps) => {
       style={{
         backgroundImage: photo ? `url(${photo})` : undefined,
       }}
-    ></div>
+     />
   )
 }
 
