@@ -1,8 +1,8 @@
 import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
+import logger from 'helpers/logger'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
-import jwtDecode, { JwtPayload } from 'jwt-decode'
-import logger from 'helpers/logger'
 
 export type CityAccountAccessTokenAuthenticationStatus =
   | 'initializing'
@@ -42,11 +42,11 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
   }
   let status: CityAccountAccessTokenAuthenticationStatus = 'initializing'
   if (initializationState === 'ready') {
-    status = !!jwtAccessToken ? 'authenticated' : 'unauthenticated'
+    status = jwtAccessToken ? 'authenticated' : 'unauthenticated'
   }
 
   const refreshToken = useCallback(
-    (isInitialRefresh: boolean) =>
+    async (isInitialRefresh: boolean) =>
       getAccessTokenFromIFrame()
         .then((token) => {
           if (token) {
@@ -67,9 +67,9 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
     if (!checkTokenValid(accessToken)) {
       setAccessTokenState({ accessToken: null })
       return null
-    } else {
+    } 
       return accessToken
-    }
+    
   }, [accessToken, setAccessTokenState])
 
   useEffect(() => {
@@ -110,7 +110,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
         getTokenFromUrl()
         if (token) {
           // iframe works, refresh from it on refocus
-          window.addEventListener('focus', () => refreshToken(false))
+          window.addEventListener('focus', async () => refreshToken(false))
         }
       })
       .catch((error) => {
@@ -125,7 +125,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
     <CityAccountAccessTokenContext.Provider
-      value={{ sub: jwtAccessToken?.sub, accessToken: accessToken, status, refreshToken }}
+      value={{ sub: jwtAccessToken?.sub, accessToken, status, refreshToken }}
     >
       {initializationState === 'ready' ? children : null}
     </CityAccountAccessTokenContext.Provider>

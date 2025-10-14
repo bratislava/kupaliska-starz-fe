@@ -1,13 +1,14 @@
+import { ROUTES } from 'helpers/constants'
 import React from 'react'
 import { Redirect } from 'react-router'
 import { useHistory } from 'react-router-dom'
-import OrderPage from './OrderPage'
+
+import { useAppSelector } from '../../hooks'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { Ticket } from '../../models'
-import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
+import OrderPage from './OrderPage'
 import { OrderPageTicketProvider } from './useOrderPageTicket'
-import { ROUTES } from 'helpers/constants'
 
 const OrderPageGuard = () => {
   const tickets = useAppSelector(selectAvailableTickets)

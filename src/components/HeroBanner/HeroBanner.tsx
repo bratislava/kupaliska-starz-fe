@@ -1,13 +1,12 @@
-import React from 'react'
-
-import { Button, Icon, Typography } from 'components'
-
 import './HeroBanner.css'
-import { HashLink } from 'react-router-hash-link'
-import { useTranslation } from 'react-i18next'
+
 import cx from 'classnames'
-import { usePreseason } from 'hooks/usePreseason'
+import { Button, Icon, Typography } from 'components'
 import { ANCHORS } from 'helpers/constants'
+import { usePreseason } from 'hooks/usePreseason'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { HashLink } from 'react-router-hash-link'
 
 const HeroBanner = () => {
   const { t } = useTranslation()

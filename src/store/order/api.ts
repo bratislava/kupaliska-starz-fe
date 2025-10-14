@@ -4,9 +4,10 @@ import {
   apiClientWithAccessTokenIfAvailable,
 } from 'helpers/apiClient'
 import { CheckPriceResponse, OrderRequest } from 'models'
+
 import { CityAccountAccessTokenAuthenticationStatus } from '../../hooks/useCityAccount'
 
-export function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuthenticationStatus) {
+export async function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuthenticationStatus) {
   if (authStatus === 'authenticated') {
     return apiClientWithAccessToken.post('/api/v1/orders', data)
   }
@@ -17,7 +18,7 @@ export function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuth
   return Promise.reject(new Error('Unsupported auth status'))
 }
 
-export function getPrice(
+export async function getPrice(
   order: any,
   authStatus: CityAccountAccessTokenAuthenticationStatus,
   abortSignal?: AbortSignal,
@@ -49,7 +50,7 @@ export interface FinalOrderResponse {
   pdf: string
 }
 
-export function getFinalOrder(orderId: string, accessToken: string) {
+export async function getFinalOrder(orderId: string, accessToken: string) {
   return apiClientWithAccessTokenIfAvailable.get<FinalOrderResponse>(
     `/api/v1/orders/${orderId}/successful`,
     {
@@ -64,7 +65,7 @@ export interface DiscountCodeResponse {
   discountCode: { code: string; amount: number }
 }
 
-export function checkDiscountCode(ticketTypeId: string, discountCode: string) {
+export async function checkDiscountCode(ticketTypeId: string, discountCode: string) {
   return apiClient.get<DiscountCodeResponse>(
     `/api/v1/orders/discountCodes/${discountCode}/ticketTypes/${ticketTypeId}`,
   )

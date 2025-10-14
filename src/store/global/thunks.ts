@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ContactFormValues } from 'components/ContactForm/ContactForm'
+
 import { fetchPool, fetchPools, fetchTickets, sendContactForm } from './api'
 import { setToast } from './reducer'
 

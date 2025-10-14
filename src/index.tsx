@@ -1,14 +1,12 @@
-import React, { Suspense } from 'react'
+import './i18n'
+import './index.css'
 
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
-import { store } from './store'
 import App from './App'
-
-import './i18n'
-
-import './index.css'
+import { store } from './store'
 
 ReactDOM.render(
   <React.StrictMode>

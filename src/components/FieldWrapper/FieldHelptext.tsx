@@ -1,6 +1,6 @@
 import React, { DOMAttributes } from 'react'
 
-type FieldHelptextProps = {
+interface FieldHelptextProps {
   helptext?: string
   helptextMarkdown?: boolean
   descriptionProps?: DOMAttributes<never>

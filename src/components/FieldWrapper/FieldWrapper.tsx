@@ -1,9 +1,9 @@
+import cx from 'classnames'
 import React, { PropsWithChildren } from 'react'
 
-import cx from 'classnames'
+import { FieldSize } from './FieldBase'
 import FieldFooter, { FieldFooterProps } from './FieldFooter'
 import FieldHeader, { FieldHeaderProps } from './FieldHeader'
-import { FieldSize } from './FieldBase'
 
 export type FieldWrapperProps = FieldHeaderProps & FieldFooterProps & { size?: FieldSize }
 

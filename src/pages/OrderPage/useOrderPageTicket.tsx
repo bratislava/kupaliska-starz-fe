@@ -1,8 +1,9 @@
 import React from 'react'
-import { Ticket } from '../../models'
 import { createContext, PropsWithChildren, useContext } from 'react'
-import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { useQuery } from 'react-query'
+
+import useCityAccountAccessToken from '../../hooks/useCityAccount'
+import { Ticket } from '../../models'
 import { fetchUser } from '../../store/user/api'
 
 export interface OrderPageTicket {

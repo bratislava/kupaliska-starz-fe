@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next'
+import cx from 'classnames'
+import { Icon, Tooltip } from 'components'
 import * as React from 'react'
 import { DOMAttributes } from 'react'
-import cx from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 import FieldHelptext from './FieldHelptext'
-import { Icon, Tooltip } from 'components'
 
-export type FieldHeaderProps = {
+export interface FieldHeaderProps {
   label: string
   required?: boolean
   tooltip?: string

@@ -1,23 +1,23 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Swiper as SwiperClass } from 'swiper/types'
-
 import 'swiper/css'
 import 'swiper/css/pagination'
 import './TicketsSwiper.css'
 
-import React, { useCallback, useEffect, useState } from 'react'
-import { Pagination } from 'swiper'
-import { FinalOrderTicket } from '../../store/order/api'
 import cx from 'classnames'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
-import { Icon } from '../index'
+import { Pagination } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper as SwiperClass } from 'swiper/types'
+
 import AppleWalletImage from '../../assets/images/apple_wallet.svg'
 import GoogleWalletImage from '../../assets/images/google_wallet.svg'
+import { environment } from '../../environment'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
-import { environment } from '../../environment'
+import { FinalOrderTicket } from '../../store/order/api'
+import { Icon } from '../index'
 
-type TicketProps = { ticket: FinalOrderTicket }
+interface TicketProps { ticket: FinalOrderTicket }
 
 const Ticket = ({ ticket }: TicketProps) => {
   const tickets = useAppSelector(selectAvailableTickets)
@@ -50,7 +50,7 @@ const Ticket = ({ ticket }: TicketProps) => {
   )
 }
 
-type TicketsSwiperProps = { tickets: FinalOrderTicket[] }
+interface TicketsSwiperProps { tickets: FinalOrderTicket[] }
 
 const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass>()

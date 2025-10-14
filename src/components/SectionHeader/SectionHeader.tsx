@@ -1,6 +1,5 @@
-import React from 'react'
-
 import { Typography } from 'components'
+import React from 'react'
 
 interface SectionHeaderProps {
   title: string

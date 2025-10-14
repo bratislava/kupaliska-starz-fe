@@ -1,14 +1,15 @@
-import React, { useMemo, useState } from 'react'
-import { Button, Icon, Modal, Spinner } from 'components'
-import { useTranslation } from 'react-i18next'
-import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
-import cx from 'classnames'
-import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
-import { useQuery } from 'react-query'
-import { partition } from 'lodash'
 import { AxiosError } from 'axios'
-import { useErrorToast } from '../../hooks/useErrorToast'
+import cx from 'classnames'
+import { Button, Icon, Modal, Spinner } from 'components'
 import { ErrorWithMessages, isOneTimeTicket } from 'helpers/general'
+import { partition } from 'lodash'
+import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
+import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>

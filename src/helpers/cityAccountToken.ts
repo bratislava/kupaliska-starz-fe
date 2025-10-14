@@ -1,8 +1,9 @@
-import jwtDecode, { JwtPayload } from 'jwt-decode'
 import to from 'await-to-js'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
+
 import { environment } from '../environment'
+import { cityAccountFrontendSSOUrl,UNAUTHORIZED_MESSAGE } from './cityAccountApi'
 import { validCityAccountPostMessageTypes } from './cityAccountDto'
-import { UNAUTHORIZED_MESSAGE, cityAccountFrontendSSOUrl } from './cityAccountApi'
 import logger from './logger'
 
 /**

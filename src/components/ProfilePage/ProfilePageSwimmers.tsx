@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
-import { Button, Icon, Spinner } from '../index'
-import { useQuery } from 'react-query'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import ThreeDots from '../ThreeDots/ThreeDots'
-import cx from 'classnames'
-import Photo from '../Photo/Photo'
-import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
-import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
 import { AxiosError } from 'axios'
+import cx from 'classnames'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
+import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
+import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
+import { Button, Icon, Spinner } from '../index'
+import Photo from '../Photo/Photo'
+import ThreeDots from '../ThreeDots/ThreeDots'
+import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
 
 const ProfilePageSwimmers = () => {
   const { t } = useTranslation()

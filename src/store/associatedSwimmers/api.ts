@@ -17,7 +17,7 @@ export interface AssociatedSwimmerFetchResponse {
   associatedSwimmers: AssociatedSwimmer[]
 }
 
-export function fetchAssociatedSwimmers() {
+export async function fetchAssociatedSwimmers() {
   return apiClientWithAccessToken.get<AssociatedSwimmerFetchResponse>('/api/v1/associatedSwimmers')
   // {
   //   responseType: 'json',
@@ -38,7 +38,7 @@ export interface AssociatedSwimmerDeleteResponse {
   ]
 }
 
-export function deleteAssociatedSwimmer(id: string) {
+export async function deleteAssociatedSwimmer(id: string) {
   return apiClientWithAccessToken.delete<AssociatedSwimmerDeleteResponse>(
     `/api/v1/associatedSwimmers/${id}`,
   )
@@ -57,7 +57,7 @@ export interface AssociatedSwimmerCreateEditResponse {
   ]
 }
 
-export function createAssociatedSwimmer(
+export async function createAssociatedSwimmer(
   associatedSwimmer: Pick<
     AssociatedSwimmer,
     'firstname' | 'lastname' | 'dateOfBirth' | 'zip' | 'image'
@@ -69,7 +69,7 @@ export function createAssociatedSwimmer(
   )
 }
 
-export function editAssociatedSwimmer(
+export async function editAssociatedSwimmer(
   id: string,
   associatedSwimmer: Partial<
     Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'dateOfBirth' | 'zip' | 'image'>

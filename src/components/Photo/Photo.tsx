@@ -1,5 +1,5 @@
-import React, { HTMLAttributes } from 'react'
 import cx from 'classnames'
+import React, { HTMLAttributes } from 'react'
 
 type PhotoProps = {
   photo?: string | null

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { Button, Icon } from 'components'
+import SwimmingPoolInfoCard from 'components/SwimmingPoolInfoCard/SwimmingPoolInfoCard'
 import { assignItemsToColumns } from 'helpers/general'
 import { useAppSelector, useWindowSize } from 'hooks'
-import { selectPools } from 'store/global'
-import SwimmingPoolInfoCard from 'components/SwimmingPoolInfoCard/SwimmingPoolInfoCard'
-import { Button, Icon } from 'components'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { selectPools } from 'store/global'
 
 // reverted from https://github.com/bratislava/kupaliska-starz-fe/commit/a6935e20afb87fe0680affce148231dd7f1be0d2#diff-a788a2a4f1c90412bf2f1124cfc6b173dfce6821fb228ef865930f8b7a77afa5
 const SwimmingPoolsInfo = () => {

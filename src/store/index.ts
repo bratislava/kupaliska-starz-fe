@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { Action, configureStore, getDefaultMiddleware,ThunkAction } from '@reduxjs/toolkit'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 

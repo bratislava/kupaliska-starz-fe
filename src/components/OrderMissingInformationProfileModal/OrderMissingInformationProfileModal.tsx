@@ -1,26 +1,27 @@
-import { useTranslation } from 'react-i18next'
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation, useQueryClient } from 'react-query'
-import { Button, InputField } from '../index'
-import PhotoField from '../PhotoField/PhotoField'
-import * as yup from 'yup'
-import { pick } from 'lodash'
-import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { AxiosError, AxiosResponse } from 'axios'
-import { produce } from 'immer'
-import Dialog from '../Dialog/Dialog'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { updateUser, User } from '../../store/user/api'
-import logger from 'helpers/logger'
 import DatePicker from 'components/DatePicker/DatePicker'
 import dayjs from 'dayjs'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import logger from 'helpers/logger'
+import { produce } from 'immer'
+import { pick } from 'lodash'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useMutation, useQueryClient } from 'react-query'
+import * as yup from 'yup'
+
+import { getObjectChanges } from '../../helpers/getObjectChanges'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { updateUser, User } from '../../store/user/api'
+import Dialog from '../Dialog/Dialog'
+import { Button, InputField } from '../index'
+import PhotoField from '../PhotoField/PhotoField'
 
 type FormData = Partial<Pick<User, 'image' | 'dateOfBirth' | 'zip'>>
 
-type OrderMissingInformationProfileModalProps = {
+interface OrderMissingInformationProfileModalProps {
   user: User
   onClose?: () => void
 }
@@ -78,7 +79,7 @@ export const OrderMissingInformationProfileModal = ({
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const mutation = useMutation(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       return updateUser(formData)
     },
     {
@@ -107,10 +108,10 @@ export const OrderMissingInformationProfileModal = ({
     mutation.mutate(changes)
   }
 
-  let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
+  const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
-  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
+  const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
     <Dialog

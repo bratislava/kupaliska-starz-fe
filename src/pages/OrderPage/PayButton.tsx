@@ -1,6 +1,5 @@
-import React from 'react'
-
 import { Button } from 'components'
+import React from 'react'
 
 interface PayButtonProps {
   disabled: boolean

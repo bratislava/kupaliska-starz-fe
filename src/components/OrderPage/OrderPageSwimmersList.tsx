@@ -1,12 +1,13 @@
-import React from 'react'
 import cx from 'classnames'
-import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
+import React from 'react'
 import { Button as AriaButton, Checkbox } from 'react-aria-components'
-import { Icon } from '../index'
 import { useTranslation } from 'react-i18next'
-import { useOrderPageTicket } from '../../pages/OrderPage/useOrderPageTicket'
 
-type LoggedInUser = {
+import { useOrderPageTicket } from '../../pages/OrderPage/useOrderPageTicket'
+import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
+import { Icon } from '../index'
+
+interface LoggedInUser {
   id: null
   age: number | null
   zip: string | null
@@ -17,7 +18,7 @@ type LoggedInUser = {
 }
 type OrderPageSwimmersListSwimmer = AssociatedSwimmer | LoggedInUser
 
-type OrderPageSwimmersListProps = {
+interface OrderPageSwimmersListProps {
   selectedSwimmerIds: (string | null)[]
   swimmers: OrderPageSwimmersListSwimmer[]
   onSelectSwimmer?: (swimmer: OrderPageSwimmersListSwimmer) => void

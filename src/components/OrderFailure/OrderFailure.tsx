@@ -1,8 +1,9 @@
-import React from 'react'
-import { Button, Icon, SectionHeader, Typography } from '../index'
-import { HashLink } from 'react-router-hash-link'
-import { useTranslation } from 'react-i18next'
 import { ANCHORS } from 'helpers/constants'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { HashLink } from 'react-router-hash-link'
+
+import { Button, Icon, SectionHeader, Typography } from '../index'
 
 const OrderFailure = () => {
   const { t } = useTranslation()

@@ -1,21 +1,22 @@
-import React from 'react'
-import { useMutation, useQueryClient } from 'react-query'
-import { AxiosError, AxiosResponse } from 'axios'
-import { produce } from 'immer'
-import { Button, InputField } from '../index'
-import { updateUser, User } from '../../store/user/api'
-import * as yup from 'yup'
-import { useTranslation } from 'react-i18next'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { pick } from 'lodash'
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '../../helpers/general'
-import Dialog from '../Dialog/Dialog'
-import { useErrorToast } from '../../hooks/useErrorToast'
+import { AxiosError, AxiosResponse } from 'axios'
 import DatePicker from 'components/DatePicker/DatePicker'
 import dayjs from 'dayjs'
+import { produce } from 'immer'
+import { pick } from 'lodash'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useMutation, useQueryClient } from 'react-query'
+import * as yup from 'yup'
 
-type ProfilePageAgeZipModalProps = {
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '../../helpers/general'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { updateUser, User } from '../../store/user/api'
+import Dialog from '../Dialog/Dialog'
+import { Button, InputField } from '../index'
+
+interface ProfilePageAgeZipModalProps {
   type: 'dateOfBirth' | 'zip'
   user: User
   onClose: () => void
@@ -74,7 +75,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
 
   const queryClient = useQueryClient()
   const mutation = useMutation(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       return updateUser(formData)
     },
     {

@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
-import { Button, Icon, Spinner } from '../index'
-import { useQuery } from 'react-query'
-import { fetchUser } from '../../store/user/api'
-import { useAccount } from '../../hooks/useAccount'
-import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
-import { Button as AriaButton } from 'react-aria-components'
-import ProfilePagePhotoModal from './ProfilePagePhotoModal'
-import Photo from '../Photo/Photo'
-import { environment } from '../../environment'
 import { AxiosError } from 'axios'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { useTranslation } from 'react-i18next'
 import { ErrorWithMessages } from 'helpers/general'
+import React, { useState } from 'react'
+import { Button as AriaButton } from 'react-aria-components'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
+import { environment } from '../../environment'
+import { useAccount } from '../../hooks/useAccount'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { fetchUser } from '../../store/user/api'
+import { Button, Icon, Spinner } from '../index'
+import Photo from '../Photo/Photo'
+import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
+import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 
 const ProfilePageUser = () => {
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const { data, isLoading, isError } = useQuery('user', fetchUser, {
     onError: (err: AxiosError<ErrorWithMessages>) => {
-      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+      dispatchErrorToastForHttpRequest(err)
     },
   })
   const account = useAccount()

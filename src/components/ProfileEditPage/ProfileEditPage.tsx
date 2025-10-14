@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import PhotoField from '../PhotoField/PhotoField'
-import * as yup from 'yup'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Icon, InputField } from '../index'
+import { AxiosError } from 'axios'
+import { ROUTES } from 'helpers/constants'
+import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import logger from 'helpers/logger'
+import { pick } from 'lodash'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchUser, updateUser, User } from '../../store/user/api'
 import { useHistory } from 'react-router-dom'
-import ProfileLine from '../ProfileLine/ProfileLine'
-import ProfileBack from '../ProfileBack/ProfileBack'
-import { pick } from 'lodash'
+import * as yup from 'yup'
+
 import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import { AxiosError } from 'axios'
 import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
-import logger from 'helpers/logger'
-import { ROUTES } from 'helpers/constants'
+import { fetchUser, updateUser, User } from '../../store/user/api'
+import { Button, Icon, InputField } from '../index'
+import PhotoField from '../PhotoField/PhotoField'
+import ProfileBack from '../ProfileBack/ProfileBack'
+import ProfileLine from '../ProfileLine/ProfileLine'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -64,7 +65,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   }, [user])
 
   const mutation = useMutation(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       return updateUser(formData)
     },
     {
@@ -84,8 +85,8 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     mutation.mutate(changes)
   }
 
-  let errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
-  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
+  const errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
+  const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
     <form className="grid grid-cols-1 gap-4 lg:grid-cols-2">

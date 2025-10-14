@@ -1,11 +1,11 @@
+import { Icon } from 'components'
+import AlertBanner from 'components/AlertBanner/AlertBanner'
 import React, { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { Icon } from 'components'
-import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
-import AlertBanner from 'components/AlertBanner/AlertBanner'
-import { fetchGeneralSettings } from 'store/global/api'
 import { useQuery } from 'react-query'
+import { fetchGeneralSettings } from 'store/global/api'
+
+import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
 
 const SocialMediaButton = ({
   children,

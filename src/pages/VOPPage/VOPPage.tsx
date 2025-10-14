@@ -1,8 +1,7 @@
-import React from 'react'
+import './VOPPage.css'
 
 import { SectionHeader, Typography } from 'components'
-
-import './VOPPage.css'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const VOPPage = () => {

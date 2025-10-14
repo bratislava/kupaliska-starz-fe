@@ -1,8 +1,7 @@
-import React, { ReactNode } from 'react'
-
-import { UseFormRegisterReturn } from 'react-hook-form'
-
 import './CheckboxField.css'
+
+import React, { ReactNode } from 'react'
+import { UseFormRegisterReturn } from 'react-hook-form'
 
 interface CheckboxProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void

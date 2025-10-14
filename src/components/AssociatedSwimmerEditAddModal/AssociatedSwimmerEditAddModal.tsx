@@ -1,20 +1,18 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError, AxiosResponse } from 'axios'
-import { useTranslation } from 'react-i18next'
+import DatePicker from 'components/DatePicker/DatePicker'
+import dayjs from 'dayjs'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import logger from 'helpers/logger'
+import { produce } from 'immer'
+import { pick } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
-import { produce } from 'immer'
-import dayjs from 'dayjs'
-import { pick } from 'lodash'
 import * as yup from 'yup'
 
-import logger from 'helpers/logger'
-import { Button, InputField } from '../index'
-import PhotoField from '../PhotoField/PhotoField'
 import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import Dialog from '../Dialog/Dialog'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import {
   AssociatedSwimmer,
@@ -22,13 +20,15 @@ import {
   createAssociatedSwimmer,
   editAssociatedSwimmer,
 } from '../../store/associatedSwimmers/api'
-import DatePicker from 'components/DatePicker/DatePicker'
+import Dialog from '../Dialog/Dialog'
+import { Button, InputField } from '../index'
+import PhotoField from '../PhotoField/PhotoField'
 
 type FormData = Partial<
   Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'dateOfBirth' | 'zip'>
 >
 
-type AssociatedSwimmerEditAddFormModalProps = {
+interface AssociatedSwimmerEditAddFormModalProps {
   swimmer?: AssociatedSwimmer | null
   onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void
   onClose?: () => void
@@ -91,7 +91,7 @@ export const AssociatedSwimmerEditAddModal = ({
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const mutation = useMutation(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       return isEditing
         ? editAssociatedSwimmer(swimmer!.id as string, formData)
         : createAssociatedSwimmer(formData as AssociatedSwimmer)
@@ -135,12 +135,12 @@ export const AssociatedSwimmerEditAddModal = ({
     mutation.mutate(changes)
   }
 
-  let errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
-  let errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
-  let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
+  const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
+  const errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
+  const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
-  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
+  const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
   return (
     <Dialog
       title={swimmer ? 'Upraviť osobu' : 'Nová osoba'}

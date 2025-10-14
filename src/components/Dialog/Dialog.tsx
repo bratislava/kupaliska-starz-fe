@@ -1,8 +1,8 @@
+import cx from 'classnames'
 import React, { cloneElement, PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Button, Dialog as AriaDialog, Heading, Modal } from 'react-aria-components'
 
 import { Icon } from '../index'
-import cx from 'classnames'
 
 type DialogProps = {
   title: string

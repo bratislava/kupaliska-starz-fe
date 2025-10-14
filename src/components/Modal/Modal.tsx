@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
-import { useElementSize, useLockedBody } from 'usehooks-ts'
-import FocusTrap from 'focus-trap-react'
-import cx from 'classnames'
-import { Portal } from 'react-portal'
-
 import './Modal.css'
+
+import cx from 'classnames'
+import FocusTrap from 'focus-trap-react'
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react'
+import { Portal } from 'react-portal'
+import { useElementSize, useLockedBody } from 'usehooks-ts'
 
 const ModalButton = ({
   button,

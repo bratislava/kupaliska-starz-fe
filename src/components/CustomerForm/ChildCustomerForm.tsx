@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
 import { Icon, InputField } from 'components'
 import { get } from 'lodash'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface ChildCustomerFormProps {
@@ -39,14 +39,14 @@ const ChildCustomerForm = ({
 
   useEffect(() => {
     return () => {
-      unregister && unregister(`${fieldNamePrefix ? fieldNamePrefix + '.photo' : 'photo'}`)
-      unregister && unregister(`${fieldNamePrefix ? fieldNamePrefix + '.name' : 'name'}`)
-      unregister && unregister(`${fieldNamePrefix ? fieldNamePrefix + '.age' : 'age'}`)
+      unregister && unregister(`${fieldNamePrefix ? `${fieldNamePrefix }.photo` : 'photo'}`)
+      unregister && unregister(`${fieldNamePrefix ? `${fieldNamePrefix }.name` : 'name'}`)
+      unregister && unregister(`${fieldNamePrefix ? `${fieldNamePrefix }.age` : 'age'}`)
     }
   }, [])
   useEffect(() => {
     register &&
-      register(`${fieldNamePrefix ? fieldNamePrefix + '.photo' : 'photo'}`, {
+      register(`${fieldNamePrefix ? `${fieldNamePrefix }.photo` : 'photo'}`, {
         shouldUnregister: true,
       })
   }, [register, fieldNamePrefix])
@@ -57,7 +57,7 @@ const ChildCustomerForm = ({
         <InputField
           leftExtra={<Icon name="user" />}
           register={register}
-          name={`${fieldNamePrefix ? fieldNamePrefix + '.name' : 'name'}`}
+          name={`${fieldNamePrefix ? `${fieldNamePrefix }.name` : 'name'}`}
           placeholder={t('buy-page.name')}
           error={get(_errors, 'name.message')}
           shouldUnregister={true}
@@ -77,7 +77,7 @@ const ChildCustomerForm = ({
       <InputField
         leftExtra={<Icon name="calendar" />}
         register={register}
-        name={`${fieldNamePrefix ? fieldNamePrefix + '.age' : 'age'}`}
+        name={`${fieldNamePrefix ? `${fieldNamePrefix }.age` : 'age'}`}
         placeholder={t('buy-page.age')}
         className={`col-span-1`}
         error={get(_errors, 'age.message')}

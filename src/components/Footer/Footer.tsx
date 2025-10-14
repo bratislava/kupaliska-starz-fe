@@ -1,9 +1,9 @@
-import React, { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router'
 import cx from 'classnames'
 import { ROUTES } from 'helpers/constants'
+import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   const { t } = useTranslation()

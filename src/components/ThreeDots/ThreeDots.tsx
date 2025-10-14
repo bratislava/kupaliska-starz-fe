@@ -1,10 +1,11 @@
+import cx from 'classnames'
 import React from 'react'
 import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
-import { Icon } from '../index'
-import { IconName } from '../Icon/Icon'
-import cx from 'classnames'
 
-type ThreeDotsProps = {
+import { IconName } from '../Icon/Icon'
+import { Icon } from '../index'
+
+interface ThreeDotsProps {
   buttons: {
     title: string
     icon: IconName

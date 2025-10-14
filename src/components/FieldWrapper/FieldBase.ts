@@ -1,6 +1,6 @@
 export type FieldSize = 'full' | 'medium' | 'small'
 
-export type FieldAdditionalProps = {
+export interface FieldAdditionalProps {
   className?: string
   placeholder?: string
   // providing this 'prop' will disable error messages rendering inside this component

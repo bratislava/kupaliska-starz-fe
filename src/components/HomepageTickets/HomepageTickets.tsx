@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react'
-import { useAppSelector } from '../../hooks'
-import { selectAvailableTickets } from '../../store/global'
-import { Ticket } from '../../models'
-import { Button, Icon } from '../index'
 import cx from 'classnames'
-import { useLogin } from '../../hooks/useLogin'
+import { ROUTES } from 'helpers/constants'
+import useCityAccountAccessToken from 'hooks/useCityAccount'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import useCityAccountAccessToken from 'hooks/useCityAccount'
+
 import { currencyFormatter } from '../../helpers/currencyFormatter'
-import { ROUTES } from 'helpers/constants'
+import { useAppSelector } from '../../hooks'
+import { useLogin } from '../../hooks/useLogin'
+import { Ticket } from '../../models'
+import { selectAvailableTickets } from '../../store/global'
+import { Button, Icon } from '../index'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
@@ -94,7 +95,7 @@ const HomepageTickets = () => {
                         'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
                         { 'cursor-pointer': !ticket.disabled },
                       )}
-                      onClick={() => handleClick(ticket)}
+                      onClick={async () => handleClick(ticket)}
                     >
                       <span className="grow font-semibold">{ticket.name}</span>
                       <div className="flex items-center justify-between gap-x-8">
@@ -104,7 +105,7 @@ const HomepageTickets = () => {
                         <Button
                           className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
                           thin
-                          onClick={() => handleClick(ticket)}
+                          onClick={async () => handleClick(ticket)}
                           color={needsLogin ? 'primary' : 'outlined'}
                           disabled={ticket.disabled}
                         >

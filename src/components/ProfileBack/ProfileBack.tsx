@@ -2,6 +2,7 @@ import { ROUTES } from 'helpers/constants'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+
 import { Icon } from '../index'
 
 const ProfileBack = () => {

@@ -1,28 +1,27 @@
 import './helpers/logger'
+import 'react-loading-skeleton/dist/skeleton.css'
+import '@fontsource/inter'
+
+import { AxiosError } from 'axios'
+import { Footer, Header, ScrollToTop, Toast, TopBanner } from 'components'
+import { ConnectedRouter } from 'connected-react-router'
+import { ROUTES } from 'helpers/constants'
+import { Route as IRoute, routes } from 'helpers/routes'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
+import { PreseasonProvider } from 'hooks/usePreseason'
 import React, { useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ConnectedRouter } from 'connected-react-router'
-import { Route, Switch, useHistory } from 'react-router-dom'
-
-import { history } from 'store'
-import { Route as IRoute, routes } from 'helpers/routes'
-
-import { Footer, Header, ScrollToTop, Toast, TopBanner } from 'components'
-import { useAppDispatch, useAppSelector } from 'hooks'
-import { initPageGlobalState, selectToast, setToast } from 'store/global'
 import { Redirect } from 'react-router'
-import 'react-loading-skeleton/dist/skeleton.css'
-import CookieConsent from './components/CookieConsent/CookieConsent'
-import { AxiosError } from 'axios'
-import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
+import { Route, Switch, useHistory } from 'react-router-dom'
+import { history } from 'store'
+import { initPageGlobalState, selectToast, setToast } from 'store/global'
 
-import '@fontsource/inter'
-import RegisterUserGuard from './hooks/RegisterUserGuard'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
-import { PreseasonProvider } from 'hooks/usePreseason'
-import { ROUTES } from 'helpers/constants'
+import CookieConsent from './components/CookieConsent/CookieConsent'
+import RegisterUserGuard from './hooks/RegisterUserGuard'
 
 const queryClient = new QueryClient({
   defaultOptions: {

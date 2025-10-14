@@ -1,4 +1,7 @@
+import './Icon.css'
+
 import React, { useMemo } from 'react'
+
 import { ReactComponent as AccommodationIcon } from '../../assets/icons/accommodation.svg'
 import { ReactComponent as AlertIcon } from '../../assets/icons/alert.svg'
 import { ReactComponent as ApplePayIcon } from '../../assets/icons/apple-pay.svg'
@@ -9,10 +12,10 @@ import { ReactComponent as ArrowUpIcon } from '../../assets/icons/arrow-up.svg'
 import { ReactComponent as BinIcon } from '../../assets/icons/bin.svg'
 import { ReactComponent as BratislavaLogoIcon } from '../../assets/icons/bratislava-logo.svg'
 import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
-import { ReactComponent as CastleIcon } from '../../assets/icons/castle.svg'
 import { ReactComponent as CaretDownIcon } from '../../assets/icons/caret-down.svg'
-import { ReactComponent as ChangingRoomIcon } from '../../assets/icons/changing-room.svg'
+import { ReactComponent as CastleIcon } from '../../assets/icons/castle.svg'
 import { ReactComponent as ChangingRoomsIcon } from '../../assets/icons/changing_rooms.svg'
+import { ReactComponent as ChangingRoomIcon } from '../../assets/icons/changing-room.svg'
 import { ReactComponent as CheckmarkIcon } from '../../assets/icons/checkmark.svg'
 import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg'
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg'
@@ -48,14 +51,12 @@ import { ReactComponent as SwimmingManIcon } from '../../assets/icons/swimming-m
 import { ReactComponent as ThreeDotsIcon } from '../../assets/icons/three-dots.svg'
 import { ReactComponent as TicketsIcon } from '../../assets/icons/tickets.svg'
 import { ReactComponent as TicketsBlackIcon } from '../../assets/icons/tickets-black.svg'
-import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
 import { ReactComponent as UploadIcon } from '../../assets/icons/upload.svg'
+import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
 import { ReactComponent as VolleyballIcon } from '../../assets/icons/volleyball.svg'
 import { ReactComponent as WarningIcon } from '../../assets/icons/warning.svg'
 import { ReactComponent as WavesIcon } from '../../assets/icons/waves.svg'
 import { ReactComponent as YoutubeLogoIcon } from '../../assets/icons/youtube-logo.svg'
-
-import './Icon.css'
 
 const iconMap = {
   accommodation: AccommodationIcon,

@@ -1,16 +1,22 @@
-import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
-import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
-import { Button as AriaButton } from 'react-aria-components'
-import { useWindowSize } from '../../hooks'
-import cx from 'classnames'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { Trans, useTranslation } from 'react-i18next'
-import { CheckPriceResponse, Ticket } from '../../models'
-import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
+import './OrderPage.css'
+
+import { yupResolver } from '@hookform/resolvers/yup'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
+import cx from 'classnames'
+import { AccountType } from 'helpers/cityAccountDto'
+import { ROUTES } from 'helpers/constants'
+import {
+  ErrorWithMessages,
+  getErrorMessagesFromHttpRequest,
+  useValidationSchemaTranslationIfPresent,
+} from 'helpers/general'
+import logger from 'helpers/logger'
+import { PaymentMethod } from 'helpers/types'
+import { useAccount } from 'hooks/useAccount'
+import useCityAccount from 'hooks/useCityAccount'
+import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import { Button as AriaButton } from 'react-aria-components'
 import {
   Controller,
   FieldErrors,
@@ -20,37 +26,33 @@ import {
   UseFormWatch,
   useWatch,
 } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { UseFormRegister } from 'react-hook-form/dist/types/form'
+import { Trans, useTranslation } from 'react-i18next'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
+import { Link } from 'react-router-dom'
+import Turnstile from 'react-turnstile'
+import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
-import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
-import { fetchUser } from '../../store/user/api'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import './OrderPage.css'
-import { Link } from 'react-router-dom'
-import { useOrder } from './useOrder'
-import { orderFormToRequests } from './formDataToRequests'
-import { UseFormRegister } from 'react-hook-form/dist/types/form'
-import { environment } from '../../environment'
-import {
-  ErrorWithMessages,
-  getErrorMessagesFromHttpRequest,
-  useValidationSchemaTranslationIfPresent,
-} from 'helpers/general'
+
+import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
-import Turnstile from 'react-turnstile'
-import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
-import { useAccount } from 'hooks/useAccount'
-import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
+import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
+import { environment } from '../../environment'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
-import { useOrderPageTicket } from './useOrderPageTicket'
-import logger from 'helpers/logger'
-import { AccountType } from 'helpers/cityAccountDto'
-import { ROUTES } from 'helpers/constants'
-import { PaymentMethod } from 'helpers/types'
+import { useWindowSize } from '../../hooks'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { CheckPriceResponse, Ticket } from '../../models'
+import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
+import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
+import { fetchUser } from '../../store/user/api'
+import { orderFormToRequests } from './formDataToRequests'
 import PayButton from './PayButton'
+import { useOrder } from './useOrder'
+import { useOrderPageTicket } from './useOrderPageTicket'
 
 const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
   return (
@@ -118,7 +120,7 @@ const OrderPageEmail = ({
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
-  let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
+  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
   return requireEmail ? (
     <InputField
@@ -704,7 +706,7 @@ const OrderPage = () => {
 
   const priceQuery = useQuery(
     'orderPrice',
-    ({ signal }) => {
+    async ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
 
       return getPrice(getPriceRequest, status, signal)
@@ -811,7 +813,7 @@ const OrderPage = () => {
     }
 
     const handleSubmitWithErrorHandling = handleSubmit(
-      () => onSubmit(paymentMethod),
+      async () => onSubmit(paymentMethod),
       (err) => {
         logger.error(err)
       },

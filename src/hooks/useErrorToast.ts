@@ -1,8 +1,9 @@
+import { AxiosError } from 'axios'
+import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/general'
+
 import { setToast } from '../store/global'
 import { useAppDispatch } from './store'
-import { AxiosError } from 'axios'
 import useCityAccountAccessToken from './useCityAccount'
-import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/general'
 
 export const useErrorToast = () => {
   const dispatch = useAppDispatch()

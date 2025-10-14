@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import { RootState } from 'store'
-import { initPageGlobalState, fetchPoolActions } from './thunks'
-import { SwimmingPoolResponse, Ticket } from 'models'
 import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
+import { SwimmingPoolResponse, Ticket } from 'models'
+import { RootState } from 'store'
+
+import { fetchPoolActions,initPageGlobalState } from './thunks'
 
 export interface GlobalState {
   availableTickets: Ticket[]

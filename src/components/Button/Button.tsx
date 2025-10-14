@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from 'react'
-
 import './Button.css'
+
+import React, { PropsWithChildren } from 'react'
 
 interface ButtonProps {
   // TODO: Rename to `type`.

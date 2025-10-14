@@ -1,11 +1,11 @@
-import React, { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { get } from 'lodash'
-import Resizer from 'react-image-file-resizer'
-
 import { Icon } from 'components'
 import Button from 'components/Button/Button'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import { get } from 'lodash'
+import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import Resizer from 'react-image-file-resizer'
+
 import Photo from '../Photo/Photo'
 
 interface PhotoFieldProps {
@@ -75,7 +75,7 @@ const PhotoField = ({
     file && handleImageFile(file)
   }
 
-  let errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)
+  const errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)
 
   return (
     <div>

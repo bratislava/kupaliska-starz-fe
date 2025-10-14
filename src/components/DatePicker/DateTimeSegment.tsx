@@ -1,10 +1,9 @@
+import cx from 'classnames'
 import React, { useRef } from 'react'
 import { useDateSegment } from 'react-aria'
 import { DateFieldState, DateSegment } from 'react-stately'
 
-import cx from 'classnames'
-
-type DateSegmentBase = {
+interface DateSegmentBase {
   segment: DateSegment
   state: DateFieldState
 }

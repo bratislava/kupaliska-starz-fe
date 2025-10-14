@@ -1,11 +1,11 @@
-import React from 'react'
 import { CalendarDate, DateDuration, endOfMonth, getWeeksInMonth } from '@internationalized/date'
+import React from 'react'
 import { useCalendarGrid, useLocale } from 'react-aria'
 import { CalendarState } from 'react-stately'
 
 import CalendarCell from './CalendarCell'
 
-type CalendarGridBase = {
+interface CalendarGridBase {
   state: CalendarState
   offset?: DateDuration
 }

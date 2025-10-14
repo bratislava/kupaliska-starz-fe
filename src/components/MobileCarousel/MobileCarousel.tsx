@@ -1,7 +1,7 @@
+import './MobileCarousel.css'
+
 import React, { ReactNode, useCallback, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
-
-import './MobileCarousel.css'
 
 interface MobileCarouselProps {
   children: ReactNode[]

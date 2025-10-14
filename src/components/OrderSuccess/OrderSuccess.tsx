@@ -1,12 +1,13 @@
 import React from 'react'
-import Button from '../Button/Button'
-import TicketsSwiper from './TicketsSwiper'
-import { Icon, Typography } from '../index'
-import { FinalOrderResponse } from '../../store/order/api'
-import { convertBase64ToBlob } from '../../helpers/general'
 import { Link } from 'react-router-dom'
 
-type OrderSuccessProps = { response: FinalOrderResponse }
+import { convertBase64ToBlob } from '../../helpers/general'
+import { FinalOrderResponse } from '../../store/order/api'
+import Button from '../Button/Button'
+import { Icon, Typography } from '../index'
+import TicketsSwiper from './TicketsSwiper'
+
+interface OrderSuccessProps { response: FinalOrderResponse }
 
 const OrderSuccess = ({ response }: OrderSuccessProps) => {
   const { tickets, pdf } = response

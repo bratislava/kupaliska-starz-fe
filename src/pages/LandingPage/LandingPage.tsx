@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import './LandingPage.css'
 
 import {
   AccordionItem,
@@ -7,15 +7,15 @@ import {
   SectionHeader,
   WhyCreateAccountSection,
 } from 'components'
-
-import './LandingPage.css'
-import { Trans, useTranslation } from 'react-i18next'
-import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
-import { range } from 'lodash'
-import useCityAccountAccessToken from 'hooks/useCityAccount'
-import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
+import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { usePreseason } from 'hooks/usePreseason'
+import { range } from 'lodash'
+import React, { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+
+import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
+import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 
 const faqsn = range(1, 21)
 

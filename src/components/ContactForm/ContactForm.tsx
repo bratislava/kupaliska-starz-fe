@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-
-import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { Link } from 'react-router-dom'
-
 import { Button, CheckboxField, Icon, InputField } from 'components'
 import { useAppDispatch } from 'hooks'
-import { sendContactFormActions } from 'store/global'
-import Turnstile from 'react-turnstile'
+import React, { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
-import { environment } from '../../environment'
+import { Link } from 'react-router-dom'
+import Turnstile from 'react-turnstile'
+import { sendContactFormActions } from 'store/global'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
+import * as yup from 'yup'
+
+import { environment } from '../../environment'
 
 const formRules = yup.object().shape({
   email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),

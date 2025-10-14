@@ -1,7 +1,8 @@
 import { redirectToLogin } from 'helpers/cityAccountApi'
 import { useLocalStorage } from 'usehooks-ts'
-import { environment } from '../environment'
+
 import { useCityAccountLoginRedirectionModal } from '../components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
+import { environment } from '../environment'
 
 const redirectionModalConfirmedKey = 'redirectionModalConfirmed'
 

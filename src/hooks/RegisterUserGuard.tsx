@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
-import useCityAccountAccessToken from './useCityAccount'
+
 import { registerUser } from '../store/global/api'
+import useCityAccountAccessToken from './useCityAccount'
 
 /**
  * User must be registered on Kupaliska BE after City account registration, this component assures that.

@@ -1,12 +1,11 @@
-import React from 'react'
 import { CalendarDate } from '@internationalized/date'
+import cx from 'classnames'
+import React from 'react'
 import { useRef } from 'react'
 import { useCalendarCell } from 'react-aria'
 import { CalendarState } from 'react-stately'
 
-import cx from 'classnames'
-
-type CalendarCellBase = {
+interface CalendarCellBase {
   state: CalendarState
   date: CalendarDate
   isDisabled?: boolean

@@ -1,4 +1,4 @@
-import { SwimmingPoolResponse, SwimmingPool, OpeningHours, OpeningHoursStrings } from 'models'
+import { OpeningHours, OpeningHoursStrings,SwimmingPool, SwimmingPoolResponse } from 'models'
 import { boolean } from 'yup/lib/locale'
 
 export const swimmingPoolResponseToSwimmingPool = (pool: SwimmingPoolResponse): SwimmingPool => ({
@@ -43,15 +43,13 @@ export const openingHoursToStringArray = (hours: OpeningHours): OpeningHoursStri
         from: day.from,
         to: day.to,
       })
-    } else {
-      if (dayStringsObjects.length !== 0) {
+    } else if (dayStringsObjects.length !== 0) {
         dayStringsObjects[dayStringsObjects.length - 1].last = day.dayName
       }
-    }
   })
 
   const dayStrings = dayStringsObjects.map((dayStringObj) => {
-    let result = {
+    const result = {
       day: '',
       time: '',
       color: 'fontBlack',

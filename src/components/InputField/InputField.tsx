@@ -1,8 +1,8 @@
+import './InputField.css'
+
+import cx from 'classnames'
 import React, { ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
-
-import './InputField.css'
-import cx from 'classnames'
 
 interface InputProps {
   type?: 'text' | 'number' | 'email' | 'password'
@@ -86,7 +86,7 @@ const InputField = ({
           thin ? '' : 'px-6 py-4'
         } flex flex-1 items-center ${inputWrapperClassName}`}
       >
-        {!!leftExtra && leftExtra}
+        {Boolean(leftExtra) && leftExtra}
         <Input
           style={{ resize: 'none' }}
           value={value}
@@ -112,7 +112,7 @@ const InputField = ({
           ref={registerValues && registerValues.ref}
           rows={8}
         />
-        {!!rightExtra && rightExtra}
+        {Boolean(rightExtra) && rightExtra}
       </div>
       {error && <div className="text-error px-2 text-sm">{error}</div>}
     </div>

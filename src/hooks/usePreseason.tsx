@@ -1,12 +1,13 @@
-import { environment } from '../environment'
 import React, {
+  createContext,
   PropsWithChildren,
   ReactNode,
-  createContext,
   useContext,
   useEffect,
   useState,
 } from 'react'
+
+import { environment } from '../environment'
 
 const useGetContext = () => {
   // allow override of the feature flag at runtime

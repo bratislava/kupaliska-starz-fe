@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+
 import { MobileCarousel, Typography } from '../index'
 
 const items = [
