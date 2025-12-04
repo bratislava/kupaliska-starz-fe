@@ -10,15 +10,16 @@ import { useHistory } from 'react-router-dom'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
+import { environment } from '../../environment'
 
 const partitionTickets = (tickets: Ticket[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
   entryTickets: tickets
     .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
-    .map((ticket) => ({ ...ticket, disabled: true })),
+    .map((ticket) => ({ ...ticket, disabled: !environment.entryTicketSelling })),
   seasonalTickets: tickets
     .filter((ticket) => ticket.type === 'SEASONAL')
-    .map((ticket) => ({ ...ticket, disabled: true })),
+    .map((ticket) => ({ ...ticket, disabled: !environment.seasonalTicketSelling })),
 })
 
 const HomepageTickets = () => {
