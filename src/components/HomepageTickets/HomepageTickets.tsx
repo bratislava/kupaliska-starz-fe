@@ -12,12 +12,12 @@ import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
 import { environment } from '../../environment'
 
-const partitionTickets = (tickets: TicketType[]) => ({
-  dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
-  entryTickets: tickets
+const partitionTickets = (ticketTypes: TicketType[]) => ({
+  dayTickets: ticketTypes.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
+  entryTickets: ticketTypes
     .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
     .map((ticket) => ({ ...ticket, disabled: !environment.entryTicketSelling })),
-  seasonalTickets: tickets
+  seasonalTickets: ticketTypes
     .filter((ticket) => ticket.type === 'SEASONAL')
     .map((ticket) => ({ ...ticket, disabled: !environment.seasonalTicketSelling })),
 })
@@ -31,23 +31,23 @@ const HomepageTickets = () => {
   const history = useHistory()
   const login = useLogin()
 
-  const ticketNeedsLogin = (ticket: TicketType) => ticket.nameRequired && !isAuthenticated
+  const ticketTypeNeedsLogin = (ticketType: TicketType) => ticketType.nameRequired && !isAuthenticated
   const { dayTickets, entryTickets, seasonalTickets } = useMemo(
     () => partitionTickets(tickets),
     [tickets],
   )
 
-  const handleClick = async (ticket: TicketType) => {
-    if (ticket.disabled) {
+  const handleClick = async (ticketType: TicketType) => {
+    if (ticketType.disabled) {
       return
     }
 
-    if (ticketNeedsLogin(ticket)) {
-      await login(`${window.location.origin}${ROUTES.ORDER}?ticketId=${ticket.id}`)
+    if (ticketTypeNeedsLogin(ticketType)) {
+      await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
       history.push({
         pathname: ROUTES.ORDER,
-        state: { ticketId: ticket.id },
+        state: { ticketTypeId: ticketType.id },
       })
     }
   }
@@ -86,7 +86,7 @@ const HomepageTickets = () => {
               </div>
               <div className="flex flex-col gap-3">
                 {tickets?.map((ticket) => {
-                  const needsLogin = ticketNeedsLogin(ticket)
+                  const needsLogin = ticketTypeNeedsLogin(ticket)
 
                   return (
                     <div

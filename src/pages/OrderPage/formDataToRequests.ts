@@ -4,7 +4,7 @@ import { OrderFormData } from './OrderPage'
 
 export function orderFormToRequests(
   formData: OrderFormData,
-  ticket: TicketType,
+  ticketType: TicketType,
   {
     requireEmail,
     hasOptionalFields,
@@ -20,8 +20,8 @@ export function orderFormToRequests(
   let getPriceRequest = {} as any
   let orderRequest = {} as any
 
-  getPriceRequest.ticketTypeId = ticket.id
-  orderRequest.ticketTypeId = ticket.id
+  getPriceRequest.ticketTypeId = ticketType.id
+  orderRequest.ticketTypeId = ticketType.id
 
   if (formData.discountCode) {
     getPriceRequest.discountPercent = formData.discountCode.amount

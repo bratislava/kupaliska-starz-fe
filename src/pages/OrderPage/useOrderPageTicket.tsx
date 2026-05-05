@@ -6,7 +6,7 @@ import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
 
 export interface OrderPageTicket {
-  ticket: TicketType
+  ticketType: TicketType
   requireEmail: boolean
   hasOptionalFields: boolean
   hasSwimmers: boolean
@@ -20,31 +20,31 @@ export interface OrderPageTicket {
 const Context = createContext<OrderPageTicket | undefined>(undefined)
 
 export const OrderPageTicketProvider = ({
-  ticket,
+  ticketType,
   children,
-}: PropsWithChildren<{ ticket: TicketType }>) => {
+}: PropsWithChildren<{ ticketType: TicketType }>) => {
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'
 
-  const hasSwimmers = ticket.nameRequired
-  const hasNameRequired = ticket.nameRequired
+  const hasSwimmers = ticketType.nameRequired
+  const hasNameRequired = ticketType.nameRequired
   const userQuery = useQuery('user', fetchUser, { enabled: hasSwimmers })
   const requireEmail = !hasAccount
-  const hasOptionalFields = !ticket.nameRequired && !hasAccount
-  const hasTicketAmount = !ticket.nameRequired
+  const hasOptionalFields = !ticketType.nameRequired && !hasAccount
+  const hasTicketAmount = !ticketType.nameRequired
   const displayMissingInformationWarning =
     hasSwimmers && userQuery.data?.data
       ? userQuery.data.data.image == null || userQuery.data.data.age == null
       : false
   const userQueryNotLoadedIfNeeded = hasSwimmers && !userQuery.data
   const sendDisabled = displayMissingInformationWarning || userQueryNotLoadedIfNeeded
-  const isSeniorOrDisabledTicket = ticket.isSeniorIsDisabled
+  const isSeniorOrDisabledTicket = ticketType.isSeniorIsDisabled
 
   return (
     <Context.Provider
       value={{
-        ticket,
+        ticketType,
         requireEmail,
         hasOptionalFields,
         hasSwimmers,

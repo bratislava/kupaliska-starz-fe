@@ -11,39 +11,39 @@ import { ROUTES } from 'helpers/constants'
 
 const OrderPageGuard = () => {
   const tickets = useAppSelector(selectAvailableTickets)
-  const history = useHistory<{ ticketId?: string }>()
-  const searchParamsTicketId = new URLSearchParams(history.location.search).get('ticketId')
+  const history = useHistory<{ ticketTypeId?: string }>()
+  const searchParamsTicketTypeId = new URLSearchParams(history.location.search).get('ticketTypeId')
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'
 
   // After the sign-in ticket id is stored in the url. This removes the id from the URL and saves it in the state
   // to be consistent with the default behavior.
-  if (searchParamsTicketId) {
-    return <Redirect to={{ pathname: ROUTES.ORDER, state: { ticketId: searchParamsTicketId } }} />
+  if (searchParamsTicketTypeId) {
+    return <Redirect to={{ pathname: ROUTES.ORDER, state: { ticketTypeId: searchParamsTicketTypeId } }} />
   }
 
-  const ticketId = history.location.state?.ticketId
-  if (!ticketId) {
+  const ticketTypeId = history.location.state?.ticketTypeId
+  if (!ticketTypeId) {
     return <Redirect to={ROUTES.HOME} />
   }
 
-  const ticket = tickets.find((t: TicketType) => t.id === ticketId)
-  if (!ticket) {
+  const ticketType = tickets.find((ticketType: TicketType) => ticketType.id === ticketTypeId)
+  if (!ticketType) {
     return <Redirect to={ROUTES.HOME} />
   }
 
-  if (ticket.disabled) {
+  if (ticketType.disabled) {
     return <Redirect to={ROUTES.HOME} />
   }
 
-  const requiresLoginAndIsNotLoggedIn = ticket.nameRequired && !hasAccount
+  const requiresLoginAndIsNotLoggedIn = ticketType.nameRequired && !hasAccount
   if (requiresLoginAndIsNotLoggedIn) {
     return <Redirect to={ROUTES.HOME} />
   }
 
   return (
-    <OrderPageTicketProvider ticket={ticket}>
+    <OrderPageTicketProvider ticketType={ticketType}>
       <OrderPage />
     </OrderPageTicketProvider>
   )

@@ -68,7 +68,7 @@ export interface OrderRequest {
 }
 
 export interface CartItem {
-  ticket: TicketType
+  ticketType: TicketType
   amount: number
   childrenNumber: number
 }
