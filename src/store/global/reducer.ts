@@ -85,7 +85,7 @@ export const counterSlice = createSlice({
 export const { setSelectedPoolId, setToast } = counterSlice.actions
 
 //selector
-export const selectAvailableTickets = (state: RootState) => state.global.availableTicketTypes
+export const selectAvailableTicketTypes = (state: RootState) => state.global.availableTicketTypes
 export const selectPools = (state: RootState) =>
   state.global.pools.map((poolResp) => swimmingPoolResponseToSwimmingPool(poolResp))
 export const selectSelectedPool = (state: RootState) => {

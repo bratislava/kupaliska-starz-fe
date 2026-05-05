@@ -5,12 +5,12 @@ import OrderPage from './OrderPage'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { TicketType } from '../../models'
 import { useAppSelector } from '../../hooks'
-import { selectAvailableTickets } from '../../store/global'
+import { selectAvailableTicketTypes } from '../../store/global'
 import { OrderPageTicketProvider } from './useOrderPageTicket'
 import { ROUTES } from 'helpers/constants'
 
 const OrderPageGuard = () => {
-  const tickets = useAppSelector(selectAvailableTickets)
+  const ticketTypes = useAppSelector(selectAvailableTicketTypes)
   const history = useHistory<{ ticketTypeId?: string }>()
   const searchParamsTicketTypeId = new URLSearchParams(history.location.search).get('ticketTypeId')
   const { status } = useCityAccountAccessToken()
@@ -28,7 +28,7 @@ const OrderPageGuard = () => {
     return <Redirect to={ROUTES.HOME} />
   }
 
-  const ticketType = tickets.find((ticketType: TicketType) => ticketType.id === ticketTypeId)
+  const ticketType = ticketTypes.find((ticketType: TicketType) => ticketType.id === ticketTypeId)
   if (!ticketType) {
     return <Redirect to={ROUTES.HOME} />
   }
