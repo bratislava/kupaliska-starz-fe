@@ -1,10 +1,10 @@
-import { Ticket } from '../../models'
+import { TicketType } from '../../models'
 import { times } from 'lodash'
 import { OrderFormData } from './OrderPage'
 
 export function orderFormToRequests(
   formData: OrderFormData,
-  ticket: Ticket,
+  ticket: TicketType,
   {
     requireEmail,
     hasOptionalFields,

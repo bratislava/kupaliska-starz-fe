@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { useHistory } from 'react-router-dom'
 import OrderPage from './OrderPage'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
-import { Ticket } from '../../models'
+import { TicketType } from '../../models'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
 import { OrderPageTicketProvider } from './useOrderPageTicket'
@@ -28,7 +28,7 @@ const OrderPageGuard = () => {
     return <Redirect to={ROUTES.HOME} />
   }
 
-  const ticket = tickets.find((t: Ticket) => t.id === ticketId)
+  const ticket = tickets.find((t: TicketType) => t.id === ticketId)
   if (!ticket) {
     return <Redirect to={ROUTES.HOME} />
   }

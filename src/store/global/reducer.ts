@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { RootState } from 'store'
 import { initPageGlobalState, fetchPoolActions } from './thunks'
-import { SwimmingPoolResponse, Ticket } from 'models'
+import { SwimmingPoolResponse, TicketType } from 'models'
 import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
 
 export interface GlobalState {
-  availableTickets: Ticket[]
+  availableTickets: TicketType[]
   pools: SwimmingPoolResponse[]
   status: 'idle' | 'loading' | 'failed'
   selectedPoolId?: string
@@ -69,7 +69,7 @@ export const counterSlice = createSlice({
         (
           state,
           action: PayloadAction<{
-            ticketTypes: Ticket[]
+            ticketTypes: TicketType[]
             swimmingPools: SwimmingPoolResponse[]
           }>,
         ) => {

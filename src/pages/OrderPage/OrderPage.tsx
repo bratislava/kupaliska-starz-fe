@@ -7,7 +7,7 @@ import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associat
 import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { Trans, useTranslation } from 'react-i18next'
-import { CheckPriceResponse, Ticket } from '../../models'
+import { CheckPriceResponse, TicketType } from '../../models'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -367,7 +367,7 @@ const OrderPageDiscountCodeInput = ({
   setValue,
   getValues,
 }: {
-  ticket: Ticket
+  ticket: TicketType
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
@@ -792,20 +792,20 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
+              price: currencyFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
             : t('buy-page.pay')
         break
       default:
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
+              price: currencyFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
             : t('buy-page.pay')
         break
     }

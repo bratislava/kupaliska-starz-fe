@@ -1,12 +1,12 @@
 import React from 'react'
-import { Ticket } from '../../models'
+import { TicketType } from '../../models'
 import { createContext, PropsWithChildren, useContext } from 'react'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'
 
 export interface OrderPageTicket {
-  ticket: Ticket
+  ticket: TicketType
   requireEmail: boolean
   hasOptionalFields: boolean
   hasSwimmers: boolean
@@ -22,7 +22,7 @@ const Context = createContext<OrderPageTicket | undefined>(undefined)
 export const OrderPageTicketProvider = ({
   ticket,
   children,
-}: PropsWithChildren<{ ticket: Ticket }>) => {
+}: PropsWithChildren<{ ticket: TicketType }>) => {
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'

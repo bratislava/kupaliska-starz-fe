@@ -1,6 +1,6 @@
 import { PaymentMethod } from 'helpers/types'
 
-export interface Ticket {
+export interface TicketType {
   id: string
   name: string
   description: string
@@ -68,7 +68,7 @@ export interface OrderRequest {
 }
 
 export interface CartItem {
-  ticket: Ticket
+  ticket: TicketType
   amount: number
   childrenNumber: number
 }

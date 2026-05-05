@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTickets } from '../../store/global'
-import { Ticket } from '../../models'
+import { TicketType } from '../../models'
 import { Button, Icon } from '../index'
 import cx from 'classnames'
 import { useLogin } from '../../hooks/useLogin'
@@ -12,7 +12,7 @@ import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
 import { environment } from '../../environment'
 
-const partitionTickets = (tickets: Ticket[]) => ({
+const partitionTickets = (tickets: TicketType[]) => ({
   dayTickets: tickets.filter((ticket) => ticket.type === 'ENTRIES' && !ticket.nameRequired),
   entryTickets: tickets
     .filter((ticket) => ticket.type === 'ENTRIES' && ticket.nameRequired)
@@ -31,13 +31,13 @@ const HomepageTickets = () => {
   const history = useHistory()
   const login = useLogin()
 
-  const ticketNeedsLogin = (ticket: Ticket) => ticket.nameRequired && !isAuthenticated
+  const ticketNeedsLogin = (ticket: TicketType) => ticket.nameRequired && !isAuthenticated
   const { dayTickets, entryTickets, seasonalTickets } = useMemo(
     () => partitionTickets(tickets),
     [tickets],
   )
 
-  const handleClick = async (ticket: Ticket) => {
+  const handleClick = async (ticket: TicketType) => {
     if (ticket.disabled) {
       return
     }
