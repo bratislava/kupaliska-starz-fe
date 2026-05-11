@@ -1,16 +1,11 @@
 import './helpers/logger'
 import React, { useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ConnectedRouter } from 'connected-react-router'
-import { Route, Switch, useHistory } from 'react-router-dom'
-
-import { history } from 'store'
-import { Route as IRoute, routes } from 'helpers/routes'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import { Footer, Header, ScrollToTop, Toast, TopBanner } from 'components'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { initPageGlobalState, selectToast, setToast } from 'store/global'
-import { Redirect } from 'react-router'
 import 'react-loading-skeleton/dist/skeleton.css'
 import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
@@ -23,6 +18,14 @@ import CityAccountLoginRedirectionModal, {
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import { PreseasonProvider } from 'hooks/usePreseason'
 import { ROUTES } from 'helpers/constants'
+import OrderPageGuard from 'pages/OrderPage/OrderPageGuard'
+import OrderResultSuccessfulPage from 'pages/OrderResultPage/OrderResultSuccessfulPage'
+import OrderResultUnsuccessfulPage from 'pages/OrderResultPage/OrderResultUnsuccessfulPage'
+import VOPPage from 'pages/VOPPage/VOPPage'
+import GDPRPage from 'pages/GDPRPage/GDPRPage'
+import ProfilePage from 'pages/ProfilePage/ProfilePage'
+import TicketsManagementPage from 'pages/TicketsManagementPage/TicketsManagementPage'
+import { LandingPage } from 'pages'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,25 +51,8 @@ const queryClient = new QueryClient({
 const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
   const { status } = useCityAccountAccessToken()
   if (status === 'initializing') return null
-  return status === 'authenticated' ? children : <Redirect to={'/'} />
+  return status === 'authenticated' ? children : <Navigate to={'/'} />
 }
-
-const renderRoute = (route: IRoute) => (
-  <Route
-    key={route.path}
-    exact={route.exact}
-    path={route.path}
-    render={() =>
-      route.requireAuth ? (
-        <RequireAuthRoute>
-          <route.component />
-        </RequireAuthRoute>
-      ) : (
-        <route.component />
-      )
-    }
-  />
-)
 
 function App() {
   const dispatch = useAppDispatch()
@@ -79,7 +65,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ConnectedRouter history={history}>
+        <BrowserRouter>
           <CityAccountAccessTokenProvider>
             <RegisterUserGuard>
               <PreseasonProvider>
@@ -100,25 +86,28 @@ function App() {
                     <main className="relative flex flex-col" style={{ flex: 1 }}>
                       <Header />
 
-                      <Switch>
-                        {/* https://stackoverflow.com/a/66114844 */}
-                        <Route
-                          path="/refresh"
-                          exact={true}
-                          component={() => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            const history = useHistory()
-                            // eslint-disable-next-line react-hooks/rules-of-hooks,react-hooks/exhaustive-deps
-                            useEffect(() => history.goBack(), [])
-                            return <></>
-                          }}
+                      <Routes>
+                        <Route path="/order" element={<Navigate replace to={ROUTES.ORDER} />} />
+                        <Route path="/order-result" element={<Navigate replace to={ROUTES.HOME} />} />
+                        <Route path="/profile" element={<Navigate replace to={ROUTES.PROFILE} />} />
+                        <Route path="/tickets" element={<Navigate replace to={ROUTES.TICKETS} />} />
+                        <Route path={ROUTES.ORDER} element={<OrderPageGuard />} />
+                        <Route path={ROUTES.ORDER_SUCCESSFUL} element={<OrderResultSuccessfulPage />} />
+                        <Route path={ROUTES.ORDER_UNSUCCESSFUL} element={<OrderResultUnsuccessfulPage />} />
+                        <Route path={ROUTES.VOP} element={<VOPPage />} />
+                        <Route path={ROUTES.GDPR} element={<GDPRPage />} />
+                        <Route path={ROUTES.PROFILE} element={
+                          <RequireAuthRoute>
+                            <ProfilePage />
+                          </RequireAuthRoute>}
                         />
-                        <Redirect strict from="/order" to={ROUTES.ORDER} />
-                        <Redirect from="/order-result" to={ROUTES.HOME} />
-                        <Redirect strict from="/profile" to={ROUTES.PROFILE} />
-                        <Redirect strict from="/tickets" to={ROUTES.TICKETS} />
-                        {routes.map(renderRoute)}
-                      </Switch>
+                        <Route path={ROUTES.TICKETS} element={
+                          <RequireAuthRoute>
+                            <TicketsManagementPage />
+                          </RequireAuthRoute>}
+                        />
+                        <Route path={ROUTES.HOME} element={<LandingPage />} />
+                      </Routes>
                       <CookieConsent />
                     </main>
                     <Footer />
@@ -127,7 +116,7 @@ function App() {
               </PreseasonProvider>
             </RegisterUserGuard>
           </CityAccountAccessTokenProvider>
-        </ConnectedRouter>
+        </BrowserRouter>
       </QueryClientProvider>
     </>
   )

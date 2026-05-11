@@ -1,6 +1,6 @@
 import React from 'react'
-import { Redirect } from 'react-router'
-import { useHistory } from 'react-router-dom'
+import { Navigate } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import OrderPage from './OrderPage'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { TicketType } from '../../models'
@@ -11,8 +11,8 @@ import { ROUTES } from 'helpers/constants'
 
 const OrderPageGuard = () => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
-  const history = useHistory<{ ticketTypeId?: string }>()
-  const searchParamsTicketTypeId = new URLSearchParams(history.location.search).get('ticketTypeId')
+  const location = useLocation()
+  const searchParamsTicketTypeId = new URLSearchParams(location?.search).get('ticketTypeId')
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'
@@ -20,26 +20,25 @@ const OrderPageGuard = () => {
   // After the sign-in ticket id is stored in the url. This removes the id from the URL and saves it in the state
   // to be consistent with the default behavior.
   if (searchParamsTicketTypeId) {
-    return <Redirect to={{ pathname: ROUTES.ORDER, state: { ticketTypeId: searchParamsTicketTypeId } }} />
+    return <Navigate to={ROUTES.ORDER} state={{ ticketTypeId: searchParamsTicketTypeId }} replace />
   }
 
-  const ticketTypeId = history.location.state?.ticketTypeId
+  const ticketTypeId = location?.state?.ticketTypeId as string | undefined
   if (!ticketTypeId) {
-    return <Redirect to={ROUTES.HOME} />
+    return <Navigate to={ROUTES.HOME} replace />
   }
-
   const ticketType = ticketTypes.find((ticketType: TicketType) => ticketType.id === ticketTypeId)
   if (!ticketType) {
-    return <Redirect to={ROUTES.HOME} />
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
   if (ticketType.disabled) {
-    return <Redirect to={ROUTES.HOME} />
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
   const requiresLoginAndIsNotLoggedIn = ticketType.nameRequired && !hasAccount
   if (requiresLoginAndIsNotLoggedIn) {
-    return <Redirect to={ROUTES.HOME} />
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
   return (

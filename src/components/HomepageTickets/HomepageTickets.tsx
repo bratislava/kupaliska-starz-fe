@@ -6,7 +6,7 @@ import { Button, Icon } from '../index'
 import cx from 'classnames'
 import { useLogin } from '../../hooks/useLogin'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
@@ -28,7 +28,7 @@ const HomepageTickets = () => {
   const { status } = useCityAccountAccessToken()
 
   const isAuthenticated = status === 'authenticated'
-  const history = useHistory()
+  const navigate = useNavigate()
   const login = useLogin()
 
   const ticketTypeNeedsLogin = (ticketType: TicketType) => ticketType.nameRequired && !isAuthenticated
@@ -45,8 +45,7 @@ const HomepageTickets = () => {
     if (ticketTypeNeedsLogin(ticketType)) {
       await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
-      history.push({
-        pathname: ROUTES.ORDER,
+      navigate(ROUTES.ORDER, {
         state: { ticketTypeId: ticketType.id },
       })
     }
@@ -109,13 +108,15 @@ const HomepageTickets = () => {
                           color={needsLogin ? 'primary' : 'outlined'}
                           disabled={ticketType.disabled}
                         >
-                          {needsLogin ? t('signin-button') : t('landing.basket')}
-                          <Icon
-                            name={needsLogin ? 'login' : 'euro-coin'}
-                            className={cx('ml-2 no-fill', {
-                              'py-1': !needsLogin,
-                            })}
-                          />
+                          <>
+                            {needsLogin ? t('signin-button') : t('landing.basket')}
+                            <Icon
+                              name={needsLogin ? 'login' : 'euro-coin'}
+                              className={cx('ml-2 no-fill', {
+                                'py-1': !needsLogin,
+                              })}
+                            />
+                          </>
                         </Button>
                       </div>
                     </div>

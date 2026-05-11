@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { getFinalOrder } from '../../store/order/api'
 import { useQuery } from 'react-query'
-import { useHistory, useLocation } from 'react-router'
+import { useNavigate, useLocation } from 'react-router'
 import OrderSuccess from 'components/OrderSuccess/OrderSuccess'
 import qs from 'qs'
 import { useErrorToast } from '../../hooks/useErrorToast'
@@ -15,7 +15,7 @@ type Params = {
 }
 
 const OrderResultPage = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { dispatchErrorToast } = useErrorToast()
 
   const location = useLocation()
@@ -28,9 +28,9 @@ const OrderResultPage = () => {
 
   useEffect(() => {
     if (!params.orderId || !params.orderAccessToken) {
-      history.push(ROUTES.ORDER_UNSUCCESSFUL)
+      navigate(ROUTES.ORDER_UNSUCCESSFUL)
     }
-  }, [params, history])
+  }, [params, navigate])
 
   return (
     <div className="bg-sunscreen grow">

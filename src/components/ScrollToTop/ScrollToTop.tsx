@@ -1,16 +1,12 @@
 import React, { PropsWithChildren, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 function ScrollToTop({ children }: PropsWithChildren<{}>) {
-  const history = useHistory()
+  const location = useLocation();
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      window.scrollTo(0, 0)
-    })
-    return () => {
-      unlisten()
-    }
-  }, [])
+    window.scrollTo(0, 0)
+
+  }, [location])
 
   return <>{children}</>
 }
