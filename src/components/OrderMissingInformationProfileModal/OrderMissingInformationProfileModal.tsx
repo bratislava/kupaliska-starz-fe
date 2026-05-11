@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueryClient } from 'react-query'
@@ -43,7 +43,7 @@ const validationSchema = yup.object({
 
 export const OrderMissingInformationProfileModal = ({
   user,
-  onClose = () => {},
+  onClose = () => { },
 }: OrderMissingInformationProfileModalProps) => {
   const { t } = useTranslation()
   // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
@@ -61,10 +61,10 @@ export const OrderMissingInformationProfileModal = ({
     resolver: yupResolver(validationSchema),
     defaultValues: user
       ? {
-          ...pick(user, ['zip', 'dateOfBirth']),
-          // Photo is not stored in the form for performance reasons.
-          image: user.image ? 'set' : undefined,
-        }
+        ...pick(user, ['zip', 'dateOfBirth']),
+        // Photo is not stored in the form for performance reasons.
+        image: user.image ? 'set' : undefined,
+      }
       : undefined,
   })
 

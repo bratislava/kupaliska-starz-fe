@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Icon, Spinner } from '../index'
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../store/user/api'

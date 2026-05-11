@@ -1,4 +1,3 @@
-import React from 'react'
 import { CalendarDate, DateDuration, endOfMonth, getWeeksInMonth } from '@internationalized/date'
 import { useCalendarGrid, useLocale } from 'react-aria'
 import { CalendarState } from 'react-stately'

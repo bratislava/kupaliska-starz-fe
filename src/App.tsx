@@ -1,5 +1,5 @@
 import './helpers/logger'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 

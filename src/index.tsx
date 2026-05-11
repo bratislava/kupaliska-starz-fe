@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import { Suspense, StrictMode } from 'react'
 
 import { createRoot } from 'react-dom/client';
 
@@ -18,11 +18,11 @@ if (!container) {
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
       <Provider store={store}>
         <App />
       </Provider>
     </Suspense>
-  </React.StrictMode>,
+  </StrictMode>,
 )

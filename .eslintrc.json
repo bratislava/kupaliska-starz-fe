@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["react-app", "plugin:react/recommended"],
+  "extends": ["react-app", "plugin:react/recommended", "plugin:react/jsx-runtime"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"

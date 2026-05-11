@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
 import './InputField.css'
@@ -82,9 +82,8 @@ const InputField = ({
         </div>
       )}
       <div
-        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${
-          thin ? '' : 'px-6 py-4'
-        } flex flex-1 items-center ${inputWrapperClassName}`}
+        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${thin ? '' : 'px-6 py-4'
+          } flex flex-1 items-center ${inputWrapperClassName}`}
       >
         {!!leftExtra && leftExtra}
         <Input

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext } from 'react'
+import { PropsWithChildren, useContext, useState, createContext } from 'react'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 import { Link } from 'react-router-dom'
@@ -15,18 +15,18 @@ type Context = {
   close: () => void
 }
 
-const context = React.createContext<Context>({} as Context)
+const context = createContext<Context>({} as Context)
 
 export const CityAccountLoginRedirectionModalContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
-  const [state, setState] = React.useState({ open: false, onSuccessCallback: () => {} })
+  const [state, setState] = useState({ open: false, onSuccessCallback: () => { } })
 
   const open = (onSuccessCallback: () => void) => {
     setState({ open: true, onSuccessCallback })
   }
   const close = () => {
-    setState({ open: false, onSuccessCallback: () => {} })
+    setState({ open: false, onSuccessCallback: () => { } })
   }
 
   return <context.Provider value={{ state, open, close }}>{children}</context.Provider>

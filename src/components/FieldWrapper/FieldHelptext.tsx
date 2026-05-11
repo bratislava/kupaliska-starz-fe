@@ -1,4 +1,4 @@
-import React, { DOMAttributes } from 'react'
+import { DOMAttributes } from 'react'
 
 type FieldHelptextProps = {
   helptext?: string

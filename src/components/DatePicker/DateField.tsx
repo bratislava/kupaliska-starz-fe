@@ -1,7 +1,7 @@
 import { createCalendar } from '@internationalized/date'
 import { useObjectRef } from '@react-aria/utils'
 import { DateValue } from '@react-types/datepicker'
-import React, { forwardRef, ReactNode } from 'react'
+import { forwardRef, ReactNode } from 'react'
 import { AriaDatePickerProps, useDateField, useLocale } from 'react-aria'
 import { useDateFieldState } from 'react-stately'
 import cx from 'classnames'

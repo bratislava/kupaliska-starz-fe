@@ -1,5 +1,6 @@
+
 import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
-import React, { useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState, useContext } from 'react'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import logger from 'helpers/logger'
@@ -13,12 +14,12 @@ interface CityAccountAccessTokenState {
   status: CityAccountAccessTokenAuthenticationStatus
   accessToken: string | null
   sub: string | undefined
-  refreshToken: () => void
+  refreshToken: (isInitialRefresh: boolean) => Promise<string | null>
 }
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
 
-const CityAccountAccessTokenContext = React.createContext<CityAccountAccessTokenState>(
+const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState>(
   {} as CityAccountAccessTokenState,
 )
 
@@ -133,7 +134,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: React.R
 }
 
 export default function useCityAccountAccessToken() {
-  const context = React.useContext(CityAccountAccessTokenContext)
+  const context = useContext(CityAccountAccessTokenContext)
   if (context === undefined) {
     throw new Error(
       'useCityAccountAccessToken must be used within a CityAccountAccessTokenProvider',

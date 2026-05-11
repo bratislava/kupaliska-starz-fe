@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from '../Button/Button'
 import TicketsSwiper from './TicketsSwiper'
 import { Icon, Typography } from '../index'

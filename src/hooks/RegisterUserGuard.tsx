@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 import useCityAccountAccessToken from './useCityAccount'
 import { registerUser } from '../store/global/api'
 
@@ -17,7 +17,7 @@ const RegisterUserGuard = ({ children }: PropsWithChildren<{}>) => {
       registerUser(accessToken as string)
         // If register user fails, it usually means that the user is already registered.
         // TODO: Improve check
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => setShowChildren(true))
     }
     if (status === 'unauthenticated') {

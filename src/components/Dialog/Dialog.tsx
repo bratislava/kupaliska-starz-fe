@@ -1,4 +1,4 @@
-import React, { cloneElement, PropsWithChildren, ReactElement, ReactNode } from 'react'
+import { cloneElement, PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Button, Dialog as AriaDialog, Heading, Modal } from 'react-aria-components'
 
 import { Icon } from '../index'
@@ -16,7 +16,7 @@ type DialogProps = {
 const Dialog = ({
   title,
   open,
-  onClose = () => {},
+  onClose = () => { },
   footerButton,
   children,
   wrapper = <div />,

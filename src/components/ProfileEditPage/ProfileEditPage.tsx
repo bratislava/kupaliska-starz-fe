@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PhotoField from '../PhotoField/PhotoField'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'

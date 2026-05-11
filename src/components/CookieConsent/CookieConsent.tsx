@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import Consent, { Cookies } from 'react-cookie-consent'
 import { Trans, useTranslation } from 'react-i18next'
 import { AccordionItem, Button, Modal } from '../index'

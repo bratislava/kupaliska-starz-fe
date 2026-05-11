@@ -1,4 +1,3 @@
-import React from 'react'
 
 import { SectionHeader, Typography } from 'components'
 
@@ -6,9 +5,9 @@ import './GDPRPage.css'
 import { Trans, useTranslation } from 'react-i18next'
 import Markdown from 'react-markdown'
 const GDPRPage = () => {
-  const { t } = useTranslation()
+   const { t } = useTranslation()
 
-  const gdprText = `## **Zásady ochrany osobných údajov**
+   const gdprText = `## **Zásady ochrany osobných údajov**
 Osobné údaje spracúvame v súlade s Nariadením Európskeho parlamentu a rady č. 2016/679 o ochrane fyzických osôb pri spracúvaní osobných údajov a o voľnom pohybe takýchto údajov (ďalej len „GDPR“) a zákonom č. 18/2018 Z. z. o ochrane osobných údajov (ďalej len „zákon o OOU“). Bezpečnosť osobných údajov a ich spracúvanie zákonným spôsobom je pre nás prvoradé. Tu sa dozviete, ako vaše osobné údaje spracúvame a ako dosiahneme ich bezpečnosť.
 
 ### **I. NAŠE ÚDAJE**
@@ -97,10 +96,10 @@ Tel.: +42(2) 443 373 27
 9. **Záverečné ustanovenia**
   Tieto zásady ochrany osobných údajov nadobúdajú platnosť dňa 31.05.2025. Vyhradzujeme si právo tieto zásady zmeniť, ak dôjde k zmene spracúvania osobných údajov v našej organizácii.`
 
-  return (
-    <main className="container mx-auto mt-8 xl:mt-12">
-      <SectionHeader title={t('gdpr.title')} />
-      {/* <Trans
+   return (
+      <main className="container mx-auto mt-8 xl:mt-12">
+         <SectionHeader title={t('gdpr.title')} />
+         {/* <Trans
         i18nKey={`gdpr.main-text`}
         components={{
           p: <p />,
@@ -112,9 +111,9 @@ Tel.: +42(2) 443 373 27
           div: <div />,
         }}
       /> */}
-      <Markdown>{gdprText}</Markdown>
-    </main>
-  )
+         <Markdown>{gdprText}</Markdown>
+      </main>
+   )
 }
 
 export default GDPRPage

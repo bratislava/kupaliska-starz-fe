@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './Header.css'
 
 import { HashLink as Link } from 'react-router-hash-link'
@@ -36,15 +36,15 @@ const Header = () => {
     ...(preseason
       ? []
       : [
-          {
-            to: ANCHORS.TICKET_BUY,
-            key: 'header.menu-items.0.text',
-          },
-          {
-            to: ANCHORS.SWIMMING_POOLS,
-            key: 'header.menu-items.1.text',
-          },
-        ]),
+        {
+          to: ANCHORS.TICKET_BUY,
+          key: 'header.menu-items.0.text',
+        },
+        {
+          to: ANCHORS.SWIMMING_POOLS,
+          key: 'header.menu-items.1.text',
+        },
+      ]),
     {
       to: ANCHORS.CONTACT_US,
       key: 'header.menu-items.2.text',
@@ -118,15 +118,13 @@ const Header = () => {
         </div>
         <div
           onClick={() => setOpen(!open)}
-          className={`fixed inset-0 ${
-            open ? 'block' : 'hidden'
-          } md:hidden bg-fontBlack bg-opacity-30 z-10`}
+          className={`fixed inset-0 ${open ? 'block' : 'hidden'
+            } md:hidden bg-fontBlack bg-opacity-30 z-10`}
         ></div>
 
         <nav
-          className={`${
-            open ? 'w-3/4' : 'w-0'
-          } md:hidden overflow-hidden fixed top-0 right-0 bottom-0 flex-col flex flex-1 bg-sunscreen transition-all z-10`}
+          className={`${open ? 'w-3/4' : 'w-0'
+            } md:hidden overflow-hidden fixed top-0 right-0 bottom-0 flex-col flex flex-1 bg-sunscreen transition-all z-10`}
         >
           <div className="py-12 px-4 flex flex-col flex-1 justify-between">
             <div className="flex flex-col">

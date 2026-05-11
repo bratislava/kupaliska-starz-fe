@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Icon } from 'components'

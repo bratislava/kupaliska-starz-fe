@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { Icon } from '../index'
 import { Button as AriaButton } from 'react-aria-components'
@@ -26,9 +26,9 @@ export const AccordionItem = ({
   secondaryTitle,
   paddingVariant = 'normal',
 }: AccordionItemProps) => {
-  const [active, setActive] = React.useState<boolean>(initialState)
+  const [active, setActive] = useState<boolean>(initialState)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen !== undefined) setActive(isOpen)
   }, [isOpen])
 

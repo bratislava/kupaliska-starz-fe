@@ -1,4 +1,3 @@
-import React from 'react'
 import { parseDate } from '@internationalized/date'
 import { useObjectRef } from '@react-aria/utils'
 import { useControlledState } from '@react-stately/utils'
@@ -37,7 +36,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       value,
       minValue,
       maxValue,
-      onChange = () => {},
+      onChange = () => { },
       customErrorPlace = false,
       size,
       labelSize,

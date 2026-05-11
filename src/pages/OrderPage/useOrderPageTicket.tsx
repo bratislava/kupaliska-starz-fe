@@ -1,4 +1,3 @@
-import React from 'react'
 import { TicketType } from '../../models'
 import { createContext, PropsWithChildren, useContext } from 'react'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'

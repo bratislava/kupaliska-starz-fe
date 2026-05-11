@@ -1,5 +1,4 @@
 import Switch from 'react-switch'
-import React from 'react'
 
 declare const preval: (code: TemplateStringsArray) => Record<string, unknown>
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
 import { useWindowSize } from '../../hooks'

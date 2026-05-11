@@ -1,4 +1,4 @@
-import React, { DOMAttributes } from 'react'
+import { DOMAttributes } from 'react'
 
 import FieldErrorMessage, { FieldErrorMessageProps } from './FieldErrorMessage'
 import FieldHelptext from './FieldHelptext'

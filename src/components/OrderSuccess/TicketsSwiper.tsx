@@ -5,7 +5,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import './TicketsSwiper.css'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Pagination } from 'swiper'
 import { FinalOrderTicket } from '../../store/order/api'
 import cx from 'classnames'

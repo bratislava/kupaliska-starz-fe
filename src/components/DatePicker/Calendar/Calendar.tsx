@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Icon } from 'components'
 
 import { createCalendar } from '@internationalized/date'

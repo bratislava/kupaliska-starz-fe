@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
 import cx from 'classnames'
 import FieldFooter, { FieldFooterProps } from './FieldFooter'

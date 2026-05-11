@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { getFinalOrder } from '../../store/order/api'
 import { useQuery } from 'react-query'
 import { useNavigate, useLocation } from 'react-router'

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Icon, InputField } from 'components'
 import { get } from 'lodash'
 import { useTranslation } from 'react-i18next'

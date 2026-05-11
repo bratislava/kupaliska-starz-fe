@@ -1,4 +1,3 @@
-import React from 'react'
 import { Navigate } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import OrderPage from './OrderPage'

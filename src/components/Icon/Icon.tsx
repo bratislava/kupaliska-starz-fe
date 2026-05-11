@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { ReactComponent as AccommodationIcon } from '../../assets/icons/accommodation.svg'
 import { ReactComponent as AlertIcon } from '../../assets/icons/alert.svg'
 import { ReactComponent as ApplePayIcon } from '../../assets/icons/apple-pay.svg'

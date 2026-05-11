@@ -1,4 +1,3 @@
-import React from 'react'
 import ProfilePageUser from '../../components/ProfilePage/ProfilePageUser'
 import ProfilePageSwimmers from '../../components/ProfilePage/ProfilePageSwimmers'
 import ProfileLine from '../../components/ProfileLine/ProfileLine'

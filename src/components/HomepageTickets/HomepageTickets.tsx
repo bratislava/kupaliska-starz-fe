@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTicketTypes } from '../../store/global'
 import { TicketType } from '../../models'
