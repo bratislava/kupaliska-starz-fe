@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Button, Icon, Modal, Spinner } from 'components'
 import { useTranslation } from 'react-i18next'
 import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
@@ -119,7 +119,7 @@ const TicketsManagementModal = ({
             <div className="px-6 py-4">
               {ticket.entries.length === 0 && 'Pre zobrazený lístok neexistujú žiadne návštevy.'}
               {ticket.entries.map((entry, index) => (
-                <React.Fragment key={index}>
+                <Fragment key={index}>
                   <div className="grid grid-cols-2 gap-y-3">
                     <div className="col-span-2">
                       <div className="mb-1">{t('tickets.place')}</div>
@@ -139,7 +139,7 @@ const TicketsManagementModal = ({
                     </div>
                   </div>
                   <div className="h-0.5 bg-primary opacity-30 rounded my-4"></div>
-                </React.Fragment>
+                </Fragment>
               ))}
             </div>
           </div>
@@ -229,7 +229,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
       </thead>
       <tbody>
         {rows.map((row, rowIndex) => (
-          <React.Fragment key={rowIndex}>
+          <Fragment key={rowIndex}>
             <tr className={`${rowBackgroundClass} px-10 py-5 shadow-xs rounded-lg`}>
               {row.map((column, columnIndex) => {
                 const first = columnIndex === 0
@@ -250,7 +250,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
               })}
             </tr>
             {rowIndex !== rows.length - 1 && <tr style={{ height: '40px' }}></tr>}
-          </React.Fragment>
+          </Fragment>
         ))}
       </tbody>
     </table>
