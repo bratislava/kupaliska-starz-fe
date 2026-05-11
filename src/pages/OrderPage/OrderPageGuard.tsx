@@ -1,5 +1,4 @@
-import { Navigate } from 'react-router'
-import { useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router'
 import OrderPage from './OrderPage'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { TicketType } from '../../models'

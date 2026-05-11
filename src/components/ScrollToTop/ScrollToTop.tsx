@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 
 function ScrollToTop({ children }: PropsWithChildren<{}>) {
   const location = useLocation();

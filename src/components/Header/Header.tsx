@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './Header.css'
 
 import { HashLink as Link } from 'react-router-hash-link'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import cx from 'classnames'
 

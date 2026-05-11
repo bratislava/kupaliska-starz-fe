@@ -3,7 +3,7 @@ import TicketsSwiper from './TicketsSwiper'
 import { Icon, Typography } from '../index'
 import { FinalOrderResponse } from '../../store/order/api'
 import { convertBase64ToBlob } from '../../helpers/general'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 type OrderSuccessProps = { response: FinalOrderResponse }
 

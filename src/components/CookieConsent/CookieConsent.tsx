@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { AccordionItem, Button, Modal } from '../index'
 import KupaliskaSwitch from '../Switch/KupaliskaSwitch'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 const COOKIE_NAME = 'kupaliska-gdpr'
 

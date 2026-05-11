@@ -1,7 +1,7 @@
 import { PropsWithChildren, useContext, useState, createContext } from 'react'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { ROUTES } from 'helpers/constants'
 
 type State = {

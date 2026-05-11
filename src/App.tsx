@@ -1,7 +1,7 @@
 import './helpers/logger'
 import { useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router'
 
 import { Footer, Header, ScrollToTop, Toast, TopBanner } from 'components'
 import { useAppDispatch, useAppSelector } from 'hooks'

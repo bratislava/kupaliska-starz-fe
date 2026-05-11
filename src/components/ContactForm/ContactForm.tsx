@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import { Button, CheckboxField, Icon, InputField } from 'components'
 import { useAppDispatch } from 'hooks'
