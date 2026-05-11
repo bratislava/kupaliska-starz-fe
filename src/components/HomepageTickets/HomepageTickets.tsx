@@ -12,7 +12,7 @@ import { currencyFormatter } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
 import { environment } from '../../environment'
 
-const partitionTickets = (ticketTypes: TicketType[]) => ({
+const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter((ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired),
   entryTicketTypes: ticketTypes
     .filter((ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired)
@@ -23,7 +23,7 @@ const partitionTickets = (ticketTypes: TicketType[]) => ({
 })
 
 const HomepageTickets = () => {
-  const tickets = useAppSelector(selectAvailableTicketTypes)
+  const ticketTypes = useAppSelector(selectAvailableTicketTypes)
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
 
@@ -33,8 +33,8 @@ const HomepageTickets = () => {
 
   const ticketTypeNeedsLogin = (ticketType: TicketType) => ticketType.nameRequired && !isAuthenticated
   const { dayTicketTypes, entryTicketTypes, seasonalTicketTypes } = useMemo(
-    () => partitionTickets(tickets),
-    [tickets],
+    () => partitionTicketTypes(ticketTypes),
+    [ticketTypes],
   )
 
   const handleClick = async (ticketType: TicketType) => {
