@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react'
+import { ChangeEvent, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
 import './InputField.css'
@@ -7,12 +7,8 @@ import cx from 'classnames'
 interface InputProps {
   type?: 'text' | 'number' | 'email' | 'password'
   placeholder?: string
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
-  ) => void
-  onBlur?: (
-    event: React.FocusEvent<HTMLInputElement> | React.FocusEvent<HTMLTextAreaElement>,
-  ) => void
+  onChange?: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
+  onBlur?: (event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>) => void
   value?: string | number
   name?: string
   register?: any
@@ -96,16 +92,12 @@ const InputField = ({
           className={`focus:outline-none h-full flex-1 min-w-0 font-normal ${inputClasses}`}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
-          onBlur={(
-            event: React.FocusEvent<HTMLTextAreaElement> | React.FocusEvent<HTMLInputElement>,
-          ) => {
+          onBlur={(event: FocusEvent<HTMLTextAreaElement> | FocusEvent<HTMLInputElement>) => {
             setFocus(false)
             registerValues && registerValues.onBlur(event)
             onBlur && onBlur(event)
           }}
-          onChange={(
-            event: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>,
-          ) => {
+          onChange={(event: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>) => {
             onChange && onChange(event)
             registerValues && registerValues.onChange(event)
           }}

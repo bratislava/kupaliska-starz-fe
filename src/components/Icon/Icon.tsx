@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { SVGProps, useMemo } from 'react'
 import { ReactComponent as AccommodationIcon } from '../../assets/icons/accommodation.svg'
 import { ReactComponent as AlertIcon } from '../../assets/icons/alert.svg'
 import { ReactComponent as ApplePayIcon } from '../../assets/icons/apple-pay.svg'
@@ -118,7 +118,7 @@ const iconMap = {
 
 export type IconName = keyof typeof iconMap
 
-interface IconProps extends React.SVGProps<SVGSVGElement> {
+interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName
   color?: 'primary' | 'secondary' | 'white' | 'fontBlack' | 'blueish'
   className?: string

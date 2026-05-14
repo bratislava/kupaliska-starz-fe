@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
+import { MouseEvent, PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
 import { useElementSize, useLockedBody } from 'usehooks-ts'
 import FocusTrap from 'focus-trap-react'
 import cx from 'classnames'
@@ -53,7 +53,7 @@ const Modal = ({
       <FocusTrap>
         <div
           id="modal-backdrop"
-          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+          onClick={(event: MouseEvent<HTMLDivElement>) => {
             if ((event.target as Element).id === 'modal-backdrop') {
               onClose()
             }
