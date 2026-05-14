@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Icon } from '../index'
 import { Button as AriaButton } from 'react-aria-components'
@@ -7,12 +7,12 @@ import { Button as AriaButton } from 'react-aria-components'
 
 export interface AccordionItemProps {
   className?: string
-  title: string | React.ReactNode
+  title: string | ReactNode
   secondaryTitle?: string
   initialState?: boolean
   isOpen?: boolean
   onOpen?: () => void
-  children?: React.ReactNode
+  children?: ReactNode
   paddingVariant?: 'normal' | 'narrow'
 }
 

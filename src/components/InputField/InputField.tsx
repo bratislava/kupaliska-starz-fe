@@ -23,7 +23,7 @@ interface InputProps {
   className?: string
   thin?: boolean
   element?: 'textarea' | 'input'
-  label?: string | React.ReactNode
+  label?: string | ReactNode
   shouldUnregister?: boolean
   max?: number
   valueAsNumber?: boolean
@@ -82,8 +82,9 @@ const InputField = ({
         </div>
       )}
       <div
-        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${thin ? '' : 'px-6 py-4'
-          } flex flex-1 items-center ${inputWrapperClassName}`}
+        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${
+          thin ? '' : 'px-6 py-4'
+        } flex flex-1 items-center ${inputWrapperClassName}`}
       >
         {!!leftExtra && leftExtra}
         <Input

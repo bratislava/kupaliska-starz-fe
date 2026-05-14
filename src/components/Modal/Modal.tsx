@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react'
+import { PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
 import { useElementSize, useLockedBody } from 'usehooks-ts'
 import FocusTrap from 'focus-trap-react'
 import cx from 'classnames'
@@ -11,7 +11,7 @@ const ModalButton = ({
   button,
   onOverflowChange,
 }: {
-  button: React.ReactNode
+  button: ReactNode
   onOverflowChange: (height: number) => void
 }) => {
   const [contentRef, { height: contentHeight }] = useElementSize()
@@ -33,13 +33,13 @@ const ModalButton = ({
 interface ModalProps {
   open: boolean
   onClose?: () => void
-  button?: React.ReactNode
+  button?: ReactNode
   modalClassName?: string
   closeButton?: boolean
 }
 const Modal = ({
   open,
-  onClose = () => { },
+  onClose = () => {},
   children,
   button,
   modalClassName,
@@ -68,8 +68,9 @@ const Modal = ({
               )}
               /* Calculates max height of modal, subtracts the overflow of button and close button. */
               style={{
-                maxHeight: `calc(100vh${closeButton ? ' - 16px' : ''}${button && buttonOverflow ? ` - ${buttonOverflow}px` : ''
-                  })`,
+                maxHeight: `calc(100vh${closeButton ? ' - 16px' : ''}${
+                  button && buttonOverflow ? ` - ${buttonOverflow}px` : ''
+                })`,
               }}
             >
               {children}

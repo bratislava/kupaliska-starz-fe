@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, ReactNode, useMemo, useState } from 'react'
 import { Button, Icon, Modal, Spinner } from 'components'
 import { useTranslation } from 'react-i18next'
 import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
@@ -200,8 +200,8 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
 }
 
 interface TableProps {
-  headers: React.ReactNode[]
-  rows: React.ReactNode[][]
+  headers: ReactNode[]
+  rows: ReactNode[][]
   rowBackgroundClass: string
 }
 

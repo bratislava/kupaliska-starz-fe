@@ -1,6 +1,5 @@
-
 import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
-import { createContext, useCallback, useEffect, useState, useContext } from 'react'
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import logger from 'helpers/logger'
@@ -23,7 +22,7 @@ const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState>
   {} as CityAccountAccessTokenState,
 )
 
-export const CityAccountAccessTokenProvider = ({ children }: { children: React.ReactNode }) => {
+export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNode }) => {
   const [initializationState, setInitializationState] = useState<'idle' | 'initializing' | 'ready'>(
     'idle',
   )
