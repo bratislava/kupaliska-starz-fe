@@ -44,7 +44,7 @@ import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModa
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
-import { currencyFormatter } from '../../helpers/currencyFormatter'
+import { FormatCurrencyFromCents, useCurrencyFromCentsFormatter } from '../../helpers/currencyFormatter'
 import { useOrderPageTicket } from './useOrderPageTicket'
 import logger from 'helpers/logger'
 import { AccountType } from 'helpers/cityAccountDto'
@@ -620,11 +620,11 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
   const fullPrice =
     pricing.discount > 0 ? (
       <div className="inline-block strikethrough-diagonal mr-2">
-        {currencyFormatter.format(pricing.orderPriceWithVat + pricing.discount)}
+        <FormatCurrencyFromCents value={pricing.orderPriceWithVat + pricing.discount} />
       </div>
     ) : null
   const orderPrice = (
-    <div className="inline-block">{currencyFormatter.format(pricing.orderPriceWithVat)}</div>
+    <div className="inline-block"><FormatCurrencyFromCents value={pricing.orderPriceWithVat} /></div>
   )
   return (
     <>
@@ -654,6 +654,7 @@ const OrderPage = () => {
   const { status } = useCityAccount()
   const { t } = useTranslation()
   const isClient = useIsClient()
+  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
   const {
     register,
@@ -792,7 +793,7 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-              price: currencyFormatter.format(
+              price: currencyFromCentsFormatter.format(
                 priceQuery.data.data.data.pricing.orderPriceWithVat,
               ),
             })
@@ -802,7 +803,7 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-              price: currencyFormatter.format(
+              price: currencyFromCentsFormatter.format(
                 priceQuery.data.data.data.pricing.orderPriceWithVat,
               ),
             })

@@ -8,7 +8,7 @@ import { useLogin } from '../../hooks/useLogin'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
-import { currencyFormatter } from '../../helpers/currencyFormatter'
+import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
 import { environment } from '../../environment'
 
@@ -99,7 +99,7 @@ const HomepageTickets = () => {
                       <span className="grow font-semibold">{ticketType.name}</span>
                       <div className="flex items-center justify-between gap-x-8">
                         <span className="lg:w-[108px] font-semibold lg:text-right">
-                          {currencyFormatter.format(ticketType.priceWithVat)}
+                          <FormatCurrencyFromCents value={ticketType.priceWithVat} />
                         </span>
                         <Button
                           className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
