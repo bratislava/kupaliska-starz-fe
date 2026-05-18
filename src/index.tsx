@@ -1,6 +1,7 @@
-import React, { Suspense } from 'react'
+import { Suspense, StrictMode } from 'react'
 
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
+
 import { Provider } from 'react-redux'
 
 import { store } from './store'
@@ -10,13 +11,18 @@ import './i18n'
 
 import './index.css'
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root');
+if (!container) {
+  throw new Error('Failed to find the root element');
+}
+const root = createRoot(container);
+
+root.render(
+  <StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
       <Provider store={store}>
         <App />
       </Provider>
     </Suspense>
-  </React.StrictMode>,
-  document.getElementById('root'),
+  </StrictMode>,
 )

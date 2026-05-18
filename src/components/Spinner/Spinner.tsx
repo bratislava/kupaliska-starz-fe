@@ -1,4 +1,3 @@
-import React from 'react'
 
 /**
  * https://flowbite.com/docs/components/spinner/

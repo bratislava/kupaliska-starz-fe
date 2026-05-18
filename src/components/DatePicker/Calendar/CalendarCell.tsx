@@ -1,4 +1,3 @@
-import React from 'react'
 import { CalendarDate } from '@internationalized/date'
 import { useRef } from 'react'
 import { useCalendarCell } from 'react-aria'

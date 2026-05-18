@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { ChangeEvent, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
 import Resizer from 'react-image-file-resizer'
@@ -69,7 +69,7 @@ const PhotoField = ({
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length ? e.target.files[0] : undefined
 
     file && handleImageFile(file)

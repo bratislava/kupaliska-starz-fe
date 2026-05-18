@@ -1,4 +1,4 @@
-import React, { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
 import { useWindowSize } from '../../hooks'
@@ -7,7 +7,7 @@ import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associat
 import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { Trans, useTranslation } from 'react-i18next'
-import { CheckPriceResponse, Ticket } from '../../models'
+import { CheckPriceResponse, TicketType } from '../../models'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -27,7 +27,7 @@ import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
 import { fetchUser } from '../../store/user/api'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import './OrderPage.css'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { useOrder } from './useOrder'
 import { orderFormToRequests } from './formDataToRequests'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
@@ -325,7 +325,7 @@ const OrderPageDiscountCode = ({
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const { ticket } = useOrderPageTicket()
+  const { ticketType } = useOrderPageTicket()
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -347,7 +347,7 @@ const OrderPageDiscountCode = ({
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
-          ticket={ticket}
+          ticketType={ticketType}
           setValue={setValue}
           getValues={getValues}
         ></OrderPageDiscountCodeInput>
@@ -363,11 +363,11 @@ enum OrderPageDiscountCodeInputStatus {
 }
 
 const OrderPageDiscountCodeInput = ({
-  ticket,
+  ticketType,
   setValue,
   getValues,
 }: {
-  ticket: Ticket
+  ticketType: TicketType
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
@@ -386,7 +386,7 @@ const OrderPageDiscountCodeInput = ({
     setStatus(OrderPageDiscountCodeInputStatus.None)
 
     const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
-      checkDiscountCode(ticket.id, discountCode),
+      checkDiscountCode(ticketType.id, discountCode),
     )
     if (!isMounted()) {
       return
@@ -500,7 +500,7 @@ const OrderPageSummary = ({
   watch: UseFormWatch<OrderFormData>
   priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
 }) => {
-  const { ticket, hasTicketAmount } = useOrderPageTicket()
+  const { ticketType, hasTicketAmount } = useOrderPageTicket()
   const { t } = useTranslation()
 
   const watchTicketAmount = watch('ticketAmount')
@@ -521,9 +521,9 @@ const OrderPageSummary = ({
       <div className="p-8">
         <div className="font-semibold text-2xl">
           {hasTicketAmount && `${watchTicketAmount}× `}
-          {ticket.name}
+          {ticketType.name}
         </div>
-        {ticket.childrenAllowed && (
+        {ticketType.childrenAllowed && (
           <p className="mt-2 font-bold">
             {priceQuery.isFetching ? (
               <div style={{ maxWidth: '200px' }}>
@@ -539,16 +539,16 @@ const OrderPageSummary = ({
             )}
           </p>
         )}
-        <p className="mt-4">{ticket.description}</p>
+        <p className="mt-4">{ticketType.description}</p>
 
-        {ticket.childrenAllowed && (
+        {ticketType.childrenAllowed && (
           <>
             <br />
             <p className="font-semibold">
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
-                childrenMaxNumber: ticket.childrenMaxNumber,
-                childrenPrice: ticket.childrenPriceWithVat,
+                childrenMaxNumber: ticketType.childrenMaxNumber,
+                childrenPrice: ticketType.childrenPriceWithVat,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
@@ -636,7 +636,7 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
 
 const OrderPage = () => {
   const {
-    ticket,
+    ticketType,
     requireEmail,
     hasOptionalFields,
     hasSwimmers,
@@ -695,7 +695,7 @@ const OrderPage = () => {
   })
 
   const getRequestsFromFormData = () =>
-    orderFormToRequests(getValues(), ticket, {
+    orderFormToRequests(getValues(), ticketType, {
       requireEmail,
       hasOptionalFields,
       hasSwimmers,
@@ -792,20 +792,20 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
+              price: currencyFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
             : t('buy-page.pay')
         break
       default:
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-                price: currencyFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
+              price: currencyFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
             : t('buy-page.pay')
         break
     }
@@ -820,7 +820,7 @@ const OrderPage = () => {
     return (
       <PayButton
         onSubmit={() => {
-          if (ticket.type === 'SEASONAL' && ticket.childrenAllowed) {
+          if (ticketType.type === 'SEASONAL' && ticketType.childrenAllowed) {
             setChildrenConfirmationModalOpen(true)
             setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
           } else {
@@ -865,13 +865,13 @@ const OrderPage = () => {
             {hasSwimmers && (
               <>
                 <div className="mt-2">
-                  {ticket.type === 'SEASONAL' && (
+                  {ticketType.type === 'SEASONAL' && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-seasonal'}
                       components={{ span: <span /> }}
                     />
                   )}
-                  {ticket.type === 'ENTRIES' && (
+                  {ticketType.type === 'ENTRIES' && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-entries'}
                       components={{ span: <span /> }}

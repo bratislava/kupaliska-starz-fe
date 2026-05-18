@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { RootState } from 'store'
 import { initPageGlobalState, fetchPoolActions } from './thunks'
-import { SwimmingPoolResponse, Ticket } from 'models'
+import { SwimmingPoolResponse, TicketType } from 'models'
 import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
 
 export interface GlobalState {
-  availableTickets: Ticket[]
+  availableTicketTypes: TicketType[]
   pools: SwimmingPoolResponse[]
   status: 'idle' | 'loading' | 'failed'
   selectedPoolId?: string
@@ -17,7 +17,7 @@ export interface GlobalState {
 }
 
 const initialState: GlobalState = {
-  availableTickets: [],
+  availableTicketTypes: [],
   pools: [],
   status: 'idle',
 }
@@ -69,12 +69,12 @@ export const counterSlice = createSlice({
         (
           state,
           action: PayloadAction<{
-            ticketTypes: Ticket[]
+            ticketTypes: TicketType[]
             swimmingPools: SwimmingPoolResponse[]
           }>,
         ) => {
           state.status = 'idle'
-          state.availableTickets = action.payload.ticketTypes
+          state.availableTicketTypes = action.payload.ticketTypes
           state.pools = action.payload.swimmingPools
         },
       )
@@ -85,7 +85,7 @@ export const counterSlice = createSlice({
 export const { setSelectedPoolId, setToast } = counterSlice.actions
 
 //selector
-export const selectAvailableTickets = (state: RootState) => state.global.availableTickets
+export const selectAvailableTicketTypes = (state: RootState) => state.global.availableTicketTypes
 export const selectPools = (state: RootState) =>
   state.global.pools.map((poolResp) => swimmingPoolResponseToSwimmingPool(poolResp))
 export const selectSelectedPool = (state: RootState) => {

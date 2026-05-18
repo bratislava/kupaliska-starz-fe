@@ -1,13 +1,13 @@
 import { ContactFormValues } from 'components/ContactForm/ContactForm'
 import { apiClient } from 'helpers/apiClient'
-import { GeneralSettings, Ticket } from '../../models'
+import { GeneralSettings, TicketType } from '../../models'
 
 export function fetchGeneralSettings() {
   return apiClient.get<GeneralSettings>('/api/v1/generalSettings')
 }
 
 export function fetchTickets() {
-  return apiClient.get<{ ticketTypes: Ticket[] }>('/api/v1/ticketTypes')
+  return apiClient.get<{ ticketTypes: TicketType[] }>('/api/v1/ticketTypes')
 }
 
 export function fetchPools(number: number) {

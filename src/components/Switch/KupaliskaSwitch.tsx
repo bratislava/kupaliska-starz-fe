@@ -1,5 +1,5 @@
+import { ComponentProps } from 'react'
 import Switch from 'react-switch'
-import React from 'react'
 
 declare const preval: (code: TemplateStringsArray) => Record<string, unknown>
 
@@ -12,7 +12,7 @@ const { onColor, offColor } = preval`
   module.exports = {onColor: resolvedConfig.theme.colors.primary, offColor: resolvedConfig.theme.colors.inactive}
 ` as { onColor: string; offColor: string }
 
-const KupaliskaSwitch = (props: React.ComponentProps<typeof Switch>) => {
+const KupaliskaSwitch = (props: ComponentProps<typeof Switch>) => {
   return (
     <Switch
       onColor={onColor}

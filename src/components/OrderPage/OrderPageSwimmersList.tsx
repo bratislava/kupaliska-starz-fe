@@ -1,4 +1,3 @@
-import React from 'react'
 import cx from 'classnames'
 import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
 import { Button as AriaButton, Checkbox } from 'react-aria-components'
@@ -31,8 +30,8 @@ export const isLoggedInUser = (swimmer: OrderPageSwimmersListSwimmer): swimmer i
 const OrderPageSwimmersList = ({
   selectedSwimmerIds,
   swimmers,
-  onSelectSwimmer = () => {},
-  onAddSwimmer = () => {},
+  onSelectSwimmer = () => { },
+  onAddSwimmer = () => { },
 }: OrderPageSwimmersListProps) => {
   const { isSeniorOrDisabledTicket, hasNameRequired } = useOrderPageTicket()
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { Icon } from '../index'
 import { Button as AriaButton } from 'react-aria-components'
@@ -7,12 +7,12 @@ import { Button as AriaButton } from 'react-aria-components'
 
 export interface AccordionItemProps {
   className?: string
-  title: string | React.ReactNode
+  title: string | ReactNode
   secondaryTitle?: string
   initialState?: boolean
   isOpen?: boolean
   onOpen?: () => void
-  children?: React.ReactNode
+  children?: ReactNode
   paddingVariant?: 'normal' | 'narrow'
 }
 
@@ -26,9 +26,9 @@ export const AccordionItem = ({
   secondaryTitle,
   paddingVariant = 'normal',
 }: AccordionItemProps) => {
-  const [active, setActive] = React.useState<boolean>(initialState)
+  const [active, setActive] = useState<boolean>(initialState)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen !== undefined) setActive(isOpen)
   }, [isOpen])
 

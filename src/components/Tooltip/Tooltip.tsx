@@ -1,5 +1,3 @@
-import React from 'react'
-
 import ReactTooltip, { TooltipProps } from 'react-tooltip'
 
 import './Tooltip.css'

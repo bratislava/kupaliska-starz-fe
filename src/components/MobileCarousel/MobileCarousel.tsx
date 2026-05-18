@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useCallback, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 
 import './MobileCarousel.css'

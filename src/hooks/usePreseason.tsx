@@ -1,7 +1,6 @@
 import { environment } from '../environment'
-import React, {
+import {
   PropsWithChildren,
-  ReactNode,
   createContext,
   useContext,
   useEffect,
@@ -14,7 +13,7 @@ const useGetContext = () => {
 
   useEffect(() => {
     // manually override type to please ts
-    ;(
+    ; (
       window as Window & { __DEV_OVERRIDE_LANDINGPAGE_PRESEASON?: typeof setPreseason }
     ).__DEV_OVERRIDE_LANDINGPAGE_PRESEASON = setPreseason
   }, [setPreseason])
@@ -24,7 +23,7 @@ const useGetContext = () => {
 
 const PreseasonContext = createContext<ReturnType<typeof useGetContext> | undefined>(undefined)
 
-export const PreseasonProvider = ({ children }: PropsWithChildren<ReactNode>) => {
+export const PreseasonProvider = ({ children }: PropsWithChildren<{}>) => {
   const context = useGetContext()
 
   return <PreseasonContext.Provider value={context}>{children}</PreseasonContext.Provider>

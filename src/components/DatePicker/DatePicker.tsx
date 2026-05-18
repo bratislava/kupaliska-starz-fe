@@ -1,10 +1,9 @@
-import React from 'react'
 import { parseDate } from '@internationalized/date'
 import { useObjectRef } from '@react-aria/utils'
 import { useControlledState } from '@react-stately/utils'
 import { useTranslation } from 'react-i18next'
 import { forwardRef, useMemo } from 'react'
-import { useDatePicker } from 'react-aria'
+import { useDatePicker } from 'react-aria/useDatePicker'
 import { Dialog, Popover } from 'react-aria-components'
 import { useDatePickerState } from 'react-stately'
 import cx from 'classnames'
@@ -37,7 +36,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       value,
       minValue,
       maxValue,
-      onChange = () => {},
+      onChange = () => { },
       customErrorPlace = false,
       size,
       labelSize,

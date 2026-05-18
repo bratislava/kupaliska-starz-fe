@@ -1,4 +1,4 @@
-import React, { forwardRef, PropsWithChildren, ReactNode, Ref } from 'react'
+import { forwardRef, PropsWithChildren, ReactNode, Ref } from 'react'
 import { useObjectRef } from '@react-aria/utils'
 import { LinkButtonProps } from '@react-types/button'
 import { AriaButtonProps, mergeProps, useButton, useFocusRing, useHover } from 'react-aria'
@@ -7,33 +7,33 @@ import cx from 'classnames'
 
 type ButtonOrIconButton =
   | {
-      icon: ReactNode
-      'aria-label': string
-      startIcon?: never
-      endIcon?: never
-      children?: never
-    }
+    icon: ReactNode
+    'aria-label': string
+    startIcon?: never
+    endIcon?: never
+    children?: never
+  }
   | ({
-      icon?: never
-      startIcon?: ReactNode
-      endIcon?: ReactNode
-    } & PropsWithChildren<unknown>)
+    icon?: never
+    startIcon?: ReactNode
+    endIcon?: ReactNode
+  } & PropsWithChildren<unknown>)
 
 type ButtonBase = {
   variant?:
-    | 'unstyled'
-    | 'icon-wrapped'
-    | 'icon-wrapped-negative-margin'
-    | 'category-solid'
-    | 'category-outline'
-    | 'category-plain'
-    | 'black-solid'
-    | 'black-outline'
-    | 'black-plain'
-    | 'negative-solid'
-    | 'negative-plain'
-    | 'black-link'
-    | 'category-link'
+  | 'unstyled'
+  | 'icon-wrapped'
+  | 'icon-wrapped-negative-margin'
+  | 'category-solid'
+  | 'category-outline'
+  | 'category-plain'
+  | 'black-solid'
+  | 'black-outline'
+  | 'black-plain'
+  | 'negative-solid'
+  | 'negative-plain'
+  | 'black-link'
+  | 'category-link'
   size?: 'responsive' | 'large' | 'small'
   className?: string
   fullWidth?: boolean

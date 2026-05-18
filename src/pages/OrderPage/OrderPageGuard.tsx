@@ -1,49 +1,46 @@
-import React from 'react'
-import { Redirect } from 'react-router'
-import { useHistory } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router'
 import OrderPage from './OrderPage'
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
-import { Ticket } from '../../models'
+import { TicketType } from '../../models'
 import { useAppSelector } from '../../hooks'
-import { selectAvailableTickets } from '../../store/global'
+import { selectAvailableTicketTypes } from '../../store/global'
 import { OrderPageTicketProvider } from './useOrderPageTicket'
 import { ROUTES } from 'helpers/constants'
 
 const OrderPageGuard = () => {
-  const tickets = useAppSelector(selectAvailableTickets)
-  const history = useHistory<{ ticketId?: string }>()
-  const searchParamsTicketId = new URLSearchParams(history.location.search).get('ticketId')
+  const ticketTypes = useAppSelector(selectAvailableTicketTypes)
+  const location = useLocation()
+  const searchParamsTicketTypeId = new URLSearchParams(location?.search).get('ticketTypeId')
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'
 
   // After the sign-in ticket id is stored in the url. This removes the id from the URL and saves it in the state
   // to be consistent with the default behavior.
-  if (searchParamsTicketId) {
-    return <Redirect to={{ pathname: ROUTES.ORDER, state: { ticketId: searchParamsTicketId } }} />
+  if (searchParamsTicketTypeId) {
+    return <Navigate to={ROUTES.ORDER} state={{ ticketTypeId: searchParamsTicketTypeId }} replace />
   }
 
-  const ticketId = history.location.state?.ticketId
-  if (!ticketId) {
-    return <Redirect to={ROUTES.HOME} />
+  const ticketTypeId = location?.state?.ticketTypeId as string | undefined
+  if (!ticketTypeId) {
+    return <Navigate to={ROUTES.HOME} replace />
+  }
+  const ticketType = ticketTypes.find((ticketType: TicketType) => ticketType.id === ticketTypeId)
+  if (!ticketType) {
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
-  const ticket = tickets.find((t: Ticket) => t.id === ticketId)
-  if (!ticket) {
-    return <Redirect to={ROUTES.HOME} />
+  if (ticketType.disabled) {
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
-  if (ticket.disabled) {
-    return <Redirect to={ROUTES.HOME} />
-  }
-
-  const requiresLoginAndIsNotLoggedIn = ticket.nameRequired && !hasAccount
+  const requiresLoginAndIsNotLoggedIn = ticketType.nameRequired && !hasAccount
   if (requiresLoginAndIsNotLoggedIn) {
-    return <Redirect to={ROUTES.HOME} />
+    return <Navigate to={ROUTES.HOME} replace />
   }
 
   return (
-    <OrderPageTicketProvider ticket={ticket}>
+    <OrderPageTicketProvider ticketType={ticketType}>
       <OrderPage />
     </OrderPageTicketProvider>
   )

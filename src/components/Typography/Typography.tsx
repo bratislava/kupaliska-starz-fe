@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
 interface TypographyProps {
   fontWeight?: 'bold' | 'medium' | 'normal'

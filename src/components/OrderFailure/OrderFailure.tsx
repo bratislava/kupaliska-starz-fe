@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Icon, SectionHeader, Typography } from '../index'
 import { HashLink } from 'react-router-hash-link'
 import { useTranslation } from 'react-i18next'

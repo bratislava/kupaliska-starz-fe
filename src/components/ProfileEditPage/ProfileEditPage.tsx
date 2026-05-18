@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PhotoField from '../PhotoField/PhotoField'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
@@ -7,7 +7,7 @@ import { Button, Icon, InputField } from '../index'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchUser, updateUser, User } from '../../store/user/api'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import ProfileLine from '../ProfileLine/ProfileLine'
 import ProfileBack from '../ProfileBack/ProfileBack'
 import { pick } from 'lodash'
@@ -54,7 +54,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   const [photo, setPhoto] = useState<string | null>()
 
   const queryClient = useQueryClient()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('user')
-        history.push(ROUTES.PROFILE)
+        navigate(ROUTES.PROFILE)
       },
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)

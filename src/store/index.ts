@@ -1,19 +1,11 @@
-import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@reduxjs/toolkit'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { createBrowserHistory } from 'history'
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 
 import { globalReducer } from './global'
 
-export const history = createBrowserHistory()
-
-const middleware = [routerMiddleware(history), ...getDefaultMiddleware()] as const
-
 export const store = configureStore({
   reducer: {
-    router: connectRouter(history),
     global: globalReducer,
   },
-  middleware,
 })
 
 export type AppDispatch = typeof store.dispatch

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
 import { Icon } from '../index'
 import { IconName } from '../Icon/Icon'

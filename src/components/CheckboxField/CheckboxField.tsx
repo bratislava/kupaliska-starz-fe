@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react'
+import { ChangeEvent, FocusEvent, ReactNode } from 'react'
 
 import { UseFormRegisterReturn } from 'react-hook-form'
 
 import './CheckboxField.css'
 
 interface CheckboxProps {
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   value?: boolean
   valueOfInput?: any
   label?: string | ReactNode
@@ -42,10 +42,10 @@ const CheckboxField = ({
           type={type}
           disabled={disabled}
           name={registerValues ? registerValues.name : name}
-          onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
+          onBlur={(event: FocusEvent<HTMLInputElement>) => {
             registerValues && registerValues.onBlur(event)
           }}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
             onChange && onChange(event)
             registerValues && registerValues.onChange(event)
           }}
@@ -53,9 +53,8 @@ const CheckboxField = ({
         />
         {label && (
           <span
-            className={`font-medium ml-6 ${error ? 'text-error' : 'text-fontBlack'} ${
-              disabled ? 'text-opacity-50' : ''
-            }`}
+            className={`font-medium ml-6 ${error ? 'text-error' : 'text-fontBlack'} ${disabled ? 'text-opacity-50' : ''
+              }`}
           >
             {label}
           </span>

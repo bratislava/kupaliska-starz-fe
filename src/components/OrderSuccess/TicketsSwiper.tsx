@@ -5,7 +5,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import './TicketsSwiper.css'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Pagination } from 'swiper'
 import { FinalOrderTicket } from '../../store/order/api'
 import cx from 'classnames'
@@ -14,15 +14,15 @@ import { Icon } from '../index'
 import AppleWalletImage from '../../assets/images/apple_wallet.svg'
 import GoogleWalletImage from '../../assets/images/google_wallet.svg'
 import { useAppSelector } from '../../hooks'
-import { selectAvailableTickets } from '../../store/global'
+import { selectAvailableTicketTypes } from '../../store/global'
 import { environment } from '../../environment'
 
 type TicketProps = { ticket: FinalOrderTicket }
 
 const Ticket = ({ ticket }: TicketProps) => {
-  const tickets = useAppSelector(selectAvailableTickets)
+  const ticketTypes = useAppSelector(selectAvailableTicketTypes)
 
-  const ticketType = tickets.find((t) => t.id === ticket.ticketTypeId)
+  const ticketType = ticketTypes.find((ticketType) => ticketType.id === ticket.ticketTypeId)
 
   return (
     <div className="gap-6 inline-flex flex-col items-center w-full px-8">
