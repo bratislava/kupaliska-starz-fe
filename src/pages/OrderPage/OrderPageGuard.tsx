@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks'
 import { selectAvailableTicketTypes } from '../../store/global'
 import { OrderPageTicketProvider } from './useOrderPageTicket'
 import { ROUTES } from 'helpers/constants'
+import { isDefined } from 'helpers/helper'
 
 const OrderPageGuard = () => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
@@ -21,26 +22,27 @@ const OrderPageGuard = () => {
     return <Navigate to={ROUTES.ORDER} state={{ ticketTypeId: searchParamsTicketTypeId }} replace />
   }
 
-  const ticketTypeId = location?.state?.ticketTypeId as string | undefined
-  if (!ticketTypeId) {
+  const ticketTypeIds = location?.state?.ticketTypeId as string[] | undefined
+  if (!ticketTypeIds) {
     return <Navigate to={ROUTES.HOME} replace />
   }
-  const ticketType = ticketTypes.find((ticketType: TicketType) => ticketType.id === ticketTypeId)
-  if (!ticketType) {
+  const foundTicketTypes = ticketTypeIds.map((ticketTypeId) => ticketTypes.find((ticketType: TicketType) => ticketType.id === ticketTypeId)).filter(isDefined)
+
+  if (foundTicketTypes.length !== ticketTypeIds.length) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
-  if (ticketType.disabled) {
+  if (foundTicketTypes.some((ticketType) => ticketType?.disabled)) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
-  const requiresLoginAndIsNotLoggedIn = ticketType.nameRequired && !hasAccount
+  const requiresLoginAndIsNotLoggedIn = foundTicketTypes.some((ticketType) => ticketType?.nameRequired) && !hasAccount
   if (requiresLoginAndIsNotLoggedIn) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
   return (
-    <OrderPageTicketProvider ticketType={ticketType}>
+    <OrderPageTicketProvider ticketTypes={foundTicketTypes}>
       <OrderPage />
     </OrderPageTicketProvider>
   )

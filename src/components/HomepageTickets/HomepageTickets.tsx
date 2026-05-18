@@ -46,7 +46,7 @@ const HomepageTickets = () => {
       await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
       navigate(ROUTES.ORDER, {
-        state: { ticketTypeId: ticketType.id },
+        state: { ticketTypeId: [ticketType.id] },
       })
     }
   }
