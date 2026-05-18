@@ -84,7 +84,8 @@ export interface CheckPriceResponse {
     pricing: {
       orderPriceWithVat: number
       discount: number
-      numberOfChildren: number
+      // currently not available in response, could be added later
+      // numberOfChildren: number
     }
   }
   messages: [

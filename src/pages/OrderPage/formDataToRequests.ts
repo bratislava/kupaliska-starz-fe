@@ -1,55 +1,51 @@
-import { TicketType } from '../../models'
 import { times } from 'lodash'
+import { TicketType } from 'models/order'
 import { OrderFormData } from './OrderPage'
 
+export interface OrderFormTicketTypeData {
+  ticketType: TicketType
+  ticketAmount?: number
+  selectedSwimmerIds?: (string | null)[]
+  hasOptionalFields: boolean
+  hasSwimmers: boolean
+  hasTicketAmount: boolean
+  requireEmail: boolean
+}
+
 export function orderFormToRequests(
-  formData: OrderFormData,
-  ticketType: TicketType,
-  {
-    requireEmail,
-    hasOptionalFields,
-    hasSwimmers,
-    hasTicketAmount,
-  }: {
-    requireEmail: boolean
-    hasOptionalFields: boolean
-    hasSwimmers: boolean
-    hasTicketAmount: boolean
-  },
+  formData: Omit<OrderFormData, 'ticketTypesData'> & { ticketTypesData: OrderFormTicketTypeData[] },
 ) {
   let getPriceRequest = {} as any
   let orderRequest = {} as any
-
-  getPriceRequest.ticketTypeId = ticketType.id
-  orderRequest.ticketTypeId = ticketType.id
 
   if (formData.discountCode) {
     getPriceRequest.discountPercent = formData.discountCode.amount
     orderRequest.discountCode = formData.discountCode.code
   }
 
-  if (hasSwimmers) {
-    const tickets = formData.selectedSwimmerIds!.map((id) => ({
-      personId: id,
-    }))
-    getPriceRequest.tickets = tickets
-    orderRequest.tickets = tickets
-  }
+  const tickets = formData.ticketTypesData
+    .map((ticketTypeData) => {
+      const ticketsWithSelectedSwimmerIds = ticketTypeData.selectedSwimmerIds?.map((id) => ({
+        personId: id,
+        ticketTypeId: ticketTypeData.ticketType.id,
+      }))
+      const ticketsWithAdditionalData = times(ticketTypeData.ticketAmount!, () =>
+        ticketTypeData.hasOptionalFields
+          ? {
+              age: formData.age ?? null,
+              zip: formData.zip ?? null,
+              ticketTypeId: ticketTypeData.ticketType.id,
+            }
+          : { personId: null, ticketTypeId: ticketTypeData.ticketType.id },
+      )
+      return [...(ticketsWithSelectedSwimmerIds ?? []), ...ticketsWithAdditionalData]
+    })
+    .flat()
 
-  if (hasTicketAmount) {
-    const tickets = times(formData.ticketAmount!, () =>
-      hasOptionalFields
-        ? {
-            age: formData.age ?? null,
-            zip: formData.zip ?? null,
-          }
-        : { personId: null },
-    )
+  getPriceRequest.tickets = tickets
+  orderRequest.tickets = tickets
 
-    getPriceRequest.tickets = tickets
-    orderRequest.tickets = tickets
-  }
-  if (requireEmail) {
+  if (formData.ticketTypesData.some((ticketTypeData) => ticketTypeData.requireEmail)) {
     orderRequest.email = formData.email
   }
   orderRequest.agreement = formData.agreement
