@@ -114,13 +114,13 @@ const OrderPageEmail = ({
   register: UseFormRegister<OrderFormData>
   errors: FieldErrors<OrderFormData>
 }) => {
-  const { requireEmail } = useOrderPageTicket()
+  const ticketTypesWithAdditionalData = useOrderPageTicket()
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
   let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
-  return requireEmail ? (
+  return ticketTypesWithAdditionalData.some((ticketType) => ticketType.requireEmail) ? (
     <InputField
       className="max-w-formMax"
       name="email"
@@ -186,12 +186,12 @@ const OrderPagePeopleList = ({
   watch: UseFormWatch<OrderFormData>
   setValue: UseFormSetValue<OrderFormData>
 }) => {
-  const { displayMissingInformationWarning } = useOrderPageTicket()
+  const ticketTypesWithAdditionalProperties = useOrderPageTicket()
+  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.displayMissingInformationWarning)
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
   // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
   const [swimmerListSizePrefillDone, setSwimmerListSizePrefillDone] = useState(false)
-  const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
 
   const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
   const userQuery = useQuery('user', fetchUser)
@@ -224,21 +224,24 @@ const OrderPagePeopleList = ({
     userQuery.data,
   ])
 
-  useEffect(() => {
-    // initial prefill when we get the list of associated swimmers
-    if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
-    setValue(
-      'selectedSwimmerIds',
-      mergedSwimmers
-        .filter(
-          (swimmer) =>
-            !('isPhysicalEntity' in swimmer) ||
-            ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
-        )
-        .map((swimmer) => swimmer.id),
-    )
-    setSwimmerListSizePrefillDone(true)
-  }, [mergedSwimmers, selectedSwimmerIds, setValue, swimmerListSizePrefillDone])
+  // useEffect(() => {
+  //   // initial prefill when we get the list of associated swimmers
+  //   if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
+  //   setValue(
+  //     'selectedSwimmerIds',
+  //     mergedSwimmers
+  //       .filter(
+  //         (swimmer) =>
+  //           !('isPhysicalEntity' in swimmer) ||
+  //           ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
+  //       )
+  //       .map((swimmer) => swimmer.id),
+  //   )
+  //   setSwimmerListSizePrefillDone(true)
+  // }, [mergedSwimmers,
+  //   // selectedSwimmerIds,
+  //   setValue,
+  //   swimmerListSizePrefillDone])
 
   const error = associatedSwimmersQuery.error || userQuery.error
 
@@ -248,24 +251,47 @@ const OrderPagePeopleList = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
+  const ticketTypesData = watch('ticketTypesData')
 
-  const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>) => {
+  const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>, ticketTypeId: string) => {
     // `null` is current user, therefore we don't check for it
     if (swimmerToSelect.id === undefined) {
       return
     }
-    if (selectedSwimmerIds.includes(swimmerToSelect.id)) {
-      setValue(
-        'selectedSwimmerIds',
-        selectedSwimmerIds.filter((p) => p !== swimmerToSelect.id),
-      )
-    } else {
-      setValue('selectedSwimmerIds', [...selectedSwimmerIds, swimmerToSelect.id])
+    const ticketTypeIndex = ticketTypesData.findIndex((ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId)
+    if (ticketTypeIndex !== -1) {
+      if (ticketTypesData[ticketTypeIndex].selectedSwimmerIds?.includes(swimmerToSelect.id)) {
+        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) => (
+          index === ticketTypeIndex ? {
+            ...ticketTypeData,
+            selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter((p) => p !== swimmerToSelect.id),
+          } : ticketTypeData
+        ))
+
+        setValue(
+          'ticketTypesData',
+          newTicketTypesData
+        )
+      } else {
+        const newSelectedSwimmerIds = [...(ticketTypesData[ticketTypeIndex].selectedSwimmerIds || []), swimmerToSelect.id]
+        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) => (
+          index === ticketTypeIndex ? {
+            ...ticketTypeData,
+            selectedSwimmerIds: newSelectedSwimmerIds,
+          } : ticketTypeData
+        ))
+
+        setValue(
+          'ticketTypesData',
+          newTicketTypesData
+        )
+      }
     }
   }
 
+
   const shouldDisplayMissingInformationWarning =
-    displayMissingInformationWarning && selectedSwimmerIds.includes(null)
+    displayMissingInformationWarning && ticketTypesData.some((ticketTypeData) => ticketTypeData.selectedSwimmerIds?.includes(null))
 
   return (
     <>
@@ -278,7 +304,11 @@ const OrderPagePeopleList = ({
       {addSwimmerModalOpen && (
         <AssociatedSwimmerEditAddModal
           onClose={() => setAddSwimmerModalOpen(false)}
-          onSaveSuccess={handleSelectSwimmer}
+          // good enough for now, we don't allow multiple order with multiple ticketTypes where name is requeired
+          onSaveSuccess={(savedSwimmer) => {
+            ticketTypesWithAdditionalProperties.length > 0 && handleSelectSwimmer(savedSwimmer, ticketTypesWithAdditionalProperties[0].ticketType.id)
+          }}
+
         ></AssociatedSwimmerEditAddModal>
       )}
 
@@ -302,17 +332,18 @@ const OrderPagePeopleList = ({
           <div>{t('common.physical-person-only')}</div>
         </div>
       )}
-      {mergedSwimmers && (
-        <OrderPageSwimmersList
-          selectedSwimmerIds={selectedSwimmerIds}
+      {ticketTypesData.map((ticketTypeData) => (
+        ticketTypeData.selectedSwimmerIds && mergedSwimmers && <OrderPageSwimmersList
+          key={ticketTypeData.ticketType.id}
+          selectedSwimmerIds={ticketTypeData.selectedSwimmerIds}
           swimmers={mergedSwimmers}
-          onSelectSwimmer={handleSelectSwimmer}
+          onSelectSwimmer={(swimmer) => handleSelectSwimmer(swimmer, ticketTypeData.ticketType.id)}
           onAddSwimmer={() => setAddSwimmerModalOpen(true)}
         />
-      )}
+      ))}
 
       <div className="text-error px-2 text-sm">
-        {errors.selectedSwimmerIds?.map((field) => field.message).join('/n')}
+        {errors.ticketTypesData?.map((field) => field.selectedSwimmerIds?.map((field) => field.message)).join('/n')}
       </div>
     </>
   )
@@ -325,7 +356,7 @@ const OrderPageDiscountCode = ({
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const { ticketType } = useOrderPageTicket()
+  const ticketTypesWithAdditionalProperties = useOrderPageTicket()
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -347,7 +378,8 @@ const OrderPageDiscountCode = ({
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
-          ticketType={ticketType}
+          // TODO ticketType is not needed anymore
+          ticketType={ticketTypesWithAdditionalProperties[0].ticketType}
           setValue={setValue}
           getValues={getValues}
         ></OrderPageDiscountCodeInput>
@@ -492,27 +524,32 @@ const validationSchema = yup.object({
 })
 
 const OrderPageSummary = ({
+  ticketType,
+  hasTicketAmount,
   setValue,
   watch,
   priceQuery,
 }: {
+  ticketType: TicketType
+  hasTicketAmount: boolean
   setValue: UseFormSetValue<OrderFormData>
   watch: UseFormWatch<OrderFormData>
   priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
 }) => {
-  const { ticketType, hasTicketAmount } = useOrderPageTicket()
   const { t } = useTranslation()
 
-  const watchTicketAmount = watch('ticketAmount')
+  const ticketTypesData = watch('ticketTypesData')
+
+  const watchTicketAmount = ticketTypesData.find((ticketTypeData) => ticketTypeData.ticketType.id === ticketType.id)?.ticketAmount;
 
   const handleMinusClick = () => {
     if (watchTicketAmount! > 1) {
-      setValue('ticketAmount', watchTicketAmount! - 1)
+      setValue('ticketTypesData', ticketTypesData.map((ticketTypeData) => ticketTypeData.ticketType.id === ticketType.id ? { ...ticketTypeData, ticketAmount: watchTicketAmount! - 1 } : ticketTypeData))
     }
   }
   const handlePlusClick = () => {
     if (watchTicketAmount! < environment.maxTicketPurchaseLimit) {
-      setValue('ticketAmount', watchTicketAmount! + 1)
+      setValue('ticketTypesData', ticketTypesData.map((ticketTypeData) => ticketTypeData.ticketType.id === ticketType.id ? { ...ticketTypeData, ticketAmount: watchTicketAmount! + 1 } : ticketTypeData))
     }
   }
 
@@ -523,7 +560,7 @@ const OrderPageSummary = ({
           {hasTicketAmount && `${watchTicketAmount}× `}
           {ticketType.name}
         </div>
-        {ticketType.childrenAllowed && (
+        {/* {ticketType.childrenAllowed && (
           <p className="mt-2 font-bold">
             {priceQuery.isFetching ? (
               <div style={{ maxWidth: '200px' }}>
@@ -538,7 +575,7 @@ const OrderPageSummary = ({
               )
             )}
           </p>
-        )}
+        )} */}
         <p className="mt-4">{ticketType.description}</p>
 
         {ticketType.childrenAllowed && (
@@ -597,24 +634,26 @@ const OrderPageSummary = ({
   )
 }
 
-const OrderPageAdultChildrenCount = ({
-  pricing,
-  watch,
-}: {
-  pricing: CheckPriceResponse['data']['pricing']
-  watch: UseFormWatch<OrderFormData>
-}) => {
-  const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
-  const { t } = useTranslation()
+// pricing.numberOfChildren is not available in response, keeping code for later when available
 
-  const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
-  const childrenCount = pricing.numberOfChildren
+// const OrderPageAdultChildrenCount = ({
+//   pricing,
+//   watch,
+// }: {
+//   pricing: CheckPriceResponse['data']['pricing']
+//   watch: UseFormWatch<OrderFormData>
+// }) => {
+//   const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
+//   const { t } = useTranslation()
 
-  const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
-  const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
+//   // const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
+//   // const childrenCount = pricing.numberOfChildren
 
-  return <>({[adult, children].filter(Boolean).join(' + ')})</>
-}
+//   // const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
+//   // const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
+
+//   return <>({[adult, children].filter(Boolean).join(' + ')})</>
+// }
 
 const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
   const fullPrice =
@@ -635,15 +674,7 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
 }
 
 const OrderPage = () => {
-  const {
-    ticketType,
-    requireEmail,
-    hasOptionalFields,
-    hasSwimmers,
-    hasTicketAmount,
-    sendDisabled,
-    isSeniorOrDisabledTicket,
-  } = useOrderPageTicket()
+  const ticketTypesWithAdditionalProperties = useOrderPageTicket()
   const [childrenConfirmationModalOpen, setChildrenConfirmationModalOpen] = useState(false)
   const [paymentMethodFunction, setPaymentMethodFunction] = useState<() => Promise<void>>()
   const [orderRequestPending, setOrderRequestPending] = useState(false)
@@ -668,19 +699,29 @@ const OrderPage = () => {
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      ...(hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
-      ...(hasTicketAmount ? { ticketAmount: 1 } : {}),
+      ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
+        ticketType: ticketType.ticketType,
+        ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
+        ...(ticketType.hasTicketAmount ? { ticketAmount: 1 } : {}),
+      })),
     },
-    context: {
-      requireEmail,
-      hasOptionalFields,
-      hasSwimmers,
-      hasTicketAmount,
-      isSeniorOrDisabledTicket,
-    },
+    // context: ticketTypesWithAdditionalProperties.map((ticketType) => {
+    //   const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount, isSeniorOrDisabledTicket } = ticketType
+    //   return {
+    //     ticketType: ticketType.ticketType,
+    //     requireEmail: requireEmail,
+    //     hasOptionalFields: hasOptionalFields,
+    //     hasSwimmers: hasSwimmers,
+    //     hasTicketAmount: hasTicketAmount,
+    //     isSeniorOrDisabledTicket: isSeniorOrDisabledTicket,
+    //   }
+    // }),
   })
+  const ticketTypesData = watch('ticketTypesData')
 
-  const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
+  const selectedSwimmerIds = watch('ticketTypesData')
+    .map((ticketTypeData) => ticketTypeData.selectedSwimmerIds)
+    .flat()
 
   const errorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.agreement?.message,
@@ -691,16 +732,22 @@ const OrderPage = () => {
 
   const watchPriceChange = useWatch({
     // Those properties are those who trigger possible change of the price.
-    name: ['ticketAmount', 'discountCode', 'selectedSwimmerIds', 'ticketAmount'],
+    name: ['ticketTypesData'],
     control,
   })
 
   const getRequestsFromFormData = () =>
-    orderFormToRequests(getValues(), ticketType, {
-      requireEmail,
-      hasOptionalFields,
-      hasSwimmers,
-      hasTicketAmount,
+    orderFormToRequests({
+      ...getValues(), ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+        const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)!
+        return {
+          ...ticketTypeData,
+          requireEmail,
+          hasOptionalFields,
+          hasSwimmers,
+          hasTicketAmount,
+        }
+      })
     })
 
   const priceQuery = useQuery(
@@ -742,7 +789,7 @@ const OrderPage = () => {
 
   // photo and age is required for every selected swimmer, so when main swimmer isn't selected we should not prompt user to fill those attributes and
   // we should not block the form when main swimmer, marked as 'null', isn't selected and those attributes is missing
-  const shouldSendDisabled = sendDisabled && selectedSwimmerIds.includes(null)
+  const shouldSendDisabled = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) && selectedSwimmerIds.includes(null)
 
   const renderPayButton = (paymentMethod: PaymentMethod) => {
     let text
@@ -821,7 +868,7 @@ const OrderPage = () => {
     return (
       <PayButton
         onSubmit={() => {
-          if (ticketType.type === 'SEASONAL' && ticketType.childrenAllowed) {
+          if (ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL' && ticketTypeData.ticketType.childrenAllowed)) {
             setChildrenConfirmationModalOpen(true)
             setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
           } else {
@@ -862,17 +909,17 @@ const OrderPage = () => {
 
           <NumberedLayout index={1} first={true}>
             <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
-            {hasOptionalFields && <OrderPageOptionalFields register={register} errors={errors} />}
-            {hasSwimmers && (
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields) && <OrderPageOptionalFields register={register} errors={errors} />}
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
               <>
                 <div className="mt-2">
-                  {ticketType.type === 'SEASONAL' && (
+                  {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL') && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-seasonal'}
                       components={{ span: <span /> }}
                     />
                   )}
-                  {ticketType.type === 'ENTRIES' && (
+                  {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES') && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-entries'}
                       components={{ span: <span /> }}
@@ -917,7 +964,7 @@ const OrderPage = () => {
                 </span>
               }
             />
-            {isSeniorOrDisabledTicket && (
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.isSeniorOrDisabledTicket) && (
               <>
                 <CheckboxField
                   className="my-4"
@@ -1000,13 +1047,18 @@ const OrderPage = () => {
         </div>
         <div className="mt-14 md:mt-0">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
-          <OrderPageSummary
-            setValue={setValue}
-            watch={watch}
-            priceQuery={priceQuery}
-          ></OrderPageSummary>
+          {ticketTypesData.map((ticketTypeData) => (
+            <OrderPageSummary
+              key={ticketTypeData.ticketType.id}
+              ticketType={ticketTypeData.ticketType}
+              hasTicketAmount={ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)?.hasTicketAmount ?? false}
+              setValue={setValue}
+              watch={watch}
+              priceQuery={priceQuery}
+            />
+          ))}
           <div className="text-gray color-fontBlack">
-            {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
+            {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
@@ -1028,9 +1080,8 @@ const OrderPage = () => {
 
 export interface OrderFormData {
   email?: string
-  ticketAmount?: number
+  ticketTypesData: { ticketType: TicketType, ticketAmount?: number, selectedSwimmerIds?: (string | null)[] }[]
   discountCode?: DiscountCodeResponse['discountCode'] | null
-  selectedSwimmerIds?: (string | null)[]
   agreement?: boolean
   seniorOrDisabledAgreement?: boolean
   age?: number
