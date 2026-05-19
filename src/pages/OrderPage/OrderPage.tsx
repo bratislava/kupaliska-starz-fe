@@ -537,6 +537,8 @@ const OrderPageSummary = ({
   priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
+  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
+
 
   const ticketTypesData = watch('ticketTypesData')
 
@@ -585,7 +587,7 @@ const OrderPageSummary = ({
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticketType.childrenMaxNumber,
-                childrenPrice: ticketType.childrenPriceWithVat,
+                childrenPrice: ticketType.childrenPriceWithVat ? currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat) : ticketType.childrenPriceWithVat,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
