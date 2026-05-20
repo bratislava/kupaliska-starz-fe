@@ -16,12 +16,13 @@ export interface OrderPageTicket {
   hasNameRequired: boolean
 }
 
-const Context = createContext<OrderPageTicket[]>([])
+const Context = createContext<{ ticketTypesWithAdditionalProperties: OrderPageTicket[], orderData: { ticketTypeId: string, ticketAmount?: number }[] }>({ ticketTypesWithAdditionalProperties: [], orderData: [] })
 
 export const OrderPageTicketProvider = ({
   ticketTypes,
+  orderData,
   children,
-}: PropsWithChildren<{ ticketTypes: TicketType[] }>) => {
+}: PropsWithChildren<{ ticketTypes: TicketType[], orderData: { ticketTypeId: string, ticketAmount?: number }[] }>) => {
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'
@@ -41,7 +42,7 @@ export const OrderPageTicketProvider = ({
 
   const userQuery = useQuery('user', fetchUser, { enabled: someTicketTypeHasSwimmers })
 
-  const ticketTypeWithAdditionalDataMapped = ticketTypesWithAdditionalData.map((ticketTypeWithAdditionalData) => {
+  const ticketTypesWithAdditionalProperties = ticketTypesWithAdditionalData.map((ticketTypeWithAdditionalData) => {
     const displayMissingInformationWarning =
       ticketTypeWithAdditionalData.hasSwimmers && userQuery.data?.data
         ? userQuery.data.data.image == null || userQuery.data.data.age == null
@@ -50,6 +51,8 @@ export const OrderPageTicketProvider = ({
 
     return {
       ...ticketTypeWithAdditionalData,
+      // TODO remove this from ticketType data, it has nothing to do with the ticket type,
+      // it only depends on the presence of the user account
       requireEmail: !hasAccount,
       displayMissingInformationWarning,
       userQueryNotLoadedIfNeeded,
@@ -59,7 +62,7 @@ export const OrderPageTicketProvider = ({
 
   return (
     <Context.Provider
-      value={ticketTypeWithAdditionalDataMapped}
+      value={{ ticketTypesWithAdditionalProperties, orderData }}
     >
       {children}
     </Context.Provider>

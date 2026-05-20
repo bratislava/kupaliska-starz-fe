@@ -114,13 +114,13 @@ const OrderPageEmail = ({
   register: UseFormRegister<OrderFormData>
   errors: FieldErrors<OrderFormData>
 }) => {
-  const ticketTypesWithAdditionalData = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
   let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
-  return ticketTypesWithAdditionalData.some((ticketType) => ticketType.requireEmail) ? (
+  return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
     <InputField
       className="max-w-formMax"
       name="email"
@@ -186,7 +186,7 @@ const OrderPagePeopleList = ({
   watch: UseFormWatch<OrderFormData>
   setValue: UseFormSetValue<OrderFormData>
 }) => {
-  const ticketTypesWithAdditionalProperties = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.displayMissingInformationWarning)
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
@@ -356,7 +356,7 @@ const OrderPageDiscountCode = ({
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const ticketTypesWithAdditionalProperties = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -676,7 +676,7 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
 }
 
 const OrderPage = () => {
-  const ticketTypesWithAdditionalProperties = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties, orderData } = useOrderPageTicket()
   const [childrenConfirmationModalOpen, setChildrenConfirmationModalOpen] = useState(false)
   const [paymentMethodFunction, setPaymentMethodFunction] = useState<() => Promise<void>>()
   const [orderRequestPending, setOrderRequestPending] = useState(false)
@@ -704,7 +704,7 @@ const OrderPage = () => {
       ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
         ticketType: ticketType.ticketType,
         ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
-        ...(ticketType.hasTicketAmount ? { ticketAmount: 1 } : {}),
+        ...(ticketType.hasTicketAmount ? { ticketAmount: orderData.find((orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id)?.ticketAmount ?? 1 } : {}),
       })),
     },
     // context: ticketTypesWithAdditionalProperties.map((ticketType) => {
@@ -1088,7 +1088,7 @@ export interface OrderFormData {
   seniorOrDisabledAgreement?: boolean
   age?: number
   zip?: string
-  recaptchaToken: string
+  recaptchaToken?: string
 }
 
 export default OrderPage

@@ -22,13 +22,13 @@ const OrderPageGuard = () => {
     return <Navigate to={ROUTES.ORDER} state={{ ticketTypeId: searchParamsTicketTypeId }} replace />
   }
 
-  const ticketTypeIds = location?.state?.ticketTypeId as string[] | undefined
-  if (!ticketTypeIds) {
+  const orderData = location?.state?.orderData as { ticketTypeId: string, ticketAmount?: number }[] | undefined
+  if (!orderData) {
     return <Navigate to={ROUTES.HOME} replace />
   }
-  const foundTicketTypes = ticketTypeIds.map((ticketTypeId) => ticketTypes.find((ticketType: TicketType) => ticketType.id === ticketTypeId)).filter(isDefined)
+  const foundTicketTypes = orderData.map((orderTicketType) => ticketTypes.find((ticketType: TicketType) => ticketType.id === orderTicketType.ticketTypeId)).filter(isDefined)
 
-  if (foundTicketTypes.length !== ticketTypeIds.length) {
+  if (foundTicketTypes.length !== orderData.length) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
@@ -42,7 +42,7 @@ const OrderPageGuard = () => {
   }
 
   return (
-    <OrderPageTicketProvider ticketTypes={foundTicketTypes}>
+    <OrderPageTicketProvider ticketTypes={foundTicketTypes} orderData={orderData}>
       <OrderPage />
     </OrderPageTicketProvider>
   )
