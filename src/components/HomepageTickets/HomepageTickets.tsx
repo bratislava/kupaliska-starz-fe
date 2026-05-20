@@ -1,4 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+import { useQuery } from 'react-query'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTicketTypes } from '../../store/global'
 import { TicketType } from '../../models'
@@ -11,6 +13,8 @@ import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
 import { environment } from '../../environment'
+import { getPrice } from 'store/order/api'
+import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter((ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired),
@@ -26,6 +30,9 @@ const HomepageTickets = () => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
+  // for now this is only used on ticket where name is not required 
+  // hence only ticketAmount is needed and personId is omited
+  const [cart, setCart] = useState<{ ticketTypeId: string, ticketAmount: number }[]>([])
 
   const isAuthenticated = status === 'authenticated'
   const navigate = useNavigate()
@@ -37,18 +44,70 @@ const HomepageTickets = () => {
     [ticketTypes],
   )
 
-  const handleClick = async (ticketType: TicketType) => {
-    if (ticketType.disabled) {
+  useEffect(() => {
+    const cart = dayTicketTypes.map((ticketType) => ({
+      ticketTypeId: ticketType.id,
+      ticketAmount: 0,
+    }))
+    setCart(cart)
+  }, [dayTicketTypes])
+
+
+  const { getPriceRequest } = orderFormToRequests({
+    ticketTypesData: cart.filter(item => item.ticketAmount > 0).map((item) => ({
+      ticketAmount: item.ticketAmount,
+      ticketType: ticketTypes.find(ticketType => ticketType.id === item.ticketTypeId),
+      // TODO: we should send property hasOptionalFields derived from ticketType
+      // for now all tickets in cart is of type where name is not required therefore hasOptionalFields is true
+      hasOptionalFields: true,
+    })),
+  })
+
+  const { data: cartPriceData, refetch, isFetching, isSuccess } = useQuery(
+    'cartPrice',
+    ({ signal }) => {
+      return getPrice(getPriceRequest, status, signal)
+    },
+  )
+
+  useEffect(() => {
+    refetch()
+  }, [cart, refetch])
+
+  // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
+  const handleClick = async (ticketType?: TicketType) => {
+    if (ticketType?.disabled) {
       return
     }
-
-    if (ticketTypeNeedsLogin(ticketType)) {
+    if (ticketType && ticketTypeNeedsLogin(ticketType)) {
       await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
       navigate(ROUTES.ORDER, {
-        state: { ticketTypeId: [ticketType.id] },
+        state: { orderData: ticketType ? [{ ticketTypeId: ticketType.id }] : cart.filter(item => item.ticketAmount > 0) },
       })
     }
+  }
+
+  const adjustTicketAmountFromCart = (ticketType: TicketType, amount: number) => {
+    setCart((prev) => {
+      return prev.map((item) => {
+        if (item.ticketTypeId !== ticketType.id) {
+          return item
+        }
+        return {
+          ...item,
+          ticketAmount: item.ticketAmount + amount
+        }
+      })
+    })
+  }
+
+  const addTicketToCart = (ticketType: TicketType) => {
+    adjustTicketAmountFromCart(ticketType, 1)
+  }
+
+  const removeTicketFromCart = (ticketType: TicketType) => {
+    adjustTicketAmountFromCart(ticketType, -1)
   }
 
   return (
@@ -61,6 +120,7 @@ const HomepageTickets = () => {
               'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
             descriptionFooter: t('common.additional-info-student-senior'),
             ticketTypes: dayTicketTypes,
+            isCartable: true,
           },
           {
             name: 'Vstupové permanentky',
@@ -76,7 +136,7 @@ const HomepageTickets = () => {
             descriptionFooter: '',
             ticketTypes: seasonalTicketTypes,
           },
-        ].map(({ name, description, descriptionFooter, ticketTypes }, index) => (
+        ].map(({ name, description, descriptionFooter, ticketTypes, isCartable }, index) => (
           <div key={index} className="max-w-[904px]">
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-3 text-center lg:text-left">
@@ -84,9 +144,8 @@ const HomepageTickets = () => {
                 <p>{description}</p>
               </div>
               <div className="flex flex-col gap-3">
-                {ticketTypes?.map((ticketType) => {
+                {ticketTypes?.map((ticketType: TicketType) => {
                   const needsLogin = ticketTypeNeedsLogin(ticketType)
-
                   return (
                     <div
                       key={ticketType.id}
@@ -94,14 +153,31 @@ const HomepageTickets = () => {
                         'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
                         { 'cursor-pointer': !ticketType.disabled },
                       )}
-                      onClick={() => handleClick(ticketType)}
+                      onClick={() => isCartable ? {} : handleClick(ticketType)}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
                       <div className="flex items-center justify-between gap-x-8">
                         <span className="lg:w-[108px] font-semibold lg:text-right">
                           <FormatCurrencyFromCents value={ticketType.priceWithVat} />
                         </span>
-                        <Button
+                        {isCartable && cart.filter((item) => item.ticketTypeId === ticketType.id).map((item) => (
+                          <div key={item.ticketTypeId} className="flex items-center justify-center">
+                            <Button
+                              thin
+                              onClick={() => addTicketToCart(ticketType)}
+                            >
+                              +
+                          </Button>
+                            <span className="font-semibold">{item.ticketAmount}</span>
+                            <Button
+                              thin
+                              onClick={() => removeTicketFromCart(ticketType)}
+                            >
+                              -
+                          </Button>
+                          </div>
+                        ))}
+                        {!isCartable && <Button
                           className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
                           thin
                           onClick={() => handleClick(ticketType)}
@@ -117,12 +193,46 @@ const HomepageTickets = () => {
                               })}
                             />
                           </>
-                        </Button>
+                        </Button>}
                       </div>
                     </div>
                   )
                 })}
               </div>
+              {isCartable && (
+                <div className="flex items-center justify-between gap-x-8">
+                  <span className="font-semibold">{t('price-total')}</span>
+                  <SkeletonTheme
+                    baseColor="#a8dbf2"
+                    highlightColor="#58bbe6"
+                    duration={1}
+                    width={40}
+                    height={28}
+                  >
+                    {isFetching ? (
+                      <Skeleton />
+                    ) : (
+                      isSuccess && cartPriceData?.data.data.pricing && (
+                        <span className="grow font-semibold"><FormatCurrencyFromCents value={cartPriceData.data?.data.pricing.orderPriceWithVat} /></span>
+                      ))}
+                  </SkeletonTheme>
+                  <Button
+                    className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
+                    thin
+                    onClick={() => handleClick()}
+                    disabled={cart.filter(item => item.ticketAmount > 0).length === 0}
+                    color='outlined'
+                  >
+                    <>
+                      {t('landing.basket')}
+                      <Icon
+                        name={'euro-coin'}
+                        className={cx('ml-2 no-fill py-1')}
+                      />
+                    </>
+                  </Button>
+                </div>
+              )}
               {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
             </div>
           </div>

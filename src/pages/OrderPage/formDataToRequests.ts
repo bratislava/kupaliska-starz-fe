@@ -3,13 +3,13 @@ import { TicketType } from 'models/order'
 import { OrderFormData } from './OrderPage'
 
 export interface OrderFormTicketTypeData {
-  ticketType: TicketType
+  ticketType?: TicketType
   ticketAmount?: number
   selectedSwimmerIds?: (string | null)[]
-  hasOptionalFields: boolean
-  hasSwimmers: boolean
-  hasTicketAmount: boolean
-  requireEmail: boolean
+  hasOptionalFields?: boolean
+  hasSwimmers?: boolean
+  hasTicketAmount?: boolean
+  requireEmail?: boolean
 }
 
 export function orderFormToRequests(
@@ -27,16 +27,16 @@ export function orderFormToRequests(
     .map((ticketTypeData) => {
       const ticketsWithSelectedSwimmerIds = ticketTypeData.selectedSwimmerIds?.map((id) => ({
         personId: id,
-        ticketTypeId: ticketTypeData.ticketType.id,
+        ticketTypeId: ticketTypeData.ticketType?.id,
       }))
       const ticketsWithAdditionalData = times(ticketTypeData.ticketAmount!, () =>
         ticketTypeData.hasOptionalFields
           ? {
               age: formData.age ?? null,
               zip: formData.zip ?? null,
-              ticketTypeId: ticketTypeData.ticketType.id,
+              ticketTypeId: ticketTypeData.ticketType?.id,
             }
-          : { personId: null, ticketTypeId: ticketTypeData.ticketType.id },
+          : { personId: null, ticketTypeId: ticketTypeData.ticketType?.id },
       )
       return [...(ticketsWithSelectedSwimmerIds ?? []), ...ticketsWithAdditionalData]
     })
