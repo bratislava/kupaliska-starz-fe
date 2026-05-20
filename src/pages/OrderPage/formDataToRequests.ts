@@ -8,35 +8,38 @@ export interface OrderFormTicketTypeData {
   selectedSwimmerIds?: (string | null)[]
   hasOptionalFields?: boolean
   hasSwimmers?: boolean
-  hasTicketAmount?: boolean
   requireEmail?: boolean
 }
 
 export function orderFormToRequests(
   formData: Omit<OrderFormData, 'ticketTypesData'> & { ticketTypesData: OrderFormTicketTypeData[] },
 ) {
+  const { discountCode, ticketTypesData, age, zip, email, agreement, recaptchaToken } = formData
+
   let getPriceRequest = {} as any
   let orderRequest = {} as any
 
-  if (formData.discountCode) {
-    getPriceRequest.discountPercent = formData.discountCode.amount
-    orderRequest.discountCode = formData.discountCode.code
+  if (discountCode) {
+    getPriceRequest.discountPercent = discountCode.amount
+    orderRequest.discountCode = discountCode.code
   }
 
-  const tickets = formData.ticketTypesData
+  const tickets = ticketTypesData
     .map((ticketTypeData) => {
-      const ticketsWithSelectedSwimmerIds = ticketTypeData.selectedSwimmerIds?.map((id) => ({
+      const { ticketType, ticketAmount, selectedSwimmerIds, hasOptionalFields } = ticketTypeData
+
+      const ticketsWithSelectedSwimmerIds = selectedSwimmerIds?.map((id) => ({
         personId: id,
-        ticketTypeId: ticketTypeData.ticketType?.id,
+        ticketTypeId: ticketType?.id,
       }))
-      const ticketsWithAdditionalData = times(ticketTypeData.ticketAmount!, () =>
-        ticketTypeData.hasOptionalFields
+      const ticketsWithAdditionalData = times(ticketAmount!, () =>
+        hasOptionalFields
           ? {
-              age: formData.age ?? null,
-              zip: formData.zip ?? null,
-              ticketTypeId: ticketTypeData.ticketType?.id,
+              age: age ?? null,
+              zip: zip ?? null,
+              ticketTypeId: ticketType?.id,
             }
-          : { personId: null, ticketTypeId: ticketTypeData.ticketType?.id },
+          : { personId: null, ticketTypeId: ticketType?.id },
       )
       return [...(ticketsWithSelectedSwimmerIds ?? []), ...ticketsWithAdditionalData]
     })
@@ -45,11 +48,11 @@ export function orderFormToRequests(
   getPriceRequest.tickets = tickets
   orderRequest.tickets = tickets
 
-  if (formData.ticketTypesData.some((ticketTypeData) => ticketTypeData.requireEmail)) {
-    orderRequest.email = formData.email
+  if (ticketTypesData.some((ticketTypeData) => ticketTypeData.requireEmail)) {
+    orderRequest.email = email
   }
-  orderRequest.agreement = formData.agreement
-  orderRequest.token = formData.recaptchaToken
+  orderRequest.agreement = agreement
+  orderRequest.token = recaptchaToken
 
   return { getPriceRequest, orderRequest }
 }
