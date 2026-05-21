@@ -26,6 +26,10 @@ const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
     .map((ticketType) => ({ ...ticketType, disabled: !environment.seasonalTicketSelling })),
 })
 
+/**
+ * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2045-2022
+ */
+
 const HomepageTickets = () => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
   const { t } = useTranslation()
