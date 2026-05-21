@@ -36,6 +36,7 @@ import { ReactComponent as ParkingIcon } from '../../assets/icons/parking.svg'
 import { ReactComponent as PencilIcon } from '../../assets/icons/pencil.svg'
 import { ReactComponent as PlaygroundIcon } from '../../assets/icons/playground.svg'
 import { ReactComponent as PlusIcon } from '../../assets/icons/plus.svg'
+import { ReactComponent as MinusIcon } from '../../assets/icons/minus.svg'
 import { ReactComponent as ProfileIcon } from '../../assets/icons/profile.svg'
 import { ReactComponent as QuestionMarkIcon } from '../../assets/icons/question-mark.svg'
 import { ReactComponent as RestaurantIcon } from '../../assets/icons/restaurant.svg'
@@ -96,6 +97,7 @@ const iconMap = {
   pencil: PencilIcon,
   playground: PlaygroundIcon,
   plus: PlusIcon,
+  minus: MinusIcon,
   profile: ProfileIcon,
   'question-mark': QuestionMarkIcon,
   restaurant: RestaurantIcon,

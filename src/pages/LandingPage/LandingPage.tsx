@@ -35,7 +35,7 @@ const LandingPage = () => {
       <HomepageHowTo />
 
       {!preseason && (
-        <div className="bg-backgroundGray">
+        <div className="bg-backgroundWhite">
           {/* Prevent margin collapsing
            https://stackoverflow.com/a/33132624/2711737 */}
           <div className="h-[0.05px]" />

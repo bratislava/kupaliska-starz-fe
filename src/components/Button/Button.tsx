@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import './Button.css'
 
@@ -56,7 +57,7 @@ const Button = ({
     <button
       type={htmlType}
       onClick={onClick}
-      className={`kupaliska-button ${classNames} ${className}`}
+      className={twMerge('kupaliska-button', classNames, className)}
       disabled={disabled}
     >
       {children}

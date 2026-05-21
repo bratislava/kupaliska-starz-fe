@@ -55,7 +55,8 @@
     "logout": "Odhlásiť sa",
     "login": "Prihlásiť sa",
     "age-interval": "(0)[{{count}} rokov](1)[{{count}} rok];(2-4)[{{count}} roky];(5-inf)[{{count}} rokov];",
-    "physical-person-only": "Do objednávky je možné pridať iba fyzické osoby"
+    "physical-person-only": "Do objednávky je možné pridať iba fyzické osoby",
+    "per-ticket": " / kus"
   },
   "registration": {
     "name": "Meno",

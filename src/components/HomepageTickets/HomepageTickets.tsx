@@ -91,6 +91,10 @@ const HomepageTickets = () => {
   const adjustTicketAmountFromCart = (ticketType: TicketType, amount: number) => {
     setCart((prev) => {
       return prev.map((item) => {
+        const newAmount = item.ticketAmount + amount
+        if (newAmount < 0 || newAmount > environment.maxTicketPurchaseLimit) {
+          return item
+        }
         if (item.ticketTypeId !== ticketType.id) {
           return item
         }
@@ -156,30 +160,38 @@ const HomepageTickets = () => {
                       onClick={() => isCartable ? {} : handleClick(ticketType)}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
-                      <div className="flex items-center justify-between gap-x-8">
-                        <span className="lg:w-[108px] font-semibold lg:text-right">
-                          <FormatCurrencyFromCents value={ticketType.priceWithVat} />
+                      <div className="flex items-center justify-between gap-x-6">
+                        <span className="lg:w-[115px] lg:text-left">
+                          <span className="text-xl font-semibold">
+                            <FormatCurrencyFromCents value={ticketType.priceWithVat} />
+                          </span>
+                          <span>{t('common.per-ticket')}</span>
                         </span>
                         {isCartable && cart.filter((item) => item.ticketTypeId === ticketType.id).map((item) => (
-                          <div key={item.ticketTypeId} className="flex items-center justify-center">
+                          // TODO add also error when input field is added
+                          <div key={item.ticketTypeId} className="flex items-center justify-between px-6 py-2 lg:w-[182px] border border-primary rounded-lg">
                             <Button
-                              thin
-                              onClick={() => addTicketToCart(ticketType)}
-                            >
-                              +
-                          </Button>
-                            <span className="font-semibold">{item.ticketAmount}</span>
-                            <Button
-                              thin
+                              className='p-0'
+                              color='sunscreen'
                               onClick={() => removeTicketFromCart(ticketType)}
                             >
-                              -
-                          </Button>
+                              <Icon name={'minus'} />
+                            </Button>
+                            {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
+                            <span className="font-semibold">{item.ticketAmount}</span>
+                            <Button
+                              className='p-0'
+                              color='sunscreen'
+                              onClick={() => addTicketToCart(ticketType)}
+                            >
+                              <Icon name={'plus'} />
+                            </Button>
                           </div>
                         ))}
                         {!isCartable && <Button
                           className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
                           thin
+                          rounded
                           onClick={() => handleClick(ticketType)}
                           color={needsLogin ? 'primary' : 'outlined'}
                           disabled={ticketType.disabled}
@@ -200,37 +212,41 @@ const HomepageTickets = () => {
                 })}
               </div>
               {isCartable && (
-                <div className="flex items-center justify-between gap-x-8">
-                  <span className="font-semibold">{t('price-total')}</span>
-                  <SkeletonTheme
-                    baseColor="#a8dbf2"
-                    highlightColor="#58bbe6"
-                    duration={1}
-                    width={40}
-                    height={28}
-                  >
-                    {isFetching ? (
-                      <Skeleton />
-                    ) : (
-                      isSuccess && cartPriceData?.data.data.pricing && (
-                        <span className="grow font-semibold"><FormatCurrencyFromCents value={cartPriceData.data?.data.pricing.orderPriceWithVat} /></span>
-                      ))}
-                  </SkeletonTheme>
-                  <Button
-                    className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
-                    thin
-                    onClick={() => handleClick()}
-                    disabled={cart.filter(item => item.ticketAmount > 0).length === 0}
-                    color='outlined'
-                  >
-                    <>
-                      {t('landing.basket')}
-                      <Icon
-                        name={'euro-coin'}
-                        className={cx('ml-2 no-fill py-1')}
-                      />
-                    </>
-                  </Button>
+                <div className="px-6 py-4 bg-blueish flex flex-col lg:flex-row lg:items-center rounded-lg border border-divider">
+                  <span className="grow font-semibold">{t('price-total')}</span>
+                  <div className="flex items-center justify-between gap-x-6">
+                    <span className="lg:w-[115px] lg:text-left grow font-semibold text-xl">
+                      <SkeletonTheme
+                        baseColor="#a8dbf2"
+                        highlightColor="#58bbe6"
+                        duration={1}
+                        width={40}
+                        height={28}
+                      >
+                        {isFetching ? (
+                          <Skeleton />
+                        ) : (
+                          <FormatCurrencyFromCents value={isSuccess ? cartPriceData.data?.data.pricing.orderPriceWithVat : 0} />
+                        )}
+                      </SkeletonTheme>
+                    </span>
+                    <Button
+                      className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
+                      thin
+                      rounded
+                      onClick={() => handleClick()}
+                      disabled={cart.filter(item => item.ticketAmount > 0).length === 0}
+                      color='primary'
+                    >
+                      <>
+                        {t('landing.basket')}
+                        <Icon
+                          name={'euro-coin'}
+                          className={cx('ml-2 no-fill py-1')}
+                        />
+                      </>
+                    </Button>
+                  </div>
                 </div>
               )}
               {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
@@ -246,3 +262,4 @@ const HomepageTickets = () => {
 }
 
 export default HomepageTickets
+
