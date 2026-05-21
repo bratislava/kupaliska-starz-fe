@@ -126,6 +126,7 @@ body {
   flex-direction: column;
   display: flex;
   color: #333;
+  @apply antialiased;
 }
 
 #root {

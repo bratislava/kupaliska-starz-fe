@@ -1,10 +1,8 @@
-import { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
-import { useWindowSize } from '../../hooks'
-import cx from 'classnames'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { Trans, useTranslation } from 'react-i18next'
 import { CheckPriceResponse, TicketType } from '../../models'
@@ -52,60 +50,9 @@ import { ROUTES } from 'helpers/constants'
 import { PaymentMethod } from 'helpers/types'
 import PayButton from './PayButton'
 
-const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
-  return (
-    <div className="bg-blueish rounded-full text-primary font-semibold text-4xl w-12 shrink-0 h-12 grid place-content-center">
-      {index}
-    </div>
-  )
-}
-
-const NumberedLayoutLine = ({ className }: { className?: string }) => (
-  <div className={cx('border border-fontBlack opacity-10 grow h-0 w-full', className)}></div>
-)
-
-/* Creates this effect https://imgur.com/TLn9kOW */
-const NumberedLayout = ({
-  children,
-  index,
-  first = false,
-}: PropsWithChildren<{ index: number; first?: boolean }>) => {
-  const { width } = useWindowSize()
-  const absoluteDiv = useRef<any>()
-  const [showIndexOutside, setShowIndexOutside] = useState<boolean>(true)
-  useEffect(() => {
-    const left = absoluteDiv.current.getBoundingClientRect().left
-    setShowIndexOutside(left >= 20)
-  }, [width])
-
-  return (
-    <>
-      {!first && showIndexOutside && <NumberedLayoutLine className="my-5"></NumberedLayoutLine>}
-      <div className="relative">
-        <div
-          style={{ left: '-88px' }}
-          ref={absoluteDiv}
-          className={cx('absolute', { invisible: !showIndexOutside })}
-        >
-          <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
-        </div>
-
-        <div
-          className={cx('flex items-center', {
-            hidden: showIndexOutside,
-            'mt-4': !first,
-          })}
-        >
-          <div>
-            <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
-          </div>
-          <NumberedLayoutLine className="ml-4"></NumberedLayoutLine>
-        </div>
-        <div className="p-3">{children}</div>
-      </div>
-    </>
-  )
-}
+/**
+ * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
+ */
 
 const OrderPageEmail = ({
   register,
@@ -122,10 +69,11 @@ const OrderPageEmail = ({
 
   return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
     <InputField
-      className="max-w-formMax"
+      className="flex-col max-w-formMax gap-y-2 flex"
       name="email"
       register={register}
-      label={<span className="text-base">{t('common.email')}</span>}
+      // TODO redo InputField styles
+      label={<span className="font-semibold text-base">{t('common.email')}</span>}
       error={errorInterpreted}
     />
   ) : (
@@ -149,28 +97,33 @@ const OrderPageOptionalFields = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <label className="font-medium text-fontBlack text-base flex items-center mt-6">
-        {t('buy-page.optional')}
-        <div data-for="tooltip-customer-form" data-tip={t('buy-page.help-us')}>
-          <Icon className="ml-4" name="question-mark" color="blueish" />
-        </div>
-      </label>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {/* TODO when user is not logged in, and i click on pay button it shows me an error on age field which is optional??? */}
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
+          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
           name="age"
           register={register}
-          placeholder={t('buy-page.age')}
           error={errors.age?.message ? t(`${errors.age?.message}`) : undefined}
           type="number"
           valueAsNumber={true}
+          label={
+            <>
+              <span className="font-semibold text-base">{t('buy-page.age')}</span>
+              <span className="text-base">{t('buy-page.optional')}</span>
+            </>
+          }
         />
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
+          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
           name="zip"
           register={register}
-          placeholder={t('buy-page.zip')}
           error={errors.zip?.message}
+          label={
+            <>
+              <span className="font-semibold text-base">{t('buy-page.zip')}</span>
+              <span className="text-base">{t('buy-page.optional')}</span>
+            </>
+          }
         />
       </div>
     </>
@@ -370,7 +323,7 @@ const OrderPageDiscountCode = ({
   }
 
   return (
-    <>
+    <div className="flex-col gap-y-6 flex">
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
@@ -382,9 +335,9 @@ const OrderPageDiscountCode = ({
           ticketType={ticketTypesWithAdditionalProperties[0].ticketType}
           setValue={setValue}
           getValues={getValues}
-        ></OrderPageDiscountCodeInput>
+        />
       )}
-    </>
+    </div>
   )
 }
 
@@ -437,26 +390,25 @@ const OrderPageDiscountCodeInput = ({
   }
 
   return (
-    <>
+    <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0">
       <InputField
+        className=""
         value={discountCode}
         onChange={(event) => setDiscountCode(event.target.value)}
         error={
           status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
         }
-        label={<span className="text-base">{t('buy-page.enter-code')}</span>}
-        rightExtra={
-          status === OrderPageDiscountCodeInputStatus.Success ? (
-            <Icon name="checkmark" className="text-success" />
-          ) : null
-        }
-        inputWrapperClassName="max-w-xs"
-        className="mt-8"
+        inputWrapperClassName="lg:w-full"
+        placeholder={t('buy-page.enter-code')}
       />
-      <Button color="outlined" onClick={handleApply} className="mt-4">
+      <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded >
         {t('buy-page.claim')}
+
       </Button>
-    </>
+      {status === OrderPageDiscountCodeInputStatus.Success ? (
+        <Icon name="checkmark" className="text-success" />
+      ) : null}
+    </div>
   )
 }
 
@@ -528,13 +480,11 @@ const OrderPageSummary = ({
   hasTicketAmount,
   setValue,
   watch,
-  priceQuery,
 }: {
   ticketType: TicketType
   hasTicketAmount: boolean
   setValue: UseFormSetValue<OrderFormData>
   watch: UseFormWatch<OrderFormData>
-  priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
@@ -556,7 +506,7 @@ const OrderPageSummary = ({
   }
 
   return (
-    <div className="rounded-lg bg-sunscreen shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
+    <div className="rounded-lg bg-sunscreen">
       <div className="p-8">
         <div className="font-semibold text-2xl">
           {hasTicketAmount && `${watchTicketAmount}× `}
@@ -579,7 +529,7 @@ const OrderPageSummary = ({
           </p>
         )} */}
         <p className="mt-4">{ticketType.description}</p>
-
+        {/* TODO add erase ticketType with cross icon */}
         {ticketType.childrenAllowed && (
           <>
             <br />
@@ -594,42 +544,29 @@ const OrderPageSummary = ({
           </>
         )}
       </div>
-      <div className="flex bg-blueish px-8 py-4 rounded-b-lg items-center">
+      <div className="flex bg-blueish px-4 lg:px-8 py-4 rounded-b-lg items-center flex justify-between">
         {hasTicketAmount && (
-          <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary shrink-0">
+          <div className="border-primary border-solid rounded-lg border px-6 py-2 mr-8 text-primary shrink-0">
             <button
               className="mr-6 leading-5 text-3xl align-top"
               onClick={handleMinusClick}
               type="button"
             >
-              -
+              <Icon name={'minus'} />
             </button>
-            <span className="font-bold">{watchTicketAmount}</span>
+            {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
+            <span className="font-bold text-fontBlack text-xl">{watchTicketAmount}</span>
             <button
               className="ml-6 leading-5 text-3xl align-top"
               onClick={handlePlusClick}
               type="button"
             >
-              +
+              <Icon name={'plus'} />
             </button>
           </div>
         )}
-        <span className="text-xl text-primary font-bold">
-          <SkeletonTheme
-            baseColor="#a8dbf2"
-            highlightColor="#58bbe6"
-            duration={1}
-            width={40}
-            height={28}
-          >
-            {priceQuery.isFetching ? (
-              <Skeleton />
-            ) : (
-              priceQuery.isSuccess && (
-                <OrderPagePrice pricing={priceQuery.data?.data.data.pricing}></OrderPagePrice>
-              )
-            )}
-          </SkeletonTheme>
+        <span className="lg:text-xl text-fontBlack font-bold">
+          {currencyFromCentsFormatter.format(ticketType.priceWithVat)}
         </span>
       </div>
     </div>
@@ -796,13 +733,25 @@ const OrderPage = () => {
   const renderPayButton = (paymentMethod: PaymentMethod) => {
     let text
     let icon
+    let color: 'black' | 'white-outlined' | 'primary' = 'primary'
 
+    switch (paymentMethod) {
+      case PaymentMethod.APAY:
+        color = 'black'
+        break
+      case PaymentMethod.GPAY:
+        color = 'white-outlined'
+        break
+      case PaymentMethod.CARD:
+        color = 'primary'
+        break
+    }
     switch (paymentMethod) {
       case PaymentMethod.APAY:
         icon = (
           <Icon
             name="apple-pay"
-            className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
+            className="no-fill flex items-center justify-center rounded p-1 bg-black h-6 w-6"
           ></Icon>
         )
         break
@@ -810,14 +759,14 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="google-pay"
-            className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
+            className="no-fill flex items-center justify-center rounded p-1 bg-white h-6 w-6"
           ></Icon>
         )
         break
       case PaymentMethod.CARD:
         icon = (
           <Icon
-            className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+            className="flex items-center justify-center rounded p-1 h-6 w-6"
             name="credit-card"
           />
         )
@@ -825,7 +774,7 @@ const OrderPage = () => {
       default:
         icon = (
           <Icon
-            className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+            className="flex items-center justify-center rounded p-1 h-6 w-6"
             name="credit-card"
           />
         )
@@ -877,6 +826,7 @@ const OrderPage = () => {
             handleSubmitWithErrorHandling()
           }
         }}
+        color={color}
         icon={icon}
         text={text}
         disabled={
@@ -888,6 +838,10 @@ const OrderPage = () => {
         }
       />
     )
+  }
+
+  const Divider = () => {
+    return <div className="border-b-solid border-b-2 my-6" />
   }
 
   return (
@@ -906,12 +860,13 @@ const OrderPage = () => {
         />
       )}
       <form className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
-        <div>
-          <div className="text-2xl md:text-3xl font-semibold mb-3">{t('buy-page.cart')}</div>
-
-          <NumberedLayout index={1} first={true}>
-            <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
-            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields) && <OrderPageOptionalFields register={register} errors={errors} />}
+        <div className="gap-y-6 flex flex-col">
+          <div className="text-2xl md:text-3xl font-semibold">{t('buy-page.personal-info')}</div>
+          <div className="p-6 border border-gray rounded-lg">
+            <OrderPageEmail register={register} errors={errors} />
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields) &&
+              <OrderPageOptionalFields register={register} errors={errors} />
+            }
             {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
               <>
                 <div className="mt-2">
@@ -945,13 +900,13 @@ const OrderPage = () => {
                 ></OrderPagePeopleList>
               </>
             )}
-          </NumberedLayout>
 
-          <NumberedLayout index={2} first={false}>
+            <Divider />
+
             <OrderPageDiscountCode setValue={setValue} getValues={getValues} />
-          </NumberedLayout>
 
-          <NumberedLayout index={3} first={false}>
+            <Divider />
+
             <CheckboxField
               register={register}
               name="agreement"
@@ -999,6 +954,8 @@ const OrderPage = () => {
               </Link>{' '}
               ako prevádzkovateľa osobných údajov.
             </div>
+          </div>
+          <div>
             <Controller
               name="recaptchaToken"
               control={control}
@@ -1027,7 +984,7 @@ const OrderPage = () => {
                       // logger.warn("Turnstile expire - should refresh automatically");
                       onChange(null)
                     }}
-                    className="mt-4 self-center"
+                    className="self-center flex justify-center"
                   />
                   {captchaWarning === 'show' && (
                     <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
@@ -1040,25 +997,58 @@ const OrderPage = () => {
                 </>
               )}
             />
-          </NumberedLayout>
-          <div className="mt-4 md:mt-2">
-            <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
-            <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.GPAY)}</div>
-            <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.CARD)}</div>
+          </div>
+          <div>
+            {/* Desktop */}
+            <div className="hidden lg:flex flex-col gap-y-3">
+              <div className="flex flex-row gap-x-3">
+                <div className="w-full">{renderPayButton(PaymentMethod.APAY)}</div>
+                <div className="w-full">{renderPayButton(PaymentMethod.GPAY)}</div>
+              </div>
+              <div className="w-full">{renderPayButton(PaymentMethod.CARD)}</div>
+            </div>
+            {/* Mobile */}
+            <div className="lg:hidden">
+              <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
+              <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.GPAY)}</div>
+              <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.CARD)}</div>
+            </div>
           </div>
         </div>
-        <div className="mt-14 md:mt-0">
+        <div className="flex flex-col gap-y-4 lg:gap-y-6">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
           {ticketTypesData.map((ticketTypeData) => (
+            // TODO rename to TicketTypeSummary
             <OrderPageSummary
               key={ticketTypeData.ticketType.id}
               ticketType={ticketTypeData.ticketType}
               hasTicketAmount={ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)?.hasTicketAmount ?? false}
               setValue={setValue}
               watch={watch}
-              priceQuery={priceQuery}
             />
           ))}
+          <div className="px-4 lg:px-8 py-4 bg-blueish flex flex-row lg:items-center rounded-lg border-divider text-fontBlack">
+            <span className="grow font-semibold">{t('price-total')}</span>
+            <div className="flex items-center justify-between gap-x-6">
+              <span className="lg:w-[115px] lg:text-right grow font-semibold lg:text-xl">
+                <SkeletonTheme
+                  baseColor="#a8dbf2"
+                  highlightColor="#58bbe6"
+                  duration={1}
+                  width={40}
+                  height={28}
+                >
+                  {priceQuery.isFetching ? (
+                    <Skeleton />
+                  ) : (
+                    priceQuery.isSuccess && (
+                      <OrderPagePrice pricing={priceQuery.data?.data.data.pricing} />
+                    )
+                  )}
+                </SkeletonTheme>
+              </span>
+            </div>
+          </div>
           <div className="text-gray color-fontBlack">
             {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>

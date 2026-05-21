@@ -5,7 +5,7 @@ import './Button.css'
 
 interface ButtonProps {
   // TODO: Rename to `type`.
-  color?: 'primary' | 'secondary' | 'outlined' | 'blueish' | 'white' | 'sunscreen'
+  color?: 'primary' | 'secondary' | 'outlined' | 'blueish' | 'white' | 'sunscreen' | 'black' | 'white-outlined'
   htmlType?: 'button' | 'submit' | 'reset'
   thin?: boolean
   onClick?: () => void
@@ -32,6 +32,8 @@ const Button = ({
     blueish: 'text-primary',
     white: 'text-primary',
     sunscreen: 'text-primary',
+    black: 'text-white',
+    'white-outlined': 'text-black',
   }[color]
   const bgColor = {
     primary: 'bg-primary',
@@ -40,6 +42,8 @@ const Button = ({
     blueish: 'bg-blueish',
     white: 'bg-white',
     sunscreen: 'bg-sunscreen',
+    black: 'bg-black',
+    'white-outlined': 'bg-white',
   }[color]
   const borderColor = {
     primary: 'border-primary',
@@ -48,6 +52,8 @@ const Button = ({
     blueish: 'border-blueish',
     white: 'border-transparent',
     sunscreen: 'border-transparent',
+    black: 'border-black',
+    'white-outlined': 'border-gray',
   }[color]
   const thinClass = thin ? 'p-1' : 'p-2'
   const roundedClass = rounded ? 'rounded-lg' : 'rounded'
