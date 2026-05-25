@@ -27,7 +27,7 @@ const Button = ({
   // tailwind purges values that are only interpolated in so i have to do this bad way
   const textColor = {
     primary: 'text-white',
-    secondary: 'text-secondary"',
+    secondary: 'text-secondary',
     outlined: 'text-primary',
     blueish: 'text-primary',
     white: 'text-primary',
@@ -37,7 +37,7 @@ const Button = ({
   }[color]
   const bgColor = {
     primary: 'bg-primary',
-    secondary: 'bg-secondary"',
+    secondary: 'bg-secondary',
     outlined: 'bg-transparent',
     blueish: 'bg-blueish',
     white: 'bg-white',
@@ -47,7 +47,7 @@ const Button = ({
   }[color]
   const borderColor = {
     primary: 'border-primary',
-    secondary: 'border-secondary"',
+    secondary: 'border-secondary',
     outlined: 'border-primary',
     blueish: 'border-blueish',
     white: 'border-transparent',

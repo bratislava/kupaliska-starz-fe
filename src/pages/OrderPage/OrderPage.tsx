@@ -427,8 +427,10 @@ const validationSchema = yup.object({
     .test({
       name: 'ticketTypesData',
       message: 'buy-page.max-ticket-purchase-limit-exceeded',
+      // TODO investigate if we can have real type of value 
       test: (value) => {
-        const cumulativeTicketAmount = value?.reduce((acc, curr) => acc + curr.ticketAmount, 0)
+        const cumulativeTicketAmount = value?.reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+
         return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
       },
     }),
