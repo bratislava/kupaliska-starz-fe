@@ -165,6 +165,7 @@
     "kid-times": "x dieťa",
     "summary": "Rekapitulácia nákupu",
     "add-kid": "Pridať ďalšie dieťa do {{childrenAgeTo}} rokov za {{childrenPrice}} € (max. počet {{childrenMaxNumber}})",
+    "max-ticket-purchase-limit-exceeded": "Presiahnutý maximálny počet lístkov na objednávke",
     "select-people-reminder-seasonal": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť permanentky:",
     "select-people-reminder-entries": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť lístky:",
     "pay": "Zaplatiť",

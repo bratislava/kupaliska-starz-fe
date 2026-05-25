@@ -419,13 +419,17 @@ const validationSchema = yup.object({
     }
     return schema
   }),
-  ticketAmount: yup
-    .number()
-    .when('$hasTicketAmount', (hasTicketAmount: boolean, schema: NumberSchema) => {
-      if (hasTicketAmount) {
-        return schema.min(1).max(environment.maxTicketPurchaseLimit).required()
-      }
-      return schema
+  // TODO improve error message when max ticket purchase limit is exceeded
+  ticketTypesData: yup
+    .array()
+    .required()
+    .test({
+      name: 'ticketTypesData',
+      message: 'buy-page.max-ticket-purchase-limit-exceeded',
+      test: (value) => {
+        const cumulativeTicketAmount = value?.reduce((acc, curr) => acc + curr.ticketAmount, 0)
+        return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
+      },
     }),
   /* TODO: improve */
   discountCode: yup.object().nullable(true),
@@ -644,17 +648,14 @@ const OrderPage = () => {
         ...(ticketType.hasTicketAmount ? { ticketAmount: orderData.find((orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id)?.ticketAmount ?? 1 } : {}),
       })),
     },
-    // context: ticketTypesWithAdditionalProperties.map((ticketType) => {
-    //   const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount, isSeniorOrDisabledTicket } = ticketType
-    //   return {
-    //     ticketType: ticketType.ticketType,
-    //     requireEmail: requireEmail,
-    //     hasOptionalFields: hasOptionalFields,
-    //     hasSwimmers: hasSwimmers,
-    //     hasTicketAmount: hasTicketAmount,
-    //     isSeniorOrDisabledTicket: isSeniorOrDisabledTicket,
-    //   }
-    // }),
+    context:
+    {
+      requireEmail: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail),
+      hasOptionalFields: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields),
+      hasSwimmers: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers),
+      hasTicketAmount: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasTicketAmount),
+      isSeniorOrDisabledTicket: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.isSeniorOrDisabledTicket),
+    }
   })
   const ticketTypesData = watch('ticketTypesData')
 
