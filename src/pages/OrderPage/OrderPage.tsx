@@ -559,7 +559,15 @@ const OrderPageSummary = ({
               <Icon name={'minus'} />
             </button>
             {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-            <span className="font-bold text-fontBlack text-xl">{ticketAmount}</span>
+            <InputField
+              value={ticketAmount}
+              // TODO use onBlur instead of onChange to be able to remove input value entirely
+              // now when using onBlur the value is not changed when the user clicks on the plus/minus button
+              onChange={(event) => setTicketAmount(Number(event.target.value))}
+              className="inline-flex w-18"
+              textCenter
+              inputWrapperClassName="lg:w-full"
+            />
             <button
               className="leading-5 text-3xl align-top"
               onClick={handlePlusClick}

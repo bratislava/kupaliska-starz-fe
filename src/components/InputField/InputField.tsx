@@ -1,5 +1,6 @@
 import { ChangeEvent, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
+import { twMerge } from 'tailwind-merge'
 
 import './InputField.css'
 import cx from 'classnames'
@@ -24,6 +25,7 @@ interface InputProps {
   max?: number
   valueAsNumber?: boolean
   newLabel?: boolean
+  textCenter?: boolean
 }
 
 const InputField = ({
@@ -46,6 +48,7 @@ const InputField = ({
   max,
   valueAsNumber,
   newLabel = false,
+  textCenter = false,
 }: InputProps) => {
   const [focused, setFocus] = useState<boolean>(false)
   const registerValues: UseFormRegisterReturn | undefined = useMemo(
@@ -56,6 +59,7 @@ const InputField = ({
   const inputClasses = cx({
     'placeholder-error text-error': error !== undefined,
     'text-fontBlack': !error,
+    'text-center': textCenter,
   })
 
   const inputWrapperClasses = cx({
@@ -71,16 +75,15 @@ const InputField = ({
   })
 
   return (
-    <div className={`flex-col w-full ${className}`}>
+    <div className={twMerge('flex-col w-full', className)}>
       {label && (
         <div>
           <label className={labelClasses}>{label}</label>
         </div>
       )}
       <div
-        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${
-          thin ? '' : 'px-6 py-4'
-        } flex flex-1 items-center ${inputWrapperClassName}`}
+        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${thin ? '' : 'px-6 py-4'
+          } flex flex-1 items-center ${inputWrapperClassName}`}
       >
         {!!leftExtra && leftExtra}
         <Input
