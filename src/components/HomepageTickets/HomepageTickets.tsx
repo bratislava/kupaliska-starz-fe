@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTicketTypes } from '../../store/global'
 import { TicketType } from '../../models'
-import { Button, Icon } from '../index'
+import { Button, Icon, InputField } from '../index'
 import cx from 'classnames'
 import { useLogin } from '../../hooks/useLogin'
 import { useTranslation } from 'react-i18next'
@@ -88,35 +88,33 @@ const HomepageTickets = () => {
     }
   }
 
-  const adjustTicketAmountFromCart = (ticketType: TicketType, amount: number) => {
-    // TODO don't allow to add more tickets then cumulative ticket amount of all ticket types
+  const adjustTicketAmountFromCart = (ticketAmount: number, ticketType: TicketType) => {
+    if (ticketAmount < 0) {
+      return
+    }
     setCart((prev) => {
-      const cumulativeTicketAmount = prev.reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
-      if (cumulativeTicketAmount + amount > environment.maxTicketPurchaseLimit) {
+      const cumulativeTicketAmount =
+        prev
+          .filter((item) => item.ticketTypeId !== ticketType.id)
+          .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+      if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
         return prev
       }
-      return prev.map((item) => {
-        if (item.ticketTypeId !== ticketType.id) {
-          return item
-        }
-        const newAmount = item.ticketAmount + amount
-        if (newAmount < 0) {
-          return item
-        }
-        return {
-          ...item,
-          ticketAmount: item.ticketAmount + amount
-        }
+      return prev.map((ticketTypeDataInner) => {
+        return ticketTypeDataInner.ticketTypeId === ticketType.id ?
+          { ...ticketTypeDataInner, ticketAmount } :
+          ticketTypeDataInner
+
       })
     })
   }
 
-  const addTicketToCart = (ticketType: TicketType) => {
-    adjustTicketAmountFromCart(ticketType, 1)
+  const addTicketToCart = (ticketAmount: number, ticketType: TicketType) => {
+    adjustTicketAmountFromCart(ticketAmount, ticketType)
   }
 
-  const removeTicketFromCart = (ticketType: TicketType) => {
-    adjustTicketAmountFromCart(ticketType, -1)
+  const removeTicketFromCart = (ticketAmount: number, ticketType: TicketType) => {
+    adjustTicketAmountFromCart(ticketAmount, ticketType)
   }
 
   return (
@@ -179,16 +177,24 @@ const HomepageTickets = () => {
                             <Button
                               className='p-0'
                               color='sunscreen'
-                              onClick={() => removeTicketFromCart(ticketType)}
+                              onClick={() => removeTicketFromCart(item.ticketAmount - 1, ticketType)}
                             >
                               <Icon name={'minus'} />
                             </Button>
                             {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-                            <span className="font-semibold">{item.ticketAmount}</span>
+                            <InputField
+                              value={item.ticketAmount}
+                              // TODO use onBlur instead of onChange to be able to remove input value entirely
+                              // now when using onBlur the value is not changed when the user clicks on the plus/minus button
+                              onChange={(event) => adjustTicketAmountFromCart(Number(event.target.value), ticketType)}
+                              className="inline-flex w-18"
+                              textCenter
+                              inputWrapperClassName="lg:w-full"
+                            />
                             <Button
                               className='p-0'
                               color='sunscreen'
-                              onClick={() => addTicketToCart(ticketType)}
+                              onClick={() => addTicketToCart(item.ticketAmount + 1, ticketType)}
                             >
                               <Icon name={'plus'} />
                             </Button>
