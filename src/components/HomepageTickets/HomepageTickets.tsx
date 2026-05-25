@@ -91,12 +91,16 @@ const HomepageTickets = () => {
   const adjustTicketAmountFromCart = (ticketType: TicketType, amount: number) => {
     // TODO don't allow to add more tickets then cumulative ticket amount of all ticket types
     setCart((prev) => {
+      const cumulativeTicketAmount = prev.reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+      if (cumulativeTicketAmount + amount > environment.maxTicketPurchaseLimit) {
+        return prev
+      }
       return prev.map((item) => {
-        const newAmount = item.ticketAmount + amount
-        if (newAmount < 0 || newAmount > environment.maxTicketPurchaseLimit) {
+        if (item.ticketTypeId !== ticketType.id) {
           return item
         }
-        if (item.ticketTypeId !== ticketType.id) {
+        const newAmount = item.ticketAmount + amount
+        if (newAmount < 0) {
           return item
         }
         return {

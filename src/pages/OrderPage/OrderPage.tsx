@@ -70,7 +70,7 @@ const OrderPageEmail = ({
 
   return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
     <InputField
-      className="flex-col max-w-formMax gap-y-2 flex"
+      className="flex-col gap-y-2 flex"
       name="email"
       register={register}
       // TODO redo InputField styles
@@ -99,7 +99,6 @@ const OrderPageOptionalFields = ({
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {/* TODO when user is not logged in, and i click on pay button it shows me an error on age field which is optional??? */}
         <InputField
           className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
           name="age"
@@ -489,6 +488,7 @@ const OrderPageSummary = ({
   handleTicketTypeRemove,
   handleMinusClick,
   handlePlusClick,
+  setTicketAmount,
 }: {
   ticketType: TicketType
   hasTicketAmount: boolean
@@ -496,6 +496,7 @@ const OrderPageSummary = ({
   handleTicketTypeRemove?: () => void
   handleMinusClick: () => void,
   handlePlusClick: () => void,
+  setTicketAmount: (ticketAmount: number) => void,
 }) => {
   const { t } = useTranslation()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
@@ -549,9 +550,9 @@ const OrderPageSummary = ({
       </div>
       <div className="flex bg-blueish px-4 lg:px-8 py-4 rounded-b-lg items-center flex justify-between">
         {hasTicketAmount && (
-          <div className="border-primary border-solid rounded-lg border px-6 py-2 mr-8 text-primary shrink-0">
+          <div className="border-primary border-solid rounded-lg border px-6 py-2 mr-8 text-primary shrink-0 flex items-center gap-x-2">
             <button
-              className="mr-6 leading-5 text-3xl align-top"
+              className="leading-5 text-3xl align-top"
               onClick={handleMinusClick}
               type="button"
             >
@@ -560,7 +561,7 @@ const OrderPageSummary = ({
             {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
             <span className="font-bold text-fontBlack text-xl">{ticketAmount}</span>
             <button
-              className="ml-6 leading-5 text-3xl align-top"
+              className="leading-5 text-3xl align-top"
               onClick={handlePlusClick}
               type="button"
             >
@@ -840,6 +841,22 @@ const OrderPage = () => {
     )
   }
 
+  const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: cartItem) => {
+    const cumulativeTicketAmount = ticketTypesData
+      .filter((ticketTypeData) => ticketTypeData.ticketType.id !== cartItem.ticketType.id)
+      .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+    if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
+      return
+    }
+    if (ticketAmount > 0) {
+      setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
+        ticketTypeDataInner.ticketType.id === cartItem.ticketType.id ?
+          { ...ticketTypeDataInner, ticketAmount } :
+          ticketTypeDataInner
+      ))
+    }
+  }
+
   const Divider = () => {
     return <div className="border-b-solid border-b-2 my-6" />
   }
@@ -1021,21 +1038,18 @@ const OrderPage = () => {
             const ticketAmount = ticketTypeData.ticketAmount;
 
             const handleMinusClick = () => {
-              if (ticketAmount! > 1) {
-                setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
-                  ticketTypeDataInner.ticketType.id === ticketTypeData.ticketType.id ?
-                    { ...ticketTypeDataInner, ticketAmount: ticketAmount! - 1 } :
-                    ticketTypeDataInner))
+              if (!ticketAmount) {
+                return
               }
+              setTicketAmountOfTicketType(ticketAmount - 1, ticketTypeData)
             }
             const handlePlusClick = () => {
-              // TODO don't allow to add more tickets then cumulative ticket amount of all ticket types
-              if (ticketAmount! < environment.maxTicketPurchaseLimit) {
-                setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
-                  ticketTypeDataInner.ticketType.id === ticketTypeData.ticketType.id ?
-                    { ...ticketTypeDataInner, ticketAmount: ticketAmount! + 1 } : ticketTypeDataInner))
+              if (!ticketAmount) {
+                return
               }
+              setTicketAmountOfTicketType(ticketAmount + 1, ticketTypeData)
             }
+
 
             const handleTicketTypeRemove = ticketTypesData.length > 1 ? () => {
               // this will remove the ticket type from the form data 
@@ -1054,6 +1068,7 @@ const OrderPage = () => {
                 handleMinusClick={handleMinusClick}
                 handlePlusClick={handlePlusClick}
                 handleTicketTypeRemove={handleTicketTypeRemove}
+                setTicketAmount={(ticketAmount: number) => setTicketAmountOfTicketType(ticketAmount, ticketTypeData)}
               />
             )
           })}
@@ -1110,5 +1125,13 @@ export interface OrderFormData {
   zip?: string
   recaptchaToken?: string
 }
+
+type cartItem = {
+  ticketType: TicketType
+  ticketAmount?: number
+  selectedSwimmerIds?: (string | null)[]
+}
+
+type cart = cartItem[]
 
 export default OrderPage
