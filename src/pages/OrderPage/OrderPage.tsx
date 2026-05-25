@@ -392,7 +392,6 @@ const OrderPageDiscountCodeInput = ({
   return (
     <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0">
       <InputField
-        className=""
         value={discountCode}
         onChange={(event) => setDiscountCode(event.target.value)}
         error={
@@ -849,7 +848,7 @@ const OrderPage = () => {
     )
   }
 
-  const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: cartItem) => {
+  const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: CartItem) => {
     const cumulativeTicketAmount = ticketTypesData
       .filter((ticketTypeData) => ticketTypeData.ticketType.id !== cartItem.ticketType.id)
       .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
@@ -1127,19 +1126,17 @@ export interface OrderFormData {
   email?: string
   ticketTypesData: { ticketType: TicketType, ticketAmount?: number, selectedSwimmerIds?: (string | null)[] }[]
   discountCode?: DiscountCodeResponse['discountCode'] | null
-  agreement?: boolean
+  agreement?: string
   seniorOrDisabledAgreement?: boolean
   age?: number
   zip?: string
   recaptchaToken?: string
 }
 
-type cartItem = {
+type CartItem = {
   ticketType: TicketType
   ticketAmount?: number
   selectedSwimmerIds?: (string | null)[]
 }
-
-type cart = cartItem[]
 
 export default OrderPage

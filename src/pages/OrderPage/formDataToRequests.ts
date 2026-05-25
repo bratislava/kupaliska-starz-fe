@@ -51,7 +51,7 @@ export function orderFormToRequests(
   if (ticketTypesData.some((ticketTypeData) => ticketTypeData.requireEmail)) {
     orderRequest.email = email
   }
-  orderRequest.agreement = agreement
+  orderRequest.agreement = agreement === 'true'
   orderRequest.token = recaptchaToken
 
   return { getPriceRequest, orderRequest }
