@@ -19,7 +19,7 @@ const OrderPageGuard = () => {
   // After the sign-in ticket id is stored in the url. This removes the id from the URL and saves it in the state
   // to be consistent with the default behavior.
   if (searchParamsTicketTypeId) {
-    return <Navigate to={ROUTES.ORDER} state={{ ticketTypeId: searchParamsTicketTypeId }} replace />
+    return <Navigate to={ROUTES.ORDER} state={{ orderData: [{ ticketTypeId: searchParamsTicketTypeId }] }} replace />
   }
 
   const orderData = location?.state?.orderData as { ticketTypeId: string, ticketAmount?: number }[] | undefined
