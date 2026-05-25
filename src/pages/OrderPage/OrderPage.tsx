@@ -49,6 +49,7 @@ import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import { PaymentMethod } from 'helpers/types'
 import PayButton from './PayButton'
+import { isDefined } from 'helpers/helper'
 
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
@@ -536,7 +537,9 @@ const OrderPageSummary = ({
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticketType.childrenMaxNumber,
-                childrenPrice: ticketType.childrenPriceWithVat ? currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat) : ticketType.childrenPriceWithVat,
+                childrenPrice: isDefined(ticketType.childrenPriceWithVat) ?
+                  currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat) :
+                  null,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
@@ -565,7 +568,7 @@ const OrderPageSummary = ({
           </div>
         )}
         <span className="lg:text-xl text-fontBlack font-bold">
-          {currencyFromCentsFormatter.format(ticketType.priceWithVat)}
+          <FormatCurrencyFromCents value={ticketType.priceWithVat} />
         </span>
       </div>
     </div>

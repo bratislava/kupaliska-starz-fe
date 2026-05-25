@@ -67,16 +67,12 @@ const HomepageTickets = () => {
     })),
   })
 
-  const { data: cartPriceData, refetch, isFetching, isSuccess } = useQuery(
-    'cartPrice',
-    ({ signal }) => {
+  const { data: cartPriceData, isFetching, isSuccess } = useQuery({
+    queryKey: ['cartPrice', cart],
+    queryFn: ({ signal }) => {
       return getPrice(getPriceRequest, status, signal)
     },
-  )
-
-  useEffect(() => {
-    refetch()
-  }, [cart, refetch])
+  })
 
   // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
   const handleClick = async (ticketType?: TicketType) => {
@@ -152,6 +148,8 @@ const HomepageTickets = () => {
                 <p>{description}</p>
               </div>
               <div className="flex flex-col gap-3">
+                {/* TODO: when type is not present there is typescript error, 
+                remove this type later after investigation why is it even needed */}
                 {ticketTypes?.map((ticketType: TicketType) => {
                   const needsLogin = ticketTypeNeedsLogin(ticketType)
                   return (
@@ -161,7 +159,6 @@ const HomepageTickets = () => {
                         'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
                         { 'cursor-pointer': !ticketType.disabled },
                       )}
-                      onClick={() => isCartable ? {} : handleClick(ticketType)}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
                       <div className="flex items-center justify-between gap-x-6">

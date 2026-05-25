@@ -40,7 +40,13 @@ export const OrderPageTicketProvider = ({
 
   const someTicketTypeHasSwimmers = ticketTypesWithAdditionalData.some((ticketType) => ticketType.hasSwimmers)
 
-  const userQuery = useQuery('user', fetchUser, { enabled: someTicketTypeHasSwimmers })
+  const userQuery = useQuery({
+    // TODO add all variables for this query to the query key
+    // should `someTicketTypeHasSwimmers` be included?
+    queryKey: ['user'],
+    queryFn: fetchUser,
+    enabled: someTicketTypeHasSwimmers,
+  })
 
   const ticketTypesWithAdditionalProperties = ticketTypesWithAdditionalData.map((ticketTypeWithAdditionalData) => {
     const displayMissingInformationWarning =

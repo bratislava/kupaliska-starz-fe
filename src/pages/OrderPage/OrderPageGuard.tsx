@@ -26,12 +26,18 @@ const OrderPageGuard = () => {
   if (!orderData) {
     return <Navigate to={ROUTES.HOME} replace />
   }
+
+  // TODO: when type is not present there is typescript error,
+  // remove this type later after investigation why is it even needed
   const foundTicketTypes = orderData.map((orderTicketType) => ticketTypes.find((ticketType: TicketType) => ticketType.id === orderTicketType.ticketTypeId)).filter(isDefined)
 
   if (foundTicketTypes.length !== orderData.length) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
+  // disabled tickets should not be allowed to be ordered,
+  // we disable ability to click on buttons in HomepageTickets.tsx,
+  // so this should never happen
   if (foundTicketTypes.some((ticketType) => ticketType?.disabled)) {
     return <Navigate to={ROUTES.HOME} replace />
   }
