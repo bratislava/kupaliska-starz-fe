@@ -16,7 +16,7 @@ export interface OrderPageTicket {
   hasNameRequired: boolean
 }
 
-const Context = createContext<{ ticketTypesWithAdditionalProperties: OrderPageTicket[], orderData: { ticketTypeId: string, ticketAmount?: number }[] }>({ ticketTypesWithAdditionalProperties: [], orderData: [] })
+const Context = createContext<{ ticketTypesWithAdditionalProperties: OrderPageTicket[], orderData: { ticketTypeId: string, ticketAmount?: number }[] } | undefined>({ ticketTypesWithAdditionalProperties: [], orderData: [] })
 
 export const OrderPageTicketProvider = ({
   ticketTypes,
