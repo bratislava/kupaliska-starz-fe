@@ -855,6 +855,7 @@ const OrderPage = () => {
     if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
       return
     }
+    // TODO this "ticketAmount > 0" prevents it from going to 0 when manually inputing value
     if (ticketAmount > 0) {
       setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
         ticketTypeDataInner.ticketType.id === cartItem.ticketType.id ?
