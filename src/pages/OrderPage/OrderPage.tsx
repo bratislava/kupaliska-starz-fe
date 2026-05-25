@@ -1036,6 +1036,9 @@ const OrderPage = () => {
             }
 
             const handleTicketTypeRemove = ticketTypesData.length > 1 ? () => {
+              // this will remove the ticket type from the form data 
+              // but it will reappear after reloading the page because it ultimately comes from location state
+              // TODO fix this when cart is implemented using redux
               setValue('ticketTypesData', ticketTypesData.filter((ticketTypeDataInner) => ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id))
             } : undefined
 
