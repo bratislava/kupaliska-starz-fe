@@ -481,7 +481,6 @@ const validationSchema = yup.object({
 })
 
 const OrderPageSummary = ({
-
   ticketType,
   hasTicketAmount,
   ticketAmount,
@@ -1028,6 +1027,7 @@ const OrderPage = () => {
               }
             }
             const handlePlusClick = () => {
+              // TODO don't allow to add more tickets then cumulative ticket amount of all ticket types
               if (ticketAmount! < environment.maxTicketPurchaseLimit) {
                 setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
                   ticketTypeDataInner.ticketType.id === ticketTypeData.ticketType.id ?

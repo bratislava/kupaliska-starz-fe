@@ -89,6 +89,7 @@ const HomepageTickets = () => {
   }
 
   const adjustTicketAmountFromCart = (ticketType: TicketType, amount: number) => {
+    // TODO don't allow to add more tickets then cumulative ticket amount of all ticket types
     setCart((prev) => {
       return prev.map((item) => {
         const newAmount = item.ticketAmount + amount
