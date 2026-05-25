@@ -480,41 +480,37 @@ const validationSchema = yup.object({
 })
 
 const OrderPageSummary = ({
+
   ticketType,
   hasTicketAmount,
-  setValue,
-  watch,
+  ticketAmount,
+  handleTicketTypeRemove,
+  handleMinusClick,
+  handlePlusClick,
 }: {
   ticketType: TicketType
   hasTicketAmount: boolean
-  setValue: UseFormSetValue<OrderFormData>
-  watch: UseFormWatch<OrderFormData>
+  ticketAmount?: number
+  handleTicketTypeRemove?: () => void
+  handleMinusClick: () => void,
+  handlePlusClick: () => void,
 }) => {
   const { t } = useTranslation()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
-
-  const ticketTypesData = watch('ticketTypesData')
-
-  const watchTicketAmount = ticketTypesData.find((ticketTypeData) => ticketTypeData.ticketType.id === ticketType.id)?.ticketAmount;
-
-  const handleMinusClick = () => {
-    if (watchTicketAmount! > 1) {
-      setValue('ticketTypesData', ticketTypesData.map((ticketTypeData) => ticketTypeData.ticketType.id === ticketType.id ? { ...ticketTypeData, ticketAmount: watchTicketAmount! - 1 } : ticketTypeData))
-    }
-  }
-  const handlePlusClick = () => {
-    if (watchTicketAmount! < environment.maxTicketPurchaseLimit) {
-      setValue('ticketTypesData', ticketTypesData.map((ticketTypeData) => ticketTypeData.ticketType.id === ticketType.id ? { ...ticketTypeData, ticketAmount: watchTicketAmount! + 1 } : ticketTypeData))
-    }
-  }
-
   return (
     <div className="rounded-lg bg-sunscreen">
       <div className="p-8">
-        <div className="font-semibold text-2xl">
-          {hasTicketAmount && `${watchTicketAmount}× `}
-          {ticketType.name}
+        <div className="flex flex-row justify-between">
+          <div className="font-semibold text-2xl">
+            {hasTicketAmount && `${ticketAmount}× `}
+            {ticketType.name}
+          </div>
+          {handleTicketTypeRemove && (
+            <button onClick={handleTicketTypeRemove}>
+              <Icon name="close" />
+            </button>
+          )}
         </div>
         {/* {ticketType.childrenAllowed && (
           <p className="mt-2 font-bold">
@@ -533,7 +529,6 @@ const OrderPageSummary = ({
           </p>
         )} */}
         <p className="mt-4">{ticketType.description}</p>
-        {/* TODO add erase ticketType with cross icon */}
         {ticketType.childrenAllowed && (
           <>
             <br />
@@ -559,7 +554,7 @@ const OrderPageSummary = ({
               <Icon name={'minus'} />
             </button>
             {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-            <span className="font-bold text-fontBlack text-xl">{watchTicketAmount}</span>
+            <span className="font-bold text-fontBlack text-xl">{ticketAmount}</span>
             <button
               className="ml-6 leading-5 text-3xl align-top"
               onClick={handlePlusClick}
@@ -1018,16 +1013,42 @@ const OrderPage = () => {
         </div>
         <div className="flex flex-col gap-y-4 lg:gap-y-6">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
-          {ticketTypesData.map((ticketTypeData) => (
-            // TODO rename to TicketTypeSummary
-            <OrderPageSummary
-              key={ticketTypeData.ticketType.id}
-              ticketType={ticketTypeData.ticketType}
-              hasTicketAmount={ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)?.hasTicketAmount ?? false}
-              setValue={setValue}
-              watch={watch}
-            />
-          ))}
+          {ticketTypesData.map((ticketTypeData) => {
+            const ticketAmount = ticketTypeData.ticketAmount;
+
+            const handleMinusClick = () => {
+              if (ticketAmount! > 1) {
+                setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
+                  ticketTypeDataInner.ticketType.id === ticketTypeData.ticketType.id ?
+                    { ...ticketTypeDataInner, ticketAmount: ticketAmount! - 1 } :
+                    ticketTypeDataInner))
+              }
+            }
+            const handlePlusClick = () => {
+              if (ticketAmount! < environment.maxTicketPurchaseLimit) {
+                setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
+                  ticketTypeDataInner.ticketType.id === ticketTypeData.ticketType.id ?
+                    { ...ticketTypeDataInner, ticketAmount: ticketAmount! + 1 } : ticketTypeDataInner))
+              }
+            }
+
+            const handleTicketTypeRemove = ticketTypesData.length > 1 ? () => {
+              setValue('ticketTypesData', ticketTypesData.filter((ticketTypeDataInner) => ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id))
+            } : undefined
+
+            return (
+              // TODO rename to TicketTypeSummary
+              <OrderPageSummary
+                key={ticketTypeData.ticketType.id}
+                ticketAmount={ticketAmount}
+                ticketType={ticketTypeData.ticketType}
+                hasTicketAmount={ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)?.hasTicketAmount ?? false}
+                handleMinusClick={handleMinusClick}
+                handlePlusClick={handlePlusClick}
+                handleTicketTypeRemove={handleTicketTypeRemove}
+              />
+            )
+          })}
           <div className="px-4 lg:px-8 py-4 bg-blueish flex flex-row lg:items-center rounded-lg border-divider text-fontBlack">
             <span className="grow font-semibold">{t('price-total')}</span>
             <div className="flex items-center justify-between gap-x-6">
