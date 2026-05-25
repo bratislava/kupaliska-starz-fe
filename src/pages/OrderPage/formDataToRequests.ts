@@ -20,8 +20,13 @@ export function orderFormToRequests(
   let orderRequest = {} as any
 
   if (discountCode) {
-    getPriceRequest.discountPercent = discountCode.amount
-    orderRequest.discountCode = discountCode.code
+    // TODO implement multiple discount codes, BE already supports it,
+    // for now we don't want to implement it
+    getPriceRequest.discountsPercent = discountCode.ticketTypeIds.map((ticketTypeId) => ({
+      ticketTypeId,
+      discountPercent: discountCode.amount,
+    }))
+    orderRequest.discountCodes = [discountCode.code]
   }
 
   const tickets = ticketTypesData
