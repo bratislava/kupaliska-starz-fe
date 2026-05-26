@@ -61,11 +61,11 @@ export function getFinalOrder(orderId: string, accessToken: string) {
 }
 
 export interface DiscountCodeResponse {
-  discountCode: { code: string; amount: number }
+  discountCode: { code: string; amount: number; ticketTypeIds: string[] }
 }
 
-export function checkDiscountCode(ticketTypeId: string, discountCode: string) {
-  return apiClient.get<DiscountCodeResponse>(
-    `/api/v1/orders/discountCodes/${discountCode}/ticketTypes/${ticketTypeId}`,
-  )
+export function checkDiscountCode(discountCode: string, recaptchaToken: string) {
+  return apiClient.post<DiscountCodeResponse>(`/api/v1/orders/discountCodes/${discountCode}`, {
+    recaptchaToken,
+  })
 }

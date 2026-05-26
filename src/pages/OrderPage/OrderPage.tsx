@@ -309,7 +309,6 @@ const OrderPageDiscountCode = ({
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -331,8 +330,6 @@ const OrderPageDiscountCode = ({
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
-          // TODO ticketType is not needed anymore
-          ticketType={ticketTypesWithAdditionalProperties[0].ticketType}
           setValue={setValue}
           getValues={getValues}
         />
@@ -348,11 +345,9 @@ enum OrderPageDiscountCodeInputStatus {
 }
 
 const OrderPageDiscountCodeInput = ({
-  ticketType,
   setValue,
   getValues,
 }: {
-  ticketType: TicketType
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
@@ -371,7 +366,7 @@ const OrderPageDiscountCodeInput = ({
     setStatus(OrderPageDiscountCodeInputStatus.None)
 
     const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
-      checkDiscountCode(ticketType.id, discountCode),
+      checkDiscountCode(discountCode, getValues('recaptchaToken') ?? ''),
     )
     if (!isMounted()) {
       return
@@ -390,7 +385,7 @@ const OrderPageDiscountCodeInput = ({
   }
 
   return (
-    <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0">
+    <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0 items-center">
       <InputField
         value={discountCode}
         onChange={(event) => setDiscountCode(event.target.value)}
@@ -679,7 +674,7 @@ const OrderPage = () => {
 
   const watchPriceChange = useWatch({
     // Those properties are those who trigger possible change of the price.
-    name: ['ticketTypesData'],
+    name: ['ticketTypesData', 'discountCode'],
     control,
   })
 
