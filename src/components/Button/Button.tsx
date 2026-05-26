@@ -5,7 +5,15 @@ import './Button.css'
 
 interface ButtonProps {
   // TODO: Rename to `type`.
-  color?: 'primary' | 'secondary' | 'outlined' | 'blueish' | 'white' | 'sunscreen' | 'black' | 'white-outlined'
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'outlined'
+    | 'blueish'
+    | 'white'
+    | 'sunscreen'
+    | 'black'
+    | 'white-outlined'
   htmlType?: 'button' | 'submit' | 'reset'
   thin?: boolean
   onClick?: () => void

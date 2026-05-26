@@ -56,7 +56,9 @@ const TicketsManagementModal = ({
                   </div>
                   <div className="mr-8">
                     {t('tickets.price-individual')}
-                    <span className="font-semibold"><FormatCurrencyFromCents value={ticket.priceWithVat} /></span>
+                    <span className="font-semibold">
+                      <FormatCurrencyFromCents value={ticket.priceWithVat} />
+                    </span>
                   </div>
                   {ticket.remainingEntries != null && ticket.remainingEntries !== 0 && (
                     <div className="mr-8">
@@ -107,7 +109,9 @@ const TicketsManagementModal = ({
               </div>
               <div className="pb-3">
                 {t('tickets.price-individual')}
-                <span className="font-semibold"><FormatCurrencyFromCents value={ticket.priceWithVat} /></span>
+                <span className="font-semibold">
+                  <FormatCurrencyFromCents value={ticket.priceWithVat} />
+                </span>
               </div>
               {ticket.remainingEntries != null && ticket.remainingEntries !== 0 && (
                 <div>
@@ -281,7 +285,9 @@ const UsedTicket = ({
       </div>
       <div className="flex flex-col pb-6">
         <span>{t('tickets.price')}</span>
-        <span className="font-semibold text-xl"><FormatCurrencyFromCents value={ticket.priceWithVat} /></span>
+        <span className="font-semibold text-xl">
+          <FormatCurrencyFromCents value={ticket.priceWithVat} />
+        </span>
       </div>
       <div className="flex justify-center">
         <Button color="blueish" className="absolute shadow-xs" onClick={onDetailClick}>

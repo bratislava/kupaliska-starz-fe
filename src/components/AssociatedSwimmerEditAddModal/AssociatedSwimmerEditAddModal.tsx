@@ -54,8 +54,8 @@ const validationSchema = yup.object({
 
 export const AssociatedSwimmerEditAddModal = ({
   swimmer,
-  onSaveSuccess = () => { },
-  onClose = () => { },
+  onSaveSuccess = () => {},
+  onClose = () => {},
 }: AssociatedSwimmerEditAddFormModalProps) => {
   const { t } = useTranslation()
   // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
@@ -73,10 +73,10 @@ export const AssociatedSwimmerEditAddModal = ({
     resolver: yupResolver(validationSchema),
     defaultValues: swimmer
       ? {
-        ...pick(swimmer, ['zip', 'dateOfBirth', 'firstname', 'lastname']),
-        // Photo is not stored in the form for performance reasons.
-        image: swimmer.image ? 'set' : undefined,
-      }
+          ...pick(swimmer, ['zip', 'dateOfBirth', 'firstname', 'lastname']),
+          // Photo is not stored in the form for performance reasons.
+          image: swimmer.image ? 'set' : undefined,
+        }
       : undefined,
   })
 

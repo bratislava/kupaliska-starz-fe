@@ -36,7 +36,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       value,
       minValue,
       maxValue,
-      onChange = () => { },
+      onChange = () => {},
       customErrorPlace = false,
       size,
       labelSize,

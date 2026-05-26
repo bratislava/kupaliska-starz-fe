@@ -42,7 +42,10 @@ import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModa
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
-import { FormatCurrencyFromCents, useCurrencyFromCentsFormatter } from '../../helpers/currencyFormatter'
+import {
+  FormatCurrencyFromCents,
+  useCurrencyFromCentsFormatter,
+} from '../../helpers/currencyFormatter'
 import { useOrderPageTicket } from './useOrderPageTicket'
 import logger from 'helpers/logger'
 import { AccountType } from 'helpers/cityAccountDto'
@@ -140,7 +143,9 @@ const OrderPagePeopleList = ({
   setValue: UseFormSetValue<OrderFormData>
 }) => {
   const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
-  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.displayMissingInformationWarning)
+  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some(
+    (ticketType) => ticketType.displayMissingInformationWarning,
+  )
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
   // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
@@ -206,45 +211,53 @@ const OrderPagePeopleList = ({
   }, [error])
   const ticketTypesData = watch('ticketTypesData')
 
-  const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>, ticketTypeId: string) => {
+  const handleSelectSwimmer = (
+    swimmerToSelect: Partial<AssociatedSwimmer>,
+    ticketTypeId: string,
+  ) => {
     // `null` is current user, therefore we don't check for it
     if (swimmerToSelect.id === undefined) {
       return
     }
-    const ticketTypeIndex = ticketTypesData.findIndex((ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId)
+    const ticketTypeIndex = ticketTypesData.findIndex(
+      (ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId,
+    )
     if (ticketTypeIndex !== -1) {
       if (ticketTypesData[ticketTypeIndex].selectedSwimmerIds?.includes(swimmerToSelect.id)) {
-        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) => (
-          index === ticketTypeIndex ? {
-            ...ticketTypeData,
-            selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter((p) => p !== swimmerToSelect.id),
-          } : ticketTypeData
-        ))
-
-        setValue(
-          'ticketTypesData',
-          newTicketTypesData
+        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) =>
+          index === ticketTypeIndex
+            ? {
+                ...ticketTypeData,
+                selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter(
+                  (p) => p !== swimmerToSelect.id,
+                ),
+              }
+            : ticketTypeData,
         )
+
+        setValue('ticketTypesData', newTicketTypesData)
       } else {
-        const newSelectedSwimmerIds = [...(ticketTypesData[ticketTypeIndex].selectedSwimmerIds || []), swimmerToSelect.id]
-        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) => (
-          index === ticketTypeIndex ? {
-            ...ticketTypeData,
-            selectedSwimmerIds: newSelectedSwimmerIds,
-          } : ticketTypeData
-        ))
-
-        setValue(
-          'ticketTypesData',
-          newTicketTypesData
+        const newSelectedSwimmerIds = [
+          ...(ticketTypesData[ticketTypeIndex].selectedSwimmerIds || []),
+          swimmerToSelect.id,
+        ]
+        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) =>
+          index === ticketTypeIndex
+            ? {
+                ...ticketTypeData,
+                selectedSwimmerIds: newSelectedSwimmerIds,
+              }
+            : ticketTypeData,
         )
+
+        setValue('ticketTypesData', newTicketTypesData)
       }
     }
   }
 
-
   const shouldDisplayMissingInformationWarning =
-    displayMissingInformationWarning && ticketTypesData.some((ticketTypeData) => ticketTypeData.selectedSwimmerIds?.includes(null))
+    displayMissingInformationWarning &&
+    ticketTypesData.some((ticketTypeData) => ticketTypeData.selectedSwimmerIds?.includes(null))
 
   return (
     <>
@@ -259,9 +272,12 @@ const OrderPagePeopleList = ({
           onClose={() => setAddSwimmerModalOpen(false)}
           // good enough for now, we don't allow multiple order with multiple ticketTypes where name is requeired
           onSaveSuccess={(savedSwimmer) => {
-            ticketTypesWithAdditionalProperties.length > 0 && handleSelectSwimmer(savedSwimmer, ticketTypesWithAdditionalProperties[0].ticketType.id)
+            ticketTypesWithAdditionalProperties.length > 0 &&
+              handleSelectSwimmer(
+                savedSwimmer,
+                ticketTypesWithAdditionalProperties[0].ticketType.id,
+              )
           }}
-
         ></AssociatedSwimmerEditAddModal>
       )}
 
@@ -285,18 +301,26 @@ const OrderPagePeopleList = ({
           <div>{t('common.physical-person-only')}</div>
         </div>
       )}
-      {ticketTypesData.map((ticketTypeData) => (
-        ticketTypeData.selectedSwimmerIds && mergedSwimmers && <OrderPageSwimmersList
-          key={ticketTypeData.ticketType.id}
-          selectedSwimmerIds={ticketTypeData.selectedSwimmerIds}
-          swimmers={mergedSwimmers}
-          onSelectSwimmer={(swimmer) => handleSelectSwimmer(swimmer, ticketTypeData.ticketType.id)}
-          onAddSwimmer={() => setAddSwimmerModalOpen(true)}
-        />
-      ))}
+      {ticketTypesData.map(
+        (ticketTypeData) =>
+          ticketTypeData.selectedSwimmerIds &&
+          mergedSwimmers && (
+            <OrderPageSwimmersList
+              key={ticketTypeData.ticketType.id}
+              selectedSwimmerIds={ticketTypeData.selectedSwimmerIds}
+              swimmers={mergedSwimmers}
+              onSelectSwimmer={(swimmer) =>
+                handleSelectSwimmer(swimmer, ticketTypeData.ticketType.id)
+              }
+              onAddSwimmer={() => setAddSwimmerModalOpen(true)}
+            />
+          ),
+      )}
 
       <div className="text-error px-2 text-sm">
-        {errors.ticketTypesData?.map((field) => field.selectedSwimmerIds?.map((field) => field.message)).join('/n')}
+        {errors.ticketTypesData
+          ?.map((field) => field.selectedSwimmerIds?.map((field) => field.message))
+          .join('/n')}
       </div>
     </>
   )
@@ -328,12 +352,7 @@ const OrderPageDiscountCode = ({
         onChange={handleUseDiscountCodeChange}
         label={t('buy-page.claim-code')}
       />
-      {useDiscountCode && (
-        <OrderPageDiscountCodeInput
-          setValue={setValue}
-          getValues={getValues}
-        />
-      )}
+      {useDiscountCode && <OrderPageDiscountCodeInput setValue={setValue} getValues={getValues} />}
     </div>
   )
 }
@@ -395,9 +414,8 @@ const OrderPageDiscountCodeInput = ({
         inputWrapperClassName="lg:w-full"
         placeholder={t('buy-page.enter-code')}
       />
-      <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded >
+      <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
         {t('buy-page.claim')}
-
       </Button>
       {status === OrderPageDiscountCodeInputStatus.Success ? (
         <Icon name="checkmark" className="text-success" />
@@ -420,9 +438,12 @@ const validationSchema = yup.object({
     .test({
       name: 'ticketTypesData',
       message: 'buy-page.max-ticket-purchase-limit-exceeded',
-      // TODO investigate if we can have real type of value 
+      // TODO investigate if we can have real type of value
       test: (value) => {
-        const cumulativeTicketAmount = value?.reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+        const cumulativeTicketAmount = value?.reduce(
+          (acc, curr) => acc + (curr.ticketAmount ?? 0),
+          0,
+        )
 
         return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
       },
@@ -488,9 +509,9 @@ const OrderPageSummary = ({
   hasTicketAmount: boolean
   ticketAmount?: number
   handleTicketTypeRemove?: () => void
-  handleMinusClick: () => void,
-  handlePlusClick: () => void,
-  setTicketAmount: (ticketAmount: number) => void,
+  handleMinusClick: () => void
+  handlePlusClick: () => void
+  setTicketAmount: (ticketAmount: number) => void
 }) => {
   const { t } = useTranslation()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
@@ -533,9 +554,9 @@ const OrderPageSummary = ({
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticketType.childrenMaxNumber,
-                childrenPrice: isDefined(ticketType.childrenPriceWithVat) ?
-                  currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat) :
-                  null,
+                childrenPrice: isDefined(ticketType.childrenPriceWithVat)
+                  ? currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat)
+                  : null,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
@@ -608,7 +629,9 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
       </div>
     ) : null
   const orderPrice = (
-    <div className="inline-block"><FormatCurrencyFromCents value={pricing.orderPriceWithVat} /></div>
+    <div className="inline-block">
+      <FormatCurrencyFromCents value={pricing.orderPriceWithVat} />
+    </div>
   )
   return (
     <>
@@ -647,17 +670,31 @@ const OrderPage = () => {
       ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
         ticketType: ticketType.ticketType,
         ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
-        ...(ticketType.hasTicketAmount ? { ticketAmount: orderData.find((orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id)?.ticketAmount ?? 1 } : {}),
+        ...(ticketType.hasTicketAmount
+          ? {
+              ticketAmount:
+                orderData.find(
+                  (orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id,
+                )?.ticketAmount ?? 1,
+            }
+          : {}),
       })),
     },
-    context:
-    {
-      requireEmail: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail),
-      hasOptionalFields: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields),
+    context: {
+      requireEmail: ticketTypesWithAdditionalProperties.some(
+        (ticketType) => ticketType.requireEmail,
+      ),
+      hasOptionalFields: ticketTypesWithAdditionalProperties.some(
+        (ticketType) => ticketType.hasOptionalFields,
+      ),
       hasSwimmers: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers),
-      hasTicketAmount: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasTicketAmount),
-      isSeniorOrDisabledTicket: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.isSeniorOrDisabledTicket),
-    }
+      hasTicketAmount: ticketTypesWithAdditionalProperties.some(
+        (ticketType) => ticketType.hasTicketAmount,
+      ),
+      isSeniorOrDisabledTicket: ticketTypesWithAdditionalProperties.some(
+        (ticketType) => ticketType.isSeniorOrDisabledTicket,
+      ),
+    },
   })
   const ticketTypesData = watch('ticketTypesData')
 
@@ -680,8 +717,12 @@ const OrderPage = () => {
 
   const getRequestsFromFormData = () =>
     orderFormToRequests({
-      ...getValues(), ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
-        const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)!
+      ...getValues(),
+      ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+        const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
+          ticketTypesWithAdditionalProperties.find(
+            (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+          )!
         return {
           ...ticketTypeData,
           requireEmail,
@@ -689,7 +730,7 @@ const OrderPage = () => {
           hasSwimmers,
           hasTicketAmount,
         }
-      })
+      }),
     })
 
   const priceQuery = useQuery(
@@ -731,7 +772,9 @@ const OrderPage = () => {
 
   // photo and age is required for every selected swimmer, so when main swimmer isn't selected we should not prompt user to fill those attributes and
   // we should not block the form when main swimmer, marked as 'null', isn't selected and those attributes is missing
-  const shouldSendDisabled = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) && selectedSwimmerIds.includes(null)
+  const shouldSendDisabled =
+    ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) &&
+    selectedSwimmerIds.includes(null)
 
   const renderPayButton = (paymentMethod: PaymentMethod) => {
     let text
@@ -794,20 +837,20 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-              price: currencyFromCentsFormatter.format(
-                priceQuery.data.data.data.pricing.orderPriceWithVat,
-              ),
-            })
+                price: currencyFromCentsFormatter.format(
+                  priceQuery.data.data.data.pricing.orderPriceWithVat,
+                ),
+              })
             : t('buy-page.pay')
         break
       default:
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-              price: currencyFromCentsFormatter.format(
-                priceQuery.data.data.data.pricing.orderPriceWithVat,
-              ),
-            })
+                price: currencyFromCentsFormatter.format(
+                  priceQuery.data.data.data.pricing.orderPriceWithVat,
+                ),
+              })
             : t('buy-page.pay')
         break
     }
@@ -822,7 +865,13 @@ const OrderPage = () => {
     return (
       <PayButton
         onSubmit={() => {
-          if (ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL' && ticketTypeData.ticketType.childrenAllowed)) {
+          if (
+            ticketTypesData.some(
+              (ticketTypeData) =>
+                ticketTypeData.ticketType.type === 'SEASONAL' &&
+                ticketTypeData.ticketType.childrenAllowed,
+            )
+          ) {
             setChildrenConfirmationModalOpen(true)
             setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
           } else {
@@ -852,11 +901,14 @@ const OrderPage = () => {
     }
     // TODO this "ticketAmount > 0" prevents it from going to 0 when manually inputing value
     if (ticketAmount > 0) {
-      setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
-        ticketTypeDataInner.ticketType.id === cartItem.ticketType.id ?
-          { ...ticketTypeDataInner, ticketAmount } :
-          ticketTypeDataInner
-      ))
+      setValue(
+        'ticketTypesData',
+        ticketTypesData.map((ticketTypeDataInner) =>
+          ticketTypeDataInner.ticketType.id === cartItem.ticketType.id
+            ? { ...ticketTypeDataInner, ticketAmount }
+            : ticketTypeDataInner,
+        ),
+      )
     }
   }
 
@@ -884,19 +936,23 @@ const OrderPage = () => {
           <div className="text-2xl md:text-3xl font-semibold">{t('buy-page.personal-info')}</div>
           <div className="p-6 border border-gray rounded-lg">
             <OrderPageEmail register={register} errors={errors} />
-            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields) &&
-              <OrderPageOptionalFields register={register} errors={errors} />
-            }
+            {ticketTypesWithAdditionalProperties.some(
+              (ticketType) => ticketType.hasOptionalFields,
+            ) && <OrderPageOptionalFields register={register} errors={errors} />}
             {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
               <>
                 <div className="mt-2">
-                  {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL') && (
+                  {ticketTypesData.some(
+                    (ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL',
+                  ) && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-seasonal'}
                       components={{ span: <span /> }}
                     />
                   )}
-                  {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES') && (
+                  {ticketTypesData.some(
+                    (ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES',
+                  ) && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-entries'}
                       components={{ span: <span /> }}
@@ -941,7 +997,9 @@ const OrderPage = () => {
                 </span>
               }
             />
-            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.isSeniorOrDisabledTicket) && (
+            {ticketTypesWithAdditionalProperties.some(
+              (ticketType) => ticketType.isSeniorOrDisabledTicket,
+            ) && (
               <>
                 <CheckboxField
                   className="my-4"
@@ -1030,15 +1088,19 @@ const OrderPage = () => {
             {/* Mobile */}
             <div className="lg:hidden">
               <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
-              <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.GPAY)}</div>
-              <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.CARD)}</div>
+              <div className="hidden md:block mt-3 w-3/4">
+                {renderPayButton(PaymentMethod.GPAY)}
+              </div>
+              <div className="hidden md:block mt-3 w-3/4">
+                {renderPayButton(PaymentMethod.CARD)}
+              </div>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-y-4 lg:gap-y-6">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
           {ticketTypesData.map((ticketTypeData) => {
-            const ticketAmount = ticketTypeData.ticketAmount;
+            const ticketAmount = ticketTypeData.ticketAmount
 
             const handleMinusClick = () => {
               if (!ticketAmount) {
@@ -1053,13 +1115,21 @@ const OrderPage = () => {
               setTicketAmountOfTicketType(ticketAmount + 1, ticketTypeData)
             }
 
-
-            const handleTicketTypeRemove = ticketTypesData.length > 1 ? () => {
-              // this will remove the ticket type from the form data 
-              // but it will reappear after reloading the page because it ultimately comes from location state
-              // TODO fix this when cart is implemented using redux
-              setValue('ticketTypesData', ticketTypesData.filter((ticketTypeDataInner) => ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id))
-            } : undefined
+            const handleTicketTypeRemove =
+              ticketTypesData.length > 1
+                ? () => {
+                    // this will remove the ticket type from the form data
+                    // but it will reappear after reloading the page because it ultimately comes from location state
+                    // TODO fix this when cart is implemented using redux
+                    setValue(
+                      'ticketTypesData',
+                      ticketTypesData.filter(
+                        (ticketTypeDataInner) =>
+                          ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id,
+                      ),
+                    )
+                  }
+                : undefined
 
             return (
               // TODO rename to TicketTypeSummary
@@ -1067,11 +1137,17 @@ const OrderPage = () => {
                 key={ticketTypeData.ticketType.id}
                 ticketAmount={ticketAmount}
                 ticketType={ticketTypeData.ticketType}
-                hasTicketAmount={ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)?.hasTicketAmount ?? false}
+                hasTicketAmount={
+                  ticketTypesWithAdditionalProperties.find(
+                    (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+                  )?.hasTicketAmount ?? false
+                }
                 handleMinusClick={handleMinusClick}
                 handlePlusClick={handlePlusClick}
                 handleTicketTypeRemove={handleTicketTypeRemove}
-                setTicketAmount={(ticketAmount: number) => setTicketAmountOfTicketType(ticketAmount, ticketTypeData)}
+                setTicketAmount={(ticketAmount: number) =>
+                  setTicketAmountOfTicketType(ticketAmount, ticketTypeData)
+                }
               />
             )
           })}
@@ -1098,7 +1174,9 @@ const OrderPage = () => {
             </div>
           </div>
           <div className="text-gray color-fontBlack">
-            {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
+            {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
+              <p className="mb-2">{t('common.additional-info-student-senior')}</p>
+            )}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
@@ -1120,7 +1198,11 @@ const OrderPage = () => {
 
 export interface OrderFormData {
   email?: string
-  ticketTypesData: { ticketType: TicketType, ticketAmount?: number, selectedSwimmerIds?: (string | null)[] }[]
+  ticketTypesData: {
+    ticketType: TicketType
+    ticketAmount?: number
+    selectedSwimmerIds?: (string | null)[]
+  }[]
   discountCode?: DiscountCodeResponse['discountCode'] | null
   agreement?: string
   seniorOrDisabledAgreement?: boolean

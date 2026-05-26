@@ -68,7 +68,6 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <I18nProvider locale="sk-SK">
-
             <CityAccountAccessTokenProvider>
               <RegisterUserGuard>
                 <PreseasonProvider>
@@ -91,23 +90,44 @@ function App() {
 
                         <Routes>
                           <Route path="/order" element={<Navigate replace to={ROUTES.ORDER} />} />
-                          <Route path="/order-result" element={<Navigate replace to={ROUTES.HOME} />} />
-                          <Route path="/profile" element={<Navigate replace to={ROUTES.PROFILE} />} />
-                          <Route path="/tickets" element={<Navigate replace to={ROUTES.TICKETS} />} />
+                          <Route
+                            path="/order-result"
+                            element={<Navigate replace to={ROUTES.HOME} />}
+                          />
+                          <Route
+                            path="/profile"
+                            element={<Navigate replace to={ROUTES.PROFILE} />}
+                          />
+                          <Route
+                            path="/tickets"
+                            element={<Navigate replace to={ROUTES.TICKETS} />}
+                          />
                           <Route path={ROUTES.ORDER} element={<OrderPageGuard />} />
-                          <Route path={ROUTES.ORDER_SUCCESSFUL} element={<OrderResultSuccessfulPage />} />
-                          <Route path={ROUTES.ORDER_UNSUCCESSFUL} element={<OrderResultUnsuccessfulPage />} />
+                          <Route
+                            path={ROUTES.ORDER_SUCCESSFUL}
+                            element={<OrderResultSuccessfulPage />}
+                          />
+                          <Route
+                            path={ROUTES.ORDER_UNSUCCESSFUL}
+                            element={<OrderResultUnsuccessfulPage />}
+                          />
                           <Route path={ROUTES.VOP} element={<VOPPage />} />
                           <Route path={ROUTES.GDPR} element={<GDPRPage />} />
-                          <Route path={ROUTES.PROFILE} element={
-                            <RequireAuthRoute>
-                              <ProfilePage />
-                            </RequireAuthRoute>}
+                          <Route
+                            path={ROUTES.PROFILE}
+                            element={
+                              <RequireAuthRoute>
+                                <ProfilePage />
+                              </RequireAuthRoute>
+                            }
                           />
-                          <Route path={ROUTES.TICKETS} element={
-                            <RequireAuthRoute>
-                              <TicketsManagementPage />
-                            </RequireAuthRoute>}
+                          <Route
+                            path={ROUTES.TICKETS}
+                            element={
+                              <RequireAuthRoute>
+                                <TicketsManagementPage />
+                              </RequireAuthRoute>
+                            }
                           />
                           <Route path={ROUTES.HOME} element={<LandingPage />} />
                         </Routes>

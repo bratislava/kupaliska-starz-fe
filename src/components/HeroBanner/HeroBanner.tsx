@@ -1,4 +1,3 @@
-
 import { Button, Icon, Typography } from 'components'
 
 import './HeroBanner.css'

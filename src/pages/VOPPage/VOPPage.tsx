@@ -1,4 +1,3 @@
-
 import { SectionHeader, Typography } from 'components'
 
 import './VOPPage.css'

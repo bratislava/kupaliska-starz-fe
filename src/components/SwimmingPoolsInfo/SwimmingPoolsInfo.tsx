@@ -35,9 +35,9 @@ const SwimmingPoolsInfo = () => {
         {(allSwimmingPools
           ? assignItemsToColumns(getNumberOfSwimmingPoolCols(), swimmingPools)
           : assignItemsToColumns(
-            getNumberOfSwimmingPoolCols(),
-            swimmingPools.slice(0, width && width >= 1024 ? 3 : 2),
-          )
+              getNumberOfSwimmingPoolCols(),
+              swimmingPools.slice(0, width && width >= 1024 ? 3 : 2),
+            )
         ).map((swimmingPoolsCol, index) => (
           <div key={`col-${index}`} className="flex flex-col">
             {swimmingPoolsCol.map((swimmingPool) => (

@@ -16,7 +16,7 @@ type DialogProps = {
 const Dialog = ({
   title,
   open,
-  onClose = () => { },
+  onClose = () => {},
   footerButton,
   children,
   wrapper = <div />,

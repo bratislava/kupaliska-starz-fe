@@ -19,17 +19,29 @@ const OrderPageGuard = () => {
   // After the sign-in ticket id is stored in the url. This removes the id from the URL and saves it in the state
   // to be consistent with the default behavior.
   if (searchParamsTicketTypeId) {
-    return <Navigate to={ROUTES.ORDER} state={{ orderData: [{ ticketTypeId: searchParamsTicketTypeId }] }} replace />
+    return (
+      <Navigate
+        to={ROUTES.ORDER}
+        state={{ orderData: [{ ticketTypeId: searchParamsTicketTypeId }] }}
+        replace
+      />
+    )
   }
 
-  const orderData = location?.state?.orderData as { ticketTypeId: string, ticketAmount?: number }[] | undefined
+  const orderData = location?.state?.orderData as
+    | { ticketTypeId: string; ticketAmount?: number }[]
+    | undefined
   if (!orderData) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
   // TODO: when type is not present there is typescript error,
   // remove this type later after investigation why is it even needed
-  const foundTicketTypes = orderData.map((orderTicketType) => ticketTypes.find((ticketType: TicketType) => ticketType.id === orderTicketType.ticketTypeId)).filter(isDefined)
+  const foundTicketTypes = orderData
+    .map((orderTicketType) =>
+      ticketTypes.find((ticketType: TicketType) => ticketType.id === orderTicketType.ticketTypeId),
+    )
+    .filter(isDefined)
 
   if (foundTicketTypes.length !== orderData.length) {
     return <Navigate to={ROUTES.HOME} replace />
@@ -42,7 +54,8 @@ const OrderPageGuard = () => {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
-  const requiresLoginAndIsNotLoggedIn = foundTicketTypes.some((ticketType) => ticketType?.nameRequired) && !hasAccount
+  const requiresLoginAndIsNotLoggedIn =
+    foundTicketTypes.some((ticketType) => ticketType?.nameRequired) && !hasAccount
   if (requiresLoginAndIsNotLoggedIn) {
     return <Navigate to={ROUTES.HOME} replace />
   }

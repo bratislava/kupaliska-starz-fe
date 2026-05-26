@@ -16,13 +16,22 @@ export interface OrderPageTicket {
   hasNameRequired: boolean
 }
 
-const Context = createContext<{ ticketTypesWithAdditionalProperties: OrderPageTicket[], orderData: { ticketTypeId: string, ticketAmount?: number }[] } | undefined>(undefined)
+const Context = createContext<
+  | {
+      ticketTypesWithAdditionalProperties: OrderPageTicket[]
+      orderData: { ticketTypeId: string; ticketAmount?: number }[]
+    }
+  | undefined
+>(undefined)
 
 export const OrderPageTicketProvider = ({
   ticketTypes,
   orderData,
   children,
-}: PropsWithChildren<{ ticketTypes: TicketType[], orderData: { ticketTypeId: string, ticketAmount?: number }[] }>) => {
+}: PropsWithChildren<{
+  ticketTypes: TicketType[]
+  orderData: { ticketTypeId: string; ticketAmount?: number }[]
+}>) => {
   const { status } = useCityAccountAccessToken()
 
   const hasAccount = status === 'authenticated'
@@ -38,7 +47,9 @@ export const OrderPageTicketProvider = ({
     }
   })
 
-  const someTicketTypeHasSwimmers = ticketTypesWithAdditionalData.some((ticketType) => ticketType.hasSwimmers)
+  const someTicketTypeHasSwimmers = ticketTypesWithAdditionalData.some(
+    (ticketType) => ticketType.hasSwimmers,
+  )
 
   const userQuery = useQuery({
     // TODO add all variables for this query to the query key
@@ -48,28 +59,28 @@ export const OrderPageTicketProvider = ({
     enabled: someTicketTypeHasSwimmers,
   })
 
-  const ticketTypesWithAdditionalProperties = ticketTypesWithAdditionalData.map((ticketTypeWithAdditionalData) => {
-    const displayMissingInformationWarning =
-      ticketTypeWithAdditionalData.hasSwimmers && userQuery.data?.data
-        ? userQuery.data.data.image == null || userQuery.data.data.age == null
-        : false
-    const userQueryNotLoadedIfNeeded = ticketTypeWithAdditionalData.hasSwimmers && !userQuery.data
+  const ticketTypesWithAdditionalProperties = ticketTypesWithAdditionalData.map(
+    (ticketTypeWithAdditionalData) => {
+      const displayMissingInformationWarning =
+        ticketTypeWithAdditionalData.hasSwimmers && userQuery.data?.data
+          ? userQuery.data.data.image == null || userQuery.data.data.age == null
+          : false
+      const userQueryNotLoadedIfNeeded = ticketTypeWithAdditionalData.hasSwimmers && !userQuery.data
 
-    return {
-      ...ticketTypeWithAdditionalData,
-      // TODO remove this from ticketType data, it has nothing to do with the ticket type,
-      // it only depends on the presence of the user account
-      requireEmail: !hasAccount,
-      displayMissingInformationWarning,
-      userQueryNotLoadedIfNeeded,
-      sendDisabled: displayMissingInformationWarning || userQueryNotLoadedIfNeeded,
-    }
-  })
+      return {
+        ...ticketTypeWithAdditionalData,
+        // TODO remove this from ticketType data, it has nothing to do with the ticket type,
+        // it only depends on the presence of the user account
+        requireEmail: !hasAccount,
+        displayMissingInformationWarning,
+        userQueryNotLoadedIfNeeded,
+        sendDisabled: displayMissingInformationWarning || userQueryNotLoadedIfNeeded,
+      }
+    },
+  )
 
   return (
-    <Context.Provider
-      value={{ ticketTypesWithAdditionalProperties, orderData }}
-    >
+    <Context.Provider value={{ ticketTypesWithAdditionalProperties, orderData }}>
       {children}
     </Context.Provider>
   )

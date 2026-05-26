@@ -17,7 +17,9 @@ import { getPrice } from 'store/order/api'
 import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
-  dayTicketTypes: ticketTypes.filter((ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired),
+  dayTicketTypes: ticketTypes.filter(
+    (ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired,
+  ),
   entryTicketTypes: ticketTypes
     .filter((ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired)
     .map((ticketType) => ({ ...ticketType, disabled: !environment.entryTicketSelling })),
@@ -34,15 +36,16 @@ const HomepageTickets = () => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
-  // for now this is only used on ticket where name is not required 
+  // for now this is only used on ticket where name is not required
   // hence only ticketAmount is needed and personId is omited
-  const [cart, setCart] = useState<{ ticketTypeId: string, ticketAmount: number }[]>([])
+  const [cart, setCart] = useState<{ ticketTypeId: string; ticketAmount: number }[]>([])
 
   const isAuthenticated = status === 'authenticated'
   const navigate = useNavigate()
   const login = useLogin()
 
-  const ticketTypeNeedsLogin = (ticketType: TicketType) => ticketType.nameRequired && !isAuthenticated
+  const ticketTypeNeedsLogin = (ticketType: TicketType) =>
+    ticketType.nameRequired && !isAuthenticated
   const { dayTicketTypes, entryTicketTypes, seasonalTicketTypes } = useMemo(
     () => partitionTicketTypes(ticketTypes),
     [ticketTypes],
@@ -56,18 +59,23 @@ const HomepageTickets = () => {
     setCart(cart)
   }, [dayTicketTypes])
 
-
   const { getPriceRequest } = orderFormToRequests({
-    ticketTypesData: cart.filter(item => item.ticketAmount > 0).map((item) => ({
-      ticketAmount: item.ticketAmount,
-      ticketType: ticketTypes.find(ticketType => ticketType.id === item.ticketTypeId),
-      // TODO: we should send property hasOptionalFields derived from ticketType
-      // for now all tickets in cart is of type where name is not required therefore hasOptionalFields is true
-      hasOptionalFields: true,
-    })),
+    ticketTypesData: cart
+      .filter((item) => item.ticketAmount > 0)
+      .map((item) => ({
+        ticketAmount: item.ticketAmount,
+        ticketType: ticketTypes.find((ticketType) => ticketType.id === item.ticketTypeId),
+        // TODO: we should send property hasOptionalFields derived from ticketType
+        // for now all tickets in cart is of type where name is not required therefore hasOptionalFields is true
+        hasOptionalFields: true,
+      })),
   })
 
-  const { data: cartPriceData, isFetching, isSuccess } = useQuery({
+  const {
+    data: cartPriceData,
+    isFetching,
+    isSuccess,
+  } = useQuery({
     queryKey: ['cartPrice', cart],
     queryFn: ({ signal }) => {
       return getPrice(getPriceRequest, status, signal)
@@ -83,7 +91,11 @@ const HomepageTickets = () => {
       await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
       navigate(ROUTES.ORDER, {
-        state: { orderData: ticketType ? [{ ticketTypeId: ticketType.id }] : cart.filter(item => item.ticketAmount > 0) },
+        state: {
+          orderData: ticketType
+            ? [{ ticketTypeId: ticketType.id }]
+            : cart.filter((item) => item.ticketAmount > 0),
+        },
       })
     }
   }
@@ -93,18 +105,16 @@ const HomepageTickets = () => {
       return
     }
     setCart((prev) => {
-      const cumulativeTicketAmount =
-        prev
-          .filter((item) => item.ticketTypeId !== ticketType.id)
-          .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+      const cumulativeTicketAmount = prev
+        .filter((item) => item.ticketTypeId !== ticketType.id)
+        .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
       if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
         return prev
       }
       return prev.map((ticketTypeDataInner) => {
-        return ticketTypeDataInner.ticketTypeId === ticketType.id ?
-          { ...ticketTypeDataInner, ticketAmount } :
-          ticketTypeDataInner
-
+        return ticketTypeDataInner.ticketTypeId === ticketType.id
+          ? { ...ticketTypeDataInner, ticketAmount }
+          : ticketTypeDataInner
       })
     })
   }
@@ -171,53 +181,68 @@ const HomepageTickets = () => {
                           </span>
                           <span>{t('common.per-ticket')}</span>
                         </span>
-                        {isCartable && cart.filter((item) => item.ticketTypeId === ticketType.id).map((item) => (
-                          // TODO add also error when input field is added
-                          <div key={item.ticketTypeId} className="flex items-center justify-between px-6 py-2 lg:w-[182px] border border-primary rounded-lg">
-                            <Button
-                              className='p-0'
-                              color='sunscreen'
-                              onClick={() => removeTicketFromCart(item.ticketAmount - 1, ticketType)}
-                            >
-                              <Icon name={'minus'} />
-                            </Button>
-                            {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-                            <InputField
-                              value={item.ticketAmount}
-                              // TODO use onBlur instead of onChange to be able to remove input value entirely
-                              // now when using onBlur the value is not changed when the user clicks on the plus/minus button
-                              onChange={(event) => adjustTicketAmountFromCart(Number(event.target.value), ticketType)}
-                              className="inline-flex w-18"
-                              textCenter
-                              inputWrapperClassName="lg:w-full"
-                            />
-                            <Button
-                              className='p-0'
-                              color='sunscreen'
-                              onClick={() => addTicketToCart(item.ticketAmount + 1, ticketType)}
-                            >
-                              <Icon name={'plus'} />
-                            </Button>
-                          </div>
-                        ))}
-                        {!isCartable && <Button
-                          className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
-                          thin
-                          rounded
-                          onClick={() => handleClick(ticketType)}
-                          color={needsLogin ? 'primary' : 'outlined'}
-                          disabled={ticketType.disabled}
-                        >
-                          <>
-                            {needsLogin ? t('signin-button') : t('landing.basket')}
-                            <Icon
-                              name={needsLogin ? 'login' : 'euro-coin'}
-                              className={cx('ml-2 no-fill', {
-                                'py-1': !needsLogin,
-                              })}
-                            />
-                          </>
-                        </Button>}
+                        {isCartable &&
+                          cart
+                            .filter((item) => item.ticketTypeId === ticketType.id)
+                            .map((item) => (
+                              // TODO add also error when input field is added
+                              <div
+                                key={item.ticketTypeId}
+                                className="flex items-center justify-between px-6 py-2 lg:w-[182px] border border-primary rounded-lg"
+                              >
+                                <Button
+                                  className="p-0"
+                                  color="sunscreen"
+                                  onClick={() =>
+                                    removeTicketFromCart(item.ticketAmount - 1, ticketType)
+                                  }
+                                >
+                                  <Icon name={'minus'} />
+                                </Button>
+                                {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
+                                <InputField
+                                  value={item.ticketAmount}
+                                  // TODO use onBlur instead of onChange to be able to remove input value entirely
+                                  // now when using onBlur the value is not changed when the user clicks on the plus/minus button
+                                  onChange={(event) =>
+                                    adjustTicketAmountFromCart(
+                                      Number(event.target.value),
+                                      ticketType,
+                                    )
+                                  }
+                                  className="inline-flex w-18"
+                                  textCenter
+                                  inputWrapperClassName="lg:w-full"
+                                />
+                                <Button
+                                  className="p-0"
+                                  color="sunscreen"
+                                  onClick={() => addTicketToCart(item.ticketAmount + 1, ticketType)}
+                                >
+                                  <Icon name={'plus'} />
+                                </Button>
+                              </div>
+                            ))}
+                        {!isCartable && (
+                          <Button
+                            className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
+                            thin
+                            rounded
+                            onClick={() => handleClick(ticketType)}
+                            color={needsLogin ? 'primary' : 'outlined'}
+                            disabled={ticketType.disabled}
+                          >
+                            <>
+                              {needsLogin ? t('signin-button') : t('landing.basket')}
+                              <Icon
+                                name={needsLogin ? 'login' : 'euro-coin'}
+                                className={cx('ml-2 no-fill', {
+                                  'py-1': !needsLogin,
+                                })}
+                              />
+                            </>
+                          </Button>
+                        )}
                       </div>
                     </div>
                   )
@@ -238,7 +263,11 @@ const HomepageTickets = () => {
                         {isFetching ? (
                           <Skeleton />
                         ) : (
-                          <FormatCurrencyFromCents value={isSuccess ? cartPriceData.data?.data.pricing.orderPriceWithVat : 0} />
+                          <FormatCurrencyFromCents
+                            value={
+                              isSuccess ? cartPriceData.data?.data.pricing.orderPriceWithVat : 0
+                            }
+                          />
                         )}
                       </SkeletonTheme>
                     </span>
@@ -247,15 +276,12 @@ const HomepageTickets = () => {
                       thin
                       rounded
                       onClick={() => handleClick()}
-                      disabled={cart.filter(item => item.ticketAmount > 0).length === 0}
-                      color='primary'
+                      disabled={cart.filter((item) => item.ticketAmount > 0).length === 0}
+                      color="primary"
                     >
                       <>
                         {t('landing.basket')}
-                        <Icon
-                          name={'euro-coin'}
-                          className={cx('ml-2 no-fill py-1')}
-                        />
+                        <Icon name={'euro-coin'} className={cx('ml-2 no-fill py-1')} />
                       </>
                     </Button>
                   </div>
@@ -274,4 +300,3 @@ const HomepageTickets = () => {
 }
 
 export default HomepageTickets
-

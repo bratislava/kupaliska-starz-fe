@@ -47,8 +47,9 @@ const Toast = ({
 
   return (
     <div
-      className={`${_open ? 'top-4' : '-top-full'
-        } ${visualClasses} transition-all text-center duration-500 ease-in-out z-toast  rounded-lg shadow-xs p-4 mx-auto w-9/10 md:w-1/2 lg:w-3/10  fixed font-bold left-0 right-0 flex justify-between`}
+      className={`${
+        _open ? 'top-4' : '-top-full'
+      } ${visualClasses} transition-all text-center duration-500 ease-in-out z-toast  rounded-lg shadow-xs p-4 mx-auto w-9/10 md:w-1/2 lg:w-3/10  fixed font-bold left-0 right-0 flex justify-between`}
     >
       <div className="flex-1">{text ? text : children}</div>
       {closeButton && (
