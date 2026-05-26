@@ -57,6 +57,7 @@ module.exports = {
         redish: '#E46054',
         purpleish: '#4340A6',
         backgroundGray: '#F5F5F5',
+        white: '#FFFFFF',
         warningSoft: '#F8D7D4',
         inactive: '#CCCCCC',
         divider: '#D6D6D6',

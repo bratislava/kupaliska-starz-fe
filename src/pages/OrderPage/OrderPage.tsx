@@ -1,10 +1,8 @@
-import { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
-import { useWindowSize } from '../../hooks'
-import cx from 'classnames'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import { QueryObserverResult, useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { Trans, useTranslation } from 'react-i18next'
 import { CheckPriceResponse, TicketType } from '../../models'
@@ -44,68 +42,18 @@ import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModa
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
-import { currencyFormatter } from '../../helpers/currencyFormatter'
+import { FormatCurrencyFromCents, useCurrencyFromCentsFormatter } from '../../helpers/currencyFormatter'
 import { useOrderPageTicket } from './useOrderPageTicket'
 import logger from 'helpers/logger'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import { PaymentMethod } from 'helpers/types'
 import PayButton from './PayButton'
+import { isDefined } from 'helpers/helper'
 
-const NumberedLayoutIndexCounter = ({ index }: { index: number }) => {
-  return (
-    <div className="bg-blueish rounded-full text-primary font-semibold text-4xl w-12 shrink-0 h-12 grid place-content-center">
-      {index}
-    </div>
-  )
-}
-
-const NumberedLayoutLine = ({ className }: { className?: string }) => (
-  <div className={cx('border border-fontBlack opacity-10 grow h-0 w-full', className)}></div>
-)
-
-/* Creates this effect https://imgur.com/TLn9kOW */
-const NumberedLayout = ({
-  children,
-  index,
-  first = false,
-}: PropsWithChildren<{ index: number; first?: boolean }>) => {
-  const { width } = useWindowSize()
-  const absoluteDiv = useRef<any>()
-  const [showIndexOutside, setShowIndexOutside] = useState<boolean>(true)
-  useEffect(() => {
-    const left = absoluteDiv.current.getBoundingClientRect().left
-    setShowIndexOutside(left >= 20)
-  }, [width])
-
-  return (
-    <>
-      {!first && showIndexOutside && <NumberedLayoutLine className="my-5"></NumberedLayoutLine>}
-      <div className="relative">
-        <div
-          style={{ left: '-88px' }}
-          ref={absoluteDiv}
-          className={cx('absolute', { invisible: !showIndexOutside })}
-        >
-          <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
-        </div>
-
-        <div
-          className={cx('flex items-center', {
-            hidden: showIndexOutside,
-            'mt-4': !first,
-          })}
-        >
-          <div>
-            <NumberedLayoutIndexCounter index={index}></NumberedLayoutIndexCounter>
-          </div>
-          <NumberedLayoutLine className="ml-4"></NumberedLayoutLine>
-        </div>
-        <div className="p-3">{children}</div>
-      </div>
-    </>
-  )
-}
+/**
+ * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
+ */
 
 const OrderPageEmail = ({
   register,
@@ -114,18 +62,19 @@ const OrderPageEmail = ({
   register: UseFormRegister<OrderFormData>
   errors: FieldErrors<OrderFormData>
 }) => {
-  const { requireEmail } = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
   let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
-  return requireEmail ? (
+  return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
     <InputField
-      className="max-w-formMax"
+      className="flex-col gap-y-2 flex"
       name="email"
       register={register}
-      label={<span className="text-base">{t('common.email')}</span>}
+      // TODO redo InputField styles
+      label={<span className="font-semibold text-base">{t('common.email')}</span>}
       error={errorInterpreted}
     />
   ) : (
@@ -149,28 +98,32 @@ const OrderPageOptionalFields = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <label className="font-medium text-fontBlack text-base flex items-center mt-6">
-        {t('buy-page.optional')}
-        <div data-for="tooltip-customer-form" data-tip={t('buy-page.help-us')}>
-          <Icon className="ml-4" name="question-mark" color="blueish" />
-        </div>
-      </label>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
+          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
           name="age"
           register={register}
-          placeholder={t('buy-page.age')}
           error={errors.age?.message ? t(`${errors.age?.message}`) : undefined}
           type="number"
           valueAsNumber={true}
+          label={
+            <>
+              <span className="font-semibold text-base">{t('buy-page.age')}</span>
+              <span className="text-base">{t('buy-page.optional')}</span>
+            </>
+          }
         />
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
+          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
           name="zip"
           register={register}
-          placeholder={t('buy-page.zip')}
           error={errors.zip?.message}
+          label={
+            <>
+              <span className="font-semibold text-base">{t('buy-page.zip')}</span>
+              <span className="text-base">{t('buy-page.optional')}</span>
+            </>
+          }
         />
       </div>
     </>
@@ -186,12 +139,12 @@ const OrderPagePeopleList = ({
   watch: UseFormWatch<OrderFormData>
   setValue: UseFormSetValue<OrderFormData>
 }) => {
-  const { displayMissingInformationWarning } = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
+  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.displayMissingInformationWarning)
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
   // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
   const [swimmerListSizePrefillDone, setSwimmerListSizePrefillDone] = useState(false)
-  const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
 
   const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
   const userQuery = useQuery('user', fetchUser)
@@ -224,21 +177,24 @@ const OrderPagePeopleList = ({
     userQuery.data,
   ])
 
-  useEffect(() => {
-    // initial prefill when we get the list of associated swimmers
-    if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
-    setValue(
-      'selectedSwimmerIds',
-      mergedSwimmers
-        .filter(
-          (swimmer) =>
-            !('isPhysicalEntity' in swimmer) ||
-            ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
-        )
-        .map((swimmer) => swimmer.id),
-    )
-    setSwimmerListSizePrefillDone(true)
-  }, [mergedSwimmers, selectedSwimmerIds, setValue, swimmerListSizePrefillDone])
+  // useEffect(() => {
+  //   // initial prefill when we get the list of associated swimmers
+  //   if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
+  //   setValue(
+  //     'selectedSwimmerIds',
+  //     mergedSwimmers
+  //       .filter(
+  //         (swimmer) =>
+  //           !('isPhysicalEntity' in swimmer) ||
+  //           ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
+  //       )
+  //       .map((swimmer) => swimmer.id),
+  //   )
+  //   setSwimmerListSizePrefillDone(true)
+  // }, [mergedSwimmers,
+  //   // selectedSwimmerIds,
+  //   setValue,
+  //   swimmerListSizePrefillDone])
 
   const error = associatedSwimmersQuery.error || userQuery.error
 
@@ -248,24 +204,47 @@ const OrderPagePeopleList = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
+  const ticketTypesData = watch('ticketTypesData')
 
-  const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>) => {
+  const handleSelectSwimmer = (swimmerToSelect: Partial<AssociatedSwimmer>, ticketTypeId: string) => {
     // `null` is current user, therefore we don't check for it
     if (swimmerToSelect.id === undefined) {
       return
     }
-    if (selectedSwimmerIds.includes(swimmerToSelect.id)) {
-      setValue(
-        'selectedSwimmerIds',
-        selectedSwimmerIds.filter((p) => p !== swimmerToSelect.id),
-      )
-    } else {
-      setValue('selectedSwimmerIds', [...selectedSwimmerIds, swimmerToSelect.id])
+    const ticketTypeIndex = ticketTypesData.findIndex((ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId)
+    if (ticketTypeIndex !== -1) {
+      if (ticketTypesData[ticketTypeIndex].selectedSwimmerIds?.includes(swimmerToSelect.id)) {
+        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) => (
+          index === ticketTypeIndex ? {
+            ...ticketTypeData,
+            selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter((p) => p !== swimmerToSelect.id),
+          } : ticketTypeData
+        ))
+
+        setValue(
+          'ticketTypesData',
+          newTicketTypesData
+        )
+      } else {
+        const newSelectedSwimmerIds = [...(ticketTypesData[ticketTypeIndex].selectedSwimmerIds || []), swimmerToSelect.id]
+        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) => (
+          index === ticketTypeIndex ? {
+            ...ticketTypeData,
+            selectedSwimmerIds: newSelectedSwimmerIds,
+          } : ticketTypeData
+        ))
+
+        setValue(
+          'ticketTypesData',
+          newTicketTypesData
+        )
+      }
     }
   }
 
+
   const shouldDisplayMissingInformationWarning =
-    displayMissingInformationWarning && selectedSwimmerIds.includes(null)
+    displayMissingInformationWarning && ticketTypesData.some((ticketTypeData) => ticketTypeData.selectedSwimmerIds?.includes(null))
 
   return (
     <>
@@ -278,7 +257,11 @@ const OrderPagePeopleList = ({
       {addSwimmerModalOpen && (
         <AssociatedSwimmerEditAddModal
           onClose={() => setAddSwimmerModalOpen(false)}
-          onSaveSuccess={handleSelectSwimmer}
+          // good enough for now, we don't allow multiple order with multiple ticketTypes where name is requeired
+          onSaveSuccess={(savedSwimmer) => {
+            ticketTypesWithAdditionalProperties.length > 0 && handleSelectSwimmer(savedSwimmer, ticketTypesWithAdditionalProperties[0].ticketType.id)
+          }}
+
         ></AssociatedSwimmerEditAddModal>
       )}
 
@@ -302,17 +285,18 @@ const OrderPagePeopleList = ({
           <div>{t('common.physical-person-only')}</div>
         </div>
       )}
-      {mergedSwimmers && (
-        <OrderPageSwimmersList
-          selectedSwimmerIds={selectedSwimmerIds}
+      {ticketTypesData.map((ticketTypeData) => (
+        ticketTypeData.selectedSwimmerIds && mergedSwimmers && <OrderPageSwimmersList
+          key={ticketTypeData.ticketType.id}
+          selectedSwimmerIds={ticketTypeData.selectedSwimmerIds}
           swimmers={mergedSwimmers}
-          onSelectSwimmer={handleSelectSwimmer}
+          onSelectSwimmer={(swimmer) => handleSelectSwimmer(swimmer, ticketTypeData.ticketType.id)}
           onAddSwimmer={() => setAddSwimmerModalOpen(true)}
         />
-      )}
+      ))}
 
       <div className="text-error px-2 text-sm">
-        {errors.selectedSwimmerIds?.map((field) => field.message).join('/n')}
+        {errors.ticketTypesData?.map((field) => field.selectedSwimmerIds?.map((field) => field.message)).join('/n')}
       </div>
     </>
   )
@@ -325,7 +309,7 @@ const OrderPageDiscountCode = ({
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
 }) => {
-  const { ticketType } = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -339,7 +323,7 @@ const OrderPageDiscountCode = ({
   }
 
   return (
-    <>
+    <div className="flex-col gap-y-6 flex">
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
@@ -347,12 +331,13 @@ const OrderPageDiscountCode = ({
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
-          ticketType={ticketType}
+          // TODO ticketType is not needed anymore
+          ticketType={ticketTypesWithAdditionalProperties[0].ticketType}
           setValue={setValue}
           getValues={getValues}
-        ></OrderPageDiscountCodeInput>
+        />
       )}
-    </>
+    </div>
   )
 }
 
@@ -405,26 +390,24 @@ const OrderPageDiscountCodeInput = ({
   }
 
   return (
-    <>
+    <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0">
       <InputField
         value={discountCode}
         onChange={(event) => setDiscountCode(event.target.value)}
         error={
           status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
         }
-        label={<span className="text-base">{t('buy-page.enter-code')}</span>}
-        rightExtra={
-          status === OrderPageDiscountCodeInputStatus.Success ? (
-            <Icon name="checkmark" className="text-success" />
-          ) : null
-        }
-        inputWrapperClassName="max-w-xs"
-        className="mt-8"
+        inputWrapperClassName="lg:w-full"
+        placeholder={t('buy-page.enter-code')}
       />
-      <Button color="outlined" onClick={handleApply} className="mt-4">
+      <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded >
         {t('buy-page.claim')}
+
       </Button>
-    </>
+      {status === OrderPageDiscountCodeInputStatus.Success ? (
+        <Icon name="checkmark" className="text-success" />
+      ) : null}
+    </div>
   )
 }
 
@@ -435,13 +418,19 @@ const validationSchema = yup.object({
     }
     return schema
   }),
-  ticketAmount: yup
-    .number()
-    .when('$hasTicketAmount', (hasTicketAmount: boolean, schema: NumberSchema) => {
-      if (hasTicketAmount) {
-        return schema.min(1).max(environment.maxTicketPurchaseLimit).required()
-      }
-      return schema
+  // TODO improve error message when max ticket purchase limit is exceeded
+  ticketTypesData: yup
+    .array()
+    .required()
+    .test({
+      name: 'ticketTypesData',
+      message: 'buy-page.max-ticket-purchase-limit-exceeded',
+      // TODO investigate if we can have real type of value 
+      test: (value) => {
+        const cumulativeTicketAmount = value?.reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+
+        return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
+      },
     }),
   /* TODO: improve */
   discountCode: yup.object().nullable(true),
@@ -492,38 +481,40 @@ const validationSchema = yup.object({
 })
 
 const OrderPageSummary = ({
-  setValue,
-  watch,
-  priceQuery,
+  ticketType,
+  hasTicketAmount,
+  ticketAmount,
+  handleTicketTypeRemove,
+  handleMinusClick,
+  handlePlusClick,
+  setTicketAmount,
 }: {
-  setValue: UseFormSetValue<OrderFormData>
-  watch: UseFormWatch<OrderFormData>
-  priceQuery: QueryObserverResult<AxiosResponse<CheckPriceResponse, any>, unknown>
+  ticketType: TicketType
+  hasTicketAmount: boolean
+  ticketAmount?: number
+  handleTicketTypeRemove?: () => void
+  handleMinusClick: () => void,
+  handlePlusClick: () => void,
+  setTicketAmount: (ticketAmount: number) => void,
 }) => {
-  const { ticketType, hasTicketAmount } = useOrderPageTicket()
   const { t } = useTranslation()
-
-  const watchTicketAmount = watch('ticketAmount')
-
-  const handleMinusClick = () => {
-    if (watchTicketAmount! > 1) {
-      setValue('ticketAmount', watchTicketAmount! - 1)
-    }
-  }
-  const handlePlusClick = () => {
-    if (watchTicketAmount! < environment.maxTicketPurchaseLimit) {
-      setValue('ticketAmount', watchTicketAmount! + 1)
-    }
-  }
+  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
   return (
-    <div className="rounded-lg bg-sunscreen shadow-lg max-w-lg my-6 md:mt-8 md:mb-12 ">
+    <div className="rounded-lg bg-sunscreen">
       <div className="p-8">
-        <div className="font-semibold text-2xl">
-          {hasTicketAmount && `${watchTicketAmount}× `}
-          {ticketType.name}
+        <div className="flex flex-row justify-between">
+          <div className="font-semibold text-2xl">
+            {hasTicketAmount && `${ticketAmount}× `}
+            {ticketType.name}
+          </div>
+          {handleTicketTypeRemove && (
+            <button onClick={handleTicketTypeRemove}>
+              <Icon name="close" />
+            </button>
+          )}
         </div>
-        {ticketType.childrenAllowed && (
+        {/* {ticketType.childrenAllowed && (
           <p className="mt-2 font-bold">
             {priceQuery.isFetching ? (
               <div style={{ maxWidth: '200px' }}>
@@ -538,9 +529,8 @@ const OrderPageSummary = ({
               )
             )}
           </p>
-        )}
+        )} */}
         <p className="mt-4">{ticketType.description}</p>
-
         {ticketType.childrenAllowed && (
           <>
             <br />
@@ -548,83 +538,82 @@ const OrderPageSummary = ({
               {/* TODO pluralizacia */}
               {t('buy-page.children-discount-children-count-and-price', {
                 childrenMaxNumber: ticketType.childrenMaxNumber,
-                childrenPrice: ticketType.childrenPriceWithVat,
+                childrenPrice: isDefined(ticketType.childrenPriceWithVat) ?
+                  currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat) :
+                  null,
               })}
             </p>
             <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
           </>
         )}
       </div>
-      <div className="flex bg-blueish px-8 py-4 rounded-b-lg items-center">
+      <div className="flex bg-blueish px-4 lg:px-8 py-4 rounded-b-lg items-center flex justify-between">
         {hasTicketAmount && (
-          <div className="border-primary border-solid rounded-lg border-2 px-6 py-3 mr-8 text-primary shrink-0">
+          <div className="border-primary border-solid rounded-lg border px-6 py-2 mr-8 text-primary shrink-0 flex items-center gap-x-2">
             <button
-              className="mr-6 leading-5 text-3xl align-top"
+              className="leading-5 text-3xl align-top"
               onClick={handleMinusClick}
               type="button"
             >
-              -
+              <Icon name={'minus'} />
             </button>
-            <span className="font-bold">{watchTicketAmount}</span>
+            {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
+            <InputField
+              value={ticketAmount}
+              // TODO use onBlur instead of onChange to be able to remove input value entirely
+              // now when using onBlur the value is not changed when the user clicks on the plus/minus button
+              onChange={(event) => setTicketAmount(Number(event.target.value))}
+              className="inline-flex w-18"
+              textCenter
+              inputWrapperClassName="lg:w-full"
+            />
             <button
-              className="ml-6 leading-5 text-3xl align-top"
+              className="leading-5 text-3xl align-top"
               onClick={handlePlusClick}
               type="button"
             >
-              +
+              <Icon name={'plus'} />
             </button>
           </div>
         )}
-        <span className="text-xl text-primary font-bold">
-          <SkeletonTheme
-            baseColor="#a8dbf2"
-            highlightColor="#58bbe6"
-            duration={1}
-            width={40}
-            height={28}
-          >
-            {priceQuery.isFetching ? (
-              <Skeleton />
-            ) : (
-              priceQuery.isSuccess && (
-                <OrderPagePrice pricing={priceQuery.data?.data.data.pricing}></OrderPagePrice>
-              )
-            )}
-          </SkeletonTheme>
+        <span className="lg:text-xl text-fontBlack font-bold">
+          <FormatCurrencyFromCents value={ticketType.priceWithVat} />
         </span>
       </div>
     </div>
   )
 }
 
-const OrderPageAdultChildrenCount = ({
-  pricing,
-  watch,
-}: {
-  pricing: CheckPriceResponse['data']['pricing']
-  watch: UseFormWatch<OrderFormData>
-}) => {
-  const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
-  const { t } = useTranslation()
+// pricing.numberOfChildren is not available in response, keeping code for later when available
 
-  const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
-  const childrenCount = pricing.numberOfChildren
+// const OrderPageAdultChildrenCount = ({
+//   pricing,
+//   watch,
+// }: {
+//   pricing: CheckPriceResponse['data']['pricing']
+//   watch: UseFormWatch<OrderFormData>
+// }) => {
+//   const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
+//   const { t } = useTranslation()
 
-  const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
-  const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
+//   // const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
+//   // const childrenCount = pricing.numberOfChildren
 
-  return <>({[adult, children].filter(Boolean).join(' + ')})</>
-}
+//   // const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
+//   // const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
+
+//   return <>({[adult, children].filter(Boolean).join(' + ')})</>
+// }
 
 const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
   const fullPrice =
     pricing.discount > 0 ? (
       <div className="inline-block strikethrough-diagonal mr-2">
-        {currencyFormatter.format(pricing.orderPriceWithVat + pricing.discount)}
+        <FormatCurrencyFromCents value={pricing.orderPriceWithVat + pricing.discount} />
       </div>
     ) : null
   const orderPrice = (
-    <div className="inline-block">{currencyFormatter.format(pricing.orderPriceWithVat)}</div>
+    <div className="inline-block"><FormatCurrencyFromCents value={pricing.orderPriceWithVat} /></div>
   )
   return (
     <>
@@ -635,15 +624,7 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
 }
 
 const OrderPage = () => {
-  const {
-    ticketType,
-    requireEmail,
-    hasOptionalFields,
-    hasSwimmers,
-    hasTicketAmount,
-    sendDisabled,
-    isSeniorOrDisabledTicket,
-  } = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties, orderData } = useOrderPageTicket()
   const [childrenConfirmationModalOpen, setChildrenConfirmationModalOpen] = useState(false)
   const [paymentMethodFunction, setPaymentMethodFunction] = useState<() => Promise<void>>()
   const [orderRequestPending, setOrderRequestPending] = useState(false)
@@ -654,6 +635,7 @@ const OrderPage = () => {
   const { status } = useCityAccount()
   const { t } = useTranslation()
   const isClient = useIsClient()
+  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
   const {
     register,
@@ -667,19 +649,26 @@ const OrderPage = () => {
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      ...(hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
-      ...(hasTicketAmount ? { ticketAmount: 1 } : {}),
+      ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
+        ticketType: ticketType.ticketType,
+        ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
+        ...(ticketType.hasTicketAmount ? { ticketAmount: orderData.find((orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id)?.ticketAmount ?? 1 } : {}),
+      })),
     },
-    context: {
-      requireEmail,
-      hasOptionalFields,
-      hasSwimmers,
-      hasTicketAmount,
-      isSeniorOrDisabledTicket,
-    },
+    context:
+    {
+      requireEmail: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail),
+      hasOptionalFields: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields),
+      hasSwimmers: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers),
+      hasTicketAmount: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasTicketAmount),
+      isSeniorOrDisabledTicket: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.isSeniorOrDisabledTicket),
+    }
   })
+  const ticketTypesData = watch('ticketTypesData')
 
-  const selectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
+  const selectedSwimmerIds = watch('ticketTypesData')
+    .map((ticketTypeData) => ticketTypeData.selectedSwimmerIds)
+    .flat()
 
   const errorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.agreement?.message,
@@ -690,16 +679,22 @@ const OrderPage = () => {
 
   const watchPriceChange = useWatch({
     // Those properties are those who trigger possible change of the price.
-    name: ['ticketAmount', 'discountCode', 'selectedSwimmerIds', 'ticketAmount'],
+    name: ['ticketTypesData'],
     control,
   })
 
   const getRequestsFromFormData = () =>
-    orderFormToRequests(getValues(), ticketType, {
-      requireEmail,
-      hasOptionalFields,
-      hasSwimmers,
-      hasTicketAmount,
+    orderFormToRequests({
+      ...getValues(), ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+        const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } = ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)!
+        return {
+          ...ticketTypeData,
+          requireEmail,
+          hasOptionalFields,
+          hasSwimmers,
+          hasTicketAmount,
+        }
+      })
     })
 
   const priceQuery = useQuery(
@@ -741,18 +736,30 @@ const OrderPage = () => {
 
   // photo and age is required for every selected swimmer, so when main swimmer isn't selected we should not prompt user to fill those attributes and
   // we should not block the form when main swimmer, marked as 'null', isn't selected and those attributes is missing
-  const shouldSendDisabled = sendDisabled && selectedSwimmerIds.includes(null)
+  const shouldSendDisabled = ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) && selectedSwimmerIds.includes(null)
 
   const renderPayButton = (paymentMethod: PaymentMethod) => {
     let text
     let icon
+    let color: 'black' | 'white-outlined' | 'primary' = 'primary'
 
+    switch (paymentMethod) {
+      case PaymentMethod.APAY:
+        color = 'black'
+        break
+      case PaymentMethod.GPAY:
+        color = 'white-outlined'
+        break
+      case PaymentMethod.CARD:
+        color = 'primary'
+        break
+    }
     switch (paymentMethod) {
       case PaymentMethod.APAY:
         icon = (
           <Icon
             name="apple-pay"
-            className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-black h-6 w-6"
+            className="no-fill flex items-center justify-center rounded p-1 bg-black h-6 w-6"
           ></Icon>
         )
         break
@@ -760,14 +767,14 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="google-pay"
-            className="no-fill flex items-center justify-center rounded p-1 ml-4 bg-white h-6 w-6"
+            className="no-fill flex items-center justify-center rounded p-1 bg-white h-6 w-6"
           ></Icon>
         )
         break
       case PaymentMethod.CARD:
         icon = (
           <Icon
-            className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+            className="flex items-center justify-center rounded p-1 h-6 w-6"
             name="credit-card"
           />
         )
@@ -775,7 +782,7 @@ const OrderPage = () => {
       default:
         icon = (
           <Icon
-            className="ml-4 flex items-center justify-center rounded p-1 h-6 w-6"
+            className="flex items-center justify-center rounded p-1 h-6 w-6"
             name="credit-card"
           />
         )
@@ -792,7 +799,7 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-              price: currencyFormatter.format(
+              price: currencyFromCentsFormatter.format(
                 priceQuery.data.data.data.pricing.orderPriceWithVat,
               ),
             })
@@ -802,7 +809,7 @@ const OrderPage = () => {
         text =
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
-              price: currencyFormatter.format(
+              price: currencyFromCentsFormatter.format(
                 priceQuery.data.data.data.pricing.orderPriceWithVat,
               ),
             })
@@ -820,13 +827,14 @@ const OrderPage = () => {
     return (
       <PayButton
         onSubmit={() => {
-          if (ticketType.type === 'SEASONAL' && ticketType.childrenAllowed) {
+          if (ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL' && ticketTypeData.ticketType.childrenAllowed)) {
             setChildrenConfirmationModalOpen(true)
             setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
           } else {
             handleSubmitWithErrorHandling()
           }
         }}
+        color={color}
         icon={icon}
         text={text}
         disabled={
@@ -838,6 +846,27 @@ const OrderPage = () => {
         }
       />
     )
+  }
+
+  const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: CartItem) => {
+    const cumulativeTicketAmount = ticketTypesData
+      .filter((ticketTypeData) => ticketTypeData.ticketType.id !== cartItem.ticketType.id)
+      .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+    if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
+      return
+    }
+    // TODO this "ticketAmount > 0" prevents it from going to 0 when manually inputing value
+    if (ticketAmount > 0) {
+      setValue('ticketTypesData', ticketTypesData.map((ticketTypeDataInner) =>
+        ticketTypeDataInner.ticketType.id === cartItem.ticketType.id ?
+          { ...ticketTypeDataInner, ticketAmount } :
+          ticketTypeDataInner
+      ))
+    }
+  }
+
+  const Divider = () => {
+    return <div className="border-b-solid border-b-2 my-6" />
   }
 
   return (
@@ -856,22 +885,23 @@ const OrderPage = () => {
         />
       )}
       <form className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
-        <div>
-          <div className="text-2xl md:text-3xl font-semibold mb-3">{t('buy-page.cart')}</div>
-
-          <NumberedLayout index={1} first={true}>
-            <OrderPageEmail register={register} errors={errors}></OrderPageEmail>
-            {hasOptionalFields && <OrderPageOptionalFields register={register} errors={errors} />}
-            {hasSwimmers && (
+        <div className="gap-y-6 flex flex-col">
+          <div className="text-2xl md:text-3xl font-semibold">{t('buy-page.personal-info')}</div>
+          <div className="p-6 border border-gray rounded-lg">
+            <OrderPageEmail register={register} errors={errors} />
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasOptionalFields) &&
+              <OrderPageOptionalFields register={register} errors={errors} />
+            }
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
               <>
                 <div className="mt-2">
-                  {ticketType.type === 'SEASONAL' && (
+                  {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL') && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-seasonal'}
                       components={{ span: <span /> }}
                     />
                   )}
-                  {ticketType.type === 'ENTRIES' && (
+                  {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES') && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-entries'}
                       components={{ span: <span /> }}
@@ -895,13 +925,13 @@ const OrderPage = () => {
                 ></OrderPagePeopleList>
               </>
             )}
-          </NumberedLayout>
 
-          <NumberedLayout index={2} first={false}>
+            <Divider />
+
             <OrderPageDiscountCode setValue={setValue} getValues={getValues} />
-          </NumberedLayout>
 
-          <NumberedLayout index={3} first={false}>
+            <Divider />
+
             <CheckboxField
               register={register}
               name="agreement"
@@ -916,7 +946,7 @@ const OrderPage = () => {
                 </span>
               }
             />
-            {isSeniorOrDisabledTicket && (
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.isSeniorOrDisabledTicket) && (
               <>
                 <CheckboxField
                   className="my-4"
@@ -949,6 +979,8 @@ const OrderPage = () => {
               </Link>{' '}
               ako prevádzkovateľa osobných údajov.
             </div>
+          </div>
+          <div>
             <Controller
               name="recaptchaToken"
               control={control}
@@ -977,7 +1009,7 @@ const OrderPage = () => {
                       // logger.warn("Turnstile expire - should refresh automatically");
                       onChange(null)
                     }}
-                    className="mt-4 self-center"
+                    className="self-center flex justify-center"
                   />
                   {captchaWarning === 'show' && (
                     <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
@@ -990,22 +1022,88 @@ const OrderPage = () => {
                 </>
               )}
             />
-          </NumberedLayout>
-          <div className="mt-4 md:mt-2">
-            <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
-            <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.GPAY)}</div>
-            <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.CARD)}</div>
+          </div>
+          <div>
+            {/* Desktop */}
+            <div className="hidden lg:flex flex-col gap-y-3">
+              <div className="flex flex-row gap-x-3">
+                <div className="w-full">{renderPayButton(PaymentMethod.APAY)}</div>
+                <div className="w-full">{renderPayButton(PaymentMethod.GPAY)}</div>
+              </div>
+              <div className="w-full">{renderPayButton(PaymentMethod.CARD)}</div>
+            </div>
+            {/* Mobile */}
+            <div className="lg:hidden">
+              <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
+              <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.GPAY)}</div>
+              <div className="hidden md:block mt-3 w-3/4">{renderPayButton(PaymentMethod.CARD)}</div>
+            </div>
           </div>
         </div>
-        <div className="mt-14 md:mt-0">
+        <div className="flex flex-col gap-y-4 lg:gap-y-6">
           <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
-          <OrderPageSummary
-            setValue={setValue}
-            watch={watch}
-            priceQuery={priceQuery}
-          ></OrderPageSummary>
+          {ticketTypesData.map((ticketTypeData) => {
+            const ticketAmount = ticketTypeData.ticketAmount;
+
+            const handleMinusClick = () => {
+              if (!ticketAmount) {
+                return
+              }
+              setTicketAmountOfTicketType(ticketAmount - 1, ticketTypeData)
+            }
+            const handlePlusClick = () => {
+              if (!ticketAmount) {
+                return
+              }
+              setTicketAmountOfTicketType(ticketAmount + 1, ticketTypeData)
+            }
+
+
+            const handleTicketTypeRemove = ticketTypesData.length > 1 ? () => {
+              // this will remove the ticket type from the form data 
+              // but it will reappear after reloading the page because it ultimately comes from location state
+              // TODO fix this when cart is implemented using redux
+              setValue('ticketTypesData', ticketTypesData.filter((ticketTypeDataInner) => ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id))
+            } : undefined
+
+            return (
+              // TODO rename to TicketTypeSummary
+              <OrderPageSummary
+                key={ticketTypeData.ticketType.id}
+                ticketAmount={ticketAmount}
+                ticketType={ticketTypeData.ticketType}
+                hasTicketAmount={ticketTypesWithAdditionalProperties.find((ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id)?.hasTicketAmount ?? false}
+                handleMinusClick={handleMinusClick}
+                handlePlusClick={handlePlusClick}
+                handleTicketTypeRemove={handleTicketTypeRemove}
+                setTicketAmount={(ticketAmount: number) => setTicketAmountOfTicketType(ticketAmount, ticketTypeData)}
+              />
+            )
+          })}
+          <div className="px-4 lg:px-8 py-4 bg-blueish flex flex-row lg:items-center rounded-lg border-divider text-fontBlack">
+            <span className="grow font-semibold">{t('price-total')}</span>
+            <div className="flex items-center justify-between gap-x-6">
+              <span className="lg:w-[115px] lg:text-right grow font-semibold lg:text-xl">
+                <SkeletonTheme
+                  baseColor="#a8dbf2"
+                  highlightColor="#58bbe6"
+                  duration={1}
+                  width={40}
+                  height={28}
+                >
+                  {priceQuery.isFetching ? (
+                    <Skeleton />
+                  ) : (
+                    priceQuery.isSuccess && (
+                      <OrderPagePrice pricing={priceQuery.data?.data.data.pricing} />
+                    )
+                  )}
+                </SkeletonTheme>
+              </span>
+            </div>
+          </div>
           <div className="text-gray color-fontBlack">
-            {!hasSwimmers && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
+            {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && <p className="mb-2">{t('common.additional-info-student-senior')}</p>}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
@@ -1027,14 +1125,19 @@ const OrderPage = () => {
 
 export interface OrderFormData {
   email?: string
-  ticketAmount?: number
+  ticketTypesData: { ticketType: TicketType, ticketAmount?: number, selectedSwimmerIds?: (string | null)[] }[]
   discountCode?: DiscountCodeResponse['discountCode'] | null
-  selectedSwimmerIds?: (string | null)[]
-  agreement?: boolean
+  agreement?: string
   seniorOrDisabledAgreement?: boolean
   age?: number
   zip?: string
-  recaptchaToken: string
+  recaptchaToken?: string
+}
+
+type CartItem = {
+  ticketType: TicketType
+  ticketAmount?: number
+  selectedSwimmerIds?: (string | null)[]
 }
 
 export default OrderPage

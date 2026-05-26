@@ -5,13 +5,14 @@ interface PayButtonProps {
   icon: JSX.Element
   onSubmit: () => void
   text: string
+  color: 'black' | 'white-outlined' | 'primary'
 }
 
-const PayButton = ({ disabled, text, onSubmit, icon }: PayButtonProps) => {
+const PayButton = ({ disabled, text, onSubmit, icon, color }: PayButtonProps) => {
   return (
-    <Button className="w-3/4" htmlType="button" disabled={disabled} onClick={onSubmit}>
-      {text}
+    <Button className='w-full gap-x-3 p-3' color={color} htmlType="button" disabled={disabled} onClick={onSubmit}>
       {icon}
+      {text}
     </Button>
   )
 }

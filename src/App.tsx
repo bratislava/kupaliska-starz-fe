@@ -9,6 +9,7 @@ import { initPageGlobalState, selectToast, setToast } from 'store/global'
 import 'react-loading-skeleton/dist/skeleton.css'
 import CookieConsent from './components/CookieConsent/CookieConsent'
 import { AxiosError } from 'axios'
+import { I18nProvider } from 'react-aria/I18nProvider'
 import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
 
 import '@fontsource/inter'
@@ -66,56 +67,59 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <CityAccountAccessTokenProvider>
-            <RegisterUserGuard>
-              <PreseasonProvider>
-                <CityAccountLoginRedirectionModalContextProvider>
-                  <ScrollToTop>
-                    <CityAccountLoginRedirectionModal />
-                    <Toast
-                      open={toast !== undefined}
-                      type={toast?.type}
-                      text={toast?.message}
-                      onClose={() => {
-                        dispatch(setToast(undefined))
-                      }}
-                      timeToClose={toast?.type === 'success' ? 3000 : 5000}
-                      closeButton={toast?.type !== 'success'}
-                    />
-                    <TopBanner />
-                    <main className="relative flex flex-col" style={{ flex: 1 }}>
-                      <Header />
+          <I18nProvider locale="sk-SK">
 
-                      <Routes>
-                        <Route path="/order" element={<Navigate replace to={ROUTES.ORDER} />} />
-                        <Route path="/order-result" element={<Navigate replace to={ROUTES.HOME} />} />
-                        <Route path="/profile" element={<Navigate replace to={ROUTES.PROFILE} />} />
-                        <Route path="/tickets" element={<Navigate replace to={ROUTES.TICKETS} />} />
-                        <Route path={ROUTES.ORDER} element={<OrderPageGuard />} />
-                        <Route path={ROUTES.ORDER_SUCCESSFUL} element={<OrderResultSuccessfulPage />} />
-                        <Route path={ROUTES.ORDER_UNSUCCESSFUL} element={<OrderResultUnsuccessfulPage />} />
-                        <Route path={ROUTES.VOP} element={<VOPPage />} />
-                        <Route path={ROUTES.GDPR} element={<GDPRPage />} />
-                        <Route path={ROUTES.PROFILE} element={
-                          <RequireAuthRoute>
-                            <ProfilePage />
-                          </RequireAuthRoute>}
-                        />
-                        <Route path={ROUTES.TICKETS} element={
-                          <RequireAuthRoute>
-                            <TicketsManagementPage />
-                          </RequireAuthRoute>}
-                        />
-                        <Route path={ROUTES.HOME} element={<LandingPage />} />
-                      </Routes>
-                      <CookieConsent />
-                    </main>
-                    <Footer />
-                  </ScrollToTop>
-                </CityAccountLoginRedirectionModalContextProvider>
-              </PreseasonProvider>
-            </RegisterUserGuard>
-          </CityAccountAccessTokenProvider>
+            <CityAccountAccessTokenProvider>
+              <RegisterUserGuard>
+                <PreseasonProvider>
+                  <CityAccountLoginRedirectionModalContextProvider>
+                    <ScrollToTop>
+                      <CityAccountLoginRedirectionModal />
+                      <Toast
+                        open={toast !== undefined}
+                        type={toast?.type}
+                        text={toast?.message}
+                        onClose={() => {
+                          dispatch(setToast(undefined))
+                        }}
+                        timeToClose={toast?.type === 'success' ? 3000 : 5000}
+                        closeButton={toast?.type !== 'success'}
+                      />
+                      <TopBanner />
+                      <main className="relative flex flex-col" style={{ flex: 1 }}>
+                        <Header />
+
+                        <Routes>
+                          <Route path="/order" element={<Navigate replace to={ROUTES.ORDER} />} />
+                          <Route path="/order-result" element={<Navigate replace to={ROUTES.HOME} />} />
+                          <Route path="/profile" element={<Navigate replace to={ROUTES.PROFILE} />} />
+                          <Route path="/tickets" element={<Navigate replace to={ROUTES.TICKETS} />} />
+                          <Route path={ROUTES.ORDER} element={<OrderPageGuard />} />
+                          <Route path={ROUTES.ORDER_SUCCESSFUL} element={<OrderResultSuccessfulPage />} />
+                          <Route path={ROUTES.ORDER_UNSUCCESSFUL} element={<OrderResultUnsuccessfulPage />} />
+                          <Route path={ROUTES.VOP} element={<VOPPage />} />
+                          <Route path={ROUTES.GDPR} element={<GDPRPage />} />
+                          <Route path={ROUTES.PROFILE} element={
+                            <RequireAuthRoute>
+                              <ProfilePage />
+                            </RequireAuthRoute>}
+                          />
+                          <Route path={ROUTES.TICKETS} element={
+                            <RequireAuthRoute>
+                              <TicketsManagementPage />
+                            </RequireAuthRoute>}
+                          />
+                          <Route path={ROUTES.HOME} element={<LandingPage />} />
+                        </Routes>
+                        <CookieConsent />
+                      </main>
+                      <Footer />
+                    </ScrollToTop>
+                  </CityAccountLoginRedirectionModalContextProvider>
+                </PreseasonProvider>
+              </RegisterUserGuard>
+            </CityAccountAccessTokenProvider>
+          </I18nProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </>
