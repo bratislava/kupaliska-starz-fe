@@ -52,6 +52,7 @@
     "react-tooltip": "^4.2.19",
     "react-turnstile": "^1.1.0",
     "swiper": "^9.2.3",
+    "tailwind-merge": "^2.6.0",
     "usehooks-ts": "2.1.1",
     "yup": "^0.32.9"
   },
