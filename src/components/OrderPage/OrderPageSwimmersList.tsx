@@ -30,8 +30,8 @@ export const isLoggedInUser = (swimmer: OrderPageSwimmersListSwimmer): swimmer i
 const OrderPageSwimmersList = ({
   selectedSwimmerIds,
   swimmers,
-  onSelectSwimmer = () => { },
-  onAddSwimmer = () => { },
+  onSelectSwimmer = () => {},
+  onAddSwimmer = () => {},
 }: OrderPageSwimmersListProps) => {
   const { isSeniorOrDisabledTicket, hasNameRequired } = useOrderPageTicket()
 

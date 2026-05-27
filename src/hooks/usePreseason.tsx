@@ -1,11 +1,5 @@
 import { environment } from '../environment'
-import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react'
 
 const useGetContext = () => {
   // allow override of the feature flag at runtime
@@ -13,7 +7,7 @@ const useGetContext = () => {
 
   useEffect(() => {
     // manually override type to please ts
-    ; (
+    ;(
       window as Window & { __DEV_OVERRIDE_LANDINGPAGE_PRESEASON?: typeof setPreseason }
     ).__DEV_OVERRIDE_LANDINGPAGE_PRESEASON = setPreseason
   }, [setPreseason])

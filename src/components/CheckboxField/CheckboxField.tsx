@@ -53,8 +53,9 @@ const CheckboxField = ({
         />
         {label && (
           <span
-            className={`font-medium ml-6 ${error ? 'text-error' : 'text-fontBlack'} ${disabled ? 'text-opacity-50' : ''
-              }`}
+            className={`font-medium ml-6 ${error ? 'text-error' : 'text-fontBlack'} ${
+              disabled ? 'text-opacity-50' : ''
+            }`}
           >
             {label}
           </span>

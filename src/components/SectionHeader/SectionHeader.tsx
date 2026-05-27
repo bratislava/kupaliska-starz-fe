@@ -1,4 +1,3 @@
-
 import { Typography } from 'components'
 
 interface SectionHeaderProps {

@@ -1,4 +1,3 @@
-
 import { SwimmingPool } from 'models'
 
 import { Typography, Spinner } from 'components'
