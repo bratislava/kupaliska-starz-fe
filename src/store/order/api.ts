@@ -66,6 +66,6 @@ export interface DiscountCodeResponse {
 
 export function checkDiscountCode(discountCode: string, recaptchaToken: string) {
   return apiClient.post<DiscountCodeResponse>(`/api/v1/orders/discountCodes/${discountCode}`, {
-    recaptchaToken,
+    token: recaptchaToken,
   })
 }
