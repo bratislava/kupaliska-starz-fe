@@ -329,9 +329,11 @@ const OrderPagePeopleList = ({
 const OrderPageDiscountCode = ({
   setValue,
   getValues,
+  incrementCaptchaKey,
 }: {
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
+  incrementCaptchaKey: () => void
 }) => {
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
@@ -352,7 +354,13 @@ const OrderPageDiscountCode = ({
         onChange={handleUseDiscountCodeChange}
         label={t('buy-page.claim-code')}
       />
-      {useDiscountCode && <OrderPageDiscountCodeInput setValue={setValue} getValues={getValues} />}
+      {useDiscountCode && (
+        <OrderPageDiscountCodeInput
+          setValue={setValue}
+          getValues={getValues}
+          incrementCaptchaKey={incrementCaptchaKey}
+        />
+      )}
     </div>
   )
 }
@@ -366,9 +374,11 @@ enum OrderPageDiscountCodeInputStatus {
 const OrderPageDiscountCodeInput = ({
   setValue,
   getValues,
+  incrementCaptchaKey,
 }: {
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
+  incrementCaptchaKey: () => void
 }) => {
   const { t } = useTranslation()
 
@@ -379,6 +389,7 @@ const OrderPageDiscountCodeInput = ({
   const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None)
 
   const handleApply = async () => {
+    incrementCaptchaKey()
     if (getValues('discountCode') != null) {
       setValue('discountCode', null)
     }
@@ -979,7 +990,11 @@ const OrderPage = () => {
 
             <Divider />
 
-            <OrderPageDiscountCode setValue={setValue} getValues={getValues} />
+            <OrderPageDiscountCode
+              setValue={setValue}
+              getValues={getValues}
+              incrementCaptchaKey={incrementCaptchaKey}
+            />
 
             <Divider />
 
