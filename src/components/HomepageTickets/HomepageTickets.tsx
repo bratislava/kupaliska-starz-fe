@@ -170,12 +170,11 @@ const HomepageTickets = () => {
                       key={ticketType.id}
                       className={cx(
                         'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
-                        { 'cursor-pointer': !ticketType.disabled },
                       )}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
                       <div className="flex items-center justify-between gap-x-6">
-                        <span className="lg:w-[115px] lg:text-left">
+                        <span className="lg:w-[120px] lg:text-left">
                           <span className="text-xl font-semibold">
                             <FormatCurrencyFromCents value={ticketType.priceWithVat} />
                           </span>
