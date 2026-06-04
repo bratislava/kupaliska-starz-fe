@@ -603,9 +603,12 @@ const OrderPageSummary = ({
             </button>
           </div>
         )}
-        <span className="lg:text-xl text-fontBlack font-bold">
-          <FormatCurrencyFromCents value={ticketType.priceWithVat} />
-        </span>
+        <div className="flex flex-nowrap">
+          <span className="lg:text-xl text-fontBlack font-bold">
+            <FormatCurrencyFromCents value={ticketType.priceWithVat} />
+          </span>
+          <span>{t('common.per-ticket')}</span>
+        </div>
       </div>
     </div>
   )

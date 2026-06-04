@@ -175,10 +175,12 @@ const HomepageTickets = () => {
                       <span className="grow font-semibold">{ticketType.name}</span>
                       <div className="flex items-center justify-between gap-x-6">
                         <span className="lg:w-[120px] lg:text-left">
-                          <span className="text-xl font-semibold">
-                            <FormatCurrencyFromCents value={ticketType.priceWithVat} />
-                          </span>
-                          <span>{t('common.per-ticket')}</span>
+                          <div className="flex flex-nowrap">
+                            <span className="text-xl font-semibold">
+                              <FormatCurrencyFromCents value={ticketType.priceWithVat} />
+                            </span>
+                            <span>{t('common.per-ticket')}</span>
+                          </div>
                         </span>
                         {isCartable &&
                           cart
