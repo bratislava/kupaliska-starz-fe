@@ -10,8 +10,9 @@ import { Icon, Typography } from 'components'
 import { useTranslation } from 'react-i18next'
 import { IconName } from 'components/Icon/Icon'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
-import { usePreseason } from 'hooks/usePreseason'
 import { ANCHORS, ROUTES } from 'helpers/constants'
+import { fetchGeneralSettings } from 'store/global/api'
+import { useQuery } from 'react-query'
 
 interface MenuItem {
   to: string
@@ -26,14 +27,17 @@ const Divider = () => {
 
 const Header = () => {
   const { status } = useCityAccountAccessToken()
-  const preseason = usePreseason()
+  const { data: generalSettings } = useQuery({
+    queryKey: ['generalSettings'],
+    queryFn: fetchGeneralSettings,
+  })
 
   const hasAccount = status === 'authenticated'
   const [open, setOpen] = useState<boolean>(false)
   const { t } = useTranslation()
 
   const menuItems: MenuItem[] = [
-    ...(preseason
+    ...(generalSettings?.data.isOffSeason
       ? []
       : [
           {

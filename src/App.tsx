@@ -17,7 +17,6 @@ import RegisterUserGuard from './hooks/RegisterUserGuard'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
-import { PreseasonProvider } from 'hooks/usePreseason'
 import { ROUTES } from 'helpers/constants'
 import OrderPageGuard from 'pages/OrderPage/OrderPageGuard'
 import OrderResultSuccessfulPage from 'pages/OrderResultPage/OrderResultSuccessfulPage'
@@ -70,73 +69,65 @@ function App() {
           <I18nProvider locale="sk-SK">
             <CityAccountAccessTokenProvider>
               <RegisterUserGuard>
-                <PreseasonProvider>
-                  <CityAccountLoginRedirectionModalContextProvider>
-                    <ScrollToTop>
-                      <CityAccountLoginRedirectionModal />
-                      <Toast
-                        open={toast !== undefined}
-                        type={toast?.type}
-                        text={toast?.message}
-                        onClose={() => {
-                          dispatch(setToast(undefined))
-                        }}
-                        timeToClose={toast?.type === 'success' ? 3000 : 5000}
-                        closeButton={toast?.type !== 'success'}
-                      />
-                      <TopBanner />
-                      <main className="relative flex flex-col" style={{ flex: 1 }}>
-                        <Header />
+                <CityAccountLoginRedirectionModalContextProvider>
+                  <ScrollToTop>
+                    <CityAccountLoginRedirectionModal />
+                    <Toast
+                      open={toast !== undefined}
+                      type={toast?.type}
+                      text={toast?.message}
+                      onClose={() => {
+                        dispatch(setToast(undefined))
+                      }}
+                      timeToClose={toast?.type === 'success' ? 3000 : 5000}
+                      closeButton={toast?.type !== 'success'}
+                    />
+                    <TopBanner />
+                    <main className="relative flex flex-col" style={{ flex: 1 }}>
+                      <Header />
 
-                        <Routes>
-                          <Route path="/order" element={<Navigate replace to={ROUTES.ORDER} />} />
-                          <Route
-                            path="/order-result"
-                            element={<Navigate replace to={ROUTES.HOME} />}
-                          />
-                          <Route
-                            path="/profile"
-                            element={<Navigate replace to={ROUTES.PROFILE} />}
-                          />
-                          <Route
-                            path="/tickets"
-                            element={<Navigate replace to={ROUTES.TICKETS} />}
-                          />
-                          <Route path={ROUTES.ORDER} element={<OrderPageGuard />} />
-                          <Route
-                            path={ROUTES.ORDER_SUCCESSFUL}
-                            element={<OrderResultSuccessfulPage />}
-                          />
-                          <Route
-                            path={ROUTES.ORDER_UNSUCCESSFUL}
-                            element={<OrderResultUnsuccessfulPage />}
-                          />
-                          <Route path={ROUTES.VOP} element={<VOPPage />} />
-                          <Route path={ROUTES.GDPR} element={<GDPRPage />} />
-                          <Route
-                            path={ROUTES.PROFILE}
-                            element={
-                              <RequireAuthRoute>
-                                <ProfilePage />
-                              </RequireAuthRoute>
-                            }
-                          />
-                          <Route
-                            path={ROUTES.TICKETS}
-                            element={
-                              <RequireAuthRoute>
-                                <TicketsManagementPage />
-                              </RequireAuthRoute>
-                            }
-                          />
-                          <Route path={ROUTES.HOME} element={<LandingPage />} />
-                        </Routes>
-                        <CookieConsent />
-                      </main>
-                      <Footer />
-                    </ScrollToTop>
-                  </CityAccountLoginRedirectionModalContextProvider>
-                </PreseasonProvider>
+                      <Routes>
+                        <Route path="/order" element={<Navigate replace to={ROUTES.ORDER} />} />
+                        <Route
+                          path="/order-result"
+                          element={<Navigate replace to={ROUTES.HOME} />}
+                        />
+                        <Route path="/profile" element={<Navigate replace to={ROUTES.PROFILE} />} />
+                        <Route path="/tickets" element={<Navigate replace to={ROUTES.TICKETS} />} />
+                        <Route path={ROUTES.ORDER} element={<OrderPageGuard />} />
+                        <Route
+                          path={ROUTES.ORDER_SUCCESSFUL}
+                          element={<OrderResultSuccessfulPage />}
+                        />
+                        <Route
+                          path={ROUTES.ORDER_UNSUCCESSFUL}
+                          element={<OrderResultUnsuccessfulPage />}
+                        />
+                        <Route path={ROUTES.VOP} element={<VOPPage />} />
+                        <Route path={ROUTES.GDPR} element={<GDPRPage />} />
+                        <Route
+                          path={ROUTES.PROFILE}
+                          element={
+                            <RequireAuthRoute>
+                              <ProfilePage />
+                            </RequireAuthRoute>
+                          }
+                        />
+                        <Route
+                          path={ROUTES.TICKETS}
+                          element={
+                            <RequireAuthRoute>
+                              <TicketsManagementPage />
+                            </RequireAuthRoute>
+                          }
+                        />
+                        <Route path={ROUTES.HOME} element={<LandingPage />} />
+                      </Routes>
+                      <CookieConsent />
+                    </main>
+                    <Footer />
+                  </ScrollToTop>
+                </CityAccountLoginRedirectionModalContextProvider>
               </RegisterUserGuard>
             </CityAccountAccessTokenProvider>
           </I18nProvider>

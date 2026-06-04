@@ -4,12 +4,16 @@ import './HeroBanner.css'
 import { HashLink } from 'react-router-hash-link'
 import { useTranslation } from 'react-i18next'
 import cx from 'classnames'
-import { usePreseason } from 'hooks/usePreseason'
 import { ANCHORS } from 'helpers/constants'
+import { useQuery } from 'react-query'
+import { fetchGeneralSettings } from 'store/global/api'
 
 const HeroBanner = () => {
   const { t } = useTranslation()
-  const preseason = usePreseason()
+  const { data: generalSettings } = useQuery({
+    queryKey: ['generalSettings'],
+    queryFn: fetchGeneralSettings,
+  })
 
   return (
     <div className="relative mb-8">
@@ -19,23 +23,26 @@ const HeroBanner = () => {
       <div
         className={cx('container mx-auto content relative z-10 ', {
           // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
-          'xl:min-h-[228px]': preseason,
+          // TODO: change isOffSeason boolean to selectable?
+          'xl:min-h-[228px]': generalSettings?.data.isOffSeason,
         })}
       >
         <div className="max-w-xs 2xl:max-w-md">
           <Typography type="title" fontWeight="bold" className="mb-4">
             {/* TODO implement better logic offseason/preseason/season texts */}
             {/* {preseason ? t('landing.title-offseason') : t(`landing.title`)} */}
-            {preseason ? t('landing.title-preseason') : t(`landing.title`)}
+            {generalSettings?.data.isOffSeason ? t('landing.title-preseason') : t(`landing.title`)}
           </Typography>
           <Typography type="subtitle">
             {/* TODO implement better logic offseason/preseason/season texts */}
             {/* {preseason ? t('landing.subtitle-offseason') : t('landing.subtitle')} */}
-            {preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')}
+            {generalSettings?.data.isOffSeason
+              ? t('landing.subtitle-preseason')
+              : t('landing.subtitle')}
           </Typography>
         </div>
 
-        {!preseason && (
+        {!generalSettings?.data.isOffSeason && (
           <div
             className="
             flex

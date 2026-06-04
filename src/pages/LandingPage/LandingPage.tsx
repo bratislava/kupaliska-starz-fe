@@ -7,6 +7,7 @@ import {
   SectionHeader,
   WhyCreateAccountSection,
 } from 'components'
+import { useQuery } from 'react-query'
 
 import './LandingPage.css'
 import { Trans, useTranslation } from 'react-i18next'
@@ -14,17 +15,20 @@ import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
-import SwimmingPoolsInfo from 'components/SwimmingPoolsInfo/SwimmingPoolsInfo'
-import { usePreseason } from 'hooks/usePreseason'
+import { fetchGeneralSettings } from 'store/global/api'
 
 const faqsn = range(1, 21)
 
 const LandingPage = () => {
-  const preseason = usePreseason()
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
   const { t } = useTranslation()
   const { status } = useCityAccountAccessToken()
   const isAuthenticated = status === 'authenticated'
+
+  const { data: generalSettings } = useQuery({
+    queryKey: ['generalSettings'],
+    queryFn: fetchGeneralSettings,
+  })
 
   return (
     <main className="bg-sunscreen">
@@ -34,7 +38,7 @@ const LandingPage = () => {
       {/* <SwimmingPoolsInfo /> */}
       <HomepageHowTo />
 
-      {!preseason && (
+      {!generalSettings?.data.isOffSeason && (
         <div className="bg-white">
           {/* Prevent margin collapsing
            https://stackoverflow.com/a/33132624/2711737 */}
@@ -46,13 +50,15 @@ const LandingPage = () => {
         </div>
       )}
 
-      {!isAuthenticated && !preseason && <WhyCreateAccountSection></WhyCreateAccountSection>}
+      {!isAuthenticated && !generalSettings?.data.isOffSeason && (
+        <WhyCreateAccountSection></WhyCreateAccountSection>
+      )}
 
       <section id="divider" className="section">
         <img src="/swimmers.svg" className="mx-auto" alt="" />
       </section>
 
-      {!preseason && (
+      {!generalSettings?.data.isOffSeason && (
         <section id="kupaliska" className="section flex flex-col items-center">
           <SectionHeader
             className="text-center"
