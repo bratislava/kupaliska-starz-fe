@@ -56,7 +56,7 @@
     "login": "Prihlásiť sa",
     "age-interval": "(0)[{{count}} rokov](1)[{{count}} rok];(2-4)[{{count}} roky];(5-inf)[{{count}} rokov];",
     "physical-person-only": "Do objednávky je možné pridať iba fyzické osoby",
-    "per-ticket": " / kus"
+    "per-ticket": " / kus"
   },
   "registration": {
     "name": "Meno",
@@ -179,7 +179,8 @@
     "email-required": "Zadajte platný email.",
     "email-send-to": "Lístky zašleme na <span className='font-bold text-primary'>{{username}}</span>.",
     "vop-required": "Potvrďte prosím prečítanie všeobecných obchodných podmienok.",
-    "senior-agreement-required": "Toto pole je povinné."
+    "senior-agreement-required": "Toto pole je povinné.",
+    "ticket-price": "{{ticketPrice}} / kus"
   },
   "person-component": {
     "edit-user": "Upraviť údaje",
@@ -243,7 +244,6 @@
       "2": "Pri vstupe ukážete QR kód - nájdete ho v emaili alebo v Bratislavskom konte. Vďaka tomu nemusíte čakať v rade.",
       "3": "Lístky a permanentky platia počas celej letnej sezóny na všetkých mestských kúpaliskách."
     },
-    "piece": " / kus",
     "basket": " Do košíka ",
     "more-info-button": "Viac informácií",
     "faq-multiple": {

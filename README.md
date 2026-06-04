@@ -41,9 +41,7 @@ npm run start
 
 #### Preseason
 
-We control whether to display the offseason page by setting the `VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE` env var.
-
-See `usePreseason.ts` hook for more details on testing and overrides.
+We control whether to display the offseason page by setting the `isOffSeason` boolean in the general settings of the backend.
 
 #### Ordering
 
