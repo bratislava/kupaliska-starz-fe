@@ -33,7 +33,16 @@ const OrderPageSwimmersList = ({
   onSelectSwimmer = () => {},
   onAddSwimmer = () => {},
 }: OrderPageSwimmersListProps) => {
-  const { isSeniorOrDisabledTicket, hasNameRequired } = useOrderPageTicket()
+  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
+  // TODO this should be calculated for ticketTypes where OrderPageSwimmersList is used not for all ticketTypes,
+  // however, for now it's fine because user can't get to state where OrderPageSwimmersList is used and there is other ticketType in order
+  const isSeniorOrDisabledTicket = ticketTypesWithAdditionalProperties.some(
+    (ticketType) => ticketType.isSeniorOrDisabledTicket,
+  )
+
+  const hasNameRequired = ticketTypesWithAdditionalProperties.some(
+    (ticketType) => ticketType.hasNameRequired,
+  )
 
   const isDisabledCheckbox = (swimmer: OrderPageSwimmersListSwimmer) =>
     hasNameRequired && swimmer.id == null && isLoggedInUser(swimmer) && !swimmer.isPhysicalEntity

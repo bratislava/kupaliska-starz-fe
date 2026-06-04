@@ -3,6 +3,7 @@ import { apiClientWithAccessToken } from '../../helpers/apiClient'
 export interface AssociatedSwimmer {
   id: string | null
   swimmingLoggedUserId: string
+  age: number | null
   firstname: null | string
   lastname: null | string
   dateOfBirth: null | string
