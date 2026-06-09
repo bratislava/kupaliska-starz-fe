@@ -10,6 +10,7 @@ const VOPPage = () => {
     <main className="mx-auto mt-8 xl:mt-12 container">
       <SectionHeader title={t('vop.title')} />
       <Trans
+        // TODO there is a better solution for this
         i18nKey={`vop.main-text`}
         components={{
           p: <p />,
