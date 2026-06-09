@@ -38,8 +38,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: env
-            - secretRef:
-                name: app-secret
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
