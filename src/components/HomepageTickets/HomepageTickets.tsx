@@ -135,7 +135,9 @@ const HomepageTickets = () => {
             name: 'Jednorazové lístky',
             description:
               'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
-            descriptionFooter: t('common.additional-info-student-senior'),
+            descriptionFooter: t('common.max-ticket-purchase-limit', {
+              maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
+            }),
             ticketTypes: dayTicketTypes,
             isCartable: true,
           },
