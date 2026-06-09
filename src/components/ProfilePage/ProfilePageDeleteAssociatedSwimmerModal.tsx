@@ -37,10 +37,10 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
 
           return produce(old, (draft) => {
             draft.data.associatedSwimmers = old.data.associatedSwimmers.filter(
-              (swimmerFromList) => swimmerFromList.id !== swimmer.id,
+              (swimmerFromList) => swimmerFromList.id !== swimmer.id
             )
           })
-        },
+        }
       )
       queryClient.invalidateQueries('associatedSwimmers')
       onClose()

@@ -58,7 +58,7 @@ const ContactForm = () => {
     dispatch(
       sendContactFormActions({
         formData: values,
-      }),
+      })
     ).then((resp) => {
       if (resp.meta.requestStatus === 'fulfilled') {
         reset()

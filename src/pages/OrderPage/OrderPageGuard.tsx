@@ -39,7 +39,7 @@ const OrderPageGuard = () => {
   // remove this type later after investigation why is it even needed
   const foundTicketTypes = orderData
     .map((orderTicketType) =>
-      ticketTypes.find((ticketType: TicketType) => ticketType.id === orderTicketType.ticketTypeId),
+      ticketTypes.find((ticketType: TicketType) => ticketType.id === orderTicketType.ticketTypeId)
     )
     .filter(isDefined)
 

@@ -69,7 +69,7 @@ export const getAccessTokenFromIFrame = async () => {
     window.removeEventListener('message', eventListenerReference)
   } else {
     logger.warn(
-      'eventListenerReference is undefined when attempting to remove it - this should not happen',
+      'eventListenerReference is undefined when attempting to remove it - this should not happen'
     )
   }
   const token = checkTokenValid(accessToken)
@@ -87,7 +87,7 @@ export const getAccessTokenFromIFrame = async () => {
   } else {
     logger.warn(
       'None or invalid token received from iframe for possibly authorized user - returning null',
-      token,
+      token
     )
     return null
   }

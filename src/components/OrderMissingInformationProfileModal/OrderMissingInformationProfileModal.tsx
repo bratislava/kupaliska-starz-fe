@@ -98,7 +98,7 @@ export const OrderMissingInformationProfileModal = ({
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-    },
+    }
   )
 
   const onSubmit = (form: FormData) => {
@@ -108,7 +108,7 @@ export const OrderMissingInformationProfileModal = ({
   }
 
   let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
-    errors.dateOfBirth?.message,
+    errors.dateOfBirth?.message
   )
   let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 

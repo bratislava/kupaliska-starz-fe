@@ -27,7 +27,7 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
                   key={index}
                   className={cx(
                     'px-5 bg-sunscreen gap-2.5 inline-flex items-center self-stretch text-left hover:bg-gray-100',
-                    button.className,
+                    button.className
                   )}
                   onPress={() => {
                     close()

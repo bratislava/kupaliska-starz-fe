@@ -64,7 +64,7 @@ const Modal = ({
             <div
               className={cx(
                 'relative bg-sunscreen rounded-lg shadow-lg overflow-y-auto',
-                modalClassName,
+                modalClassName
               )}
               /* Calculates max height of modal, subtracts the overflow of button and close button. */
               style={{

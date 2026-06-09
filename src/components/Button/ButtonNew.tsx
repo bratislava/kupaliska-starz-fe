@@ -71,7 +71,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
       onPress,
       ...rest
     },
-    forwardedRef,
+    forwardedRef
   ) => {
     const ref = useObjectRef(forwardedRef)
     const isLoadingOrDisabled = isLoading || isDisabled
@@ -83,7 +83,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
         elementType: rest.href ? 'a' : 'button',
         isDisabled: isLoadingOrDisabled,
       },
-      ref,
+      ref
     )
     const { focusProps, isFocused, isFocusVisible } = useFocusRing()
     const { hoverProps, isHovered } = useHover({ isDisabled: isLoadingOrDisabled })
@@ -202,7 +202,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
         '[&>svg]:h-6 [&>svg]:w-6': size === 'large',
       },
 
-      className,
+      className
     )
 
     return (
@@ -223,7 +223,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
         {!isLoading && endIcon}
       </button>
     )
-  },
+  }
 )
 
 export default Button

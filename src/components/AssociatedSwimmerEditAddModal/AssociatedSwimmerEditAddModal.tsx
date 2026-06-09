@@ -110,14 +110,14 @@ export const AssociatedSwimmerEditAddModal = ({
               const newSwimmer = response.data.data.associatedSwimmer
               if (isEditing) {
                 const index = old.data.associatedSwimmers.findIndex(
-                  (swimmerInList) => swimmerInList.id === swimmer!.id,
+                  (swimmerInList) => swimmerInList.id === swimmer!.id
                 )
                 draft.data.associatedSwimmers[index] = newSwimmer
               } else {
                 draft.data.associatedSwimmers.push(newSwimmer)
               }
             })
-          },
+          }
         )
         queryClient.invalidateQueries('associatedSwimmers')
         onSaveSuccess(response.data.data.associatedSwimmer)
@@ -126,7 +126,7 @@ export const AssociatedSwimmerEditAddModal = ({
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-    },
+    }
   )
 
   const onSubmit = (form: FormData) => {
@@ -138,7 +138,7 @@ export const AssociatedSwimmerEditAddModal = ({
   let errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
   let errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
   let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
-    errors.dateOfBirth?.message,
+    errors.dateOfBirth?.message
   )
   let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
   return (

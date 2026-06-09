@@ -19,7 +19,7 @@ const CalendarGrid = ({ state, offset = {}, ...rest }: CalendarGridBase) => {
       endDate,
       ...rest,
     },
-    state,
+    state
   )
   const weeksInMonth = getWeeksInMonth(startDate, 'sk-SK')
   const weeksInMonthArr = Array.from({ length: weeksInMonth }, (_, i) => i + 0)
@@ -58,7 +58,7 @@ const CalendarGrid = ({ state, offset = {}, ...rest }: CalendarGridBase) => {
                   />
                 ) : (
                   <div key={i} />
-                ),
+                )
               )}
           </div>
         ))}

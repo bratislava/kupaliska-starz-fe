@@ -43,7 +43,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       displayOptionalLabel,
       ...rest
     },
-    forwardedRef,
+    forwardedRef
   ) => {
     const ref = useObjectRef(forwardedRef)
     const dateFieldRef = useObjectRef<HTMLDivElement>(null)
@@ -82,7 +82,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         ...rest,
       },
       state,
-      ref,
+      ref
     )
     const buttonPropsFixed = {
       ...buttonProps,
@@ -148,7 +148,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         </DateField>
       </div>
     )
-  },
+  }
 )
 
 export default DatePicker

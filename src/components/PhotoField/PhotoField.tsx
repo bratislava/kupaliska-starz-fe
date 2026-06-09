@@ -58,7 +58,7 @@ const PhotoField = ({
           onPhotoSet && onPhotoSet(uri ? (uri as string) : '')
           setValue && uri && setValue('image', 'set')
         },
-        'base64',
+        'base64'
       )
     }
   }

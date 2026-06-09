@@ -93,7 +93,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-    },
+    }
   )
 
   const onSubmit = (form: FormData) => {
@@ -101,7 +101,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
   }
 
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
-    errors.dateOfBirth?.message,
+    errors.dateOfBirth?.message
   )
   const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 

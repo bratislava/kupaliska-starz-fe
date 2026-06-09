@@ -166,7 +166,7 @@ const CookieConsent = () => {
                   >
                     {descriptionText}
                   </AccordionItem>
-                ),
+                )
               )}
             </div>
             <div className="mt-5 flex gap-1 justify-between flex-col md:flex-row">

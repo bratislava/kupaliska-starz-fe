@@ -12,7 +12,7 @@ export interface OrderFormTicketTypeData {
 }
 
 export function orderFormToRequests(
-  formData: Omit<OrderFormData, 'ticketTypesData'> & { ticketTypesData: OrderFormTicketTypeData[] },
+  formData: Omit<OrderFormData, 'ticketTypesData'> & { ticketTypesData: OrderFormTicketTypeData[] }
 ) {
   const { discountCode, ticketTypesData, age, zip, email, agreement, recaptchaToken } = formData
 
@@ -44,7 +44,7 @@ export function orderFormToRequests(
               zip: zip ?? null,
               ticketTypeId: ticketType?.id,
             }
-          : { personId: null, ticketTypeId: ticketType?.id },
+          : { personId: null, ticketTypeId: ticketType?.id }
       )
       return [...(ticketsWithSelectedSwimmerIds ?? []), ...ticketsWithAdditionalData]
     })

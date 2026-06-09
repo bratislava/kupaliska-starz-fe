@@ -24,7 +24,7 @@ const MobileCarousel = ({ children, className }: MobileCarouselProps) => {
         setActive(active + delta)
       }
     },
-    [active, children],
+    [active, children]
   )
 
   return (

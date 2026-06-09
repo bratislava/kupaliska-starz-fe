@@ -43,7 +43,7 @@ const HomepageHowTo = () => {
           </p>
         </div>
       )),
-    [t],
+    [t]
   )
 
   return (

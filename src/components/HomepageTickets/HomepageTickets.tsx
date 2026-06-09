@@ -18,7 +18,7 @@ import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(
-    (ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired,
+    (ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired
   ),
   entryTicketTypes: ticketTypes
     .filter((ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired)
@@ -48,7 +48,7 @@ const HomepageTickets = () => {
     ticketType.nameRequired && !isAuthenticated
   const { dayTicketTypes, entryTicketTypes, seasonalTicketTypes } = useMemo(
     () => partitionTicketTypes(ticketTypes),
-    [ticketTypes],
+    [ticketTypes]
   )
 
   useEffect(() => {
@@ -171,7 +171,7 @@ const HomepageTickets = () => {
                     <div
                       key={ticketType.id}
                       className={cx(
-                        'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
+                        'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen'
                       )}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
@@ -210,7 +210,7 @@ const HomepageTickets = () => {
                                   onChange={(event) =>
                                     adjustTicketAmountFromCart(
                                       Number(event.target.value),
-                                      ticketType,
+                                      ticketType
                                     )
                                   }
                                   className="inline-flex w-18"
