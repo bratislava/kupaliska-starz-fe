@@ -425,6 +425,7 @@ const OrderPageDiscountCodeInput = ({
         inputWrapperClassName="lg:w-full"
         placeholder={t('buy-page.enter-code')}
       />
+      {/* TODO disable button when captcha is not solved or show error message */}
       <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
         {t('buy-page.claim')}
       </Button>
