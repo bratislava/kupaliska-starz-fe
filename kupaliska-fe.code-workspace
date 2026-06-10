@@ -1,8 +1,8 @@
 {
   "folders": [
     {
-      "path": "."
-    }
+      "path": ".",
+    },
   ],
   "settings": {
     "workbench.colorCustomizations": {
@@ -11,8 +11,8 @@
       "statusBar.foreground": "#ffffff",
       "statusBarItem.hoverBackground": "#D83728",
       "statusBarItem.remoteBackground": "#6560ff",
-      "statusBarItem.remoteForeground": "#ffffff"
+      "statusBarItem.remoteForeground": "#ffffff",
     },
-    "typescript.tsdk": "./node_modules/typescript/lib"
-  }
+    "typescript.tsdk": "./node_modules/typescript/lib",
+  },
 }
