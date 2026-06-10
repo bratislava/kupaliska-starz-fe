@@ -41,7 +41,7 @@ export interface AssociatedSwimmerDeleteResponse {
 
 export function deleteAssociatedSwimmer(id: string) {
   return apiClientWithAccessToken.delete<AssociatedSwimmerDeleteResponse>(
-    `/api/v1/associatedSwimmers/${id}`
+    `/api/v1/associatedSwimmers/${id}`,
   )
 }
 
@@ -62,11 +62,11 @@ export function createAssociatedSwimmer(
   associatedSwimmer: Pick<
     AssociatedSwimmer,
     'firstname' | 'lastname' | 'dateOfBirth' | 'zip' | 'image'
-  >
+  >,
 ) {
   return apiClientWithAccessToken.post<AssociatedSwimmerCreateEditResponse>(
     '/api/v1/associatedSwimmers',
-    associatedSwimmer
+    associatedSwimmer,
   )
 }
 
@@ -74,10 +74,10 @@ export function editAssociatedSwimmer(
   id: string,
   associatedSwimmer: Partial<
     Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'dateOfBirth' | 'zip' | 'image'>
-  >
+  >,
 ) {
   return apiClientWithAccessToken.put<AssociatedSwimmerCreateEditResponse>(
     `/api/v1/associatedSwimmers/${id}`,
-    associatedSwimmer
+    associatedSwimmer,
   )
 }

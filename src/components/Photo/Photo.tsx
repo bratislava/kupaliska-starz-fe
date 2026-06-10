@@ -19,7 +19,7 @@ const Photo = ({ photo, size, className, error = false }: PhotoProps) => {
           '[box-shadow:0px_0px_0px_2px_rgba(220,_38,_38,_1)_inset]': size === 'normal' && error,
           'w-[48px] h-[56px]': size === 'small',
         },
-        className
+        className,
       )}
       style={{
         backgroundImage: photo ? `url(${photo})` : undefined,

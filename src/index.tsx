@@ -24,5 +24,5 @@ root.render(
         <App />
       </Provider>
     </Suspense>
-  </StrictMode>
+  </StrictMode>,
 )

@@ -70,7 +70,7 @@ const ProfilePageSwimmers = () => {
           <div
             className={cx(
               'flex flex-col p-6',
-              data.data.associatedSwimmers.length ? 'gap-3' : 'gap-6'
+              data.data.associatedSwimmers.length ? 'gap-3' : 'gap-6',
             )}
           >
             {data.data.associatedSwimmers.map((swimmer) => (

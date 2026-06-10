@@ -13,12 +13,12 @@ export const useErrorToast = () => {
       setToast({
         type: 'error',
         message: message ?? 'Niečo sa pokazilo. Prosím skúste to neskôr.',
-      })
+      }),
     )
 
   const dispatchErrorToastForHttpRequest = <T extends ErrorWithMessages>(
     error: AxiosError<T>,
-    defaultMessage?: string
+    defaultMessage?: string,
   ) => {
     dispatchErrorToast(getErrorMessagesFromHttpRequest(error, defaultMessage))
     // if the error is because of expired access, refreshing solves the issue, if it's not it doesn't hurt

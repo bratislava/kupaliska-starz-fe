@@ -61,7 +61,7 @@ export type ErrorWithMessages = {
 
 export const getErrorMessagesFromHttpRequest = <T extends ErrorWithMessages>(
   error: AxiosError<T>,
-  defaultMessage?: string
+  defaultMessage?: string,
 ) => {
   const message = (() => {
     const messages = error?.response?.data?.messages

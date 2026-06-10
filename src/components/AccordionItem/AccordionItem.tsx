@@ -46,7 +46,7 @@ export const AccordionItem = ({
             'md:hover:bg-blueish md:hover:stroke-current border-2 border-primary bg-transparent':
               !active,
           },
-          className
+          className,
         )}
         onPress={handleClick}
       >

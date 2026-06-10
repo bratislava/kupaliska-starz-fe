@@ -36,7 +36,7 @@ const DateField = forwardRef<HTMLDivElement, DateFieldProps>(
       displayOptionalLabel,
       ...rest
     },
-    forwardedRef
+    forwardedRef,
   ) => {
     const ref = useObjectRef(forwardedRef)
     const { locale } = useLocale()
@@ -54,7 +54,7 @@ const DateField = forwardRef<HTMLDivElement, DateFieldProps>(
     const { fieldProps, labelProps, descriptionProps, errorMessageProps } = useDateField(
       { errorMessage, isDisabled: disabled, label, ...rest },
       state,
-      ref
+      ref,
     )
     const dateFieldStyle = cx('flex rounded-lg border-2 px-3 py-2 lg:px-4 lg:py-3', {
       'bg-white': !disabled,
@@ -92,7 +92,7 @@ const DateField = forwardRef<HTMLDivElement, DateFieldProps>(
         {popover}
       </FieldWrapper>
     )
-  }
+  },
 )
 
 export default DateField

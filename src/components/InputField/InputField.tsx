@@ -53,7 +53,7 @@ const InputField = ({
   const [focused, setFocus] = useState<boolean>(false)
   const registerValues: UseFormRegisterReturn | undefined = useMemo(
     () => (register ? register(name, { shouldUnregister, valueAsNumber }) : undefined),
-    [register, name, shouldUnregister, valueAsNumber]
+    [register, name, shouldUnregister, valueAsNumber],
   )
 
   const inputClasses = cx({

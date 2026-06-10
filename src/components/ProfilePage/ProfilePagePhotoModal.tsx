@@ -70,7 +70,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-    }
+    },
   )
 
   const onSubmit = () => {

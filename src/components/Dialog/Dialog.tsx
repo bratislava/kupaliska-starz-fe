@@ -49,7 +49,7 @@ const Dialog = ({
               {footerButton}
             </div>
           )}
-        </AriaDialog>
+        </AriaDialog>,
       )}
     </Modal>
   )

@@ -14,11 +14,11 @@ export const fetchPoolActions = createAsyncThunk(
         setToast({
           type: 'error',
           message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
-        })
+        }),
       )
       return rejectWithValue(err.response)
     }
-  }
+  },
 )
 
 export const initPageGlobalState = createAsyncThunk(
@@ -34,7 +34,7 @@ export const initPageGlobalState = createAsyncThunk(
         currentDateTime <=
           1672527600000 /* Sun Jan 01 2023 00:00:00 GMT+0100 (Central European Standard Time) */
       const ticketTypes = response[0].data.ticketTypes.map((ticketType) =>
-        ticketsDisabled ? { ...ticketType, disabled: true } : ticketType
+        ticketsDisabled ? { ...ticketType, disabled: true } : ticketType,
       )
       return {
         ticketTypes,
@@ -45,11 +45,11 @@ export const initPageGlobalState = createAsyncThunk(
         setToast({
           type: 'error',
           message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
-        })
+        }),
       )
       return rejectWithValue(err.response)
     }
-  }
+  },
 )
 export const sendContactFormActions = createAsyncThunk(
   'global/sendContactForm',
@@ -65,7 +65,7 @@ export const sendContactFormActions = createAsyncThunk(
         setToast({
           type: 'success',
           message: 'Správa úspešne odoslaná',
-        })
+        }),
       )
       return {
         status,
@@ -80,7 +80,7 @@ export const sendContactFormActions = createAsyncThunk(
               err.response.data.messages && err.response.data.messages.length > 0
                 ? err.response.data.messages[0].message
                 : 'Správu sa nepodarilo odoslať',
-          })
+          }),
         )
         return rejectWithValue(err.response)
       }
@@ -88,9 +88,9 @@ export const sendContactFormActions = createAsyncThunk(
         setToast({
           type: 'error',
           message: 'Správu sa nepodarilo odoslať',
-        })
+        }),
       )
       return rejectWithValue(err.response)
     }
-  }
+  },
 )

@@ -40,7 +40,7 @@ export const counterSlice = createSlice({
             message: string
           }
         | undefined
-      >
+      >,
     ) => {
       state.toast = action.payload
     },
@@ -71,12 +71,12 @@ export const counterSlice = createSlice({
           action: PayloadAction<{
             ticketTypes: TicketType[]
             swimmingPools: SwimmingPoolResponse[]
-          }>
+          }>,
         ) => {
           state.status = 'idle'
           state.availableTicketTypes = action.payload.ticketTypes
           state.pools = action.payload.swimmingPools
-        }
+        },
       )
   },
 })

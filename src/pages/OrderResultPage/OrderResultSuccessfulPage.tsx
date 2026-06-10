@@ -23,7 +23,7 @@ const OrderResultPage = () => {
   const query = useQuery(
     ['FinalOrder', params],
     () => getFinalOrder(params.orderId!, params.orderAccessToken!),
-    { staleTime: Infinity, onError: () => dispatchErrorToast() }
+    { staleTime: Infinity, onError: () => dispatchErrorToast() },
   )
 
   useEffect(() => {

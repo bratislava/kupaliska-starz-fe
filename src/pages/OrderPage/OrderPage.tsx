@@ -144,7 +144,7 @@ const OrderPagePeopleList = ({
 }) => {
   const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
   const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some(
-    (ticketType) => ticketType.displayMissingInformationWarning
+    (ticketType) => ticketType.displayMissingInformationWarning,
   )
   const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
   const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
@@ -213,14 +213,14 @@ const OrderPagePeopleList = ({
 
   const handleSelectSwimmer = (
     swimmerToSelect: Partial<AssociatedSwimmer>,
-    ticketTypeId: string
+    ticketTypeId: string,
   ) => {
     // `null` is current user, therefore we don't check for it
     if (swimmerToSelect.id === undefined) {
       return
     }
     const ticketTypeIndex = ticketTypesData.findIndex(
-      (ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId
+      (ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId,
     )
     if (ticketTypeIndex !== -1) {
       if (ticketTypesData[ticketTypeIndex].selectedSwimmerIds?.includes(swimmerToSelect.id)) {
@@ -229,10 +229,10 @@ const OrderPagePeopleList = ({
             ? {
                 ...ticketTypeData,
                 selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter(
-                  (p) => p !== swimmerToSelect.id
+                  (p) => p !== swimmerToSelect.id,
                 ),
               }
-            : ticketTypeData
+            : ticketTypeData,
         )
 
         setValue('ticketTypesData', newTicketTypesData)
@@ -247,7 +247,7 @@ const OrderPagePeopleList = ({
                 ...ticketTypeData,
                 selectedSwimmerIds: newSelectedSwimmerIds,
               }
-            : ticketTypeData
+            : ticketTypeData,
         )
 
         setValue('ticketTypesData', newTicketTypesData)
@@ -275,7 +275,7 @@ const OrderPagePeopleList = ({
             ticketTypesWithAdditionalProperties.length > 0 &&
               handleSelectSwimmer(
                 savedSwimmer,
-                ticketTypesWithAdditionalProperties[0].ticketType.id
+                ticketTypesWithAdditionalProperties[0].ticketType.id,
               )
           }}
         ></AssociatedSwimmerEditAddModal>
@@ -314,7 +314,7 @@ const OrderPagePeopleList = ({
               }
               onAddSwimmer={() => setAddSwimmerModalOpen(true)}
             />
-          )
+          ),
       )}
 
       <div className="text-error px-2 text-sm">
@@ -396,7 +396,7 @@ const OrderPageDiscountCodeInput = ({
     setStatus(OrderPageDiscountCodeInputStatus.None)
 
     const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
-      checkDiscountCode(discountCode, getValues('recaptchaToken') ?? '')
+      checkDiscountCode(discountCode, getValues('recaptchaToken') ?? ''),
     )
     if (!isMounted()) {
       return
@@ -453,7 +453,7 @@ const validationSchema = yup.object({
       test: (value) => {
         const cumulativeTicketAmount = value?.reduce(
           (acc, curr) => acc + (curr.ticketAmount ?? 0),
-          0
+          0,
         )
 
         return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
@@ -480,7 +480,7 @@ const validationSchema = yup.object({
           return schema.isTrue('buy-page.senior-agreement-required')
         }
         return schema
-      }
+      },
     ),
   age: yup
     .number()
@@ -688,7 +688,7 @@ const OrderPage = () => {
           ? {
               ticketAmount:
                 orderData.find(
-                  (orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id
+                  (orderTicketType) => orderTicketType.ticketTypeId === ticketType.ticketType.id,
                 )?.ticketAmount ?? 1,
             }
           : {}),
@@ -696,17 +696,17 @@ const OrderPage = () => {
     },
     context: {
       requireEmail: ticketTypesWithAdditionalProperties.some(
-        (ticketType) => ticketType.requireEmail
+        (ticketType) => ticketType.requireEmail,
       ),
       hasOptionalFields: ticketTypesWithAdditionalProperties.some(
-        (ticketType) => ticketType.hasOptionalFields
+        (ticketType) => ticketType.hasOptionalFields,
       ),
       hasSwimmers: ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers),
       hasTicketAmount: ticketTypesWithAdditionalProperties.some(
-        (ticketType) => ticketType.hasTicketAmount
+        (ticketType) => ticketType.hasTicketAmount,
       ),
       isSeniorOrDisabledTicket: ticketTypesWithAdditionalProperties.some(
-        (ticketType) => ticketType.isSeniorOrDisabledTicket
+        (ticketType) => ticketType.isSeniorOrDisabledTicket,
       ),
     },
   })
@@ -717,10 +717,10 @@ const OrderPage = () => {
     .flat()
 
   const errorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
-    errors.agreement?.message
+    errors.agreement?.message,
   )
   const errorSeniorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
-    errors.seniorOrDisabledAgreement?.message
+    errors.seniorOrDisabledAgreement?.message,
   )
 
   const watchPriceChange = useWatch({
@@ -735,7 +735,7 @@ const OrderPage = () => {
       ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
         const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
           ticketTypesWithAdditionalProperties.find(
-            (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id
+            (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
           )!
         return {
           ...ticketTypeData,
@@ -759,7 +759,7 @@ const OrderPage = () => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
       retry: false,
-    }
+    },
   )
 
   const queryClient = useQueryClient()
@@ -852,7 +852,7 @@ const OrderPage = () => {
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
                 price: currencyFromCentsFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat
+                  priceQuery.data.data.data.pricing.orderPriceWithVat,
                 ),
               })
             : t('buy-page.pay')
@@ -862,7 +862,7 @@ const OrderPage = () => {
           priceQuery.isSuccess && !priceQuery.isFetching
             ? t('buy-page.pay-with-price', {
                 price: currencyFromCentsFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat
+                  priceQuery.data.data.data.pricing.orderPriceWithVat,
                 ),
               })
             : t('buy-page.pay')
@@ -873,7 +873,7 @@ const OrderPage = () => {
       () => onSubmit(paymentMethod),
       (err) => {
         logger.error(err)
-      }
+      },
     )
 
     return (
@@ -883,7 +883,7 @@ const OrderPage = () => {
             ticketTypesData.some(
               (ticketTypeData) =>
                 ticketTypeData.ticketType.type === 'SEASONAL' &&
-                ticketTypeData.ticketType.childrenAllowed
+                ticketTypeData.ticketType.childrenAllowed,
             )
           ) {
             setChildrenConfirmationModalOpen(true)
@@ -920,8 +920,8 @@ const OrderPage = () => {
         ticketTypesData.map((ticketTypeDataInner) =>
           ticketTypeDataInner.ticketType.id === cartItem.ticketType.id
             ? { ...ticketTypeDataInner, ticketAmount }
-            : ticketTypeDataInner
-        )
+            : ticketTypeDataInner,
+        ),
       )
     }
   }
@@ -951,13 +951,13 @@ const OrderPage = () => {
           <div className="p-6 border border-gray rounded-lg">
             <OrderPageEmail register={register} errors={errors} />
             {ticketTypesWithAdditionalProperties.some(
-              (ticketType) => ticketType.hasOptionalFields
+              (ticketType) => ticketType.hasOptionalFields,
             ) && <OrderPageOptionalFields register={register} errors={errors} />}
             {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
               <>
                 <div className="mt-2">
                   {ticketTypesData.some(
-                    (ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL'
+                    (ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL',
                   ) && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-seasonal'}
@@ -965,7 +965,7 @@ const OrderPage = () => {
                     />
                   )}
                   {ticketTypesData.some(
-                    (ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES'
+                    (ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES',
                   ) && (
                     <Trans
                       i18nKey={'buy-page.select-people-reminder-entries'}
@@ -978,7 +978,7 @@ const OrderPage = () => {
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                     <div>
                       {getErrorMessagesFromHttpRequest(
-                        priceQuery.error as AxiosError<ErrorWithMessages, any>
+                        priceQuery.error as AxiosError<ErrorWithMessages, any>,
                       )}
                     </div>
                   </div>
@@ -1016,7 +1016,7 @@ const OrderPage = () => {
               }
             />
             {ticketTypesWithAdditionalProperties.some(
-              (ticketType) => ticketType.isSeniorOrDisabledTicket
+              (ticketType) => ticketType.isSeniorOrDisabledTicket,
             ) && (
               <>
                 <CheckboxField
@@ -1143,8 +1143,8 @@ const OrderPage = () => {
                       'ticketTypesData',
                       ticketTypesData.filter(
                         (ticketTypeDataInner) =>
-                          ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id
-                      )
+                          ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id,
+                      ),
                     )
                   }
                 : undefined
@@ -1157,7 +1157,7 @@ const OrderPage = () => {
                 ticketType={ticketTypeData.ticketType}
                 hasTicketAmount={
                   ticketTypesWithAdditionalProperties.find(
-                    (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id
+                    (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
                   )?.hasTicketAmount ?? false
                 }
                 handleMinusClick={handleMinusClick}

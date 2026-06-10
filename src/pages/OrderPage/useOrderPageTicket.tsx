@@ -48,7 +48,7 @@ export const OrderPageTicketProvider = ({
   })
 
   const someTicketTypeHasSwimmers = ticketTypesWithAdditionalData.some(
-    (ticketType) => ticketType.hasSwimmers
+    (ticketType) => ticketType.hasSwimmers,
   )
 
   const userQuery = useQuery({
@@ -76,7 +76,7 @@ export const OrderPageTicketProvider = ({
         userQueryNotLoadedIfNeeded,
         sendDisabled: displayMissingInformationWarning || userQueryNotLoadedIfNeeded,
       }
-    }
+    },
   )
 
   return (

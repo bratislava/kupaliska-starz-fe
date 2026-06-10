@@ -8,7 +8,7 @@ const redirectionModalConfirmedKey = 'redirectionModalConfirmed'
 export const useLogin = () => {
   const [redirectionModalConfirmed, setRedirectionModalConfirmed] = useLocalStorage(
     redirectionModalConfirmedKey,
-    false
+    false,
   )
   const { open } = useCityAccountLoginRedirectionModal()
 

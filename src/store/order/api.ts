@@ -20,7 +20,7 @@ export function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuth
 export function getPrice(
   order: any,
   authStatus: CityAccountAccessTokenAuthenticationStatus,
-  abortSignal?: AbortSignal
+  abortSignal?: AbortSignal,
 ) {
   if (authStatus === 'authenticated') {
     return apiClientWithAccessToken.post<CheckPriceResponse>('/api/v1/orders/getPrice', order, {
@@ -56,7 +56,7 @@ export function getFinalOrder(orderId: string, accessToken: string) {
       headers: {
         'Order-Authorization': accessToken,
       },
-    }
+    },
   )
 }
 

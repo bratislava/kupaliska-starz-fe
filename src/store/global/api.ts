@@ -25,7 +25,7 @@ export function fetchPool(id: string) {
 }
 
 export function sendContactForm(
-  data: Omit<ContactFormValues, 'recaptchaToken'> & { token: string; agreement: boolean }
+  data: Omit<ContactFormValues, 'recaptchaToken'> & { token: string; agreement: boolean },
 ) {
   return apiClient.post('/api/v1/contact', data)
 }

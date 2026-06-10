@@ -19,17 +19,17 @@ interface CityAccountAccessTokenState {
 export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
 
 const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState>(
-  {} as CityAccountAccessTokenState
+  {} as CityAccountAccessTokenState,
 )
 
 export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNode }) => {
   const [initializationState, setInitializationState] = useState<'idle' | 'initializing' | 'ready'>(
-    'idle'
+    'idle',
   )
   // unfortunately useLocalStorage expects JSON-serializable object, therefore not storing as simple string
   const [accessTokenState, setAccessTokenState] = useLocalStorage<{ accessToken: string | null }>(
     ACCESS_TOKEN_STORAGE_KEY,
-    { accessToken: null }
+    { accessToken: null },
   )
 
   const accessToken = accessTokenState.accessToken
@@ -60,7 +60,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
           logger.error('getAccessTokenFromIFrame error', error)
           return null
         }),
-    [setAccessTokenState]
+    [setAccessTokenState],
   )
 
   const validateTokenInLocalStorage = useCallback(() => {
@@ -136,7 +136,7 @@ export default function useCityAccountAccessToken() {
   const context = useContext(CityAccountAccessTokenContext)
   if (context === undefined) {
     throw new Error(
-      'useCityAccountAccessToken must be used within a CityAccountAccessTokenProvider'
+      'useCityAccountAccessToken must be used within a CityAccountAccessTokenProvider',
     )
   }
   return context

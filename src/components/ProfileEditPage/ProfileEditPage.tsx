@@ -75,7 +75,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-    }
+    },
   )
 
   const onSubmit = (form: FormData) => {

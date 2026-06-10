@@ -27,7 +27,7 @@ const CalendarCell = ({ state, date, isDisabled }: CalendarCellBase) => {
             'hover:rounded-lg hover:bg-gray-50':
               !isOutsideVisibleRange && !isSelected && !isDisabled,
             'opacity-50': isOutsideVisibleRange || isDisabled,
-          }
+          },
         )}
       >
         {formattedDate.replace('.', '')}

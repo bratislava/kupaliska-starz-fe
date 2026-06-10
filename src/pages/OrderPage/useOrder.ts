@@ -17,7 +17,7 @@ export const useOrder = () => {
     const requestWithRecaptcha = { ...request, paymentMethod }
 
     const [err, response] = await to<AxiosResponse<any>, AxiosError<any>>(
-      order(requestWithRecaptcha, status)
+      order(requestWithRecaptcha, status),
     )
     if (response) {
       if (response?.data?.messages[0] && response?.data?.messages[0].type === 'SUCCESS') {
