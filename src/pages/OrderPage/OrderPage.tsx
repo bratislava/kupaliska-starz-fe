@@ -1193,7 +1193,11 @@ const OrderPage = () => {
           </div>
           <div className="text-gray color-fontBlack">
             {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
-              <p className="mb-2">{t('common.additional-info-student-senior')}</p>
+              <p className="mb-2">
+                {t('common.max-ticket-purchase-limit', {
+                  maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
+                })}
+              </p>
             )}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
