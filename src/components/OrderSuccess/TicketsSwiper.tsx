@@ -19,6 +19,7 @@ import { environment } from '../../environment'
 
 type TicketProps = { ticket: FinalOrderTicket }
 
+// TODO: investigate if we can pass ticketType from upper component instead of fetching it here
 const Ticket = ({ ticket }: TicketProps) => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
 

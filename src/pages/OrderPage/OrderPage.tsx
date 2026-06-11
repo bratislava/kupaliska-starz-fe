@@ -425,6 +425,7 @@ const OrderPageDiscountCodeInput = ({
         inputWrapperClassName="lg:w-full"
         placeholder={t('buy-page.enter-code')}
       />
+      {/* TODO disable button when captcha is not solved or show error message */}
       <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
         {t('buy-page.claim')}
       </Button>
@@ -1193,7 +1194,11 @@ const OrderPage = () => {
           </div>
           <div className="text-gray color-fontBlack">
             {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
-              <p className="mb-2">{t('common.additional-info-student-senior')}</p>
+              <p className="mb-2">
+                {t('common.max-ticket-purchase-limit', {
+                  maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
+                })}
+              </p>
             )}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
