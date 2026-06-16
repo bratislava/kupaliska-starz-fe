@@ -330,10 +330,12 @@ const OrderPageDiscountCode = ({
   setValue,
   getValues,
   incrementCaptchaKey,
+  errors,
 }: {
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
   incrementCaptchaKey: () => void
+  errors: FieldErrors<OrderFormData>
 }) => {
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
@@ -355,11 +357,14 @@ const OrderPageDiscountCode = ({
         label={t('buy-page.claim-code')}
       />
       {useDiscountCode && (
-        <OrderPageDiscountCodeInput
-          setValue={setValue}
-          getValues={getValues}
-          incrementCaptchaKey={incrementCaptchaKey}
-        />
+        <>
+          <OrderPageDiscountCodeInput
+            setValue={setValue}
+            getValues={getValues}
+            incrementCaptchaKey={incrementCaptchaKey}
+            errors={errors}
+          />
+        </>
       )}
     </div>
   )
@@ -375,10 +380,12 @@ const OrderPageDiscountCodeInput = ({
   setValue,
   getValues,
   incrementCaptchaKey,
+  errors,
 }: {
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
   incrementCaptchaKey: () => void
+  errors: FieldErrors<OrderFormData>
 }) => {
   const { t } = useTranslation()
 
@@ -415,23 +422,33 @@ const OrderPageDiscountCodeInput = ({
   }
 
   return (
-    <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0 items-center">
-      <InputField
-        value={discountCode}
-        onChange={(event) => setDiscountCode(event.target.value)}
-        error={
-          status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
-        }
-        inputWrapperClassName="lg:w-full"
-        placeholder={t('buy-page.enter-code')}
-      />
-      {/* TODO disable button when captcha is not solved or show error message */}
-      <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
-        {t('buy-page.claim')}
-      </Button>
-      {status === OrderPageDiscountCodeInputStatus.Success ? (
-        <Icon name="checkmark" className="text-success" />
-      ) : null}
+    <div>
+      <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0 items-center">
+        <InputField
+          value={discountCode}
+          onChange={(event) => setDiscountCode(event.target.value)}
+          error={
+            status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
+          }
+          inputWrapperClassName="lg:w-full"
+          placeholder={t('buy-page.enter-code')}
+        />
+        <Button
+          className="px-5 py-3"
+          color="outlined"
+          onClick={handleApply}
+          rounded
+          disabled={!getValues('recaptchaToken')}
+        >
+          {t('buy-page.claim')}
+        </Button>
+        {status === OrderPageDiscountCodeInputStatus.Success ? (
+          <Icon name="checkmark" className="text-success" />
+        ) : null}
+      </div>
+      {errors.recaptchaToken && (
+        <p className="text-p3 mt-1 text-error">{t('landing.captcha-warning-required')}</p>
+      )}
     </div>
   )
 }
@@ -998,6 +1015,7 @@ const OrderPage = () => {
               setValue={setValue}
               getValues={getValues}
               incrementCaptchaKey={incrementCaptchaKey}
+              errors={errors}
             />
 
             <Divider />
