@@ -2,7 +2,6 @@ resources:
   - deployment.yml
   - service-app.yml
   - ingress.yml
-  - admin.ingress.yml
   - deployment.rendertron.yml
   - service.rendertron.yml
 configurations:
