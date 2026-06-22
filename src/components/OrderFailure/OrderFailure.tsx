@@ -1,7 +1,7 @@
 import { Button, Icon, SectionHeader, Typography } from '../index'
-import { HashLink } from 'react-router-hash-link'
 import { useTranslation } from 'react-i18next'
 import { ANCHORS } from 'helpers/constants'
+import { Link } from 'react-router'
 
 const OrderFailure = () => {
   const { t } = useTranslation()
@@ -17,18 +17,18 @@ const OrderFailure = () => {
           <p>{t('order-result.pls-contact')}</p>
         </div>
         <div className="mt-4 md:mt-12">
-          <HashLink to={ANCHORS.CONTACT_US}>
+          <Link to={ANCHORS.CONTACT_US}>
             <Button className={`mb-4 w-full md:w-1/2 mx-auto lg:ml-0`} color="outlined">
               {t('order-result.contact-us')}
               <Icon className="ml-4" name="mail" />
             </Button>
-          </HashLink>
-          <HashLink to={ANCHORS.TICKET_BUY}>
+          </Link>
+          <Link to={ANCHORS.TICKET_BUY}>
             <Button className={`w-full md:w-1/2 mx-auto lg:ml-0`}>
               {t('order-result.try-again')}
               <Icon className="ml-4" name="retry" />
             </Button>
-          </HashLink>
+          </Link>
         </div>
       </div>
     </div>
