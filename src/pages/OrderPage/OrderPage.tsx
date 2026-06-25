@@ -774,7 +774,7 @@ const OrderPage = () => {
           }
         }),
       }),
-    [],
+    [getValues, ticketTypesWithAdditionalProperties],
   )
 
   const priceQuery = useQuery(
@@ -800,10 +800,10 @@ const OrderPage = () => {
     // same as enabled condition of price query
     if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
       // If the price should change, cancel current queries and fetch a new price.
-      queryClient.cancelQueries('orderPrice')
-      queryClient.refetchQueries('orderPrice')
+      queryClient.cancelQueries([['orderPrice', ticketTypesData]])
+      queryClient.refetchQueries([['orderPrice', ticketTypesData]])
     }
-  }, [watchPriceChange, account, getRequestsFromFormData])
+  }, [watchPriceChange, account, ticketTypesData])
 
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') return
@@ -882,24 +882,22 @@ const OrderPage = () => {
         text = t('buy-page.pay-with-google-pay')
         break
       case PaymentMethod.CARD:
-        text =
-          priceQuery.isSuccess && !priceQuery.isFetching
-            ? t('buy-page.pay-with-price', {
-                price: currencyFromCentsFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
-            : t('buy-page.pay')
+        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
+          ? t('buy-page.pay-with-price', {
+              price: currencyFromCentsFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
+          : t('buy-page.pay')
         break
       default:
-        text =
-          priceQuery.isSuccess && !priceQuery.isFetching
-            ? t('buy-page.pay-with-price', {
-                price: currencyFromCentsFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
-            : t('buy-page.pay')
+        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
+          ? t('buy-page.pay-with-price', {
+              price: currencyFromCentsFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
+          : t('buy-page.pay')
         break
     }
 
