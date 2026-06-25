@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
@@ -756,26 +756,29 @@ const OrderPage = () => {
     control,
   })
 
-  const getRequestsFromFormData = () =>
-    orderFormToRequests({
-      ...getValues(),
-      ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
-        const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
-          ticketTypesWithAdditionalProperties.find(
-            (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
-          )!
-        return {
-          ...ticketTypeData,
-          requireEmail,
-          hasOptionalFields,
-          hasSwimmers,
-          hasTicketAmount,
-        }
+  const getRequestsFromFormData = useCallback(
+    () =>
+      orderFormToRequests({
+        ...getValues(),
+        ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+          const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
+            ticketTypesWithAdditionalProperties.find(
+              (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+            )!
+          return {
+            ...ticketTypeData,
+            requireEmail,
+            hasOptionalFields,
+            hasSwimmers,
+            hasTicketAmount,
+          }
+        }),
       }),
-    })
+    [],
+  )
 
   const priceQuery = useQuery(
-    'orderPrice',
+    ['orderPrice', ticketTypesData],
     ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
 
@@ -800,7 +803,7 @@ const OrderPage = () => {
       queryClient.cancelQueries('orderPrice')
       queryClient.refetchQueries('orderPrice')
     }
-  }, [watchPriceChange, account])
+  }, [watchPriceChange, account, getRequestsFromFormData])
 
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') return
