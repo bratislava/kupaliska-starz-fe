@@ -1011,6 +1011,8 @@ const OrderPage = () => {
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                     <div>
                       {getErrorMessagesFromHttpRequest(
+                        // TODO check if we show correct errors in all cases
+                        // (zod schema error - probably not, joi schema error, manually thrown error)
                         priceQuery.error as AxiosError<ErrorWithMessages>,
                       )}
                     </div>
