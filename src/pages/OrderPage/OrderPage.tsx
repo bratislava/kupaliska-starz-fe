@@ -1008,7 +1008,7 @@ const OrderPage = () => {
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                     <div>
                       {getErrorMessagesFromHttpRequest(
-                        priceQuery.error as AxiosError<ErrorWithMessages, any>,
+                        priceQuery.error as AxiosError<ErrorWithMessages>,
                       )}
                     </div>
                   </div>
