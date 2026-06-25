@@ -714,7 +714,7 @@ const OrderPage = () => {
     defaultValues: {
       ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
         ticketType: ticketType.ticketType,
-        ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
+        ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [] } : {}),
         ...(ticketType.hasTicketAmount
           ? {
               ticketAmount:
