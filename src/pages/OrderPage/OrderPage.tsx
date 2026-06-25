@@ -282,7 +282,7 @@ const OrderPagePeopleList = ({
           }}
         ></AssociatedSwimmerEditAddModal>
       )}
-
+      {/* TODO errors everywhere, refactor */}
       {shouldDisplayMissingInformationWarning && (
         <div className="flex py-4 px-5 bg-error rounded-lg gap-x-3 my-6 text-white">
           <Icon name="warning" className="no-fill text-white"></Icon>
@@ -297,6 +297,7 @@ const OrderPagePeopleList = ({
           </div>
         </div>
       )}
+      {/* TODO errors everywhere, refactor */}
       {account?.['custom:account_type'] && account?.['custom:account_type'] !== AccountType.FO && (
         <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
           <Icon name="warning" className="no-fill text-white"></Icon>
@@ -787,6 +788,7 @@ const OrderPage = () => {
     },
     {
       onError: (err) => {
+        // TODO errors everywhere, refactor
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
       enabled:
@@ -1012,6 +1014,7 @@ const OrderPage = () => {
                     />
                   )}
                 </div>
+                {/* TODO errors everywhere, refactor */}
                 {priceQuery.error && (
                   <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>

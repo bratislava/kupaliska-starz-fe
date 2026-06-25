@@ -79,6 +79,7 @@ const OrderPageSwimmersList = ({
             </div>
             <div className="react-aria-checkbox" />
           </Checkbox>
+          {/* TODO errors everywhere, refactor */}
           {isDisabledCheckbox(swimmer) && t('common.physical-person-only')}
         </>
       ))}
