@@ -54,6 +54,8 @@ import { PaymentMethod } from 'helpers/types'
 import PayButton from './PayButton'
 import { isDefined } from 'helpers/helper'
 
+type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
+
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
@@ -331,11 +333,15 @@ const OrderPageDiscountCode = ({
   getValues,
   incrementCaptchaKey,
   errors,
+  setCaptchaWarning,
+  captchaWarning,
 }: {
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
   incrementCaptchaKey: () => void
   errors: FieldErrors<OrderFormData>
+  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
+  captchaWarning: CaptchaWarningStatus
 }) => {
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
@@ -359,6 +365,8 @@ const OrderPageDiscountCode = ({
       {useDiscountCode && (
         <>
           <OrderPageDiscountCodeInput
+            captchaWarning={captchaWarning}
+            setCaptchaWarning={setCaptchaWarning}
             setValue={setValue}
             getValues={getValues}
             incrementCaptchaKey={incrementCaptchaKey}
@@ -381,11 +389,15 @@ const OrderPageDiscountCodeInput = ({
   getValues,
   incrementCaptchaKey,
   errors,
+  captchaWarning,
+  setCaptchaWarning,
 }: {
   setValue: UseFormSetValue<OrderFormData>
   getValues: UseFormGetValues<OrderFormData>
   incrementCaptchaKey: () => void
   errors: FieldErrors<OrderFormData>
+  captchaWarning: CaptchaWarningStatus
+  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
 }) => {
   const { t } = useTranslation()
 
@@ -396,12 +408,16 @@ const OrderPageDiscountCodeInput = ({
   const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None)
 
   const handleApply = async () => {
-    incrementCaptchaKey()
     if (getValues('discountCode') != null) {
       setValue('discountCode', null)
     }
+    if (!getValues('recaptchaToken')) {
+      setCaptchaWarning('show')
+      return
+    }
     setStatus(OrderPageDiscountCodeInputStatus.None)
 
+    incrementCaptchaKey()
     const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
       checkDiscountCode(discountCode, getValues('recaptchaToken') ?? ''),
     )
@@ -433,21 +449,17 @@ const OrderPageDiscountCodeInput = ({
           inputWrapperClassName="lg:w-full"
           placeholder={t('buy-page.enter-code')}
         />
-        <Button
-          className="px-5 py-3"
-          color="outlined"
-          onClick={handleApply}
-          rounded
-          disabled={!getValues('recaptchaToken')}
-        >
+        <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
           {t('buy-page.claim')}
         </Button>
         {status === OrderPageDiscountCodeInputStatus.Success ? (
           <Icon name="checkmark" className="text-success" />
         ) : null}
       </div>
-      {errors.recaptchaToken && (
-        <p className="text-p3 mt-1 text-error">{t('landing.captcha-warning-required')}</p>
+      {(captchaWarning === 'show' || errors.recaptchaToken) && (
+        <p className="text-p3 mt-1 text-error">
+          {t('landing.captcha-warning-required-and-reapply')}
+        </p>
       )}
     </div>
   )
@@ -680,7 +692,7 @@ const OrderPage = () => {
   const [orderRequestPending, setOrderRequestPending] = useState(false)
   const order = useOrder()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
-  const [captchaWarning, setCaptchaWarning] = useState<'loading' | 'show' | 'hide'>('loading')
+  const [captchaWarning, setCaptchaWarning] = useState<CaptchaWarningStatus>('loading')
   const { count: captchaKey, increment: incrementCaptchaKey } = useCounter(0)
   const { status } = useCityAccount()
   const { t } = useTranslation()
@@ -1011,15 +1023,6 @@ const OrderPage = () => {
 
             <Divider />
 
-            <OrderPageDiscountCode
-              setValue={setValue}
-              getValues={getValues}
-              incrementCaptchaKey={incrementCaptchaKey}
-              errors={errors}
-            />
-
-            <Divider />
-
             <CheckboxField
               register={register}
               name="agreement"
@@ -1029,6 +1032,11 @@ const OrderPage = () => {
                   {t('buy-page.vop')}
                   <Link to={ROUTES.VOP} target="_blank" className="link text-primary">
                     {t('buy-page.vop-link')}
+                  </Link>
+                  {/* TODO: hardcoded text will be will be fixed in other PR */}. Kúpou lístka alebo
+                  permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
+                  <Link to={ROUTES.GDPR} target="_blank" className="link text-primary ">
+                    podmienkami spracúvania osobných údajov
                   </Link>
                   .
                 </span>
@@ -1045,7 +1053,7 @@ const OrderPage = () => {
                   error={errorSeniorAgreementInterpreted}
                   label={
                     <span>
-                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 65 a viac rokov
+                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 64 a viac rokov
                       alebo sú držitelia ŤZP / ŤZP-S preukazu.
                     </span>
                   }
@@ -1058,17 +1066,17 @@ const OrderPage = () => {
                 </div>
               </>
             )}
-            <div className="pt-3 italic">
-              Kúpou lístka alebo permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
-              <Link to={ROUTES.GDPR} target="_blank" className="link text-primary ">
-                podmienkami spracúvania osobných údajov
-              </Link>{' '}
-              príspevkovej organizácie{' '}
-              <Link to="http://starz.sk/" target="_blank" className="link text-primary">
-                STaRZ
-              </Link>{' '}
-              ako prevádzkovateľa osobných údajov.
-            </div>
+
+            <Divider />
+
+            <OrderPageDiscountCode
+              setCaptchaWarning={setCaptchaWarning}
+              setValue={setValue}
+              getValues={getValues}
+              incrementCaptchaKey={incrementCaptchaKey}
+              errors={errors}
+              captchaWarning={captchaWarning}
+            />
           </div>
           <div>
             <Controller
@@ -1101,13 +1109,13 @@ const OrderPage = () => {
                     }}
                     className="self-center flex justify-center"
                   />
-                  {captchaWarning === 'show' && (
-                    <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
-                  )}
                   {errors.recaptchaToken && (
                     <p className="text-p3 mt-1 text-error">
                       {t('landing.captcha-warning-required')}
                     </p>
+                  )}
+                  {captchaWarning === 'show' && (
+                    <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
                   )}
                 </>
               )}
