@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import cx from 'classnames'
 import { AssociatedSwimmer } from '../../store/associatedSwimmers/api'
 import { Button as AriaButton, Checkbox } from 'react-aria-components'
@@ -51,7 +52,7 @@ const OrderPageSwimmersList = ({
   return (
     <div className="gap-3 flex flex-col pt-3">
       {swimmers.map((swimmer) => (
-        <>
+        <Fragment key={swimmer.id}>
           <Checkbox
             className={cx('px-4 py-3 gap-4 flex items-center rounded-lg cursor-pointer', {
               'bg-white': !isDisabledCheckbox(swimmer),
@@ -81,7 +82,7 @@ const OrderPageSwimmersList = ({
           </Checkbox>
           {/* TODO errors everywhere, refactor */}
           {isDisabledCheckbox(swimmer) && t('common.physical-person-only')}
-        </>
+        </Fragment>
       ))}
       <AriaButton
         onPress={() => onAddSwimmer()}
