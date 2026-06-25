@@ -161,21 +161,23 @@ const OrderPagePeopleList = ({
 
   /* Merges the list of associated swimmers with the logged-in user. */
   const mergedSwimmers = useMemo(() => {
-    return (
-      associatedSwimmersQuery.data &&
-      userQuery.data && [
-        {
-          id: null,
-          age: userQuery.data.data.age,
-          zip: userQuery.data.data.zip,
-          image: userQuery.data.data.image,
-          firstname: account?.given_name as string,
-          lastname: account?.family_name as string,
-          isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
-        },
-        ...associatedSwimmersQuery.data.data.associatedSwimmers,
-      ]
-    )
+    const swimmersWithOwner = []
+    if (userQuery.data && account?.['custom:account_type'] === AccountType.FO) {
+      swimmersWithOwner.push({
+        id: null,
+        age: userQuery.data.data.age,
+        zip: userQuery.data.data.zip,
+        image: userQuery.data.data.image,
+        firstname: account?.given_name as string,
+        lastname: account?.family_name as string,
+        isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
+      })
+    }
+    if (associatedSwimmersQuery.data) {
+      swimmersWithOwner.push(...associatedSwimmersQuery.data.data.associatedSwimmers)
+    }
+
+    return swimmersWithOwner
   }, [
     account?.family_name,
     account?.given_name,
@@ -295,13 +297,6 @@ const OrderPagePeopleList = ({
               Doplniť povinné údaje
             </AriaButton>
           </div>
-        </div>
-      )}
-      {/* TODO errors everywhere, refactor */}
-      {account?.['custom:account_type'] !== AccountType.FO && (
-        <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
-          <Icon name="warning" className="no-fill text-white"></Icon>
-          <div>{t('common.physical-person-only')}</div>
         </div>
       )}
       {ticketTypesData.map(
@@ -1025,6 +1020,13 @@ const OrderPage = () => {
                     </div>
                   </div>
                 )}
+                {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
+                  getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
+                    <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+                      <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+                      <div>{t('buy-page.min-one-person')}</div>
+                    </div>
+                  )}
                 <OrderPagePeopleList
                   watch={watch}
                   setValue={setValue}

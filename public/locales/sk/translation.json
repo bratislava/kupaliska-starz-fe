@@ -168,6 +168,7 @@
     "max-ticket-purchase-limit-exceeded": "Presiahnutý maximálny počet lístkov na objednávke",
     "select-people-reminder-seasonal": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť permanentky:",
     "select-people-reminder-entries": "Vyberte prosím všetky osoby pre ktoré chcete kúpiť lístky:",
+    "min-one-person": "Vyberte aspoň jednu osobu, pre ktorú chcete kúpiť permanentku.",
     "pay": "Zaplatiť",
     "pay-with-google-pay": "Google Pay",
     "pay-with-apple-pay": "Apple Pay",
