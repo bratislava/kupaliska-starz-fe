@@ -298,7 +298,7 @@ const OrderPagePeopleList = ({
         </div>
       )}
       {/* TODO errors everywhere, refactor */}
-      {account?.['custom:account_type'] && account?.['custom:account_type'] !== AccountType.FO && (
+      {account?.['custom:account_type'] !== AccountType.FO && (
         <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
           <Icon name="warning" className="no-fill text-white"></Icon>
           <div>{t('common.physical-person-only')}</div>
