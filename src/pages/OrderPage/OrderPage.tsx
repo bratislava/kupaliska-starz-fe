@@ -698,6 +698,7 @@ const OrderPage = () => {
   const { t } = useTranslation()
   const isClient = useIsClient()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
+  const { data: account } = useAccount()
 
   const {
     register,
@@ -788,6 +789,7 @@ const OrderPage = () => {
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
+      enabled: getRequestsFromFormData().getPriceRequest.tickets.length > 0,
       retry: false,
     },
   )
@@ -795,11 +797,13 @@ const OrderPage = () => {
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    // If the price should change, cancel current queries and fetch a new price.
-    queryClient.cancelQueries('orderPrice')
-    queryClient.refetchQueries('orderPrice')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchPriceChange])
+    // same as enabled condition of price query
+    if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
+      // If the price should change, cancel current queries and fetch a new price.
+      queryClient.cancelQueries('orderPrice')
+      queryClient.refetchQueries('orderPrice')
+    }
+  }, [watchPriceChange, account])
 
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') return
