@@ -1,12 +1,12 @@
 import { Button, Icon, Typography } from 'components'
 
 import './HeroBanner.css'
-import { HashLink } from 'react-router-hash-link'
 import { useTranslation } from 'react-i18next'
 import cx from 'classnames'
 import { ANCHORS } from 'helpers/constants'
 import { useQuery } from 'react-query'
 import { fetchGeneralSettings } from 'store/global/api'
+import { Link } from 'react-router'
 
 const HeroBanner = () => {
   const { t } = useTranslation()
@@ -61,18 +61,18 @@ const HeroBanner = () => {
             xl:w-3/5
           "
           >
-            <HashLink to={ANCHORS.TICKET_BUY}>
+            <Link to={ANCHORS.TICKET_BUY}>
               <Button thin>
                 <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
                 <Icon name="tickets" className="no-fill pr-5" />
               </Button>
-            </HashLink>
-            <HashLink to={ANCHORS.SWIMMING_POOLS} className="block">
+            </Link>
+            <Link to={ANCHORS.SWIMMING_POOLS} className="block">
               <Button className="" color="outlined" thin>
                 <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
                 <Icon name="swimming-man" className="hidden xs:block no-fill pr-5" />
               </Button>
-            </HashLink>
+            </Link>
           </div>
         )}
       </div>

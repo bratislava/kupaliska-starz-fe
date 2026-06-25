@@ -14,7 +14,7 @@ import { default as ContactForm } from './ContactForm/ContactForm'
 import { default as Spinner } from './Spinner/Spinner'
 import { default as Tooltip } from './Tooltip/Tooltip'
 import { default as Toast } from './Toast/Toast'
-import { default as ScrollToTop } from './ScrollToTop/ScrollToTop'
+import { default as ScrollManager } from './ScrollManager/ScrollManager'
 import { default as AccordionItem } from './AccordionItem/AccordionItem'
 import { default as WhyCreateAccountSection } from './WhyCreateAccount/WhyCreateAccountSection'
 import { default as ProfileEdit } from './ProfileEditPage/ProfileEditPage'
@@ -43,7 +43,7 @@ export {
   Spinner,
   Tooltip,
   Toast,
-  ScrollToTop,
+  ScrollManager,
   WhyCreateAccountSection,
   ProfileEdit,
   SignInSignOutLink,
