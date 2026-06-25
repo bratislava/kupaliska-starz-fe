@@ -789,7 +789,9 @@ const OrderPage = () => {
       onError: (err) => {
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-      enabled: getRequestsFromFormData().getPriceRequest.tickets.length > 0,
+      enabled:
+        account?.['custom:account_type'] === AccountType.FO &&
+        getRequestsFromFormData().getPriceRequest.tickets.length > 0,
       retry: false,
     },
   )
@@ -798,7 +800,10 @@ const OrderPage = () => {
 
   useEffect(() => {
     // same as enabled condition of price query
-    if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
+    if (
+      account?.['custom:account_type'] === AccountType.FO &&
+      getRequestsFromFormData().getPriceRequest.tickets.length > 0
+    ) {
       // If the price should change, cancel current queries and fetch a new price.
       queryClient.cancelQueries('orderPrice')
       queryClient.refetchQueries('orderPrice')
