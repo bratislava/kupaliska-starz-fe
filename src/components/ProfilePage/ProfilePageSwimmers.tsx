@@ -7,9 +7,10 @@ import cx from 'classnames'
 import Photo from '../Photo/Photo'
 import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
+import { ErrorWithMessages } from 'helpers/general'
 
 const ProfilePageSwimmers = () => {
   const { t } = useTranslation()

@@ -10,7 +10,8 @@ import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 import Photo from '../Photo/Photo'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { ErrorWithMessages } from 'helpers/general'
 
 type ProfilePageDeleteAssociatedSwimmerModalProps = {
   swimmer: AssociatedSwimmer
