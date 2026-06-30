@@ -11,7 +11,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { pick } from 'lodash'
 import Dialog from '../Dialog/Dialog'
 import PhotoField from '../PhotoField/PhotoField'
-import { ErrorWithMessages, useErrorToast } from '../../hooks/useErrorToast'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { ErrorWithMessages } from 'helpers/general'
 
 type ProfilePagePhotoModalProps = {
   user: User
