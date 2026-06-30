@@ -440,6 +440,7 @@ const OrderPageDiscountCodeInput = ({
   return (
     <div>
       <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0 items-center">
+        {/* TODO doesn't look good on desktop when error is present */}
         <InputField
           value={discountCode}
           onChange={(event) => setDiscountCode(event.target.value)}
