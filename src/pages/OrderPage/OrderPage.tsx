@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import { Button as AriaButton } from 'react-aria-components'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
@@ -161,21 +161,23 @@ const OrderPagePeopleList = ({
 
   /* Merges the list of associated swimmers with the logged-in user. */
   const mergedSwimmers = useMemo(() => {
-    return (
-      associatedSwimmersQuery.data &&
-      userQuery.data && [
-        {
-          id: null,
-          age: userQuery.data.data.age,
-          zip: userQuery.data.data.zip,
-          image: userQuery.data.data.image,
-          firstname: account?.given_name as string,
-          lastname: account?.family_name as string,
-          isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
-        },
-        ...associatedSwimmersQuery.data.data.associatedSwimmers,
-      ]
-    )
+    const swimmersWithOwner = []
+    if (userQuery.data && account?.['custom:account_type'] === AccountType.FO) {
+      swimmersWithOwner.push({
+        id: null,
+        age: userQuery.data.data.age,
+        zip: userQuery.data.data.zip,
+        image: userQuery.data.data.image,
+        firstname: account?.given_name as string,
+        lastname: account?.family_name as string,
+        isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
+      })
+    }
+    if (associatedSwimmersQuery.data) {
+      swimmersWithOwner.push(...associatedSwimmersQuery.data.data.associatedSwimmers)
+    }
+
+    return swimmersWithOwner
   }, [
     account?.family_name,
     account?.given_name,
@@ -282,7 +284,7 @@ const OrderPagePeopleList = ({
           }}
         ></AssociatedSwimmerEditAddModal>
       )}
-
+      {/* TODO errors everywhere, refactor */}
       {shouldDisplayMissingInformationWarning && (
         <div className="flex py-4 px-5 bg-error rounded-lg gap-x-3 my-6 text-white">
           <Icon name="warning" className="no-fill text-white"></Icon>
@@ -295,12 +297,6 @@ const OrderPagePeopleList = ({
               Doplniť povinné údaje
             </AriaButton>
           </div>
-        </div>
-      )}
-      {account?.['custom:account_type'] && account?.['custom:account_type'] !== AccountType.FO && (
-        <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
-          <Icon name="warning" className="no-fill text-white"></Icon>
-          <div>{t('common.physical-person-only')}</div>
         </div>
       )}
       {ticketTypesData.map(
@@ -699,6 +695,7 @@ const OrderPage = () => {
   const { t } = useTranslation()
   const isClient = useIsClient()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
+  const { data: account } = useAccount()
 
   const {
     register,
@@ -714,7 +711,7 @@ const OrderPage = () => {
     defaultValues: {
       ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
         ticketType: ticketType.ticketType,
-        ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [null] } : {}),
+        ...(ticketType.hasSwimmers ? { selectedSwimmerIds: [] } : {}),
         ...(ticketType.hasTicketAmount
           ? {
               ticketAmount:
@@ -760,26 +757,29 @@ const OrderPage = () => {
     control,
   })
 
-  const getRequestsFromFormData = () =>
-    orderFormToRequests({
-      ...getValues(),
-      ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
-        const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
-          ticketTypesWithAdditionalProperties.find(
-            (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
-          )!
-        return {
-          ...ticketTypeData,
-          requireEmail,
-          hasOptionalFields,
-          hasSwimmers,
-          hasTicketAmount,
-        }
+  const getRequestsFromFormData = useCallback(
+    () =>
+      orderFormToRequests({
+        ...getValues(),
+        ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+          const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
+            ticketTypesWithAdditionalProperties.find(
+              (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+            )!
+          return {
+            ...ticketTypeData,
+            requireEmail,
+            hasOptionalFields,
+            hasSwimmers,
+            hasTicketAmount,
+          }
+        }),
       }),
-    })
+    [getValues, ticketTypesWithAdditionalProperties],
+  )
 
   const priceQuery = useQuery(
-    'orderPrice',
+    ['orderPrice', ticketTypesData],
     ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
 
@@ -787,8 +787,10 @@ const OrderPage = () => {
     },
     {
       onError: (err) => {
+        // TODO errors everywhere, refactor
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
+      enabled: getRequestsFromFormData().getPriceRequest.tickets.length > 0,
       retry: false,
     },
   )
@@ -796,11 +798,13 @@ const OrderPage = () => {
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    // If the price should change, cancel current queries and fetch a new price.
-    queryClient.cancelQueries('orderPrice')
-    queryClient.refetchQueries('orderPrice')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchPriceChange])
+    // same as enabled condition of price query
+    if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
+      // If the price should change, cancel current queries and fetch a new price.
+      queryClient.cancelQueries([['orderPrice', ticketTypesData]])
+      queryClient.refetchQueries([['orderPrice', ticketTypesData]])
+    }
+  }, [watchPriceChange, account, ticketTypesData])
 
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') return
@@ -879,24 +883,22 @@ const OrderPage = () => {
         text = t('buy-page.pay-with-google-pay')
         break
       case PaymentMethod.CARD:
-        text =
-          priceQuery.isSuccess && !priceQuery.isFetching
-            ? t('buy-page.pay-with-price', {
-                price: currencyFromCentsFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
-            : t('buy-page.pay')
+        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
+          ? t('buy-page.pay-with-price', {
+              price: currencyFromCentsFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
+          : t('buy-page.pay')
         break
       default:
-        text =
-          priceQuery.isSuccess && !priceQuery.isFetching
-            ? t('buy-page.pay-with-price', {
-                price: currencyFromCentsFormatter.format(
-                  priceQuery.data.data.data.pricing.orderPriceWithVat,
-                ),
-              })
-            : t('buy-page.pay')
+        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
+          ? t('buy-page.pay-with-price', {
+              price: currencyFromCentsFormatter.format(
+                priceQuery.data.data.data.pricing.orderPriceWithVat,
+              ),
+            })
+          : t('buy-page.pay')
         break
     }
 
@@ -1004,16 +1006,26 @@ const OrderPage = () => {
                     />
                   )}
                 </div>
+                {/* TODO errors everywhere, refactor */}
                 {priceQuery.error && (
                   <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                     <div>
                       {getErrorMessagesFromHttpRequest(
-                        priceQuery.error as AxiosError<ErrorWithMessages, any>,
+                        // TODO check if we show correct errors in all cases
+                        // (zod schema error - probably not, joi schema error, manually thrown error)
+                        priceQuery.error as AxiosError<ErrorWithMessages>,
                       )}
                     </div>
                   </div>
                 )}
+                {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
+                  getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
+                    <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+                      <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+                      <div>{t('buy-page.min-one-person')}</div>
+                    </div>
+                  )}
                 <OrderPagePeopleList
                   watch={watch}
                   setValue={setValue}

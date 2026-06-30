@@ -2,6 +2,26 @@ import { times } from 'lodash'
 import { TicketType } from 'models/order'
 import { OrderFormData } from './OrderPage'
 
+interface RequestTicket {
+  ticketTypeId?: string
+  personId?: string | null
+  age?: number | null
+  zip?: string | null
+}
+
+export interface GetPriceRequest {
+  tickets: RequestTicket[]
+  discountsPercent?: { ticketTypeId: string; discountPercent: number }[]
+}
+
+export interface OrderRequestBody {
+  tickets: RequestTicket[]
+  discountCodes?: string[]
+  email?: string
+  agreement: boolean
+  token?: string
+}
+
 export interface OrderFormTicketTypeData {
   ticketType?: TicketType
   ticketAmount?: number
@@ -16,8 +36,8 @@ export function orderFormToRequests(
 ) {
   const { discountCode, ticketTypesData, age, zip, email, agreement, recaptchaToken } = formData
 
-  let getPriceRequest = {} as any
-  let orderRequest = {} as any
+  let getPriceRequest: GetPriceRequest = { tickets: [] }
+  let orderRequest: OrderRequestBody = { tickets: [], agreement: false }
 
   if (discountCode) {
     // TODO implement multiple discount codes, BE already supports it,
