@@ -801,7 +801,6 @@ const OrderPage = () => {
     // same as enabled condition of price query
     if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
       // If the price should change, cancel current queries and fetch a new price.
-      queryClient.cancelQueries([['orderPrice', ticketTypesData]])
       queryClient.refetchQueries([['orderPrice', ticketTypesData]])
     }
   }, [watchPriceChange, account, ticketTypesData])
