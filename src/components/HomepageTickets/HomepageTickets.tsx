@@ -80,6 +80,7 @@ const HomepageTickets = () => {
     queryFn: ({ signal }) => {
       return getPrice(getPriceRequest, status, signal)
     },
+    enabled: getPriceRequest.tickets.length > 0,
   })
 
   // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
