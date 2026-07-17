@@ -1065,7 +1065,7 @@ const OrderPage = () => {
                   error={errorSeniorAgreementInterpreted}
                   label={
                     <span>
-                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 64 a viac rokov
+                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 65 a viac rokov
                       alebo sú držitelia ŤZP / ŤZP-S preukazu.
                     </span>
                   }
