@@ -782,12 +782,14 @@ const OrderPage = () => {
     ['orderPrice', ticketTypesData],
     ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
-
+      logger.info(getPriceRequest)
       return getPrice(getPriceRequest, status, signal)
     },
     {
       onError: (err) => {
         // TODO errors everywhere, refactor
+        logger.error(`OrderPage "getPrice" Request error: ${err}`)
+
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
       enabled: getRequestsFromFormData().getPriceRequest.tickets.length > 0,
@@ -814,6 +816,7 @@ const OrderPage = () => {
     incrementCaptchaKey()
     const { orderRequest } = getRequestsFromFormData()
     setOrderRequestPending(true)
+    logger.info(orderRequest)
     await order(orderRequest, paymentMethod)
     setOrderRequestPending(false)
   }
@@ -904,7 +907,7 @@ const OrderPage = () => {
     const handleSubmitWithErrorHandling = handleSubmit(
       () => onSubmit(paymentMethod),
       (err) => {
-        logger.error(err)
+        logger.error(`OrderPage "order" Request error: ${err}`)
       },
     )
 
