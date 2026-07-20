@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
+import logger from 'helpers/logger'
 import { environment } from '../../environment'
 import { getPrice } from 'store/order/api'
 import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
@@ -78,7 +79,11 @@ const HomepageTickets = () => {
   } = useQuery({
     queryKey: ['cartPrice', cart],
     queryFn: ({ signal }) => {
+      logger.info(getPriceRequest)
       return getPrice(getPriceRequest, status, signal)
+    },
+    onError: (err) => {
+      logger.error(`HomepageTickets "getPrice" Request error: ${err}`)
     },
     enabled: getPriceRequest.tickets.length > 0,
   })
