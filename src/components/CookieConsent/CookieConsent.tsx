@@ -124,10 +124,7 @@ const CookieConsent = () => {
   return (
     <div>
       <Modal open={showModal} onClose={closeModal} closeButton={true}>
-        <div className="
-          modal-with-close-width-screen p-4
-          md:p-10
-        " style={{ maxWidth: '1100px' }}>
+        <div className="modal-with-close-width-screen p-4 md:p-10" style={{ maxWidth: '1100px' }}>
           <div className="mb-10 text-xl font-semibold">{t('cookie-consent.modal-title')}</div>
           <div>
             <div className="h-full overflow-y-scroll" style={{ maxHeight: '400px' }}>
@@ -173,38 +170,24 @@ const CookieConsent = () => {
                 ),
               )}
             </div>
-            <div className="
-              mt-5 flex flex-col justify-between gap-1
-              md:flex-row
-            ">
+            <div className="mt-5 flex flex-col justify-between gap-1 md:flex-row">
               <Button
-                className="
-                  mb-2 rounded-sm bg-gray-900 px-3 py-1 text-sm text-white
-                  md:mb-0
-                "
+                className="mb-2 rounded-sm bg-gray-900 px-3 py-1 text-sm text-white md:mb-0"
                 onClick={saveSettings}
                 color="primary"
               >
                 {t('cookie-consent.save-settings')}
               </Button>
-              <div className="
-                flex flex-col gap-1
-                md:flex-row
-              ">
+              <div className="flex flex-col gap-1 md:flex-row">
                 <Button
-                  className="
-                    mb-2 rounded-sm bg-gray-900 py-1 text-sm text-white
-                    md:mb-0 md:mr-1
-                  "
+                  className="mb-2 rounded-sm bg-gray-900 py-1 text-sm text-white md:mb-0 md:mr-1"
                   onClick={declineCookies}
                   color="blueish"
                 >
                   {t('cookie-consent.reject-all')}
                 </Button>
                 <Button
-                  className="
-                    min-w-[140px] rounded-sm bg-gray-900 py-1 text-sm text-white
-                  "
+                  className="min-w-[140px] rounded-sm bg-gray-900 py-1 text-sm text-white"
                   onClick={acceptAllCookies}
                   color="blueish"
                 >

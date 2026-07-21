@@ -74,10 +74,7 @@ const FieldHeader = ({
             {label}
           </label>
           {showOptionalLabel && (
-            <span className="
-              text-p3
-              sm:text-16
-            ">{t('buy-page.optional')}</span>
+            <span className="text-p3 sm:text-16">{t('buy-page.optional')}</span>
           )}
         </div>
         {tooltip && (

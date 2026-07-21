@@ -105,15 +105,9 @@ const OrderPageOptionalFields = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <div className="
-        grid grid-cols-1 gap-4
-        lg:grid-cols-2
-      ">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <InputField
-          className="
-            col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2
-            lg:col-span-1
-          "
+          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
           name="age"
           register={register}
           error={errors.age?.message ? t(errors.age?.message) : undefined}
@@ -127,10 +121,7 @@ const OrderPageOptionalFields = ({
           }
         />
         <InputField
-          className="
-            col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2
-            lg:col-span-1
-          "
+          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
           name="zip"
           register={register}
           error={errors.zip?.message}
@@ -297,9 +288,7 @@ const OrderPagePeopleList = ({
       )}
       {/* TODO errors everywhere, refactor */}
       {shouldDisplayMissingInformationWarning && (
-        <div className="
-          my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white
-        ">
+        <div className="my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white">
           <Icon name="warning" className="no-fill text-white"></Icon>
           <div>
             Pre kúpu permanentky je potrebné doplniť fotografiu a dátum narodenia.{' '}
@@ -373,13 +362,13 @@ const OrderPageDiscountCode = ({
       />
       {useDiscountCode && (
         <OrderPageDiscountCodeInput
-            captchaWarning={captchaWarning}
-            setCaptchaWarning={setCaptchaWarning}
-            setValue={setValue}
-            getValues={getValues}
-            incrementCaptchaKey={incrementCaptchaKey}
-            errors={errors}
-          />
+          captchaWarning={captchaWarning}
+          setCaptchaWarning={setCaptchaWarning}
+          setValue={setValue}
+          getValues={getValues}
+          incrementCaptchaKey={incrementCaptchaKey}
+          errors={errors}
+        />
       )}
     </div>
   )
@@ -448,10 +437,7 @@ const OrderPageDiscountCodeInput = ({
 
   return (
     <div>
-      <div className="
-        flex flex-col items-center gap-x-4 gap-y-4
-        lg:flex-row lg:gap-y-0
-      ">
+      <div className="flex flex-col items-center gap-x-4 gap-y-4 lg:flex-row lg:gap-y-0">
         {/* TODO doesn't look good on desktop when error is present */}
         <InputField
           value={discountCode}
@@ -621,15 +607,9 @@ const OrderPageSummary = ({
           </>
         )}
       </div>
-      <div className="
-        flex items-center justify-between rounded-b-lg bg-blueish px-4 py-4
-        lg:px-8
-      ">
+      <div className="flex items-center justify-between rounded-b-lg bg-blueish px-4 py-4 lg:px-8">
         {hasTicketAmount && (
-          <div className="
-            mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border
-            border-solid border-primary px-6 py-2 text-primary
-          ">
+          <div className="mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border border-solid border-primary px-6 py-2 text-primary">
             <button
               className="align-top text-3xl leading-5"
               onClick={handleMinusClick}
@@ -657,10 +637,7 @@ const OrderPageSummary = ({
           </div>
         )}
         <div className="flex flex-nowrap">
-          <span className="
-            font-bold text-fontBlack
-            lg:text-xl
-          ">
+          <span className="font-bold text-fontBlack lg:text-xl">
             <FormatCurrencyFromCents value={ticketType.priceWithVat} />
           </span>
           <span>{t('common.per-ticket')}</span>
@@ -837,7 +814,9 @@ const OrderPage = () => {
   }, [watchPriceChange, account, ticketTypesData])
 
   useTimeout(() => {
-    if (!isClient || captchaWarning === 'hide') {return}
+    if (!isClient || captchaWarning === 'hide') {
+      return
+    }
     setCaptchaWarning('show')
   }, 10000)
 
@@ -876,10 +855,7 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="apple-pay"
-            className="
-              no-fill flex h-6 w-6 items-center justify-center rounded bg-black
-              p-1
-            "
+            className="no-fill flex h-6 w-6 items-center justify-center rounded bg-black p-1"
           ></Icon>
         )
         break
@@ -887,10 +863,7 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="google-pay"
-            className="
-              no-fill flex h-6 w-6 items-center justify-center rounded bg-white
-              p-1
-            "
+            className="no-fill flex h-6 w-6 items-center justify-center rounded bg-white p-1"
           ></Icon>
         )
         break
@@ -1014,15 +987,9 @@ const OrderPage = () => {
           }}
         />
       )}
-      <form className="
-        container mx-auto grid grid-cols-1 py-6
-        md:grid-cols-2 md:gap-x-12
-      ">
+      <form className="container mx-auto grid grid-cols-1 py-6 md:grid-cols-2 md:gap-x-12">
         <div className="flex flex-col gap-y-6">
-          <div className="
-            text-2xl font-semibold
-            md:text-3xl
-          ">{t('buy-page.personal-info')}</div>
+          <div className="text-2xl font-semibold md:text-3xl">{t('buy-page.personal-info')}</div>
           <div className="border-gray rounded-lg border p-6">
             <OrderPageEmail register={register} errors={errors} />
             {ticketTypesWithAdditionalProperties.some(
@@ -1050,9 +1017,7 @@ const OrderPage = () => {
                 </div>
                 {/* TODO errors everywhere, refactor */}
                 {priceQuery.error && (
-                  <div className="
-                    my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4
-                  ">
+                  <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                     <div>
                       {getErrorMessagesFromHttpRequest(
@@ -1065,9 +1030,7 @@ const OrderPage = () => {
                 )}
                 {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
                   getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
-                    <div className="
-                      my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4
-                    ">
+                    <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
                       <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                       <div>{t('buy-page.min-one-person')}</div>
                     </div>
@@ -1089,16 +1052,12 @@ const OrderPage = () => {
               label={
                 <span>
                   {t('buy-page.vop')}
-                  <Link to={ROUTES.VOP} target="_blank" className="
-                    link text-primary
-                  ">
+                  <Link to={ROUTES.VOP} target="_blank" className="link text-primary">
                     {t('buy-page.vop-link')}
                   </Link>
                   {/* TODO: hardcoded text will be will be fixed in other PR */}. Kúpou lístka alebo
                   permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
-                  <Link to={ROUTES.GDPR} target="_blank" className="
-                    link text-primary
-                  ">
+                  <Link to={ROUTES.GDPR} target="_blank" className="link text-primary">
                     podmienkami spracúvania osobných údajov
                   </Link>
                   .
@@ -1187,10 +1146,7 @@ const OrderPage = () => {
           </div>
           <div>
             {/* Desktop */}
-            <div className="
-              hidden flex-col gap-y-3
-              lg:flex
-            ">
+            <div className="hidden flex-col gap-y-3 lg:flex">
               <div className="flex flex-row gap-x-3">
                 <div className="w-full">{renderPayButton(PaymentMethod.APAY)}</div>
                 <div className="w-full">{renderPayButton(PaymentMethod.GPAY)}</div>
@@ -1199,33 +1155,18 @@ const OrderPage = () => {
             </div>
             {/* Mobile */}
             <div className="lg:hidden">
-              <div className="
-                hidden w-3/4
-                md:block
-              ">{renderPayButton(PaymentMethod.APAY)}</div>
-              <div className="
-                mt-3 hidden w-3/4
-                md:block
-              ">
+              <div className="hidden w-3/4 md:block">{renderPayButton(PaymentMethod.APAY)}</div>
+              <div className="mt-3 hidden w-3/4 md:block">
                 {renderPayButton(PaymentMethod.GPAY)}
               </div>
-              <div className="
-                mt-3 hidden w-3/4
-                md:block
-              ">
+              <div className="mt-3 hidden w-3/4 md:block">
                 {renderPayButton(PaymentMethod.CARD)}
               </div>
             </div>
           </div>
         </div>
-        <div className="
-          flex flex-col gap-y-4
-          lg:gap-y-6
-        ">
-          <span className="
-            text-2xl font-semibold
-            md:text-3xl
-          ">{t('buy-page.summary')}</span>
+        <div className="flex flex-col gap-y-4 lg:gap-y-6">
+          <span className="text-2xl font-semibold md:text-3xl">{t('buy-page.summary')}</span>
           {ticketTypesData.map((ticketTypeData) => {
             const ticketAmount = ticketTypeData.ticketAmount
 
@@ -1278,17 +1219,10 @@ const OrderPage = () => {
               />
             )
           })}
-          <div className="
-            flex flex-row rounded-lg border-divider bg-blueish px-4 py-4
-            text-fontBlack
-            lg:items-center lg:px-8
-          ">
+          <div className="flex flex-row rounded-lg border-divider bg-blueish px-4 py-4 text-fontBlack lg:items-center lg:px-8">
             <span className="grow font-semibold">{t('price-total')}</span>
             <div className="flex items-center justify-between gap-x-6">
-              <span className="
-                grow font-semibold
-                lg:w-[115px] lg:text-right lg:text-xl
-              ">
+              <span className="grow font-semibold lg:w-[115px] lg:text-right lg:text-xl">
                 <SkeletonTheme
                   baseColor="#a8dbf2"
                   highlightColor="#58bbe6"
@@ -1318,26 +1252,14 @@ const OrderPage = () => {
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
-        <div className="
-          mt-6
-          md:mt-8
-        ">
-          <div className="
-            block flex justify-center
-            md:hidden
-          ">
+        <div className="mt-6 md:mt-8">
+          <div className="block flex justify-center md:hidden">
             {renderPayButton(PaymentMethod.APAY)}
           </div>
-          <div className="
-            mt-3 block flex justify-center
-            md:hidden
-          ">
+          <div className="mt-3 block flex justify-center md:hidden">
             {renderPayButton(PaymentMethod.GPAY)}
           </div>
-          <div className="
-            mt-3 block flex justify-center
-            md:hidden
-          ">
+          <div className="mt-3 block flex justify-center md:hidden">
             {renderPayButton(PaymentMethod.CARD)}
           </div>
         </div>

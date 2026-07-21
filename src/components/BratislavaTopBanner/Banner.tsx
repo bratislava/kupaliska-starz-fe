@@ -11,11 +11,7 @@ const SocialMediaButton = ({
   children,
   paddingR = true,
 }: PropsWithChildren<{ paddingR?: boolean }>) => (
-  <button className={`
-    bg-transparent
-    ${paddingR ? 'p-2' : 'py-2 pl-2'}
-    focus:outline-none
-  `}>
+  <button className={`bg-transparent ${paddingR ? 'p-2' : 'py-2 pl-2'} focus:outline-none`}>
     {children}
   </button>
 )
@@ -35,10 +31,7 @@ const Banner = () => {
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
             <img className="pr-3" alt="" src="/logo-bratislava.svg" />
-            <span className="
-              hidden text-sm
-              md:block
-            ">
+            <span className="hidden text-sm md:block">
               Hlavné mesto SR <strong>Bratislava</strong>
             </span>
           </div>
@@ -48,10 +41,7 @@ const Banner = () => {
               href="https://www.facebook.com/STaRZ.Bratislava.official"
               target="_blank"
               rel="noreferrer"
-              className="
-                ml-10 hidden
-                md:block
-              "
+              className="ml-10 hidden md:block"
             >
               <Icon name="facebook-logo" />
             </a>

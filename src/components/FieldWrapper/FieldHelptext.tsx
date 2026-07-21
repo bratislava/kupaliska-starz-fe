@@ -19,11 +19,7 @@ const FieldHelptext = ({
     <div className="w-full">
       <div
         {...descriptionProps}
-        className="
-          text-p3
-          sm:text-16
-          mt-1 whitespace-pre-wrap text-gray-700
-        "
+        className="text-p3 sm:text-16 mt-1 whitespace-pre-wrap text-gray-700"
       >
         {helptext}
       </div>

@@ -2,7 +2,7 @@ import to from 'await-to-js'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 
 import { environment } from '../environment'
-import { cityAccountFrontendSSOUrl,UNAUTHORIZED_MESSAGE } from './cityAccountApi'
+import { cityAccountFrontendSSOUrl, UNAUTHORIZED_MESSAGE } from './cityAccountApi'
 import { validCityAccountPostMessageTypes } from './cityAccountDto'
 import logger from './logger'
 
@@ -11,7 +11,9 @@ import logger from './logger'
  * otherwise returns null
  */
 export const checkTokenValid = (token: string | null | undefined) => {
-  if (!token) {return null}
+  if (!token) {
+    return null
+  }
   let decodedToken = null
   try {
     decodedToken = jwtDecode<JwtPayload>(token)

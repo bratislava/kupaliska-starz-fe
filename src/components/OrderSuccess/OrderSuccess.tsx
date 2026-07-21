@@ -6,7 +6,9 @@ import Button from '../Button/Button'
 import { Icon, Typography } from '../index'
 import TicketsSwiper from './TicketsSwiper'
 
-interface OrderSuccessProps { response: FinalOrderResponse }
+interface OrderSuccessProps {
+  response: FinalOrderResponse
+}
 
 const OrderSuccess = ({ response }: OrderSuccessProps) => {
   const { tickets, pdf } = response
@@ -28,11 +30,7 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
 
   return (
     <div className="container mx-auto">
-      <div className="
-        mx-auto flex max-w-[1112px] flex-col items-center justify-between gap-8
-        py-8
-        md:flex-row
-      ">
+      <div className="mx-auto flex max-w-[1112px] flex-col items-center justify-between gap-8 py-8 md:flex-row">
         <div className="flex max-w-[592px] flex-col gap-6">
           <Typography type="title" fontWeight="medium">
             Ďakujeme za nákup!
@@ -60,13 +58,8 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
             </Button>
           </Link>
         </div>
-        <div className="
-          w-full max-w-[464px] rounded-2xl border-2 border-solid
-          border-[#D6D6D6]
-        ">
-          <div className="
-            border-b-2 border-solid border-[#D6D6D6] px-6 py-4 text-center
-          ">
+        <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-[#D6D6D6]">
+          <div className="border-b-2 border-solid border-[#D6D6D6] px-6 py-4 text-center">
             <Typography type="subtitle">
               {tickets.length > 1 ? 'Vaše lístky' : 'Váš lístok'}
             </Typography>

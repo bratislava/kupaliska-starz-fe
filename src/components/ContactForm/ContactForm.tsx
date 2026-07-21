@@ -47,7 +47,9 @@ const ContactForm = () => {
   })
 
   useTimeout(() => {
-    if (!isClient || captchaWarning === 'hide') {return}
+    if (!isClient || captchaWarning === 'hide') {
+      return
+    }
     setCaptchaWarning('show')
   }, 3000)
 
@@ -125,10 +127,7 @@ const ContactForm = () => {
                 // logger.warn("Turnstile expire - should refresh automatically");
                 onChange(null)
               }}
-              className="
-                mb-2
-                empty:hidden
-              "
+              className="mb-2 empty:hidden"
             />
             {captchaWarning === 'show' && (
               <p className="text-p3 italic">{t('landing.captcha-not-verified')}</p>

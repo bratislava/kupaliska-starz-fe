@@ -68,13 +68,18 @@ const InputField = ({
     'border-2-softGray text-fontBlack text-opacity-10': !error && !focused,
   })
 
-  const labelClasses = cx(newLabel ? 'mb-1 block font-semibold' : `
+  const labelClasses = cx(
+    newLabel
+      ? 'mb-1 block font-semibold'
+      : `
     mb-3 text-xl font-medium
-  `, {
-    'text-error': error !== undefined,
-    'text-primary': !error && focused,
-    'text-fontBlack': !error && !focused,
-  })
+  `,
+    {
+      'text-error': error !== undefined,
+      'text-primary': !error && focused,
+      'text-fontBlack': !error && !focused,
+    },
+  )
 
   return (
     <div className={twMerge('w-full flex-col', className)}>
@@ -84,15 +89,9 @@ const InputField = ({
         </div>
       )}
       <div
-        className={`
-          ${inputWrapperClasses}
-          rounded-lg border-2 border-solid bg-white transition-all duration-100
-          ${
+        className={` ${inputWrapperClasses} rounded-lg border-2 border-solid bg-white transition-all duration-100 ${
           thin ? '' : 'px-6 py-4'
-        }
-          flex flex-1 items-center
-          ${inputWrapperClassName}
-        `}
+        } flex flex-1 items-center ${inputWrapperClassName} `}
       >
         {!!leftExtra && leftExtra}
         <Input
@@ -101,11 +100,7 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`
-            h-full min-w-0 flex-1 font-normal
-            focus:outline-none
-            ${inputClasses}
-          `}
+          className={`h-full min-w-0 flex-1 font-normal focus:outline-none ${inputClasses} `}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(event: FocusEvent<HTMLTextAreaElement> | FocusEvent<HTMLInputElement>) => {

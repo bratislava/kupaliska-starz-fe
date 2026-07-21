@@ -3,7 +3,7 @@ import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
 import { SwimmingPoolResponse, TicketType } from 'models'
 import { RootState } from 'store'
 
-import { fetchPoolActions,initPageGlobalState } from './thunks'
+import { fetchPoolActions, initPageGlobalState } from './thunks'
 
 export interface GlobalState {
   availableTicketTypes: TicketType[]

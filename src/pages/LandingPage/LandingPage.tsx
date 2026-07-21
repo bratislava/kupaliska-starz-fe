@@ -43,12 +43,8 @@ const LandingPage = () => {
           {/* Prevent margin collapsing
            https://stackoverflow.com/a/33132624/2711737 */}
           <div className="h-[0.05px]" />
-          <section id="nakup-listka" className="
-            section flex flex-col items-center
-          ">
-            <SectionHeader title={t('landing.available-ticket')} className="
-              text-center
-            " />
+          <section id="nakup-listka" className="section flex flex-col items-center">
+            <SectionHeader title={t('landing.available-ticket')} className="text-center" />
             <HomepageTickets />
           </section>
         </div>
@@ -71,10 +67,7 @@ const LandingPage = () => {
           />
           <iframe
             src="https://static-pages.s3.bratislava.sk/sport-grounds-map/index.html?lang=sk"
-            className="
-              h-[80vh] max-h-[628px] min-h-[200px] w-full max-w-[1143px]
-              rounded-2xl border-2 border-primary
-            "
+            className="h-[80vh] max-h-[628px] min-h-[200px] w-full max-w-[1143px] rounded-2xl border-2 border-primary"
             title="Mapa kúpalísk"
             allow="geolocation; fullscreen"
           />
@@ -83,35 +76,21 @@ const LandingPage = () => {
       <section id="kontaktujte-nas" className="section">
         <SectionHeader title={t('landing.questions')} />
         <div className="grid grid-cols-4 gap-8">
-          <div className="
-            col-span-4
-            md:col-span-2
-          ">
+          <div className="col-span-4 md:col-span-2">
             <ContactForm />
           </div>
-          <div className="
-            col-span-2 hidden
-            md:block
-          ">
+          <div className="col-span-2 hidden md:block">
             <img
               src="/contact-form-image.svg"
               alt="decoration for contact form"
-              className="
-                mx-auto w-full
-                lg:w-8/10
-                xl:w-7/10
-              "
+              className="mx-auto w-full lg:w-8/10 xl:w-7/10"
             />
           </div>
         </div>
       </section>
       <section id="casto-kladene-otazky" className="section">
         <SectionHeader title={t('landing.faq')} className="text-center" />
-        <div className="
-          mx-auto grid w-full grid-cols-1 gap-y-4
-          md:w-8/10
-          xl:w-6/10
-        ">
+        <div className="mx-auto grid w-full grid-cols-1 gap-y-4 md:w-8/10 xl:w-6/10">
           {Object.keys(faqsn).map((faq, index) => (
             <div className="col-span-1" key={index}>
               <AccordionItem

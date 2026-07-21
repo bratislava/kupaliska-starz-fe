@@ -25,11 +25,10 @@ export const useOrder = () => {
         window.location.href = `${response.data.data.url}?${response.data.data.formurlencoded}`
 
         return
-      } 
-        dispatchErrorToast()
+      }
+      dispatchErrorToast()
 
-        return
-      
+      return
     }
 
     if (err?.response?.status === 400) {

@@ -50,14 +50,8 @@ const ProfilePageSwimmers = () => {
         ></ProfilePageDeleteAssociatedSwimmerModal>
       )}
 
-      <div className="
-        inline-flex flex-col rounded-lg bg-sunscreen
-        lg:col-span-5
-      ">
-        <div className="
-          flex flex-col gap-6 border-b-2 border-b-divider px-6 py-4
-          sm:flex-row
-        ">
+      <div className="inline-flex flex-col rounded-lg bg-sunscreen lg:col-span-5">
+        <div className="flex flex-col gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row">
           <div className="flex flex-1 flex-grow flex-col gap-1">
             <p className="text-xl font-semibold">Priradené osoby</p>
             <p>Pridajte do profilu osoby a zakúpte pre ne lístky a permanentky.</p>
@@ -83,9 +77,7 @@ const ProfilePageSwimmers = () => {
           >
             {data.data.associatedSwimmers.map((swimmer) => (
               <div
-                className="
-                  flex items-center gap-4 rounded-lg bg-backgroundGray px-4 py-3
-                "
+                className="flex items-center gap-4 rounded-lg bg-backgroundGray px-4 py-3"
                 key={swimmer.id}
               >
                 <Photo size="small" photo={swimmer.image} />
@@ -122,10 +114,7 @@ const ProfilePageSwimmers = () => {
               <>
                 <div className="flex flex-col items-center gap-3">
                   <div
-                    className="
-                      flex h-18 w-18 items-center justify-center rounded-full
-                      bg-primary bg-opacity-[0.08] text-primary
-                    "
+                    className="flex h-18 w-18 items-center justify-center rounded-full bg-primary bg-opacity-[0.08] text-primary"
                     aria-hidden
                   >
                     <Icon name="groups" className="no-fill" />

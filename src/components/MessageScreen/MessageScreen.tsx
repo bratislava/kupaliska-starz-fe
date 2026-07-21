@@ -20,24 +20,15 @@ const MessageScreen = ({
   children,
 }: PropsWithChildren<MessageScreenProps>) => {
   return (
-    <div className={`
-      grow
-      ${className}
-    `}>
-      <div className="
-        container mx-auto flex flex-1 flex-col py-8
-        xl:py-12
-      ">
+    <div className={`grow ${className} `}>
+      <div className="container mx-auto flex flex-1 flex-col py-8 xl:py-12">
         <SectionHeader title={title} />
         {description && (
           <Typography type="subtitle" className="mb-8">
             {description}
           </Typography>
         )}
-        {children && <div className="
-          mt-4
-          md:mt-8
-        ">{children}</div>}
+        {children && <div className="mt-4 md:mt-8">{children}</div>}
       </div>
     </div>
   )

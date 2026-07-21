@@ -56,9 +56,7 @@ const OrderPageSwimmersList = ({
       {swimmers.map((swimmer) => (
         <Fragment key={swimmer.id}>
           <Checkbox
-            className={cx(`
-              flex cursor-pointer items-center gap-4 rounded-lg px-4 py-3
-            `, {
+            className={cx(`flex cursor-pointer items-center gap-4 rounded-lg px-4 py-3`, {
               'bg-white': !isDisabledCheckbox(swimmer),
               'bg-inactive': isDisabledCheckbox(swimmer),
             })}
@@ -68,10 +66,7 @@ const OrderPageSwimmersList = ({
             isDisabled={isDisabledCheckbox(swimmer)}
           >
             <div
-              className="
-                h-14 w-12 shrink-0 rounded-lg bg-backgroundGray bg-cover
-                bg-center
-              "
+              className="h-14 w-12 shrink-0 rounded-lg bg-backgroundGray bg-cover bg-center"
               style={{
                 backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
               }}

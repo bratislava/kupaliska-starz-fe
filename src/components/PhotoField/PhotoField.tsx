@@ -80,10 +80,7 @@ const PhotoField = ({
 
   return (
     <div>
-      <div className="
-        flex flex-col gap-4
-        sm:flex-row
-      ">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <div className="sm:max-w-[132px]">
           <Photo
             photo={image}

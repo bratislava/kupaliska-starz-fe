@@ -7,7 +7,10 @@ import { CheckPriceResponse, OrderRequest } from 'models'
 
 import { CityAccountAccessTokenAuthenticationStatus } from '../../hooks/useCityAccount'
 
-export async function order(data: OrderRequest, authStatus: CityAccountAccessTokenAuthenticationStatus) {
+export async function order(
+  data: OrderRequest,
+  authStatus: CityAccountAccessTokenAuthenticationStatus,
+) {
   if (authStatus === 'authenticated') {
     return apiClientWithAccessToken.post('/api/v1/orders', data)
   }

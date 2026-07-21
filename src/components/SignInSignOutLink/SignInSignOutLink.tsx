@@ -53,15 +53,14 @@ const SignInSignOutLink = () => {
     // was here originally, might no longer be needed if we wait for auth before displaying the entire page, but will be useful when we stop doing that
     return null
   }
- 
-    return (
-      // TODO: fix eslint
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <a role="button" onClick={() => login()}>
-        {t('common.login')}
-      </a>
-    )
-  
+
+  return (
+    // TODO: fix eslint
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+    <a role="button" onClick={() => login()}>
+      {t('common.login')}
+    </a>
+  )
 }
 
 export default SignInSignOutLink

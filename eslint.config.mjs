@@ -1,10 +1,10 @@
-import { createReactConfig } from "@bratislava/eslint-config-react";
+import { createReactConfig } from '@bratislava/eslint-config-react'
 
 export default [
   ...createReactConfig(),
   {
     rules: {
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-    }
-  }
+    },
+  },
 ]
