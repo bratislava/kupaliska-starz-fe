@@ -6,7 +6,7 @@ import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/gene
 
 export const useErrorToast = () => {
   const dispatch = useAppDispatch()
-  const { refreshToken } = useCityAccountAccessToken()
+  const { refreshAccessToken } = useCityAccountAccessToken()
 
   const dispatchErrorToast = (message?: string) =>
     dispatch(
@@ -22,7 +22,7 @@ export const useErrorToast = () => {
   ) => {
     dispatchErrorToast(getErrorMessagesFromHttpRequest(error, defaultMessage))
     // if the error is because of expired access, refreshing solves the issue, if it's not it doesn't hurt
-    refreshToken()
+    refreshAccessToken()
   }
 
   return { dispatchErrorToast, dispatchErrorToastForHttpRequest }
