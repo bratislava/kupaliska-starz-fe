@@ -1,4 +1,4 @@
-import { prettierBase } from "@bratislava/eslint-config-react";
+import { prettierBase } from '@bratislava/eslint-config-react'
 
 export default {
   ...prettierBase,
@@ -6,4 +6,4 @@ export default {
   // plugins: ["prettier-plugin-tailwindcss"],
   // tailwindFunctions: ["clsx", "cn"],
   // project-specific:
-};
+}
