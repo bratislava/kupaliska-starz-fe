@@ -1,7 +1,7 @@
+import './MobileCarousel.css'
+
 import { ReactNode, useCallback, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
-
-import './MobileCarousel.css'
 
 interface MobileCarouselProps {
   children: ReactNode[]
@@ -28,7 +28,10 @@ const MobileCarousel = ({ children, className }: MobileCarouselProps) => {
   )
 
   return (
-    <div {...handlers} className={`overflow-x-hidden w-full relative ${className}`}>
+    <div {...handlers} className={`
+      relative w-full overflow-x-hidden
+      ${className}
+    `}>
       <div className="flex flex-row flex-nowrap">
         {children.map((child, index) => {
           let positionClassName = ''
@@ -43,10 +46,14 @@ const MobileCarousel = ({ children, className }: MobileCarouselProps) => {
           } else if (index > active + 1) {
             positionClassName = 'inactive-right absolute'
           }
+
           return (
             <div
               key={index}
-              className={`flex flex-col transition-all mx-auto p-4 ${positionClassName}`}
+              className={`
+                mx-auto flex flex-col p-4 transition-all
+                ${positionClassName}
+              `}
               style={{
                 width: '70vw',
               }}

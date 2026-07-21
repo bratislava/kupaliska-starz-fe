@@ -1,15 +1,16 @@
-import { Fragment, ReactNode, useMemo, useState } from 'react'
-import { Button, Icon, Modal, Spinner } from 'components'
-import { useTranslation } from 'react-i18next'
-import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
-import cx from 'classnames'
-import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
-import { useQuery } from 'react-query'
-import { partition } from 'lodash'
 import { AxiosError } from 'axios'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { ErrorWithMessages, isOneTimeTicket } from 'helpers/general'
+import cx from 'classnames'
+import { Button, Icon, Modal, Spinner } from 'components'
 import { FormatCurrencyFromCents } from 'helpers/currencyFormatter'
+import { ErrorWithMessages, isOneTimeTicket } from 'helpers/general'
+import { partition } from 'lodash'
+import { Fragment, ReactNode, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
+import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
@@ -19,7 +20,7 @@ const formatTime = (timestamp: number) =>
   })
 
 const TicketsManagementModal = ({
-  open = false,
+  open,
   onClose,
   ticket,
 }: {
@@ -43,12 +44,15 @@ const TicketsManagementModal = ({
       {ticket && (
         <>
           <div
-            className="hidden md:block p-10 text-primary w-screen"
+            className="
+              hidden w-screen p-10 text-primary
+              md:block
+            "
             style={{ maxWidth: '1000px' }}
           >
-            <div className="flex mb-5">
-              <div className="flex flex-col justify-between flex-1">
-                <div className="font-bold mt-4">{t('tickets.ticket-detail')}</div>
+            <div className="mb-5 flex">
+              <div className="flex flex-1 flex-col justify-between">
+                <div className="mt-4 font-bold">{t('tickets.ticket-detail')}</div>
                 <div className="flex justify-between">
                   <div className="mr-8">
                     {t('tickets.ticket-owner')}
@@ -72,14 +76,14 @@ const TicketsManagementModal = ({
                 <img alt="" src={ticket.qrCode} width={120} height={120} />
               </div>
             </div>
-            <div className="w-full h-0.5 bg-primary opacity-30 rounded"></div>
-            <table className="table-auto w-full">
+            <div className="h-0.5 w-full rounded bg-primary opacity-30"></div>
+            <table className="w-full table-auto">
               <thead>
-                <tr className="opacity-50 text-left">
-                  <th className="font-medium py-10">{t('tickets.place')}</th>
-                  <th className="font-medium py-10">{t('tickets.date')}</th>
-                  <th className="font-medium py-10">{t('tickets.time-in')}</th>
-                  <th className="font-medium py-10">{t('tickets.time-out')}</th>
+                <tr className="text-left opacity-50">
+                  <th className="py-10 font-medium">{t('tickets.place')}</th>
+                  <th className="py-10 font-medium">{t('tickets.date')}</th>
+                  <th className="py-10 font-medium">{t('tickets.time-in')}</th>
+                  <th className="py-10 font-medium">{t('tickets.time-out')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -100,9 +104,12 @@ const TicketsManagementModal = ({
               </tbody>
             </table>
           </div>
-          <div className="md:hidden text-primary h-full mb-5">
-            <div className="pt-8 px-6 pb-5 bg-blueish rounded-t-lg">
-              <div className="pb-4 font-bold text-xl">{t('tickets.ticket-detail')}</div>
+          <div className="
+            mb-5 h-full text-primary
+            md:hidden
+          ">
+            <div className="rounded-t-lg bg-blueish px-6 pb-5 pt-8">
+              <div className="pb-4 text-xl font-bold">{t('tickets.ticket-detail')}</div>
               <div className="pb-3">
                 {t('tickets.ticket-owner')}
                 <span className="font-semibold">{ticket.ownerName}</span>
@@ -120,7 +127,7 @@ const TicketsManagementModal = ({
                 </div>
               )}
             </div>
-            <div className="h-0.5 bg-primary opacity-30 rounded mx-6"></div>
+            <div className="mx-6 h-0.5 rounded bg-primary opacity-30"></div>
             <div className="px-6 py-4">
               {ticket.entries.length === 0 && 'Pre zobrazený lístok neexistujú žiadne návštevy.'}
               {ticket.entries.map((entry, index) => (
@@ -143,7 +150,7 @@ const TicketsManagementModal = ({
                       <div>{entry.to && formatTime(entry.to)}</div>
                     </div>
                   </div>
-                  <div className="h-0.5 bg-primary opacity-30 rounded my-4"></div>
+                  <div className="my-4 h-0.5 rounded bg-primary opacity-30"></div>
                 </Fragment>
               ))}
             </div>
@@ -184,20 +191,24 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
 
   return (
     <div
-      className={`flex p-6 mb-6 items-center flex-col rounded-lg shadow-xs overflow-auto ${textClass} ${backgroundClass}`}
+      className={`
+        mb-6 flex flex-col items-center overflow-auto rounded-lg p-6 shadow-xs
+        ${textClass}
+        ${backgroundClass}
+      `}
     >
-      <span className="font-bold text-2xl mb-1">STARZ</span>
+      <span className="mb-1 text-2xl font-bold">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
-      <span className="font-semibold mb-3 text-xl text-center">{ticket.type}</span>
-      <span className="text-center mb-6">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
+      <span className="mb-3 text-center text-xl font-semibold">{ticket.type}</span>
+      <span className="mb-6 text-center">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
       <div className="flex justify-center">
         <Button
           color={buttonColor}
-          className="absolute shadow-xs bg-sunscreen"
+          className="absolute bg-sunscreen shadow-xs"
           onClick={onDetailClick}
         >
           {t('tickets.ticket-button')}
-          <Icon className="ml-4 no-fill" name="arrow-right" />
+          <Icon className="no-fill ml-4" name="arrow-right" />
         </Button>
       </div>
     </div>
@@ -212,17 +223,21 @@ interface TableProps {
 
 const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
   return (
-    <table className="table-auto w-full hidden md:table" style={{ borderSpacing: '10px' }}>
+    <table className="
+      hidden w-full table-auto
+      md:table
+    " style={{ borderSpacing: '10px' }}>
       <thead>
         <tr>
           {headers.map((header, index) => {
             const first = index === 0
             const last = index === headers.length - 1
+
             return (
               <th
                 key={index}
                 className={cx('py-4', {
-                  'text-left pl-10': first,
+                  'pl-10 text-left': first,
                   'pr-10': last,
                 })}
               >
@@ -235,7 +250,10 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
       <tbody>
         {rows.map((row, rowIndex) => (
           <Fragment key={rowIndex}>
-            <tr className={`${rowBackgroundClass} px-10 py-5 shadow-xs rounded-lg`}>
+            <tr className={`
+              ${rowBackgroundClass}
+              rounded-lg px-10 py-5 shadow-xs
+            `}>
               {row.map((column, columnIndex) => {
                 const first = columnIndex === 0
                 const last = columnIndex === row.length - 1
@@ -272,27 +290,29 @@ const UsedTicket = ({
   const { t } = useTranslation()
 
   return (
-    <div className="flex px-8 py-6 mb-6 flex-col rounded-lg shadow-xs bg-sunscreen">
+    <div className="
+      mb-6 flex flex-col rounded-lg bg-sunscreen px-8 py-6 shadow-xs
+    ">
       <div className="flex flex-col pb-6">
         <span>{t('tickets.ticket-type')}</span>
-        <span className="font-semibold text-xl">{ticket.type}</span>
+        <span className="text-xl font-semibold">{ticket.type}</span>
       </div>
       <div className="flex flex-col pb-6">
         <span>{t('tickets.entry-date')}</span>
-        <span className="font-semibold text-xl">
+        <span className="text-xl font-semibold">
           {ticket.entries[0] && ticket.entries[0].from && formatDate(ticket.entries[0].from)}
         </span>
       </div>
       <div className="flex flex-col pb-6">
         <span>{t('tickets.price')}</span>
-        <span className="font-semibold text-xl">
+        <span className="text-xl font-semibold">
           <FormatCurrencyFromCents value={ticket.priceWithVat} />
         </span>
       </div>
       <div className="flex justify-center">
         <Button color="blueish" className="absolute shadow-xs" onClick={onDetailClick}>
           {t('tickets.more-info')}
-          <Icon className="ml-4 no-fill" name="arrow-right" />
+          <Icon className="no-fill ml-4" name="arrow-right" />
         </Button>
       </div>
     </div>
@@ -329,7 +349,7 @@ const TicketsManagementPage = () => {
       <a
         role="button"
         onClick={() => setOpenedTicketDetail(ticket)}
-        className="underline text-primary font-semibold"
+        className="font-semibold text-primary underline"
       >
         {t('tickets.more-info')}
       </a>,
@@ -337,6 +357,7 @@ const TicketsManagementPage = () => {
 
     const usedTicketsRows = usedTickets.map((ticket) => {
       const lastEntry = ticket.entries[0]
+
       return [
         ticket.type,
         lastEntry?.from && formatDate(lastEntry.from),
@@ -345,7 +366,7 @@ const TicketsManagementPage = () => {
         <a
           role="button"
           onClick={() => setOpenedTicketDetail(ticket)}
-          className="underline text-primary font-semibold"
+          className="font-semibold text-primary underline"
         >
           {t('tickets.more-info')}
         </a>,
@@ -390,7 +411,10 @@ const TicketsManagementPage = () => {
             {dataMapped.hasActiveTickets && (
               <>
                 <div className="container mx-auto">
-                  <div className="text-center pb-2 md:pb-6 md:mt-14 mt-10 text-xl md:text-2xl font-semibold">
+                  <div className="
+                    mt-10 pb-2 text-center text-xl font-semibold
+                    md:mt-14 md:pb-6 md:text-2xl
+                  ">
                     {t('tickets.active')}
                   </div>
                   <Table
@@ -405,7 +429,10 @@ const TicketsManagementPage = () => {
                   ></Table>
                 </div>
                 {/* Carousel cannot be in container. */}
-                <MobileCarousel className="md:hidden mb-10">
+                <MobileCarousel className="
+                  mb-10
+                  md:hidden
+                ">
                   {dataMapped.activeTickets.map((ticket, index) => (
                     <Ticket
                       key={index}
@@ -420,9 +447,12 @@ const TicketsManagementPage = () => {
               <>
                 <div className="container mx-auto">
                   <div
-                    className={cx('text-center pb-2 md:pb-6 text-xl md:text-2xl font-semibold', {
-                      'md:mt-24 mt-14': dataMapped.hasActiveTickets,
-                      'md:mt-14 mt-10': !dataMapped.hasActiveTickets,
+                    className={cx(`
+                      pb-2 text-center text-xl font-semibold
+                      md:pb-6 md:text-2xl
+                    `, {
+                      'mt-14 md:mt-24': dataMapped.hasActiveTickets,
+                      'mt-10 md:mt-14': !dataMapped.hasActiveTickets,
                     })}
                   >
                     {t('tickets.inactive')}
@@ -440,7 +470,10 @@ const TicketsManagementPage = () => {
                   ></Table>
                 </div>
                 {/* Carousel cannot be in container. */}
-                <MobileCarousel className="md:hidden mb-10">
+                <MobileCarousel className="
+                  mb-10
+                  md:hidden
+                ">
                   {dataMapped.usedTickets.map((ticket, index) => (
                     <UsedTicket
                       key={index}
@@ -453,8 +486,14 @@ const TicketsManagementPage = () => {
             )}
 
             {!dataMapped.hasTickets && (
-              <div className="container mx-auto flex items-center mt-8 md:mt-20 flex-col md:flex-row">
-                <div className="grow text-xl md:text-3xl font-bold md:min-w-5/10 mb-8 md:mb-0">
+              <div className="
+                container mx-auto mt-8 flex flex-col items-center
+                md:mt-20 md:flex-row
+              ">
+                <div className="
+                  mb-8 grow text-xl font-bold
+                  md:mb-0 md:min-w-5/10 md:text-3xl
+                ">
                   {t('tickets.no-tickets')}
                 </div>
                 <div className="shrink">

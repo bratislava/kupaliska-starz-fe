@@ -20,6 +20,7 @@ export const getAccount = async (accessToken: string) => {
       throw new Error('Error fetching account')
     }
   }
+
   return result.json() as Partial<CityAccountUser>
 }
 

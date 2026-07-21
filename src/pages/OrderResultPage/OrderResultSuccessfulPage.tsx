@@ -1,14 +1,15 @@
-import { useEffect } from 'react'
-import { getFinalOrder } from '../../store/order/api'
-import { useQuery } from 'react-query'
-import { useNavigate, useLocation } from 'react-router'
 import OrderSuccess from 'components/OrderSuccess/OrderSuccess'
-import qs from 'qs'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { Spinner } from '../../components'
 import { ROUTES } from 'helpers/constants'
+import qs from 'qs'
+import { useEffect } from 'react'
+import { useQuery } from 'react-query'
+import { useLocation,useNavigate } from 'react-router'
 
-type Params = {
+import { Spinner } from '../../components'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { getFinalOrder } from '../../store/order/api'
+
+interface Params {
   success?: string
   orderId?: string
   orderAccessToken?: string
@@ -22,7 +23,7 @@ const OrderResultPage = () => {
   const params = qs.parse(location.search.substring(1)) as Params
   const query = useQuery(
     ['FinalOrder', params],
-    () => getFinalOrder(params.orderId!, params.orderAccessToken!),
+    async () => getFinalOrder(params.orderId!, params.orderAccessToken!),
     { staleTime: Infinity, onError: () => dispatchErrorToast() },
   )
 
@@ -33,7 +34,7 @@ const OrderResultPage = () => {
   }, [params, navigate])
 
   return (
-    <div className="bg-sunscreen grow">
+    <div className="grow bg-sunscreen">
       {query.isLoading && (
         <div className="flex items-center justify-center py-8">
           <Spinner />

@@ -1,14 +1,22 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
-import { Button as AriaButton } from 'react-aria-components'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import { useQuery, useQueryClient } from 'react-query'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { Trans, useTranslation } from 'react-i18next'
-import { CheckPriceResponse, TicketType } from '../../models'
-import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
+import './OrderPage.css'
+
+import { yupResolver } from '@hookform/resolvers/yup'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
+import { AccountType } from 'helpers/cityAccountDto'
+import { ROUTES } from 'helpers/constants'
+import {
+  ErrorWithMessages,
+  getErrorMessagesFromHttpRequest,
+  useValidationSchemaTranslationIfPresent,
+} from 'helpers/general'
+import { isDefined } from 'helpers/helper'
+import logger from 'helpers/logger'
+import { PaymentMethod } from 'helpers/types'
+import { useAccount } from 'hooks/useAccount'
+import useCityAccount from 'hooks/useCityAccount'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { Button as AriaButton } from 'react-aria-components'
 import {
   Controller,
   FieldErrors,
@@ -18,41 +26,35 @@ import {
   UseFormWatch,
   useWatch,
 } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { UseFormRegister } from 'react-hook-form/dist/types/form'
+import { Trans, useTranslation } from 'react-i18next'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import { useQuery, useQueryClient } from 'react-query'
+import { Link } from 'react-router'
+import Turnstile from 'react-turnstile'
+import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
-import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
-import { fetchUser } from '../../store/user/api'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import './OrderPage.css'
-import { Link } from 'react-router'
-import { useOrder } from './useOrder'
-import { orderFormToRequests } from './formDataToRequests'
-import { UseFormRegister } from 'react-hook-form/dist/types/form'
-import { environment } from '../../environment'
-import {
-  ErrorWithMessages,
-  getErrorMessagesFromHttpRequest,
-  useValidationSchemaTranslationIfPresent,
-} from 'helpers/general'
+
+import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
 import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
-import Turnstile from 'react-turnstile'
-import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
-import { useAccount } from 'hooks/useAccount'
-import useCityAccount from 'hooks/useCityAccount'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
+import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
+import { environment } from '../../environment'
 import {
   FormatCurrencyFromCents,
   useCurrencyFromCentsFormatter,
 } from '../../helpers/currencyFormatter'
-import { useOrderPageTicket } from './useOrderPageTicket'
-import logger from 'helpers/logger'
-import { AccountType } from 'helpers/cityAccountDto'
-import { ROUTES } from 'helpers/constants'
-import { PaymentMethod } from 'helpers/types'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { CheckPriceResponse, TicketType } from '../../models'
+import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
+import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
+import { fetchUser } from '../../store/user/api'
+import { orderFormToRequests } from './formDataToRequests'
 import PayButton from './PayButton'
-import { isDefined } from 'helpers/helper'
+import { useOrder } from './useOrder'
+import { useOrderPageTicket } from './useOrderPageTicket'
 
 type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
 
@@ -71,15 +73,15 @@ const OrderPageEmail = ({
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
-  let errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
+  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
   return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
     <InputField
-      className="flex-col gap-y-2 flex"
+      className="flex flex-col gap-y-2"
       name="email"
       register={register}
       // TODO redo InputField styles
-      label={<span className="font-semibold text-base">{t('common.email')}</span>}
+      label={<span className="text-base font-semibold">{t('common.email')}</span>}
       error={errorInterpreted}
     />
   ) : (
@@ -103,29 +105,38 @@ const OrderPageOptionalFields = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="
+        grid grid-cols-1 gap-4
+        lg:grid-cols-2
+      ">
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
+          className="
+            col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2
+            lg:col-span-1
+          "
           name="age"
           register={register}
-          error={errors.age?.message ? t(`${errors.age?.message}`) : undefined}
+          error={errors.age?.message ? t(errors.age?.message) : undefined}
           type="number"
           valueAsNumber={true}
           label={
             <>
-              <span className="font-semibold text-base">{t('buy-page.age')}</span>
+              <span className="text-base font-semibold">{t('buy-page.age')}</span>
               <span className="text-base">{t('buy-page.optional')}</span>
             </>
           }
         />
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax flex-col gap-y-2 flex"
+          className="
+            col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2
+            lg:col-span-1
+          "
           name="zip"
           register={register}
           error={errors.zip?.message}
           label={
             <>
-              <span className="font-semibold text-base">{t('buy-page.zip')}</span>
+              <span className="text-base font-semibold">{t('buy-page.zip')}</span>
               <span className="text-base">{t('buy-page.optional')}</span>
             </>
           }
@@ -286,13 +297,15 @@ const OrderPagePeopleList = ({
       )}
       {/* TODO errors everywhere, refactor */}
       {shouldDisplayMissingInformationWarning && (
-        <div className="flex py-4 px-5 bg-error rounded-lg gap-x-3 my-6 text-white">
+        <div className="
+          my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white
+        ">
           <Icon name="warning" className="no-fill text-white"></Icon>
           <div>
             Pre kúpu permanentky je potrebné doplniť fotografiu a dátum narodenia.{' '}
             <AriaButton
               onPress={() => setMissingInformationModalOpen(true)}
-              className="underline font-semibold"
+              className="font-semibold underline"
             >
               Doplniť povinné údaje
             </AriaButton>
@@ -315,7 +328,7 @@ const OrderPagePeopleList = ({
           ),
       )}
 
-      <div className="text-error px-2 text-sm">
+      <div className="px-2 text-sm text-error">
         {errors.ticketTypesData
           ?.map((field) => field.selectedSwimmerIds?.map((field) => field.message))
           .join('/n')}
@@ -352,15 +365,14 @@ const OrderPageDiscountCode = ({
   }
 
   return (
-    <div className="flex-col gap-y-6 flex">
+    <div className="flex flex-col gap-y-6">
       <CheckboxField
         valueOfInput={useDiscountCode}
         onChange={handleUseDiscountCodeChange}
         label={t('buy-page.claim-code')}
       />
       {useDiscountCode && (
-        <>
-          <OrderPageDiscountCodeInput
+        <OrderPageDiscountCodeInput
             captchaWarning={captchaWarning}
             setCaptchaWarning={setCaptchaWarning}
             setValue={setValue}
@@ -368,7 +380,6 @@ const OrderPageDiscountCode = ({
             incrementCaptchaKey={incrementCaptchaKey}
             errors={errors}
           />
-        </>
       )}
     </div>
   )
@@ -409,6 +420,7 @@ const OrderPageDiscountCodeInput = ({
     }
     if (!getValues('recaptchaToken')) {
       setCaptchaWarning('show')
+
       return
     }
     setStatus(OrderPageDiscountCodeInputStatus.None)
@@ -423,6 +435,7 @@ const OrderPageDiscountCodeInput = ({
     if (response) {
       setValue('discountCode', response.data.discountCode)
       setStatus(OrderPageDiscountCodeInputStatus.Success)
+
       return
     }
     const errorStatus = error?.response?.status
@@ -435,7 +448,10 @@ const OrderPageDiscountCodeInput = ({
 
   return (
     <div>
-      <div className="flex-col lg:flex-row gap-x-4 flex gap-y-4 lg:gap-y-0 items-center">
+      <div className="
+        flex flex-col items-center gap-x-4 gap-y-4
+        lg:flex-row lg:gap-y-0
+      ">
         {/* TODO doesn't look good on desktop when error is present */}
         <InputField
           value={discountCode}
@@ -467,6 +483,7 @@ const validationSchema = yup.object({
     if (requireEmail) {
       return schema.email('buy-page.email-required').required('buy-page.email-required')
     }
+
     return schema
   }),
   // TODO improve error message when max ticket purchase limit is exceeded
@@ -506,6 +523,7 @@ const validationSchema = yup.object({
         if (isSeniorOrDisabledTicket) {
           return schema.isTrue('buy-page.senior-agreement-required')
         }
+
         return schema
       },
     ),
@@ -521,6 +539,7 @@ const validationSchema = yup.object({
           .max(150, 'common.additional-info-tutanchamon')
           .transform((val) => (isNaN(val) ? null : val))
       }
+
       return schema
     }),
   zip: yup
@@ -529,6 +548,7 @@ const validationSchema = yup.object({
       if (hasOptionalFields) {
         return schema.optional().nullable(true)
       }
+
       return schema
     }),
   recaptchaToken: yup.string().required('landing.captcha-warning-required'),
@@ -558,7 +578,7 @@ const OrderPageSummary = ({
     <div className="rounded-lg bg-sunscreen">
       <div className="p-8">
         <div className="flex flex-row justify-between">
-          <div className="font-semibold text-2xl">
+          <div className="text-2xl font-semibold">
             {hasTicketAmount && `${ticketAmount}× `}
             {ticketType.name}
           </div>
@@ -601,11 +621,17 @@ const OrderPageSummary = ({
           </>
         )}
       </div>
-      <div className="flex bg-blueish px-4 lg:px-8 py-4 rounded-b-lg items-center flex justify-between">
+      <div className="
+        flex items-center justify-between rounded-b-lg bg-blueish px-4 py-4
+        lg:px-8
+      ">
         {hasTicketAmount && (
-          <div className="border-primary border-solid rounded-lg border px-6 py-2 mr-8 text-primary shrink-0 flex items-center gap-x-2">
+          <div className="
+            mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border
+            border-solid border-primary px-6 py-2 text-primary
+          ">
             <button
-              className="leading-5 text-3xl align-top"
+              className="align-top text-3xl leading-5"
               onClick={handleMinusClick}
               type="button"
             >
@@ -622,7 +648,7 @@ const OrderPageSummary = ({
               inputWrapperClassName="lg:w-full"
             />
             <button
-              className="leading-5 text-3xl align-top"
+              className="align-top text-3xl leading-5"
               onClick={handlePlusClick}
               type="button"
             >
@@ -631,7 +657,10 @@ const OrderPageSummary = ({
           </div>
         )}
         <div className="flex flex-nowrap">
-          <span className="lg:text-xl text-fontBlack font-bold">
+          <span className="
+            font-bold text-fontBlack
+            lg:text-xl
+          ">
             <FormatCurrencyFromCents value={ticketType.priceWithVat} />
           </span>
           <span>{t('common.per-ticket')}</span>
@@ -665,7 +694,7 @@ const OrderPageSummary = ({
 const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
   const fullPrice =
     pricing.discount > 0 ? (
-      <div className="inline-block strikethrough-diagonal mr-2">
+      <div className="strikethrough-diagonal mr-2 inline-block">
         <FormatCurrencyFromCents value={pricing.orderPriceWithVat + pricing.discount} />
       </div>
     ) : null
@@ -674,6 +703,7 @@ const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pric
       <FormatCurrencyFromCents value={pricing.orderPriceWithVat} />
     </div>
   )
+
   return (
     <>
       {fullPrice}
@@ -766,6 +796,7 @@ const OrderPage = () => {
             ticketTypesWithAdditionalProperties.find(
               (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
             )!
+
           return {
             ...ticketTypeData,
             requireEmail,
@@ -780,7 +811,7 @@ const OrderPage = () => {
 
   const priceQuery = useQuery(
     ['orderPrice', ticketTypesData],
-    ({ signal }) => {
+    async ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
       logger.info(getPriceRequest)
       return getPrice(getPriceRequest, status, signal)
@@ -808,7 +839,7 @@ const OrderPage = () => {
   }, [watchPriceChange, account, ticketTypesData])
 
   useTimeout(() => {
-    if (!isClient || captchaWarning === 'hide') return
+    if (!isClient || captchaWarning === 'hide') {return}
     setCaptchaWarning('show')
   }, 10000)
 
@@ -848,7 +879,10 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="apple-pay"
-            className="no-fill flex items-center justify-center rounded p-1 bg-black h-6 w-6"
+            className="
+              no-fill flex h-6 w-6 items-center justify-center rounded bg-black
+              p-1
+            "
           ></Icon>
         )
         break
@@ -856,14 +890,17 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="google-pay"
-            className="no-fill flex items-center justify-center rounded p-1 bg-white h-6 w-6"
+            className="
+              no-fill flex h-6 w-6 items-center justify-center rounded bg-white
+              p-1
+            "
           ></Icon>
         )
         break
       case PaymentMethod.CARD:
         icon = (
           <Icon
-            className="flex items-center justify-center rounded p-1 h-6 w-6"
+            className="flex h-6 w-6 items-center justify-center rounded p-1"
             name="credit-card"
           />
         )
@@ -871,7 +908,7 @@ const OrderPage = () => {
       default:
         icon = (
           <Icon
-            className="flex items-center justify-center rounded p-1 h-6 w-6"
+            className="flex h-6 w-6 items-center justify-center rounded p-1"
             name="credit-card"
           />
         )
@@ -905,7 +942,7 @@ const OrderPage = () => {
     }
 
     const handleSubmitWithErrorHandling = handleSubmit(
-      () => onSubmit(paymentMethod),
+      async () => onSubmit(paymentMethod),
       (err) => {
         logger.error(`OrderPage "order" Request error: ${err}`)
       },
@@ -962,7 +999,7 @@ const OrderPage = () => {
   }
 
   const Divider = () => {
-    return <div className="border-b-solid border-b-2 my-6" />
+    return <div className="border-b-solid my-6 border-b-2" />
   }
 
   return (
@@ -980,10 +1017,16 @@ const OrderPage = () => {
           }}
         />
       )}
-      <form className="container mx-auto py-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-12">
-        <div className="gap-y-6 flex flex-col">
-          <div className="text-2xl md:text-3xl font-semibold">{t('buy-page.personal-info')}</div>
-          <div className="p-6 border border-gray rounded-lg">
+      <form className="
+        container mx-auto grid grid-cols-1 py-6
+        md:grid-cols-2 md:gap-x-12
+      ">
+        <div className="flex flex-col gap-y-6">
+          <div className="
+            text-2xl font-semibold
+            md:text-3xl
+          ">{t('buy-page.personal-info')}</div>
+          <div className="border-gray rounded-lg border p-6">
             <OrderPageEmail register={register} errors={errors} />
             {ticketTypesWithAdditionalProperties.some(
               (ticketType) => ticketType.hasOptionalFields,
@@ -1010,7 +1053,9 @@ const OrderPage = () => {
                 </div>
                 {/* TODO errors everywhere, refactor */}
                 {priceQuery.error && (
-                  <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+                  <div className="
+                    my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4
+                  ">
                     <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                     <div>
                       {getErrorMessagesFromHttpRequest(
@@ -1023,7 +1068,9 @@ const OrderPage = () => {
                 )}
                 {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
                   getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
-                    <div className="flex py-4 px-5 bg-[#FCF2E6] rounded-lg gap-x-3 my-6">
+                    <div className="
+                      my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4
+                    ">
                       <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
                       <div>{t('buy-page.min-one-person')}</div>
                     </div>
@@ -1045,12 +1092,16 @@ const OrderPage = () => {
               label={
                 <span>
                   {t('buy-page.vop')}
-                  <Link to={ROUTES.VOP} target="_blank" className="link text-primary">
+                  <Link to={ROUTES.VOP} target="_blank" className="
+                    link text-primary
+                  ">
                     {t('buy-page.vop-link')}
                   </Link>
                   {/* TODO: hardcoded text will be will be fixed in other PR */}. Kúpou lístka alebo
                   permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
-                  <Link to={ROUTES.GDPR} target="_blank" className="link text-primary ">
+                  <Link to={ROUTES.GDPR} target="_blank" className="
+                    link text-primary
+                  ">
                     podmienkami spracúvania osobných údajov
                   </Link>
                   .
@@ -1111,6 +1162,7 @@ const OrderPage = () => {
                     onError={(error) => {
                       // logger.error("Turnstile error:", error);
                       setCaptchaWarning('show')
+
                       return onChange(null)
                     }}
                     onTimeout={() => {
@@ -1122,7 +1174,7 @@ const OrderPage = () => {
                       // logger.warn("Turnstile expire - should refresh automatically");
                       onChange(null)
                     }}
-                    className="self-center flex justify-center"
+                    className="flex justify-center self-center"
                   />
                   {errors.recaptchaToken && (
                     <p className="text-p3 mt-1 text-error">
@@ -1138,7 +1190,10 @@ const OrderPage = () => {
           </div>
           <div>
             {/* Desktop */}
-            <div className="hidden lg:flex flex-col gap-y-3">
+            <div className="
+              hidden flex-col gap-y-3
+              lg:flex
+            ">
               <div className="flex flex-row gap-x-3">
                 <div className="w-full">{renderPayButton(PaymentMethod.APAY)}</div>
                 <div className="w-full">{renderPayButton(PaymentMethod.GPAY)}</div>
@@ -1147,18 +1202,33 @@ const OrderPage = () => {
             </div>
             {/* Mobile */}
             <div className="lg:hidden">
-              <div className="hidden md:block w-3/4">{renderPayButton(PaymentMethod.APAY)}</div>
-              <div className="hidden md:block mt-3 w-3/4">
+              <div className="
+                hidden w-3/4
+                md:block
+              ">{renderPayButton(PaymentMethod.APAY)}</div>
+              <div className="
+                mt-3 hidden w-3/4
+                md:block
+              ">
                 {renderPayButton(PaymentMethod.GPAY)}
               </div>
-              <div className="hidden md:block mt-3 w-3/4">
+              <div className="
+                mt-3 hidden w-3/4
+                md:block
+              ">
                 {renderPayButton(PaymentMethod.CARD)}
               </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-4 lg:gap-y-6">
-          <span className="text-2xl md:text-3xl font-semibold">{t('buy-page.summary')}</span>
+        <div className="
+          flex flex-col gap-y-4
+          lg:gap-y-6
+        ">
+          <span className="
+            text-2xl font-semibold
+            md:text-3xl
+          ">{t('buy-page.summary')}</span>
           {ticketTypesData.map((ticketTypeData) => {
             const ticketAmount = ticketTypeData.ticketAmount
 
@@ -1211,10 +1281,17 @@ const OrderPage = () => {
               />
             )
           })}
-          <div className="px-4 lg:px-8 py-4 bg-blueish flex flex-row lg:items-center rounded-lg border-divider text-fontBlack">
+          <div className="
+            flex flex-row rounded-lg border-divider bg-blueish px-4 py-4
+            text-fontBlack
+            lg:items-center lg:px-8
+          ">
             <span className="grow font-semibold">{t('price-total')}</span>
             <div className="flex items-center justify-between gap-x-6">
-              <span className="lg:w-[115px] lg:text-right grow font-semibold lg:text-xl">
+              <span className="
+                grow font-semibold
+                lg:w-[115px] lg:text-right lg:text-xl
+              ">
                 <SkeletonTheme
                   baseColor="#a8dbf2"
                   highlightColor="#58bbe6"
@@ -1244,14 +1321,26 @@ const OrderPage = () => {
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
-        <div className="mt-6 md:mt-8">
-          <div className="block md:hidden flex justify-center">
+        <div className="
+          mt-6
+          md:mt-8
+        ">
+          <div className="
+            block flex justify-center
+            md:hidden
+          ">
             {renderPayButton(PaymentMethod.APAY)}
           </div>
-          <div className="block md:hidden flex justify-center mt-3">
+          <div className="
+            mt-3 block flex justify-center
+            md:hidden
+          ">
             {renderPayButton(PaymentMethod.GPAY)}
           </div>
-          <div className="block md:hidden flex justify-center mt-3">
+          <div className="
+            mt-3 block flex justify-center
+            md:hidden
+          ">
             {renderPayButton(PaymentMethod.CARD)}
           </div>
         </div>
@@ -1275,7 +1364,7 @@ export interface OrderFormData {
   recaptchaToken?: string
 }
 
-type CartItem = {
+interface CartItem {
   ticketType: TicketType
   ticketAmount?: number
   selectedSwimmerIds?: (string | null)[]

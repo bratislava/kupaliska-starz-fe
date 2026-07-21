@@ -1,6 +1,6 @@
-import { SectionHeader, Typography } from 'components'
-
 import './GDPRPage.css'
+
+import { SectionHeader, Typography } from 'components'
 import { Trans, useTranslation } from 'react-i18next'
 import Markdown from 'react-markdown'
 const GDPRPage = () => {
@@ -96,7 +96,10 @@ Tel.: +42(2) 443 373 27
   Tieto zásady ochrany osobných údajov nadobúdajú platnosť dňa 31.05.2025. Vyhradzujeme si právo tieto zásady zmeniť, ak dôjde k zmene spracúvania osobných údajov v našej organizácii.`
 
   return (
-    <main className="container mx-auto mt-8 xl:mt-12">
+    <main className="
+      container mx-auto mt-8
+      xl:mt-12
+    ">
       <SectionHeader title={t('gdpr.title')} />
       {/* <Trans
         i18nKey={`gdpr.main-text`}

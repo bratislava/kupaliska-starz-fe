@@ -1,21 +1,22 @@
-import { useMemo, useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import { useAppSelector } from '../../hooks'
-import { selectAvailableTicketTypes } from '../../store/global'
-import { TicketType } from '../../models'
-import { Button, Icon, InputField } from '../index'
 import cx from 'classnames'
-import { useLogin } from '../../hooks/useLogin'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
-import useCityAccountAccessToken from 'hooks/useCityAccount'
-import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { ROUTES } from 'helpers/constants'
 import logger from 'helpers/logger'
-import { environment } from '../../environment'
-import { getPrice } from 'store/order/api'
+import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router'
+import { getPrice } from 'store/order/api'
+
+import { environment } from '../../environment'
+import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
+import { useAppSelector } from '../../hooks'
+import { useLogin } from '../../hooks/useLogin'
+import { TicketType } from '../../models'
+import { selectAvailableTicketTypes } from '../../store/global'
+import { Button, Icon, InputField } from '../index'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(
@@ -117,6 +118,7 @@ const HomepageTickets = () => {
       if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
         return prev
       }
+
       return prev.map((ticketTypeDataInner) => {
         return ticketTypeDataInner.ticketTypeId === ticketType.id
           ? { ...ticketTypeDataInner, ticketAmount }
@@ -135,7 +137,10 @@ const HomepageTickets = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-8 lg:gap-10">
+      <div className="
+        flex flex-col gap-8
+        lg:gap-10
+      ">
         {[
           {
             name: 'Jednorazové lístky',
@@ -164,8 +169,11 @@ const HomepageTickets = () => {
         ].map(({ name, description, descriptionFooter, ticketTypes, isCartable }, index) => (
           <div key={index} className="max-w-[904px]">
             <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-3 text-center lg:text-left">
-                <h5 className="font-semibold text-xl">{name}</h5>
+              <div className="
+                flex flex-col gap-3 text-center
+                lg:text-left
+              ">
+                <h5 className="text-xl font-semibold">{name}</h5>
                 <p>{description}</p>
               </div>
               <div className="flex flex-col gap-3">
@@ -173,11 +181,16 @@ const HomepageTickets = () => {
                 remove this type later after investigation why is it even needed */}
                 {ticketTypes?.map((ticketType: TicketType) => {
                   const needsLogin = ticketTypeNeedsLogin(ticketType)
+
                   return (
                     <div
                       key={ticketType.id}
                       className={cx(
-                        'px-6 py-4 rounded-lg flex flex-col lg:flex-row gap-8 border border-divider lg:items-center bg-sunscreen',
+                        `
+                          flex flex-col gap-8 rounded-lg border border-divider
+                          bg-sunscreen px-6 py-4
+                          lg:flex-row lg:items-center
+                        `,
                       )}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
@@ -197,7 +210,11 @@ const HomepageTickets = () => {
                               // TODO add also error when input field is added
                               <div
                                 key={item.ticketTypeId}
-                                className="flex items-center justify-between px-6 py-2 lg:w-[182px] border border-primary rounded-lg"
+                                className="
+                                  flex items-center justify-between rounded-lg
+                                  border border-primary px-6 py-2
+                                  lg:w-[182px]
+                                "
                               >
                                 <Button
                                   className="p-0"
@@ -234,10 +251,13 @@ const HomepageTickets = () => {
                             ))}
                         {!isCartable && (
                           <Button
-                            className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
+                            className="
+                              mt-2 w-full min-w-[182px]
+                              xs:mt-0 xs:w-auto xs:px-4
+                            "
                             thin
                             rounded
-                            onClick={() => handleClick(ticketType)}
+                            onClick={async () => handleClick(ticketType)}
                             color={needsLogin ? 'primary' : 'outlined'}
                             disabled={ticketType.disabled}
                           >
@@ -245,7 +265,7 @@ const HomepageTickets = () => {
                               {needsLogin ? t('signin-button') : t('landing.basket')}
                               <Icon
                                 name={needsLogin ? 'login' : 'euro-coin'}
-                                className={cx('ml-2 no-fill', {
+                                className={cx('no-fill ml-2', {
                                   'py-1': !needsLogin,
                                 })}
                               />
@@ -258,10 +278,17 @@ const HomepageTickets = () => {
                 })}
               </div>
               {isCartable && (
-                <div className="px-6 py-4 bg-blueish flex flex-col lg:flex-row lg:items-center rounded-lg border border-divider">
+                <div className="
+                  flex flex-col rounded-lg border border-divider bg-blueish px-6
+                  py-4
+                  lg:flex-row lg:items-center
+                ">
                   <span className="grow font-semibold">{t('price-total')}</span>
                   <div className="flex items-center justify-between gap-x-6">
-                    <span className="lg:w-[115px] lg:text-left grow font-semibold text-xl">
+                    <span className="
+                      grow text-xl font-semibold
+                      lg:w-[115px] lg:text-left
+                    ">
                       <SkeletonTheme
                         baseColor="#a8dbf2"
                         highlightColor="#58bbe6"
@@ -289,16 +316,21 @@ const HomepageTickets = () => {
                       </SkeletonTheme>
                     </span>
                     <Button
-                      className="xs:px-4 w-full mt-2 xs:mt-0 xs:w-auto min-w-[182px]"
+                      className="
+                        mt-2 w-full min-w-[182px]
+                        xs:mt-0 xs:w-auto xs:px-4
+                      "
                       thin
                       rounded
-                      onClick={() => handleClick()}
+                      onClick={async () => handleClick()}
                       disabled={cart.filter((item) => item.ticketAmount > 0).length === 0}
                       color="primary"
                     >
                       <>
                         {t('landing.basket')}
-                        <Icon name={'euro-coin'} className={cx('ml-2 no-fill py-1')} />
+                        <Icon name={'euro-coin'} className={cx(`
+                          no-fill ml-2 py-1
+                        `)} />
                       </>
                     </Button>
                   </div>
@@ -309,7 +341,7 @@ const HomepageTickets = () => {
           </div>
         ))}
       </div>
-      <div className="flex flex-col text-center my-8 text-sm leading-loose">
+      <div className="my-8 flex flex-col text-center text-sm leading-loose">
         <span>{t('common.additional-info-toddlers')}</span>
       </div>
     </>

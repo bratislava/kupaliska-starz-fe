@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '../index'
 import Dialog from '../Dialog/Dialog'
+import { Button } from '../index'
 
-type ChildrenConfirmationModalProps = {
+interface ChildrenConfirmationModalProps {
   onSaveSuccess?: () => void
   onClose?: () => void
 }

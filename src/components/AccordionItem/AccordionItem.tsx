@@ -1,7 +1,8 @@
-import { ReactNode, useEffect, useState } from 'react'
 import cx from 'classnames'
-import { Icon } from '../index'
+import { ReactNode, useEffect, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
+
+import { Icon } from '../index'
 
 // copied from https://github.com/bratislava/bratislava-monorepo/blob/master/libs/ui/bratislava/src/components/AccordionItem/AccordionItem.tsx
 
@@ -29,7 +30,7 @@ export const AccordionItem = ({
   const [active, setActive] = useState<boolean>(initialState)
 
   useEffect(() => {
-    if (isOpen !== undefined) setActive(isOpen)
+    if (isOpen !== undefined) {setActive(isOpen)}
   }, [isOpen])
 
   const handleClick = () => {
@@ -40,32 +41,36 @@ export const AccordionItem = ({
     <>
       <AriaButton
         className={cx(
-          'rounded-lg py-4 px-4 md:px-10 flex items-center justify-between w-full font-medium',
+          `
+            flex w-full items-center justify-between rounded-lg px-4 py-4
+            font-medium
+            md:px-10
+          `,
           {
-            'border-transparent border-2 border-solid shadow-lg bg-blueish': active,
-            'md:hover:bg-blueish md:hover:stroke-current border-2 border-primary bg-transparent':
+            'border-2 border-solid border-transparent bg-blueish shadow-lg': active,
+            'border-2 border-primary bg-transparent md:hover:bg-blueish md:hover:stroke-current':
               !active,
           },
           className,
         )}
         onPress={handleClick}
       >
-        <div className="flex flex-row font-medium grow text-left">
+        <div className="flex grow flex-row text-left font-medium">
           {typeof title === 'string' ? (
             <p className="text-font text-md text-left">{title}</p>
           ) : (
             <>{title}</>
           )}
           {secondaryTitle && (
-            <p className="text-md text-left text-gray-universal-500 ">&nbsp;{secondaryTitle}</p>
+            <p className="text-md text-gray-universal-500 text-left">&nbsp;{secondaryTitle}</p>
           )}
         </div>
         <div className="ml-5 grow-0">
-          <Icon name="chevron" className={cx('w-6 h-3', { 'rotate-180': active })}></Icon>
+          <Icon name="chevron" className={cx('h-3 w-6', { 'rotate-180': active })}></Icon>
         </div>
       </AriaButton>
       <div
-        className={cx('overflow-hidden text-fontBlack text-sm', {
+        className={cx('overflow-hidden text-sm text-fontBlack', {
           'h-auto': active,
           'h-0': !active,
           'p-6': active && paddingVariant === 'narrow',

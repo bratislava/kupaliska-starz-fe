@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next'
+import cx from 'classnames'
+import { Icon, Tooltip } from 'components'
 import * as React from 'react'
 import { DOMAttributes } from 'react'
-import cx from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 import FieldHelptext from './FieldHelptext'
-import { Icon, Tooltip } from 'components'
 
-export type FieldHeaderProps = {
+export interface FieldHeaderProps {
   label: string
   required?: boolean
   tooltip?: string
@@ -63,7 +63,7 @@ const FieldHeader = ({
     'text-h4 after:text-h4': labelSize === 'h4',
     'text-h5 after:text-h5': labelSize === 'h5',
     'mr-2': showOptionalLabel,
-    'after:absolute after:ml-0.5 after:text-main-700 after:content-["*"]': displayAsterisk,
+    'after:text-main-700 after:absolute after:ml-0.5 after:content-["*"]': displayAsterisk,
   })
 
   return (
@@ -74,7 +74,10 @@ const FieldHeader = ({
             {label}
           </label>
           {showOptionalLabel && (
-            <span className="text-p3 sm:text-16">{t('buy-page.optional')}</span>
+            <span className="
+              text-p3
+              sm:text-16
+            ">{t('buy-page.optional')}</span>
           )}
         </div>
         {tooltip && (

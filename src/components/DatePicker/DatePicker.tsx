@@ -1,18 +1,18 @@
 import { parseDate } from '@internationalized/date'
 import { useObjectRef } from '@react-aria/utils'
 import { useControlledState } from '@react-stately/utils'
-import { useTranslation } from 'react-i18next'
+import cx from 'classnames'
+import { Icon } from 'components'
+import ButtonNew from 'components/Button/ButtonNew'
+import { FieldWrapperProps } from 'components/FieldWrapper/FieldWrapper'
 import { forwardRef, useMemo } from 'react'
 import { useDatePicker } from 'react-aria/useDatePicker'
 import { Dialog, Popover } from 'react-aria-components'
+import { useTranslation } from 'react-i18next'
 import { useDatePickerState } from 'react-stately'
-import cx from 'classnames'
 
 import Calendar from './Calendar/Calendar'
 import DateField from './DateField'
-import { FieldWrapperProps } from 'components/FieldWrapper/FieldWrapper'
-import { Icon } from 'components'
-import ButtonNew from 'components/Button/ButtonNew'
 
 export type DatePickerProps = FieldWrapperProps & {
   value?: string | null
@@ -141,7 +141,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             variant="icon-wrapped-negative-margin"
             {...buttonPropsFixed}
             isDisabled={disabled}
-            icon={<Icon name={'calendar'} className={cx('ml-2 no-fill')} />}
+            icon={<Icon name={'calendar'} className={cx('no-fill ml-2')} />}
             // TODO investigate why t can return undefined
             aria-label={t('profile.open-calendar') ?? 'Open calendar'}
           />

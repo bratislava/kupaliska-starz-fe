@@ -1,8 +1,8 @@
 import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
+import logger from 'helpers/logger'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
-import jwtDecode, { JwtPayload } from 'jwt-decode'
-import logger from 'helpers/logger'
 
 export type CityAccountAccessTokenAuthenticationStatus =
   | 'initializing'
@@ -42,11 +42,11 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
   }
   let status: CityAccountAccessTokenAuthenticationStatus = 'initializing'
   if (initializationState === 'ready') {
-    status = !!jwtAccessToken ? 'authenticated' : 'unauthenticated'
+    status = jwtAccessToken ? 'authenticated' : 'unauthenticated'
   }
 
   const refreshAccessToken = useCallback(
-    (isInitialRefresh: boolean) =>
+    async (isInitialRefresh: boolean) =>
       getAccessTokenFromIFrame()
         .then((token) => {
           if (token) {
@@ -54,10 +54,12 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
           } else if (!isInitialRefresh) {
             setAccessTokenState({ accessToken: null })
           }
+
           return token
         })
         .catch((error) => {
           logger.error('getAccessTokenFromIFrame error', error)
+
           return null
         }),
     [setAccessTokenState],
@@ -72,6 +74,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
   useEffect(() => {
     // prevent stale token in storage, in case iframe refresh does not work
     window.addEventListener('focus', removeInvalidAccessTokenInLocalStorage)
+
     return () => {
       window.removeEventListener('focus', removeInvalidAccessTokenInLocalStorage)
     }
@@ -89,11 +92,13 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
         const urlWithoutToken = new URL(window.location.href)
         urlWithoutToken.searchParams.delete('access_token')
         window.history.replaceState({}, '', urlWithoutToken.href)
+
         return tokenFromQuery
       }
     } catch (error) {
       logger.error('Error token from query', error)
     }
+
     return null
   }, [setAccessTokenState])
 
@@ -108,7 +113,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
         if (token) {
           // iframe works, refresh from it on refocus
           // TODO possible memory leak because we send new function to addEventListener, but it is called only when hook is first called
-          window.addEventListener('focus', () => refreshAccessToken(false))
+          window.addEventListener('focus', async () => refreshAccessToken(false))
         }
       })
       .catch((error) => {
@@ -120,6 +125,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
         setInitializationState('ready')
       })
   })
+
   // mimicking previous behavior of not rendering children until initialized - if it doesn't break anything major this should be changed
   return (
     <CityAccountAccessTokenContext.Provider
@@ -142,5 +148,6 @@ export default function useCityAccountAccessToken() {
       'useCityAccountAccessToken must be used within a CityAccountAccessTokenProvider',
     )
   }
+
   return context
 }

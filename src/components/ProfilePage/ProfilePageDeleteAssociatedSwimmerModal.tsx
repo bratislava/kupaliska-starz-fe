@@ -1,19 +1,20 @@
+import { AxiosError, AxiosResponse } from 'axios'
+import { ErrorWithMessages } from 'helpers/general'
+import { produce } from 'immer'
+import { useTranslation } from 'react-i18next'
+import { useMutation, useQueryClient } from 'react-query'
+
+import { useErrorToast } from '../../hooks/useErrorToast'
 import {
   AssociatedSwimmer,
   AssociatedSwimmerFetchResponse,
   deleteAssociatedSwimmer,
 } from '../../store/associatedSwimmers/api'
-import { useTranslation } from 'react-i18next'
-import { useMutation, useQueryClient } from 'react-query'
-import { AxiosError, AxiosResponse } from 'axios'
-import { produce } from 'immer'
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 import Photo from '../Photo/Photo'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { ErrorWithMessages } from 'helpers/general'
 
-type ProfilePageDeleteAssociatedSwimmerModalProps = {
+interface ProfilePageDeleteAssociatedSwimmerModalProps {
   swimmer: AssociatedSwimmer
   onClose: () => void
 }
@@ -26,7 +27,7 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const queryClient = useQueryClient()
-  const mutation = useMutation(() => deleteAssociatedSwimmer(swimmer.id!), {
+  const mutation = useMutation(async () => deleteAssociatedSwimmer(swimmer.id!), {
     onSuccess: () => {
       // Update data to see edited content before the refetch.
       queryClient.setQueryData<AxiosResponse<AssociatedSwimmerFetchResponse> | undefined>(
@@ -64,7 +65,7 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
     >
       <div className="flex flex-col gap-4">
         <span>Naozaj chcete odstrániť túto osobu z vášho profilu?</span>
-        <div className="flex flex-col gap-1 items-center">
+        <div className="flex flex-col items-center gap-1">
           <Photo size="normal" photo={swimmer.image} />
           <div className="mt-2">
             {swimmer.firstname} {swimmer.lastname}

@@ -9,14 +9,22 @@ const WhyCreateAccountSection = () => {
       <SectionHeader title="Prečo si založiť účet?" className="text-center" />
       {[0, 1, 2].map((index) => (
         <div
-          className={`flex lg:w-8/10 mx-auto flex-col-reverse mb-10 md:mb-0 ${
+          className={`
+            mx-auto mb-10 flex flex-col-reverse
+            md:mb-0
+            lg:w-8/10
+            ${
             index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-          }`}
+          }
+          `}
           key={index}
         >
-          <div className="flex-1 flex justify-center items-center text-center mt-6 md:mt-0">
+          <div className="
+            mt-6 flex flex-1 items-center justify-center text-center
+            md:mt-0
+          ">
             <div className="w-80">
-              <div className="font-semibold text-2xl mb-6">
+              <div className="mb-6 text-2xl font-semibold">
                 {t(`landing.why-create-account.${index}.title`)}
               </div>
               <p>{t(`landing.why-create-account.${index}.content`)}</p>

@@ -1,9 +1,9 @@
+import './InputField.css'
+
+import cx from 'classnames'
 import { ChangeEvent, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
-
-import './InputField.css'
-import cx from 'classnames'
 
 interface InputProps {
   type?: 'text' | 'number' | 'email' | 'password'
@@ -57,7 +57,7 @@ const InputField = ({
   )
 
   const inputClasses = cx({
-    'placeholder-error text-error': error !== undefined,
+    'text-error placeholder-error': error !== undefined,
     'text-fontBlack': !error,
     'text-center': textCenter,
   })
@@ -68,23 +68,31 @@ const InputField = ({
     'border-2-softGray text-fontBlack text-opacity-10': !error && !focused,
   })
 
-  const labelClasses = cx(newLabel ? 'block font-semibold mb-1' : 'font-medium text-xl mb-3', {
+  const labelClasses = cx(newLabel ? 'mb-1 block font-semibold' : `
+    mb-3 text-xl font-medium
+  `, {
     'text-error': error !== undefined,
     'text-primary': !error && focused,
     'text-fontBlack': !error && !focused,
   })
 
   return (
-    <div className={twMerge('flex-col w-full', className)}>
+    <div className={twMerge('w-full flex-col', className)}>
       {label && (
         <div>
           <label className={labelClasses}>{label}</label>
         </div>
       )}
       <div
-        className={`${inputWrapperClasses} border-solid border-2 transition-all duration-100 rounded-lg bg-white ${
+        className={`
+          ${inputWrapperClasses}
+          rounded-lg border-2 border-solid bg-white transition-all duration-100
+          ${
           thin ? '' : 'px-6 py-4'
-        } flex flex-1 items-center ${inputWrapperClassName}`}
+        }
+          flex flex-1 items-center
+          ${inputWrapperClassName}
+        `}
       >
         {!!leftExtra && leftExtra}
         <Input
@@ -93,7 +101,11 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`focus:outline-none h-full flex-1 min-w-0 font-normal ${inputClasses}`}
+          className={`
+            h-full min-w-0 flex-1 font-normal
+            focus:outline-none
+            ${inputClasses}
+          `}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(event: FocusEvent<HTMLTextAreaElement> | FocusEvent<HTMLInputElement>) => {
@@ -110,7 +122,7 @@ const InputField = ({
         />
         {!!rightExtra && rightExtra}
       </div>
-      {error && <div className="text-error px-2 text-sm">{error}</div>}
+      {error && <div className="px-2 text-sm text-error">{error}</div>}
     </div>
   )
 }

@@ -1,24 +1,25 @@
-import { useState } from 'react'
-import { Button, Icon, Spinner } from '../index'
-import { useQuery } from 'react-query'
-import { fetchUser } from '../../store/user/api'
-import { useAccount } from '../../hooks/useAccount'
-import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
-import { Button as AriaButton } from 'react-aria-components'
-import ProfilePagePhotoModal from './ProfilePagePhotoModal'
-import Photo from '../Photo/Photo'
-import { environment } from '../../environment'
 import { AxiosError } from 'axios'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { useTranslation } from 'react-i18next'
 import { ErrorWithMessages } from 'helpers/general'
+import { useState } from 'react'
+import { Button as AriaButton } from 'react-aria-components'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
+import { environment } from '../../environment'
+import { useAccount } from '../../hooks/useAccount'
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { fetchUser } from '../../store/user/api'
+import { Button, Icon, Spinner } from '../index'
+import Photo from '../Photo/Photo'
+import ProfilePageAgeZipModal from './ProfilePageAgeZipModal'
+import ProfilePagePhotoModal from './ProfilePagePhotoModal'
 
 const ProfilePageUser = () => {
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const { data, isLoading, isError } = useQuery('user', fetchUser, {
     onError: (err: AxiosError<ErrorWithMessages>) => {
-      dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+      dispatchErrorToastForHttpRequest(err)
     },
   })
   const account = useAccount()
@@ -50,10 +51,16 @@ const ProfilePageUser = () => {
           )}
         </>
       )}
-      <div className="bg-sunscreen rounded-lg lg:col-span-7">
-        <div className="px-6 py-4 gap-6 flex items-start sm:items-center border-b-2 border-b-divider flex-col sm:flex-row">
+      <div className="
+        rounded-lg bg-sunscreen
+        lg:col-span-7
+      ">
+        <div className="
+          flex flex-col items-start gap-6 border-b-2 border-b-divider px-6 py-4
+          sm:flex-row sm:items-center
+        ">
           <div className="flex flex-1 flex-col gap-1">
-            <p className="font-semibold text-xl">Osobné údaje</p>
+            <p className="text-xl font-semibold">Osobné údaje</p>
             <p>
               Osobné údaje ako e-mail a vaše meno s priezviskom môžete spravovať v Bratislavskom
               konte.
@@ -61,15 +68,18 @@ const ProfilePageUser = () => {
           </div>
           <a href={`${environment.cityAccountFrontendUrl}/moj-profil`}>
             <Button>
-              <Icon className="mr-2 no-fill" name="castle" /> Spravovať v konte
+              <Icon className="no-fill mr-2" name="castle" /> Spravovať v konte
             </Button>
           </a>
         </div>
-        <div className="gap-6 flex flex-col p-6">
-          <div className="gap-6 flex flex-col sm:flex-row">
+        <div className="flex flex-col gap-6 p-6">
+          <div className="
+            flex flex-col gap-6
+            sm:flex-row
+          ">
             <Photo photo={data?.data.image} size="normal" />
             <div className="flex flex-col gap-4">
-              <div className="gap-1 flex flex-col">
+              <div className="flex flex-col gap-1">
                 <p className="font-semibold">Fotografia</p>
                 <p className="text-sm">
                   Pre kúpu permanentky je potrebné zadať aj fotografiu.
@@ -83,22 +93,34 @@ const ProfilePageUser = () => {
                 disabled={isLoading || isError}
                 onClick={() => setIsPhotoModalOpen(true)}
               >
-                <Icon className="mr-2 no-fill" name="upload" /> Nahrať fotku
+                <Icon className="no-fill mr-2" name="upload" /> Nahrať fotku
               </Button>
             </div>
           </div>
           <div className="h-0.5 bg-divider" />
-          <div className="gap-4 flex flex-col">
-            <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
-              <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
+          <div className="flex flex-col gap-4">
+            <div className="
+              flex flex-col gap-2
+              sm:flex-row sm:gap-6
+            ">
+              <div className="
+                flex items-center gap-2 font-semibold
+                sm:w-[200px]
+              ">
                 <p>Meno a priezvisko</p>
               </div>
               <p>
                 {account.data?.given_name} {account.data?.family_name}
               </p>
             </div>
-            <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
-              <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
+            <div className="
+              flex flex-col gap-2
+              sm:flex-row sm:gap-6
+            ">
+              <div className="
+                flex items-center gap-2 font-semibold
+                sm:w-[200px]
+              ">
                 <p>E-mail</p>
               </div>
               <p>{account.data?.email}</p>
@@ -112,8 +134,14 @@ const ProfilePageUser = () => {
           )}
           {data && (
             <>
-              <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
-                <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
+              <div className="
+                flex flex-col gap-2
+                sm:flex-row sm:gap-6
+              ">
+                <div className="
+                  flex items-center gap-2 font-semibold
+                  sm:w-[200px]
+                ">
                   <p>Vek</p>
                 </div>
                 <div className="flex grow">
@@ -129,8 +157,14 @@ const ProfilePageUser = () => {
                   </AriaButton>
                 </div>
               </div>
-              <div className="gap-2 sm:gap-6 flex flex-col sm:flex-row">
-                <div className="gap-2 flex items-center font-semibold sm:w-[200px]">
+              <div className="
+                flex flex-col gap-2
+                sm:flex-row sm:gap-6
+              ">
+                <div className="
+                  flex items-center gap-2 font-semibold
+                  sm:w-[200px]
+                ">
                   <p>PSČ</p>
                 </div>
                 <div className="flex grow">

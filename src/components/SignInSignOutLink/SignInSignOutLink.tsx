@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router'
-import { useLogin } from '../../hooks/useLogin'
-import { useLogout } from '../../hooks/useLogout'
-import { useTranslation } from 'react-i18next'
-import { useAccount } from '../../hooks/useAccount'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+
+import { useAccount } from '../../hooks/useAccount'
+import { useLogin } from '../../hooks/useLogin'
+import { useLogout } from '../../hooks/useLogout'
 
 /* Inspired by https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/1b38e9582ae23bde40fe4bef77f3d838e838e08b/samples/msal-react-samples/react-18-sample/src/ui-components/SignInSignOutButton.jsx */
 const SignInSignOutLink = () => {
@@ -37,13 +38,13 @@ const SignInSignOutLink = () => {
     return (
       <>
         {Boolean(name) && (
-          <Link to={ROUTES.TICKETS} className="font-bold mr-10">
+          <Link to={ROUTES.TICKETS} className="mr-10 font-bold">
             {name}
           </Link>
         )}
         {/* TODO: fix eslint */
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a role="button" onClick={() => logout()}>
+        <a role="button" onClick={async () => logout()}>
           {t('common.logout')}
         </a>
       </>
@@ -51,7 +52,8 @@ const SignInSignOutLink = () => {
   } else if (isLoading) {
     // was here originally, might no longer be needed if we wait for auth before displaying the entire page, but will be useful when we stop doing that
     return null
-  } else {
+  }
+ 
     return (
       // TODO: fix eslint
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -59,7 +61,7 @@ const SignInSignOutLink = () => {
         {t('common.login')}
       </a>
     )
-  }
+  
 }
 
 export default SignInSignOutLink
