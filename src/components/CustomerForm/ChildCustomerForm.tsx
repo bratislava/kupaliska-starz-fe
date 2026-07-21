@@ -50,7 +50,7 @@ const ChildCustomerForm = ({
   }, [register, fieldNamePrefix])
 
   return (
-    <div className={`grid grid-cols-2 gap-4 lg:grid-cols-4 ${className} `}>
+    <div className={`grid grid-cols-2 gap-4 lg:grid-cols-4 ${className}`}>
       <div className="col-span-2 flex">
         <InputField
           leftExtra={<Icon name="user" />}

@@ -89,9 +89,9 @@ const InputField = ({
         </div>
       )}
       <div
-        className={` ${inputWrapperClasses} rounded-lg border-2 border-solid bg-white transition-all duration-100 ${
+        className={`${inputWrapperClasses} rounded-lg border-2 border-solid bg-white transition-all duration-100 ${
           thin ? '' : 'px-6 py-4'
-        } flex flex-1 items-center ${inputWrapperClassName} `}
+        } flex flex-1 items-center ${inputWrapperClassName}`}
       >
         {!!leftExtra && leftExtra}
         <Input
@@ -100,7 +100,7 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`h-full min-w-0 flex-1 font-normal focus:outline-none ${inputClasses} `}
+          className={`h-full min-w-0 flex-1 font-normal focus:outline-none ${inputClasses}`}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(event: FocusEvent<HTMLTextAreaElement> | FocusEvent<HTMLInputElement>) => {

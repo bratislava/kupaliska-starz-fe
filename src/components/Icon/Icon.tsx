@@ -131,7 +131,7 @@ const Icon = ({ name, color, className = '', ...rest }: IconProps) => {
   const IconComponent = useMemo(() => iconMap[name], [name])
 
   return (
-    <div className={`icon ${className} ${color} `}>
+    <div className={`icon ${className} ${color}`}>
       <IconComponent {...rest} />
     </div>
   )

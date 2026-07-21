@@ -43,7 +43,7 @@ const CustomerForm = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <div className={`grid grid-cols-1 gap-4 lg:grid-cols-2 ${className} `}>
+      <div className={`grid grid-cols-1 gap-4 lg:grid-cols-2 ${className}`}>
         {nameRequired && (
           <InputField
             leftExtra={<Icon name="user" />}

@@ -79,8 +79,9 @@ const HomepageTickets = () => {
     isSuccess,
   } = useQuery({
     queryKey: ['cartPrice', cart],
-    queryFn: ({ signal }) => {
+    queryFn: async ({ signal }) => {
       logger.info(getPriceRequest)
+
       return getPrice(getPriceRequest, status, signal)
     },
     onError: (err) => {
