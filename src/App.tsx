@@ -33,6 +33,7 @@ import VOPPage from 'pages/VOPPage/VOPPage'
 import GDPRPage from 'pages/GDPRPage/GDPRPage'
 import ProfilePage from 'pages/ProfilePage/ProfilePage'
 import TicketsManagementPage from 'pages/TicketsManagementPage/TicketsManagementPage'
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage'
 import { LandingPage } from 'pages'
 
 const queryClient = new QueryClient({
@@ -130,6 +131,8 @@ const router = createBrowserRouter(
         }
       />
       <Route path={ROUTES.HOME} element={<LandingPage />} />
+      {/* Catch-all: unmatched URLs render the 404 screen. */}
+      <Route path="*" element={<NotFoundPage />} />
     </Route>,
   ),
 )

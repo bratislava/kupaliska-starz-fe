@@ -22,6 +22,7 @@ import { default as ProfileLine } from './ProfileLine/ProfileLine'
 import { default as ProfileBack } from './ProfileBack/ProfileBack'
 import { default as KupaliskaSwitch } from './Switch/KupaliskaSwitch'
 import { default as CookieConsent } from './CookieConsent/CookieConsent'
+import { default as MessageScreen } from './MessageScreen/MessageScreen'
 
 export * from './CustomerForm'
 export {
@@ -49,4 +50,5 @@ export {
   ProfileBack,
   KupaliskaSwitch,
   CookieConsent,
+  MessageScreen,
 }

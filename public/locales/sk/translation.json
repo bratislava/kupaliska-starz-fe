@@ -367,5 +367,10 @@
     "performance-content": "Tieto cookies umožňujú webovej stránke zapamätať si voľby, ktoré ste v minulosti urobili.",
     "advertising-targeting-title": "Cookies pre reklamu a cielenie",
     "advertising-targeting-content": "Tieto cookies zhromažďujú informácie o tom, ako webovú stránku používate, ktoré stránky ste navštívili a na ktoré odkazy ste klikli. Všetky údaje sú anonymizované a nie je možné ich použiť na vašu identifikáciu."
+  },
+  "errors": {
+    "not-found-title": "Stránka sa nenašla",
+    "not-found-description": "Zadaná adresa neexistuje alebo bola presunutá.",
+    "back-home": "Späť na úvod"
   }
 }
