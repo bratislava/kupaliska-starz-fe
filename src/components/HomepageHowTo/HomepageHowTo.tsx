@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+
 import { MobileCarousel, Typography } from '../index'
 
 const items = [
@@ -29,16 +30,24 @@ const HomepageHowTo = () => {
     () =>
       items.map((item, index) => (
         <div
-          className="relative inline-flex flex-col gap-y-8 items-center flex-1 px-6 pt-16 pb-6 bg-sunscreen border-2 rounded-2xl border-orange"
+          className="
+            relative inline-flex flex-1 flex-col items-center gap-y-8
+            rounded-2xl border-2 border-orange bg-sunscreen px-6 pb-6 pt-16
+          "
           key={index}
         >
-          <div className="absolute flex flex-col items-center justify-center bg-orange rounded-full text-2xl font-semibold text-white w-16 h-16 -top-8">
+          <div className="
+            absolute -top-8 flex h-16 w-16 flex-col items-center justify-center
+            rounded-full bg-orange text-2xl font-semibold text-white
+          ">
             {index + 1}
           </div>
-          <div className="w-28 h-28 pl-0.5 pt-1 pb-0.5">
-            <img className="flex-1 h-full" src={item.imgSrc} alt="" />
+          <div className="h-28 w-28 pb-0.5 pl-0.5 pt-1">
+            <img className="h-full flex-1" src={item.imgSrc} alt="" />
           </div>
-          <p className="w-full text-base leading-normal text-center text-gray-800">
+          <p className="
+            w-full text-center text-base leading-normal text-gray-800
+          ">
             {t(item.textKey)}
           </p>
         </div>
@@ -47,21 +56,36 @@ const HomepageHowTo = () => {
   )
 
   return (
-    <section id="ticket-buy-diagram" className="my-4 lg:my-0">
+    <section id="ticket-buy-diagram" className="
+      my-4
+      lg:my-0
+    ">
       <div className="container mx-auto">
-        <Typography type="title" fontWeight="bold" className="text-center mb-8">
+        <Typography type="title" fontWeight="bold" className="mb-8 text-center">
           {t('landing.how-does-it-work')}
         </Typography>
       </div>
-      <div className="hidden md:flex container mx-auto justify-center">
-        <div className="inline-flex flex-col gap-y-20 items-center justify-start pt-12 pb-16 bg-sunscreen">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 justify-start max-w-[1216px]">
+      <div className="
+        container mx-auto hidden justify-center
+        md:flex
+      ">
+        <div className="
+          inline-flex flex-col items-center justify-start gap-y-20 bg-sunscreen
+          pb-16 pt-12
+        ">
+          <div className="
+            grid max-w-[1216px] grid-cols-2 justify-start gap-8
+            lg:grid-cols-4
+          ">
             {itemsComponents}
           </div>
         </div>
       </div>
       {/* Without overflow-y-clip a ghost scrollbar is displayed. */}
-      <MobileCarousel className="md:hidden pt-4 overflow-y-clip">{itemsComponents}</MobileCarousel>
+      <MobileCarousel className="
+        overflow-y-clip pt-4
+        md:hidden
+      ">{itemsComponents}</MobileCarousel>
     </section>
   )
 }

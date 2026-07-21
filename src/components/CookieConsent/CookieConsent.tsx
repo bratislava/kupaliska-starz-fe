@@ -1,10 +1,11 @@
+import cx from 'classnames'
 import { PropsWithChildren, useState } from 'react'
 import Consent, { Cookies } from 'react-cookie-consent'
 import { Trans, useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+
 import { AccordionItem, Button, Modal } from '../index'
 import KupaliskaSwitch from '../Switch/KupaliskaSwitch'
-import cx from 'classnames'
-import { Link } from 'react-router'
 
 const COOKIE_NAME = 'kupaliska-gdpr'
 
@@ -123,13 +124,16 @@ const CookieConsent = () => {
   return (
     <div>
       <Modal open={showModal} onClose={closeModal} closeButton={true}>
-        <div className="p-4 md:p-10 modal-with-close-width-screen" style={{ maxWidth: '1100px' }}>
-          <div className="text-xl font-semibold mb-10">{t('cookie-consent.modal-title')}</div>
+        <div className="
+          modal-with-close-width-screen p-4
+          md:p-10
+        " style={{ maxWidth: '1100px' }}>
+          <div className="mb-10 text-xl font-semibold">{t('cookie-consent.modal-title')}</div>
           <div>
             <div className="h-full overflow-y-scroll" style={{ maxHeight: '400px' }}>
               <div>
-                <div className="font-medium mb-4">{t('cookie-consent.modal-content-title')}</div>
-                <p className="text-sm mb-8">
+                <div className="mb-4 font-medium">{t('cookie-consent.modal-content-title')}</div>
+                <p className="mb-8 text-sm">
                   <Trans
                     i18nKey={'cookie-consent.modal-content-body'}
                     components={{
@@ -143,7 +147,7 @@ const CookieConsent = () => {
                   <AccordionItem
                     key={index}
                     title={
-                      <div className="flex justify-between grow">
+                      <div className="flex grow justify-between">
                         <span>{titleText}</span>
                         <KupaliskaSwitch
                           checked={checked}
@@ -169,24 +173,38 @@ const CookieConsent = () => {
                 ),
               )}
             </div>
-            <div className="mt-5 flex gap-1 justify-between flex-col md:flex-row">
+            <div className="
+              mt-5 flex flex-col justify-between gap-1
+              md:flex-row
+            ">
               <Button
-                className="px-3 py-1 text-sm rounded-sm bg-gray-900 text-white mb-2 md:mb-0"
+                className="
+                  mb-2 rounded-sm bg-gray-900 px-3 py-1 text-sm text-white
+                  md:mb-0
+                "
                 onClick={saveSettings}
                 color="primary"
               >
                 {t('cookie-consent.save-settings')}
               </Button>
-              <div className="flex gap-1 flex-col md:flex-row">
+              <div className="
+                flex flex-col gap-1
+                md:flex-row
+              ">
                 <Button
-                  className="md:mr-1 py-1 text-sm rounded-sm bg-gray-900 text-white mb-2 md:mb-0"
+                  className="
+                    mb-2 rounded-sm bg-gray-900 py-1 text-sm text-white
+                    md:mb-0 md:mr-1
+                  "
                   onClick={declineCookies}
                   color="blueish"
                 >
                   {t('cookie-consent.reject-all')}
                 </Button>
                 <Button
-                  className="min-w-[140px] py-1 text-sm rounded-sm bg-gray-900 text-white"
+                  className="
+                    min-w-[140px] rounded-sm bg-gray-900 py-1 text-sm text-white
+                  "
                   onClick={acceptAllCookies}
                   color="blueish"
                 >

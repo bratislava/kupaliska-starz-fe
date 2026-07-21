@@ -1,12 +1,13 @@
 import { getAccount } from 'helpers/cityAccountApi'
-import { useQuery } from 'react-query'
-import useCityAccount from './useCityAccount'
-import { useEffect } from 'react'
 import { faro } from 'helpers/logger'
+import { useEffect } from 'react'
+import { useQuery } from 'react-query'
+
+import useCityAccount from './useCityAccount'
 
 export const useAccount = () => {
   const { sub, status, accessToken } = useCityAccount()
-  const query = useQuery(['userData', sub], () => getAccount(accessToken as string), {
+  const query = useQuery(['userData', sub], async () => getAccount(accessToken as string), {
     enabled: status === 'authenticated',
   })
 

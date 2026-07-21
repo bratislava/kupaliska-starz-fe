@@ -1,9 +1,10 @@
-import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
-import { Icon } from '../index'
-import { IconName } from '../Icon/Icon'
 import cx from 'classnames'
+import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
 
-type ThreeDotsProps = {
+import { IconName } from '../Icon/Icon'
+import { Icon } from '../index'
+
+interface ThreeDotsProps {
   buttons: {
     title: string
     icon: IconName
@@ -19,14 +20,21 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
         <Icon name="three-dots" className="no-fill" />
       </Button>
       <Popover>
-        <Dialog className="py-2 bg-sunscreen inline-flex flex-col items-start rounded-lg drop-shadow-lg overflow-clip">
+        <Dialog className="
+          inline-flex flex-col items-start overflow-clip rounded-lg bg-sunscreen
+          py-2 drop-shadow-lg
+        ">
           {({ close }) => (
             <>
               {buttons.map((button, index) => (
                 <Button
                   key={index}
                   className={cx(
-                    'px-5 bg-sunscreen gap-2.5 inline-flex items-center self-stretch text-left hover:bg-gray-100',
+                    `
+                      inline-flex items-center gap-2.5 self-stretch bg-sunscreen
+                      px-5 text-left
+                      hover:bg-gray-100
+                    `,
                     button.className,
                   )}
                   onPress={() => {
@@ -34,9 +42,9 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
                     button.onPress()
                   }}
                 >
-                  <div className="py-3 flex-1 gap-3 flex items-center flex-grow">
+                  <div className="flex flex-1 flex-grow items-center gap-3 py-3">
                     <Icon name={button.icon} className="no-fill" />
-                    <p className="flex-1 text-base leading-6 m-0">{button.title}</p>
+                    <p className="m-0 flex-1 text-base leading-6">{button.title}</p>
                   </div>
                 </Button>
               ))}

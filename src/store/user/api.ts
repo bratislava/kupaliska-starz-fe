@@ -12,10 +12,10 @@ export interface User {
   deletedAt: string
 }
 
-export function fetchUser() {
+export async function fetchUser() {
   return apiClientWithAccessToken.get<User>('/api/v1/swimmingLoggedUsers/currentUser')
 }
 
-export function updateUser(user: Partial<Pick<User, 'age' | 'zip' | 'image'>>) {
+export async function updateUser(user: Partial<Pick<User, 'age' | 'zip' | 'image'>>) {
   return apiClientWithAccessToken.put<null>('/api/v1/swimmingLoggedUsers', user)
 }

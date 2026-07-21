@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import { RootState } from 'store'
-import { initPageGlobalState, fetchPoolActions } from './thunks'
-import { SwimmingPoolResponse, TicketType } from 'models'
 import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
+import { SwimmingPoolResponse, TicketType } from 'models'
+import { RootState } from 'store'
+
+import { fetchPoolActions,initPageGlobalState } from './thunks'
 
 export interface GlobalState {
   availableTicketTypes: TicketType[]
@@ -93,6 +93,7 @@ export const selectSelectedPool = (state: RootState) => {
   if (pool) {
     return swimmingPoolResponseToSwimmingPool(pool)
   }
+
   return undefined
 }
 export const selectToast = (state: RootState) => state.global.toast

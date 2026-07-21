@@ -8,8 +8,12 @@ interface SectionHeaderProps {
 
 const SectionHeader = ({ title, subtitle, className = '' }: SectionHeaderProps) => {
   return (
-    <div className={`${className}`}>
-      <Typography type="title" fontWeight="bold" className={`${!subtitle ? 'mb-8' : ''}`}>
+    <div className={`
+      ${className}
+    `}>
+      <Typography type="title" fontWeight="bold" className={`
+        ${!subtitle ? `mb-8` : ''}
+      `}>
         {title}
       </Typography>
       {subtitle && (

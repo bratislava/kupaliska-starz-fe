@@ -1,40 +1,40 @@
 import './helpers/logger'
-import { useEffect } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import {
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  Navigate,
-  Outlet,
-  ScrollRestoration,
-} from 'react-router'
-
-import { Footer, Header, Toast, TopBanner } from 'components'
-import { useAppDispatch, useAppSelector } from 'hooks'
-import { initPageGlobalState, selectToast, setToast } from 'store/global'
 import 'react-loading-skeleton/dist/skeleton.css'
-import CookieConsent from './components/CookieConsent/CookieConsent'
-import { AxiosError } from 'axios'
-import { I18nProvider } from 'react-aria/I18nProvider'
-import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
-
 import '@fontsource/inter'
-import RegisterUserGuard from './hooks/RegisterUserGuard'
-import CityAccountLoginRedirectionModal, {
-  CityAccountLoginRedirectionModalContextProvider,
-} from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
+
+import { AxiosError } from 'axios'
+import { Footer, Header, Toast, TopBanner } from 'components'
 import { ROUTES } from 'helpers/constants'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
+import { LandingPage } from 'pages'
+import GDPRPage from 'pages/GDPRPage/GDPRPage'
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage'
 import OrderPageGuard from 'pages/OrderPage/OrderPageGuard'
 import OrderResultSuccessfulPage from 'pages/OrderResultPage/OrderResultSuccessfulPage'
 import OrderResultUnsuccessfulPage from 'pages/OrderResultPage/OrderResultUnsuccessfulPage'
-import VOPPage from 'pages/VOPPage/VOPPage'
-import GDPRPage from 'pages/GDPRPage/GDPRPage'
 import ProfilePage from 'pages/ProfilePage/ProfilePage'
 import TicketsManagementPage from 'pages/TicketsManagementPage/TicketsManagementPage'
-import NotFoundPage from 'pages/NotFoundPage/NotFoundPage'
-import { LandingPage } from 'pages'
+import VOPPage from 'pages/VOPPage/VOPPage'
+import { useEffect } from 'react'
+import { I18nProvider } from 'react-aria/I18nProvider'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Navigate,
+  Outlet,
+  Route,
+  RouterProvider,
+  ScrollRestoration,
+} from 'react-router'
+import { initPageGlobalState, selectToast, setToast } from 'store/global'
+
+import CityAccountLoginRedirectionModal, {
+  CityAccountLoginRedirectionModalContextProvider,
+} from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
+import CookieConsent from './components/CookieConsent/CookieConsent'
+import RegisterUserGuard from './hooks/RegisterUserGuard'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +51,7 @@ const queryClient = new QueryClient({
         if (failureCount >= 3) {
           return false
         }
+
         return true
       },
     },
@@ -59,7 +60,10 @@ const queryClient = new QueryClient({
 
 const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
   const { status } = useCityAccountAccessToken()
-  if (status === 'initializing') return null
+  if (status === 'initializing') {
+    return null
+  }
+
   return status === 'authenticated' ? children : <Navigate to={'/'} />
 }
 
@@ -137,7 +141,7 @@ const router = createBrowserRouter(
   ),
 )
 
-function App() {
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
