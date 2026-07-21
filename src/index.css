@@ -4,7 +4,7 @@
 
 @layer base {
   .border-2-softGray {
-    @apply border-solid border-2 border-fontBlack border-opacity-10;
+    @apply border-2 border-solid border-fontBlack border-opacity-10;
   }
   .ml-container {
     padding-left: theme('container.padding.DEFAULT');
@@ -68,7 +68,7 @@
     @apply container mx-auto my-4 md:my-12 xl:my-16;
   }
   .divider {
-    @apply mb-6 mt-6 h-0 border-2-softGray;
+    @apply border-2-softGray mb-6 mt-6 h-0;
   }
 
   .link {
@@ -95,7 +95,7 @@
 }
 
 .react-aria-ModalOverlay {
-  @apply fixed h-screen w-screen flex items-center justify-center left-0 top-0 bg-gray-800 bg-opacity-[48%] z-50;
+  @apply fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-gray-800 bg-opacity-[48%];
 }
 
 .square {

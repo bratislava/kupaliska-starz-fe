@@ -51,14 +51,8 @@ const ProfilePageUser = () => {
           )}
         </>
       )}
-      <div className="
-        rounded-lg bg-sunscreen
-        lg:col-span-7
-      ">
-        <div className="
-          flex flex-col items-start gap-6 border-b-2 border-b-divider px-6 py-4
-          sm:flex-row sm:items-center
-        ">
+      <div className="rounded-lg bg-sunscreen lg:col-span-7">
+        <div className="flex flex-col items-start gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row sm:items-center">
           <div className="flex flex-1 flex-col gap-1">
             <p className="text-xl font-semibold">Osobné údaje</p>
             <p>
@@ -73,10 +67,7 @@ const ProfilePageUser = () => {
           </a>
         </div>
         <div className="flex flex-col gap-6 p-6">
-          <div className="
-            flex flex-col gap-6
-            sm:flex-row
-          ">
+          <div className="flex flex-col gap-6 sm:flex-row">
             <Photo photo={data?.data.image} size="normal" />
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
@@ -99,28 +90,16 @@ const ProfilePageUser = () => {
           </div>
           <div className="h-0.5 bg-divider" />
           <div className="flex flex-col gap-4">
-            <div className="
-              flex flex-col gap-2
-              sm:flex-row sm:gap-6
-            ">
-              <div className="
-                flex items-center gap-2 font-semibold
-                sm:w-[200px]
-              ">
+            <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+              <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
                 <p>Meno a priezvisko</p>
               </div>
               <p>
                 {account.data?.given_name} {account.data?.family_name}
               </p>
             </div>
-            <div className="
-              flex flex-col gap-2
-              sm:flex-row sm:gap-6
-            ">
-              <div className="
-                flex items-center gap-2 font-semibold
-                sm:w-[200px]
-              ">
+            <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+              <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
                 <p>E-mail</p>
               </div>
               <p>{account.data?.email}</p>
@@ -134,14 +113,8 @@ const ProfilePageUser = () => {
           )}
           {data && (
             <>
-              <div className="
-                flex flex-col gap-2
-                sm:flex-row sm:gap-6
-              ">
-                <div className="
-                  flex items-center gap-2 font-semibold
-                  sm:w-[200px]
-                ">
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+                <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
                   <p>Vek</p>
                 </div>
                 <div className="flex grow">
@@ -157,14 +130,8 @@ const ProfilePageUser = () => {
                   </AriaButton>
                 </div>
               </div>
-              <div className="
-                flex flex-col gap-2
-                sm:flex-row sm:gap-6
-              ">
-                <div className="
-                  flex items-center gap-2 font-semibold
-                  sm:w-[200px]
-                ">
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+                <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
                   <p>PSČ</p>
                 </div>
                 <div className="flex grow">

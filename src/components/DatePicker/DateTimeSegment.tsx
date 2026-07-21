@@ -20,10 +20,7 @@ const DateTimeSegment = ({ segment, state }: DateSegmentBase) => {
       className={cx('text-16', { 'focus:outline-hidden focus:bg-gray-100': segment.isEditable })}
     >
       <span
-        className={cx(`
-          w-full text-center uppercase
-          group-focus:text-white
-        `, {
+        className={cx(`w-full text-center uppercase group-focus:text-white`, {
           'text-gray-500': segment?.isPlaceholder,
         })}
         style={{

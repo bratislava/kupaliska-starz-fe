@@ -20,21 +20,14 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
         <Icon name="three-dots" className="no-fill" />
       </Button>
       <Popover>
-        <Dialog className="
-          inline-flex flex-col items-start overflow-clip rounded-lg bg-sunscreen
-          py-2 drop-shadow-lg
-        ">
+        <Dialog className="inline-flex flex-col items-start overflow-clip rounded-lg bg-sunscreen py-2 drop-shadow-lg">
           {({ close }) => (
             <>
               {buttons.map((button, index) => (
                 <Button
                   key={index}
                   className={cx(
-                    `
-                      inline-flex items-center gap-2.5 self-stretch bg-sunscreen
-                      px-5 text-left
-                      hover:bg-gray-100
-                    `,
+                    `inline-flex items-center gap-2.5 self-stretch bg-sunscreen px-5 text-left hover:bg-gray-100`,
                     button.className,
                   )}
                   onPress={() => {

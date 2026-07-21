@@ -135,7 +135,9 @@ export const AssociatedSwimmerEditAddModal = ({
     mutation.mutate(changes)
   }
 
-  const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
+  const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(
+    errors.firstname?.message,
+  )
   const errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
@@ -169,15 +171,9 @@ export const AssociatedSwimmerEditAddModal = ({
             showLabel
           ></PhotoField>
         </div>
-        <div className="
-          grid grid-cols-1 gap-6
-          lg:grid-cols-4
-        ">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           <InputField
-            className="
-              col-span-1 max-w-formMax
-              lg:col-span-2
-            "
+            className="col-span-1 max-w-formMax lg:col-span-2"
             name="firstname"
             register={register}
             label={t('person-add.firstname')}
@@ -185,10 +181,7 @@ export const AssociatedSwimmerEditAddModal = ({
             newLabel
           />
           <InputField
-            className="
-              col-span-1 max-w-formMax
-              lg:col-span-2
-            "
+            className="col-span-1 max-w-formMax lg:col-span-2"
             name="lastname"
             register={register}
             label={t('person-add.lastname')}
@@ -205,10 +198,7 @@ export const AssociatedSwimmerEditAddModal = ({
             }}
           />
           <InputField
-            className="
-              col-span-1 max-w-formMax
-              lg:col-span-1
-            "
+            className="col-span-1 max-w-formMax lg:col-span-1"
             name="zip"
             register={register}
             label={t('person-add.zip')}

@@ -13,5 +13,5 @@
 .wave-overlay {
   background-position: center bottom;
   background-image: url('assets/images/pool_card_overlay.png');
-  @apply bg-no-repeat bg-contain;
+  @apply bg-contain bg-no-repeat;
 }

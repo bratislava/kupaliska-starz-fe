@@ -58,10 +58,7 @@ const Modal = ({
               onClose()
             }
           }}
-          className="
-            fixed inset-0 z-50 flex flex-col items-center justify-center
-            bg-fontBlack bg-opacity-30
-          "
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fontBlack bg-opacity-30"
         >
           <div className={cx('relative', { 'px-4': closeButton })}>
             <div
@@ -82,9 +79,7 @@ const Modal = ({
               <img
                 src="/red-cross-circle.svg"
                 alt=""
-                className="
-                  absolute right-0 top-0 h-8 w-8 -translate-y-2/4 cursor-pointer
-                "
+                className="absolute right-0 top-0 h-8 w-8 -translate-y-2/4 cursor-pointer"
                 onClick={() => onClose()}
               />
             )}

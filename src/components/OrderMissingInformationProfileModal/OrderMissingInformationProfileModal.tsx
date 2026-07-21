@@ -140,10 +140,7 @@ export const OrderMissingInformationProfileModal = ({
             showLabel
           ></PhotoField>
         </div>
-        <div className="
-          grid grid-cols-1 gap-6
-          lg:grid-cols-4
-        ">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           <DatePicker
             label={t('person-add.dateOfBirth')}
             errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
@@ -153,10 +150,7 @@ export const OrderMissingInformationProfileModal = ({
             }}
           />
           <InputField
-            className="
-              col-span-1 max-w-formMax
-              lg:col-span-1
-            "
+            className="col-span-1 max-w-formMax lg:col-span-1"
             name="zip"
             register={register}
             label={t('person-add.zip')}

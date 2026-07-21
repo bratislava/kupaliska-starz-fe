@@ -1,7 +1,7 @@
 .tooltip {
   background-color: #b1daec !important;
   opacity: 1 !important;
-  @apply text-fontBlack rounded-lg !important;
+  @apply rounded-lg text-fontBlack !important;
 }
 
 .tooltip .multi-line {

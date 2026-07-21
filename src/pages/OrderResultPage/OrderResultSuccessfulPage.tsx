@@ -3,7 +3,7 @@ import { ROUTES } from 'helpers/constants'
 import qs from 'qs'
 import { useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { useLocation,useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 import { Spinner } from '../../components'
 import { useErrorToast } from '../../hooks/useErrorToast'

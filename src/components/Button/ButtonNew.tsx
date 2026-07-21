@@ -112,10 +112,12 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
       // we use isFocusVisible to show focus ring only on keyboard navigation
       isFocused ? 'outline-2 outline-offset-4' : 'outline-hidden',
       // we change rounded corners for link focus ring
-      isLinkVariant ? `
+      isLinkVariant
+        ? `
         rounded-xs
         max-lg:gap-1
-      ` : 'rounded-lg',
+      `
+        : 'rounded-lg',
 
       {
         // NOTE: there are some style overrides for link variants below in "twMerge"

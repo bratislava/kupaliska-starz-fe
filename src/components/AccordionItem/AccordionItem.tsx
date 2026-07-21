@@ -30,7 +30,9 @@ export const AccordionItem = ({
   const [active, setActive] = useState<boolean>(initialState)
 
   useEffect(() => {
-    if (isOpen !== undefined) {setActive(isOpen)}
+    if (isOpen !== undefined) {
+      setActive(isOpen)
+    }
   }, [isOpen])
 
   const handleClick = () => {
@@ -41,11 +43,7 @@ export const AccordionItem = ({
     <>
       <AriaButton
         className={cx(
-          `
-            flex w-full items-center justify-between rounded-lg px-4 py-4
-            font-medium
-            md:px-10
-          `,
+          `flex w-full items-center justify-between rounded-lg px-4 py-4 font-medium md:px-10`,
           {
             'border-2 border-solid border-transparent bg-blueish shadow-lg': active,
             'border-2 border-primary bg-transparent md:hover:bg-blueish md:hover:stroke-current':

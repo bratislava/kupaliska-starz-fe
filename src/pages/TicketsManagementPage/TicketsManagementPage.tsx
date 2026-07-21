@@ -44,10 +44,7 @@ const TicketsManagementModal = ({
       {ticket && (
         <>
           <div
-            className="
-              hidden w-screen p-10 text-primary
-              md:block
-            "
+            className="hidden w-screen p-10 text-primary md:block"
             style={{ maxWidth: '1000px' }}
           >
             <div className="mb-5 flex">
@@ -104,10 +101,7 @@ const TicketsManagementModal = ({
               </tbody>
             </table>
           </div>
-          <div className="
-            mb-5 h-full text-primary
-            md:hidden
-          ">
+          <div className="mb-5 h-full text-primary md:hidden">
             <div className="rounded-t-lg bg-blueish px-6 pb-5 pt-8">
               <div className="pb-4 text-xl font-bold">{t('tickets.ticket-detail')}</div>
               <div className="pb-3">
@@ -191,11 +185,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
 
   return (
     <div
-      className={`
-        mb-6 flex flex-col items-center overflow-auto rounded-lg p-6 shadow-xs
-        ${textClass}
-        ${backgroundClass}
-      `}
+      className={`mb-6 flex flex-col items-center overflow-auto rounded-lg p-6 shadow-xs ${textClass} ${backgroundClass} `}
     >
       <span className="mb-1 text-2xl font-bold">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
@@ -223,10 +213,7 @@ interface TableProps {
 
 const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
   return (
-    <table className="
-      hidden w-full table-auto
-      md:table
-    " style={{ borderSpacing: '10px' }}>
+    <table className="hidden w-full table-auto md:table" style={{ borderSpacing: '10px' }}>
       <thead>
         <tr>
           {headers.map((header, index) => {
@@ -250,10 +237,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
       <tbody>
         {rows.map((row, rowIndex) => (
           <Fragment key={rowIndex}>
-            <tr className={`
-              ${rowBackgroundClass}
-              rounded-lg px-10 py-5 shadow-xs
-            `}>
+            <tr className={` ${rowBackgroundClass} rounded-lg px-10 py-5 shadow-xs`}>
               {row.map((column, columnIndex) => {
                 const first = columnIndex === 0
                 const last = columnIndex === row.length - 1
@@ -290,9 +274,7 @@ const UsedTicket = ({
   const { t } = useTranslation()
 
   return (
-    <div className="
-      mb-6 flex flex-col rounded-lg bg-sunscreen px-8 py-6 shadow-xs
-    ">
+    <div className="mb-6 flex flex-col rounded-lg bg-sunscreen px-8 py-6 shadow-xs">
       <div className="flex flex-col pb-6">
         <span>{t('tickets.ticket-type')}</span>
         <span className="text-xl font-semibold">{ticket.type}</span>
@@ -411,10 +393,7 @@ const TicketsManagementPage = () => {
             {dataMapped.hasActiveTickets && (
               <>
                 <div className="container mx-auto">
-                  <div className="
-                    mt-10 pb-2 text-center text-xl font-semibold
-                    md:mt-14 md:pb-6 md:text-2xl
-                  ">
+                  <div className="mt-10 pb-2 text-center text-xl font-semibold md:mt-14 md:pb-6 md:text-2xl">
                     {t('tickets.active')}
                   </div>
                   <Table
@@ -429,10 +408,7 @@ const TicketsManagementPage = () => {
                   ></Table>
                 </div>
                 {/* Carousel cannot be in container. */}
-                <MobileCarousel className="
-                  mb-10
-                  md:hidden
-                ">
+                <MobileCarousel className="mb-10 md:hidden">
                   {dataMapped.activeTickets.map((ticket, index) => (
                     <Ticket
                       key={index}
@@ -447,10 +423,7 @@ const TicketsManagementPage = () => {
               <>
                 <div className="container mx-auto">
                   <div
-                    className={cx(`
-                      pb-2 text-center text-xl font-semibold
-                      md:pb-6 md:text-2xl
-                    `, {
+                    className={cx(`pb-2 text-center text-xl font-semibold md:pb-6 md:text-2xl`, {
                       'mt-14 md:mt-24': dataMapped.hasActiveTickets,
                       'mt-10 md:mt-14': !dataMapped.hasActiveTickets,
                     })}
@@ -470,10 +443,7 @@ const TicketsManagementPage = () => {
                   ></Table>
                 </div>
                 {/* Carousel cannot be in container. */}
-                <MobileCarousel className="
-                  mb-10
-                  md:hidden
-                ">
+                <MobileCarousel className="mb-10 md:hidden">
                   {dataMapped.usedTickets.map((ticket, index) => (
                     <UsedTicket
                       key={index}
@@ -486,14 +456,8 @@ const TicketsManagementPage = () => {
             )}
 
             {!dataMapped.hasTickets && (
-              <div className="
-                container mx-auto mt-8 flex flex-col items-center
-                md:mt-20 md:flex-row
-              ">
-                <div className="
-                  mb-8 grow text-xl font-bold
-                  md:mb-0 md:min-w-5/10 md:text-3xl
-                ">
+              <div className="container mx-auto mt-8 flex flex-col items-center md:mt-20 md:flex-row">
+                <div className="mb-8 grow text-xl font-bold md:mb-0 md:min-w-5/10 md:text-3xl">
                   {t('tickets.no-tickets')}
                 </div>
                 <div className="shrink">

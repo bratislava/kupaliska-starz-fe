@@ -17,7 +17,9 @@ import { selectAvailableTicketTypes } from '../../store/global'
 import { FinalOrderTicket } from '../../store/order/api'
 import { Icon } from '../index'
 
-interface TicketProps { ticket: FinalOrderTicket }
+interface TicketProps {
+  ticket: FinalOrderTicket
+}
 
 // TODO: investigate if we can pass ticketType from upper component instead of fetching it here
 const Ticket = ({ ticket }: TicketProps) => {
@@ -29,10 +31,7 @@ const Ticket = ({ ticket }: TicketProps) => {
     <div className="inline-flex w-full flex-col items-center gap-6 px-8">
       <img className="w-full" src={ticket.qrCode} alt="" />
       {ticketType && <span className="text-xl font-semibold leading-7">{ticketType.name}</span>}
-      <div className="
-        flex flex-col items-center gap-2.5
-        sm:flex-row
-      ">
+      <div className="flex flex-col items-center gap-2.5 sm:flex-row">
         <a
           href={`${environment.host}/api/v1/orders/appleWallet/${ticket.id}`}
           target="_blank"
@@ -54,7 +53,9 @@ const Ticket = ({ ticket }: TicketProps) => {
   )
 }
 
-interface TicketsSwiperProps { tickets: FinalOrderTicket[] }
+interface TicketsSwiperProps {
+  tickets: FinalOrderTicket[]
+}
 
 const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass>()
@@ -84,11 +85,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       {/* Arrows must be implemented on our own to be outside the swiper. */}
       {displayButtons.previous && (
         <AriaButton
-          className="
-            absolute -left-6 top-[calc(50%-48px)] z-10 flex h-12 w-12
-            items-center justify-center rounded-full border-2 border-divider
-            bg-sunscreen
-          "
+          className="absolute -left-6 top-[calc(50%-48px)] z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handlePrevious}
         >
           <Icon name="arrow-left" className="no-fill font-fontBlack" />
@@ -96,11 +93,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       )}
       {displayButtons.next && (
         <AriaButton
-          className="
-            absolute -right-6 top-[calc(50%-48px)] z-10 flex h-12 w-12
-            items-center justify-center rounded-full border-2 border-divider
-            bg-sunscreen
-          "
+          className="absolute -right-6 top-[calc(50%-48px)] z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handleNext}
         >
           <Icon name="arrow-right" className="no-fill font-fontBlack" />

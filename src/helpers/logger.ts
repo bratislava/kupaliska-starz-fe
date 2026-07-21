@@ -34,7 +34,7 @@ export const logger = pino({
     asObject: serializeLogs,
     transmit: sendLogsToFaro
       ? {
-          send (_level, logEvent) {
+          send(_level, logEvent) {
             mutableFaro?.api.pushLog([JSON.stringify(logEvent)])
           },
         }

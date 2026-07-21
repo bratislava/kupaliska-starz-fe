@@ -36,14 +36,8 @@ const Dialog = ({
       {cloneElement(
         wrapper,
         {},
-        <AriaDialog className="
-          flex max-h-[calc(70vh-8px)] max-w-[calc(100vw-8px)] flex-col
-          rounded-lg bg-sunscreen
-        ">
-          <div className="
-            flex flex-row items-center justify-between gap-6 border-b-2
-            border-b-divider px-6 py-4
-          ">
+        <AriaDialog className="flex max-h-[calc(70vh-8px)] max-w-[calc(100vw-8px)] flex-col rounded-lg bg-sunscreen">
+          <div className="flex flex-row items-center justify-between gap-6 border-b-2 border-b-divider px-6 py-4">
             <Heading className="text-xl font-semibold text-gray-800">{title}</Heading>
             <Button onPress={() => onClose()} aria-label="Zatvoriť">
               <Icon name="close" className="no-fill" />
@@ -51,9 +45,7 @@ const Dialog = ({
           </div>
           <div className="overflow-auto p-8">{children}</div>
           {footerButton && (
-            <div className="
-              flex flex-col items-end border-t-2 border-t-divider px-6 py-4
-            ">
+            <div className="flex flex-col items-end border-t-2 border-t-divider px-6 py-4">
               {footerButton}
             </div>
           )}

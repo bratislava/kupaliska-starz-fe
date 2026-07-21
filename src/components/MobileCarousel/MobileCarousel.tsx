@@ -28,10 +28,7 @@ const MobileCarousel = ({ children, className }: MobileCarouselProps) => {
   )
 
   return (
-    <div {...handlers} className={`
-      relative w-full overflow-x-hidden
-      ${className}
-    `}>
+    <div {...handlers} className={`relative w-full overflow-x-hidden ${className} `}>
       <div className="flex flex-row flex-nowrap">
         {children.map((child, index) => {
           let positionClassName = ''
@@ -50,10 +47,7 @@ const MobileCarousel = ({ children, className }: MobileCarouselProps) => {
           return (
             <div
               key={index}
-              className={`
-                mx-auto flex flex-col p-4 transition-all
-                ${positionClassName}
-              `}
+              className={`mx-auto flex flex-col p-4 transition-all ${positionClassName} `}
               style={{
                 width: '70vw',
               }}

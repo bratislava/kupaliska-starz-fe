@@ -137,10 +137,7 @@ const HomepageTickets = () => {
 
   return (
     <>
-      <div className="
-        flex flex-col gap-8
-        lg:gap-10
-      ">
+      <div className="flex flex-col gap-8 lg:gap-10">
         {[
           {
             name: 'Jednorazové lístky',
@@ -169,10 +166,7 @@ const HomepageTickets = () => {
         ].map(({ name, description, descriptionFooter, ticketTypes, isCartable }, index) => (
           <div key={index} className="max-w-[904px]">
             <div className="flex flex-col gap-8">
-              <div className="
-                flex flex-col gap-3 text-center
-                lg:text-left
-              ">
+              <div className="flex flex-col gap-3 text-center lg:text-left">
                 <h5 className="text-xl font-semibold">{name}</h5>
                 <p>{description}</p>
               </div>
@@ -186,11 +180,7 @@ const HomepageTickets = () => {
                     <div
                       key={ticketType.id}
                       className={cx(
-                        `
-                          flex flex-col gap-8 rounded-lg border border-divider
-                          bg-sunscreen px-6 py-4
-                          lg:flex-row lg:items-center
-                        `,
+                        `flex flex-col gap-8 rounded-lg border border-divider bg-sunscreen px-6 py-4 lg:flex-row lg:items-center`,
                       )}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
@@ -210,11 +200,7 @@ const HomepageTickets = () => {
                               // TODO add also error when input field is added
                               <div
                                 key={item.ticketTypeId}
-                                className="
-                                  flex items-center justify-between rounded-lg
-                                  border border-primary px-6 py-2
-                                  lg:w-[182px]
-                                "
+                                className="flex items-center justify-between rounded-lg border border-primary px-6 py-2 lg:w-[182px]"
                               >
                                 <Button
                                   className="p-0"
@@ -251,10 +237,7 @@ const HomepageTickets = () => {
                             ))}
                         {!isCartable && (
                           <Button
-                            className="
-                              mt-2 w-full min-w-[182px]
-                              xs:mt-0 xs:w-auto xs:px-4
-                            "
+                            className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
                             thin
                             rounded
                             onClick={async () => handleClick(ticketType)}
@@ -278,17 +261,10 @@ const HomepageTickets = () => {
                 })}
               </div>
               {isCartable && (
-                <div className="
-                  flex flex-col rounded-lg border border-divider bg-blueish px-6
-                  py-4
-                  lg:flex-row lg:items-center
-                ">
+                <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
                   <span className="grow font-semibold">{t('price-total')}</span>
                   <div className="flex items-center justify-between gap-x-6">
-                    <span className="
-                      grow text-xl font-semibold
-                      lg:w-[115px] lg:text-left
-                    ">
+                    <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
                       <SkeletonTheme
                         baseColor="#a8dbf2"
                         highlightColor="#58bbe6"
@@ -316,10 +292,7 @@ const HomepageTickets = () => {
                       </SkeletonTheme>
                     </span>
                     <Button
-                      className="
-                        mt-2 w-full min-w-[182px]
-                        xs:mt-0 xs:w-auto xs:px-4
-                      "
+                      className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
                       thin
                       rounded
                       onClick={async () => handleClick()}
@@ -328,9 +301,7 @@ const HomepageTickets = () => {
                     >
                       <>
                         {t('landing.basket')}
-                        <Icon name={'euro-coin'} className={cx(`
-                          no-fill ml-2 py-1
-                        `)} />
+                        <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
                       </>
                     </Button>
                   </div>

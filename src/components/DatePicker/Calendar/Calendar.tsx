@@ -53,9 +53,7 @@ const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
         </AriaButton>
       </div>
       <CalendarGrid state={state} />
-      <div className="
-        flex items-center justify-between border-t-2 border-gray-700 px-4 py-3
-      ">
+      <div className="flex items-center justify-between border-t-2 border-gray-700 px-4 py-3">
         <Button onClick={onReset}>{'Resetovať'}</Button>
         <Button onClick={onConfirm}>{'Potvrdiť'}</Button>
       </div>

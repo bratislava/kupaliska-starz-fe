@@ -27,10 +27,7 @@ const HeroBanner = () => {
           'xl:min-h-[228px]': generalSettings?.data.isOffSeason,
         })}
       >
-        <div className="
-          max-w-xs
-          2xl:max-w-md
-        ">
+        <div className="max-w-xs 2xl:max-w-md">
           <Typography type="title" fontWeight="bold" className="mb-4">
             {/* TODO implement better logic offseason/preseason/season texts */}
             {/* {preseason ? t('landing.title-offseason') : t(`landing.title`)} */}
@@ -46,13 +43,7 @@ const HeroBanner = () => {
         </div>
 
         {!generalSettings?.data.isOffSeason && (
-          <div
-            className="
-              mb-16 mt-8 flex w-full flex-col space-x-0 space-y-4
-              lg:flex-row lg:space-x-4 lg:space-y-0
-              xl:w-3/5
-            "
-          >
+          <div className="mb-16 mt-8 flex w-full flex-col space-x-0 space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0 xl:w-3/5">
             <Link to={ANCHORS.TICKET_BUY}>
               <Button thin>
                 <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
@@ -62,10 +53,7 @@ const HeroBanner = () => {
             <Link to={ANCHORS.SWIMMING_POOLS} className="block">
               <Button className="" color="outlined" thin>
                 <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
-                <Icon name="swimming-man" className="
-                  no-fill hidden pr-5
-                  xs:block
-                " />
+                <Icon name="swimming-man" className="no-fill hidden pr-5 xs:block" />
               </Button>
             </Link>
           </div>

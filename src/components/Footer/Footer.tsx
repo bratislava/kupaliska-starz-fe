@@ -18,15 +18,8 @@ const Footer = () => {
 
   return (
     <div className={cx('w-full bg-blueish', { 'mt-4 md:mt-24': showTopMargin })}>
-      <div className="
-        container mx-auto flex grid w-full grid-cols-1 items-center
-        justify-between py-4
-        lg:grid-cols-3
-      ">
-        <div className="
-          order-1 my-2 flex flex-col text-primary
-          lg:order-1 lg:my-0
-        ">
+      <div className="container mx-auto flex grid w-full grid-cols-1 items-center justify-between py-4 lg:grid-cols-3">
+        <div className="order-1 my-2 flex flex-col text-primary lg:order-1 lg:my-0">
           <span className="font-semibold">{t('common.contact')}</span>
           <span>
             Správa telovýchovných a rekreačných zariadení hlavného mesta Slovenskej republiky
@@ -37,10 +30,7 @@ const Footer = () => {
           <span>IČO: 00179663</span>
           <span>DIČ: 2020801695</span>
         </div>
-        <div className="
-          order-3 col-span-1 flex items-center justify-center text-primary
-          lg:order-2
-        ">
+        <div className="order-3 col-span-1 flex items-center justify-center text-primary lg:order-2">
           STARZ |{' '}
           <a
             href="https://inovacie.bratislava.sk"
@@ -52,10 +42,7 @@ const Footer = () => {
           </a>
           | {currentYear.current}
         </div>
-        <div className="
-          order-2 my-2 flex flex-col text-primary
-          lg:order-3 lg:my-0 lg:items-end
-        ">
+        <div className="order-2 my-2 flex flex-col text-primary lg:order-3 lg:my-0 lg:items-end">
           <span className="font-semibold">{t('common.important-info')}</span>
           <Link className="link" to={ROUTES.VOP}>
             {t('common.vop')}

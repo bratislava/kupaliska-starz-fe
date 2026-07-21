@@ -33,21 +33,11 @@ const CheckboxField = ({
   const registerValues: UseFormRegisterReturn | undefined = register ? register(name) : undefined
 
   return (
-    <div className={`
-      flex-col
-      ${className}
-    `}>
-      <div className={`
-        checkbox-field
-        ${error && 'error'}
-        flex items-center
-      `}>
+    <div className={`flex-col ${className} `}>
+      <div className={`checkbox-field ${error && 'error'} flex items-center`}>
         <input
           value={valueOfInput ? valueOfInput : true}
-          className={`
-            ${inputClassName}
-            ${type}
-          `}
+          className={` ${inputClassName} ${type} `}
           // checked={_value}
           type={type}
           disabled={disabled}
@@ -63,13 +53,9 @@ const CheckboxField = ({
         />
         {label && (
           <span
-            className={`
-              ml-6 font-medium
-              ${error ? 'text-error' : `text-fontBlack`}
-              ${
+            className={`ml-6 font-medium ${error ? 'text-error' : `text-fontBlack`} ${
               disabled ? 'text-opacity-50' : ''
-            }
-            `}
+            } `}
           >
             {label}
           </span>
