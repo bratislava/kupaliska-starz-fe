@@ -66,9 +66,6 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
   const removeInvalidAccessTokenInLocalStorage = useCallback(() => {
     if (!checkTokenValid(accessToken)) {
       setAccessTokenState({ accessToken: null })
-      return null
-    } else {
-      return accessToken
     }
   }, [accessToken, setAccessTokenState])
 
@@ -110,6 +107,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
         getTokenFromUrl()
         if (token) {
           // iframe works, refresh from it on refocus
+          // TODO possible memory leak because we send new function to addEventListener, but it is called only when hook is first called
           window.addEventListener('focus', () => refreshAccessToken(false))
         }
       })
