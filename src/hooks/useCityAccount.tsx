@@ -18,8 +18,8 @@ interface CityAccountAccessTokenState {
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
 
-const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState>(
-  {} as CityAccountAccessTokenState,
+const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState | undefined>(
+  undefined,
 )
 
 export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNode }) => {
