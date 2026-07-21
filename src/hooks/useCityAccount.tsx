@@ -63,7 +63,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
     [setAccessTokenState],
   )
 
-  const validateTokenInLocalStorage = useCallback(() => {
+  const removeInvalidAccessTokenInLocalStorage = useCallback(() => {
     if (!checkTokenValid(accessToken)) {
       setAccessTokenState({ accessToken: null })
       return null
@@ -74,11 +74,11 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
 
   useEffect(() => {
     // prevent stale token in storage, in case iframe refresh does not work
-    window.addEventListener('focus', validateTokenInLocalStorage)
+    window.addEventListener('focus', removeInvalidAccessTokenInLocalStorage)
     return () => {
-      window.removeEventListener('focus', validateTokenInLocalStorage)
+      window.removeEventListener('focus', removeInvalidAccessTokenInLocalStorage)
     }
-  }, [validateTokenInLocalStorage])
+  }, [removeInvalidAccessTokenInLocalStorage])
 
   const getTokenFromUrl = useCallback(() => {
     try {
@@ -102,7 +102,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
 
   useEffectOnce(() => {
     setInitializationState('initializing')
-    validateTokenInLocalStorage()
+    removeInvalidAccessTokenInLocalStorage()
     // try getting token from iframe - this tends to fail randomly
     refreshAccessToken(true)
       .then((token) => {
