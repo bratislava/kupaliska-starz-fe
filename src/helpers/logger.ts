@@ -4,8 +4,9 @@ import {
   Faro,
   initializeFaro,
 } from '@grafana/faro-web-sdk'
-import { environment } from '../environment'
 import pino from 'pino'
+
+import { environment } from '../environment'
 
 const { isProd, faroSecret } = environment
 
@@ -33,7 +34,7 @@ export const logger = pino({
     asObject: serializeLogs,
     transmit: sendLogsToFaro
       ? {
-          send: function (_level, logEvent) {
+          send(_level, logEvent) {
             mutableFaro?.api.pushLog([JSON.stringify(logEvent)])
           },
         }

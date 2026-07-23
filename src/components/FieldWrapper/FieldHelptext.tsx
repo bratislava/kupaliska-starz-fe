@@ -1,6 +1,6 @@
 import { DOMAttributes } from 'react'
 
-type FieldHelptextProps = {
+interface FieldHelptextProps {
   helptext?: string
   helptextMarkdown?: boolean
   descriptionProps?: DOMAttributes<never>
@@ -19,7 +19,7 @@ const FieldHelptext = ({
     <div className="w-full">
       <div
         {...descriptionProps}
-        className="mt-1 text-p3 whitespace-pre-wrap text-gray-700 sm:text-16"
+        className="text-p3 sm:text-16 mt-1 whitespace-pre-wrap text-gray-700"
       >
         {helptext}
       </div>

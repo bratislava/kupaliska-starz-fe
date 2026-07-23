@@ -1,8 +1,7 @@
-import { ChangeEvent, FocusEvent, ReactNode } from 'react'
-
-import { UseFormRegisterReturn } from 'react-hook-form'
-
 import './CheckboxField.css'
+
+import { ChangeEvent, FocusEvent, ReactNode } from 'react'
+import { UseFormRegisterReturn } from 'react-hook-form'
 
 interface CheckboxProps {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
@@ -32,12 +31,13 @@ const CheckboxField = ({
   disabled = false,
 }: CheckboxProps) => {
   const registerValues: UseFormRegisterReturn | undefined = register ? register(name) : undefined
+
   return (
-    <div className={`flex-col ${className}`}>
+    <div className={`flex-col ${className} `}>
       <div className={`checkbox-field ${error && 'error'} flex items-center`}>
         <input
           value={valueOfInput ? valueOfInput : true}
-          className={`${inputClassName} ${type}`}
+          className={` ${inputClassName} ${type} `}
           // checked={_value}
           type={type}
           disabled={disabled}
@@ -53,15 +53,15 @@ const CheckboxField = ({
         />
         {label && (
           <span
-            className={`font-medium ml-6 ${error ? 'text-error' : 'text-fontBlack'} ${
+            className={`ml-6 font-medium ${error ? 'text-error' : `text-fontBlack`} ${
               disabled ? 'text-opacity-50' : ''
-            }`}
+            } `}
           >
             {label}
           </span>
         )}
       </div>
-      {error && <div className="text-error px-2 mt-2 text-sm ml-7">{error}</div>}
+      {error && <div className="ml-7 mt-2 px-2 text-sm text-error">{error}</div>}
     </div>
   )
 }

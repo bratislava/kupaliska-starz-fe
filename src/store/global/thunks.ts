@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ContactFormValues } from 'components/ContactForm/ContactForm'
+
 import { fetchPool, fetchPools, fetchTickets, sendContactForm } from './api'
 import { setToast } from './reducer'
 
@@ -8,6 +9,7 @@ export const fetchPoolActions = createAsyncThunk(
   async (poolId: string, { rejectWithValue, dispatch }) => {
     try {
       const response = await fetchPool(poolId)
+
       return response.data
     } catch (err) {
       dispatch(
@@ -16,6 +18,7 @@ export const fetchPoolActions = createAsyncThunk(
           message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
         }),
       )
+
       return rejectWithValue(err.response)
     }
   },
@@ -36,6 +39,7 @@ export const initPageGlobalState = createAsyncThunk(
       const ticketTypes = response[0].data.ticketTypes.map((ticketType) =>
         ticketsDisabled ? { ...ticketType, disabled: true } : ticketType,
       )
+
       return {
         ticketTypes,
         swimmingPools: response[1].data.swimmingPools,
@@ -47,6 +51,7 @@ export const initPageGlobalState = createAsyncThunk(
           message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
         }),
       )
+
       return rejectWithValue(err.response)
     }
   },
@@ -67,6 +72,7 @@ export const sendContactFormActions = createAsyncThunk(
           message: 'Správa úspešne odoslaná',
         }),
       )
+
       return {
         status,
         data,
@@ -82,6 +88,7 @@ export const sendContactFormActions = createAsyncThunk(
                 : 'Správu sa nepodarilo odoslať',
           }),
         )
+
         return rejectWithValue(err.response)
       }
       dispatch(
@@ -90,6 +97,7 @@ export const sendContactFormActions = createAsyncThunk(
           message: 'Správu sa nepodarilo odoslať',
         }),
       )
+
       return rejectWithValue(err.response)
     }
   },

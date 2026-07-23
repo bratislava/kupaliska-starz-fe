@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
-import { AxiosError, AxiosResponse } from 'axios'
-import { produce } from 'immer'
-import { Button } from '../index'
-import { updateUser, User } from '../../store/user/api'
-import * as yup from 'yup'
-import { useTranslation } from 'react-i18next'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { pick } from 'lodash'
-import Dialog from '../Dialog/Dialog'
-import PhotoField from '../PhotoField/PhotoField'
-import { useErrorToast } from '../../hooks/useErrorToast'
+import { AxiosError, AxiosResponse } from 'axios'
 import { ErrorWithMessages } from 'helpers/general'
+import { produce } from 'immer'
+import { pick } from 'lodash'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useMutation, useQueryClient } from 'react-query'
+import * as yup from 'yup'
 
-type ProfilePagePhotoModalProps = {
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { updateUser, User } from '../../store/user/api'
+import Dialog from '../Dialog/Dialog'
+import { Button } from '../index'
+import PhotoField from '../PhotoField/PhotoField'
+
+interface ProfilePagePhotoModalProps {
   user: User
   onClose: () => void
 }
@@ -51,7 +52,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
 
   const queryClient = useQueryClient()
   const mutation = useMutation(
-    () => {
+    async () => {
       return updateUser({ image })
     },
     {

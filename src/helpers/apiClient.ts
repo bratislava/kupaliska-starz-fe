@@ -1,5 +1,6 @@
 import axios, { AxiosRequestHeaders } from 'axios'
 import qs from 'qs'
+
 import { environment } from '../environment'
 import { ACCESS_TOKEN_STORAGE_KEY } from '../hooks/useCityAccount'
 import { checkTokenValid } from './cityAccountToken'
@@ -44,7 +45,7 @@ const createApiClient = (withAccessToken = WithAccessToken.None) => {
   if (withAccessToken === WithAccessToken.Required) {
     newApiClient.interceptors.request.use(async (config) => {
       const accessToken = getAccessToken()
-      ;(config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${accessToken}`
+      ;(config.headers as AxiosRequestHeaders).Authorization = `Bearer ${accessToken}`
 
       return config
     })
@@ -54,7 +55,7 @@ const createApiClient = (withAccessToken = WithAccessToken.None) => {
     newApiClient.interceptors.request.use(async (config) => {
       try {
         const accessToken = getAccessToken()
-        ;(config.headers as AxiosRequestHeaders)['Authorization'] = `Bearer ${accessToken}`
+        ;(config.headers as AxiosRequestHeaders).Authorization = `Bearer ${accessToken}`
       } catch (e) {}
 
       return config

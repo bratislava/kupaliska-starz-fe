@@ -1,20 +1,18 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError, AxiosResponse } from 'axios'
-import { useTranslation } from 'react-i18next'
+import DatePicker from 'components/DatePicker/DatePicker'
+import dayjs from 'dayjs'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import logger from 'helpers/logger'
+import { produce } from 'immer'
+import { pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
-import { produce } from 'immer'
-import dayjs from 'dayjs'
-import { pick } from 'lodash'
 import * as yup from 'yup'
 
-import logger from 'helpers/logger'
-import { Button, InputField } from '../index'
-import PhotoField from '../PhotoField/PhotoField'
 import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import Dialog from '../Dialog/Dialog'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import {
   AssociatedSwimmer,
@@ -22,13 +20,15 @@ import {
   createAssociatedSwimmer,
   editAssociatedSwimmer,
 } from '../../store/associatedSwimmers/api'
-import DatePicker from 'components/DatePicker/DatePicker'
+import Dialog from '../Dialog/Dialog'
+import { Button, InputField } from '../index'
+import PhotoField from '../PhotoField/PhotoField'
 
 type FormData = Partial<
   Pick<AssociatedSwimmer, 'firstname' | 'lastname' | 'image' | 'dateOfBirth' | 'zip'>
 >
 
-type AssociatedSwimmerEditAddFormModalProps = {
+interface AssociatedSwimmerEditAddFormModalProps {
   swimmer?: AssociatedSwimmer | null
   onSaveSuccess?: (savedSwimmer: AssociatedSwimmer) => void
   onClose?: () => void
@@ -91,7 +91,7 @@ export const AssociatedSwimmerEditAddModal = ({
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const mutation = useMutation(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       return isEditing
         ? editAssociatedSwimmer(swimmer!.id as string, formData)
         : createAssociatedSwimmer(formData as AssociatedSwimmer)
@@ -135,12 +135,15 @@ export const AssociatedSwimmerEditAddModal = ({
     mutation.mutate(changes)
   }
 
-  let errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(errors.firstname?.message)
-  let errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
-  let errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
+  const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(
+    errors.firstname?.message,
+  )
+  const errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
+  const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
-  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
+  const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
+
   return (
     <Dialog
       title={swimmer ? 'Upraviť osobu' : 'Nová osoba'}
@@ -168,9 +171,9 @@ export const AssociatedSwimmerEditAddModal = ({
             showLabel
           ></PhotoField>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           <InputField
-            className="col-span-1 lg:col-span-2 max-w-formMax"
+            className="col-span-1 max-w-formMax lg:col-span-2"
             name="firstname"
             register={register}
             label={t('person-add.firstname')}
@@ -178,7 +181,7 @@ export const AssociatedSwimmerEditAddModal = ({
             newLabel
           />
           <InputField
-            className="col-span-1 lg:col-span-2 max-w-formMax"
+            className="col-span-1 max-w-formMax lg:col-span-2"
             name="lastname"
             register={register}
             label={t('person-add.lastname')}
@@ -195,7 +198,7 @@ export const AssociatedSwimmerEditAddModal = ({
             }}
           />
           <InputField
-            className="col-span-1 lg:col-span-1 max-w-formMax"
+            className="col-span-1 max-w-formMax lg:col-span-1"
             name="zip"
             register={register}
             label={t('person-add.zip')}

@@ -1,16 +1,17 @@
 import { ContactFormValues } from 'components/ContactForm/ContactForm'
 import { apiClient } from 'helpers/apiClient'
+
 import { GeneralSettings, TicketType } from '../../models'
 
-export function fetchGeneralSettings() {
+export async function fetchGeneralSettings() {
   return apiClient.get<GeneralSettings>('/api/v1/generalSettings')
 }
 
-export function fetchTickets() {
+export async function fetchTickets() {
   return apiClient.get<{ ticketTypes: TicketType[] }>('/api/v1/ticketTypes')
 }
 
-export function fetchPools(number: number) {
+export async function fetchPools(number: number) {
   return apiClient.get(`/api/v1/swimmingPools`, {
     params: {
       limit: number,
@@ -20,11 +21,11 @@ export function fetchPools(number: number) {
   })
 }
 
-export function fetchPool(id: string) {
+export async function fetchPool(id: string) {
   return apiClient.get(`/api/v1/swimmingPools/${id}`)
 }
 
-export function sendContactForm(
+export async function sendContactForm(
   data: Omit<ContactFormValues, 'recaptchaToken'> & { token: string; agreement: boolean },
 ) {
   return apiClient.post('/api/v1/contact', data)
@@ -32,7 +33,7 @@ export function sendContactForm(
 
 export type RegisterUserResponse = string
 
-export function registerUser(tokenId: string) {
+export async function registerUser(tokenId: string) {
   return apiClient.get<RegisterUserResponse>('/api/v1/swimmingLoggedUsers/register', {
     headers: { Authorization: `Bearer ${tokenId}` },
   })

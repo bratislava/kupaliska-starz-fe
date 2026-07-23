@@ -1,17 +1,16 @@
-import { useState } from 'react'
-
-import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { Link } from 'react-router'
-
 import { Button, CheckboxField, Icon, InputField } from 'components'
 import { useAppDispatch } from 'hooks'
-import { sendContactFormActions } from 'store/global'
-import Turnstile from 'react-turnstile'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
-import { environment } from '../../environment'
+import { Link } from 'react-router'
+import Turnstile from 'react-turnstile'
+import { sendContactFormActions } from 'store/global'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
+import * as yup from 'yup'
+
+import { environment } from '../../environment'
 
 const formRules = yup.object().shape({
   email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
@@ -48,7 +47,9 @@ const ContactForm = () => {
   })
 
   useTimeout(() => {
-    if (!isClient || captchaWarning === 'hide') return
+    if (!isClient || captchaWarning === 'hide') {
+      return
+    }
     setCaptchaWarning('show')
   }, 3000)
 
@@ -68,7 +69,7 @@ const ContactForm = () => {
   }
 
   return (
-    <form className="flex gap-4 flex-col">
+    <form className="flex flex-col gap-4">
       <InputField
         name="name"
         register={register}
@@ -114,6 +115,7 @@ const ContactForm = () => {
               onError={(error) => {
                 // logger.error("Turnstile error:", error);
                 setCaptchaWarning('show')
+
                 return onChange(null)
               }}
               onTimeout={() => {
@@ -137,7 +139,7 @@ const ContactForm = () => {
         )}
       />
       <Button disabled={sending} htmlType="button" onClick={handleSubmit(onSubmit)}>
-        {t('landing.send-message')} <Icon className="ml-4 no-fill" name="send" />
+        {t('landing.send-message')} <Icon className="no-fill ml-4" name="send" />
       </Button>
     </form>
   )

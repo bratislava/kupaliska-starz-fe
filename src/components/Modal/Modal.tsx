@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MouseEvent, PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
-import { useElementSize, useLockedBody } from 'usehooks-ts'
-import FocusTrap from 'focus-trap-react'
-import cx from 'classnames'
-import { Portal } from 'react-portal'
-
 import './Modal.css'
+
+import cx from 'classnames'
+import FocusTrap from 'focus-trap-react'
+import { MouseEvent, PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
+import { Portal } from 'react-portal'
+import { useElementSize, useLockedBody } from 'usehooks-ts'
 
 const ModalButton = ({
   button,
@@ -58,12 +58,12 @@ const Modal = ({
               onClose()
             }
           }}
-          className="fixed inset-0 flex flex-col justify-center items-center bg-fontBlack bg-opacity-30 z-50"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fontBlack bg-opacity-30"
         >
           <div className={cx('relative', { 'px-4': closeButton })}>
             <div
               className={cx(
-                'relative bg-sunscreen rounded-lg shadow-lg overflow-y-auto',
+                'relative overflow-y-auto rounded-lg bg-sunscreen shadow-lg',
                 modalClassName,
               )}
               /* Calculates max height of modal, subtracts the overflow of button and close button. */
@@ -79,7 +79,7 @@ const Modal = ({
               <img
                 src="/red-cross-circle.svg"
                 alt=""
-                className="absolute right-0 top-0 -translate-y-2/4 w-8 h-8 cursor-pointer"
+                className="absolute right-0 top-0 h-8 w-8 -translate-y-2/4 cursor-pointer"
                 onClick={() => onClose()}
               />
             )}

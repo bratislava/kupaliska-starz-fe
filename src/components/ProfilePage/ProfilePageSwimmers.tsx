@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import { Button, Icon, Spinner } from '../index'
-import { useQuery } from 'react-query'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import ThreeDots from '../ThreeDots/ThreeDots'
-import cx from 'classnames'
-import Photo from '../Photo/Photo'
-import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
-import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
-import { useErrorToast } from '../../hooks/useErrorToast'
 import { AxiosError } from 'axios'
-import { useTranslation } from 'react-i18next'
+import cx from 'classnames'
 import { ErrorWithMessages } from 'helpers/general'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
+import { useErrorToast } from '../../hooks/useErrorToast'
+import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
+import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
+import { Button, Icon, Spinner } from '../index'
+import Photo from '../Photo/Photo'
+import ThreeDots from '../ThreeDots/ThreeDots'
+import ProfilePageDeleteAssociatedSwimmerModal from './ProfilePageDeleteAssociatedSwimmerModal'
 
 const ProfilePageSwimmers = () => {
   const { t } = useTranslation()
@@ -50,14 +51,14 @@ const ProfilePageSwimmers = () => {
       )}
 
       <div className="inline-flex flex-col rounded-lg bg-sunscreen lg:col-span-5">
-        <div className="px-6 py-4 gap-6 flex border-b-2 border-b-divider flex-col sm:flex-row">
-          <div className="flex-1 gap-1 flex flex-col flex-grow">
+        <div className="flex flex-col gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row">
+          <div className="flex flex-1 flex-grow flex-col gap-1">
             <p className="text-xl font-semibold">Priradené osoby</p>
             <p>Pridajte do profilu osoby a zakúpte pre ne lístky a permanentky.</p>
           </div>
           {data && data.data.associatedSwimmers.length > 0 && (
             <Button className="self-start" onClick={() => setAddEditSwimmerModal({ open: true })}>
-              <Icon className="mr-2 no-fill" name="plus" color="white" /> Pridať
+              <Icon className="no-fill mr-2" name="plus" color="white" /> Pridať
             </Button>
           )}
         </div>
@@ -76,11 +77,11 @@ const ProfilePageSwimmers = () => {
           >
             {data.data.associatedSwimmers.map((swimmer) => (
               <div
-                className="px-4 py-3 gap-4 flex items-center rounded-lg bg-backgroundGray"
+                className="flex items-center gap-4 rounded-lg bg-backgroundGray px-4 py-3"
                 key={swimmer.id}
               >
                 <Photo size="small" photo={swimmer.image} />
-                <div className="flex flex-col flex-grow">
+                <div className="flex flex-grow flex-col">
                   <p className="font-semibold">
                     {swimmer.firstname} {swimmer.lastname}
                   </p>
@@ -111,21 +112,21 @@ const ProfilePageSwimmers = () => {
             ))}
             {data.data.associatedSwimmers.length === 0 && (
               <>
-                <div className="flex flex-col gap-3 items-center">
+                <div className="flex flex-col items-center gap-3">
                   <div
-                    className="w-18 h-18 rounded-full bg-primary bg-opacity-[0.08] flex justify-center items-center text-primary"
+                    className="flex h-18 w-18 items-center justify-center rounded-full bg-primary bg-opacity-[0.08] text-primary"
                     aria-hidden
                   >
                     <Icon name="groups" className="no-fill" />
                   </div>
-                  <span className="font-semibold text-md">Nemáte priradené žiadne osoby.</span>
+                  <span className="text-md font-semibold">Nemáte priradené žiadne osoby.</span>
                 </div>
                 <div className="flex justify-center">
                   <Button
                     className="self-start"
                     onClick={() => setAddEditSwimmerModal({ open: true })}
                   >
-                    <Icon className="mr-2 no-fill" name="plus" color="white" /> Pridať
+                    <Icon className="no-fill mr-2" name="plus" color="white" /> Pridať
                   </Button>
                 </div>
               </>

@@ -21,7 +21,7 @@ const MessageScreen = ({
 }: PropsWithChildren<MessageScreenProps>) => {
   return (
     <div className={twMerge(`grow ${className}`)}>
-      <div className="container mx-auto flex flex-col flex-1 py-8 xl:py-12 gap-y-8">
+      <div className="container mx-auto flex flex-1 flex-col gap-y-8 py-8 xl:py-12">
         <SectionHeader title={title} subtitle={description} />
         {children}
       </div>

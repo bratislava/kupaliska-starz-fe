@@ -1,24 +1,24 @@
 .checkbox-field > input.checkbox,
 .react-aria-checkbox {
   appearance: none;
-  @apply border-solid border-fontBlack border-2 bg-white border-black rounded w-4 h-4 p-3 focus:outline-none transition-all;
+  @apply h-4 w-4 rounded border-2 border-solid border-black border-fontBlack bg-white p-3 transition-all focus:outline-none;
 }
 
 .checkbox-field > input.radio {
   appearance: none;
-  @apply border-solid border-fontBlack border-2 bg-white border-black rounded-full w-4 h-4 p-2 focus:outline-none transition-all;
+  @apply h-4 w-4 rounded-full border-2 border-solid border-black border-fontBlack bg-white p-2 transition-all focus:outline-none;
 }
 
 .checkbox-field > input.checkbox:checked,
 [data-selected] .react-aria-checkbox {
-  @apply bg-primary border-primary;
+  @apply border-primary bg-primary;
   background-image: url('assets/icons/checkmark.svg');
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .checkbox-field > input.radio:checked {
-  @apply border-primary relative;
+  @apply relative border-primary;
 }
 
 .checkbox-field > input.radio:checked::after {
@@ -27,7 +27,7 @@
   top: 4px;
   right: 4px;
   bottom: 4px;
-  @apply border-primary bg-primary rounded-full absolute;
+  @apply absolute rounded-full border-primary bg-primary;
 }
 
 .checkbox-field.error {

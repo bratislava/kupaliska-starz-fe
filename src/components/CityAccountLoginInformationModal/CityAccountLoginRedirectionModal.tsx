@@ -1,15 +1,16 @@
-import { PropsWithChildren, useContext, useState, createContext } from 'react'
+import { ROUTES } from 'helpers/constants'
+import { createContext, PropsWithChildren, useContext, useState } from 'react'
+import { Link } from 'react-router'
+
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
-import { Link } from 'react-router'
-import { ROUTES } from 'helpers/constants'
 
-type State = {
+interface State {
   open: boolean
   onSuccessCallback: () => void
 }
 
-type Context = {
+interface Context {
   state: State
   open: (onSuccessCallback: () => void) => void
   close: () => void

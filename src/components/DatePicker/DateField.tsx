@@ -1,12 +1,12 @@
 import { createCalendar } from '@internationalized/date'
 import { useObjectRef } from '@react-aria/utils'
 import { DateValue } from '@react-types/datepicker'
+import cx from 'classnames'
+import FieldWrapper, { FieldWrapperProps } from 'components/FieldWrapper/FieldWrapper'
 import { forwardRef, ReactNode } from 'react'
 import { AriaDatePickerProps, useDateField, useLocale } from 'react-aria'
 import { useDateFieldState } from 'react-stately'
-import cx from 'classnames'
 
-import FieldWrapper, { FieldWrapperProps } from 'components/FieldWrapper/FieldWrapper'
 import DateTimeSegment from './DateTimeSegment'
 
 type DateFieldProps = FieldWrapperProps & {
@@ -56,13 +56,20 @@ const DateField = forwardRef<HTMLDivElement, DateFieldProps>(
       state,
       ref,
     )
-    const dateFieldStyle = cx('flex rounded-lg border-2 px-3 py-2 lg:px-4 lg:py-3', {
-      'bg-white': !disabled,
-      'border-gray-200 hover:border-gray-400': !disabled && !isOpen,
-      'border-negative-700 hover:border-negative-700': errorMessage?.length > 0 && !disabled,
-      'pointer-events-none border-gray-300 bg-gray-100': disabled,
-      'border-gray-700': isOpen && !disabled && !(errorMessage?.length > 0),
-    })
+    const dateFieldStyle = cx(
+      `
+      flex rounded-lg border-2 px-3 py-2
+      lg:px-4 lg:py-3
+    `,
+      {
+        'bg-white': !disabled,
+        'border-gray-200 hover:border-gray-400': !disabled && !isOpen,
+        'border-negative-700 hover:border-negative-700': errorMessage?.length > 0 && !disabled,
+        'pointer-events-none border-gray-300 bg-gray-100': disabled,
+        'border-gray-700': isOpen && !disabled && !(errorMessage?.length > 0),
+      },
+    )
+
     return (
       <FieldWrapper
         label={label}

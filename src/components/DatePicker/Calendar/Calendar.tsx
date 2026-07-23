@@ -1,14 +1,13 @@
-import { Button, Icon } from 'components'
-
 import { createCalendar } from '@internationalized/date'
+import { Button, Icon } from 'components'
 import { useRef } from 'react'
 import { useCalendar, useLocale } from 'react-aria'
-import { useCalendarState } from 'react-stately'
 import { Button as AriaButton } from 'react-aria-components'
+import { useCalendarState } from 'react-stately'
 
 import CalendarGrid from './CalendarGrid'
 
-type CalendarBase = {
+interface CalendarBase {
   onConfirm?: () => void
   onReset?: () => void
 }

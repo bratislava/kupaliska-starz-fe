@@ -1,23 +1,25 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Swiper as SwiperClass } from 'swiper/types'
-
 import 'swiper/css'
 import 'swiper/css/pagination'
 import './TicketsSwiper.css'
 
-import { useCallback, useEffect, useState } from 'react'
-import { Pagination } from 'swiper'
-import { FinalOrderTicket } from '../../store/order/api'
 import cx from 'classnames'
+import { useCallback, useEffect, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
-import { Icon } from '../index'
+import { Pagination } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper as SwiperClass } from 'swiper/types'
+
 import AppleWalletImage from '../../assets/images/apple_wallet.svg'
 import GoogleWalletImage from '../../assets/images/google_wallet.svg'
+import { environment } from '../../environment'
 import { useAppSelector } from '../../hooks'
 import { selectAvailableTicketTypes } from '../../store/global'
-import { environment } from '../../environment'
+import { FinalOrderTicket } from '../../store/order/api'
+import { Icon } from '../index'
 
-type TicketProps = { ticket: FinalOrderTicket }
+interface TicketProps {
+  ticket: FinalOrderTicket
+}
 
 // TODO: investigate if we can pass ticketType from upper component instead of fetching it here
 const Ticket = ({ ticket }: TicketProps) => {
@@ -26,10 +28,10 @@ const Ticket = ({ ticket }: TicketProps) => {
   const ticketType = ticketTypes.find((ticketType) => ticketType.id === ticket.ticketTypeId)
 
   return (
-    <div className="gap-6 inline-flex flex-col items-center w-full px-8">
+    <div className="inline-flex w-full flex-col items-center gap-6 px-8">
       <img className="w-full" src={ticket.qrCode} alt="" />
       {ticketType && <span className="text-xl font-semibold leading-7">{ticketType.name}</span>}
-      <div className="flex gap-2.5 flex-col sm:flex-row items-center">
+      <div className="flex flex-col items-center gap-2.5 sm:flex-row">
         <a
           href={`${environment.host}/api/v1/orders/appleWallet/${ticket.id}`}
           target="_blank"
@@ -51,7 +53,9 @@ const Ticket = ({ ticket }: TicketProps) => {
   )
 }
 
-type TicketsSwiperProps = { tickets: FinalOrderTicket[] }
+interface TicketsSwiperProps {
+  tickets: FinalOrderTicket[]
+}
 
 const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass>()
@@ -81,7 +85,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       {/* Arrows must be implemented on our own to be outside the swiper. */}
       {displayButtons.previous && (
         <AriaButton
-          className="border-divider border-2 rounded-full w-12 h-12 absolute top-[calc(50%-48px)] -left-6 z-10 flex justify-center items-center bg-sunscreen"
+          className="absolute -left-6 top-[calc(50%-48px)] z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handlePrevious}
         >
           <Icon name="arrow-left" className="no-fill font-fontBlack" />
@@ -89,7 +93,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       )}
       {displayButtons.next && (
         <AriaButton
-          className="border-divider border-2 rounded-full w-12 h-12 absolute top-[calc(50%-48px)] -right-6 z-10 flex justify-center items-center bg-sunscreen"
+          className="absolute -right-6 top-[calc(50%-48px)] z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handleNext}
         >
           <Icon name="arrow-right" className="no-fill font-fontBlack" />

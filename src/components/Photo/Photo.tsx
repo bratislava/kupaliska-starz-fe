@@ -1,5 +1,5 @@
-import { HTMLAttributes } from 'react'
 import cx from 'classnames'
+import { HTMLAttributes } from 'react'
 
 type PhotoProps = {
   photo?: string | null
@@ -14,10 +14,10 @@ const Photo = ({ photo, size, className, error = false }: PhotoProps) => {
       className={cx(
         'rounded-lg bg-backgroundGray bg-cover bg-center',
         {
-          'w-[132px] h-[156px] [box-shadow-width:2px]': size === 'normal',
+          'h-[156px] w-[132px] [box-shadow-width:2px]': size === 'normal',
           '[box-shadow:0px_0px_0px_2px_rgba(214,_214,_214,_1)_inset]': size === 'normal' && !error,
           '[box-shadow:0px_0px_0px_2px_rgba(220,_38,_38,_1)_inset]': size === 'normal' && error,
-          'w-[48px] h-[56px]': size === 'small',
+          'h-[56px] w-[48px]': size === 'small',
         },
         className,
       )}

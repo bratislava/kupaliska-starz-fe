@@ -1,11 +1,11 @@
-import { ChangeEvent, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { get } from 'lodash'
-import Resizer from 'react-image-file-resizer'
-
 import { Icon } from 'components'
 import Button from 'components/Button/Button'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import { get } from 'lodash'
+import { ChangeEvent, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import Resizer from 'react-image-file-resizer'
+
 import Photo from '../Photo/Photo'
 
 interface PhotoFieldProps {
@@ -43,6 +43,7 @@ const PhotoField = ({
         if (onPhotoSet) {
           onPhotoSet(null)
         }
+
         return
       }
       clearErrors('image')
@@ -75,11 +76,11 @@ const PhotoField = ({
     file && handleImageFile(file)
   }
 
-  let errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)
+  const errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)
 
   return (
     <div>
-      <div className="flex gap-4 flex-col sm:flex-row">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <div className="sm:max-w-[132px]">
           <Photo
             photo={image}
@@ -100,7 +101,7 @@ const PhotoField = ({
           />
         </div>
         <div className="flex flex-col gap-4">
-          <div className="gap-1 flex flex-col">
+          <div className="flex flex-col gap-1">
             {showLabel && <span className="font-semibold">Fotografia</span>}
             <p className="text-sm">
               Pre kúpu permanentky je potrebné zadať aj fotografiu.

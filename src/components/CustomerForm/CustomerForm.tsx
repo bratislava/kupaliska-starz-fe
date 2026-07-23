@@ -1,8 +1,6 @@
-import { useEffect } from 'react'
-
-import { get } from 'lodash'
-
 import { Icon, InputField, Tooltip } from 'components'
+import { get } from 'lodash'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface CustomerFormProps {
@@ -32,14 +30,12 @@ const CustomerForm = ({
   onPhotoSet,
   image,
 }: CustomerFormProps) => {
-  const _errors = fieldNamePrefix
-    ? get(errors, `${fieldNamePrefix ? fieldNamePrefix : ''}`)
-    : errors
+  const _errors = fieldNamePrefix ? get(errors, fieldNamePrefix ? fieldNamePrefix : '') : errors
   const { t } = useTranslation()
 
   useEffect(() => {
     register &&
-      register(`${fieldNamePrefix ? fieldNamePrefix + '.photo' : 'photo'}`, {
+      register(fieldNamePrefix ? `${fieldNamePrefix}.photo` : 'photo', {
         shouldUnregister: false,
       })
   }, [register, fieldNamePrefix])
@@ -47,12 +43,12 @@ const CustomerForm = ({
   return (
     <>
       <Tooltip multiline={true} id="tooltip-customer-form" />
-      <div className={`grid grid-cols-1 gap-4 lg:grid-cols-2 ${className}`}>
+      <div className={`grid grid-cols-1 gap-4 lg:grid-cols-2 ${className} `}>
         {nameRequired && (
           <InputField
             leftExtra={<Icon name="user" />}
             register={register}
-            name={`${fieldNamePrefix ? fieldNamePrefix + '.name' : 'name'}`}
+            name={fieldNamePrefix ? `${fieldNamePrefix}.name` : 'name'}
             placeholder={t('buy-page.name')}
             className={`col-span-1`}
             error={get(_errors, 'name.message')}
@@ -62,7 +58,7 @@ const CustomerForm = ({
         <InputField
           leftExtra={<Icon name="mail" />}
           register={register}
-          name={`${fieldNamePrefix ? fieldNamePrefix + '.email' : 'email'}`}
+          name={fieldNamePrefix ? `${fieldNamePrefix}.email` : 'email'}
           placeholder={t('buy-page.email')}
           className={`col-span-1`}
           error={get(_errors, 'email.message')}
@@ -80,17 +76,17 @@ const CustomerForm = ({
         {/*  />*/}
         {/*)}*/}
         <div className="col-span-1">
-          <label className="font-medium text-fontBlack text-opacity-50 flex items-center my-2">
+          <label className="my-2 flex items-center font-medium text-fontBlack text-opacity-50">
             {t('buy-page.optional')}
             <div data-for="tooltip-customer-form" data-tip={t('buy-page.help-us')}>
               <Icon className="ml-4" name="question-mark" color="primary" />
             </div>
           </label>
-          <div className="grid gap-x-2 grid-cols-2">
+          <div className="grid grid-cols-2 gap-x-2">
             <InputField
               leftExtra={<Icon name="hashtag" />}
               register={register}
-              name={`${fieldNamePrefix ? fieldNamePrefix + '.zip' : 'zip'}`}
+              name={fieldNamePrefix ? `${fieldNamePrefix}.zip` : 'zip'}
               placeholder={t('buy-page.zip')}
               className={`col-span-1`}
               error={get(_errors, 'zip.message')}
@@ -100,7 +96,7 @@ const CustomerForm = ({
               leftExtra={<Icon name="calendar" />}
               register={register}
               type="number"
-              name={`${fieldNamePrefix ? fieldNamePrefix + '.age' : 'age'}`}
+              name={fieldNamePrefix ? `${fieldNamePrefix}.age` : 'age'}
               placeholder={t('buy-page.age')}
               className={`col-span-1`}
               error={get(_errors, 'age.message')}

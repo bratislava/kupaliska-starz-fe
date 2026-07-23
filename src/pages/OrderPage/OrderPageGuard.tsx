@@ -1,12 +1,13 @@
-import { Navigate, useLocation } from 'react-router'
-import OrderPage from './OrderPage'
-import useCityAccountAccessToken from '../../hooks/useCityAccount'
-import { TicketType } from '../../models'
-import { useAppSelector } from '../../hooks'
-import { selectAvailableTicketTypes } from '../../store/global'
-import { OrderPageTicketProvider } from './useOrderPageTicket'
 import { ROUTES } from 'helpers/constants'
 import { isDefined } from 'helpers/helper'
+import { Navigate, useLocation } from 'react-router'
+
+import { useAppSelector } from '../../hooks'
+import useCityAccountAccessToken from '../../hooks/useCityAccount'
+import { TicketType } from '../../models'
+import { selectAvailableTicketTypes } from '../../store/global'
+import OrderPage from './OrderPage'
+import { OrderPageTicketProvider } from './useOrderPageTicket'
 
 const OrderPageGuard = () => {
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)

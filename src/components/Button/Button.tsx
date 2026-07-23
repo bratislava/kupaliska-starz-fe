@@ -1,7 +1,7 @@
+import './Button.css'
+
 import { PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
-
-import './Button.css'
 
 interface ButtonProps {
   // TODO: Rename to `type`.
@@ -65,7 +65,15 @@ const Button = ({
   }[color]
   const thinClass = thin ? 'p-1' : 'p-2'
   const roundedClass = rounded ? 'rounded-lg' : 'rounded'
-  const classNames = `flex justify-center items-center focus:outline-none border-solid border-2 ${textColor} ${bgColor} ${borderColor} ${thinClass} ${roundedClass}`
+  const classNames = `
+    flex items-center justify-center border-2 border-solid
+    focus:outline-none
+    ${textColor}
+    ${bgColor}
+    ${borderColor}
+    ${thinClass}
+    ${roundedClass}
+  `
 
   return (
     <button

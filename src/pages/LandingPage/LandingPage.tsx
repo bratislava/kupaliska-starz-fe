@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import './LandingPage.css'
 
 import {
   AccordionItem,
@@ -7,15 +7,15 @@ import {
   SectionHeader,
   WhyCreateAccountSection,
 } from 'components'
-import { useQuery } from 'react-query'
-
-import './LandingPage.css'
-import { Trans, useTranslation } from 'react-i18next'
-import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
-import { range } from 'lodash'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
-import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
+import { range } from 'lodash'
+import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { fetchGeneralSettings } from 'store/global/api'
+
+import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
+import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
 
 const faqsn = range(1, 21)
 
@@ -67,7 +67,7 @@ const LandingPage = () => {
           />
           <iframe
             src="https://static-pages.s3.bratislava.sk/sport-grounds-map/index.html?lang=sk"
-            className="w-full h-[80vh] min-h-[200px] max-h-[628px] max-w-[1143px] border-2 rounded-2xl border-primary"
+            className="h-[80vh] max-h-[628px] min-h-[200px] w-full max-w-[1143px] rounded-2xl border-2 border-primary"
             title="Mapa kúpalísk"
             allow="geolocation; fullscreen"
           />
@@ -75,22 +75,22 @@ const LandingPage = () => {
       )}
       <section id="kontaktujte-nas" className="section">
         <SectionHeader title={t('landing.questions')} />
-        <div className="grid gap-8 grid-cols-4">
+        <div className="grid grid-cols-4 gap-8">
           <div className="col-span-4 md:col-span-2">
             <ContactForm />
           </div>
-          <div className="hidden col-span-2 md:block">
+          <div className="col-span-2 hidden md:block">
             <img
               src="/contact-form-image.svg"
               alt="decoration for contact form"
-              className="w-full lg:w-8/10 xl:w-7/10 mx-auto"
+              className="mx-auto w-full lg:w-8/10 xl:w-7/10"
             />
           </div>
         </div>
       </section>
       <section id="casto-kladene-otazky" className="section">
         <SectionHeader title={t('landing.faq')} className="text-center" />
-        <div className="grid grid-cols-1 gap-y-4 w-full md:w-8/10 xl:w-6/10 mx-auto">
+        <div className="mx-auto grid w-full grid-cols-1 gap-y-4 md:w-8/10 xl:w-6/10">
           {Object.keys(faqsn).map((faq, index) => (
             <div className="col-span-1" key={index}>
               <AccordionItem

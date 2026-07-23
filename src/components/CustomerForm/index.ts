@@ -1,4 +1,4 @@
-import { default as CustomerForm } from './CustomerForm'
 import { default as ChildCustomerForm } from './ChildCustomerForm'
+import { default as CustomerForm } from './CustomerForm'
 
-export { CustomerForm, ChildCustomerForm }
+export { ChildCustomerForm, CustomerForm }

@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react'
-import PhotoField from '../PhotoField/PhotoField'
-import * as yup from 'yup'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Icon, InputField } from '../index'
+import { AxiosError } from 'axios'
+import { ROUTES } from 'helpers/constants'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
+import logger from 'helpers/logger'
+import { pick } from 'lodash'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchUser, updateUser, User } from '../../store/user/api'
 import { useNavigate } from 'react-router'
-import ProfileLine from '../ProfileLine/ProfileLine'
-import ProfileBack from '../ProfileBack/ProfileBack'
-import { pick } from 'lodash'
+import * as yup from 'yup'
+
 import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import { AxiosError } from 'axios'
 import { useErrorToast } from '../../hooks/useErrorToast'
-import logger from 'helpers/logger'
-import { ROUTES } from 'helpers/constants'
+import { fetchUser, updateUser, User } from '../../store/user/api'
+import { Button, Icon, InputField } from '../index'
+import PhotoField from '../PhotoField/PhotoField'
+import ProfileBack from '../ProfileBack/ProfileBack'
+import ProfileLine from '../ProfileLine/ProfileLine'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -64,7 +65,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
   }, [user])
 
   const mutation = useMutation(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       return updateUser(formData)
     },
     {
@@ -84,14 +85,14 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     mutation.mutate(changes)
   }
 
-  let errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
-  let errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
+  const errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
+  const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
     <form className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div>
         <InputField
-          className="col-span-2 lg:col-span-1 max-w-formMax"
+          className="col-span-2 max-w-formMax lg:col-span-1"
           name="age"
           register={register}
           label={t('profile.age')}
@@ -100,7 +101,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           valueAsNumber={true}
         />
         <InputField
-          className="col-span-2 lg:col-span-1 mt-6 max-w-formMax"
+          className="col-span-2 mt-6 max-w-formMax lg:col-span-1"
           name="zip"
           register={register}
           label={t('profile.zip')}
@@ -149,13 +150,13 @@ const ProfileEditPage = () => {
 
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null || userQuery.data.data.image == null) && (
-            <div className="bg-warningSoft py-5 px-6 mt-14 shadow-lg flex items-center flex-col md:flex-row">
-              <img src="/warning.svg" alt="" className="mr-0 md:mr-4 mb-5 md:mb-0" />
+            <div className="mt-14 flex flex-col items-center bg-warningSoft px-6 py-5 shadow-lg md:flex-row">
+              <img src="/warning.svg" alt="" className="mb-5 mr-0 md:mb-0 md:mr-4" />
               <div className="text-center">{t('profile.age-photo-required')}</div>
             </div>
           )}
         <div className="mt-14">
-          <div className="font-medium text-2xl mb-4 md:mb-8">{t('profile.user')}</div>
+          <div className="mb-4 text-2xl font-medium md:mb-8">{t('profile.user')}</div>
         </div>
         {userQuery.isSuccess && <ProfileEditForm user={userQuery.data.data}></ProfileEditForm>}
       </div>

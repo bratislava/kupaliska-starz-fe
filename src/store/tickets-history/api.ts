@@ -27,6 +27,6 @@ export interface TicketColor {
   background: string
 }
 
-export function fetchTicketsHistory() {
+export async function fetchTicketsHistory() {
   return apiClientWithAccessToken.get<TicketFromHistory[]>('/api/v1/orders/tickets')
 }

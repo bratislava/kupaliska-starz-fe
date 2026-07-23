@@ -1,8 +1,7 @@
-import { SwimmingPool } from 'models'
-
-import { Typography, Spinner } from 'components'
-
 import './SwimmingPoolInfoCard.css'
+
+import { Spinner, Typography } from 'components'
+import { SwimmingPool } from 'models'
 import { useTranslation } from 'react-i18next'
 
 interface SwimmingPoolInfoCardProps {
@@ -14,15 +13,17 @@ const SwimmingPoolInfoCard = ({ swimmingPool, className = '' }: SwimmingPoolInfo
   const { t } = useTranslation()
 
   return (
-    <div className={`${className} grid bg-backgroundGray rounded-lg swimming-pool-card__container`}>
-      <div className={`sm:rounded-none row-span-1  relative`}>
+    <div
+      className={` ${className} swimming-pool-card__container grid rounded-lg bg-backgroundGray`}
+    >
+      <div className={`relative row-span-1 sm:rounded-none`}>
         <img
-          className={`swimming-pool-card__image rounded-t-lg relative`}
+          className={`swimming-pool-card__image relative rounded-t-lg`}
           src={swimmingPool.image ? swimmingPool.image.originalFile : '/kupalisko-delfin.png'}
           alt={swimmingPool.image ? swimmingPool.image.altText : t('landing.alt-img-text')}
         />
       </div>
-      <div className={'row-span-11 flex-col flex m-6'}>
+      <div className={'row-span-11 m-6 flex flex-col'}>
         <Typography type="subtitle" fontWeight="bold">
           {swimmingPool.name}
         </Typography>

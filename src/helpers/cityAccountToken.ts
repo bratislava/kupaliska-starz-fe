@@ -1,8 +1,9 @@
-import jwtDecode, { JwtPayload } from 'jwt-decode'
 import to from 'await-to-js'
+import jwtDecode, { JwtPayload } from 'jwt-decode'
+
 import { environment } from '../environment'
+import { cityAccountFrontendSSOUrl, UNAUTHORIZED_MESSAGE } from './cityAccountApi'
 import { validCityAccountPostMessageTypes } from './cityAccountDto'
-import { UNAUTHORIZED_MESSAGE, cityAccountFrontendSSOUrl } from './cityAccountApi'
 import logger from './logger'
 
 /**
@@ -10,17 +11,21 @@ import logger from './logger'
  * otherwise returns null
  */
 export const checkTokenValid = (token: string | null | undefined) => {
-  if (!token) return null
+  if (!token) {
+    return null
+  }
   let decodedToken = null
   try {
     decodedToken = jwtDecode<JwtPayload>(token)
   } catch (error) {
     logger.error('Error decoding token when checking validity:', token, error)
+
     return null
   }
   if (decodedToken && (decodedToken.exp || 0) * 1000 > Date.now()) {
     return token
   }
+
   return null
 }
 
@@ -36,7 +41,7 @@ export const getAccessTokenFromIFrame = async () => {
     const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 8000)
     eventListenerReference = (event) => {
       // ignore if origin is not our iframe or we receive unexpected message format
-      if (event.origin === `${environment.cityAccountFrontendUrl}`) {
+      if (event.origin === environment.cityAccountFrontendUrl) {
         if (
           typeof event.data === 'object' &&
           event.data != null &&
@@ -80,6 +85,7 @@ export const getAccessTokenFromIFrame = async () => {
   }
   if (postMessageError && postMessageError.message === UNAUTHORIZED_MESSAGE) {
     logger.warn('Unauthorized message received from iframe', accessToken)
+
     // all as it should be, user is not logged in
     return null
   }
@@ -91,6 +97,7 @@ export const getAccessTokenFromIFrame = async () => {
       'None or invalid token received from iframe for possibly authorized user - returning null',
       token,
     )
+
     return null
   }
 }
