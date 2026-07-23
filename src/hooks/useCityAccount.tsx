@@ -18,8 +18,8 @@ interface CityAccountAccessTokenState {
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'cognitoAccessToken'
 
-const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState>(
-  {} as CityAccountAccessTokenState,
+const CityAccountAccessTokenContext = createContext<CityAccountAccessTokenState | undefined>(
+  undefined,
 )
 
 export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNode }) => {
@@ -63,22 +63,19 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
     [setAccessTokenState],
   )
 
-  const validateTokenInLocalStorage = useCallback(() => {
+  const removeInvalidAccessTokenInLocalStorage = useCallback(() => {
     if (!checkTokenValid(accessToken)) {
       setAccessTokenState({ accessToken: null })
-      return null
-    } else {
-      return accessToken
     }
   }, [accessToken, setAccessTokenState])
 
   useEffect(() => {
     // prevent stale token in storage, in case iframe refresh does not work
-    window.addEventListener('focus', validateTokenInLocalStorage)
+    window.addEventListener('focus', removeInvalidAccessTokenInLocalStorage)
     return () => {
-      window.removeEventListener('focus', validateTokenInLocalStorage)
+      window.removeEventListener('focus', removeInvalidAccessTokenInLocalStorage)
     }
-  }, [validateTokenInLocalStorage])
+  }, [removeInvalidAccessTokenInLocalStorage])
 
   const getTokenFromUrl = useCallback(() => {
     try {
@@ -102,7 +99,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
 
   useEffectOnce(() => {
     setInitializationState('initializing')
-    validateTokenInLocalStorage()
+    removeInvalidAccessTokenInLocalStorage()
     // try getting token from iframe - this tends to fail randomly
     refreshAccessToken(true)
       .then((token) => {
@@ -110,6 +107,7 @@ export const CityAccountAccessTokenProvider = ({ children }: { children: ReactNo
         getTokenFromUrl()
         if (token) {
           // iframe works, refresh from it on refocus
+          // TODO possible memory leak because we send new function to addEventListener, but it is called only when hook is first called
           window.addEventListener('focus', () => refreshAccessToken(false))
         }
       })
