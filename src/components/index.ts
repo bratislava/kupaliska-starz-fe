@@ -14,7 +14,6 @@ import { default as ContactForm } from './ContactForm/ContactForm'
 import { default as Spinner } from './Spinner/Spinner'
 import { default as Tooltip } from './Tooltip/Tooltip'
 import { default as Toast } from './Toast/Toast'
-import { default as ScrollManager } from './ScrollManager/ScrollManager'
 import { default as AccordionItem } from './AccordionItem/AccordionItem'
 import { default as WhyCreateAccountSection } from './WhyCreateAccount/WhyCreateAccountSection'
 import { default as ProfileEdit } from './ProfileEditPage/ProfileEditPage'
@@ -23,6 +22,7 @@ import { default as ProfileLine } from './ProfileLine/ProfileLine'
 import { default as ProfileBack } from './ProfileBack/ProfileBack'
 import { default as KupaliskaSwitch } from './Switch/KupaliskaSwitch'
 import { default as CookieConsent } from './CookieConsent/CookieConsent'
+import { default as MessageScreen } from './MessageScreen/MessageScreen'
 
 export * from './CustomerForm'
 export {
@@ -43,7 +43,6 @@ export {
   Spinner,
   Tooltip,
   Toast,
-  ScrollManager,
   WhyCreateAccountSection,
   ProfileEdit,
   SignInSignOutLink,
@@ -51,4 +50,5 @@ export {
   ProfileBack,
   KupaliskaSwitch,
   CookieConsent,
+  MessageScreen,
 }

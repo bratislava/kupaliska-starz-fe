@@ -64,7 +64,9 @@ export const getAccessTokenFromIFrame = async () => {
   })
   document.body.appendChild(iframe)
   const [postMessageError, accessToken] = await to<string>(promise)
-  document.body.removeChild(iframe)
+  if (document.body.contains(iframe)) {
+    document.body.removeChild(iframe)
+  }
   if (eventListenerReference) {
     window.removeEventListener('message', eventListenerReference)
   } else {

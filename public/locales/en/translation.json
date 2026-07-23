@@ -1,5 +1,10 @@
 {
   "translation": {
     "test": "EN TEST"
+  },
+  "errors": {
+    "not-found-title": "Page not found",
+    "not-found-description": "The address you entered doesn't exist or has been moved.",
+    "back-home": "Back home"
   }
 }

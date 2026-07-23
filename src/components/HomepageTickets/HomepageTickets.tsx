@@ -269,14 +269,22 @@ const HomepageTickets = () => {
                         width={40}
                         height={28}
                       >
-                        {isFetching ? (
-                          <Skeleton />
-                        ) : (
-                          <FormatCurrencyFromCents
-                            value={
-                              isSuccess ? cartPriceData.data?.data.pricing.orderPriceWithVat : 0
-                            }
-                          />
+                        {isFetching && <Skeleton />}
+
+                        {!isFetching && cartPriceData?.data?.data.pricing.orderPriceWithVat && (
+                          // this causes error when user uses google translate on website
+                          // best described here https://martijnhols.nl/blog/everything-about-google-translate-crashing-react
+                          // working reasonable solution for web app of this size is surrounding TextNodes with spans
+                          <span>
+                            <FormatCurrencyFromCents
+                              value={cartPriceData.data?.data.pricing.orderPriceWithVat}
+                            />
+                          </span>
+                        )}
+                        {!isFetching && !cartPriceData?.data?.data.pricing.orderPriceWithVat && (
+                          <span>
+                            <FormatCurrencyFromCents value={0} />
+                          </span>
                         )}
                       </SkeletonTheme>
                     </span>
