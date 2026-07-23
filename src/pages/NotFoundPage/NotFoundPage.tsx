@@ -14,7 +14,7 @@ const NotFoundPage = () => {
       description={t('errors.not-found-description')}
     >
       <Link to={ROUTES.HOME}>
-        <Button className="w-full md:w-1/2 mx-auto lg:ml-0">{t('errors.back-home')}</Button>
+        <Button className="w-full md:w-1/2 mx-auto">{t('errors.back-home')}</Button>
       </Link>
     </MessageScreen>
   )

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import SectionHeader from '../SectionHeader/SectionHeader'
-import Typography from '../Typography/Typography'
 
 interface MessageScreenProps {
   title: string
@@ -16,19 +16,14 @@ interface MessageScreenProps {
 const MessageScreen = ({
   title,
   description,
-  className = '',
+  className,
   children,
 }: PropsWithChildren<MessageScreenProps>) => {
   return (
-    <div className={`grow ${className}`}>
-      <div className="container mx-auto flex flex-col flex-1 py-8 xl:py-12">
-        <SectionHeader title={title} />
-        {description && (
-          <Typography type="subtitle" className="mb-8">
-            {description}
-          </Typography>
-        )}
-        {children && <div className="mt-4 md:mt-8">{children}</div>}
+    <div className={twMerge(`grow ${className}`)}>
+      <div className="container mx-auto flex flex-col flex-1 py-8 xl:py-12 gap-y-8">
+        <SectionHeader title={title} subtitle={description} />
+        {children}
       </div>
     </div>
   )
