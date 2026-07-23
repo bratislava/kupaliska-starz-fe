@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { ROUTES } from 'helpers/constants'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
@@ -39,7 +39,12 @@ const HomepageTickets = () => {
   const { status } = useCityAccountAccessToken()
   // for now this is only used on ticket where name is not required
   // hence only ticketAmount is needed and personId is omited
-  const [cart, setCart] = useState<{ ticketTypeId: string; ticketAmount: number }[]>([])
+  const [cart, setCart] = useState<{ ticketTypeId: string; ticketAmount: number }[]>(
+    partitionTicketTypes(ticketTypes).dayTicketTypes.map((ticketType) => ({
+      ticketTypeId: ticketType.id,
+      ticketAmount: 0,
+    })),
+  )
 
   const isAuthenticated = status === 'authenticated'
   const navigate = useNavigate()
@@ -51,14 +56,6 @@ const HomepageTickets = () => {
     () => partitionTicketTypes(ticketTypes),
     [ticketTypes],
   )
-
-  useEffect(() => {
-    const cart = dayTicketTypes.map((ticketType) => ({
-      ticketTypeId: ticketType.id,
-      ticketAmount: 0,
-    }))
-    setCart(cart)
-  }, [dayTicketTypes])
 
   const { getPriceRequest } = orderFormToRequests({
     ticketTypesData: cart
@@ -76,8 +73,9 @@ const HomepageTickets = () => {
     data: cartPriceData,
     isFetching,
     isSuccess,
+    // add error handling
   } = useQuery({
-    queryKey: ['cartPrice', cart],
+    queryKey: ['cartPrice', cart, getPriceRequest, status],
     queryFn: async ({ signal }) => {
       return getPrice(getPriceRequest, status, signal)
     },
@@ -90,9 +88,9 @@ const HomepageTickets = () => {
       return
     }
     if (ticketType && ticketTypeNeedsLogin(ticketType)) {
-      await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
+      login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
-      navigate(ROUTES.ORDER, {
+      await navigate(ROUTES.ORDER, {
         state: {
           orderData: ticketType
             ? [{ ticketTypeId: ticketType.id }]
@@ -109,7 +107,7 @@ const HomepageTickets = () => {
     setCart((prev) => {
       const cumulativeTicketAmount = prev
         .filter((item) => item.ticketTypeId !== ticketType.id)
-        .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+        .reduce((acc, curr) => acc + curr.ticketAmount, 0)
       if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
         return prev
       }
@@ -130,6 +128,7 @@ const HomepageTickets = () => {
     adjustTicketAmountFromCart(ticketAmount, ticketType)
   }
 
+  // TODO split into multiple components
   return (
     <>
       <div className="flex flex-col gap-8 lg:gap-10">
@@ -158,146 +157,168 @@ const HomepageTickets = () => {
             descriptionFooter: '',
             ticketTypes: seasonalTicketTypes,
           },
-        ].map(({ name, description, descriptionFooter, ticketTypes, isCartable }, index) => (
-          <div key={index} className="max-w-[904px]">
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-3 text-center lg:text-left">
-                <h5 className="text-xl font-semibold">{name}</h5>
-                <p>{description}</p>
-              </div>
-              <div className="flex flex-col gap-3">
-                {/* TODO: when type is not present there is typescript error, 
-                remove this type later after investigation why is it even needed */}
-                {ticketTypes?.map((ticketType: TicketType) => {
-                  const needsLogin = ticketTypeNeedsLogin(ticketType)
-
-                  return (
-                    <div
-                      key={ticketType.id}
-                      className={cx(
-                        `flex flex-col gap-8 rounded-lg border border-divider bg-sunscreen px-6 py-4 lg:flex-row lg:items-center`,
-                      )}
-                    >
-                      <span className="grow font-semibold">{ticketType.name}</span>
-                      <div className="flex items-center justify-between gap-x-6">
-                        <span className="lg:w-[120px] lg:text-left">
-                          <div className="flex flex-nowrap">
-                            <span className="text-xl font-semibold">
-                              <FormatCurrencyFromCents value={ticketType.priceWithVat} />
-                            </span>
-                            <span>{t('common.per-ticket')}</span>
-                          </div>
-                        </span>
-                        {isCartable &&
-                          cart
-                            .filter((item) => item.ticketTypeId === ticketType.id)
-                            .map((item) => (
-                              // TODO add also error when input field is added
-                              <div
-                                key={item.ticketTypeId}
-                                className="flex items-center justify-between rounded-lg border border-primary px-6 py-2 lg:w-[182px]"
-                              >
-                                <Button
-                                  className="p-0"
-                                  color="sunscreen"
-                                  onClick={() =>
-                                    removeTicketFromCart(item.ticketAmount - 1, ticketType)
-                                  }
-                                >
-                                  <Icon name={'minus'} />
-                                </Button>
-                                {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-                                <InputField
-                                  value={item.ticketAmount}
-                                  // TODO use onBlur instead of onChange to be able to remove input value entirely
-                                  // now when using onBlur the value is not changed when the user clicks on the plus/minus button
-                                  onChange={(event) =>
-                                    adjustTicketAmountFromCart(
-                                      Number(event.target.value),
-                                      ticketType,
-                                    )
-                                  }
-                                  className="inline-flex w-18"
-                                  textCenter
-                                  inputWrapperClassName="lg:w-full"
-                                />
-                                <Button
-                                  className="p-0"
-                                  color="sunscreen"
-                                  onClick={() => addTicketToCart(item.ticketAmount + 1, ticketType)}
-                                >
-                                  <Icon name={'plus'} />
-                                </Button>
-                              </div>
-                            ))}
-                        {!isCartable && (
-                          <Button
-                            className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
-                            thin
-                            rounded
-                            onClick={async () => handleClick(ticketType)}
-                            color={needsLogin ? 'primary' : 'outlined'}
-                            disabled={ticketType.disabled}
-                          >
-                            <>
-                              {needsLogin ? t('signin-button') : t('landing.basket')}
-                              <Icon
-                                name={needsLogin ? 'login' : 'euro-coin'}
-                                className={cx('no-fill ml-2', {
-                                  'py-1': !needsLogin,
-                                })}
-                              />
-                            </>
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-              {isCartable && (
-                <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
-                  <span className="grow font-semibold">{t('price-total')}</span>
-                  <div className="flex items-center justify-between gap-x-6">
-                    <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
-                      <SkeletonTheme
-                        baseColor="#a8dbf2"
-                        highlightColor="#58bbe6"
-                        duration={1}
-                        width={40}
-                        height={28}
-                      >
-                        {isFetching ? (
-                          <Skeleton />
-                        ) : (
-                          <FormatCurrencyFromCents
-                            value={
-                              isSuccess ? cartPriceData.data?.data.pricing.orderPriceWithVat : 0
-                            }
-                          />
-                        )}
-                      </SkeletonTheme>
-                    </span>
-                    <Button
-                      className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
-                      thin
-                      rounded
-                      onClick={async () => handleClick()}
-                      disabled={cart.filter((item) => item.ticketAmount > 0).length === 0}
-                      color="primary"
-                    >
-                      <>
-                        {t('landing.basket')}
-                        <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
-                      </>
-                    </Button>
-                  </div>
+        ].map(
+          (
+            {
+              name,
+              description,
+              descriptionFooter,
+              ticketTypes: categoriesOfTicketTypes,
+              isCartable,
+            },
+            index,
+          ) => (
+            <div key={index} className="max-w-[904px]">
+              <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-3 text-center lg:text-left">
+                  <h5 className="text-xl font-semibold">{name}</h5>
+                  <p>{description}</p>
                 </div>
-              )}
-              {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
+                <div className="flex flex-col gap-3">
+                  {categoriesOfTicketTypes.map((ticketType) => {
+                    const needsLogin = ticketTypeNeedsLogin(ticketType)
+
+                    return (
+                      <div
+                        key={ticketType.id}
+                        className={cx(
+                          `flex flex-col gap-8 rounded-lg border border-divider bg-sunscreen px-6 py-4 lg:flex-row lg:items-center`,
+                        )}
+                      >
+                        <span className="grow font-semibold">{ticketType.name}</span>
+                        <div className="flex items-center justify-between gap-x-6">
+                          <span className="lg:w-[120px] lg:text-left">
+                            <div className="flex flex-nowrap">
+                              <span className="text-xl font-semibold">
+                                <FormatCurrencyFromCents value={ticketType.priceWithVat} />
+                              </span>
+                              <span>{t('common.per-ticket')}</span>
+                            </div>
+                          </span>
+                          {isCartable &&
+                            cart
+                              .filter((item) => item.ticketTypeId === ticketType.id)
+                              .map((item) => (
+                                // TODO add also error when input field is added
+                                <div
+                                  key={item.ticketTypeId}
+                                  className="flex items-center justify-between rounded-lg border border-primary px-6 py-2 lg:w-[182px]"
+                                >
+                                  <Button
+                                    className="p-0"
+                                    color="sunscreen"
+                                    // eslint-disable-next-line sonarjs/no-nested-functions
+                                    onClick={() =>
+                                      removeTicketFromCart(item.ticketAmount - 1, ticketType)
+                                    }
+                                  >
+                                    <Icon name={'minus'} />
+                                  </Button>
+                                  {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
+                                  <InputField
+                                    value={item.ticketAmount}
+                                    // TODO use onBlur instead of onChange to be able to remove input value entirely
+                                    // now when using onBlur the value is not changed when the user clicks on the plus/minus button
+                                    // eslint-disable-next-line sonarjs/no-nested-functions
+                                    onChange={(event) => {
+                                      const raw = event.target.value
+                                      // allow the field to be empty (don't force a 0)
+                                      if (raw === '') {
+                                        return
+                                      }
+
+                                      const number = Number(raw)
+                                      if (Number.isNaN(number)) {
+                                        return // ignore invalid input
+                                      }
+
+                                      adjustTicketAmountFromCart(number, ticketType)
+                                    }}
+                                    className="inline-flex w-18"
+                                    textCenter
+                                    inputWrapperClassName="lg:w-full"
+                                  />
+                                  <Button
+                                    className="p-0"
+                                    color="sunscreen"
+                                    // eslint-disable-next-line sonarjs/no-nested-functions
+                                    onClick={() =>
+                                      addTicketToCart(item.ticketAmount + 1, ticketType)
+                                    }
+                                  >
+                                    <Icon name={'plus'} />
+                                  </Button>
+                                </div>
+                              ))}
+                          {!isCartable && (
+                            <Button
+                              className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
+                              thin
+                              rounded
+                              onClick={async () => handleClick(ticketType)}
+                              color={needsLogin ? 'primary' : 'outlined'}
+                              disabled={ticketType.disabled}
+                            >
+                              <>
+                                {needsLogin ? t('signin-button') : t('landing.basket')}
+                                <Icon
+                                  name={needsLogin ? 'login' : 'euro-coin'}
+                                  className={cx('no-fill ml-2', {
+                                    'py-1': !needsLogin,
+                                  })}
+                                />
+                              </>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+                {isCartable && (
+                  <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
+                    <span className="grow font-semibold">{t('price-total')}</span>
+                    <div className="flex items-center justify-between gap-x-6">
+                      <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
+                        <SkeletonTheme
+                          baseColor="#a8dbf2"
+                          highlightColor="#58bbe6"
+                          duration={1}
+                          width={40}
+                          height={28}
+                        >
+                          {isFetching ? (
+                            <Skeleton />
+                          ) : (
+                            <FormatCurrencyFromCents
+                              value={
+                                isSuccess ? cartPriceData.data.data.pricing.orderPriceWithVat : 0
+                              }
+                            />
+                          )}
+                        </SkeletonTheme>
+                      </span>
+                      <Button
+                        className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
+                        thin
+                        rounded
+                        onClick={async () => handleClick()}
+                        disabled={cart.filter((item) => item.ticketAmount > 0).length === 0}
+                        color="primary"
+                      >
+                        <>
+                          {t('landing.basket')}
+                          <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
+                        </>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
+              </div>
             </div>
-          </div>
-        ))}
+          ),
+        )}
       </div>
       <div className="my-8 flex flex-col text-center text-sm leading-loose">
         <span>{t('common.additional-info-toddlers')}</span>
