@@ -2,9 +2,9 @@ name: Strapi/Next deploy pipeline
 on:
   push:
     tags:
-      - 'dev**'
-      - 'staging**'
-      - 'prod**'
+      - "dev**"
+      - "staging**"
+      - "prod**"
     branches:
       - master
 

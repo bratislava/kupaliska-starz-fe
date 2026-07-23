@@ -3,7 +3,7 @@ import { ROUTES } from 'helpers/constants'
 import logger from 'helpers/logger'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { orderFormToRequests } from 'pages/OrderPage/formDataToRequests'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
@@ -40,7 +40,12 @@ const HomepageTickets = () => {
   const { status } = useCityAccountAccessToken()
   // for now this is only used on ticket where name is not required
   // hence only ticketAmount is needed and personId is omited
-  const [cart, setCart] = useState<{ ticketTypeId: string; ticketAmount: number }[]>([])
+  const [cart, setCart] = useState<{ ticketTypeId: string; ticketAmount: number }[]>(
+    partitionTicketTypes(ticketTypes).dayTicketTypes.map((ticketType) => ({
+      ticketTypeId: ticketType.id,
+      ticketAmount: 0,
+    })),
+  )
 
   const isAuthenticated = status === 'authenticated'
   const navigate = useNavigate()
@@ -52,14 +57,6 @@ const HomepageTickets = () => {
     () => partitionTicketTypes(ticketTypes),
     [ticketTypes],
   )
-
-  useEffect(() => {
-    const cart = dayTicketTypes.map((ticketType) => ({
-      ticketTypeId: ticketType.id,
-      ticketAmount: 0,
-    }))
-    setCart(cart)
-  }, [dayTicketTypes])
 
   const { getPriceRequest } = orderFormToRequests({
     ticketTypesData: cart
@@ -77,11 +74,11 @@ const HomepageTickets = () => {
     data: cartPriceData,
     isFetching,
     isSuccess,
+    // add error handling
   } = useQuery({
-    queryKey: ['cartPrice', cart],
-    queryFn: async ({ signal }) => {
+    queryKey: ['cartPrice', cart, getPriceRequest, status],
+    queryFn: ({ signal }) => {
       logger.info(getPriceRequest)
-
       return getPrice(getPriceRequest, status, signal)
     },
     onError: (err) => {
@@ -96,9 +93,9 @@ const HomepageTickets = () => {
       return
     }
     if (ticketType && ticketTypeNeedsLogin(ticketType)) {
-      await login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
+      login(`${window.location.origin}${ROUTES.ORDER}?ticketTypeId=${ticketType.id}`)
     } else {
-      navigate(ROUTES.ORDER, {
+      await navigate(ROUTES.ORDER, {
         state: {
           orderData: ticketType
             ? [{ ticketTypeId: ticketType.id }]
@@ -115,7 +112,7 @@ const HomepageTickets = () => {
     setCart((prev) => {
       const cumulativeTicketAmount = prev
         .filter((item) => item.ticketTypeId !== ticketType.id)
-        .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
+        .reduce((acc, curr) => acc + curr.ticketAmount, 0)
       if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
         return prev
       }
@@ -136,6 +133,7 @@ const HomepageTickets = () => {
     adjustTicketAmountFromCart(ticketAmount, ticketType)
   }
 
+  // TODO split into multiple components
   return (
     <>
       <div className="flex flex-col gap-8 lg:gap-10">
