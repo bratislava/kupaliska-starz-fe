@@ -124,7 +124,7 @@ const Header = () => {
       ></div>
 
       <nav
-        className={` ${
+        className={`${
           open ? 'w-3/4' : 'w-0'
         } fixed bottom-0 right-0 top-0 z-10 flex flex-1 flex-col overflow-hidden bg-sunscreen transition-all md:hidden`}
       >

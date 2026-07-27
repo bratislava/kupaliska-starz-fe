@@ -5,6 +5,7 @@ export default [
   {
     rules: {
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/no-unknown-classes': ['warn', { ignore: ['no-fill'] }],
     },
   },
 ]

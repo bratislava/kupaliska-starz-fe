@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, CheckboxField, Icon, InputField } from 'components'
+import { Button, Icon, InputField } from 'components'
 import { useAppDispatch } from 'hooks'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
