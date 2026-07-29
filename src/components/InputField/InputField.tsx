@@ -65,7 +65,7 @@ const InputField = ({
   const inputWrapperClasses = cx({
     'border-error text-error': error !== undefined,
     'border-primary text-primary': !error && focused,
-    'border-2-softGray text-fontBlack text-opacity-10': !error && !focused,
+    'text-fontBlack text-opacity-10': !error && !focused,
   })
 
   const labelClasses = cx(
@@ -117,7 +117,7 @@ const InputField = ({
         />
         {!!rightExtra && rightExtra}
       </div>
-      {error && <div className="px-2 text-sm text-error">{error}</div>}
+      {error && <div className="text-error px-2 text-sm">{error}</div>}
     </div>
   )
 }
