@@ -1,31 +1,69 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility section {
+  @apply container mx-auto my-4 md:my-12 xl:my-16;
+}
+
+@utility link {
+  text-decoration: underline;
+  cursor: pointer;
+  @apply transition-all;
+}
+
+@utility strikediag {
+  background: linear-gradient(
+    to left top,
+    transparent 47.75%,
+    currentColor 49.5%,
+    currentColor 50.5%,
+    transparent 52.25%
+  );
+}
 
 @layer base {
   .ml-container {
     padding-left: theme('container.padding.DEFAULT');
-    @screen xs {
+    @media (width >= theme(--breakpoint-xs)) {
       margin-left: calc((100vw - theme('container.xs')) / 2);
       padding-left: theme('container.padding.xs');
     }
-    @screen sm {
+    @media (width >= theme(--breakpoint-sm)) {
       margin-left: calc((100vw - theme('container.sm')) / 2);
       padding-left: theme('container.padding.sm');
     }
-    @screen md {
+    @media (width >= theme(--breakpoint-md)) {
       margin-left: calc((100vw - theme('container.md')) / 2);
       padding-left: theme('container.padding.md');
     }
-    @screen lg {
+    @media (width >= theme(--breakpoint-lg)) {
       margin-left: calc((100vw - theme('container.lg')) / 2);
       padding-left: theme('container.padding.lg');
     }
-    @screen xl {
+    @media (width >= theme(--breakpoint-xl)) {
       margin-left: calc((100vw - theme('container.xl')) / 2);
       padding-left: theme('container.padding.xl');
     }
-    @screen 2xl {
+    @media (width >= theme(--breakpoint-2xl)) {
       margin-left: calc((100vw - theme('container.2xl')) / 2);
       padding-left: theme('container.padding.2xl');
     }
@@ -33,54 +71,30 @@
 
   .mr-container {
     padding-right: theme('container.padding.DEFAULT');
-    @screen xs {
+    @media (width >= theme(--breakpoint-xs)) {
       margin-right: calc((100vw - theme('container.xs')) / 2);
       padding-right: theme('container.padding.xs');
     }
-    @screen sm {
+    @media (width >= theme(--breakpoint-sm)) {
       margin-right: calc((100vw - theme('container.sm')) / 2);
       padding-right: theme('container.padding.sm');
     }
-    @screen md {
+    @media (width >= theme(--breakpoint-md)) {
       margin-right: calc((100vw - theme('container.md')) / 2);
       padding-right: theme('container.padding.md');
     }
-    @screen lg {
+    @media (width >= theme(--breakpoint-lg)) {
       margin-right: calc((100vw - theme('container.lg')) / 2);
       padding-right: theme('container.padding.lg');
     }
-    @screen xl {
+    @media (width >= theme(--breakpoint-xl)) {
       margin-right: calc((100vw - theme('container.xl')) / 2);
       padding-right: theme('container.padding.xl');
     }
-    @screen 2xl {
+    @media (width >= theme(--breakpoint-2xl)) {
       margin-right: calc((100vw - theme('container.2xl')) / 2);
       padding-right: theme('container.padding.2xl');
     }
-  }
-}
-
-@layer components {
-  .section {
-    @apply container mx-auto my-4 md:my-12 xl:my-16;
-  }
-
-  .link {
-    text-decoration: underline;
-    cursor: pointer;
-    @apply transition-all;
-  }
-}
-
-@layer utilities {
-  .strikediag {
-    background: linear-gradient(
-      to left top,
-      transparent 47.75%,
-      currentColor 49.5%,
-      currentColor 50.5%,
-      transparent 52.25%
-    );
   }
 }
 

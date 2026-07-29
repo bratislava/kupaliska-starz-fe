@@ -111,7 +111,7 @@ const Header = () => {
         </nav>
         <button
           onClick={() => setOpen(!open)}
-          className="bg-transparent focus:outline-none md:hidden"
+          className="bg-transparent focus:outline-hidden md:hidden"
         >
           <Icon name="menu" color="primary" />
         </button>
@@ -134,7 +134,7 @@ const Header = () => {
               <span className="text-xl font-bold text-primary">STARZ</span>
               <button
                 onClick={() => setOpen(!open)}
-                className="bg-transparent text-primary focus:outline-none md:hidden"
+                className="bg-transparent text-primary focus:outline-hidden md:hidden"
               >
                 <Icon name="close" color="primary" />
               </button>

@@ -100,7 +100,7 @@ const InputField = ({
           type={type}
           placeholder={placeholder}
           max={max}
-          className={`h-full min-w-0 flex-1 font-normal focus:outline-none ${inputClasses}`}
+          className={`h-full min-w-0 flex-1 font-normal focus:outline-hidden ${inputClasses}`}
           onFocus={() => setFocus(true)}
           name={registerValues && registerValues.name}
           onBlur={(event: FocusEvent<HTMLTextAreaElement> | FocusEvent<HTMLInputElement>) => {

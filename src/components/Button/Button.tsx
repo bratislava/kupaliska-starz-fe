@@ -64,10 +64,10 @@ const Button = ({
     'white-outlined': 'border-gray',
   }[color]
   const thinClass = thin ? 'p-1' : 'p-2'
-  const roundedClass = rounded ? 'rounded-lg' : 'rounded'
+  const roundedClass = rounded ? 'rounded-lg' : 'rounded-sm'
   const classNames = `
     flex items-center justify-center border-2 border-solid
-    focus:outline-none
+    focus:outline-hidden
     ${textColor}
     ${bgColor}
     ${borderColor}

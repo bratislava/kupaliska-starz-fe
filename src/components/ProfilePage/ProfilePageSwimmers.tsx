@@ -52,7 +52,7 @@ const ProfilePageSwimmers = () => {
 
       <div className="inline-flex flex-col rounded-lg bg-sunscreen lg:col-span-5">
         <div className="flex flex-col gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row">
-          <div className="flex flex-1 flex-grow flex-col gap-1">
+          <div className="flex flex-1 grow flex-col gap-1">
             <p className="text-xl font-semibold">Priradené osoby</p>
             <p>Pridajte do profilu osoby a zakúpte pre ne lístky a permanentky.</p>
           </div>
@@ -81,7 +81,7 @@ const ProfilePageSwimmers = () => {
                 key={swimmer.id}
               >
                 <Photo size="small" photo={swimmer.image} />
-                <div className="flex flex-grow flex-col">
+                <div className="flex grow flex-col">
                   <p className="font-semibold">
                     {swimmer.firstname} {swimmer.lastname}
                   </p>

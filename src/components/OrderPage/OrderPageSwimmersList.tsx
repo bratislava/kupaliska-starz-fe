@@ -71,7 +71,7 @@ const OrderPageSwimmersList = ({
                 backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
               }}
             ></div>
-            <div className="flex flex-grow flex-col">
+            <div className="flex grow flex-col">
               <p className="font-semibold">
                 {swimmer.firstname} {swimmer.lastname}
               </p>
