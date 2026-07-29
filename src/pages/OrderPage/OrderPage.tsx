@@ -610,11 +610,7 @@ const OrderPageSummary = ({
       <div className="flex items-center justify-between rounded-b-lg bg-blueish p-4 lg:px-8">
         {hasTicketAmount && (
           <div className="mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border border-solid border-primary px-6 py-2 text-primary">
-            <button
-              className="align-top text-3xl/5"
-              onClick={handleMinusClick}
-              type="button"
-            >
+            <button className="align-top text-3xl/5" onClick={handleMinusClick} type="button">
               <Icon name={'minus'} />
             </button>
             {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
@@ -627,11 +623,7 @@ const OrderPageSummary = ({
               textCenter
               inputWrapperClassName="lg:w-full"
             />
-            <button
-              className="align-top text-3xl/5"
-              onClick={handlePlusClick}
-              type="button"
-            >
+            <button className="align-top text-3xl/5" onClick={handlePlusClick} type="button">
               <Icon name={'plus'} />
             </button>
           </div>
