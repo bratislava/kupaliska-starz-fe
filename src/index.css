@@ -70,10 +70,6 @@
     cursor: pointer;
     @apply transition-all;
   }
-
-  .link:hover {
-    @apply text-opacity-70;
-  }
 }
 
 @layer utilities {
