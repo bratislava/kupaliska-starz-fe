@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 .icon:not(.no-fill) > svg path {
   fill: currentColor;
   stroke: currentColor;

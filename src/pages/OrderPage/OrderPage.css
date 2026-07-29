@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 /* https://codepen.io/rjanjic/pen/obdEbv */
 .strikethrough-diagonal {
   color: #9eb2dd; /* todo calculate */
