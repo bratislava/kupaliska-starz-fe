@@ -3,13 +3,11 @@ import Switch from 'react-switch'
 
 declare const preval: (code: TemplateStringsArray) => Record<string, unknown>
 
-// https://github.com/tailwindlabs/tailwindcss/discussions/1853#discussioncomment-1239755
 const { onColor, offColor } = preval`
-  const resolveConfig = require('tailwindcss/resolveConfig');
   const tailwindConfig = require('../../../tailwind.config');
-  const resolvedConfig = resolveConfig(tailwindConfig);
+  const colors = tailwindConfig.theme.extend.colors;
 
-  module.exports = {onColor: resolvedConfig.theme.colors.primary, offColor: resolvedConfig.theme.colors.inactive}
+  module.exports = {onColor: colors.primary, offColor: colors.inactive}
 ` as { onColor: string; offColor: string }
 
 const KupaliskaSwitch = (props: ComponentProps<typeof Switch>) => {
