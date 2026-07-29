@@ -30,7 +30,7 @@ const Ticket = ({ ticket }: TicketProps) => {
   return (
     <div className="inline-flex w-full flex-col items-center gap-6 px-8">
       <img className="w-full" src={ticket.qrCode} alt="" />
-      {ticketType && <span className="text-xl font-semibold leading-7">{ticketType.name}</span>}
+      {ticketType && <span className="text-xl/7 font-semibold">{ticketType.name}</span>}
       <div className="flex flex-col items-center gap-2.5 sm:flex-row">
         <a
           href={`${environment.host}/api/v1/orders/appleWallet/${ticket.id}`}
@@ -85,7 +85,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       {/* Arrows must be implemented on our own to be outside the swiper. */}
       {displayButtons.previous && (
         <AriaButton
-          className="absolute -left-6 top-[calc(50%-48px)] z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
+          className="absolute top-[calc(50%-48px)] -left-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handlePrevious}
         >
           <Icon name="arrow-left" className="no-fill font-fontBlack" />
@@ -93,7 +93,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       )}
       {displayButtons.next && (
         <AriaButton
-          className="absolute -right-6 top-[calc(50%-48px)] z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
+          className="absolute top-[calc(50%-48px)] -right-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handleNext}
         >
           <Icon name="arrow-right" className="no-fill font-fontBlack" />

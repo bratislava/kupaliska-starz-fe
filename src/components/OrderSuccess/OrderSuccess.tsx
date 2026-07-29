@@ -58,8 +58,8 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
             </Button>
           </Link>
         </div>
-        <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-[#D6D6D6]">
-          <div className="border-b-2 border-solid border-[#D6D6D6] px-6 py-4 text-center">
+        <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-divider">
+          <div className="border-b-2 border-solid border-divider px-6 py-4 text-center">
             <Typography type="subtitle">
               {tickets.length > 1 ? 'Vaše lístky' : 'Váš lístok'}
             </Typography>

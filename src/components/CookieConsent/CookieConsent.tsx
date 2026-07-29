@@ -180,7 +180,7 @@ const CookieConsent = () => {
               </Button>
               <div className="flex flex-col gap-1 md:flex-row">
                 <Button
-                  className="mb-2 rounded-xs bg-gray-900 py-1 text-sm text-white md:mb-0 md:mr-1"
+                  className="mb-2 rounded-xs bg-gray-900 py-1 text-sm text-white md:mr-1 md:mb-0"
                   onClick={declineCookies}
                   color="blueish"
                 >

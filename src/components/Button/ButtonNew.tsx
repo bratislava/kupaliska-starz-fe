@@ -106,8 +106,8 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
     const styles = cx(
       // TODO text-button interferes with text-[color], as quickfix we set size and color here by arbitrary values
       `
-        inline-flex h-auto items-center justify-center gap-2 text-[1rem]
-        font-semibold leading-6 transition
+        inline-flex h-auto items-center justify-center gap-2 text-base/6
+         font-semibold transition
       `,
       // we use isFocusVisible to show focus ring only on keyboard navigation
       isFocused ? 'outline-2 outline-offset-4' : 'outline-hidden',
@@ -166,24 +166,24 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
         'border-category-700 bg-category-700 text-font-contrast': variant === 'category-solid',
         'border-category-800 bg-category-800': variant === 'category-solid' && isPressed,
 
-        'border-category-700 data-pressed:border-category-800 data-pressed:text-gray-800 bg-transparent text-gray-700':
+        'border-category-700 data-pressed:border-category-800 bg-transparent text-gray-700 data-pressed:text-gray-800':
           variant === 'category-outline',
-        'data-pressed:border-gray-800 data-pressed:bg-gray-800 border-gray-700 bg-gray-700 text-white':
+        'border-gray-700 bg-gray-700 text-white data-pressed:border-gray-800 data-pressed:bg-gray-800':
           variant === 'black-solid',
-        'data-pressed:border-gray-300 data-pressed:text-gray-800 border-gray-200 bg-transparent text-gray-700':
+        'border-gray-200 bg-transparent text-gray-700 data-pressed:border-gray-300 data-pressed:text-gray-800':
           variant === 'black-outline',
         'border-negative-700 bg-negative-700 data-pressed:border-negative-800 data-pressed:bg-negative-800 text-white':
           variant === 'negative-solid',
 
         'text-category-700 data-pressed:bg-category-200 data-pressed:text-category-800':
           variant === 'category-plain',
-        'data-pressed:bg-gray-200 data-pressed:text-gray-800 text-gray-700':
+        'text-gray-700 data-pressed:bg-gray-200 data-pressed:text-gray-800':
           variant === 'black-plain',
         'text-negative-700 data-pressed:bg-negative-200 data-pressed:text-negative-800':
           variant === 'negative-plain',
 
         'text-category-700 data-pressed:text-category-800': variant === 'category-link',
-        'data-pressed:text-gray-800 text-gray-700': variant === 'black-link',
+        'text-gray-700 data-pressed:text-gray-800': variant === 'black-link',
 
         // colors:hover - bg, border, text
         // using custom `data-hovered:` because `hover:` is not working with `disabled` state
@@ -204,9 +204,9 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
         'data-hovered:text-gray-600': variant === 'black-link',
 
         // svg icons
-        '[&>svg]:h-5 [&>svg]:w-5 lg:[&>svg]:h-6 lg:[&>svg]:w-6': size === 'responsive',
-        '[&>svg]:h-5 [&>svg]:w-5': size === 'small',
-        '[&>svg]:h-6 [&>svg]:w-6': size === 'large',
+        '[&>svg]:size-5 lg:[&>svg]:size-6': size === 'responsive',
+        '[&>svg]:size-5': size === 'small',
+        '[&>svg]:size-6': size === 'large',
       },
 
       className,

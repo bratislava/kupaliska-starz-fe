@@ -11,7 +11,7 @@ const WhyCreateAccountSection = () => {
         <div
           className={`mx-auto mb-10 flex flex-col-reverse md:mb-0 lg:w-8/10 ${
             index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-          } `}
+          }`}
           key={index}
         >
           <div className="mt-6 flex flex-1 items-center justify-center text-center md:mt-0">

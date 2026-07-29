@@ -14,7 +14,7 @@ const SwimmingPoolInfoCard = ({ swimmingPool, className = '' }: SwimmingPoolInfo
 
   return (
     <div
-      className={` ${className} swimming-pool-card__container grid rounded-lg bg-backgroundGray`}
+      className={`${className} swimming-pool-card__container grid rounded-lg bg-backgroundGray`}
     >
       <div className={`relative row-span-1 sm:rounded-none`}>
         <img

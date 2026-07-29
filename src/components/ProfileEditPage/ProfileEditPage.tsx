@@ -151,7 +151,7 @@ const ProfileEditPage = () => {
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null || userQuery.data.data.image == null) && (
             <div className="mt-14 flex flex-col items-center bg-warningSoft px-6 py-5 shadow-lg md:flex-row">
-              <img src="/warning.svg" alt="" className="mb-5 mr-0 md:mb-0 md:mr-4" />
+              <img src="/warning.svg" alt="" className="mr-0 mb-5 md:mr-4 md:mb-0" />
               <div className="text-center">{t('profile.age-photo-required')}</div>
             </div>
           )}
