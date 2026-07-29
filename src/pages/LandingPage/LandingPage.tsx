@@ -67,7 +67,7 @@ const LandingPage = () => {
           />
           <iframe
             src="https://static-pages.s3.bratislava.sk/sport-grounds-map/index.html?lang=sk"
-            className="h-[80vh] max-h-[628px] min-h-[200px] w-full max-w-[1143px] rounded-2xl border-2 border-primary"
+            className="border-primary h-[80vh] max-h-[628px] min-h-[200px] w-full max-w-[1143px] rounded-2xl border-2"
             title="Mapa kúpalísk"
             allow="geolocation; fullscreen"
           />

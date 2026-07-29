@@ -179,7 +179,7 @@ const HomepageTickets = () => {
                     <div
                       key={ticketType.id}
                       className={cx(
-                        `flex flex-col gap-8 rounded-lg border border-divider bg-sunscreen px-6 py-4 lg:flex-row lg:items-center`,
+                        `border-divider bg-sunscreen flex flex-col gap-8 rounded-lg border px-6 py-4 lg:flex-row lg:items-center`,
                       )}
                     >
                       <span className="grow font-semibold">{ticketType.name}</span>
@@ -199,7 +199,7 @@ const HomepageTickets = () => {
                               // TODO add also error when input field is added
                               <div
                                 key={item.ticketTypeId}
-                                className="flex items-center justify-between rounded-lg border border-primary px-6 py-2 lg:w-[182px]"
+                                className="border-primary flex items-center justify-between rounded-lg border px-6 py-2 lg:w-[182px]"
                               >
                                 <Button
                                   className="p-0"
@@ -236,7 +236,7 @@ const HomepageTickets = () => {
                             ))}
                         {!isCartable && (
                           <Button
-                            className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
+                            className="xs:mt-0 xs:w-auto xs:px-4 mt-2 w-full min-w-[182px]"
                             thin
                             rounded
                             onClick={async () => handleClick(ticketType)}
@@ -260,7 +260,7 @@ const HomepageTickets = () => {
                 })}
               </div>
               {isCartable && (
-                <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
+                <div className="border-divider bg-blueish flex flex-col rounded-lg border px-6 py-4 lg:flex-row lg:items-center">
                   <span className="grow font-semibold">{t('price-total')}</span>
                   <div className="flex items-center justify-between gap-x-6">
                     <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
@@ -291,7 +291,7 @@ const HomepageTickets = () => {
                       </SkeletonTheme>
                     </span>
                     <Button
-                      className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
+                      className="xs:mt-0 xs:w-auto xs:px-4 mt-2 w-full min-w-[182px]"
                       thin
                       rounded
                       onClick={async () => handleClick()}

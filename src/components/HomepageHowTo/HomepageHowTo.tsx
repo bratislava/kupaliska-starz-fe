@@ -30,13 +30,13 @@ const HomepageHowTo = () => {
     () =>
       items.map((item, index) => (
         <div
-          className="relative inline-flex flex-1 flex-col items-center gap-y-8 rounded-2xl border-2 border-orange bg-sunscreen px-6 pb-6 pt-16"
+          className="border-orange bg-sunscreen relative inline-flex flex-1 flex-col items-center gap-y-8 rounded-2xl border-2 px-6 pt-16 pb-6"
           key={index}
         >
-          <div className="absolute -top-8 flex h-16 w-16 flex-col items-center justify-center rounded-full bg-orange text-2xl font-semibold text-white">
+          <div className="bg-orange absolute -top-8 flex h-16 w-16 flex-col items-center justify-center rounded-full text-2xl font-semibold text-white">
             {index + 1}
           </div>
-          <div className="h-28 w-28 pb-0.5 pl-0.5 pt-1">
+          <div className="h-28 w-28 pt-1 pb-0.5 pl-0.5">
             <img className="h-full flex-1" src={item.imgSrc} alt="" />
           </div>
           <p className="w-full text-center text-base leading-normal text-gray-800">
@@ -55,7 +55,7 @@ const HomepageHowTo = () => {
         </Typography>
       </div>
       <div className="container mx-auto hidden justify-center md:flex">
-        <div className="inline-flex flex-col items-center justify-start gap-y-20 bg-sunscreen pb-16 pt-12">
+        <div className="bg-sunscreen inline-flex flex-col items-center justify-start gap-y-20 pt-12 pb-16">
           <div className="grid max-w-[1216px] grid-cols-2 justify-start gap-8 lg:grid-cols-4">
             {itemsComponents}
           </div>

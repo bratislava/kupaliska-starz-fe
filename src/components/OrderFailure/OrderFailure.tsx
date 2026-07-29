@@ -8,7 +8,7 @@ const OrderFailure = () => {
   const { t } = useTranslation()
 
   return (
-    <div className="grow bg-sunscreen">
+    <div className="bg-sunscreen grow">
       <div className="container mx-auto flex flex-1 flex-col justify-between py-8 md:justify-start">
         <div>
           <SectionHeader title={t('order-result.order-failed')} />

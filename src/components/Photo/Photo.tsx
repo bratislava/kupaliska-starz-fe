@@ -12,7 +12,7 @@ const Photo = ({ photo, size, className, error = false }: PhotoProps) => {
   return (
     <div
       className={cx(
-        'rounded-lg bg-backgroundGray bg-cover bg-center',
+        'bg-backgroundGray rounded-lg bg-cover bg-center',
         {
           'h-[156px] w-[132px] [box-shadow-width:2px]': size === 'normal',
           '[box-shadow:0px_0px_0px_2px_rgba(214,214,214,1)_inset]': size === 'normal' && !error,

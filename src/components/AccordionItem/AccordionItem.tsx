@@ -45,8 +45,8 @@ export const AccordionItem = ({
         className={cx(
           `flex w-full items-center justify-between rounded-lg px-4 py-4 font-medium md:px-10`,
           {
-            'border-2 border-solid border-transparent bg-blueish shadow-lg': active,
-            'border-2 border-primary bg-transparent md:hover:bg-blueish md:hover:stroke-current':
+            'bg-blueish border-2 border-solid border-transparent shadow-lg': active,
+            'border-primary md:hover:bg-blueish border-2 bg-transparent md:hover:stroke-current':
               !active,
           },
           className,
@@ -68,7 +68,7 @@ export const AccordionItem = ({
         </div>
       </AriaButton>
       <div
-        className={cx('overflow-hidden text-sm text-fontBlack', {
+        className={cx('text-fontBlack overflow-hidden text-sm', {
           'h-auto': active,
           'h-0': !active,
           'p-6': active && paddingVariant === 'narrow',

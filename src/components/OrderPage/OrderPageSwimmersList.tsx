@@ -66,7 +66,7 @@ const OrderPageSwimmersList = ({
             isDisabled={isDisabledCheckbox(swimmer)}
           >
             <div
-              className="h-14 w-12 shrink-0 rounded-lg bg-backgroundGray bg-cover bg-center"
+              className="bg-backgroundGray h-14 w-12 shrink-0 rounded-lg bg-cover bg-center"
               style={{
                 backgroundImage: swimmer.image ? `url(${swimmer.image})` : undefined,
               }}

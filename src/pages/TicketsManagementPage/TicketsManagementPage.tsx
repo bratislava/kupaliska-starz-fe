@@ -44,7 +44,7 @@ const TicketsManagementModal = ({
       {ticket && (
         <>
           <div
-            className="hidden w-screen p-10 text-primary md:block"
+            className="text-primary hidden w-screen p-10 md:block"
             style={{ maxWidth: '1000px' }}
           >
             <div className="mb-5 flex">
@@ -73,7 +73,7 @@ const TicketsManagementModal = ({
                 <img alt="" src={ticket.qrCode} width={120} height={120} />
               </div>
             </div>
-            <div className="h-0.5 w-full rounded-sm bg-primary opacity-30"></div>
+            <div className="bg-primary h-0.5 w-full rounded-sm opacity-30"></div>
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left opacity-50">
@@ -101,8 +101,8 @@ const TicketsManagementModal = ({
               </tbody>
             </table>
           </div>
-          <div className="mb-5 h-full text-primary md:hidden">
-            <div className="rounded-t-lg bg-blueish px-6 pb-5 pt-8">
+          <div className="text-primary mb-5 h-full md:hidden">
+            <div className="bg-blueish rounded-t-lg px-6 pt-8 pb-5">
               <div className="pb-4 text-xl font-bold">{t('tickets.ticket-detail')}</div>
               <div className="pb-3">
                 {t('tickets.ticket-owner')}
@@ -121,7 +121,7 @@ const TicketsManagementModal = ({
                 </div>
               )}
             </div>
-            <div className="mx-6 h-0.5 rounded-sm bg-primary opacity-30"></div>
+            <div className="bg-primary mx-6 h-0.5 rounded-sm opacity-30"></div>
             <div className="px-6 py-4">
               {ticket.entries.length === 0 && 'Pre zobrazený lístok neexistujú žiadne návštevy.'}
               {ticket.entries.map((entry, index) => (
@@ -144,7 +144,7 @@ const TicketsManagementModal = ({
                       <div>{entry.to && formatTime(entry.to)}</div>
                     </div>
                   </div>
-                  <div className="my-4 h-0.5 rounded-sm bg-primary opacity-30"></div>
+                  <div className="bg-primary my-4 h-0.5 rounded-sm opacity-30"></div>
                 </Fragment>
               ))}
             </div>
@@ -194,7 +194,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <div className="flex justify-center">
         <Button
           color={buttonColor}
-          className="absolute bg-sunscreen shadow-xs"
+          className="bg-sunscreen absolute shadow-xs"
           onClick={onDetailClick}
         >
           {t('tickets.ticket-button')}
@@ -274,7 +274,7 @@ const UsedTicket = ({
   const { t } = useTranslation()
 
   return (
-    <div className="mb-6 flex flex-col rounded-lg bg-sunscreen px-8 py-6 shadow-xs">
+    <div className="bg-sunscreen mb-6 flex flex-col rounded-lg px-8 py-6 shadow-xs">
       <div className="flex flex-col pb-6">
         <span>{t('tickets.ticket-type')}</span>
         <span className="text-xl font-semibold">{ticket.type}</span>
@@ -331,7 +331,7 @@ const TicketsManagementPage = () => {
       <a
         role="button"
         onClick={() => setOpenedTicketDetail(ticket)}
-        className="font-semibold text-primary underline"
+        className="text-primary font-semibold underline"
       >
         {t('tickets.more-info')}
       </a>,
@@ -348,7 +348,7 @@ const TicketsManagementPage = () => {
         <a
           role="button"
           onClick={() => setOpenedTicketDetail(ticket)}
-          className="font-semibold text-primary underline"
+          className="text-primary font-semibold underline"
         >
           {t('tickets.more-info')}
         </a>,

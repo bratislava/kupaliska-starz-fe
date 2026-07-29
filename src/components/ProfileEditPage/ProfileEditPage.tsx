@@ -92,7 +92,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     <form className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div>
         <InputField
-          className="col-span-2 max-w-formMax lg:col-span-1"
+          className="max-w-formMax col-span-2 lg:col-span-1"
           name="age"
           register={register}
           label={t('profile.age')}
@@ -101,7 +101,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
           valueAsNumber={true}
         />
         <InputField
-          className="col-span-2 mt-6 max-w-formMax lg:col-span-1"
+          className="max-w-formMax col-span-2 mt-6 lg:col-span-1"
           name="zip"
           register={register}
           label={t('profile.zip')}
@@ -150,8 +150,8 @@ const ProfileEditPage = () => {
 
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null || userQuery.data.data.image == null) && (
-            <div className="mt-14 flex flex-col items-center bg-warningSoft px-6 py-5 shadow-lg md:flex-row">
-              <img src="/warning.svg" alt="" className="mb-5 mr-0 md:mb-0 md:mr-4" />
+            <div className="bg-warningSoft mt-14 flex flex-col items-center px-6 py-5 shadow-lg md:flex-row">
+              <img src="/warning.svg" alt="" className="mr-0 mb-5 md:mr-4 md:mb-0" />
               <div className="text-center">{t('profile.age-photo-required')}</div>
             </div>
           )}

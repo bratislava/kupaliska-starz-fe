@@ -21,7 +21,7 @@ const HeroBanner = () => {
         <div className="wave absolute bottom-0 h-full w-full"></div>
       </div>
       <div
-        className={cx('content container relative z-10 mx-auto', {
+        className={cx('content relative z-10 container mx-auto', {
           // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
           // TODO: change isOffSeason boolean to selectable?
           'xl:min-h-[228px]': generalSettings?.data.isOffSeason,
@@ -43,17 +43,17 @@ const HeroBanner = () => {
         </div>
 
         {!generalSettings?.data.isOffSeason && (
-          <div className="mb-16 mt-8 flex w-full flex-col space-x-0 space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0 xl:w-3/5">
+          <div className="mt-8 mb-16 flex w-full flex-col space-y-4 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-4 xl:w-3/5">
             <Link to={ANCHORS.TICKET_BUY}>
               <Button thin>
-                <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
+                <span className="p-1 pr-4 pl-5">{t('landing.buy-ticket')}</span>
                 <Icon name="tickets" className="no-fill pr-5" />
               </Button>
             </Link>
             <Link to={ANCHORS.SWIMMING_POOLS} className="block">
               <Button className="" color="outlined" thin>
-                <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
-                <Icon name="swimming-man" className="no-fill hidden pr-5 xs:block" />
+                <span className="p-1 pr-4 pl-5">{t('landing.swimming-pools-starz')}</span>
+                <Icon name="swimming-man" className="no-fill xs:block hidden pr-5" />
               </Button>
             </Link>
           </div>

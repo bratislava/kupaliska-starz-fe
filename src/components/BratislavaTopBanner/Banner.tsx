@@ -26,7 +26,7 @@ const Banner = () => {
       {generalSettings?.data.showAlert && (
         <AlertBanner text={generalSettings?.data.alertText ?? ''} />
       )}
-      <aside className="flex items-center bg-backgroundGray" style={{ height: '50px' }}>
+      <aside className="bg-backgroundGray flex items-center" style={{ height: '50px' }}>
         <div className="container mx-auto flex justify-between">
           <div className="flex items-center">
             <img className="pr-3" alt="" src="/logo-bratislava.svg" />

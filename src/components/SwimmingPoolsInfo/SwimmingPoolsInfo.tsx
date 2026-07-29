@@ -28,7 +28,7 @@ const SwimmingPoolsInfo = () => {
 
   return (
     <div className="container mx-auto py-16">
-      <h2 className="mb-8 text-center text-2xl font-bold text-fontBlack xs:text-3xl 2xl:text-4xl">
+      <h2 className="text-fontBlack xs:text-3xl mb-8 text-center text-2xl font-bold 2xl:text-4xl">
         {t('landing.assumed-opening')}
       </h2>
       <div className="auto-rows-fr pb-8 md:grid md:grid-cols-2 md:gap-x-16 lg:grid-cols-3 lg:gap-x-32">

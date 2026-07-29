@@ -133,7 +133,7 @@ const ContactForm = () => {
               <p className="text-p3 italic">{t('landing.captcha-not-verified')}</p>
             )}
             {errors.recaptchaToken && (
-              <p className="text-p3 mt-1 text-error">{t('landing.captcha-warning-required')}</p>
+              <p className="text-p3 text-error mt-1">{t('landing.captcha-warning-required')}</p>
             )}
           </>
         )}

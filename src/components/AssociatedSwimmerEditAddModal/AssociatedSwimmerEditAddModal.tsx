@@ -173,7 +173,7 @@ export const AssociatedSwimmerEditAddModal = ({
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           <InputField
-            className="col-span-1 max-w-formMax lg:col-span-2"
+            className="max-w-formMax col-span-1 lg:col-span-2"
             name="firstname"
             register={register}
             label={t('person-add.firstname')}
@@ -181,7 +181,7 @@ export const AssociatedSwimmerEditAddModal = ({
             newLabel
           />
           <InputField
-            className="col-span-1 max-w-formMax lg:col-span-2"
+            className="max-w-formMax col-span-1 lg:col-span-2"
             name="lastname"
             register={register}
             label={t('person-add.lastname')}
@@ -198,7 +198,7 @@ export const AssociatedSwimmerEditAddModal = ({
             }}
           />
           <InputField
-            className="col-span-1 max-w-formMax lg:col-span-1"
+            className="max-w-formMax col-span-1 lg:col-span-1"
             name="zip"
             register={register}
             label={t('person-add.zip')}

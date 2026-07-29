@@ -150,7 +150,7 @@ export const OrderMissingInformationProfileModal = ({
             }}
           />
           <InputField
-            className="col-span-1 max-w-formMax lg:col-span-1"
+            className="max-w-formMax col-span-1 lg:col-span-1"
             name="zip"
             register={register}
             label={t('person-add.zip')}

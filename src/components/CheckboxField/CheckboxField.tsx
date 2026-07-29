@@ -61,7 +61,7 @@ const CheckboxField = ({
           </span>
         )}
       </div>
-      {error && <div className="ml-7 mt-2 px-2 text-sm text-error">{error}</div>}
+      {error && <div className="text-error mt-2 ml-7 px-2 text-sm">{error}</div>}
     </div>
   )
 }

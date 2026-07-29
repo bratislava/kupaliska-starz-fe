@@ -107,7 +107,7 @@ const OrderPageOptionalFields = ({
       <Tooltip multiline={true} id="tooltip-customer-form" />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <InputField
-          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
+          className="max-w-formMax col-span-2 mt-6 flex flex-col gap-y-2 lg:col-span-1"
           name="age"
           register={register}
           error={errors.age?.message ? t(errors.age?.message) : undefined}
@@ -121,7 +121,7 @@ const OrderPageOptionalFields = ({
           }
         />
         <InputField
-          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
+          className="max-w-formMax col-span-2 mt-6 flex flex-col gap-y-2 lg:col-span-1"
           name="zip"
           register={register}
           error={errors.zip?.message}
@@ -288,7 +288,7 @@ const OrderPagePeopleList = ({
       )}
       {/* TODO errors everywhere, refactor */}
       {shouldDisplayMissingInformationWarning && (
-        <div className="my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white">
+        <div className="bg-error my-6 flex gap-x-3 rounded-lg px-5 py-4 text-white">
           <Icon name="warning" className="no-fill text-white"></Icon>
           <div>
             Pre kúpu permanentky je potrebné doplniť fotografiu a dátum narodenia.{' '}
@@ -317,7 +317,7 @@ const OrderPagePeopleList = ({
           ),
       )}
 
-      <div className="px-2 text-sm text-error">
+      <div className="text-error px-2 text-sm">
         {errors.ticketTypesData
           ?.map((field) => field.selectedSwimmerIds?.map((field) => field.message))
           .join('/n')}
@@ -456,7 +456,7 @@ const OrderPageDiscountCodeInput = ({
         ) : null}
       </div>
       {(captchaWarning === 'show' || errors.recaptchaToken) && (
-        <p className="text-p3 mt-1 text-error">
+        <p className="text-p3 text-error mt-1">
           {t('landing.captcha-warning-required-and-reapply')}
         </p>
       )}
@@ -561,7 +561,7 @@ const OrderPageSummary = ({
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
   return (
-    <div className="rounded-lg bg-sunscreen">
+    <div className="bg-sunscreen rounded-lg">
       <div className="p-8">
         <div className="flex flex-row justify-between">
           <div className="text-2xl font-semibold">
@@ -607,9 +607,9 @@ const OrderPageSummary = ({
           </>
         )}
       </div>
-      <div className="flex items-center justify-between rounded-b-lg bg-blueish px-4 py-4 lg:px-8">
+      <div className="bg-blueish flex items-center justify-between rounded-b-lg px-4 py-4 lg:px-8">
         {hasTicketAmount && (
-          <div className="mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border border-solid border-primary px-6 py-2 text-primary">
+          <div className="border-primary text-primary mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border border-solid px-6 py-2">
             <button
               className="align-top text-3xl leading-5"
               onClick={handleMinusClick}
@@ -637,7 +637,7 @@ const OrderPageSummary = ({
           </div>
         )}
         <div className="flex flex-nowrap">
-          <span className="font-bold text-fontBlack lg:text-xl">
+          <span className="text-fontBlack font-bold lg:text-xl">
             <FormatCurrencyFromCents value={ticketType.priceWithVat} />
           </span>
           <span>{t('common.per-ticket')}</span>
@@ -1136,12 +1136,12 @@ const OrderPage = () => {
                     className="flex justify-center self-center"
                   />
                   {errors.recaptchaToken && (
-                    <p className="text-p3 mt-1 text-error">
+                    <p className="text-p3 text-error mt-1">
                       {t('landing.captcha-warning-required')}
                     </p>
                   )}
                   {captchaWarning === 'show' && (
-                    <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
+                    <p className="text-p3 text-error mt-1">{t('landing.captcha-not-verified')}</p>
                   )}
                 </>
               )}
@@ -1222,7 +1222,7 @@ const OrderPage = () => {
               />
             )
           })}
-          <div className="flex flex-row rounded-lg border-divider bg-blueish px-4 py-4 text-fontBlack lg:items-center lg:px-8">
+          <div className="border-divider bg-blueish text-fontBlack flex flex-row rounded-lg px-4 py-4 lg:items-center lg:px-8">
             <span className="grow font-semibold">{t('price-total')}</span>
             <div className="flex items-center justify-between gap-x-6">
               <span className="grow font-semibold lg:w-[115px] lg:text-right lg:text-xl">

@@ -34,7 +34,7 @@ const OrderResultPage = () => {
   }, [params, navigate])
 
   return (
-    <div className="grow bg-sunscreen">
+    <div className="bg-sunscreen grow">
       {query.isLoading && (
         <div className="flex items-center justify-center py-8">
           <Spinner />

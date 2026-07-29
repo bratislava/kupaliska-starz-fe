@@ -3,12 +3,12 @@
 .checkbox-field > input.checkbox,
 .react-aria-checkbox {
   appearance: none;
-  @apply h-4 w-4 rounded border-2 border-solid border-black border-fontBlack bg-white p-3 transition-all focus:outline-none;
+  @apply border-fontBlack h-4 w-4 rounded border-2 border-solid border-black bg-white p-3 transition-all focus:outline-none;
 }
 
 .checkbox-field > input.radio {
   appearance: none;
-  @apply h-4 w-4 rounded-full border-2 border-solid border-black border-fontBlack bg-white p-2 transition-all focus:outline-none;
+  @apply border-fontBlack h-4 w-4 rounded-full border-2 border-solid border-black bg-white p-2 transition-all focus:outline-none;
 }
 
 .checkbox-field > input.checkbox:checked,
@@ -20,7 +20,7 @@
 }
 
 .checkbox-field > input.radio:checked {
-  @apply relative border-primary;
+  @apply border-primary relative;
 }
 
 .checkbox-field > input.radio:checked::after {
@@ -29,7 +29,7 @@
   top: 4px;
   right: 4px;
   bottom: 4px;
-  @apply absolute rounded-full border-primary bg-primary;
+  @apply border-primary bg-primary absolute rounded-full;
 }
 
 .checkbox-field.error {

@@ -51,8 +51,8 @@ const ProfilePageUser = () => {
           )}
         </>
       )}
-      <div className="rounded-lg bg-sunscreen lg:col-span-7">
-        <div className="flex flex-col items-start gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row sm:items-center">
+      <div className="bg-sunscreen rounded-lg lg:col-span-7">
+        <div className="border-b-divider flex flex-col items-start gap-6 border-b-2 px-6 py-4 sm:flex-row sm:items-center">
           <div className="flex flex-1 flex-col gap-1">
             <p className="text-xl font-semibold">Osobné údaje</p>
             <p>
@@ -88,7 +88,7 @@ const ProfilePageUser = () => {
               </Button>
             </div>
           </div>
-          <div className="h-0.5 bg-divider" />
+          <div className="bg-divider h-0.5" />
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
               <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
@@ -105,7 +105,7 @@ const ProfilePageUser = () => {
               <p>{account.data?.email}</p>
             </div>
           </div>
-          <div className="h-0.5 bg-divider" />
+          <div className="bg-divider h-0.5" />
           {isLoading && (
             <div className="flex justify-center p-6">
               <Spinner />
