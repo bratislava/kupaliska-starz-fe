@@ -99,7 +99,7 @@
 }
 
 .react-aria-ModalOverlay {
-  @apply fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-gray-800;
+  @apply bg-fontBlack/30 fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center;
 }
 
 .square {

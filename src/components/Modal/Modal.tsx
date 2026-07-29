@@ -58,12 +58,12 @@ const Modal = ({
               onClose()
             }
           }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fontBlack bg-opacity-30"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center"
         >
           <div className={cx('relative', { 'px-4': closeButton })}>
             <div
               className={cx(
-                'relative overflow-y-auto rounded-lg bg-sunscreen shadow-lg',
+                'bg-sunscreen relative overflow-y-auto rounded-lg shadow-lg',
                 modalClassName,
               )}
               /* Calculates max height of modal, subtracts the overflow of button and close button. */
@@ -79,7 +79,7 @@ const Modal = ({
               <img
                 src="/red-cross-circle.svg"
                 alt=""
-                className="absolute right-0 top-0 h-8 w-8 -translate-y-2/4 cursor-pointer"
+                className="absolute top-0 right-0 size-8 -translate-y-2/4 cursor-pointer"
                 onClick={() => onClose()}
               />
             )}
