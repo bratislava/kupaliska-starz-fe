@@ -7,7 +7,7 @@ const VOPPage = () => {
   const { t } = useTranslation()
 
   return (
-    <main className="container mx-auto mt-8 xl:mt-12">
+    <main className="vop-page container mx-auto mt-8 xl:mt-12">
       <SectionHeader title={t('vop.title')} />
       <Trans
         // TODO there is a better solution for this
