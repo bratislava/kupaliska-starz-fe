@@ -1,6 +1,48 @@
 @import 'tailwindcss';
 
-@config '../tailwind.config.js';
+@theme {
+  /* Breakpoints — project scale, replaces Tailwind's defaults */
+  --breakpoint-*: initial;
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1300px;
+  --breakpoint-2xl: 1650px;
+
+  /* Font family */
+  --font-sans:
+    'Public Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* Box shadows — replaces Tailwind's defaults (only xs and lg are used) */
+  --shadow-*: initial;
+  --shadow-xs: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0px 4px 12px rgba(0, 0, 0, 0.12);
+
+  /* Max width (max-w-formMax) */
+  --container-formMax: 445px;
+
+  /* Colors */
+  --color-primary: #0a07f5;
+  --color-secondary: #7ccef2;
+  --color-bratislavaRed: #f23005;
+  --color-fontBlack: #333333;
+  --color-error: #dc2626;
+  --color-warning: #f59e0b;
+  --color-success: #2ecc71;
+  --color-blueish: #d0ecf8;
+  --color-redish: #e46054;
+  --color-purpleish: #4340a6;
+  --color-backgroundGray: #f5f5f5;
+  --color-white: #ffffff;
+  --color-warningSoft: #f8d7d4;
+  --color-inactive: #cccccc;
+  --color-divider: #d6d6d6;
+  --color-sunscreen: #fff9f0;
+  --color-orange: #f4aa3d;
+}
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -17,6 +59,43 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+/* Custom container (Tailwind's core container is replaced by this) */
+@utility container {
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  @media (width >= theme(--breakpoint-xs)) {
+    max-width: 380px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  @media (width >= theme(--breakpoint-sm)) {
+    max-width: 640px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (width >= theme(--breakpoint-md)) {
+    max-width: 768px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (width >= theme(--breakpoint-lg)) {
+    max-width: 1024px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (width >= theme(--breakpoint-xl)) {
+    max-width: 1175px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (width >= theme(--breakpoint-2xl)) {
+    max-width: 1470px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
@@ -42,58 +121,58 @@
 
 @layer base {
   .ml-container {
-    padding-left: theme('container.padding.DEFAULT');
+    padding-left: 2rem;
     @media (width >= theme(--breakpoint-xs)) {
-      margin-left: calc((100vw - theme('container.xs')) / 2);
-      padding-left: theme('container.padding.xs');
+      margin-left: calc((100vw - 360px) / 2);
+      padding-left: 2rem;
     }
     @media (width >= theme(--breakpoint-sm)) {
-      margin-left: calc((100vw - theme('container.sm')) / 2);
-      padding-left: theme('container.padding.sm');
+      margin-left: calc((100vw - 640px) / 2);
+      padding-left: 1rem;
     }
     @media (width >= theme(--breakpoint-md)) {
-      margin-left: calc((100vw - theme('container.md')) / 2);
-      padding-left: theme('container.padding.md');
+      margin-left: calc((100vw - 768px) / 2);
+      padding-left: 1rem;
     }
     @media (width >= theme(--breakpoint-lg)) {
-      margin-left: calc((100vw - theme('container.lg')) / 2);
-      padding-left: theme('container.padding.lg');
+      margin-left: calc((100vw - 1024px) / 2);
+      padding-left: 1rem;
     }
     @media (width >= theme(--breakpoint-xl)) {
-      margin-left: calc((100vw - theme('container.xl')) / 2);
-      padding-left: theme('container.padding.xl');
+      margin-left: calc((100vw - 1175px) / 2);
+      padding-left: 1rem;
     }
     @media (width >= theme(--breakpoint-2xl)) {
-      margin-left: calc((100vw - theme('container.2xl')) / 2);
-      padding-left: theme('container.padding.2xl');
+      margin-left: calc((100vw - 1470px) / 2);
+      padding-left: 1rem;
     }
   }
 
   .mr-container {
-    padding-right: theme('container.padding.DEFAULT');
+    padding-right: 2rem;
     @media (width >= theme(--breakpoint-xs)) {
-      margin-right: calc((100vw - theme('container.xs')) / 2);
-      padding-right: theme('container.padding.xs');
+      margin-right: calc((100vw - 360px) / 2);
+      padding-right: 2rem;
     }
     @media (width >= theme(--breakpoint-sm)) {
-      margin-right: calc((100vw - theme('container.sm')) / 2);
-      padding-right: theme('container.padding.sm');
+      margin-right: calc((100vw - 640px) / 2);
+      padding-right: 1rem;
     }
     @media (width >= theme(--breakpoint-md)) {
-      margin-right: calc((100vw - theme('container.md')) / 2);
-      padding-right: theme('container.padding.md');
+      margin-right: calc((100vw - 768px) / 2);
+      padding-right: 1rem;
     }
     @media (width >= theme(--breakpoint-lg)) {
-      margin-right: calc((100vw - theme('container.lg')) / 2);
-      padding-right: theme('container.padding.lg');
+      margin-right: calc((100vw - 1024px) / 2);
+      padding-right: 1rem;
     }
     @media (width >= theme(--breakpoint-xl)) {
-      margin-right: calc((100vw - theme('container.xl')) / 2);
-      padding-right: theme('container.padding.xl');
+      margin-right: calc((100vw - 1175px) / 2);
+      padding-right: 1rem;
     }
     @media (width >= theme(--breakpoint-2xl)) {
-      margin-right: calc((100vw - theme('container.2xl')) / 2);
-      padding-right: theme('container.padding.2xl');
+      margin-right: calc((100vw - 1470px) / 2);
+      padding-right: 1rem;
     }
   }
 }
