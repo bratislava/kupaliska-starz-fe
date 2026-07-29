@@ -1,12 +1,12 @@
 .landing-page__swimming-pool-modal {
-  @screen md {
+  @media (min-width: 768px) {
     width: 500px;
   }
-  @screen lg {
+  @media (min-width: 1024px) {
     width: 535px;
   }
 
-  @screen 2xl {
+  @media (min-width: 1650px) {
     width: 650px;
   }
 }

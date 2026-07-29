@@ -169,32 +169,32 @@ module.exports = {
           width: '100%',
           paddingLeft: '2rem',
           paddingRight: '2rem',
-          '@screen xs': {
+          '@media (min-width: 360px)': {
             maxWidth: '380px',
             paddingLeft: '2rem',
             paddingRight: '2rem',
           },
-          '@screen sm': {
+          '@media (min-width: 640px)': {
             maxWidth: '640px',
             paddingLeft: '1rem',
             paddingRight: '1rem',
           },
-          '@screen md': {
+          '@media (min-width: 768px)': {
             maxWidth: '768px',
             paddingLeft: '1rem',
             paddingRight: '1rem',
           },
-          '@screen lg': {
+          '@media (min-width: 1024px)': {
             maxWidth: '1024px',
             paddingLeft: '1rem',
             paddingRight: '1rem',
           },
-          '@screen xl': {
+          '@media (min-width: 1300px)': {
             maxWidth: '1175px',
             paddingLeft: '1rem',
             paddingRight: '1rem',
           },
-          '@screen 2xl': {
+          '@media (min-width: 1650px)': {
             maxWidth: '1470px',
             paddingLeft: '1rem',
             paddingRight: '1rem',

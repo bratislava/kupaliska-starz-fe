@@ -5,17 +5,17 @@
   background-size: cover;
   background-image: url('assets/images/hero_mobile.png');
 
-  @screen sm {
+  @media (min-width: 640px) {
     background-image: url('assets/images/hero.png');
     height: 65vh;
   }
-  @screen lg {
+  @media (min-width: 1024px) {
     height: 50vw;
   }
-  @screen xl {
+  @media (min-width: 1300px) {
     height: 35vw;
   }
-  @screen 2xl {
+  @media (min-width: 1650px) {
     height: 35vw;
   }
 }
@@ -27,11 +27,11 @@
   background-size: contain;
   background-image: url('assets/images/hero_overlay_mobile.png');
 
-  @screen sm {
+  @media (min-width: 640px) {
     background-image: url('assets/images/hero_overlay.png');
   }
 
-  @screen 2xl {
+  @media (min-width: 1650px) {
     background-size: contain;
   }
 }
@@ -40,20 +40,20 @@
   margin-top: -25vw;
   margin-bottom: 4rem;
 
-  @screen sm {
+  @media (min-width: 640px) {
     margin-top: -15vw;
   }
 
-  @screen md {
+  @media (min-width: 768px) {
     margin-top: -16vw;
     margin-bottom: 8rem;
   }
 
-  @screen lg {
+  @media (min-width: 1024px) {
     margin-top: -15rem;
   }
 
-  @screen xl {
+  @media (min-width: 1300px) {
     margin-top: -18rem;
   }
 }
