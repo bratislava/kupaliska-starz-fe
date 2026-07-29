@@ -1,21 +1,23 @@
 @reference '../../index.css';
 
-.vop-page ol {
-  list-style: decimal;
-}
+@layer base {
+  ol {
+    list-style: decimal;
+  }
 
-.vop-page ol li {
-  @apply my-2;
-}
+  ol li {
+    @apply my-2;
+  }
 
-.vop-page ol ol {
-  list-style: lower-alpha;
-}
+  ol ol {
+    list-style: lower-alpha;
+  }
 
-.vop-page ol ol ol {
-  list-style: lower-roman;
-}
+  ol ol ol {
+    list-style: lower-roman;
+  }
 
-.vop-page ol li ol li {
-  @apply ml-4;
+  ol li ol li {
+    @apply ml-4;
+  }
 }
