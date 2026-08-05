@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import NumberField from 'components/NumberField/NumberField'
 import { ROUTES } from 'helpers/constants'
 import logger from 'helpers/logger'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
@@ -16,7 +17,7 @@ import { useAppSelector } from '../../hooks'
 import { useLogin } from '../../hooks/useLogin'
 import { TicketType } from '../../models'
 import { selectAvailableTicketTypes } from '../../store/global'
-import { Button, Icon, InputField } from '../index'
+import { Button, Icon } from '../index'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(
@@ -70,6 +71,11 @@ const HomepageTickets = () => {
       })),
   })
 
+  const exceededMaxTicketPurchaseLimit =
+    getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
+
+  const purchaseAllowed = getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
+
   const {
     data: cartPriceData,
     isFetching,
@@ -85,7 +91,7 @@ const HomepageTickets = () => {
     onError: (err) => {
       logger.error(`HomepageTickets "getPrice" Request error: ${err}`)
     },
-    enabled: getPriceRequest.tickets.length > 0,
+    enabled: purchaseAllowed,
   })
 
   // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
@@ -111,27 +117,12 @@ const HomepageTickets = () => {
       return
     }
     setCart((prev) => {
-      const cumulativeTicketAmount = prev
-        .filter((item) => item.ticketTypeId !== ticketType.id)
-        .reduce((acc, curr) => acc + curr.ticketAmount, 0)
-      if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
-        return prev
-      }
-
       return prev.map((ticketTypeDataInner) => {
         return ticketTypeDataInner.ticketTypeId === ticketType.id
           ? { ...ticketTypeDataInner, ticketAmount }
           : ticketTypeDataInner
       })
     })
-  }
-
-  const addTicketToCart = (ticketAmount: number, ticketType: TicketType) => {
-    adjustTicketAmountFromCart(ticketAmount, ticketType)
-  }
-
-  const removeTicketFromCart = (ticketAmount: number, ticketType: TicketType) => {
-    adjustTicketAmountFromCart(ticketAmount, ticketType)
   }
 
   // TODO split into multiple components
@@ -197,43 +188,13 @@ const HomepageTickets = () => {
                           cart
                             .filter((item) => item.ticketTypeId === ticketType.id)
                             .map((item) => (
-                              // TODO add also error when input field is added
-                              <div
+                              <NumberField
                                 key={item.ticketTypeId}
-                                className="flex items-center justify-between rounded-lg border border-primary px-6 py-2 lg:w-[182px]"
-                              >
-                                <Button
-                                  className="p-0"
-                                  color="sunscreen"
-                                  onClick={() =>
-                                    removeTicketFromCart(item.ticketAmount - 1, ticketType)
-                                  }
-                                >
-                                  <Icon name={'minus'} />
-                                </Button>
-                                {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-                                <InputField
-                                  value={item.ticketAmount}
-                                  // TODO use onBlur instead of onChange to be able to remove input value entirely
-                                  // now when using onBlur the value is not changed when the user clicks on the plus/minus button
-                                  onChange={(event) =>
-                                    adjustTicketAmountFromCart(
-                                      Number(event.target.value),
-                                      ticketType,
-                                    )
-                                  }
-                                  className="inline-flex w-18"
-                                  textCenter
-                                  inputWrapperClassName="lg:w-full"
-                                />
-                                <Button
-                                  className="p-0"
-                                  color="sunscreen"
-                                  onClick={() => addTicketToCart(item.ticketAmount + 1, ticketType)}
-                                >
-                                  <Icon name={'plus'} />
-                                </Button>
-                              </div>
+                                value={item.ticketAmount}
+                                onChange={(value) => adjustTicketAmountFromCart(value, ticketType)}
+                                minValue={0}
+                                maxValue={99}
+                              />
                             ))}
                         {!isCartable && (
                           <Button
@@ -296,7 +257,7 @@ const HomepageTickets = () => {
                       thin
                       rounded
                       onClick={async () => handleClick()}
-                      disabled={cart.filter((item) => item.ticketAmount > 0).length === 0}
+                      disabled={!purchaseAllowed}
                       color="primary"
                     >
                       <>
