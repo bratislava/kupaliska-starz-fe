@@ -74,7 +74,7 @@ const HomepageTickets = () => {
   const exceededMaxTicketPurchaseLimit =
     getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
-  const purchaseAllowed = getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
+  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
 
   const {
     data: cartPriceData,
@@ -91,7 +91,7 @@ const HomepageTickets = () => {
     onError: (err) => {
       logger.error(`HomepageTickets "getPrice" Request error: ${err}`)
     },
-    enabled: purchaseAllowed,
+    enabled: purchaseAmountInLimit,
   })
 
   // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
@@ -113,9 +113,6 @@ const HomepageTickets = () => {
   }
 
   const adjustTicketAmountFromCart = (ticketAmount: number, ticketType: TicketType) => {
-    if (ticketAmount < 0) {
-      return
-    }
     setCart((prev) => {
       return prev.map((ticketTypeDataInner) => {
         return ticketTypeDataInner.ticketTypeId === ticketType.id
@@ -194,6 +191,7 @@ const HomepageTickets = () => {
                                 onChange={(value) => adjustTicketAmountFromCart(value, ticketType)}
                                 minValue={0}
                                 maxValue={99}
+                                isWheelDisabled
                               />
                             ))}
                         {!isCartable && (
@@ -257,7 +255,7 @@ const HomepageTickets = () => {
                       thin
                       rounded
                       onClick={async () => handleClick()}
-                      disabled={!purchaseAllowed}
+                      disabled={!purchaseAmountInLimit}
                       color="primary"
                     >
                       <>
