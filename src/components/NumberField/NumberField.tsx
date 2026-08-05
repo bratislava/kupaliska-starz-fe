@@ -22,7 +22,7 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
     >
       <RACGroup
         className={({ isFocusWithin, isInvalid }) =>
-          cn('flex w-full overflow-hidden rounded-lg border bg-white', {
+          cn('flex w-full overflow-hidden rounded-lg border-2 bg-white', {
             'border-border-active-default': !isInvalid && !isFocusWithin,
             'border-border-active-focused': !isInvalid && isFocusWithin,
           })
