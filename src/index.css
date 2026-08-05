@@ -42,6 +42,9 @@
   --color-divider: #d6d6d6;
   --color-sunscreen: #fff9f0;
   --color-orange: #f4aa3d;
+
+  --color-border-active-focused: var(--color-primary);
+  --color-border-active-default: var(--color-divider);
 }
 
 /*
@@ -59,6 +62,12 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* https://tailwindcss.com/docs/upgrade-guide#buttons-use-the-default-cursor */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 }
 
