@@ -220,51 +220,61 @@ const HomepageTickets = () => {
                 })}
               </div>
               {isCartable && (
-                <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
-                  <span className="grow font-semibold">{t('price-total')}</span>
-                  <div className="flex items-center justify-between gap-x-6">
-                    <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
-                      <SkeletonTheme
-                        baseColor="#a8dbf2"
-                        highlightColor="#58bbe6"
-                        duration={1}
-                        width={40}
-                        height={28}
-                      >
-                        {isFetching && <Skeleton />}
+                <>
+                  {!exceededMaxTicketPurchaseLimit && (
+                    <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
+                      <Icon name="alert" className="no-fill text-error"></Icon>
+                      {t('common.max-ticket-purchase-limit', {
+                        maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
+                      })}
+                    </div>
+                  )}
+                  <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
+                    <span className="grow font-semibold">{t('price-total')}</span>
+                    <div className="flex items-center justify-between gap-x-6">
+                      <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
+                        <SkeletonTheme
+                          baseColor="#a8dbf2"
+                          highlightColor="#58bbe6"
+                          duration={1}
+                          width={40}
+                          height={28}
+                        >
+                          {isFetching && <Skeleton />}
 
-                        {!isFetching && cartPriceData?.data?.data.pricing.orderPriceWithVat && (
-                          // this causes error when user uses google translate on website
-                          // best described here https://martijnhols.nl/blog/everything-about-google-translate-crashing-react
-                          // working reasonable solution for web app of this size is surrounding TextNodes with spans
-                          <span>
-                            <FormatCurrencyFromCents
-                              value={cartPriceData.data?.data.pricing.orderPriceWithVat}
-                            />
-                          </span>
-                        )}
-                        {!isFetching && !cartPriceData?.data?.data.pricing.orderPriceWithVat && (
-                          <span>
-                            <FormatCurrencyFromCents value={0} />
-                          </span>
-                        )}
-                      </SkeletonTheme>
-                    </span>
-                    <Button
-                      className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
-                      thin
-                      rounded
-                      onClick={async () => handleClick()}
-                      disabled={!purchaseAmountInLimit}
-                      color="primary"
-                    >
-                      <>
-                        {t('landing.basket')}
-                        <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
-                      </>
-                    </Button>
+                          {!isFetching && cartPriceData?.data?.data.pricing.orderPriceWithVat && (
+                            // this causes error when user uses google translate on website
+                            // best described here https://martijnhols.nl/blog/everything-about-google-translate-crashing-react
+                            // working reasonable solution for web app of this size is surrounding TextNodes with spans
+                            <span>
+                              <FormatCurrencyFromCents
+                                value={cartPriceData.data?.data.pricing.orderPriceWithVat}
+                              />
+                            </span>
+                          )}
+                          {!isFetching && !cartPriceData?.data?.data.pricing.orderPriceWithVat && (
+                            <span>
+                              <FormatCurrencyFromCents value={0} />
+                            </span>
+                          )}
+                        </SkeletonTheme>
+                      </span>
+                      <Button
+                        className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
+                        thin
+                        rounded
+                        onClick={async () => handleClick()}
+                        disabled={!purchaseAmountInLimit}
+                        color="primary"
+                      >
+                        <>
+                          {t('landing.basket')}
+                          <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
+                        </>
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
               {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
             </div>
