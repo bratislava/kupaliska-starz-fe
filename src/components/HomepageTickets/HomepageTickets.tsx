@@ -148,7 +148,7 @@ const HomepageTickets = () => {
           },
         ].map(({ name, description, ticketTypes, isCartable }, index) => (
           <div key={index} className="max-w-[904px]">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3 text-center lg:text-left">
                 <h5 className="text-xl font-semibold">{name}</h5>
                 <p>{description}</p>
