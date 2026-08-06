@@ -1183,6 +1183,14 @@ const OrderPage = () => {
               />
             )
           })}
+          {!exceededMaxTicketPurchaseLimit && (
+            <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
+              <Icon name="alert" className="no-fill text-error"></Icon>
+              {t('common.max-ticket-purchase-limit', {
+                maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
+              })}
+            </div>
+          )}
           <div className="flex flex-row rounded-lg border-divider bg-blueish p-4 text-fontBlack lg:items-center lg:px-8">
             <span className="grow font-semibold">{t('price-total')}</span>
             <div className="flex items-center justify-between gap-x-6">
@@ -1206,13 +1214,6 @@ const OrderPage = () => {
             </div>
           </div>
           <div className="text-gray color-fontBlack">
-            {!ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
-              <p className="mb-2">
-                {t('common.max-ticket-purchase-limit', {
-                  maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
-                })}
-              </p>
-            )}
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
