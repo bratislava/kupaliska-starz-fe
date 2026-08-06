@@ -131,9 +131,6 @@ const HomepageTickets = () => {
             name: 'Jednorazové lístky',
             description:
               'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
-            descriptionFooter: t('common.max-ticket-purchase-limit', {
-              maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
-            }),
             ticketTypes: dayTicketTypes,
             isCartable: true,
           },
@@ -141,17 +138,15 @@ const HomepageTickets = () => {
             name: 'Vstupové permanentky',
             description:
               'Platí na 10 vstupov počas celej sezóny bez ohľadu na vek. Jedna permanentka je viazaná na jednu osobu a je neprenosná.',
-            descriptionFooter: '',
             ticketTypes: entryTicketTypes,
           },
           {
             name: 'Sezónne permanentky',
             description:
               'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská a 90 minútový vstup denne na Mestskú Plaváreň Pasienky. K sezónnej permanentke pre dospelých a ŤZP/ŤZP-S je možné zakúpiť detskú permanentku až pre 3 deti za zvýhodnenú cenu 9,90 € za dieťa.',
-            descriptionFooter: '',
             ticketTypes: seasonalTicketTypes,
           },
-        ].map(({ name, description, descriptionFooter, ticketTypes, isCartable }, index) => (
+        ].map(({ name, description, ticketTypes, isCartable }, index) => (
           <div key={index} className="max-w-[904px]">
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-3 text-center lg:text-left">
@@ -276,7 +271,6 @@ const HomepageTickets = () => {
                   </div>
                 </>
               )}
-              {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
             </div>
           </div>
         ))}
