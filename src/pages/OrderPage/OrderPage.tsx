@@ -764,11 +764,11 @@ const OrderPage = () => {
     [getValues, ticketTypesWithAdditionalProperties],
   )
 
-  const exceededMaxTicketPurchaseLimit =
+  const withinMaxTicketAmountLimit =
     getRequestsFromFormData().getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
   const purchaseAmountInLimit =
-    getRequestsFromFormData().getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
+    getRequestsFromFormData().getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
   const priceQuery = useQuery(
     ['orderPrice', ticketTypesData],
@@ -1183,7 +1183,7 @@ const OrderPage = () => {
               />
             )
           })}
-          {!exceededMaxTicketPurchaseLimit && (
+          {!withinMaxTicketAmountLimit && (
             <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
               <Icon name="alert" className="no-fill text-error"></Icon>
               {t('common.max-ticket-purchase-limit', {
