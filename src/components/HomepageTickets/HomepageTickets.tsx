@@ -71,10 +71,10 @@ const HomepageTickets = () => {
       })),
   })
 
-  const exceededMaxTicketPurchaseLimit =
+  const withinMaxTicketAmountLimit =
     getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
-  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
+  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
   const {
     data: cartPriceData,
@@ -221,7 +221,7 @@ const HomepageTickets = () => {
               </div>
               {isCartable && (
                 <>
-                  {!exceededMaxTicketPurchaseLimit && (
+                  {!withinMaxTicketAmountLimit && (
                     <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
                       <Icon name="alert" className="no-fill text-error"></Icon>
                       {t('common.max-ticket-purchase-limit', {
