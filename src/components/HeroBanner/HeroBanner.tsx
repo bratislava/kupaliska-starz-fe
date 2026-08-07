@@ -17,15 +17,19 @@ const HeroBanner = () => {
 
   return (
     <div className="relative mb-8">
-      <div className="hero-image relative w-full">
-        <div className="wave absolute bottom-0 h-full w-full"></div>
+      <div className="hero-image relative h-[100vw] w-full bg-[url(assets/images/hero_mobile.png)] sm:h-[65vh] sm:bg-[url(assets/images/hero.png)] lg:h-[50vw] xl:h-[35vw]">
+        <div className="wave absolute bottom-0 size-full bg-[url(assets/images/hero_overlay_mobile.png)] sm:bg-[url(assets/images/hero_overlay.png)]"></div>
       </div>
       <div
-        className={cx('content container relative z-10 mx-auto', {
-          // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
-          // TODO: change isOffSeason boolean to selectable?
-          'xl:min-h-[228px]': generalSettings?.data.isOffSeason,
-        })}
+        // fix mt being one-time in "vw" eg. "mt-[-16vw]"" and other times in "rem" eg. "lg:-mt-60"
+        className={cx(
+          'relative z-10 container mx-auto mt-[-25vw] mb-16 sm:mt-[-15vw] md:mt-[-16vw] md:mb-32 lg:-mt-60 xl:-mt-72 xl:h-[35vw]',
+          {
+            // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
+            // TODO: change isOffSeason boolean to selectable?
+            'xl:min-h-[228px]': generalSettings?.data.isOffSeason,
+          },
+        )}
       >
         <div className="max-w-xs 2xl:max-w-md">
           <Typography type="title" fontWeight="bold" className="mb-4">
@@ -43,16 +47,16 @@ const HeroBanner = () => {
         </div>
 
         {!generalSettings?.data.isOffSeason && (
-          <div className="mb-16 mt-8 flex w-full flex-col space-x-0 space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0 xl:w-3/5">
+          <div className="mt-8 mb-16 flex w-full flex-col space-y-4 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-4 xl:w-3/5">
             <Link to={ANCHORS.TICKET_BUY}>
               <Button thin>
-                <span className="p-1 pl-5 pr-4">{t('landing.buy-ticket')}</span>
+                <span className="p-1 pr-4 pl-5">{t('landing.buy-ticket')}</span>
                 <Icon name="tickets" className="no-fill pr-5" />
               </Button>
             </Link>
             <Link to={ANCHORS.SWIMMING_POOLS} className="block">
               <Button className="" color="outlined" thin>
-                <span className="p-1 pl-5 pr-4">{t('landing.swimming-pools-starz')}</span>
+                <span className="p-1 pr-4 pl-5">{t('landing.swimming-pools-starz')}</span>
                 <Icon name="swimming-man" className="no-fill hidden pr-5 xs:block" />
               </Button>
             </Link>

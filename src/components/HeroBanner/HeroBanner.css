@@ -1,59 +1,11 @@
 .hero-image {
-  height: 100vw;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url('assets/images/hero_mobile.png');
-
-  @media (min-width: 640px) {
-    background-image: url('assets/images/hero.png');
-    height: 65vh;
-  }
-  @media (min-width: 1024px) {
-    height: 50vw;
-  }
-  @media (min-width: 1300px) {
-    height: 35vw;
-  }
-  @media (min-width: 1650px) {
-    height: 35vw;
-  }
 }
 
 .wave {
-  background-image: none;
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: contain;
-  background-image: url('assets/images/hero_overlay_mobile.png');
-
-  @media (min-width: 640px) {
-    background-image: url('assets/images/hero_overlay.png');
-  }
-
-  @media (min-width: 1650px) {
-    background-size: contain;
-  }
-}
-
-.content {
-  margin-top: -25vw;
-  margin-bottom: 4rem;
-
-  @media (min-width: 640px) {
-    margin-top: -15vw;
-  }
-
-  @media (min-width: 768px) {
-    margin-top: -16vw;
-    margin-bottom: 8rem;
-  }
-
-  @media (min-width: 1024px) {
-    margin-top: -15rem;
-  }
-
-  @media (min-width: 1300px) {
-    margin-top: -18rem;
-  }
 }
