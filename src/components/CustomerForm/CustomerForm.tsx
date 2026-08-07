@@ -76,7 +76,7 @@ const CustomerForm = ({
         {/*  />*/}
         {/*)}*/}
         <div className="col-span-1">
-          <label className="my-2 flex items-center font-medium text-fontBlack text-opacity-50">
+          <label className="text-opacity-50 my-2 flex items-center font-medium text-fontBlack">
             {t('buy-page.optional')}
             <div data-for="tooltip-customer-form" data-tip={t('buy-page.help-us')}>
               <Icon className="ml-4" name="question-mark" color="primary" />

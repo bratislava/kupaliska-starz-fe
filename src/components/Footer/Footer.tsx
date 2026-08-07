@@ -36,7 +36,7 @@ const Footer = () => {
             href="https://inovacie.bratislava.sk"
             rel="noopener noreferrer"
             target="_blank"
-            className="link ml-1 mr-1"
+            className="mx-1 link"
           >
             Inovácie mesta Bratislava
           </a>

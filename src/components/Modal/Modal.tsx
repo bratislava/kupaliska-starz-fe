@@ -63,7 +63,7 @@ const Modal = ({
           <div className={cx('relative', { 'px-4': closeButton })}>
             <div
               className={cx(
-                'bg-sunscreen relative overflow-y-auto rounded-lg shadow-lg',
+                'relative overflow-y-auto rounded-lg bg-sunscreen shadow-lg',
                 modalClassName,
               )}
               /* Calculates max height of modal, subtracts the overflow of button and close button. */

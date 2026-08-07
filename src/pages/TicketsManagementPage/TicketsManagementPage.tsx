@@ -102,7 +102,7 @@ const TicketsManagementModal = ({
             </table>
           </div>
           <div className="mb-5 h-full text-primary md:hidden">
-            <div className="rounded-t-lg bg-blueish px-6 pb-5 pt-8">
+            <div className="rounded-t-lg bg-blueish px-6 pt-8 pb-5">
               <div className="pb-4 text-xl font-bold">{t('tickets.ticket-detail')}</div>
               <div className="pb-3">
                 {t('tickets.ticket-owner')}
@@ -185,7 +185,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
 
   return (
     <div
-      className={`mb-6 flex flex-col items-center overflow-auto rounded-lg p-6 shadow-xs ${textClass} ${backgroundClass} `}
+      className={`mb-6 flex flex-col items-center overflow-auto rounded-lg p-6 shadow-xs ${textClass} ${backgroundClass}`}
     >
       <span className="mb-1 text-2xl font-bold">STARZ</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
@@ -237,7 +237,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
       <tbody>
         {rows.map((row, rowIndex) => (
           <Fragment key={rowIndex}>
-            <tr className={` ${rowBackgroundClass} rounded-lg px-10 py-5 shadow-xs`}>
+            <tr className={`${rowBackgroundClass} rounded-lg px-10 py-5 shadow-xs`}>
               {row.map((column, columnIndex) => {
                 const first = columnIndex === 0
                 const last = columnIndex === row.length - 1

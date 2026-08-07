@@ -6,4 +6,5 @@ export default {
   // TODO add packages below, taken from https://github.com/bratislava/eslint-config/tree/master/packages/react#prettier
   // tailwindFunctions: ["clsx", "cn"],
   // project-specific:
+  tailwindStylesheet: './src/index.css',
 }

@@ -437,7 +437,7 @@ const OrderPageDiscountCodeInput = ({
 
   return (
     <div>
-      <div className="flex flex-col items-center gap-x-4 gap-y-4 lg:flex-row lg:gap-y-0">
+      <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-y-0">
         {/* TODO doesn't look good on desktop when error is present */}
         <InputField
           value={discountCode}
@@ -607,14 +607,10 @@ const OrderPageSummary = ({
           </>
         )}
       </div>
-      <div className="flex items-center justify-between rounded-b-lg bg-blueish px-4 py-4 lg:px-8">
+      <div className="flex items-center justify-between rounded-b-lg bg-blueish p-4 lg:px-8">
         {hasTicketAmount && (
           <div className="mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border border-solid border-primary px-6 py-2 text-primary">
-            <button
-              className="align-top text-3xl leading-5"
-              onClick={handleMinusClick}
-              type="button"
-            >
+            <button className="align-top text-3xl/5" onClick={handleMinusClick} type="button">
               <Icon name={'minus'} />
             </button>
             {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
@@ -627,11 +623,7 @@ const OrderPageSummary = ({
               textCenter
               inputWrapperClassName="lg:w-full"
             />
-            <button
-              className="align-top text-3xl leading-5"
-              onClick={handlePlusClick}
-              type="button"
-            >
+            <button className="align-top text-3xl/5" onClick={handlePlusClick} type="button">
               <Icon name={'plus'} />
             </button>
           </div>
@@ -791,6 +783,7 @@ const OrderPage = () => {
     async ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
       logger.info(getPriceRequest)
+
       return getPrice(getPriceRequest, status, signal)
     },
     {
@@ -858,7 +851,7 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="apple-pay"
-            className="no-fill flex h-6 w-6 items-center justify-center rounded-sm bg-black p-1"
+            className="no-fill flex size-6 items-center justify-center rounded-sm bg-black p-1"
           ></Icon>
         )
         break
@@ -866,14 +859,14 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="google-pay"
-            className="no-fill flex h-6 w-6 items-center justify-center rounded-sm bg-white p-1"
+            className="no-fill flex size-6 items-center justify-center rounded-sm bg-white p-1"
           ></Icon>
         )
         break
       case PaymentMethod.CARD:
         icon = (
           <Icon
-            className="flex h-6 w-6 items-center justify-center rounded-sm p-1"
+            className="flex size-6 items-center justify-center rounded-sm p-1"
             name="credit-card"
           />
         )
@@ -881,7 +874,7 @@ const OrderPage = () => {
       default:
         icon = (
           <Icon
-            className="flex h-6 w-6 items-center justify-center rounded-sm p-1"
+            className="flex size-6 items-center justify-center rounded-sm p-1"
             name="credit-card"
           />
         )
@@ -1222,7 +1215,7 @@ const OrderPage = () => {
               />
             )
           })}
-          <div className="flex flex-row rounded-lg border-divider bg-blueish px-4 py-4 text-fontBlack lg:items-center lg:px-8">
+          <div className="flex flex-row rounded-lg border-divider bg-blueish p-4 text-fontBlack lg:items-center lg:px-8">
             <span className="grow font-semibold">{t('price-total')}</span>
             <div className="flex items-center justify-between gap-x-6">
               <span className="grow font-semibold lg:w-[115px] lg:text-right lg:text-xl">

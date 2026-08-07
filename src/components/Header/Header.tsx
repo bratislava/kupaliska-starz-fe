@@ -70,10 +70,10 @@ const Header = () => {
   ]
 
   return (
-    <div className="header bg-sunscreen sticky top-0 z-40 w-full py-3 shadow-xs md:py-4">
-      <div className="text-fontBlack container mx-auto flex justify-between">
-        <Link className="text-primary cursor-pointer text-xl font-bold" to="/">
-          <Icon name="starz-logo" className="no-fill xs:block hidden pr-5" height={51} />
+    <div className="header sticky top-0 z-40 w-full bg-sunscreen py-3 shadow-xs md:py-4">
+      <div className="container mx-auto flex justify-between text-fontBlack">
+        <Link className="cursor-pointer text-xl font-bold text-primary" to="/">
+          <Icon name="starz-logo" className="no-fill hidden pr-5 xs:block" height={51} />
         </Link>
         <nav className="hidden flex-1 items-center justify-end md:flex">
           {menuItems.map((menuItem, index) => (
@@ -118,21 +118,21 @@ const Header = () => {
       </div>
       <div
         onClick={() => setOpen(!open)}
-        className={`fixed inset-0 ${open ? 'block' : 'hidden'} bg-fontBlack/30 z-10 md:hidden`}
+        className={`fixed inset-0 ${open ? 'block' : 'hidden'} z-10 bg-fontBlack/30 md:hidden`}
       ></div>
 
       <nav
         className={`${
           open ? 'w-3/4' : 'w-0'
-        } bg-sunscreen fixed inset-y-0 right-0 z-10 flex flex-1 flex-col overflow-hidden transition-all md:hidden`}
+        } fixed inset-y-0 right-0 z-10 flex flex-1 flex-col overflow-hidden bg-sunscreen transition-all md:hidden`}
       >
         <div className="flex flex-1 flex-col justify-between px-4 py-12">
           <div className="flex flex-col">
             <div className="flex items-center justify-between">
-              <span className="text-primary text-xl font-bold">STARZ</span>
+              <span className="text-xl font-bold text-primary">STARZ</span>
               <button
                 onClick={() => setOpen(!open)}
-                className="text-primary bg-transparent focus:outline-hidden md:hidden"
+                className="bg-transparent text-primary focus:outline-hidden md:hidden"
               >
                 <Icon name="close" color="primary" />
               </button>
@@ -164,7 +164,7 @@ const Header = () => {
             <Typography type="title" fontWeight="bold">
               {t('header.watch-us')}
             </Typography>
-            <div className="text-primary flex items-center justify-between py-4 pr-16">
+            <div className="flex items-center justify-between py-4 pr-16 text-primary">
               <a
                 target="_blank"
                 rel="noreferrer"
