@@ -1,101 +1,111 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  /* Breakpoints — project scale, replaces Tailwind's defaults */
+  --breakpoint-*: initial;
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1300px;
+  --breakpoint-2xl: 1650px;
+
+  /* Font family */
+  --font-sans:
+    'Public Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* Box shadows — replaces Tailwind's defaults (only xs and lg are used) */
+  --shadow-*: initial;
+  --shadow-xs: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0px 4px 12px rgba(0, 0, 0, 0.12);
+
+  /* Max width (max-w-formMax) */
+  --container-formMax: 445px;
+
+  /* Colors */
+  --color-primary: #0a07f5;
+  --color-secondary: #7ccef2;
+  --color-bratislavaRed: #f23005;
+  --color-fontBlack: #333333;
+  --color-error: #dc2626;
+  --color-warning: #f59e0b;
+  --color-success: #2ecc71;
+  --color-blueish: #d0ecf8;
+  --color-redish: #e46054;
+  --color-purpleish: #4340a6;
+  --color-backgroundGray: #f5f5f5;
+  --color-white: #ffffff;
+  --color-warningSoft: #f8d7d4;
+  --color-inactive: #cccccc;
+  --color-divider: #d6d6d6;
+  --color-sunscreen: #fff9f0;
+  --color-orange: #f4aa3d;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+/* Custom container (Tailwind's core container is replaced by this) */
+@utility container {
+  width: 100%;
+
+  @apply px-8;
+
+  @apply xs:max-w-[380px] xs:px-8;
+
+  @apply sm:max-w-[640px] sm:px-4;
+
+  @apply md:max-w-[768px] md:px-4;
+
+  @apply lg:max-w-[1024px] lg:px-4;
+
+  @apply xl:max-w-[1175px] xl:px-4;
+
+  @apply 2xl:max-w-[1470px] 2xl:px-4;
+}
+
+@utility section {
+  @apply container mx-auto my-4 md:my-12 xl:my-16;
+}
+
+@utility link {
+  text-decoration: underline;
+  cursor: pointer;
+  @apply transition-all;
+}
+
+@utility strikediag {
+  background: linear-gradient(
+    to left top,
+    transparent 47.75%,
+    currentColor 49.5%,
+    currentColor 50.5%,
+    transparent 52.25%
+  );
+}
 
 @layer base {
-  .border-2-softGray {
-    @apply border-2 border-solid border-fontBlack border-opacity-10;
-  }
-  .ml-container {
-    padding-left: theme('container.padding.DEFAULT');
-    @screen xs {
-      margin-left: calc((100vw - theme('container.xs')) / 2);
-      padding-left: theme('container.padding.xs');
-    }
-    @screen sm {
-      margin-left: calc((100vw - theme('container.sm')) / 2);
-      padding-left: theme('container.padding.sm');
-    }
-    @screen md {
-      margin-left: calc((100vw - theme('container.md')) / 2);
-      padding-left: theme('container.padding.md');
-    }
-    @screen lg {
-      margin-left: calc((100vw - theme('container.lg')) / 2);
-      padding-left: theme('container.padding.lg');
-    }
-    @screen xl {
-      margin-left: calc((100vw - theme('container.xl')) / 2);
-      padding-left: theme('container.padding.xl');
-    }
-    @screen 2xl {
-      margin-left: calc((100vw - theme('container.2xl')) / 2);
-      padding-left: theme('container.padding.2xl');
-    }
-  }
-
-  .mr-container {
-    padding-right: theme('container.padding.DEFAULT');
-    @screen xs {
-      margin-right: calc((100vw - theme('container.xs')) / 2);
-      padding-right: theme('container.padding.xs');
-    }
-    @screen sm {
-      margin-right: calc((100vw - theme('container.sm')) / 2);
-      padding-right: theme('container.padding.sm');
-    }
-    @screen md {
-      margin-right: calc((100vw - theme('container.md')) / 2);
-      padding-right: theme('container.padding.md');
-    }
-    @screen lg {
-      margin-right: calc((100vw - theme('container.lg')) / 2);
-      padding-right: theme('container.padding.lg');
-    }
-    @screen xl {
-      margin-right: calc((100vw - theme('container.xl')) / 2);
-      padding-right: theme('container.padding.xl');
-    }
-    @screen 2xl {
-      margin-right: calc((100vw - theme('container.2xl')) / 2);
-      padding-right: theme('container.padding.2xl');
-    }
-  }
-}
-
-@layer components {
-  .section {
-    @apply container mx-auto my-4 md:my-12 xl:my-16;
-  }
-  .divider {
-    @apply border-2-softGray mb-6 mt-6 h-0;
-  }
-
-  .link {
-    text-decoration: underline;
-    cursor: pointer;
-    @apply transition-all;
-  }
-
-  .link:hover {
-    @apply text-opacity-70;
-  }
-}
-
-@layer utilities {
-  .strikediag {
-    background: linear-gradient(
-      to left top,
-      transparent 47.75%,
-      currentColor 49.5%,
-      currentColor 50.5%,
-      transparent 52.25%
-    );
-  }
 }
 
 .react-aria-ModalOverlay {
-  @apply fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-gray-800 bg-opacity-[48%];
+  @apply bg-fontBlack/30 fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center;
 }
 
 .square {

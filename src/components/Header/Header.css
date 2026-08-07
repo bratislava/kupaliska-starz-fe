@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 .header a.active,
 .header a:hover {
   @apply font-semibold text-primary;

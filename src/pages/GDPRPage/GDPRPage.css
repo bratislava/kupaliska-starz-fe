@@ -1,45 +1,49 @@
-ol {
-  list-style-type: decimal;
-}
+@reference '../../index.css';
 
-ol li {
-  @apply my-2;
-}
+@layer base {
+  ol {
+    list-style-type: decimal;
+  }
 
-ol li ol {
-  list-style-type: lower-alpha;
-}
+  ol li {
+    @apply my-2;
+  }
 
-ol li ol li {
-  @apply ml-4;
-}
+  ol li ol {
+    list-style-type: lower-alpha;
+  }
 
-ol li ol li ol {
-  list-style-type: disc;
-}
-ol li ol li ol li {
-  @apply ml-8;
-}
+  ol li ol li {
+    @apply ml-4;
+  }
 
-h1 {
-  @apply text-2xl font-bold;
-  padding-top: 2rem;
-  text-align: center;
-}
+  ol li ol li ol {
+    list-style-type: disc;
+  }
+  ol li ol li ol li {
+    @apply ml-8;
+  }
 
-h2 {
-  @apply text-xl font-bold;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
-  /* text-align: center; */
-}
+  h1 {
+    @apply text-2xl font-bold;
+    padding-top: 2rem;
+    text-align: center;
+  }
 
-h3 {
-  @apply text-lg font-bold;
-  padding-top: 2rem;
-  text-align: center;
-}
+  h2 {
+    @apply text-xl font-bold;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    /* text-align: center; */
+  }
 
-strong {
-  @apply font-bold;
+  h3 {
+    @apply text-lg font-bold;
+    padding-top: 2rem;
+    text-align: center;
+  }
+
+  strong {
+    @apply font-bold;
+  }
 }

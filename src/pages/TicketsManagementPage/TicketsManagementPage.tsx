@@ -73,7 +73,7 @@ const TicketsManagementModal = ({
                 <img alt="" src={ticket.qrCode} width={120} height={120} />
               </div>
             </div>
-            <div className="h-0.5 w-full rounded bg-primary opacity-30"></div>
+            <div className="h-0.5 w-full rounded-sm bg-primary opacity-30"></div>
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left opacity-50">
@@ -121,7 +121,7 @@ const TicketsManagementModal = ({
                 </div>
               )}
             </div>
-            <div className="mx-6 h-0.5 rounded bg-primary opacity-30"></div>
+            <div className="mx-6 h-0.5 rounded-sm bg-primary opacity-30"></div>
             <div className="px-6 py-4">
               {ticket.entries.length === 0 && 'Pre zobrazený lístok neexistujú žiadne návštevy.'}
               {ticket.entries.map((entry, index) => (
@@ -144,7 +144,7 @@ const TicketsManagementModal = ({
                       <div>{entry.to && formatTime(entry.to)}</div>
                     </div>
                   </div>
-                  <div className="my-4 h-0.5 rounded bg-primary opacity-30"></div>
+                  <div className="my-4 h-0.5 rounded-sm bg-primary opacity-30"></div>
                 </Fragment>
               ))}
             </div>

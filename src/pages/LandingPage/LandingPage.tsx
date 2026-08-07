@@ -1,5 +1,3 @@
-import './LandingPage.css'
-
 import {
   AccordionItem,
   ContactForm,

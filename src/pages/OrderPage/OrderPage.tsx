@@ -858,7 +858,7 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="apple-pay"
-            className="no-fill flex h-6 w-6 items-center justify-center rounded bg-black p-1"
+            className="no-fill flex h-6 w-6 items-center justify-center rounded-sm bg-black p-1"
           ></Icon>
         )
         break
@@ -866,14 +866,14 @@ const OrderPage = () => {
         icon = (
           <Icon
             name="google-pay"
-            className="no-fill flex h-6 w-6 items-center justify-center rounded bg-white p-1"
+            className="no-fill flex h-6 w-6 items-center justify-center rounded-sm bg-white p-1"
           ></Icon>
         )
         break
       case PaymentMethod.CARD:
         icon = (
           <Icon
-            className="flex h-6 w-6 items-center justify-center rounded p-1"
+            className="flex h-6 w-6 items-center justify-center rounded-sm p-1"
             name="credit-card"
           />
         )
@@ -881,7 +881,7 @@ const OrderPage = () => {
       default:
         icon = (
           <Icon
-            className="flex h-6 w-6 items-center justify-center rounded p-1"
+            className="flex h-6 w-6 items-center justify-center rounded-sm p-1"
             name="credit-card"
           />
         )

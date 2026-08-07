@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 button.kupaliska-button:disabled,
 button.kupaliska-button[disabled] {
   opacity: 0.3;

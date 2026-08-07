@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 .swimming-pool-card__image {
   display: block;
   width: 100%;

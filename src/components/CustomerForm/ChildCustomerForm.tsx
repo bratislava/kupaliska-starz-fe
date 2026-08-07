@@ -64,7 +64,7 @@ const ChildCustomerForm = ({
           <div className="col-span-1 flex justify-end lg:hidden">
             <button
               type="button"
-              className="flex justify-center px-4 focus:outline-none"
+              className="flex justify-center px-4 focus:outline-hidden"
               onClick={onClear}
             >
               <Icon className="pt-4" role="button" name="close" />
@@ -85,7 +85,7 @@ const ChildCustomerForm = ({
         <div className="col-span-1 hidden justify-end lg:flex">
           <button
             type="button"
-            className="flex justify-center px-4 focus:outline-none"
+            className="flex justify-center px-4 focus:outline-hidden"
             onClick={onClear}
           >
             <Icon className="pt-4" role="button" name="close" />

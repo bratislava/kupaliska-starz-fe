@@ -1,19 +1,23 @@
-ol {
-  list-style: decimal;
-}
+@reference '../../index.css';
 
-ol li {
-  @apply my-2;
-}
+@layer base {
+  ol {
+    list-style: decimal;
+  }
 
-ol ol {
-  list-style: lower-alpha;
-}
+  ol li {
+    @apply my-2;
+  }
 
-ol ol ol {
-  list-style: lower-roman;
-}
+  ol ol {
+    list-style: lower-alpha;
+  }
 
-ol li ol li {
-  @apply ml-4;
+  ol ol ol {
+    list-style: lower-roman;
+  }
+
+  ol li ol li {
+    @apply ml-4;
+  }
 }

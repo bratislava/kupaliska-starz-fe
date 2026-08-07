@@ -35,7 +35,7 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
                     button.onPress()
                   }}
                 >
-                  <div className="flex flex-1 flex-grow items-center gap-3 py-3">
+                  <div className="flex flex-1 grow items-center gap-3 py-3">
                     <Icon name={button.icon} className="no-fill" />
                     <p className="m-0 flex-1 text-base leading-6">{button.title}</p>
                   </div>

@@ -172,7 +172,7 @@ const CookieConsent = () => {
             </div>
             <div className="mt-5 flex flex-col justify-between gap-1 md:flex-row">
               <Button
-                className="mb-2 rounded-sm bg-gray-900 px-3 py-1 text-sm text-white md:mb-0"
+                className="mb-2 rounded-xs bg-gray-900 px-3 py-1 text-sm text-white md:mb-0"
                 onClick={saveSettings}
                 color="primary"
               >
@@ -180,14 +180,14 @@ const CookieConsent = () => {
               </Button>
               <div className="flex flex-col gap-1 md:flex-row">
                 <Button
-                  className="mb-2 rounded-sm bg-gray-900 py-1 text-sm text-white md:mb-0 md:mr-1"
+                  className="mb-2 rounded-xs bg-gray-900 py-1 text-sm text-white md:mb-0 md:mr-1"
                   onClick={declineCookies}
                   color="blueish"
                 >
                   {t('cookie-consent.reject-all')}
                 </Button>
                 <Button
-                  className="min-w-[140px] rounded-sm bg-gray-900 py-1 text-sm text-white"
+                  className="min-w-[140px] rounded-xs bg-gray-900 py-1 text-sm text-white"
                   onClick={acceptAllCookies}
                   color="blueish"
                 >

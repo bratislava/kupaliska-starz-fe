@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 .swiper-pagination-bullet {
   background-color: theme('colors.primary');
 }

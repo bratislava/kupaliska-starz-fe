@@ -77,8 +77,9 @@ const HomepageTickets = () => {
     // add error handling
   } = useQuery({
     queryKey: ['cartPrice', cart, getPriceRequest, status],
-    queryFn: ({ signal }) => {
+    queryFn: async ({ signal }) => {
       logger.info(getPriceRequest)
+
       return getPrice(getPriceRequest, status, signal)
     },
     onError: (err) => {
@@ -311,7 +312,7 @@ const HomepageTickets = () => {
           </div>
         ))}
       </div>
-      <div className="my-8 flex flex-col text-center text-sm leading-loose">
+      <div className="my-8 flex flex-col text-center text-sm/loose">
         <span>{t('common.additional-info-toddlers')}</span>
       </div>
     </>

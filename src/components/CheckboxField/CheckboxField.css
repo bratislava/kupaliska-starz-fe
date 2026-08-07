@@ -1,3 +1,5 @@
+@reference '../../index.css';
+
 .checkbox-field > input.checkbox,
 .react-aria-checkbox {
   appearance: none;

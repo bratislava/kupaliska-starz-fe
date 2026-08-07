@@ -10,7 +10,7 @@ const SocialMediaButton = ({
   children,
   paddingR = true,
 }: PropsWithChildren<{ paddingR?: boolean }>) => (
-  <button className={`bg-transparent ${paddingR ? 'p-2' : 'py-2 pl-2'} focus:outline-none`}>
+  <button className={`bg-transparent ${paddingR ? 'p-2' : 'py-2 pl-2'} focus:outline-hidden`}>
     {children}
   </button>
 )
