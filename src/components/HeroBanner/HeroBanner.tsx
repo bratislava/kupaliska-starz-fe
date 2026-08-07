@@ -23,7 +23,7 @@ const HeroBanner = () => {
       <div
         // fix mt being one-time in "vw" eg. "mt-[-16vw]"" and other times in "rem" eg. "lg:-mt-60"
         className={cx(
-          'relative z-10 container mx-auto mt-[-25vw] mb-16 sm:mt-[-15vw] md:mt-[-16vw] md:mb-32 lg:-mt-60 xl:-mt-72 xl:h-[35vw]',
+          'relative z-10 container mx-auto mt-[-25vw] mb-16 sm:mt-[-15vw] md:mt-[-16vw] md:mb-32 lg:-mt-60 xl:-mt-72',
           {
             // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
             // TODO: change isOffSeason boolean to selectable?
