@@ -65,38 +65,20 @@
 /* Custom container (Tailwind's core container is replaced by this) */
 @utility container {
   width: 100%;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  @media (width >= theme(--breakpoint-xs)) {
-    max-width: 380px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-  @media (width >= theme(--breakpoint-sm)) {
-    max-width: 640px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  @media (width >= theme(--breakpoint-md)) {
-    max-width: 768px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  @media (width >= theme(--breakpoint-lg)) {
-    max-width: 1024px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  @media (width >= theme(--breakpoint-xl)) {
-    max-width: 1175px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  @media (width >= theme(--breakpoint-2xl)) {
-    max-width: 1470px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+
+  @apply px-8;
+
+  @apply xs:max-w-[380px] xs:px-8;
+
+  @apply sm:max-w-[640px] sm:px-4;
+
+  @apply md:max-w-[768px] md:px-4;
+
+  @apply lg:max-w-[1024px] lg:px-4;
+
+  @apply xl:max-w-[1175px] xl:px-4;
+
+  @apply 2xl:max-w-[1470px] 2xl:px-4;
 }
 
 @utility section {
@@ -120,61 +102,6 @@
 }
 
 @layer base {
-  .ml-container {
-    padding-left: 2rem;
-    @media (width >= theme(--breakpoint-xs)) {
-      margin-left: calc((100vw - 360px) / 2);
-      padding-left: 2rem;
-    }
-    @media (width >= theme(--breakpoint-sm)) {
-      margin-left: calc((100vw - 640px) / 2);
-      padding-left: 1rem;
-    }
-    @media (width >= theme(--breakpoint-md)) {
-      margin-left: calc((100vw - 768px) / 2);
-      padding-left: 1rem;
-    }
-    @media (width >= theme(--breakpoint-lg)) {
-      margin-left: calc((100vw - 1024px) / 2);
-      padding-left: 1rem;
-    }
-    @media (width >= theme(--breakpoint-xl)) {
-      margin-left: calc((100vw - 1175px) / 2);
-      padding-left: 1rem;
-    }
-    @media (width >= theme(--breakpoint-2xl)) {
-      margin-left: calc((100vw - 1470px) / 2);
-      padding-left: 1rem;
-    }
-  }
-
-  .mr-container {
-    padding-right: 2rem;
-    @media (width >= theme(--breakpoint-xs)) {
-      margin-right: calc((100vw - 360px) / 2);
-      padding-right: 2rem;
-    }
-    @media (width >= theme(--breakpoint-sm)) {
-      margin-right: calc((100vw - 640px) / 2);
-      padding-right: 1rem;
-    }
-    @media (width >= theme(--breakpoint-md)) {
-      margin-right: calc((100vw - 768px) / 2);
-      padding-right: 1rem;
-    }
-    @media (width >= theme(--breakpoint-lg)) {
-      margin-right: calc((100vw - 1024px) / 2);
-      padding-right: 1rem;
-    }
-    @media (width >= theme(--breakpoint-xl)) {
-      margin-right: calc((100vw - 1175px) / 2);
-      padding-right: 1rem;
-    }
-    @media (width >= theme(--breakpoint-2xl)) {
-      margin-right: calc((100vw - 1470px) / 2);
-      padding-right: 1rem;
-    }
-  }
 }
 
 .react-aria-ModalOverlay {
