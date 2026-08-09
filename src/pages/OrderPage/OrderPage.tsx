@@ -3,6 +3,7 @@ import './OrderPage.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
+import NumberField from 'components/NumberField/NumberField'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import {
@@ -545,16 +546,12 @@ const OrderPageSummary = ({
   hasTicketAmount,
   ticketAmount,
   handleTicketTypeRemove,
-  handleMinusClick,
-  handlePlusClick,
   setTicketAmount,
 }: {
   ticketType: TicketType
   hasTicketAmount: boolean
   ticketAmount?: number
   handleTicketTypeRemove?: () => void
-  handleMinusClick: () => void
-  handlePlusClick: () => void
   setTicketAmount: (ticketAmount: number) => void
 }) => {
   const { t } = useTranslation()
@@ -609,24 +606,13 @@ const OrderPageSummary = ({
       </div>
       <div className="flex items-center justify-between rounded-b-lg bg-blueish p-4 lg:px-8">
         {hasTicketAmount && (
-          <div className="mr-8 flex shrink-0 items-center gap-x-2 rounded-lg border border-solid border-primary px-6 py-2 text-primary">
-            <button className="align-top text-3xl/5" onClick={handleMinusClick} type="button">
-              <Icon name={'minus'} />
-            </button>
-            {/* TODO this should be input field and use should be able to input the amount also add error as stated in figma */}
-            <InputField
-              value={ticketAmount}
-              // TODO use onBlur instead of onChange to be able to remove input value entirely
-              // now when using onBlur the value is not changed when the user clicks on the plus/minus button
-              onChange={(event) => setTicketAmount(Number(event.target.value))}
-              className="inline-flex w-18"
-              textCenter
-              inputWrapperClassName="lg:w-full"
-            />
-            <button className="align-top text-3xl/5" onClick={handlePlusClick} type="button">
-              <Icon name={'plus'} />
-            </button>
-          </div>
+          <NumberField
+            value={ticketAmount}
+            onChange={(value) => setTicketAmount(value)}
+            minValue={0}
+            maxValue={99}
+            isWheelDisabled
+          />
         )}
         <div className="flex flex-nowrap">
           <span className="font-bold text-fontBlack lg:text-xl">
@@ -778,6 +764,12 @@ const OrderPage = () => {
     [getValues, ticketTypesWithAdditionalProperties],
   )
 
+  const exceededMaxTicketPurchaseLimit =
+    getRequestsFromFormData().getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
+
+  const purchaseAmountInLimit =
+    getRequestsFromFormData().getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
+
   const priceQuery = useQuery(
     ['orderPrice', ticketTypesData],
     async ({ signal }) => {
@@ -793,7 +785,7 @@ const OrderPage = () => {
 
         dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
       },
-      enabled: getRequestsFromFormData().getPriceRequest.tickets.length > 0,
+      enabled: purchaseAmountInLimit,
       retry: false,
     },
   )
@@ -938,30 +930,21 @@ const OrderPage = () => {
           priceQuery.isError ||
           shouldSendDisabled ||
           orderRequestPending ||
-          getRequestsFromFormData().orderRequest.tickets.length === 0
+          !purchaseAmountInLimit
         }
       />
     )
   }
 
   const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: CartItem) => {
-    const cumulativeTicketAmount = ticketTypesData
-      .filter((ticketTypeData) => ticketTypeData.ticketType.id !== cartItem.ticketType.id)
-      .reduce((acc, curr) => acc + (curr.ticketAmount ?? 0), 0)
-    if (cumulativeTicketAmount + ticketAmount > environment.maxTicketPurchaseLimit) {
-      return
-    }
-    // TODO this "ticketAmount > 0" prevents it from going to 0 when manually inputing value
-    if (ticketAmount > 0) {
-      setValue(
-        'ticketTypesData',
-        ticketTypesData.map((ticketTypeDataInner) =>
-          ticketTypeDataInner.ticketType.id === cartItem.ticketType.id
-            ? { ...ticketTypeDataInner, ticketAmount }
-            : ticketTypeDataInner,
-        ),
-      )
-    }
+    setValue(
+      'ticketTypesData',
+      ticketTypesData.map((ticketTypeDataInner) =>
+        ticketTypeDataInner.ticketType.id === cartItem.ticketType.id
+          ? { ...ticketTypeDataInner, ticketAmount }
+          : ticketTypeDataInner,
+      ),
+    )
   }
 
   const Divider = () => {
@@ -1166,19 +1149,6 @@ const OrderPage = () => {
           {ticketTypesData.map((ticketTypeData) => {
             const ticketAmount = ticketTypeData.ticketAmount
 
-            const handleMinusClick = () => {
-              if (!ticketAmount) {
-                return
-              }
-              setTicketAmountOfTicketType(ticketAmount - 1, ticketTypeData)
-            }
-            const handlePlusClick = () => {
-              if (!ticketAmount) {
-                return
-              }
-              setTicketAmountOfTicketType(ticketAmount + 1, ticketTypeData)
-            }
-
             const handleTicketTypeRemove =
               ticketTypesData.length > 1
                 ? () => {
@@ -1206,11 +1176,9 @@ const OrderPage = () => {
                     (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
                   )?.hasTicketAmount ?? false
                 }
-                handleMinusClick={handleMinusClick}
-                handlePlusClick={handlePlusClick}
                 handleTicketTypeRemove={handleTicketTypeRemove}
-                setTicketAmount={(ticketAmount: number) =>
-                  setTicketAmountOfTicketType(ticketAmount, ticketTypeData)
+                setTicketAmount={(value: number) =>
+                  setTicketAmountOfTicketType(value, ticketTypeData)
                 }
               />
             )

@@ -20,7 +20,7 @@ const Typography = ({
   `
 
   if (type === 'title') {
-    return <h2 className={`${classNames} text-2xl sm:text-3xl 2xl:text-4xl`}>{children}</h2>
+    return <h2 className={`${classNames} text-2xl xs:text-3xl 2xl:text-4xl`}>{children}</h2>
   } else if (type === 'subtitle') {
     return <h3 className={`${classNames} text-2xl`}>{children}</h3>
   }
