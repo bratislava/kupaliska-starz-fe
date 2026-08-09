@@ -68,18 +68,11 @@ const InputField = ({
     'text-opacity-10 text-fontBlack': !error && !focused,
   })
 
-  const labelClasses = cx(
-    newLabel
-      ? 'mb-1 block font-semibold'
-      : `
-    mb-3 text-xl font-medium
-  `,
-    {
-      'text-error': error !== undefined,
-      'text-primary': !error && focused,
-      'text-fontBlack': !error && !focused,
-    },
-  )
+  const labelClasses = cx(newLabel ? 'mb-1 block font-semibold' : `mb-3 text-xl font-medium`, {
+    'text-error': error !== undefined,
+    'text-primary': !error && focused,
+    'text-fontBlack': !error && !focused,
+  })
 
   return (
     <div className={twMerge('w-full flex-col', className)}>

@@ -105,19 +105,11 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, PolymorphicProp
      */
     const styles = cx(
       // TODO text-button interferes with text-[color], as quickfix we set size and color here by arbitrary values
-      `
-        inline-flex h-auto items-center justify-center gap-2 text-base/6
-         font-semibold transition
-      `,
+      `inline-flex h-auto items-center justify-center gap-2 text-base/6 font-semibold transition`,
       // we use isFocusVisible to show focus ring only on keyboard navigation
       isFocused ? 'outline-2 outline-offset-4' : 'outline-hidden',
       // we change rounded corners for link focus ring
-      isLinkVariant
-        ? `
-        rounded-xs
-        max-lg:gap-1
-      `
-        : 'rounded-lg',
+      isLinkVariant ? `rounded-xs max-lg:gap-1` : 'rounded-lg',
 
       {
         // NOTE: there are some style overrides for link variants below in "twMerge"
