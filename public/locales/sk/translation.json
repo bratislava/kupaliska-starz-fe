@@ -40,7 +40,7 @@
   },
   "common": {
     "photo-size": "Veľkosť fotky musí byť menej ako 5MB",
-    "max-ticket-purchase-limit": "Na jeden nákup môžete kúpiť maximálne {{maxTicketPurchaseLimit}} jednorazových lístkov.",
+    "max-ticket-purchase-limit": "V jednej objednávke je možné zakúpiť max. {{maxTicketPurchaseLimit}} lístkov.",
     "additional-info-toddlers": "Dieťa do 3 rokov má vstup na kúpalisko zdarma.",
     "age-integer": "Vek musí byť celé číslo.",
     "additional-info-tutanchamon": "Zadaný vek musí byť nižší ako 151.",

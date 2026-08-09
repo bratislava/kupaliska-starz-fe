@@ -71,10 +71,10 @@ const HomepageTickets = () => {
       })),
   })
 
-  const exceededMaxTicketPurchaseLimit =
+  const withinMaxTicketAmountLimit =
     getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
-  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && exceededMaxTicketPurchaseLimit
+  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
   const {
     data: cartPriceData,
@@ -131,9 +131,6 @@ const HomepageTickets = () => {
             name: 'Jednorazové lístky',
             description:
               'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
-            descriptionFooter: t('common.max-ticket-purchase-limit', {
-              maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
-            }),
             ticketTypes: dayTicketTypes,
             isCartable: true,
           },
@@ -141,19 +138,17 @@ const HomepageTickets = () => {
             name: 'Vstupové permanentky',
             description:
               'Platí na 10 vstupov počas celej sezóny bez ohľadu na vek. Jedna permanentka je viazaná na jednu osobu a je neprenosná.',
-            descriptionFooter: '',
             ticketTypes: entryTicketTypes,
           },
           {
             name: 'Sezónne permanentky',
             description:
               'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská a 90 minútový vstup denne na Mestskú Plaváreň Pasienky. K sezónnej permanentke pre dospelých a ŤZP/ŤZP-S je možné zakúpiť detskú permanentku až pre 3 deti za zvýhodnenú cenu 9,90 € za dieťa.',
-            descriptionFooter: '',
             ticketTypes: seasonalTicketTypes,
           },
-        ].map(({ name, description, descriptionFooter, ticketTypes, isCartable }, index) => (
+        ].map(({ name, description, ticketTypes, isCartable }, index) => (
           <div key={index} className="max-w-[904px]">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3 text-center lg:text-left">
                 <h5 className="text-xl font-semibold">{name}</h5>
                 <p>{description}</p>
@@ -220,53 +215,62 @@ const HomepageTickets = () => {
                 })}
               </div>
               {isCartable && (
-                <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
-                  <span className="grow font-semibold">{t('price-total')}</span>
-                  <div className="flex items-center justify-between gap-x-6">
-                    <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
-                      <SkeletonTheme
-                        baseColor="#a8dbf2"
-                        highlightColor="#58bbe6"
-                        duration={1}
-                        width={40}
-                        height={28}
-                      >
-                        {isFetching && <Skeleton />}
+                <>
+                  {!withinMaxTicketAmountLimit && (
+                    <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
+                      <Icon name="alert" className="no-fill text-error"></Icon>
+                      {t('common.max-ticket-purchase-limit', {
+                        maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
+                      })}
+                    </div>
+                  )}
+                  <div className="flex flex-col rounded-lg border border-divider bg-blueish px-6 py-4 lg:flex-row lg:items-center">
+                    <span className="grow font-semibold">{t('price-total')}</span>
+                    <div className="flex items-center justify-between gap-x-6">
+                      <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
+                        <SkeletonTheme
+                          baseColor="#a8dbf2"
+                          highlightColor="#58bbe6"
+                          duration={1}
+                          width={40}
+                          height={28}
+                        >
+                          {isFetching && <Skeleton />}
 
-                        {!isFetching && cartPriceData?.data?.data.pricing.orderPriceWithVat && (
-                          // this causes error when user uses google translate on website
-                          // best described here https://martijnhols.nl/blog/everything-about-google-translate-crashing-react
-                          // working reasonable solution for web app of this size is surrounding TextNodes with spans
-                          <span>
-                            <FormatCurrencyFromCents
-                              value={cartPriceData.data?.data.pricing.orderPriceWithVat}
-                            />
-                          </span>
-                        )}
-                        {!isFetching && !cartPriceData?.data?.data.pricing.orderPriceWithVat && (
-                          <span>
-                            <FormatCurrencyFromCents value={0} />
-                          </span>
-                        )}
-                      </SkeletonTheme>
-                    </span>
-                    <Button
-                      className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
-                      thin
-                      rounded
-                      onClick={async () => handleClick()}
-                      disabled={!purchaseAmountInLimit}
-                      color="primary"
-                    >
-                      <>
-                        {t('landing.basket')}
-                        <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
-                      </>
-                    </Button>
+                          {!isFetching && cartPriceData?.data?.data.pricing.orderPriceWithVat && (
+                            // this causes error when user uses google translate on website
+                            // best described here https://martijnhols.nl/blog/everything-about-google-translate-crashing-react
+                            // working reasonable solution for web app of this size is surrounding TextNodes with spans
+                            <span>
+                              <FormatCurrencyFromCents
+                                value={cartPriceData.data?.data.pricing.orderPriceWithVat}
+                              />
+                            </span>
+                          )}
+                          {!isFetching && !cartPriceData?.data?.data.pricing.orderPriceWithVat && (
+                            <span>
+                              <FormatCurrencyFromCents value={0} />
+                            </span>
+                          )}
+                        </SkeletonTheme>
+                      </span>
+                      <Button
+                        className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
+                        thin
+                        rounded
+                        onClick={async () => handleClick()}
+                        disabled={!purchaseAmountInLimit}
+                        color="primary"
+                      >
+                        <>
+                          {t('landing.basket')}
+                          <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
+                        </>
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
-              {descriptionFooter && <p className="text-sm">{descriptionFooter}</p>}
             </div>
           </div>
         ))}
