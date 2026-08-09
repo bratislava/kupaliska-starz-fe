@@ -29,16 +29,14 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
         }
       >
         <Button slot="decrement" className="bg-primary px-4 py-3">
-          <Icon name={'minus'} color="white" />
+          <Icon name="minus" color="white" />
         </Button>
         <RACInput
           ref={ref}
-          // Thanks to aria-describedby, screen readers will read the suffix value after announcing the label, with a short pause.
-          data-cy={rest.name ? `number-${rest.name}` : undefined}
           className={cn('min-w-0 px-3 py-2 text-center outline-hidden lg:px-4 lg:py-3')}
         />
         <Button slot="increment" className="bg-primary px-4 py-3">
-          <Icon name={'plus'} color="white" />
+          <Icon name="plus" color="white" />
         </Button>
       </RACGroup>
     </RACNumberField>
