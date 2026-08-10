@@ -36,7 +36,7 @@ const LandingPage = () => {
       {/* <SwimmingPoolsInfo /> */}
       <HomepageHowTo />
 
-      {!generalSettings?.data.isOffSeason && (
+      {generalSettings?.data.isSeasonActive && (
         <div className="bg-white">
           {/* Prevent margin collapsing
            https://stackoverflow.com/a/33132624/2711737 */}
@@ -48,7 +48,7 @@ const LandingPage = () => {
         </div>
       )}
 
-      {!isAuthenticated && !generalSettings?.data.isOffSeason && (
+      {!isAuthenticated && generalSettings?.data.isSeasonActive && (
         <WhyCreateAccountSection></WhyCreateAccountSection>
       )}
 
@@ -56,7 +56,7 @@ const LandingPage = () => {
         <img src="/swimmers.svg" className="mx-auto" alt="" />
       </section>
 
-      {!generalSettings?.data.isOffSeason && (
+      {generalSettings?.data.isSeasonActive && (
         <section id="kupaliska" className="section flex flex-col items-center">
           <SectionHeader
             className="text-center"
