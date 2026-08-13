@@ -26,8 +26,8 @@ const HeroBanner = () => {
           'relative z-10 container mx-auto mt-[-25vw] mb-16 sm:mt-[-15vw] md:mt-[-16vw] md:mb-32 lg:-mt-60 xl:-mt-72',
           {
             // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
-            // TODO: change isOffSeason boolean to selectable?
-            'xl:min-h-[228px]': generalSettings?.data.isOffSeason,
+            // TODO: change isSeasonActive boolean to selectable?
+            'xl:min-h-[228px]': !generalSettings?.data.isSeasonActive,
           },
         )}
       >
@@ -35,18 +35,20 @@ const HeroBanner = () => {
           <Typography type="title" fontWeight="bold" className="mb-4">
             {/* TODO implement better logic offseason/preseason/season texts */}
             {/* {preseason ? t('landing.title-offseason') : t(`landing.title`)} */}
-            {generalSettings?.data.isOffSeason ? t('landing.title-preseason') : t(`landing.title`)}
+            {generalSettings?.data.isSeasonActive
+              ? t(`landing.title`)
+              : t('landing.title-preseason')}
           </Typography>
           <Typography type="subtitle">
             {/* TODO implement better logic offseason/preseason/season texts */}
             {/* {preseason ? t('landing.subtitle-offseason') : t('landing.subtitle')} */}
-            {generalSettings?.data.isOffSeason
-              ? t('landing.subtitle-preseason')
-              : t('landing.subtitle')}
+            {generalSettings?.data.isSeasonActive
+              ? t('landing.subtitle')
+              : t('landing.subtitle-preseason')}
           </Typography>
         </div>
 
-        {!generalSettings?.data.isOffSeason && (
+        {generalSettings?.data.isSeasonActive && (
           <div className="mt-8 mb-16 flex w-full flex-col space-y-4 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-4 xl:w-3/5">
             <Link to={ANCHORS.TICKET_BUY}>
               <Button thin>

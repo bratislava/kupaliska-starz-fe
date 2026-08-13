@@ -34,9 +34,8 @@ const Header = () => {
   const { t } = useTranslation()
 
   const menuItems: MenuItem[] = [
-    ...(generalSettings?.data.isOffSeason
-      ? []
-      : [
+    ...(generalSettings?.data.isSeasonActive
+      ? [
           {
             to: ANCHORS.TICKET_BUY,
             key: 'header.menu-items.0.text',
@@ -45,7 +44,8 @@ const Header = () => {
             to: ANCHORS.SWIMMING_POOLS,
             key: 'header.menu-items.1.text',
           },
-        ]),
+        ]
+      : []),
     {
       to: ANCHORS.CONTACT_US,
       key: 'header.menu-items.2.text',

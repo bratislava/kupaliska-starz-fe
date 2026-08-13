@@ -41,7 +41,7 @@ npm run start
 
 #### Preseason
 
-We control whether to display the offseason page by setting the `isOffSeason` boolean in the general settings of the backend.
+We control whether to display the offseason page by setting the `isSeasonActive` boolean in the general settings of the backend.
 
 #### Ordering
 
