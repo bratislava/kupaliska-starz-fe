@@ -23,12 +23,10 @@ const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(
     (ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired,
   ),
-  entryTicketTypes: ticketTypes
-    .filter((ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired)
-    .map((ticketType) => ({ ...ticketType, disabled: !environment.entryTicketSelling })),
-  seasonalTicketTypes: ticketTypes
-    .filter((ticketType) => ticketType.type === 'SEASONAL')
-    .map((ticketType) => ({ ...ticketType, disabled: !environment.seasonalTicketSelling })),
+  entryTicketTypes: ticketTypes.filter(
+    (ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired,
+  ),
+  seasonalTicketTypes: ticketTypes.filter((ticketType) => ticketType.type === 'SEASONAL'),
 })
 
 /**
@@ -187,6 +185,7 @@ const HomepageTickets = () => {
                                 minValue={0}
                                 maxValue={99}
                                 isWheelDisabled
+                                isDisabled={ticketType.isDisabled}
                               />
                             ))}
                         {!isCartable && (
@@ -196,7 +195,7 @@ const HomepageTickets = () => {
                             rounded
                             onClick={async () => handleClick(ticketType)}
                             color={needsLogin ? 'primary' : 'outlined'}
-                            disabled={ticketType.disabled}
+                            disabled={ticketType.isDisabled}
                           >
                             <>
                               {needsLogin ? t('signin-button') : t('landing.basket')}

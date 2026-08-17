@@ -12,6 +12,8 @@ export interface TicketType {
   childrenVatPercentage: number | null
   validFrom: string | null
   validTo: string | null
+  sellFrom: string
+  sellTo: string
   hasTicketDuration: boolean
   ticketDuration: string | null
   entriesNumber: number | null
@@ -25,8 +27,9 @@ export interface TicketType {
   childrenAgeTo: number | null
   childrenAgeToWithAdult: number | null
   childrenPhotoRequired: boolean
-  disabled?: boolean // Not a BE property, explained in KUP-93
+  isDisabled: boolean
   isSeniorIsDisabled: boolean
+  sellingAllowed: boolean
 }
 
 export interface CustomerInfoFormValues {
