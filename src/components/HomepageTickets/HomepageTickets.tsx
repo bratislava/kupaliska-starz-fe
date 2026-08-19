@@ -94,7 +94,7 @@ const HomepageTickets = () => {
 
   // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
   const handleClick = async (ticketType?: TicketType) => {
-    if (ticketType?.disabled) {
+    if (ticketType?.isDisabled) {
       return
     }
     if (ticketType && ticketTypeNeedsLogin(ticketType)) {
