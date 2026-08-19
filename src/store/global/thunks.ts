@@ -4,6 +4,7 @@ import { ContactFormValues } from 'components/ContactForm/ContactForm'
 import { fetchPool, fetchPools, fetchTickets, sendContactForm } from './api'
 import { setToast } from './reducer'
 
+//TODO this is not used, erase
 export const fetchPoolActions = createAsyncThunk(
   'global/fetchPool',
   async (poolId: string, { rejectWithValue, dispatch }) => {
