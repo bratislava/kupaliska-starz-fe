@@ -7,12 +7,9 @@ export const environment = {
   maxTicketPurchaseLimit: 50,
   faroSecret: import.meta.env.VITE_FARO_SECRET as string,
   featureFlag: {
-    preseasonHomepage: import.meta.env.VITE_FEATURE_FLAG_PRESEASON_HOMEPAGE === 'true',
     showCityAccountLoginInformationModalOnce:
       import.meta.env.VITE_FEATURE_FLAG_SHOW_CITY_ACCOUNT_LOGIN_INFORMATION_MODAL_ONCE === 'true',
   },
-  seasonalTicketSelling: import.meta.env.VITE_SEASONAL_TICKET_SELLING === 'true',
-  entryTicketSelling: import.meta.env.VITE_ENTRY_TICKET_SELLING === 'true',
   isProd: import.meta.env.VITE_IS_PROD === 'true',
   turnstileSiteKey: import.meta.env.VITE_RECAPTCHA_TURNSTILE_SITE_KEY as string,
   cityAccountBackendUrl: import.meta.env.VITE_CITY_ACCOUNT_BACKEND_URL as string,
