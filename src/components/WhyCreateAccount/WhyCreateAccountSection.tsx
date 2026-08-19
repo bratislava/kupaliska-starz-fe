@@ -6,7 +6,7 @@ const WhyCreateAccountSection = () => {
 
   return (
     <section id="why-create-account" className="section">
-      <SectionHeader title="Prečo si založiť účet?" className="text-center" />
+      <SectionHeader title={t('landing.why-create-account-title')} className="text-center" />
       {[0, 1, 2].map((index) => (
         <div
           className={`mx-auto mb-10 flex flex-col-reverse md:mb-0 lg:w-8/10 ${
@@ -17,8 +17,10 @@ const WhyCreateAccountSection = () => {
           <div className="mt-6 flex flex-1 items-center justify-center text-center md:mt-0">
             <div className="w-80">
               <div className="mb-6 text-2xl font-semibold">
+                {/* TODO remove index from translation key */}
                 {t(`landing.why-create-account.${index}.title`)}
               </div>
+              {/* TODO remove index from translation key */}
               <p>{t(`landing.why-create-account.${index}.content`)}</p>
             </div>
           </div>

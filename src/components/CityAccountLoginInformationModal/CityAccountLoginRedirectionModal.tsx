@@ -1,5 +1,6 @@
 import { ROUTES } from 'helpers/constants'
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 import Dialog from '../Dialog/Dialog'
@@ -39,43 +40,42 @@ export const useCityAccountLoginRedirectionModal = () => {
 
 const CityAccountLoginRedirectionModal = () => {
   const { state, close } = useContext(context)
+  const { t } = useTranslation()
 
   return (
     <Dialog
       open={state.open}
       onClose={close}
-      title={'Budete presmerovaní na Bratislavské konto'}
+      title={t('city-account.redirect-title')}
       className="max-w-[592px]"
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-6">
-          <p>
-            Ak už máte Bratislavské konto vytvorené, jednoducho sa prihlásite. Nová registrácia trvá
-            len pár sekúnd.
-          </p>
+          <p>{t('city-account.redirect-info')}</p>
         </div>
         <Button color="primary" onClick={state.onSuccessCallback} className="w-full">
-          Pokračovať na stránku
+          {t('city-account.continue')}
         </Button>
         <div className="flex flex-col gap-4 text-sm italic">
           <p>
-            Vaše údaje, týkajúce sa registrácie do Bratislavského konta spracúva ako prevádzkovateľ{' '}
+            {t('city-account.data-controller-city-prefix')}
             <a
               href="https://bratislava.sk/konto/vyhlasenie-o-spracovani-osobnych-udajov"
               target="_blank"
               rel="noreferrer"
               className="link font-semibold"
             >
-              Hlavné mesto Bratislava
+              {t('city-account.data-controller-city-link')}
             </a>
             .
           </p>
           <p>
-            Vaše údaje súvisiace s kúpou lístka spracúva ako prevádzkovateľ{' '}
-            <Link className="link font-semibold" to={ROUTES.GDPR} target="_blank">
-              STARZ
-            </Link>
-            .
+            <Trans
+              i18nKey="city-account.data-controller-starz"
+              components={{
+                Link: <Link className="link font-semibold" to={ROUTES.GDPR} target="_blank" />,
+              }}
+            />
           </p>
         </div>
       </div>

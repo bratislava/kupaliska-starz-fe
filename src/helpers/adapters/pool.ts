@@ -1,5 +1,6 @@
 import { OpeningHours, OpeningHoursStrings, SwimmingPool, SwimmingPoolResponse } from 'models'
-import { boolean } from 'yup/lib/locale'
+
+import i18n from '../../i18n'
 
 export const swimmingPoolResponseToSwimmingPool = (pool: SwimmingPoolResponse): SwimmingPool => ({
   ...pool,
@@ -61,14 +62,9 @@ export const openingHoursToStringArray = (hours: OpeningHours): OpeningHoursStri
       result.day = `${dayStringObj.first.substring(0, 2)}-${dayStringObj.last.substring(0, 2)}`
     }
 
-    result.time =
-      dayStringObj.from && dayStringObj.to
-        ? `${dayStringObj.from} - ${dayStringObj.to}`
-        : 'Zatvorené'
-    result.color =
-      result.time === 'Zatvorené' && dayStringObj.first === dayStringObj.last
-        ? 'error'
-        : 'fontBlack'
+    const isOpen = dayStringObj.from && dayStringObj.to
+    result.time = isOpen ? `${dayStringObj.from} - ${dayStringObj.to}` : i18n.t('pools.closed')
+    result.color = !isOpen && dayStringObj.first === dayStringObj.last ? 'error' : 'fontBlack'
 
     return result
   })

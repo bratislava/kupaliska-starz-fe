@@ -146,7 +146,7 @@ export const AssociatedSwimmerEditAddModal = ({
 
   return (
     <Dialog
-      title={swimmer ? 'Upraviť osobu' : 'Nová osoba'}
+      title={swimmer ? t('profile.edit-person') : t('profile.new-person')}
       open={true}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={
@@ -190,7 +190,7 @@ export const AssociatedSwimmerEditAddModal = ({
           />
 
           <DatePicker
-            label={t('person-add.dateOfBirth')}
+            label={t('person-add.date-of-birth')}
             errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
             required={true}
             onChange={(value) => {

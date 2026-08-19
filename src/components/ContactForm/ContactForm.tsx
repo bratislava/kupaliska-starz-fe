@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Icon, InputField } from 'components'
+import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { useAppDispatch } from 'hooks'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -13,9 +14,9 @@ import * as yup from 'yup'
 import { environment } from '../../environment'
 
 const formRules = yup.object().shape({
-  email: yup.string().email('Prosím zadajte platný email').required('Toto pole je povinné'),
-  name: yup.string().required('Toto pole je povinné'),
-  message: yup.string().required('Toto pole je povinné'),
+  email: yup.string().email('common.email-invalid').required('common.field-required'),
+  name: yup.string().required('common.field-required'),
+  message: yup.string().required('common.field-required'),
   recaptchaToken: yup.string().required('landing.captcha-warning-required'),
 })
 
@@ -75,20 +76,20 @@ const ContactForm = () => {
         register={register}
         label={t('landing.name')}
         newLabel
-        error={errors.name?.message}
+        error={useValidationSchemaTranslationIfPresent(errors.name?.message)}
       />
       <InputField
         name="email"
         register={register}
         label={t('landing.email')}
         newLabel
-        error={errors.email?.message}
+        error={useValidationSchemaTranslationIfPresent(errors.email?.message)}
       />
       <InputField
         name="message"
         register={register}
         label={t('landing.message')}
-        error={errors.message?.message}
+        error={useValidationSchemaTranslationIfPresent(errors.message?.message)}
         newLabel
         element="textarea"
       />

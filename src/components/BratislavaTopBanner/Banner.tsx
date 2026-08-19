@@ -1,6 +1,7 @@
 import { Icon } from 'components'
 import AlertBanner from 'components/AlertBanner/AlertBanner'
 import { PropsWithChildren } from 'react'
+import { Trans } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { fetchGeneralSettings } from 'store/global/api'
 
@@ -31,7 +32,7 @@ const Banner = () => {
           <div className="flex items-center">
             <img className="pr-3" alt="" src="/logo-bratislava.svg" />
             <span className="hidden text-sm md:block">
-              Hlavné mesto SR <strong>Bratislava</strong>
+              <Trans i18nKey="header.logo-html" components={{ strong: <strong /> }} />
             </span>
           </div>
           <div className="flex items-center">

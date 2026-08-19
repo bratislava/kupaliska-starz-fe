@@ -126,22 +126,19 @@ const HomepageTickets = () => {
       <div className="flex flex-col gap-8 lg:gap-10">
         {[
           {
-            name: 'Jednorazové lístky',
-            description:
-              'Vhodné pre príležitostných návštevníkov alebo pre tých, ktorí nechcú čakať pred kúpaliskom v dlhom rade a kúpia si lístok online priamo na mieste.',
+            name: t('homepage-tickets.day-name'),
+            description: t('homepage-tickets.day-desc'),
             ticketTypes: dayTicketTypes,
             isCartable: true,
           },
           {
-            name: 'Vstupové permanentky',
-            description:
-              'Platí na 10 vstupov počas celej sezóny bez ohľadu na vek. Jedna permanentka je viazaná na jednu osobu a je neprenosná.',
+            name: t('homepage-tickets.entry-name'),
+            description: t('homepage-tickets.entry-desc'),
             ticketTypes: entryTicketTypes,
           },
           {
-            name: 'Sezónne permanentky',
-            description:
-              'Neobmedzený vstup počas celej sezóny na všetky naše kúpaliská a 90 minútový vstup denne na Mestskú Plaváreň Pasienky. K sezónnej permanentke pre dospelých a ŤZP/ŤZP-S je možné zakúpiť detskú permanentku až pre 3 deti za zvýhodnenú cenu 9,90 € za dieťa.',
+            name: t('homepage-tickets.seasonal-name'),
+            description: t('homepage-tickets.seasonal-desc'),
             ticketTypes: seasonalTicketTypes,
           },
         ].map(({ name, description, ticketTypes, isCartable }, index) => (

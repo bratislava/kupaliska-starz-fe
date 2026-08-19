@@ -5,6 +5,7 @@ import './TicketsSwiper.css'
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
+import { useTranslation } from 'react-i18next'
 import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Swiper as SwiperClass } from 'swiper/types'
@@ -23,6 +24,7 @@ interface TicketProps {
 
 // TODO: investigate if we can pass ticketType from upper component instead of fetching it here
 const Ticket = ({ ticket }: TicketProps) => {
+  const { t } = useTranslation()
   const ticketTypes = useAppSelector(selectAvailableTicketTypes)
 
   const ticketType = ticketTypes.find((ticketType) => ticketType.id === ticket.ticketTypeId)
@@ -36,7 +38,7 @@ const Ticket = ({ ticket }: TicketProps) => {
           href={`${environment.host}/api/v1/orders/appleWallet/${ticket.id}`}
           target="_blank"
           rel="noreferrer"
-          aria-label="Pridať do Peňaženky Apple"
+          aria-label={t('order-success.add-apple-wallet')}
         >
           <img src={AppleWalletImage} alt="" />
         </a>
@@ -44,7 +46,7 @@ const Ticket = ({ ticket }: TicketProps) => {
           href={`${environment.host}/api/v1/orders/googlePay/${ticket.id}`}
           target="_blank"
           rel="noreferrer"
-          aria-label="Pridať do služby Google Peňaženka"
+          aria-label={t('order-success.add-google-wallet')}
         >
           <img src={GoogleWalletImage} alt="" />
         </a>
