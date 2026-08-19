@@ -18,6 +18,7 @@ import TicketsManagementPage from 'pages/TicketsManagementPage/TicketsManagement
 import VOPPage from 'pages/VOPPage/VOPPage'
 import { useEffect } from 'react'
 import { I18nProvider } from 'react-aria/I18nProvider'
+import { useTranslation } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import {
   createBrowserRouter,
@@ -70,6 +71,7 @@ const RequireAuthRoute = ({ children }: { children: JSX.Element }) => {
 const RootLayout = () => {
   const dispatch = useAppDispatch()
   const toast = useAppSelector(selectToast)
+  const { t } = useTranslation()
 
   useEffect(() => {
     dispatch(initPageGlobalState())
@@ -85,7 +87,7 @@ const RootLayout = () => {
             <Toast
               open={toast !== undefined}
               type={toast?.type}
-              text={toast?.message}
+              text={toast?.message ? t(toast.message) : toast?.message}
               onClose={() => {
                 dispatch(setToast(undefined))
               }}

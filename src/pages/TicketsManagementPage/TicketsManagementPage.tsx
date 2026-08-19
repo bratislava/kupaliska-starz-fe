@@ -123,7 +123,7 @@ const TicketsManagementModal = ({
             </div>
             <div className="mx-6 h-0.5 rounded-sm bg-primary opacity-30"></div>
             <div className="px-6 py-4">
-              {ticket.entries.length === 0 && 'Pre zobrazený lístok neexistujú žiadne návštevy.'}
+              {ticket.entries.length === 0 && t('tickets.no-entries')}
               {ticket.entries.map((entry, index) => (
                 <Fragment key={index}>
                   <div className="grid grid-cols-2 gap-y-3">

@@ -292,12 +292,12 @@ const OrderPagePeopleList = ({
         <div className="my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white">
           <Icon name="warning" className="no-fill text-white"></Icon>
           <div>
-            Pre kúpu permanentky je potrebné doplniť fotografiu a dátum narodenia.{' '}
+            {t('buy-page.missing-photo-dob')}
             <AriaButton
               onPress={() => setMissingInformationModalOpen(true)}
               className="font-semibold underline"
             >
-              Doplniť povinné údaje
+              {t('buy-page.fill-required-fields')}
             </AriaButton>
           </div>
         </div>
@@ -1031,16 +1031,17 @@ const OrderPage = () => {
               error={errorAgreementInterpreted}
               label={
                 <span>
-                  {t('buy-page.vop')}
-                  <Link to={ROUTES.VOP} target="_blank" className="link text-primary">
-                    {t('buy-page.vop-link')}
-                  </Link>
-                  {/* TODO: hardcoded text will be will be fixed in other PR */}. Kúpou lístka alebo
-                  permanentky výslovne potvrdzujem, že som sa oboznámil s{' '}
-                  <Link to={ROUTES.GDPR} target="_blank" className="link text-primary">
-                    podmienkami spracúvania osobných údajov
-                  </Link>
-                  .
+                  <Trans
+                    i18nKey="buy-page.agreements"
+                    components={{
+                      VopLink: (
+                        <Link to={ROUTES.VOP} target="_blank" className="link text-primary" />
+                      ),
+                      GdprLink: (
+                        <Link to={ROUTES.GDPR} target="_blank" className="link text-primary" />
+                      ),
+                    }}
+                  />
                 </span>
               }
             />
@@ -1053,18 +1054,10 @@ const OrderPage = () => {
                   register={register}
                   name="seniorOrDisabledAgreement"
                   error={errorSeniorAgreementInterpreted}
-                  label={
-                    <span>
-                      Potvrdzujem, že všetky dospelé osoby v nákupnom košíku majú 65 a viac rokov
-                      alebo sú držitelia ŤZP / ŤZP-S preukazu.
-                    </span>
-                  }
+                  label={<span>{t('buy-page.senior-disabled-agreement')}</span>}
                 />
                 <div className="flex flex-col gap-2 italic">
-                  <span>
-                    Kúpou lístka súhlasíte s podmienkou preukázania sa preukazom ŤZP / ŤZP-S alebo
-                    dokladom totožnosti pri vstupe na kúpalisko.
-                  </span>
+                  <span>{t('buy-page.senior-disabled-note')}</span>
                 </div>
               </>
             )}
