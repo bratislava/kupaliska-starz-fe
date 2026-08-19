@@ -21,6 +21,7 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
       className={cn('flex w-[182px] flex-col gap-2', rest.className)}
     >
       <RACGroup
+        // implement 'isDisabled' styles when design is ready
         className={({ isFocusWithin, isInvalid }) =>
           cn('flex w-full overflow-hidden rounded-lg border-2 bg-white', {
             'border-border-active-default': !isInvalid && !isFocusWithin,
@@ -28,11 +29,13 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
           })
         }
       >
+        {/* implement 'isDisabled' styles when design is ready */}
         <Button slot="decrement" className="bg-primary px-4 py-3">
           <Icon name="minus" color="white" />
         </Button>
         <RACInput
           ref={ref}
+          // implement 'isDisabled' styles when design is ready
           className={cn('min-w-0 px-3 py-2 text-center outline-hidden lg:px-4 lg:py-3')}
         />
         <Button slot="increment" className="bg-primary px-4 py-3">

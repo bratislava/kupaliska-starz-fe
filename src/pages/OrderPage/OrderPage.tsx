@@ -612,6 +612,7 @@ const OrderPageSummary = ({
             minValue={0}
             maxValue={99}
             isWheelDisabled
+            isDisabled={ticketType.isDisabled}
           />
         )}
         <div className="flex flex-nowrap">

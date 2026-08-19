@@ -23,12 +23,10 @@ const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(
     (ticketType) => ticketType.type === 'ENTRIES' && !ticketType.nameRequired,
   ),
-  entryTicketTypes: ticketTypes
-    .filter((ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired)
-    .map((ticketType) => ({ ...ticketType, disabled: !environment.entryTicketSelling })),
-  seasonalTicketTypes: ticketTypes
-    .filter((ticketType) => ticketType.type === 'SEASONAL')
-    .map((ticketType) => ({ ...ticketType, disabled: !environment.seasonalTicketSelling })),
+  entryTicketTypes: ticketTypes.filter(
+    (ticketType) => ticketType.type === 'ENTRIES' && ticketType.nameRequired,
+  ),
+  seasonalTicketTypes: ticketTypes.filter((ticketType) => ticketType.type === 'SEASONAL'),
 })
 
 /**
@@ -96,7 +94,7 @@ const HomepageTickets = () => {
 
   // TODO; refactor this,bit hacky solution, possible because for now cart can only have tickets that don't need login
   const handleClick = async (ticketType?: TicketType) => {
-    if (ticketType?.disabled) {
+    if (ticketType?.isDisabled) {
       return
     }
     if (ticketType && ticketTypeNeedsLogin(ticketType)) {
@@ -187,6 +185,7 @@ const HomepageTickets = () => {
                                 minValue={0}
                                 maxValue={99}
                                 isWheelDisabled
+                                isDisabled={ticketType.isDisabled}
                               />
                             ))}
                         {!isCartable && (
@@ -196,7 +195,7 @@ const HomepageTickets = () => {
                             rounded
                             onClick={async () => handleClick(ticketType)}
                             color={needsLogin ? 'primary' : 'outlined'}
-                            disabled={ticketType.disabled}
+                            disabled={ticketType.isDisabled}
                           >
                             <>
                               {needsLogin ? t('signin-button') : t('landing.basket')}

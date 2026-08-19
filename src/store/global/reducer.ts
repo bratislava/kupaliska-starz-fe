@@ -74,7 +74,10 @@ export const counterSlice = createSlice({
           }>,
         ) => {
           state.status = 'idle'
-          state.availableTicketTypes = action.payload.ticketTypes
+          state.availableTicketTypes = action.payload.ticketTypes.map((ticketType) => ({
+            ...ticketType,
+            isDisabled: !ticketType.sellingAllowed,
+          }))
           state.pools = action.payload.swimmingPools
         },
       )

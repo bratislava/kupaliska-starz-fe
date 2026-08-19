@@ -51,7 +51,7 @@ const OrderPageGuard = () => {
   // disabled tickets should not be allowed to be ordered,
   // we disable ability to click on buttons in HomepageTickets.tsx,
   // so this should never happen
-  if (foundTicketTypes.some((ticketType) => ticketType?.disabled)) {
+  if (foundTicketTypes.some((ticketType) => ticketType.isDisabled)) {
     return <Navigate to={ROUTES.HOME} replace />
   }
 
