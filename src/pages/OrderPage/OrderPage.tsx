@@ -74,6 +74,7 @@ const OrderPageEmail = ({
   const { t } = useTranslation()
   const { data: account } = useAccount()
 
+  // TODO The t function should be used individually on each key
   const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
 
   return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
@@ -111,6 +112,7 @@ const OrderPageOptionalFields = ({
           className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
           name="age"
           register={register}
+          {/* TODO The t function should be used individually on each key */}
           error={errors.age?.message ? t(errors.age?.message) : undefined}
           type="number"
           valueAsNumber={true}
@@ -730,9 +732,11 @@ const OrderPage = () => {
     .map((ticketTypeData) => ticketTypeData.selectedSwimmerIds)
     .flat()
 
+  // TODO The t function should be used individually on each key
   const errorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.agreement?.message,
   )
+  // TODO The t function should be used individually on each key
   const errorSeniorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.seniorOrDisabledAgreement?.message,
   )

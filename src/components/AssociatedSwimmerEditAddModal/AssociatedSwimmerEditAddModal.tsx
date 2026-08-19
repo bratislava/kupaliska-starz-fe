@@ -135,10 +135,13 @@ export const AssociatedSwimmerEditAddModal = ({
     mutation.mutate(changes)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(
     errors.firstname?.message,
   )
+  // TODO The t function should be used individually on each key
   const errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
+  // TODO The t function should be used individually on each key
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )

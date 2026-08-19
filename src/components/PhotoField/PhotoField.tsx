@@ -76,6 +76,7 @@ const PhotoField = ({
     file && handleImageFile(file)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)
 
   return (

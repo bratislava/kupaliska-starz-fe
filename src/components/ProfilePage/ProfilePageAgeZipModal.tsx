@@ -99,9 +99,11 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
     mutation.mutate(form)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
+  // TODO The t function should be used individually on each key
   const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
@@ -110,11 +112,14 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
+      {/* TODO The t function should be used individually on each key */}
       title={t(title)}
       className="max-w-[488px]"
     >
       <div className="flex flex-col gap-1">
+        {/* TODO The t function should be used individually on each key */}
         <span className="font-semibold">{t(explanationSemiBold)}</span>
+        {/* TODO The t function should be used individually on each key */}
         <span>{t(explanation)}</span>
         {type === 'dateOfBirth' && (
           <DatePicker

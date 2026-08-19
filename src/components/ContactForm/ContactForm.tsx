@@ -76,6 +76,7 @@ const ContactForm = () => {
         register={register}
         label={t('landing.name')}
         newLabel
+        // TODO The t function should be used individually on each key
         error={useValidationSchemaTranslationIfPresent(errors.name?.message)}
       />
       <InputField
@@ -83,12 +84,14 @@ const ContactForm = () => {
         register={register}
         label={t('landing.email')}
         newLabel
+        // TODO The t function should be used individually on each key
         error={useValidationSchemaTranslationIfPresent(errors.email?.message)}
       />
       <InputField
         name="message"
         register={register}
         label={t('landing.message')}
+        // TODO The t function should be used individually on each key
         error={useValidationSchemaTranslationIfPresent(errors.message?.message)}
         newLabel
         element="textarea"

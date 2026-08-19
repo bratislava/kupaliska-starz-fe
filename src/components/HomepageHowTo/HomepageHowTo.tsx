@@ -39,6 +39,7 @@ const HomepageHowTo = () => {
           <div className="size-28 pt-1 pb-0.5 pl-0.5">
             <img className="h-full flex-1" src={item.imgSrc} alt="" />
           </div>
+          {/* TODO The t function should be used individually on each key */}
           <p className="w-full text-center text-base/normal text-gray-800">{t(item.textKey)}</p>
         </div>
       )),

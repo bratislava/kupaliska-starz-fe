@@ -87,6 +87,7 @@ const RootLayout = () => {
             <Toast
               open={toast !== undefined}
               type={toast?.type}
+              {/* TODO The t function should be used individually on each key */}
               text={toast?.message ? t(toast.message) : toast?.message}
               onClose={() => {
                 dispatch(setToast(undefined))
