@@ -21,14 +21,11 @@ const Footer = () => {
       <div className="container mx-auto flex grid w-full grid-cols-1 items-center justify-between py-4 lg:grid-cols-3">
         <div className="order-1 my-2 flex flex-col text-primary lg:order-1 lg:my-0">
           <span className="font-semibold">{t('common.contact')}</span>
-          <span>
-            Správa telovýchovných a rekreačných zariadení hlavného mesta Slovenskej republiky
-            Bratislavy
-          </span>
+          <span>{t('footer.org-name')}</span>
           <span></span>
-          <span>Junácka 4, 831 04 Bratislava 3</span>
-          <span>IČO: 00179663</span>
-          <span>DIČ: 2020801695</span>
+          <span>{t('footer.address')}</span>
+          <span>{t('footer.ico')}</span>
+          <span>{t('footer.dic')}</span>
         </div>
         <div className="order-3 col-span-1 flex items-center justify-center text-primary lg:order-2">
           STARZ |{' '}
@@ -38,7 +35,7 @@ const Footer = () => {
             target="_blank"
             className="mx-1 link"
           >
-            Inovácie mesta Bratislava
+            {t('footer.innovations')}
           </a>
           | {currentYear.current}
         </div>

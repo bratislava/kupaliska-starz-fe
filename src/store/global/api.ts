@@ -7,6 +7,7 @@ export async function fetchGeneralSettings() {
   return apiClient.get<GeneralSettings>('/api/v1/generalSettings')
 }
 
+// TODO rename to fetchTicketTypes
 export async function fetchTickets() {
   return apiClient.get<{ ticketTypes: TicketType[] }>('/api/v1/ticketTypes')
 }

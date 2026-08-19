@@ -54,15 +54,13 @@ const ProfilePageUser = () => {
       <div className="rounded-lg bg-sunscreen lg:col-span-7">
         <div className="flex flex-col items-start gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row sm:items-center">
           <div className="flex flex-1 flex-col gap-1">
-            <p className="text-xl font-semibold">Osobné údaje</p>
-            <p>
-              Osobné údaje ako e-mail a vaše meno s priezviskom môžete spravovať v Bratislavskom
-              konte.
-            </p>
+            <p className="text-xl font-semibold">{t('profile.personal-info')}</p>
+            <p>{t('profile.manage-in-city-account')}</p>
           </div>
           <a href={`${environment.cityAccountFrontendUrl}/moj-profil`}>
             <Button>
-              <Icon className="no-fill mr-2" name="castle" /> Spravovať v konte
+              <Icon className="no-fill mr-2" name="castle" />{' '}
+              {t('profile.manage-in-account-button')}
             </Button>
           </a>
         </div>
@@ -71,11 +69,11 @@ const ProfilePageUser = () => {
             <Photo photo={data?.data.image} size="normal" />
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <p className="font-semibold">Fotografia</p>
+                <p className="font-semibold">{t('buy-page.photo-title')}</p>
                 <p className="text-sm">
-                  Pre kúpu permanentky je potrebné zadať aj fotografiu.
+                  {t('common.photo-required')}
                   <br />
-                  Tá slúži na priradenie permanentky k jej majiteľovi.
+                  {t('common.photo-purpose-attach-ownership')}
                 </p>
               </div>
               <Button
@@ -84,7 +82,7 @@ const ProfilePageUser = () => {
                 disabled={isLoading || isError}
                 onClick={() => setIsPhotoModalOpen(true)}
               >
-                <Icon className="no-fill mr-2" name="upload" /> Nahrať fotku
+                <Icon className="no-fill mr-2" name="upload" /> {t('profile.upload-photo')}
               </Button>
             </div>
           </div>
@@ -92,7 +90,7 @@ const ProfilePageUser = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
               <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
-                <p>Meno a priezvisko</p>
+                <p>{t('profile.name-firstname')}</p>
               </div>
               <p>
                 {account.data?.given_name} {account.data?.family_name}
@@ -100,7 +98,7 @@ const ProfilePageUser = () => {
             </div>
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
               <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
-                <p>E-mail</p>
+                <p>{t('profile.email')}</p>
               </div>
               <p>{account.data?.email}</p>
             </div>
@@ -115,7 +113,7 @@ const ProfilePageUser = () => {
             <>
               <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
                 <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
-                  <p>Vek</p>
+                  <p>{t('person-add.age')}</p>
                 </div>
                 <div className="flex grow">
                   <p className="grow">
@@ -124,7 +122,7 @@ const ProfilePageUser = () => {
                   </p>
                   <AriaButton
                     onPress={() => setIsAgeModalOpen(true)}
-                    aria-label="Upraviť dátum narodenia"
+                    aria-label={t('profile.edit-date-of-birth')}
                   >
                     <Icon name="pencil" className="no-fill" />
                   </AriaButton>
@@ -132,11 +130,14 @@ const ProfilePageUser = () => {
               </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
                 <div className="flex items-center gap-2 font-semibold sm:w-[200px]">
-                  <p>PSČ</p>
+                  <p>{t('buy-page.zip')}</p>
                 </div>
                 <div className="flex grow">
                   <p className="grow">{data.data.zip}</p>
-                  <AriaButton onPress={() => setIsZipModalOpen(true)} aria-label="Upraviť PSČ">
+                  <AriaButton
+                    onPress={() => setIsZipModalOpen(true)}
+                    aria-label={t('profile.edit-zip')}
+                  >
                     <Icon name="pencil" className="no-fill" />
                   </AriaButton>
                 </div>

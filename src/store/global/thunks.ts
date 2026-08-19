@@ -4,6 +4,7 @@ import { ContactFormValues } from 'components/ContactForm/ContactForm'
 import { fetchPool, fetchPools, fetchTickets, sendContactForm } from './api'
 import { setToast } from './reducer'
 
+//TODO this is not used, erase
 export const fetchPoolActions = createAsyncThunk(
   'global/fetchPool',
   async (poolId: string, { rejectWithValue, dispatch }) => {
@@ -15,7 +16,7 @@ export const fetchPoolActions = createAsyncThunk(
       dispatch(
         setToast({
           type: 'error',
-          message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
+          message: 'common.error-generic',
         }),
       )
 
@@ -48,7 +49,7 @@ export const initPageGlobalState = createAsyncThunk(
       dispatch(
         setToast({
           type: 'error',
-          message: 'Niečo sa pokazilo. Prosím skúste to neskôr.',
+          message: 'common.error-generic',
         }),
       )
 
@@ -69,7 +70,7 @@ export const sendContactFormActions = createAsyncThunk(
       dispatch(
         setToast({
           type: 'success',
-          message: 'Správa úspešne odoslaná',
+          message: 'landing.message-sent-success',
         }),
       )
 
@@ -85,7 +86,7 @@ export const sendContactFormActions = createAsyncThunk(
             message:
               err.response.data.messages && err.response.data.messages.length > 0
                 ? err.response.data.messages[0].message
-                : 'Správu sa nepodarilo odoslať',
+                : 'landing.message-sent-error',
           }),
         )
 
@@ -94,7 +95,7 @@ export const sendContactFormActions = createAsyncThunk(
       dispatch(
         setToast({
           type: 'error',
-          message: 'Správu sa nepodarilo odoslať',
+          message: 'landing.message-sent-error',
         }),
       )
 

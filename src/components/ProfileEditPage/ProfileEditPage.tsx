@@ -85,7 +85,9 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     mutation.mutate(changes)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedAge = useValidationSchemaTranslationIfPresent(errors.age?.message)
+  // TODO The t function should be used individually on each key
   const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (

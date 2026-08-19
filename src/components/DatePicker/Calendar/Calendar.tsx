@@ -3,6 +3,7 @@ import { Button, Icon } from 'components'
 import { useRef } from 'react'
 import { useCalendar, useLocale } from 'react-aria'
 import { Button as AriaButton } from 'react-aria-components'
+import { useTranslation } from 'react-i18next'
 import { useCalendarState } from 'react-stately'
 
 import CalendarGrid from './CalendarGrid'
@@ -13,6 +14,7 @@ interface CalendarBase {
 }
 
 const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
+  const { t } = useTranslation()
   const { locale } = useLocale()
 
   const state = useCalendarState({
@@ -54,8 +56,8 @@ const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
       </div>
       <CalendarGrid state={state} />
       <div className="flex items-center justify-between border-t-2 border-gray-700 px-4 py-3">
-        <Button onClick={onReset}>{'Resetovať'}</Button>
-        <Button onClick={onConfirm}>{'Potvrdiť'}</Button>
+        <Button onClick={onReset}>{t('common.reset')}</Button>
+        <Button onClick={onConfirm}>{t('common.confirm')}</Button>
       </div>
     </div>
   )

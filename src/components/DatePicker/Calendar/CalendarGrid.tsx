@@ -1,5 +1,6 @@
 import { CalendarDate, DateDuration, endOfMonth, getWeeksInMonth } from '@internationalized/date'
 import { useCalendarGrid, useLocale } from 'react-aria'
+import { useTranslation } from 'react-i18next'
 import { CalendarState } from 'react-stately'
 
 import CalendarCell from './CalendarCell'
@@ -10,6 +11,7 @@ interface CalendarGridBase {
 }
 
 const CalendarGrid = ({ state, offset = {}, ...rest }: CalendarGridBase) => {
+  const { t } = useTranslation()
   const { locale } = useLocale()
   const startDate: CalendarDate = state?.visibleRange?.start.add(offset)
   const endDate = endOfMonth(startDate)
@@ -24,9 +26,7 @@ const CalendarGrid = ({ state, offset = {}, ...rest }: CalendarGridBase) => {
   const weeksInMonth = getWeeksInMonth(startDate, 'sk-SK')
   const weeksInMonthArr = Array.from({ length: weeksInMonth }, (_, i) => i + 0)
 
-  const weekDaysCustom = ['Po', 'Ut', 'St', 'Št', 'Pi', 'So', 'Ne']
-  const weekDaysCustomEn = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
-  const weekDays = weekDaysCustom
+  const weekDays = t('calendar.weekdays-short', { returnObjects: true }) as string[]
 
   return (
     <div {...gridProps} className="flex flex-col items-center">

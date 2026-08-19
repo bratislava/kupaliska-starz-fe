@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 import { convertBase64ToBlob } from '../../helpers/general'
@@ -12,6 +13,7 @@ interface OrderSuccessProps {
 
 const OrderSuccess = ({ response }: OrderSuccessProps) => {
   const { tickets, pdf } = response
+  const { t } = useTranslation()
 
   const downloadTickets = () => {
     const blob = convertBase64ToBlob(pdf, 'application/pdf')
@@ -24,7 +26,7 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
 
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)
-    link.download = 'Lístok na kúpaliská STaRZ'
+    link.download = t('order-success.ticket-filename')
     link.click()
   }
 
@@ -33,14 +35,10 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
       <div className="mx-auto flex max-w-[1112px] flex-col items-center justify-between gap-8 py-8 md:flex-row">
         <div className="flex max-w-[592px] flex-col gap-6">
           <Typography type="title" fontWeight="medium">
-            Ďakujeme za nákup!
+            {t('order-success.thank-you')}
           </Typography>
           <div className="flex flex-col gap-4">
-            <p>
-              Na stránke nájdete lístok ako QR kód, ktorým sa môžete preukázať pri vstupe. Rovnako
-              máte možnosť si lístok stiahnuť do vášho zariadenia. Lístok sme zaslali aj na váš
-              e-mail.
-            </p>
+            <p>{t('order-success.description')}</p>
           </div>
           <a
             href="https://bravo.staffino.com/bratislava/id=WWsxW0aq"
@@ -49,28 +47,28 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
             target="_blank"
           >
             <Button>
-              Zanechať spätnú väzbu <Icon className="no-fill ml-4" name="arrow-right" />
+              {t('order-result.feedback')} <Icon className="no-fill ml-4" name="arrow-right" />
             </Button>
           </a>
           <Link to="/" className="self-start">
             <Button color="outlined">
-              Pokračovať na domovskú stránku <Icon className="no-fill ml-4" name="arrow-right" />
+              {t('order-success.continue-home')} <Icon className="no-fill ml-4" name="arrow-right" />
             </Button>
           </Link>
         </div>
         <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-divider">
           <div className="border-b-2 border-solid border-divider px-6 py-4 text-center">
             <Typography type="subtitle">
-              {tickets.length > 1 ? 'Vaše lístky' : 'Váš lístok'}
+              {tickets.length > 1 ? t('order-success.your-tickets') : t('order-success.your-ticket')}
             </Typography>
           </div>
           <div className="py-6">
             <TicketsSwiper tickets={tickets} />
             <div className="flex flex-col items-center gap-4 px-8">
-              <span className="text-sm">alebo</span>
+              <span className="text-sm">{t('order-success.or')}</span>
               <Button color="outlined" className="w-full" onClick={downloadTickets}>
                 <Icon name="download" className="mr-2" />
-                {tickets.length > 1 ? 'Stiahnuť všetky lístky' : 'Stiahnuť lístok'}
+                {tickets.length > 1 ? t('order-success.download-all') : t('order-success.download-one')}
               </Button>
             </div>
           </div>

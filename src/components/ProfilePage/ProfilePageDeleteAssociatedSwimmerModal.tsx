@@ -57,14 +57,14 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
 
   return (
     <Dialog
-      title="Odstrániť z profilu"
+      title={t('profile.delete-button')}
       open={true}
       onClose={onClose}
-      footerButton={<Button onClick={handleRemove}>Odstrániť</Button>}
+      footerButton={<Button onClick={handleRemove}>{t('profile.remove')}</Button>}
       className="max-w-[488px]"
     >
       <div className="flex flex-col gap-4">
-        <span>Naozaj chcete odstrániť túto osobu z vášho profilu?</span>
+        <span>{t('profile.delete')}</span>
         <div className="flex flex-col items-center gap-1">
           <Photo size="normal" photo={swimmer.image} />
           <div className="mt-2">

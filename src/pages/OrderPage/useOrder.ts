@@ -1,6 +1,7 @@
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
 import { PaymentMethod } from 'helpers/types'
+import { useTranslation } from 'react-i18next'
 
 import useCityAccountAccessToken from '../../hooks/useCityAccount'
 import { useErrorToast } from '../../hooks/useErrorToast'
@@ -12,6 +13,7 @@ Inspired by https://dev.azure.com/bratislava-innovation/Inovacie/_git/kupaliska-
 export const useOrder = () => {
   const { dispatchErrorToast, dispatchErrorToastForHttpRequest } = useErrorToast()
   const { status } = useCityAccountAccessToken()
+  const { t } = useTranslation()
 
   // TODO: types
   return async (request: any, paymentMethod?: PaymentMethod) => {
@@ -32,7 +34,7 @@ export const useOrder = () => {
     }
 
     if (err?.response?.status === 400) {
-      dispatchErrorToastForHttpRequest(err, 'Objednávku sa nepodarilo odoslať')
+      dispatchErrorToastForHttpRequest(err, t('buy-page.order-send-error'))
 
       return
     }

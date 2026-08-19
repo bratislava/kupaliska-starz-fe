@@ -53,12 +53,12 @@ const ProfilePageSwimmers = () => {
       <div className="inline-flex flex-col rounded-lg bg-sunscreen lg:col-span-5">
         <div className="flex flex-col gap-6 border-b-2 border-b-divider px-6 py-4 sm:flex-row">
           <div className="flex flex-1 grow flex-col gap-1">
-            <p className="text-xl font-semibold">Priradené osoby</p>
-            <p>Pridajte do profilu osoby a zakúpte pre ne lístky a permanentky.</p>
+            <p className="text-xl font-semibold">{t('profile.associated-persons')}</p>
+            <p>{t('profile.associated-persons-desc')}</p>
           </div>
           {data && data.data.associatedSwimmers.length > 0 && (
             <Button className="self-start" onClick={() => setAddEditSwimmerModal({ open: true })}>
-              <Icon className="no-fill mr-2" name="plus" color="white" /> Pridať
+              <Icon className="no-fill mr-2" name="plus" color="white" /> {t('profile.add')}
             </Button>
           )}
         </div>
@@ -95,13 +95,13 @@ const ProfilePageSwimmers = () => {
                 <ThreeDots
                   buttons={[
                     {
-                      title: 'Upraviť osobu',
+                      title: t('profile.edit-person'),
                       icon: 'pencil',
                       className: 'hover:bg-gray-100',
                       onPress: () => setAddEditSwimmerModal({ open: true, swimmer }),
                     },
                     {
-                      title: 'Vymazať osobu',
+                      title: t('profile.delete-person'),
                       icon: 'bin',
                       className: 'text-[#D00000]',
                       onPress: () => setSwimmerToDelete(swimmer),
@@ -119,14 +119,16 @@ const ProfilePageSwimmers = () => {
                   >
                     <Icon name="groups" className="no-fill" />
                   </div>
-                  <span className="text-md font-semibold">Nemáte priradené žiadne osoby.</span>
+                  <span className="text-md font-semibold">
+                    {t('profile.no-associated-persons')}
+                  </span>
                 </div>
                 <div className="flex justify-center">
                   <Button
                     className="self-start"
                     onClick={() => setAddEditSwimmerModal({ open: true })}
                   >
-                    <Icon className="no-fill mr-2" name="plus" color="white" /> Pridať
+                    <Icon className="no-fill mr-2" name="plus" color="white" /> {t('profile.add')}
                   </Button>
                 </div>
               </>

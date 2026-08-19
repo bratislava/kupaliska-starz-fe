@@ -76,6 +76,7 @@ const PhotoField = ({
     file && handleImageFile(file)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedImage = useValidationSchemaTranslationIfPresent(errors.image?.message)
 
   return (
@@ -102,11 +103,11 @@ const PhotoField = ({
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            {showLabel && <span className="font-semibold">Fotografia</span>}
+            {showLabel && <span className="font-semibold">{t('buy-page.photo-title')}</span>}
             <p className="text-sm">
-              Pre kúpu permanentky je potrebné zadať aj fotografiu.
+              {t('common.photo-required')}
               <br />
-              Tá slúži na priradenie permanentky k jej majiteľovi.
+              {t('common.photo-purpose-attach-ownership')}
             </p>
           </div>
           <Button className="self-start" color="outlined" onClick={openImageInput}>

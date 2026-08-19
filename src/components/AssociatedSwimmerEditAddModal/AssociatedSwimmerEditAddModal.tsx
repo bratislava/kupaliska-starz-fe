@@ -135,10 +135,13 @@ export const AssociatedSwimmerEditAddModal = ({
     mutation.mutate(changes)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedFirstname = useValidationSchemaTranslationIfPresent(
     errors.firstname?.message,
   )
+  // TODO The t function should be used individually on each key
   const errorInterpretedLastname = useValidationSchemaTranslationIfPresent(errors.lastname?.message)
+  // TODO The t function should be used individually on each key
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
@@ -146,7 +149,7 @@ export const AssociatedSwimmerEditAddModal = ({
 
   return (
     <Dialog
-      title={swimmer ? 'Upraviť osobu' : 'Nová osoba'}
+      title={swimmer ? t('profile.edit-person') : t('profile.new-person')}
       open={true}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={
@@ -190,7 +193,7 @@ export const AssociatedSwimmerEditAddModal = ({
           />
 
           <DatePicker
-            label={t('person-add.dateOfBirth')}
+            label={t('person-add.date-of-birth')}
             errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
             required={true}
             onChange={(value) => {

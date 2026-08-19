@@ -85,7 +85,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
-      title={'Nahrať fotografiu'}
+      title={t('buy-page.photo-upload')}
       className="max-w-[488px]"
     >
       <div className="flex flex-col gap-1">

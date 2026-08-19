@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/general'
+import { useTranslation } from 'react-i18next'
 
 import { setToast } from '../store/global'
 import { useAppDispatch } from './store'
@@ -8,12 +9,13 @@ import useCityAccountAccessToken from './useCityAccount'
 export const useErrorToast = () => {
   const dispatch = useAppDispatch()
   const { refreshAccessToken } = useCityAccountAccessToken()
+  const { t } = useTranslation()
 
   const dispatchErrorToast = (message?: string) =>
     dispatch(
       setToast({
         type: 'error',
-        message: message ?? 'Niečo sa pokazilo. Prosím skúste to neskôr.',
+        message: message ?? t('common.error-generic'),
       }),
     )
 

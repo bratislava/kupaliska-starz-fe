@@ -108,14 +108,17 @@ export const OrderMissingInformationProfileModal = ({
     mutation.mutate(changes)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
+
+  // TODO The t function should be used individually on each key
   const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
     <Dialog
-      title={'Doplnenie povinných údajov'}
+      title={t('buy-page.missing-info-title')}
       open={true}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={
@@ -142,7 +145,7 @@ export const OrderMissingInformationProfileModal = ({
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           <DatePicker
-            label={t('person-add.dateOfBirth')}
+            label={t('person-add.date-of-birth')}
             errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
             required={true}
             onChange={(value) => {

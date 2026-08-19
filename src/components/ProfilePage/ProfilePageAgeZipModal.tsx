@@ -38,19 +38,17 @@ const dataByType = {
         .max(THREE_YEARS_AGO, 'common.additional-info-toddlers')
         .min(HUNDRED_FIFTY_YEARS_FROM_NOW, 'common.additional-info-tutanchamon'),
     }),
-    title: 'Dátum narodenia',
-    explanationSemiBold: 'Prečo potrebujeme váš dátum narodenia?',
-    explanation:
-      'Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme vedeli lepšie prispôsobovať naše ponúkané služby.',
+    title: 'person-add.date-of-birth',
+    explanationSemiBold: 'profile.why-date-of-birth',
+    explanation: 'profile.data-explanation',
   },
   zip: {
     schema: yup.object({
       zip: yup.string().nullable(),
     }),
-    title: 'PSČ',
-    explanationSemiBold: 'Prečo potrebujeme vaše PSČ?',
-    explanation:
-      'Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme vedeli lepšie prispôsobovať naše ponúkané služby.',
+    title: 'buy-page.zip',
+    explanationSemiBold: 'profile.why-zip',
+    explanation: 'profile.data-explanation',
   },
 }
 
@@ -101,9 +99,11 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
     mutation.mutate(form)
   }
 
+  // TODO The t function should be used individually on each key
   const errorInterpretedDateOfBirth = useValidationSchemaTranslationIfPresent(
     errors.dateOfBirth?.message,
   )
+  // TODO The t function should be used individually on each key
   const errorInterpretedZip = useValidationSchemaTranslationIfPresent(errors.zip?.message)
 
   return (
@@ -112,15 +112,18 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
-      title={title}
+      // TODO The t function should be used individually on each key
+      title={t(title)}
       className="max-w-[488px]"
     >
       <div className="flex flex-col gap-1">
-        <span className="font-semibold">{explanationSemiBold}</span>
-        <span>{explanation}</span>
+        {/* TODO The t function should be used individually on each key */}
+        <span className="font-semibold">{t(explanationSemiBold)}</span>
+        {/* TODO The t function should be used individually on each key */}
+        <span>{t(explanation)}</span>
         {type === 'dateOfBirth' && (
           <DatePicker
-            label={t('person-add.dateOfBirth')}
+            label={t('person-add.date-of-birth')}
             errorMessage={errorInterpretedDateOfBirth ? [errorInterpretedDateOfBirth] : []}
             required={true}
             onChange={(value) => {
