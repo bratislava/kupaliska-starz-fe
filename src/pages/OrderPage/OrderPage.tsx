@@ -112,7 +112,7 @@ const OrderPageOptionalFields = ({
           className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
           name="age"
           register={register}
-          {/* TODO The t function should be used individually on each key */}
+          // TODO The t function should be used individually on each key
           error={errors.age?.message ? t(errors.age?.message) : undefined}
           type="number"
           valueAsNumber={true}

@@ -87,6 +87,7 @@ const Header = () => {
                 })}
                 to={menuItem.to}
               >
+                {/* TODO The t function should be used individually on each key */}
                 {t(menuItem.key)}
               </Link>
             </div>

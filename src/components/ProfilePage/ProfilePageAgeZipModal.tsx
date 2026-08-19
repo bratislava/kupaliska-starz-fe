@@ -112,7 +112,7 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
-      {/* TODO The t function should be used individually on each key */}
+      // TODO The t function should be used individually on each key
       title={t(title)}
       className="max-w-[488px]"
     >
