@@ -24,12 +24,11 @@ import {
   UseFormGetValues,
   UseFormSetValue,
   UseFormWatch,
-  useWatch,
 } from 'react-hook-form'
 import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { Trans, useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { Link } from 'react-router'
 import Turnstile from 'react-turnstile'
 import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
@@ -576,7 +575,6 @@ const OrderPage = () => {
   const { t } = useTranslation()
   const isClient = useIsClient()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
-  const { data: account } = useAccount()
 
   const {
     register,
@@ -634,12 +632,6 @@ const OrderPage = () => {
     errors.seniorOrDisabledAgreement?.message,
   )
 
-  const watchPriceChange = useWatch({
-    // Those properties are those who trigger possible change of the price.
-    name: ['ticketTypesData', 'discountCode'],
-    control,
-  })
-
   const getRequestsFromFormData = useCallback(
     () =>
       orderFormToRequests({
@@ -669,7 +661,7 @@ const OrderPage = () => {
     getRequestsFromFormData().getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
   const priceQuery = useQuery(
-    ['orderPrice', ticketTypesData],
+    ['orderPrice', ticketTypesData, purchaseAmountInLimit],
     async ({ signal }) => {
       const { getPriceRequest } = getRequestsFromFormData()
       logger.info(getPriceRequest)
@@ -687,16 +679,6 @@ const OrderPage = () => {
       retry: false,
     },
   )
-
-  const queryClient = useQueryClient()
-
-  useEffect(() => {
-    // same as enabled condition of price query
-    if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
-      // If the price should change, cancel current queries and fetch a new price.
-      queryClient.refetchQueries([['orderPrice', ticketTypesData]])
-    }
-  }, [watchPriceChange, account, ticketTypesData])
 
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') {
