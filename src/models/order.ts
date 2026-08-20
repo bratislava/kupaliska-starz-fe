@@ -88,7 +88,7 @@ export interface GetPriceResponse {
       orderPriceWithVat: number
       discount: number
       // currently not available in response, could be added later
-      // numberOfChildren: number
+      numberOfChildren?: number
     }
   }
   messages: [
