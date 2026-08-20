@@ -3,7 +3,7 @@ import {
   apiClientWithAccessToken,
   apiClientWithAccessTokenIfAvailable,
 } from 'helpers/apiClient'
-import { CheckPriceResponse, OrderRequest } from 'models'
+import { GetPriceResponse, OrderRequest } from 'models'
 
 import { CityAccountAccessTokenAuthenticationStatus } from '../../hooks/useCityAccount'
 
@@ -27,12 +27,12 @@ export async function getPrice(
   abortSignal?: AbortSignal,
 ) {
   if (authStatus === 'authenticated') {
-    return apiClientWithAccessToken.post<CheckPriceResponse>('/api/v1/orders/getPrice', order, {
+    return apiClientWithAccessToken.post<GetPriceResponse>('/api/v1/orders/getPrice', order, {
       signal: abortSignal,
     })
   }
   if (authStatus === 'unauthenticated') {
-    return apiClient.post<CheckPriceResponse>('/api/v1/orders/getPrice/unauthenticated', order, {
+    return apiClient.post<GetPriceResponse>('/api/v1/orders/getPrice/unauthenticated', order, {
       signal: abortSignal,
     })
   }

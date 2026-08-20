@@ -15,6 +15,7 @@ import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
+import PayButton from 'pages/OrderPage/PayButton'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
 import {
@@ -41,17 +42,13 @@ import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModa
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
 import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import { environment } from '../../environment'
-import {
-  FormatCurrencyFromCents,
-  useCurrencyFromCentsFormatter,
-} from '../../helpers/currencyFormatter'
+import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { GetPriceResponse, TicketType } from '../../models'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
 import { fetchUser } from '../../store/user/api'
 import { orderFormToRequests } from './formDataToRequests'
-import PayButton from './PayButton'
 import { useOrder } from './useOrder'
 import { useOrderPageTicket } from './useOrderPageTicket'
 
@@ -574,7 +571,6 @@ const OrderPage = () => {
   const { status } = useCityAccount()
   const { t } = useTranslation()
   const isClient = useIsClient()
-  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
   const {
     register,
@@ -708,119 +704,46 @@ const OrderPage = () => {
 
   const childrenCount = priceQuery.data?.data.data.pricing.numberOfChildren
 
-  const renderPayButton = (paymentMethod: PaymentMethod) => {
-    let text
-    let icon
-    let color: 'black' | 'white-outlined' | 'primary' = 'primary'
-
-    switch (paymentMethod) {
-      case PaymentMethod.APAY:
-        color = 'black'
-        break
-      case PaymentMethod.GPAY:
-        color = 'white-outlined'
-        break
-      case PaymentMethod.CARD:
-        color = 'primary'
-        break
-    }
-    switch (paymentMethod) {
-      case PaymentMethod.APAY:
-        icon = (
-          <Icon
-            name="apple-pay"
-            className="no-fill flex size-6 items-center justify-center rounded-sm bg-black p-1"
-          ></Icon>
-        )
-        break
-      case PaymentMethod.GPAY:
-        icon = (
-          <Icon
-            name="google-pay"
-            className="no-fill flex size-6 items-center justify-center rounded-sm bg-white p-1"
-          ></Icon>
-        )
-        break
-      case PaymentMethod.CARD:
-        icon = (
-          <Icon
-            className="flex size-6 items-center justify-center rounded-sm p-1"
-            name="credit-card"
-          />
-        )
-        break
-      default:
-        icon = (
-          <Icon
-            className="flex size-6 items-center justify-center rounded-sm p-1"
-            name="credit-card"
-          />
-        )
-        break
-    }
-    switch (paymentMethod) {
-      case PaymentMethod.APAY:
-        text = t('buy-page.pay-with-apple-pay')
-        break
-      case PaymentMethod.GPAY:
-        text = t('buy-page.pay-with-google-pay')
-        break
-      case PaymentMethod.CARD:
-        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
-          ? t('buy-page.pay-with-price', {
-              price: currencyFromCentsFormatter.format(
-                priceQuery.data.data.data.pricing.orderPriceWithVat,
-              ),
-            })
-          : t('buy-page.pay')
-        break
-      default:
-        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
-          ? t('buy-page.pay-with-price', {
-              price: currencyFromCentsFormatter.format(
-                priceQuery.data.data.data.pricing.orderPriceWithVat,
-              ),
-            })
-          : t('buy-page.pay')
-        break
-    }
-
-    const handleSubmitWithErrorHandling = handleSubmit(
+  const handleSubmitWithErrorHandling = (paymentMethod: PaymentMethod) =>
+    handleSubmit(
       async () => onSubmit(paymentMethod),
       (err) => {
-        logger.error(`OrderPage "order" Request error: ${err}`)
+        logger.error('OrderPage "order" validation failed', err)
       },
     )
 
-    return (
-      <PayButton
-        onSubmit={() => {
-          if (
-            ticketTypesData.some(
-              (ticketTypeData) =>
-                ticketTypeData.ticketType.type === 'SEASONAL' &&
-                ticketTypeData.ticketType.childrenAllowed,
-            )
-          ) {
-            setChildrenConfirmationModalOpen(true)
-            setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
-          } else {
-            handleSubmitWithErrorHandling()
-          }
-        }}
-        color={color}
-        icon={icon}
-        text={text}
-        disabled={
-          priceQuery.isFetching ||
-          priceQuery.isError ||
-          shouldSendDisabled ||
-          orderRequestPending ||
-          !purchaseAmountInLimit
-        }
-      />
-    )
+  const onSubmitInner = async (paymentMethod: PaymentMethod) => {
+    if (
+      ticketTypesData.some(
+        (ticketTypeData) =>
+          ticketTypeData.ticketType.type === 'SEASONAL' &&
+          ticketTypeData.ticketType.childrenAllowed,
+      )
+    ) {
+      setChildrenConfirmationModalOpen(true)
+      setPaymentMethodFunction(() => handleSubmitWithErrorHandling(paymentMethod))
+    } else {
+      await handleSubmitWithErrorHandling(paymentMethod)()
+    }
   }
+
+  const price = priceQuery.data?.data.data.pricing.orderPriceWithVat
+
+  const isDisabled =
+    priceQuery.isFetching ||
+    priceQuery.isError ||
+    shouldSendDisabled ||
+    orderRequestPending ||
+    !purchaseAmountInLimit
+
+  const renderPayButton = (paymentMethod: PaymentMethod) => (
+    <PayButton
+      isDisabled={isDisabled}
+      paymentMethod={paymentMethod}
+      onSubmit={onSubmitInner}
+      price={price}
+    />
+  )
 
   const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: CartItem) => {
     setValue(
@@ -844,10 +767,10 @@ const OrderPage = () => {
           onClose={() => {
             setChildrenConfirmationModalOpen(false)
           }}
-          onSaveSuccess={() => {
+          onSaveSuccess={async () => {
             setChildrenConfirmationModalOpen(false)
             if (paymentMethodFunction) {
-              paymentMethodFunction()
+              await paymentMethodFunction()
             }
           }}
         />

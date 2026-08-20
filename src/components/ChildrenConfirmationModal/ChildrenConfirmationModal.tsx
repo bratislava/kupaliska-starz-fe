@@ -4,7 +4,7 @@ import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 
 interface ChildrenConfirmationModalProps {
-  onSaveSuccess?: () => void
+  onSaveSuccess?: () => Promise<void>
   onClose?: () => void
 }
 
@@ -19,7 +19,13 @@ export const ChildrenConfirmationModal = ({
       title={'Potvrdenie deti'}
       open={true}
       footerButton={
-        <Button onClick={onSaveSuccess}>
+        <Button
+          onClick={async () => {
+            if (onSaveSuccess) {
+              await onSaveSuccess()
+            }
+          }}
+        >
           {t('tickets.childrenConirmationModalTextConfirmation')}
         </Button>
       }

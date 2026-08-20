@@ -82,7 +82,7 @@ export interface DiscountCodeState {
   code: string
 }
 
-export interface CheckPriceResponse {
+export interface GetPriceResponse {
   data: {
     pricing: {
       orderPriceWithVat: number
@@ -94,7 +94,7 @@ export interface CheckPriceResponse {
   messages: [
     {
       type: 'SUCCESS'
-      message: 'Cypočítaná cena lístkov'
+      message: 'Vypočítaná cena lístkov'
     },
   ]
 }
