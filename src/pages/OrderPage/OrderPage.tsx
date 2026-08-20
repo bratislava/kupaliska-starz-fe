@@ -3,7 +3,7 @@ import './OrderPage.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
-import NumberField from 'components/NumberField/NumberField'
+import TicketTypeSummary from 'components/TicketTypeSummary/TicketTypeSummary'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import {
@@ -11,7 +11,6 @@ import {
   getErrorMessagesFromHttpRequest,
   useValidationSchemaTranslationIfPresent,
 } from 'helpers/general'
-import { isDefined } from 'helpers/helper'
 import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
@@ -48,7 +47,7 @@ import {
   useCurrencyFromCentsFormatter,
 } from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
-import { CheckPriceResponse, TicketType } from '../../models'
+import { GetPriceResponse, TicketType } from '../../models'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
 import { fetchUser } from '../../store/user/api'
@@ -543,113 +542,7 @@ const validationSchema = yup.object({
   recaptchaToken: yup.string().required('landing.captcha-warning-required'),
 })
 
-const OrderPageSummary = ({
-  ticketType,
-  hasTicketAmount,
-  ticketAmount,
-  handleTicketTypeRemove,
-  setTicketAmount,
-}: {
-  ticketType: TicketType
-  hasTicketAmount: boolean
-  ticketAmount?: number
-  handleTicketTypeRemove?: () => void
-  setTicketAmount: (ticketAmount: number) => void
-}) => {
-  const { t } = useTranslation()
-  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
-
-  return (
-    <div className="rounded-lg bg-sunscreen">
-      <div className="p-8">
-        <div className="flex flex-row justify-between">
-          <div className="text-2xl font-semibold">
-            {hasTicketAmount && `${ticketAmount}× `}
-            {ticketType.name}
-          </div>
-          {handleTicketTypeRemove && (
-            <button onClick={handleTicketTypeRemove}>
-              <Icon name="close" />
-            </button>
-          )}
-        </div>
-        {/* {ticketType.childrenAllowed && (
-          <p className="mt-2 font-bold">
-            {priceQuery.isFetching ? (
-              <div style={{ maxWidth: '200px' }}>
-                <Skeleton />
-              </div>
-            ) : (
-              priceQuery.isSuccess && (
-                <OrderPageAdultChildrenCount
-                  pricing={priceQuery.data?.data.data.pricing}
-                  watch={watch}
-                ></OrderPageAdultChildrenCount>
-              )
-            )}
-          </p>
-        )} */}
-        <p className="mt-4">{ticketType.description}</p>
-        {ticketType.childrenAllowed && (
-          <>
-            <br />
-            <p className="font-semibold">
-              {/* TODO pluralizacia */}
-              {t('buy-page.children-discount-children-count-and-price', {
-                childrenMaxNumber: ticketType.childrenMaxNumber,
-                childrenPrice: isDefined(ticketType.childrenPriceWithVat)
-                  ? currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat)
-                  : null,
-              })}
-            </p>
-            <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
-          </>
-        )}
-      </div>
-      <div className="flex items-center justify-between rounded-b-lg bg-blueish p-4 lg:px-8">
-        {hasTicketAmount && (
-          <NumberField
-            value={ticketAmount}
-            onChange={(value) => setTicketAmount(value)}
-            minValue={0}
-            maxValue={99}
-            isWheelDisabled
-            isDisabled={ticketType.isDisabled}
-          />
-        )}
-        <div className="flex flex-nowrap">
-          <span className="font-bold text-fontBlack lg:text-xl">
-            <FormatCurrencyFromCents value={ticketType.priceWithVat} />
-          </span>
-          <span>{t('common.per-ticket')}</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// pricing.numberOfChildren is not available in response, keeping code for later when available
-
-// const OrderPageAdultChildrenCount = ({
-//   pricing,
-//   watch,
-// }: {
-//   pricing: CheckPriceResponse['data']['pricing']
-//   watch: UseFormWatch<OrderFormData>
-// }) => {
-//   const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
-//   const { t } = useTranslation()
-
-//   // const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
-//   // const childrenCount = pricing.numberOfChildren
-
-//   // const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
-//   // const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
-
-//   return <>({[adult, children].filter(Boolean).join(' + ')})</>
-// }
-
-const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
+const OrderPagePrice = ({ pricing }: { pricing: GetPriceResponse['data']['pricing'] }) => {
   const fullPrice =
     pricing.discount > 0 ? (
       <div className="strikethrough-diagonal mr-2 inline-block">
@@ -826,6 +719,12 @@ const OrderPage = () => {
   const shouldSendDisabled =
     ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) &&
     selectedSwimmerIds.includes(null)
+
+  const watchSelectedSwimmerIds = watch('ticketTypesData')
+    .map((formValueTicketTypeData) => formValueTicketTypeData.selectedSwimmerIds)
+    .flat() as (string | null)[]
+
+  const childrenCount = priceQuery.data?.data.data.pricing.numberOfChildren
 
   const renderPayButton = (paymentMethod: PaymentMethod) => {
     let text
@@ -1164,8 +1063,7 @@ const OrderPage = () => {
                 : undefined
 
             return (
-              // TODO rename to TicketTypeSummary
-              <OrderPageSummary
+              <TicketTypeSummary
                 key={ticketTypeData.ticketType.id}
                 ticketAmount={ticketAmount}
                 ticketType={ticketTypeData.ticketType}
@@ -1178,6 +1076,12 @@ const OrderPage = () => {
                 setTicketAmount={(value: number) =>
                   setTicketAmountOfTicketType(value, ticketTypeData)
                 }
+                isFetching={priceQuery.isFetching}
+                isSuccess={priceQuery.isSuccess}
+                adultCount={
+                  childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined
+                }
+                childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
               />
             )
           })}
