@@ -15,6 +15,7 @@ import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
+import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
@@ -69,38 +70,6 @@ export interface OrderFormData {
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
-
-const OrderPageEmail = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<OrderFormData>
-  errors: FieldErrors<OrderFormData>
-}) => {
-  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
-  const { t } = useTranslation()
-  const { data: account } = useAccount()
-
-  // TODO The t function should be used individually on each key
-  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
-
-  return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
-    <InputField
-      className="flex flex-col gap-y-2"
-      name="email"
-      register={register}
-      // TODO redo InputField styles
-      label={<span className="text-base font-semibold">{t('common.email')}</span>}
-      error={errorInterpreted}
-    />
-  ) : (
-    <Trans
-      i18nKey={'buy-page.email-send-to'}
-      components={{ span: <span /> }}
-      values={{ username: account?.email }}
-    />
-  )
-}
 
 const OrderPageOptionalFields = ({
   register,
@@ -583,6 +552,7 @@ const OrderPage = () => {
   const { status } = useCityAccount()
   const { t } = useTranslation()
   const isClient = useIsClient()
+  const { data: account } = useAccount()
 
   const {
     register,
@@ -782,7 +752,14 @@ const OrderPage = () => {
         <div className="flex flex-col gap-y-6">
           <div className="text-2xl font-semibold md:text-3xl">{t('buy-page.personal-info')}</div>
           <div className="border-gray rounded-lg border p-6">
-            <OrderPageEmail register={register} errors={errors} />
+            <EmailField
+              register={register}
+              required={ticketTypesWithAdditionalProperties.some(
+                (ticketType) => ticketType.requireEmail,
+              )}
+              email={account?.email}
+              errorMessage={useValidationSchemaTranslationIfPresent(errors.email?.message)}
+            />
             {ticketTypesWithAdditionalProperties.some(
               (ticketType) => ticketType.hasOptionalFields,
             ) && <OrderPageOptionalFields register={register} errors={errors} />}
