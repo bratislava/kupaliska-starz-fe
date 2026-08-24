@@ -15,7 +15,8 @@ import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
-import PayButton from 'pages/OrderPage/PayButton'
+import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
+import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
 import {
@@ -736,15 +737,6 @@ const OrderPage = () => {
     orderRequestPending ||
     !purchaseAmountInLimit
 
-  const renderPayButton = (paymentMethod: PaymentMethod) => (
-    <PayButton
-      isDisabled={isDisabled}
-      paymentMethod={paymentMethod}
-      onSubmit={onSubmitInner}
-      price={price}
-    />
-  )
-
   const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: CartItem) => {
     setValue(
       'ticketTypesData',
@@ -927,22 +919,12 @@ const OrderPage = () => {
           </div>
           <div>
             {/* Desktop */}
-            <div className="hidden flex-col gap-y-3 lg:flex">
-              <div className="flex flex-row gap-x-3">
-                <div className="w-full">{renderPayButton(PaymentMethod.APAY)}</div>
-                <div className="w-full">{renderPayButton(PaymentMethod.GPAY)}</div>
-              </div>
-              <div className="w-full">{renderPayButton(PaymentMethod.CARD)}</div>
-            </div>
-            {/* Mobile */}
-            <div className="lg:hidden">
-              <div className="hidden w-3/4 md:block">{renderPayButton(PaymentMethod.APAY)}</div>
-              <div className="mt-3 hidden w-3/4 md:block">
-                {renderPayButton(PaymentMethod.GPAY)}
-              </div>
-              <div className="mt-3 hidden w-3/4 md:block">
-                {renderPayButton(PaymentMethod.CARD)}
-              </div>
+            <div className="hidden flex-col gap-y-3 md:flex">
+              <DesktopPaymentButtons
+                isDisabled={isDisabled}
+                onSubmit={onSubmitInner}
+                price={price}
+              />
             </div>
           </div>
         </div>
@@ -1024,10 +1006,9 @@ const OrderPage = () => {
             <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
-        <div className="mt-6 md:mt-8">
-          <div className="md:hidden">{renderPayButton(PaymentMethod.APAY)}</div>
-          <div className="mt-3 md:hidden">{renderPayButton(PaymentMethod.GPAY)}</div>
-          <div className="mt-3 md:hidden">{renderPayButton(PaymentMethod.CARD)}</div>
+        {/* Mobile */}
+        <div className="mt-6 md:mt-8 md:hidden">
+          <MobilePaymentButtons isDisabled={isDisabled} onSubmit={onSubmitInner} price={price} />
         </div>
       </form>
     </>
