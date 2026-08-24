@@ -270,7 +270,7 @@ const OrderPagePeopleList = ({
         <OrderMissingInformationProfileModal
           user={userQuery.data.data}
           onClose={() => setMissingInformationModalOpen(false)}
-        ></OrderMissingInformationProfileModal>
+        />
       )}
       {addSwimmerModalOpen && (
         <AssociatedSwimmerEditAddModal
@@ -283,12 +283,12 @@ const OrderPagePeopleList = ({
                 ticketTypesWithAdditionalProperties[0].ticketType.id,
               )
           }}
-        ></AssociatedSwimmerEditAddModal>
+        />
       )}
       {/* TODO errors everywhere, refactor */}
       {shouldDisplayMissingInformationWarning && (
         <div className="my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white">
-          <Icon name="warning" className="no-fill text-white"></Icon>
+          <Icon name="warning" className="no-fill text-white" />
           <div>
             {t('buy-page.missing-photo-dob')}
             <AriaButton
@@ -798,7 +798,7 @@ const OrderPage = () => {
                 {/* TODO errors everywhere, refactor */}
                 {priceQuery.error && (
                   <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-                    <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+                    <Icon name="warning" className="no-fill text-[#E07B04]" />
                     <div>
                       {getErrorMessagesFromHttpRequest(
                         // TODO check if we show correct errors in all cases
@@ -811,15 +811,11 @@ const OrderPage = () => {
                 {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
                   getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
                     <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-                      <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
+                      <Icon name="warning" className="no-fill text-[#E07B04]" />
                       <div>{t('buy-page.min-one-person')}</div>
                     </div>
                   )}
-                <OrderPagePeopleList
-                  watch={watch}
-                  setValue={setValue}
-                  errors={errors}
-                ></OrderPagePeopleList>
+                <OrderPagePeopleList watch={watch} setValue={setValue} errors={errors} />
               </>
             )}
 
@@ -974,7 +970,7 @@ const OrderPage = () => {
           })}
           {!withinMaxTicketAmountLimit && (
             <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
-              <Icon name="alert" className="no-fill text-error"></Icon>
+              <Icon name="alert" className="no-fill text-error" />
               {t('common.max-ticket-purchase-limit', {
                 maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
               })}
