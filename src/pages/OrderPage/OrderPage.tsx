@@ -1025,15 +1025,9 @@ const OrderPage = () => {
           </div>
         </div>
         <div className="mt-6 md:mt-8">
-          <div className="block flex justify-center md:hidden">
-            {renderPayButton(PaymentMethod.APAY)}
-          </div>
-          <div className="mt-3 block flex justify-center md:hidden">
-            {renderPayButton(PaymentMethod.GPAY)}
-          </div>
-          <div className="mt-3 block flex justify-center md:hidden">
-            {renderPayButton(PaymentMethod.CARD)}
-          </div>
+          <div className="md:hidden">{renderPayButton(PaymentMethod.APAY)}</div>
+          <div className="mt-3 md:hidden">{renderPayButton(PaymentMethod.GPAY)}</div>
+          <div className="mt-3 md:hidden">{renderPayButton(PaymentMethod.CARD)}</div>
         </div>
       </form>
     </>
