@@ -11,7 +11,7 @@ import {
   useCurrencyFromCentsFormatter,
 } from '../../helpers/currencyFormatter'
 
-interface TicketTypeSummary {
+interface TicketTypeDetailProps {
   ticketType: TicketType
   hasTicketAmount: boolean
   ticketAmount?: number
@@ -23,7 +23,7 @@ interface TicketTypeSummary {
   childrenCount?: number
 }
 
-const TicketTypeSummary = ({
+const TicketTypeDetail = ({
   ticketType,
   hasTicketAmount,
   ticketAmount,
@@ -33,7 +33,7 @@ const TicketTypeSummary = ({
   isSuccess,
   childrenCount,
   adultCount,
-}: TicketTypeSummary) => {
+}: TicketTypeDetailProps) => {
   const { t } = useTranslation()
   const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
 
@@ -103,4 +103,4 @@ const TicketTypeSummary = ({
   )
 }
 
-export default TicketTypeSummary
+export default TicketTypeDetail

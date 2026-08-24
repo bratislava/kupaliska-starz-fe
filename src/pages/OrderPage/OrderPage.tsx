@@ -3,7 +3,6 @@ import './OrderPage.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
-import TicketTypeSummary from 'components/TicketTypeSummary/TicketTypeSummary'
 import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import {
@@ -17,6 +16,7 @@ import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
+import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
 import {
@@ -45,7 +45,7 @@ import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersL
 import { environment } from '../../environment'
 import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
-import { GetPriceResponse, TicketType } from '../../models'
+import { CartItem, GetPriceResponse } from '../../models'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
 import { fetchUser } from '../../store/user/api'
@@ -54,6 +54,17 @@ import { useOrder } from './useOrder'
 import { useOrderPageTicket } from './useOrderPageTicket'
 
 type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
+
+export interface OrderFormData {
+  email?: string
+  ticketTypesData: CartItem[]
+  discountCode?: DiscountCodeResponse['discountCode'] | null
+  agreement?: string
+  seniorOrDisabledAgreement?: boolean
+  age?: number
+  zip?: string
+  recaptchaToken?: string
+}
 
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
@@ -926,48 +937,15 @@ const OrderPage = () => {
         </div>
         <div className="flex flex-col gap-y-4 lg:gap-y-6">
           <span className="text-2xl font-semibold md:text-3xl">{t('buy-page.summary')}</span>
-          {ticketTypesData.map((ticketTypeData) => {
-            const ticketAmount = ticketTypeData.ticketAmount
-
-            const handleTicketTypeRemove =
-              ticketTypesData.length > 1
-                ? () => {
-                    // this will remove the ticket type from the form data
-                    // but it will reappear after reloading the page because it ultimately comes from location state
-                    // TODO fix this when cart is implemented using redux
-                    setValue(
-                      'ticketTypesData',
-                      ticketTypesData.filter(
-                        (ticketTypeDataInner) =>
-                          ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id,
-                      ),
-                    )
-                  }
-                : undefined
-
-            return (
-              <TicketTypeSummary
-                key={ticketTypeData.ticketType.id}
-                ticketAmount={ticketAmount}
-                ticketType={ticketTypeData.ticketType}
-                hasTicketAmount={
-                  ticketTypesWithAdditionalProperties.find(
-                    (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
-                  )?.hasTicketAmount ?? false
-                }
-                handleTicketTypeRemove={handleTicketTypeRemove}
-                setTicketAmount={(value: number) =>
-                  setTicketAmountOfTicketType(value, ticketTypeData)
-                }
-                isFetching={priceQuery.isFetching}
-                isSuccess={priceQuery.isSuccess}
-                adultCount={
-                  childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined
-                }
-                childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
-              />
-            )
-          })}
+          <TicketTypesDetail
+            ticketTypesData={ticketTypesData}
+            priceQuery={priceQuery}
+            ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
+            adultCount={childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined}
+            childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
+            setValue={setValue}
+            setTicketAmountOfTicketType={setTicketAmountOfTicketType}
+          />
           {!withinMaxTicketAmountLimit && (
             <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
               <Icon name="alert" className="no-fill text-error" />
@@ -1009,27 +987,6 @@ const OrderPage = () => {
       </form>
     </>
   )
-}
-
-export interface OrderFormData {
-  email?: string
-  ticketTypesData: {
-    ticketType: TicketType
-    ticketAmount?: number
-    selectedSwimmerIds?: (string | null)[]
-  }[]
-  discountCode?: DiscountCodeResponse['discountCode'] | null
-  agreement?: string
-  seniorOrDisabledAgreement?: boolean
-  age?: number
-  zip?: string
-  recaptchaToken?: string
-}
-
-interface CartItem {
-  ticketType: TicketType
-  ticketAmount?: number
-  selectedSwimmerIds?: (string | null)[]
 }
 
 export default OrderPage

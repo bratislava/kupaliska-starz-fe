@@ -72,8 +72,8 @@ export interface OrderRequest {
 
 export interface CartItem {
   ticketType: TicketType
-  amount: number
-  childrenNumber: number
+  ticketAmount?: number
+  selectedSwimmerIds?: (string | null)[]
 }
 
 export interface DiscountCodeState {
