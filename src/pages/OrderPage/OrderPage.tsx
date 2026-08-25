@@ -3,7 +3,6 @@ import './OrderPage.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
-import { AccountType } from 'helpers/cityAccountDto'
 import { ROUTES } from 'helpers/constants'
 import {
   ErrorWithMessages,
@@ -18,16 +17,15 @@ import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
 import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
+import SwimmersList from 'pages/OrderPage/SwimmersList'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
+import { ChangeEvent, useCallback, useState } from 'react'
 import {
   Controller,
   FieldErrors,
   useForm,
   UseFormGetValues,
   UseFormSetValue,
-  UseFormWatch,
 } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
@@ -39,17 +37,12 @@ import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 
 import { Button, CheckboxField, Icon, InputField } from '../../components'
-import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
-import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
-import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import { environment } from '../../environment'
 import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { CartItem, GetPriceResponse } from '../../models'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
 import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
-import { fetchUser } from '../../store/user/api'
 import { orderFormToRequests } from './formDataToRequests'
 import { useOrder } from './useOrder'
 import { useOrderPageTicket } from './useOrderPageTicket'
@@ -70,195 +63,6 @@ export interface OrderFormData {
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
-
-const OrderPagePeopleList = ({
-  errors,
-  watch,
-  setValue,
-}: {
-  errors: FieldErrors<OrderFormData>
-  watch: UseFormWatch<OrderFormData>
-  setValue: UseFormSetValue<OrderFormData>
-}) => {
-  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
-  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some(
-    (ticketType) => ticketType.displayMissingInformationWarning,
-  )
-  const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
-  const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
-  // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
-  const [swimmerListSizePrefillDone, setSwimmerListSizePrefillDone] = useState(false)
-
-  const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
-  const userQuery = useQuery('user', fetchUser)
-  const { data: account } = useAccount()
-  const { dispatchErrorToast } = useErrorToast()
-  const { t } = useTranslation()
-
-  /* Merges the list of associated swimmers with the logged-in user. */
-  const mergedSwimmers = useMemo(() => {
-    const swimmersWithOwner = []
-    if (userQuery.data && account?.['custom:account_type'] === AccountType.FO) {
-      swimmersWithOwner.push({
-        id: null,
-        age: userQuery.data.data.age,
-        zip: userQuery.data.data.zip,
-        image: userQuery.data.data.image,
-        firstname: account?.given_name as string,
-        lastname: account?.family_name as string,
-        isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
-      })
-    }
-    if (associatedSwimmersQuery.data) {
-      swimmersWithOwner.push(...associatedSwimmersQuery.data.data.associatedSwimmers)
-    }
-
-    return swimmersWithOwner
-  }, [
-    account?.family_name,
-    account?.given_name,
-    account?.['custom:account_type'],
-    associatedSwimmersQuery.data,
-    userQuery.data,
-  ])
-
-  // useEffect(() => {
-  //   // initial prefill when we get the list of associated swimmers
-  //   if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
-  //   setValue(
-  //     'selectedSwimmerIds',
-  //     mergedSwimmers
-  //       .filter(
-  //         (swimmer) =>
-  //           !('isPhysicalEntity' in swimmer) ||
-  //           ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
-  //       )
-  //       .map((swimmer) => swimmer.id),
-  //   )
-  //   setSwimmerListSizePrefillDone(true)
-  // }, [mergedSwimmers,
-  //   // selectedSwimmerIds,
-  //   setValue,
-  //   swimmerListSizePrefillDone])
-
-  const error = associatedSwimmersQuery.error || userQuery.error
-
-  useEffect(() => {
-    if (error) {
-      dispatchErrorToast()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error])
-  const ticketTypesData = watch('ticketTypesData')
-
-  const handleSelectSwimmer = (
-    swimmerToSelect: Partial<AssociatedSwimmer>,
-    ticketTypeId: string,
-  ) => {
-    // `null` is current user, therefore we don't check for it
-    if (swimmerToSelect.id === undefined) {
-      return
-    }
-    const ticketTypeIndex = ticketTypesData.findIndex(
-      (ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId,
-    )
-    if (ticketTypeIndex !== -1) {
-      if (ticketTypesData[ticketTypeIndex].selectedSwimmerIds?.includes(swimmerToSelect.id)) {
-        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) =>
-          index === ticketTypeIndex
-            ? {
-                ...ticketTypeData,
-                selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter(
-                  (p) => p !== swimmerToSelect.id,
-                ),
-              }
-            : ticketTypeData,
-        )
-
-        setValue('ticketTypesData', newTicketTypesData)
-      } else {
-        const newSelectedSwimmerIds = [
-          ...(ticketTypesData[ticketTypeIndex].selectedSwimmerIds || []),
-          swimmerToSelect.id,
-        ]
-        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) =>
-          index === ticketTypeIndex
-            ? {
-                ...ticketTypeData,
-                selectedSwimmerIds: newSelectedSwimmerIds,
-              }
-            : ticketTypeData,
-        )
-
-        setValue('ticketTypesData', newTicketTypesData)
-      }
-    }
-  }
-
-  const shouldDisplayMissingInformationWarning =
-    displayMissingInformationWarning &&
-    ticketTypesData.some((ticketTypeData) => ticketTypeData.selectedSwimmerIds?.includes(null))
-
-  return (
-    <>
-      {missingInformationModalOpen && userQuery.data?.data && (
-        <OrderMissingInformationProfileModal
-          user={userQuery.data.data}
-          onClose={() => setMissingInformationModalOpen(false)}
-        />
-      )}
-      {addSwimmerModalOpen && (
-        <AssociatedSwimmerEditAddModal
-          onClose={() => setAddSwimmerModalOpen(false)}
-          // good enough for now, we don't allow multiple order with multiple ticketTypes where name is requeired
-          onSaveSuccess={(savedSwimmer) => {
-            ticketTypesWithAdditionalProperties.length > 0 &&
-              handleSelectSwimmer(
-                savedSwimmer,
-                ticketTypesWithAdditionalProperties[0].ticketType.id,
-              )
-          }}
-        />
-      )}
-      {/* TODO errors everywhere, refactor */}
-      {shouldDisplayMissingInformationWarning && (
-        <div className="my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white">
-          <Icon name="warning" className="no-fill text-white" />
-          <div>
-            {t('buy-page.missing-photo-dob')}
-            <AriaButton
-              onPress={() => setMissingInformationModalOpen(true)}
-              className="font-semibold underline"
-            >
-              {t('buy-page.fill-required-fields')}
-            </AriaButton>
-          </div>
-        </div>
-      )}
-      {ticketTypesData.map(
-        (ticketTypeData) =>
-          ticketTypeData.selectedSwimmerIds &&
-          mergedSwimmers && (
-            <OrderPageSwimmersList
-              key={ticketTypeData.ticketType.id}
-              selectedSwimmerIds={ticketTypeData.selectedSwimmerIds}
-              swimmers={mergedSwimmers}
-              onSelectSwimmer={(swimmer) =>
-                handleSelectSwimmer(swimmer, ticketTypeData.ticketType.id)
-              }
-              onAddSwimmer={() => setAddSwimmerModalOpen(true)}
-            />
-          ),
-      )}
-
-      <div className="px-2 text-sm text-error">
-        {errors.ticketTypesData
-          ?.map((field) => field.selectedSwimmerIds?.map((field) => field.message))
-          .join('/n')}
-      </div>
-    </>
-  )
-}
 
 const OrderPageDiscountCode = ({
   setValue,
@@ -684,6 +488,10 @@ const OrderPage = () => {
     )
   }
 
+  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some(
+    (ticketType) => ticketType.displayMissingInformationWarning,
+  )
+
   const Divider = () => {
     return <div className="border-b-solid my-6 border-b-2" />
   }
@@ -764,7 +572,13 @@ const OrderPage = () => {
                       <div>{t('buy-page.min-one-person')}</div>
                     </div>
                   )}
-                <OrderPagePeopleList watch={watch} setValue={setValue} errors={errors} />
+                <SwimmersList
+                  setValue={setValue}
+                  ticketTypesData={ticketTypesData}
+                  displayMissingInformationWarning={displayMissingInformationWarning}
+                  ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
+                  errorsTicketTypeData={errors.ticketTypesData}
+                />
               </>
             )}
 
