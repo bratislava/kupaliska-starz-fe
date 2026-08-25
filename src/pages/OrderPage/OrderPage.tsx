@@ -3,11 +3,7 @@ import './OrderPage.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError } from 'axios'
 import { ROUTES } from 'helpers/constants'
-import {
-  ErrorWithMessages,
-  getErrorMessagesFromHttpRequest,
-  useValidationSchemaTranslationIfPresent,
-} from 'helpers/general'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
@@ -18,7 +14,7 @@ import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
 import Price from 'pages/OrderPage/Price'
-import SwimmersList from 'pages/OrderPage/SwimmersList'
+import SwimmersSelection from 'pages/OrderPage/SwimmersSelection'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -226,9 +222,11 @@ const OrderPage = () => {
     [getValues, ticketTypesWithAdditionalProperties],
   )
 
+  // TODO this should go into schema
   const withinMaxTicketAmountLimit =
     getRequestsFromFormData().getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
+  // TODO this should go into schema
   const purchaseAmountInLimit =
     getRequestsFromFormData().getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
@@ -368,53 +366,15 @@ const OrderPage = () => {
               />
             )}
             {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
-              <>
-                <div className="mt-2">
-                  {ticketTypesData.some(
-                    (ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL',
-                  ) && (
-                    <Trans
-                      i18nKey={'buy-page.select-people-reminder-seasonal'}
-                      components={{ span: <span /> }}
-                    />
-                  )}
-                  {ticketTypesData.some(
-                    (ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES',
-                  ) && (
-                    <Trans
-                      i18nKey={'buy-page.select-people-reminder-entries'}
-                      components={{ span: <span /> }}
-                    />
-                  )}
-                </div>
-                {/* TODO errors everywhere, refactor */}
-                {priceQuery.error && (
-                  <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-                    <Icon name="warning" className="no-fill text-[#E07B04]" />
-                    <div>
-                      {getErrorMessagesFromHttpRequest(
-                        // TODO check if we show correct errors in all cases
-                        // (zod schema error - probably not, joi schema error, manually thrown error)
-                        priceQuery.error as AxiosError<ErrorWithMessages>,
-                      )}
-                    </div>
-                  </div>
-                )}
-                {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
-                  getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
-                    <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-                      <Icon name="warning" className="no-fill text-[#E07B04]" />
-                      <div>{t('buy-page.min-one-person')}</div>
-                    </div>
-                  )}
-                <SwimmersList
-                  setValue={setValue}
-                  ticketTypesData={ticketTypesData}
-                  displayMissingInformationWarning={displayMissingInformationWarning}
-                  ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
-                  errorsTicketTypeData={errors.ticketTypesData}
-                />
-              </>
+              <SwimmersSelection
+                setValue={setValue}
+                ticketTypesData={ticketTypesData}
+                getRequestsFromFormData={getRequestsFromFormData}
+                ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
+                errorsPriceQuery={priceQuery.error}
+                displayMissingInformationWarning={displayMissingInformationWarning}
+                errorsTicketTypeData={errors.ticketTypesData}
+              />
             )}
 
             <Divider />
