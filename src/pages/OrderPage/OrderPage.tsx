@@ -50,6 +50,8 @@ export interface OrderFormData {
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
 
+// TODO use Zod schema from BE anything from this yup schema that is missing in BE zod schema incorporate,
+//  and then use zodResolver ("@hookform/resolvers/zod")
 const validationSchema = yup.object({
   email: yup.string().when('$requireEmail', (requireEmail: boolean, schema: StringSchema) => {
     if (requireEmail) {

@@ -16,6 +16,7 @@ export const useOrder = () => {
   const { t } = useTranslation()
 
   // TODO: types
+  // TODO: use reactQuery instead of 'await-to-js'
   return async (request: any, paymentMethod?: PaymentMethod) => {
     const requestWithRecaptcha = { ...request, paymentMethod }
 
