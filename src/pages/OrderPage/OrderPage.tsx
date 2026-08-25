@@ -17,6 +17,7 @@ import useCityAccount from 'hooks/useCityAccount'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
 import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
+import OptionalFields from 'pages/OrderPage/OptionalFields'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
@@ -28,7 +29,6 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form'
-import { UseFormRegister } from 'react-hook-form/dist/types/form'
 import { Trans, useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
@@ -38,7 +38,7 @@ import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 
-import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
+import { Button, CheckboxField, Icon, InputField } from '../../components'
 import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
 import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
@@ -70,51 +70,6 @@ export interface OrderFormData {
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
-
-const OrderPageOptionalFields = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<OrderFormData>
-  errors: FieldErrors<OrderFormData>
-}) => {
-  const { t } = useTranslation()
-
-  return (
-    <>
-      <Tooltip multiline={true} id="tooltip-customer-form" />
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <InputField
-          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
-          name="age"
-          register={register}
-          // TODO The t function should be used individually on each key
-          error={errors.age?.message ? t(errors.age?.message) : undefined}
-          type="number"
-          valueAsNumber={true}
-          label={
-            <>
-              <span className="text-base font-semibold">{t('buy-page.age')}</span>
-              <span className="text-base">{t('buy-page.optional')}</span>
-            </>
-          }
-        />
-        <InputField
-          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
-          name="zip"
-          register={register}
-          error={errors.zip?.message}
-          label={
-            <>
-              <span className="text-base font-semibold">{t('buy-page.zip')}</span>
-              <span className="text-base">{t('buy-page.optional')}</span>
-            </>
-          }
-        />
-      </div>
-    </>
-  )
-}
 
 const OrderPagePeopleList = ({
   errors,
@@ -762,7 +717,13 @@ const OrderPage = () => {
             />
             {ticketTypesWithAdditionalProperties.some(
               (ticketType) => ticketType.hasOptionalFields,
-            ) && <OrderPageOptionalFields register={register} errors={errors} />}
+            ) && (
+              <OptionalFields
+                register={register}
+                errorMessageZip={errors.zip?.message}
+                errorMessageAge={errors.age?.message}
+              />
+            )}
             {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
               <>
                 <div className="mt-2">
