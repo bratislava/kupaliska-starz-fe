@@ -2,12 +2,12 @@ import './OrderPage.css'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError } from 'axios'
-import { ROUTES } from 'helpers/constants'
 import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
+import Agreements from 'pages/OrderPage/Agreements'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
 import DiscountCode from 'pages/OrderPage/DiscountCode'
 import EmailField from 'pages/OrderPage/EmailField'
@@ -18,16 +18,15 @@ import SwimmersSelection from 'pages/OrderPage/SwimmersSelection'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
-import { Link } from 'react-router'
 import Turnstile from 'react-turnstile'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 
-import { CheckboxField, Icon } from '../../components'
+import { Icon } from '../../components'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
 import { environment } from '../../environment'
 import { useErrorToast } from '../../hooks/useErrorToast'
@@ -379,42 +378,14 @@ const OrderPage = () => {
 
             <Divider />
 
-            <CheckboxField
+            <Agreements
+              isSeniorOrDisabledTicket={ticketTypesWithAdditionalProperties.some(
+                (ticketType) => ticketType.isSeniorOrDisabledTicket,
+              )}
               register={register}
-              name="agreement"
-              error={errorAgreementInterpreted}
-              label={
-                <span>
-                  <Trans
-                    i18nKey="buy-page.agreements"
-                    components={{
-                      VopLink: (
-                        <Link to={ROUTES.VOP} target="_blank" className="link text-primary" />
-                      ),
-                      GdprLink: (
-                        <Link to={ROUTES.GDPR} target="_blank" className="link text-primary" />
-                      ),
-                    }}
-                  />
-                </span>
-              }
+              errorAgreementInterpreted={errorAgreementInterpreted}
+              errorSeniorAgreementInterpreted={errorSeniorAgreementInterpreted}
             />
-            {ticketTypesWithAdditionalProperties.some(
-              (ticketType) => ticketType.isSeniorOrDisabledTicket,
-            ) && (
-              <>
-                <CheckboxField
-                  className="my-4"
-                  register={register}
-                  name="seniorOrDisabledAgreement"
-                  error={errorSeniorAgreementInterpreted}
-                  label={<span>{t('buy-page.senior-disabled-agreement')}</span>}
-                />
-                <div className="flex flex-col gap-2 italic">
-                  <span>{t('buy-page.senior-disabled-note')}</span>
-                </div>
-              </>
-            )}
 
             <Divider />
 
