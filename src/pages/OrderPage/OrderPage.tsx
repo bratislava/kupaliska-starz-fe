@@ -14,14 +14,14 @@ import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
 import Price from 'pages/OrderPage/Price'
+import RecaptchaField from 'pages/OrderPage/RecaptchaField'
 import SwimmersSelection from 'pages/OrderPage/SwimmersSelection'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { useCallback, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
-import Turnstile from 'react-turnstile'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
@@ -398,50 +398,13 @@ const OrderPage = () => {
               discountCodeValue={getValues('discountCode')}
             />
           </div>
-          <div>
-            <Controller
-              name="recaptchaToken"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <>
-                  <Turnstile
-                    theme="light"
-                    key={captchaKey}
-                    refreshExpired={'auto'}
-                    sitekey={environment.turnstileSiteKey ?? ''}
-                    onVerify={(token) => {
-                      setCaptchaWarning('hide')
-                      onChange(token)
-                    }}
-                    onError={(error) => {
-                      // logger.error("Turnstile error:", error);
-                      setCaptchaWarning('show')
-
-                      return onChange(null)
-                    }}
-                    onTimeout={() => {
-                      // logger.error("Turnstile timeout");
-                      setCaptchaWarning('show')
-                      onChange(null)
-                    }}
-                    onExpire={() => {
-                      // logger.warn("Turnstile expire - should refresh automatically");
-                      onChange(null)
-                    }}
-                    className="flex justify-center self-center"
-                  />
-                  {errors.recaptchaToken && (
-                    <p className="text-p3 mt-1 text-error">
-                      {t('landing.captcha-warning-required')}
-                    </p>
-                  )}
-                  {captchaWarning === 'show' && (
-                    <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
-                  )}
-                </>
-              )}
-            />
-          </div>
+          <RecaptchaField
+            control={control}
+            captchaKey={captchaKey}
+            captchaWarning={captchaWarning}
+            setCaptchaWarning={setCaptchaWarning}
+            recaptchaTokenError={errors.recaptchaToken}
+          />
           <div>
             {/* Desktop */}
             <div className="hidden flex-col gap-y-3 md:flex">
