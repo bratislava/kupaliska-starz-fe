@@ -41,7 +41,7 @@ import { orderFormToRequests } from './formDataToRequests'
 import { useOrder } from './useOrder'
 import { useOrderPageTicket } from './useOrderPageTicket'
 
-type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
+export type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
 
 export interface OrderFormData {
   email?: string

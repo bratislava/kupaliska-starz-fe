@@ -1,6 +1,6 @@
 import { CheckboxField } from 'components'
-import DiscountCodeInput, { CaptchaWarningStatus } from 'pages/OrderPage/DiscountCodeInput'
-import { OrderFormData } from 'pages/OrderPage/OrderPage'
+import DiscountCodeInput from 'pages/OrderPage/DiscountCodeInput'
+import { CaptchaWarningStatus, OrderFormData } from 'pages/OrderPage/OrderPage'
 import { ChangeEvent, useState } from 'react'
 import { FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

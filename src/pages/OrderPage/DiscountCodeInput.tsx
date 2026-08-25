@@ -2,7 +2,7 @@ import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
 import { Button, Icon, InputField } from 'components'
 import { useErrorToast } from 'hooks/useErrorToast'
-import { OrderFormData } from 'pages/OrderPage/OrderPage'
+import { CaptchaWarningStatus, OrderFormData } from 'pages/OrderPage/OrderPage'
 import { useState } from 'react'
 import { FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -18,8 +18,6 @@ interface DiscountCodeInputProps {
   recaptchaTokenError?: FieldErrors
   recaptchaTokenValue?: string
 }
-// move this
-export type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
 
 enum DiscountCodeInputStatus {
   None = 'None',
