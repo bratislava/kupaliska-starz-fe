@@ -16,7 +16,7 @@ export const ChildrenConfirmationModal = ({
 
   return (
     <Dialog
-      title={'Potvrdenie deti'}
+      title={t('tickets.childrenConfirmationModalTitle')}
       open={true}
       footerButton={
         <Button
@@ -26,13 +26,13 @@ export const ChildrenConfirmationModal = ({
             }
           }}
         >
-          {t('tickets.childrenConirmationModalTextConfirmation')}
+          {t('tickets.childrenConfirmationModalTextConfirmation')}
         </Button>
       }
       className="max-w-[800px]"
       onClose={onClose}
     >
-      <div className="flex flex-col gap-12">{t('tickets.childrenConirmationModalText')}</div>
+      <div className="flex flex-col gap-12">{t('tickets.childrenConfirmationModalText')}</div>
     </Dialog>
   )
 }
