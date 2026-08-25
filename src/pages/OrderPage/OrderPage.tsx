@@ -235,11 +235,11 @@ const OrderPage = () => {
       return getPrice(getPriceRequest, status, signal)
     },
     {
-      onError: (err) => {
+      onError: (err: AxiosError<ErrorWithMessages>) => {
         // TODO errors everywhere, refactor
         logger.error(`OrderPage "getPrice" Request error: ${err}`)
 
-        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+        dispatchErrorToastForHttpRequest(err)
       },
       enabled: purchaseAmountInLimit,
       retry: false,
