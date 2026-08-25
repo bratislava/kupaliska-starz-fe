@@ -17,7 +17,7 @@ import { fetchUser } from 'store/user/api'
 import { OrderFormData } from './OrderPage'
 import { OrderPageTicket } from './useOrderPageTicket'
 
-interface SwimmersListProps {
+export interface SwimmersListProps {
   errorsTicketTypeData?: FieldErrors<CartItem>[]
   // TODO make incoming setValue more specific then UseFormSetValue<OrderFormData>
   // setValue is only used to set "ticketTypesData" so something like UseFormSetValue<CartItem[]>

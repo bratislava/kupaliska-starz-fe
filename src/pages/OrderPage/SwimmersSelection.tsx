@@ -3,33 +3,23 @@ import { Icon } from 'components'
 import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/general'
 import { CartItem } from 'models'
 import { GetPriceRequest, OrderRequestBody } from 'pages/OrderPage/formDataToRequests'
-import { OrderFormData } from 'pages/OrderPage/OrderPage'
-import SwimmersList from 'pages/OrderPage/SwimmersList'
-import { OrderPageTicket } from 'pages/OrderPage/useOrderPageTicket'
-import { FieldErrors, UseFormSetValue } from 'react-hook-form'
+import SwimmersList, { SwimmersListProps } from 'pages/OrderPage/SwimmersList'
 import { Trans, useTranslation } from 'react-i18next'
 
-interface SwimmersSelectionProps {
-  setValue: UseFormSetValue<OrderFormData>
+interface SwimmersSelectionProps extends SwimmersListProps {
   ticketTypesData: CartItem[]
   getRequestsFromFormData: () => {
     getPriceRequest: GetPriceRequest
     orderRequest: OrderRequestBody
   }
-  ticketTypesWithAdditionalProperties: OrderPageTicket[]
-  displayMissingInformationWarning: boolean
   errorsPriceQuery: unknown
-  errorsTicketTypeData?: FieldErrors<CartItem>[]
 }
 
 const SwimmersSelection = ({
-  setValue,
   ticketTypesData,
   getRequestsFromFormData,
-  ticketTypesWithAdditionalProperties,
-  displayMissingInformationWarning,
   errorsPriceQuery,
-  errorsTicketTypeData,
+  ...rest
 }: SwimmersSelectionProps) => {
   const { t } = useTranslation()
 
@@ -73,13 +63,7 @@ const SwimmersSelection = ({
             <div>{t('buy-page.min-one-person')}</div>
           </div>
         )}
-      <SwimmersList
-        setValue={setValue}
-        ticketTypesData={ticketTypesData}
-        displayMissingInformationWarning={displayMissingInformationWarning}
-        ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
-        errorsTicketTypeData={errorsTicketTypeData}
-      />
+      <SwimmersList {...rest} ticketTypesData={ticketTypesData} />
     </>
   )
 }
