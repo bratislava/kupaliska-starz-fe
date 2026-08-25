@@ -17,6 +17,7 @@ import DiscountCode from 'pages/OrderPage/DiscountCode'
 import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
+import Price from 'pages/OrderPage/Price'
 import SwimmersList from 'pages/OrderPage/SwimmersList'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { useCallback, useState } from 'react'
@@ -33,9 +34,8 @@ import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 import { CheckboxField, Icon } from '../../components'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
 import { environment } from '../../environment'
-import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
-import { CartItem, GetPriceResponse } from '../../models'
+import { CartItem } from '../../models'
 import { DiscountCodeResponse, getPrice } from '../../store/order/api'
 import { orderFormToRequests } from './formDataToRequests'
 import { useOrder } from './useOrder'
@@ -133,27 +133,6 @@ const validationSchema = yup.object({
     }),
   recaptchaToken: yup.string().required('landing.captcha-warning-required'),
 })
-
-const OrderPagePrice = ({ pricing }: { pricing: GetPriceResponse['data']['pricing'] }) => {
-  const fullPrice =
-    pricing.discount > 0 ? (
-      <div className="strikethrough-diagonal mr-2 inline-block">
-        <FormatCurrencyFromCents value={pricing.orderPriceWithVat + pricing.discount} />
-      </div>
-    ) : null
-  const orderPrice = (
-    <div className="inline-block">
-      <FormatCurrencyFromCents value={pricing.orderPriceWithVat} />
-    </div>
-  )
-
-  return (
-    <>
-      {fullPrice}
-      {orderPrice}
-    </>
-  )
-}
 
 const OrderPage = () => {
   const { ticketTypesWithAdditionalProperties, orderData } = useOrderPageTicket()
@@ -576,9 +555,7 @@ const OrderPage = () => {
                   {priceQuery.isFetching ? (
                     <Skeleton />
                   ) : (
-                    priceQuery.isSuccess && (
-                      <OrderPagePrice pricing={priceQuery.data?.data.data.pricing} />
-                    )
+                    priceQuery.isSuccess && <Price pricing={priceQuery.data.data.data.pricing} />
                   )}
                 </SkeletonTheme>
               </span>
