@@ -13,20 +13,14 @@ import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
-import DiscountCodeInput from 'pages/OrderPage/DiscountCodeInput'
+import DiscountCode from 'pages/OrderPage/DiscountCode'
 import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
 import SwimmersList from 'pages/OrderPage/SwimmersList'
 import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
-import { ChangeEvent, useCallback, useState } from 'react'
-import {
-  Controller,
-  FieldErrors,
-  useForm,
-  UseFormGetValues,
-  UseFormSetValue,
-} from 'react-hook-form'
+import { useCallback, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
@@ -63,55 +57,6 @@ export interface OrderFormData {
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
-
-const OrderPageDiscountCode = ({
-  setValue,
-  getValues,
-  incrementCaptchaKey,
-  errors,
-  setCaptchaWarning,
-  captchaWarning,
-}: {
-  setValue: UseFormSetValue<OrderFormData>
-  getValues: UseFormGetValues<OrderFormData>
-  incrementCaptchaKey: () => void
-  errors: FieldErrors<OrderFormData>
-  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
-  captchaWarning: CaptchaWarningStatus
-}) => {
-  const [useDiscountCode, setUseDiscountCode] = useState(false)
-
-  const { t } = useTranslation()
-
-  const handleUseDiscountCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target
-    setUseDiscountCode(checked)
-    if (!checked && getValues('discountCode') != null) {
-      setValue('discountCode', null)
-    }
-  }
-
-  return (
-    <div className="flex flex-col gap-y-6">
-      <CheckboxField
-        valueOfInput={useDiscountCode}
-        onChange={handleUseDiscountCodeChange}
-        label={t('buy-page.claim-code')}
-      />
-      {useDiscountCode && (
-        <DiscountCodeInput
-          captchaWarning={captchaWarning}
-          setCaptchaWarning={setCaptchaWarning}
-          recaptchaTokenValue={getValues('recaptchaToken')}
-          discountCodeValue={getValues('discountCode')}
-          setValue={setValue}
-          incrementCaptchaKey={incrementCaptchaKey}
-          recaptchaTokenError={errors.recaptchaToken}
-        />
-      )}
-    </div>
-  )
-}
 
 const validationSchema = yup.object({
   email: yup.string().when('$requireEmail', (requireEmail: boolean, schema: StringSchema) => {
@@ -534,13 +479,13 @@ const OrderPage = () => {
 
             <Divider />
 
-            <OrderPageDiscountCode
-              setCaptchaWarning={setCaptchaWarning}
+            <DiscountCode
               setValue={setValue}
-              getValues={getValues}
               incrementCaptchaKey={incrementCaptchaKey}
-              errors={errors}
+              setCaptchaWarning={setCaptchaWarning}
               captchaWarning={captchaWarning}
+              recaptchaTokenError={errors.recaptchaToken}
+              discountCodeValue={getValues('discountCode')}
             />
           </div>
           <div>
