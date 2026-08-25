@@ -1,7 +1,7 @@
 import { FormatCurrencyFromCents } from 'helpers/currencyFormatter'
 import { GetPriceResponse } from 'models'
 
-interface PriceProps {
+export interface PriceProps {
   pricing: GetPriceResponse['data']['pricing']
 }
 

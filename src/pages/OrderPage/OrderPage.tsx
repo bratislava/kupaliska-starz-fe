@@ -13,20 +13,17 @@ import DiscountCode from 'pages/OrderPage/DiscountCode'
 import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
-import Price from 'pages/OrderPage/Price'
 import RecaptchaField from 'pages/OrderPage/RecaptchaField'
+import Summary from 'pages/OrderPage/Summary'
 import SwimmersSelection from 'pages/OrderPage/SwimmersSelection'
-import TicketTypesDetail from 'pages/OrderPage/TicketTypesDetail'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 
-import { Icon } from '../../components'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
 import { environment } from '../../environment'
 import { useErrorToast } from '../../hooks/useErrorToast'
@@ -416,50 +413,19 @@ const OrderPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-4 lg:gap-y-6">
-          <span className="text-2xl font-semibold md:text-3xl">{t('buy-page.summary')}</span>
-          <TicketTypesDetail
-            ticketTypesData={ticketTypesData}
-            isFetching={priceQuery.isFetching}
-            isSuccess={priceQuery.isSuccess}
-            ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
-            adultCount={childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined}
-            childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
-            setValue={setValue}
-            setTicketAmountOfTicketType={setTicketAmountOfTicketType}
-          />
-          {!withinMaxTicketAmountLimit && (
-            <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
-              <Icon name="alert" className="no-fill text-error" />
-              {t('common.max-ticket-purchase-limit', {
-                maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
-              })}
-            </div>
-          )}
-          <div className="flex flex-row rounded-lg border-divider bg-blueish p-4 text-fontBlack lg:items-center lg:px-8">
-            <span className="grow font-semibold">{t('price-total')}</span>
-            <div className="flex items-center justify-between gap-x-6">
-              <span className="grow font-semibold lg:w-[115px] lg:text-right lg:text-xl">
-                <SkeletonTheme
-                  baseColor="#a8dbf2"
-                  highlightColor="#58bbe6"
-                  duration={1}
-                  width={40}
-                  height={28}
-                >
-                  {priceQuery.isFetching ? (
-                    <Skeleton />
-                  ) : (
-                    priceQuery.isSuccess && <Price pricing={priceQuery.data.data.data.pricing} />
-                  )}
-                </SkeletonTheme>
-              </span>
-            </div>
-          </div>
-          <div className="text-gray color-fontBlack">
-            <p>{t('common.additional-info-toddlers')}</p>
-          </div>
-        </div>
+        <Summary
+          ticketTypesData={ticketTypesData}
+          isFetching={priceQuery.isFetching}
+          isSuccess={priceQuery.isSuccess}
+          ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
+          adultCount={childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined}
+          childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
+          setValue={setValue}
+          setTicketAmountOfTicketType={setTicketAmountOfTicketType}
+          withinMaxTicketAmountLimit={withinMaxTicketAmountLimit}
+          maxTicketPurchaseLimit={environment.maxTicketPurchaseLimit}
+          pricing={priceQuery.data?.data.data.pricing}
+        />
         {/* Mobile */}
         <div className="mt-6 md:mt-8 md:hidden">
           <MobilePaymentButtons isDisabled={isDisabled} onSubmit={onSubmitInner} price={price} />

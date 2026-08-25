@@ -4,7 +4,7 @@ import { OrderFormData } from 'pages/OrderPage/OrderPage'
 import { OrderPageTicket } from 'pages/OrderPage/useOrderPageTicket'
 import { UseFormSetValue } from 'react-hook-form'
 
-interface TicketTypesDetailProps {
+export interface TicketTypesDetailProps {
   ticketTypesData: CartItem[]
   isFetching: boolean
   isSuccess: boolean
