@@ -1,31 +1,30 @@
-import TicketTypeDetail from 'components/TicketTypeDetail/TicketTypeDetail'
+import TicketTypeDetail, {
+  TicketTypeDetailProps,
+} from 'components/TicketTypeDetail/TicketTypeDetail'
 import { CartItem } from 'models/order'
 import { OrderFormData } from 'pages/OrderPage/OrderPage'
 import { OrderPageTicket } from 'pages/OrderPage/useOrderPageTicket'
 import { UseFormSetValue } from 'react-hook-form'
 
-export interface TicketTypesDetailProps {
+export interface TicketTypesDetailProps extends Omit<
+  TicketTypeDetailProps,
+  'ticketType' | 'hasTicketAmount' | 'setTicketAmount' | 'handleTicketTypeRemove' | 'ticketAmount'
+> {
   ticketTypesData: CartItem[]
-  isFetching: boolean
-  isSuccess: boolean
   ticketTypesWithAdditionalProperties: OrderPageTicket[]
-  adultCount?: number
-  childrenCount?: number
   setValue: UseFormSetValue<OrderFormData>
   setTicketAmountOfTicketType: (ticketAmount: number, cartItem: CartItem) => void
 }
+
 const TicketTypesDetail = ({
   ticketTypesData,
-  isFetching,
-  isSuccess,
   ticketTypesWithAdditionalProperties,
-  adultCount,
-  childrenCount,
   setValue,
   setTicketAmountOfTicketType,
+  ...rest
 }: TicketTypesDetailProps) => {
   return ticketTypesData.map((ticketTypeData) => {
-    const ticketAmount = ticketTypeData.ticketAmount
+    const { ticketType, ticketAmount } = ticketTypeData
 
     const handleTicketTypeRemove =
       ticketTypesData.length > 1
@@ -36,8 +35,7 @@ const TicketTypesDetail = ({
             setValue(
               'ticketTypesData',
               ticketTypesData.filter(
-                (ticketTypeDataInner) =>
-                  ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id,
+                (ticketTypeDataInner) => ticketTypeDataInner.ticketType.id !== ticketType.id,
               ),
             )
           }
@@ -45,20 +43,17 @@ const TicketTypesDetail = ({
 
     return (
       <TicketTypeDetail
-        key={ticketTypeData.ticketType.id}
+        key={ticketType.id}
+        {...rest}
         ticketAmount={ticketAmount}
-        ticketType={ticketTypeData.ticketType}
+        ticketType={ticketType}
         hasTicketAmount={
           ticketTypesWithAdditionalProperties.find(
-            (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+            (ticketTypeAdditional) => ticketTypeAdditional.ticketType.id === ticketType.id,
           )?.hasTicketAmount ?? false
         }
         handleTicketTypeRemove={handleTicketTypeRemove}
         setTicketAmount={(value: number) => setTicketAmountOfTicketType(value, ticketTypeData)}
-        isFetching={isFetching}
-        isSuccess={isSuccess}
-        adultCount={adultCount}
-        childrenCount={childrenCount}
       />
     )
   })

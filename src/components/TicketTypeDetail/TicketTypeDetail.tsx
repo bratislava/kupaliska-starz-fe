@@ -11,14 +11,14 @@ import {
   useCurrencyFromCentsFormatter,
 } from '../../helpers/currencyFormatter'
 
-interface TicketTypeDetailProps {
+export interface TicketTypeDetailProps {
   ticketType: TicketType
   hasTicketAmount: boolean
-  ticketAmount?: number
-  handleTicketTypeRemove?: () => void
   setTicketAmount: (ticketAmount: number) => void
   isFetching: boolean
   isSuccess: boolean
+  handleTicketTypeRemove?: () => void
+  ticketAmount?: number
   adultCount?: number
   childrenCount?: number
 }
@@ -26,11 +26,11 @@ interface TicketTypeDetailProps {
 const TicketTypeDetail = ({
   ticketType,
   hasTicketAmount,
-  ticketAmount,
-  handleTicketTypeRemove,
   setTicketAmount,
   isFetching,
   isSuccess,
+  handleTicketTypeRemove,
+  ticketAmount,
   childrenCount,
   adultCount,
 }: TicketTypeDetailProps) => {
