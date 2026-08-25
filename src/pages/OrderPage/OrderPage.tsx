@@ -1,8 +1,7 @@
 import './OrderPage.css'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import to from 'await-to-js'
-import { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 import { ROUTES } from 'helpers/constants'
 import {
   ErrorWithMessages,
@@ -14,6 +13,7 @@ import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
+import DiscountCodeInput from 'pages/OrderPage/DiscountCodeInput'
 import EmailField from 'pages/OrderPage/EmailField'
 import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
 import OptionalFields from 'pages/OrderPage/OptionalFields'
@@ -32,17 +32,17 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router'
 import Turnstile from 'react-turnstile'
-import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
+import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 
-import { Button, CheckboxField, Icon, InputField } from '../../components'
+import { CheckboxField, Icon } from '../../components'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
 import { environment } from '../../environment'
 import { FormatCurrencyFromCents } from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
 import { CartItem, GetPriceResponse } from '../../models'
-import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
+import { DiscountCodeResponse, getPrice } from '../../store/order/api'
 import { orderFormToRequests } from './formDataToRequests'
 import { useOrder } from './useOrder'
 import { useOrderPageTicket } from './useOrderPageTicket'
@@ -99,104 +99,15 @@ const OrderPageDiscountCode = ({
         label={t('buy-page.claim-code')}
       />
       {useDiscountCode && (
-        <OrderPageDiscountCodeInput
+        <DiscountCodeInput
           captchaWarning={captchaWarning}
           setCaptchaWarning={setCaptchaWarning}
+          recaptchaTokenValue={getValues('recaptchaToken')}
+          discountCodeValue={getValues('discountCode')}
           setValue={setValue}
-          getValues={getValues}
           incrementCaptchaKey={incrementCaptchaKey}
-          errors={errors}
+          recaptchaTokenError={errors.recaptchaToken}
         />
-      )}
-    </div>
-  )
-}
-
-enum OrderPageDiscountCodeInputStatus {
-  None,
-  Success,
-  Error,
-}
-
-const OrderPageDiscountCodeInput = ({
-  setValue,
-  getValues,
-  incrementCaptchaKey,
-  errors,
-  captchaWarning,
-  setCaptchaWarning,
-}: {
-  setValue: UseFormSetValue<OrderFormData>
-  getValues: UseFormGetValues<OrderFormData>
-  incrementCaptchaKey: () => void
-  errors: FieldErrors<OrderFormData>
-  captchaWarning: CaptchaWarningStatus
-  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
-}) => {
-  const { t } = useTranslation()
-
-  const { dispatchErrorToast } = useErrorToast()
-  const isMounted = useIsMounted()
-
-  const [discountCode, setDiscountCode] = useState('')
-  const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None)
-
-  const handleApply = async () => {
-    if (getValues('discountCode') != null) {
-      setValue('discountCode', null)
-    }
-    if (!getValues('recaptchaToken')) {
-      setCaptchaWarning('show')
-
-      return
-    }
-    setStatus(OrderPageDiscountCodeInputStatus.None)
-
-    incrementCaptchaKey()
-    const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
-      checkDiscountCode(discountCode, getValues('recaptchaToken') ?? ''),
-    )
-    if (!isMounted()) {
-      return
-    }
-    if (response) {
-      setValue('discountCode', response.data.discountCode)
-      setStatus(OrderPageDiscountCodeInputStatus.Success)
-
-      return
-    }
-    const errorStatus = error?.response?.status
-    if (errorStatus === 404 || errorStatus === 400) {
-      setStatus(OrderPageDiscountCodeInputStatus.Error)
-    } else {
-      dispatchErrorToast()
-    }
-  }
-
-  return (
-    <div>
-      <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-y-0">
-        {/* TODO doesn't look good on desktop when error is present */}
-        <InputField
-          value={discountCode}
-          onChange={(event) => setDiscountCode(event.target.value)}
-          error={
-            status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
-          }
-          inputWrapperClassName="lg:w-full"
-          placeholder={t('buy-page.enter-code')}
-        />
-        <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
-          {t('buy-page.claim')}
-        </Button>
-        {status === OrderPageDiscountCodeInputStatus.Success ? (
-          <Icon name="checkmark" className="text-success" />
-        ) : null}
-      </div>
-      {(captchaWarning === 'show' || errors.recaptchaToken) && (
-        <p className="text-p3 mt-1 text-error">
-          {t('landing.captcha-warning-required-and-reapply')}
-        </p>
       )}
     </div>
   )

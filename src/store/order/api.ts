@@ -64,8 +64,14 @@ export async function getFinalOrder(orderId: string, accessToken: string) {
   )
 }
 
+export interface DiscountCode {
+  code: string
+  amount: number
+  ticketTypeIds: string[]
+}
+
 export interface DiscountCodeResponse {
-  discountCode: { code: string; amount: number; ticketTypeIds: string[] }
+  discountCode: DiscountCode
 }
 
 export async function checkDiscountCode(discountCode: string, recaptchaToken: string) {
