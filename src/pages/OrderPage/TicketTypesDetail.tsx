@@ -1,14 +1,13 @@
-import { AxiosResponse } from 'axios'
 import TicketTypeDetail from 'components/TicketTypeDetail/TicketTypeDetail'
-import { CartItem, GetPriceResponse } from 'models/order'
+import { CartItem } from 'models/order'
 import { OrderFormData } from 'pages/OrderPage/OrderPage'
 import { OrderPageTicket } from 'pages/OrderPage/useOrderPageTicket'
 import { UseFormSetValue } from 'react-hook-form'
-import { UseQueryResult } from 'react-query'
 
 interface TicketTypesDetailProps {
   ticketTypesData: CartItem[]
-  priceQuery: UseQueryResult<AxiosResponse<GetPriceResponse>>
+  isFetching: boolean
+  isSuccess: boolean
   ticketTypesWithAdditionalProperties: OrderPageTicket[]
   adultCount?: number
   childrenCount?: number
@@ -17,7 +16,8 @@ interface TicketTypesDetailProps {
 }
 const TicketTypesDetail = ({
   ticketTypesData,
-  priceQuery,
+  isFetching,
+  isSuccess,
   ticketTypesWithAdditionalProperties,
   adultCount,
   childrenCount,
@@ -55,8 +55,8 @@ const TicketTypesDetail = ({
         }
         handleTicketTypeRemove={handleTicketTypeRemove}
         setTicketAmount={(value: number) => setTicketAmountOfTicketType(value, ticketTypeData)}
-        isFetching={priceQuery.isFetching}
-        isSuccess={priceQuery.isSuccess}
+        isFetching={isFetching}
+        isSuccess={isSuccess}
         adultCount={adultCount}
         childrenCount={childrenCount}
       />

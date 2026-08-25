@@ -420,7 +420,8 @@ const OrderPage = () => {
           <span className="text-2xl font-semibold md:text-3xl">{t('buy-page.summary')}</span>
           <TicketTypesDetail
             ticketTypesData={ticketTypesData}
-            priceQuery={priceQuery}
+            isFetching={priceQuery.isFetching}
+            isSuccess={priceQuery.isSuccess}
             ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
             adultCount={childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined}
             childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
