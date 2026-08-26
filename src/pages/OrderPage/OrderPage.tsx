@@ -270,7 +270,7 @@ const OrderPage = () => {
     ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) &&
     selectedSwimmerIds.includes(null)
 
-  const watchSelectedSwimmerIds = watch('ticketTypesData')
+  const watchSelectedSwimmerIds = ticketTypesData
     .map((formValueTicketTypeData) => formValueTicketTypeData.selectedSwimmerIds)
     .flat() as (string | null)[]
 
