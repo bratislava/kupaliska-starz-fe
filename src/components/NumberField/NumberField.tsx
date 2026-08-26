@@ -1,12 +1,13 @@
+import { Button } from '@bratislava/component-library'
 import { Icon } from 'components'
 import { forwardRef, Ref } from 'react'
 import { Input as RACInput } from 'react-aria-components/Input'
 import {
-  Button,
   Group as RACGroup,
   NumberField as RACNumberField,
   NumberFieldProps as RACNumberFieldProps,
 } from 'react-aria-components/NumberField'
+import { useTranslation } from 'react-i18next'
 import cn from 'utils/cn'
 
 /**
@@ -14,6 +15,8 @@ import cn from 'utils/cn'
  */
 
 const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement>) => {
+  const { t } = useTranslation()
+
   return (
     <RACNumberField
       {...rest}
@@ -23,24 +26,39 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
       <RACGroup
         // implement 'isDisabled' styles when design is ready
         className={({ isFocusWithin, isInvalid }) =>
-          cn('flex w-full overflow-hidden rounded-lg border-2 bg-white', {
+          cn('flex w-full rounded-lg border-2 bg-primary', {
             'border-border-active-default': !isInvalid && !isFocusWithin,
             'border-border-active-focused': !isInvalid && isFocusWithin,
           })
         }
       >
         {/* implement 'isDisabled' styles when design is ready */}
-        <Button slot="decrement" className="bg-primary px-4 py-3">
-          <Icon name="minus" color="white" />
-        </Button>
+        <Button
+          slot="decrement"
+          icon={<Icon name="minus" color="white" />}
+          className={cn('bg-primary px-4 py-3', {
+            // next line styles is achieving larger clickable area then it visibly appears,
+            // variant "icon-wrapped-negative-margin" was not feasible in this case, it was overflowing the RACGroup
+            "relative rounded-l-lg after:absolute after:-inset-y-2 after:-right-2 after:left-0 after:content-['']": true,
+          })}
+          aria-label={t('common.number-field.decrement')}
+        />
+
         <RACInput
           ref={ref}
           // implement 'isDisabled' styles when design is ready
-          className={cn('min-w-0 px-3 py-2 text-center outline-hidden lg:px-4 lg:py-3')}
+          className={cn('min-w-0 bg-white px-3 py-2 text-center outline-hidden lg:px-4 lg:py-3')}
         />
-        <Button slot="increment" className="bg-primary px-4 py-3">
-          <Icon name="plus" color="white" />
-        </Button>
+        <Button
+          slot="increment"
+          icon={<Icon name="plus" color="white" />}
+          className={cn('bg-primary px-4 py-3', {
+            // next line styles is achieving larger clickable area then it visibly appears,
+            // variant "icon-wrapped-negative-margin" was not feasible in this case, it was overflowing the RACGroup
+            "relative rounded-r-lg after:absolute after:-inset-y-2 after:right-0 after:-left-2 after:content-['']": true,
+          })}
+          aria-label={t('common.number-field.increment')}
+        />
       </RACGroup>
     </RACNumberField>
   )

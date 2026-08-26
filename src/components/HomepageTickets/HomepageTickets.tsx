@@ -178,6 +178,9 @@ const HomepageTickets = () => {
                               <NumberField
                                 key={item.ticketTypeId}
                                 value={item.ticketAmount}
+                                aria-label={t('common.number-field.aria-label', {
+                                  ticketName: ticketType.name,
+                                })}
                                 onChange={(value) => adjustTicketAmountFromCart(value, ticketType)}
                                 minValue={0}
                                 maxValue={99}
