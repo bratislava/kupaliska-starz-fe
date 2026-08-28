@@ -28,19 +28,18 @@ const HomepageHowTo = () => {
     ]
 
     return items.map((item, index) => (
-      <div
-        className="relative inline-flex flex-1 flex-col items-center gap-y-8 rounded-2xl border-2 border-orange bg-sunscreen px-6 pt-16 pb-6"
-        key={item.content}
-      >
-        <div className="absolute -top-8 flex size-16 flex-col items-center justify-center rounded-full bg-orange text-2xl font-semibold text-white">
-          {index + 1}
+      <li key={item.content}>
+        <div className="relative inline-flex flex-1 flex-col items-center gap-y-8 rounded-2xl border-2 border-orange bg-sunscreen px-6 pt-16 pb-6">
+          <div className="absolute -top-8 flex size-16 flex-col items-center justify-center rounded-full bg-orange text-2xl font-semibold text-white">
+            {index + 1}
+          </div>
+          <div className="size-28 pt-1 pb-0.5 pl-0.5">
+            <img className="h-full flex-1" src={item.imgSrc} alt="" />
+          </div>
+          {/* TODO The t function should be used individually on each key */}
+          <p className="w-full text-center text-base/normal text-gray-800">{item.content}</p>
         </div>
-        <div className="size-28 pt-1 pb-0.5 pl-0.5">
-          <img className="h-full flex-1" src={item.imgSrc} alt="" />
-        </div>
-        {/* TODO The t function should be used individually on each key */}
-        <p className="w-full text-center text-base/normal text-gray-800">{item.content}</p>
-      </div>
+      </li>
     ))
   }, [t])
 
@@ -53,10 +52,9 @@ const HomepageHowTo = () => {
       </div>
       <div className="container mx-auto hidden justify-center md:flex">
         <div className="inline-flex flex-col items-center justify-start gap-y-20 bg-sunscreen pt-12 pb-16">
-          {/* TODO this should be a list */}
-          <div className="grid max-w-[1216px] grid-cols-2 justify-start gap-8 lg:grid-cols-4">
+          <ul className="grid max-w-[1216px] grid-cols-2 justify-start gap-8 lg:grid-cols-4">
             {itemsComponents}
-          </div>
+          </ul>
         </div>
       </div>
       {/* Without overflow-y-clip a ghost scrollbar is displayed. */}
