@@ -118,6 +118,7 @@ const Header = () => {
           <Icon name="menu" color="primary" />
         </button>
       </div>
+      {/* TODO redo this */}
       <div
         onClick={() => setOpen(!open)}
         className={`fixed inset-0 ${open ? 'block' : 'hidden'} z-10 bg-fontBlack/30 md:hidden`}
