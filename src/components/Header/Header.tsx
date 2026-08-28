@@ -100,7 +100,7 @@ const Header = () => {
                 {menuItem.icon && <Icon name={menuItem.icon} className={`no-fill ml-2`} />}
                 <NavLink
                   className={cx('px-4', {
-                    'border-r': hasAccount && index === 3,
+                    'border-r': index === 3,
                     'after:absolute': menuItem.icon,
                     'after:inset-0': menuItem.icon,
                   })}
@@ -151,7 +151,7 @@ const Header = () => {
             ))}
             {hasAccount && <Divider />}
             {hasAccount &&
-              menuItemsAuthenticated.map((menuItem, index) => (
+              menuItemsAuthenticated.map((menuItem) => (
                 <NavLink
                   onClick={() => setOpen(false)}
                   key={menuItem.to}
