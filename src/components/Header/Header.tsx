@@ -13,7 +13,7 @@ import { fetchGeneralSettings } from 'store/global/api'
 
 interface MenuItem {
   to: string
-  key: string
+  content: string
   icon?: IconName
   iconActive?: IconName
 }
@@ -38,21 +38,21 @@ const Header = () => {
       ? [
           {
             to: ANCHORS.TICKET_BUY,
-            key: 'header.menu-items.0.text',
+            content: t('header.menu-items.0.text'),
           },
           {
             to: ANCHORS.SWIMMING_POOLS,
-            key: 'header.menu-items.1.text',
+            content: t('header.menu-items.1.text'),
           },
         ]
       : []),
     {
       to: ANCHORS.CONTACT_US,
-      key: 'header.menu-items.2.text',
+      content: t('header.menu-items.2.text'),
     },
     {
       to: ANCHORS.FAQS,
-      key: 'header.menu-items.3.text',
+      content: t('header.menu-items.3.text'),
     },
   ]
 
@@ -60,15 +60,16 @@ const Header = () => {
     {
       to: ROUTES.TICKETS,
       icon: 'tickets-black',
-      key: 'header.menu-items.4.text',
+      content: t('header.menu-items.4.text'),
     },
     {
       to: ROUTES.PROFILE,
       icon: 'profile',
-      key: 'header.menu-items.5.text',
+      content: t('header.menu-items.5.text'),
     },
   ]
 
+  // TODO refactor this
   return (
     <div className="header sticky top-0 z-40 w-full bg-sunscreen py-3 shadow-xs md:py-4">
       <div className="container mx-auto flex justify-between text-fontBlack">
@@ -76,6 +77,7 @@ const Header = () => {
           <Icon name="starz-logo" className="no-fill hidden pr-5 xs:block" height={51} />
         </Link>
         <nav className="hidden flex-1 items-center justify-end md:flex">
+          {/* TODO this should be list */}
           {menuItems.map((menuItem, index) => (
             <div key={menuItem.to} className={cx('flex', { relative: menuItem.icon })}>
               {menuItem.icon && <Icon name={menuItem.icon} className={`no-fill ml-2`} />}
@@ -87,8 +89,7 @@ const Header = () => {
                 })}
                 to={menuItem.to}
               >
-                {/* TODO The t function should be used individually on each key */}
-                {t(menuItem.key)}
+                {menuItem.content}
               </Link>
             </div>
           ))}
@@ -105,7 +106,7 @@ const Header = () => {
                   })}
                   to={menuItem.to}
                 >
-                  {t(menuItem.key)}
+                  {menuItem.content}
                 </NavLink>
               </div>
             ))}
@@ -145,7 +146,7 @@ const Header = () => {
                 className="py-4 font-bold"
                 to={menuItem.to}
               >
-                {t(menuItem.key)}
+                {menuItem.content}
               </Link>
             ))}
             {hasAccount && <Divider />}
@@ -157,7 +158,7 @@ const Header = () => {
                   className="py-4 font-bold"
                   to={menuItem.to}
                 >
-                  {t(menuItem.key)}
+                  {menuItem.content}
                 </NavLink>
               ))}
           </div>
