@@ -1,472 +1,57 @@
 import './OrderPage.css'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import to from 'await-to-js'
-import { AxiosError, AxiosResponse } from 'axios'
-import NumberField from 'components/NumberField/NumberField'
-import { AccountType } from 'helpers/cityAccountDto'
-import { ROUTES } from 'helpers/constants'
-import {
-  ErrorWithMessages,
-  getErrorMessagesFromHttpRequest,
-  useValidationSchemaTranslationIfPresent,
-} from 'helpers/general'
-import { isDefined } from 'helpers/helper'
+import { AxiosError } from 'axios'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
-import {
-  Controller,
-  FieldErrors,
-  useForm,
-  UseFormGetValues,
-  UseFormSetValue,
-  UseFormWatch,
-  useWatch,
-} from 'react-hook-form'
-import { UseFormRegister } from 'react-hook-form/dist/types/form'
-import { Trans, useTranslation } from 'react-i18next'
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import { useQuery, useQueryClient } from 'react-query'
-import { Link } from 'react-router'
-import Turnstile from 'react-turnstile'
-import { useCounter, useIsClient, useIsMounted, useTimeout } from 'usehooks-ts'
+import Agreements from 'pages/OrderPage/Agreements'
+import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
+import DiscountCode from 'pages/OrderPage/DiscountCode'
+import EmailField from 'pages/OrderPage/EmailField'
+import MobilePaymentButtons from 'pages/OrderPage/MobilePaymentButtons'
+import OptionalFields from 'pages/OrderPage/OptionalFields'
+import RecaptchaField from 'pages/OrderPage/RecaptchaField'
+import Summary from 'pages/OrderPage/Summary'
+import SwimmersSelection from 'pages/OrderPage/SwimmersSelection'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 import { BooleanSchema, NumberSchema, StringSchema } from 'yup'
 
-import { Button, CheckboxField, Icon, InputField, Tooltip } from '../../components'
-import AssociatedSwimmerEditAddModal from '../../components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import ChildrenConfirmationModal from '../../components/ChildrenConfirmationModal/ChildrenConfirmationModal'
-import OrderMissingInformationProfileModal from '../../components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
-import OrderPageSwimmersList from '../../components/OrderPage/OrderPageSwimmersList'
 import { environment } from '../../environment'
-import {
-  FormatCurrencyFromCents,
-  useCurrencyFromCentsFormatter,
-} from '../../helpers/currencyFormatter'
 import { useErrorToast } from '../../hooks/useErrorToast'
-import { CheckPriceResponse, TicketType } from '../../models'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
-import { checkDiscountCode, DiscountCodeResponse, getPrice } from '../../store/order/api'
-import { fetchUser } from '../../store/user/api'
+import { CartItem } from '../../models'
+import { DiscountCodeResponse, getPrice } from '../../store/order/api'
 import { orderFormToRequests } from './formDataToRequests'
-import PayButton from './PayButton'
 import { useOrder } from './useOrder'
 import { useOrderPageTicket } from './useOrderPageTicket'
 
-type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
+export type CaptchaWarningStatus = 'loading' | 'show' | 'hide'
+
+export interface OrderFormData {
+  email?: string
+  ticketTypesData: CartItem[]
+  discountCode?: DiscountCodeResponse['discountCode'] | null
+  agreement?: string
+  seniorOrDisabledAgreement?: boolean
+  age?: number
+  zip?: string
+  recaptchaToken?: string
+}
 
 /**
  * Figma: https://www.figma.com/design/7ZleKHCPWbiQKjCV9nU7PW/Starz---Dizajn-2024?node-id=2008-14092
  */
 
-const OrderPageEmail = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<OrderFormData>
-  errors: FieldErrors<OrderFormData>
-}) => {
-  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
-  const { t } = useTranslation()
-  const { data: account } = useAccount()
-
-  // TODO The t function should be used individually on each key
-  const errorInterpreted = useValidationSchemaTranslationIfPresent(errors.email?.message)
-
-  return ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.requireEmail) ? (
-    <InputField
-      className="flex flex-col gap-y-2"
-      name="email"
-      register={register}
-      // TODO redo InputField styles
-      label={<span className="text-base font-semibold">{t('common.email')}</span>}
-      error={errorInterpreted}
-    />
-  ) : (
-    <Trans
-      i18nKey={'buy-page.email-send-to'}
-      components={{ span: <span /> }}
-      values={{ username: account?.email }}
-    />
-  )
-}
-
-const OrderPageOptionalFields = ({
-  register,
-  errors,
-}: {
-  register: UseFormRegister<OrderFormData>
-  errors: FieldErrors<OrderFormData>
-}) => {
-  const { t } = useTranslation()
-
-  return (
-    <>
-      <Tooltip multiline={true} id="tooltip-customer-form" />
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <InputField
-          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
-          name="age"
-          register={register}
-          // TODO The t function should be used individually on each key
-          error={errors.age?.message ? t(errors.age?.message) : undefined}
-          type="number"
-          valueAsNumber={true}
-          label={
-            <>
-              <span className="text-base font-semibold">{t('buy-page.age')}</span>
-              <span className="text-base">{t('buy-page.optional')}</span>
-            </>
-          }
-        />
-        <InputField
-          className="col-span-2 mt-6 flex max-w-formMax flex-col gap-y-2 lg:col-span-1"
-          name="zip"
-          register={register}
-          error={errors.zip?.message}
-          label={
-            <>
-              <span className="text-base font-semibold">{t('buy-page.zip')}</span>
-              <span className="text-base">{t('buy-page.optional')}</span>
-            </>
-          }
-        />
-      </div>
-    </>
-  )
-}
-
-const OrderPagePeopleList = ({
-  errors,
-  watch,
-  setValue,
-}: {
-  errors: FieldErrors<OrderFormData>
-  watch: UseFormWatch<OrderFormData>
-  setValue: UseFormSetValue<OrderFormData>
-}) => {
-  const { ticketTypesWithAdditionalProperties } = useOrderPageTicket()
-  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some(
-    (ticketType) => ticketType.displayMissingInformationWarning,
-  )
-  const [addSwimmerModalOpen, setAddSwimmerModalOpen] = useState(false)
-  const [missingInformationModalOpen, setMissingInformationModalOpen] = useState(false)
-  // each time new swimmer is added we want to preselect them, this tracks the length for which the preselection was done
-  const [swimmerListSizePrefillDone, setSwimmerListSizePrefillDone] = useState(false)
-
-  const associatedSwimmersQuery = useQuery('associatedSwimmers', fetchAssociatedSwimmers)
-  const userQuery = useQuery('user', fetchUser)
-  const { data: account } = useAccount()
-  const { dispatchErrorToast } = useErrorToast()
-  const { t } = useTranslation()
-
-  /* Merges the list of associated swimmers with the logged-in user. */
-  const mergedSwimmers = useMemo(() => {
-    const swimmersWithOwner = []
-    if (userQuery.data && account?.['custom:account_type'] === AccountType.FO) {
-      swimmersWithOwner.push({
-        id: null,
-        age: userQuery.data.data.age,
-        zip: userQuery.data.data.zip,
-        image: userQuery.data.data.image,
-        firstname: account?.given_name as string,
-        lastname: account?.family_name as string,
-        isPhysicalEntity: account?.['custom:account_type'] === AccountType.FO,
-      })
-    }
-    if (associatedSwimmersQuery.data) {
-      swimmersWithOwner.push(...associatedSwimmersQuery.data.data.associatedSwimmers)
-    }
-
-    return swimmersWithOwner
-  }, [
-    account?.family_name,
-    account?.given_name,
-    account?.['custom:account_type'],
-    associatedSwimmersQuery.data,
-    userQuery.data,
-  ])
-
-  // useEffect(() => {
-  //   // initial prefill when we get the list of associated swimmers
-  //   if (!mergedSwimmers?.length || swimmerListSizePrefillDone) return
-  //   setValue(
-  //     'selectedSwimmerIds',
-  //     mergedSwimmers
-  //       .filter(
-  //         (swimmer) =>
-  //           !('isPhysicalEntity' in swimmer) ||
-  //           ('isPhysicalEntity' in swimmer && swimmer.isPhysicalEntity),
-  //       )
-  //       .map((swimmer) => swimmer.id),
-  //   )
-  //   setSwimmerListSizePrefillDone(true)
-  // }, [mergedSwimmers,
-  //   // selectedSwimmerIds,
-  //   setValue,
-  //   swimmerListSizePrefillDone])
-
-  const error = associatedSwimmersQuery.error || userQuery.error
-
-  useEffect(() => {
-    if (error) {
-      dispatchErrorToast()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error])
-  const ticketTypesData = watch('ticketTypesData')
-
-  const handleSelectSwimmer = (
-    swimmerToSelect: Partial<AssociatedSwimmer>,
-    ticketTypeId: string,
-  ) => {
-    // `null` is current user, therefore we don't check for it
-    if (swimmerToSelect.id === undefined) {
-      return
-    }
-    const ticketTypeIndex = ticketTypesData.findIndex(
-      (ticketTypeData) => ticketTypeData.ticketType.id === ticketTypeId,
-    )
-    if (ticketTypeIndex !== -1) {
-      if (ticketTypesData[ticketTypeIndex].selectedSwimmerIds?.includes(swimmerToSelect.id)) {
-        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) =>
-          index === ticketTypeIndex
-            ? {
-                ...ticketTypeData,
-                selectedSwimmerIds: ticketTypeData.selectedSwimmerIds?.filter(
-                  (p) => p !== swimmerToSelect.id,
-                ),
-              }
-            : ticketTypeData,
-        )
-
-        setValue('ticketTypesData', newTicketTypesData)
-      } else {
-        const newSelectedSwimmerIds = [
-          ...(ticketTypesData[ticketTypeIndex].selectedSwimmerIds || []),
-          swimmerToSelect.id,
-        ]
-        const newTicketTypesData = ticketTypesData.map((ticketTypeData, index) =>
-          index === ticketTypeIndex
-            ? {
-                ...ticketTypeData,
-                selectedSwimmerIds: newSelectedSwimmerIds,
-              }
-            : ticketTypeData,
-        )
-
-        setValue('ticketTypesData', newTicketTypesData)
-      }
-    }
-  }
-
-  const shouldDisplayMissingInformationWarning =
-    displayMissingInformationWarning &&
-    ticketTypesData.some((ticketTypeData) => ticketTypeData.selectedSwimmerIds?.includes(null))
-
-  return (
-    <>
-      {missingInformationModalOpen && userQuery.data?.data && (
-        <OrderMissingInformationProfileModal
-          user={userQuery.data.data}
-          onClose={() => setMissingInformationModalOpen(false)}
-        ></OrderMissingInformationProfileModal>
-      )}
-      {addSwimmerModalOpen && (
-        <AssociatedSwimmerEditAddModal
-          onClose={() => setAddSwimmerModalOpen(false)}
-          // good enough for now, we don't allow multiple order with multiple ticketTypes where name is requeired
-          onSaveSuccess={(savedSwimmer) => {
-            ticketTypesWithAdditionalProperties.length > 0 &&
-              handleSelectSwimmer(
-                savedSwimmer,
-                ticketTypesWithAdditionalProperties[0].ticketType.id,
-              )
-          }}
-        ></AssociatedSwimmerEditAddModal>
-      )}
-      {/* TODO errors everywhere, refactor */}
-      {shouldDisplayMissingInformationWarning && (
-        <div className="my-6 flex gap-x-3 rounded-lg bg-error px-5 py-4 text-white">
-          <Icon name="warning" className="no-fill text-white"></Icon>
-          <div>
-            {t('buy-page.missing-photo-dob')}
-            <AriaButton
-              onPress={() => setMissingInformationModalOpen(true)}
-              className="font-semibold underline"
-            >
-              {t('buy-page.fill-required-fields')}
-            </AriaButton>
-          </div>
-        </div>
-      )}
-      {ticketTypesData.map(
-        (ticketTypeData) =>
-          ticketTypeData.selectedSwimmerIds &&
-          mergedSwimmers && (
-            <OrderPageSwimmersList
-              key={ticketTypeData.ticketType.id}
-              selectedSwimmerIds={ticketTypeData.selectedSwimmerIds}
-              swimmers={mergedSwimmers}
-              onSelectSwimmer={(swimmer) =>
-                handleSelectSwimmer(swimmer, ticketTypeData.ticketType.id)
-              }
-              onAddSwimmer={() => setAddSwimmerModalOpen(true)}
-            />
-          ),
-      )}
-
-      <div className="px-2 text-sm text-error">
-        {errors.ticketTypesData
-          ?.map((field) => field.selectedSwimmerIds?.map((field) => field.message))
-          .join('/n')}
-      </div>
-    </>
-  )
-}
-
-const OrderPageDiscountCode = ({
-  setValue,
-  getValues,
-  incrementCaptchaKey,
-  errors,
-  setCaptchaWarning,
-  captchaWarning,
-}: {
-  setValue: UseFormSetValue<OrderFormData>
-  getValues: UseFormGetValues<OrderFormData>
-  incrementCaptchaKey: () => void
-  errors: FieldErrors<OrderFormData>
-  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
-  captchaWarning: CaptchaWarningStatus
-}) => {
-  const [useDiscountCode, setUseDiscountCode] = useState(false)
-
-  const { t } = useTranslation()
-
-  const handleUseDiscountCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target
-    setUseDiscountCode(checked)
-    if (!checked && getValues('discountCode') != null) {
-      setValue('discountCode', null)
-    }
-  }
-
-  return (
-    <div className="flex flex-col gap-y-6">
-      <CheckboxField
-        valueOfInput={useDiscountCode}
-        onChange={handleUseDiscountCodeChange}
-        label={t('buy-page.claim-code')}
-      />
-      {useDiscountCode && (
-        <OrderPageDiscountCodeInput
-          captchaWarning={captchaWarning}
-          setCaptchaWarning={setCaptchaWarning}
-          setValue={setValue}
-          getValues={getValues}
-          incrementCaptchaKey={incrementCaptchaKey}
-          errors={errors}
-        />
-      )}
-    </div>
-  )
-}
-
-enum OrderPageDiscountCodeInputStatus {
-  None,
-  Success,
-  Error,
-}
-
-const OrderPageDiscountCodeInput = ({
-  setValue,
-  getValues,
-  incrementCaptchaKey,
-  errors,
-  captchaWarning,
-  setCaptchaWarning,
-}: {
-  setValue: UseFormSetValue<OrderFormData>
-  getValues: UseFormGetValues<OrderFormData>
-  incrementCaptchaKey: () => void
-  errors: FieldErrors<OrderFormData>
-  captchaWarning: CaptchaWarningStatus
-  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
-}) => {
-  const { t } = useTranslation()
-
-  const { dispatchErrorToast } = useErrorToast()
-  const isMounted = useIsMounted()
-
-  const [discountCode, setDiscountCode] = useState('')
-  const [status, setStatus] = useState(OrderPageDiscountCodeInputStatus.None)
-
-  const handleApply = async () => {
-    if (getValues('discountCode') != null) {
-      setValue('discountCode', null)
-    }
-    if (!getValues('recaptchaToken')) {
-      setCaptchaWarning('show')
-
-      return
-    }
-    setStatus(OrderPageDiscountCodeInputStatus.None)
-
-    incrementCaptchaKey()
-    const [error, response] = await to<AxiosResponse<DiscountCodeResponse>, AxiosError>(
-      checkDiscountCode(discountCode, getValues('recaptchaToken') ?? ''),
-    )
-    if (!isMounted()) {
-      return
-    }
-    if (response) {
-      setValue('discountCode', response.data.discountCode)
-      setStatus(OrderPageDiscountCodeInputStatus.Success)
-
-      return
-    }
-    const errorStatus = error?.response?.status
-    if (errorStatus === 404 || errorStatus === 400) {
-      setStatus(OrderPageDiscountCodeInputStatus.Error)
-    } else {
-      dispatchErrorToast()
-    }
-  }
-
-  return (
-    <div>
-      <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-y-0">
-        {/* TODO doesn't look good on desktop when error is present */}
-        <InputField
-          value={discountCode}
-          onChange={(event) => setDiscountCode(event.target.value)}
-          error={
-            status === OrderPageDiscountCodeInputStatus.Error ? t('buy-page.error-code') : undefined
-          }
-          inputWrapperClassName="lg:w-full"
-          placeholder={t('buy-page.enter-code')}
-        />
-        <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
-          {t('buy-page.claim')}
-        </Button>
-        {status === OrderPageDiscountCodeInputStatus.Success ? (
-          <Icon name="checkmark" className="text-success" />
-        ) : null}
-      </div>
-      {(captchaWarning === 'show' || errors.recaptchaToken) && (
-        <p className="text-p3 mt-1 text-error">
-          {t('landing.captcha-warning-required-and-reapply')}
-        </p>
-      )}
-    </div>
-  )
-}
-
+// TODO use Zod schema from BE anything from this yup schema that is missing in BE zod schema incorporate,
+//  and then use zodResolver ("@hookform/resolvers/zod")
 const validationSchema = yup.object({
   email: yup.string().when('$requireEmail', (requireEmail: boolean, schema: StringSchema) => {
     if (requireEmail) {
@@ -543,133 +128,6 @@ const validationSchema = yup.object({
   recaptchaToken: yup.string().required('landing.captcha-warning-required'),
 })
 
-const OrderPageSummary = ({
-  ticketType,
-  hasTicketAmount,
-  ticketAmount,
-  handleTicketTypeRemove,
-  setTicketAmount,
-}: {
-  ticketType: TicketType
-  hasTicketAmount: boolean
-  ticketAmount?: number
-  handleTicketTypeRemove?: () => void
-  setTicketAmount: (ticketAmount: number) => void
-}) => {
-  const { t } = useTranslation()
-  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
-
-  return (
-    <div className="rounded-lg bg-sunscreen">
-      <div className="p-8">
-        <div className="flex flex-row justify-between">
-          <div className="text-2xl font-semibold">
-            {hasTicketAmount && `${ticketAmount}× `}
-            {ticketType.name}
-          </div>
-          {handleTicketTypeRemove && (
-            <button onClick={handleTicketTypeRemove}>
-              <Icon name="close" />
-            </button>
-          )}
-        </div>
-        {/* {ticketType.childrenAllowed && (
-          <p className="mt-2 font-bold">
-            {priceQuery.isFetching ? (
-              <div style={{ maxWidth: '200px' }}>
-                <Skeleton />
-              </div>
-            ) : (
-              priceQuery.isSuccess && (
-                <OrderPageAdultChildrenCount
-                  pricing={priceQuery.data?.data.data.pricing}
-                  watch={watch}
-                ></OrderPageAdultChildrenCount>
-              )
-            )}
-          </p>
-        )} */}
-        <p className="mt-4">{ticketType.description}</p>
-        {ticketType.childrenAllowed && (
-          <>
-            <br />
-            <p className="font-semibold">
-              {/* TODO pluralizacia */}
-              {t('buy-page.children-discount-children-count-and-price', {
-                childrenMaxNumber: ticketType.childrenMaxNumber,
-                childrenPrice: isDefined(ticketType.childrenPriceWithVat)
-                  ? currencyFromCentsFormatter.format(ticketType.childrenPriceWithVat)
-                  : null,
-              })}
-            </p>
-            <p className="font-semibold">{t('buy-page.children-alert-last-chance')}</p>
-          </>
-        )}
-      </div>
-      <div className="flex items-center justify-between rounded-b-lg bg-blueish p-4 lg:px-8">
-        {hasTicketAmount && (
-          <NumberField
-            value={ticketAmount}
-            onChange={(value) => setTicketAmount(value)}
-            minValue={0}
-            maxValue={99}
-            isWheelDisabled
-            isDisabled={ticketType.isDisabled}
-          />
-        )}
-        <div className="flex flex-nowrap">
-          <span className="font-bold text-fontBlack lg:text-xl">
-            <FormatCurrencyFromCents value={ticketType.priceWithVat} />
-          </span>
-          <span>{t('common.per-ticket')}</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// pricing.numberOfChildren is not available in response, keeping code for later when available
-
-// const OrderPageAdultChildrenCount = ({
-//   pricing,
-//   watch,
-// }: {
-//   pricing: CheckPriceResponse['data']['pricing']
-//   watch: UseFormWatch<OrderFormData>
-// }) => {
-//   const watchSelectedSwimmerIds = watch('selectedSwimmerIds') as (string | null)[]
-//   const { t } = useTranslation()
-
-//   // const adultCount = watchSelectedSwimmerIds.length - pricing.numberOfChildren
-//   // const childrenCount = pricing.numberOfChildren
-
-//   // const adult = adultCount > 0 ? t('buy-page.adult-count', { count: adultCount }) : null
-//   // const children = childrenCount > 0 ? t('buy-page.children-count', { count: childrenCount }) : null
-
-//   return <>({[adult, children].filter(Boolean).join(' + ')})</>
-// }
-
-const OrderPagePrice = ({ pricing }: { pricing: CheckPriceResponse['data']['pricing'] }) => {
-  const fullPrice =
-    pricing.discount > 0 ? (
-      <div className="strikethrough-diagonal mr-2 inline-block">
-        <FormatCurrencyFromCents value={pricing.orderPriceWithVat + pricing.discount} />
-      </div>
-    ) : null
-  const orderPrice = (
-    <div className="inline-block">
-      <FormatCurrencyFromCents value={pricing.orderPriceWithVat} />
-    </div>
-  )
-
-  return (
-    <>
-      {fullPrice}
-      {orderPrice}
-    </>
-  )
-}
-
 const OrderPage = () => {
   const { ticketTypesWithAdditionalProperties, orderData } = useOrderPageTicket()
   const [childrenConfirmationModalOpen, setChildrenConfirmationModalOpen] = useState(false)
@@ -682,7 +140,6 @@ const OrderPage = () => {
   const { status } = useCityAccount()
   const { t } = useTranslation()
   const isClient = useIsClient()
-  const currencyFromCentsFormatter = useCurrencyFromCentsFormatter()
   const { data: account } = useAccount()
 
   const {
@@ -727,6 +184,7 @@ const OrderPage = () => {
     },
   })
   const ticketTypesData = watch('ticketTypesData')
+  const discountCodeData = watch('discountCode')
 
   const selectedSwimmerIds = watch('ticketTypesData')
     .map((ticketTypeData) => ticketTypeData.selectedSwimmerIds)
@@ -740,70 +198,49 @@ const OrderPage = () => {
   const errorSeniorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.seniorOrDisabledAgreement?.message,
   )
+  const { getPriceRequest, orderRequest } = orderFormToRequests({
+    ...getValues(),
+    ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+      const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
+        ticketTypesWithAdditionalProperties.find(
+          (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+        )!
 
-  const watchPriceChange = useWatch({
-    // Those properties are those who trigger possible change of the price.
-    name: ['ticketTypesData', 'discountCode'],
-    control,
+      return {
+        ...ticketTypeData,
+        requireEmail,
+        hasOptionalFields,
+        hasSwimmers,
+        hasTicketAmount,
+      }
+    }),
   })
 
-  const getRequestsFromFormData = useCallback(
-    () =>
-      orderFormToRequests({
-        ...getValues(),
-        ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
-          const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
-            ticketTypesWithAdditionalProperties.find(
-              (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
-            )!
-
-          return {
-            ...ticketTypeData,
-            requireEmail,
-            hasOptionalFields,
-            hasSwimmers,
-            hasTicketAmount,
-          }
-        }),
-      }),
-    [getValues, ticketTypesWithAdditionalProperties],
-  )
-
+  // TODO this should go into schema
   const withinMaxTicketAmountLimit =
-    getRequestsFromFormData().getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
+    getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
-  const purchaseAmountInLimit =
-    getRequestsFromFormData().getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
+  // TODO this should go into schema
+  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
   const priceQuery = useQuery(
-    ['orderPrice', ticketTypesData],
+    ['orderPrice', ticketTypesData, purchaseAmountInLimit, discountCodeData],
     async ({ signal }) => {
-      const { getPriceRequest } = getRequestsFromFormData()
       logger.info(getPriceRequest)
 
       return getPrice(getPriceRequest, status, signal)
     },
     {
-      onError: (err) => {
+      onError: (err: AxiosError<ErrorWithMessages>) => {
         // TODO errors everywhere, refactor
         logger.error(`OrderPage "getPrice" Request error: ${err}`)
 
-        dispatchErrorToastForHttpRequest(err as AxiosError<ErrorWithMessages>)
+        dispatchErrorToastForHttpRequest(err)
       },
       enabled: purchaseAmountInLimit,
       retry: false,
     },
   )
-
-  const queryClient = useQueryClient()
-
-  useEffect(() => {
-    // same as enabled condition of price query
-    if (getRequestsFromFormData().getPriceRequest.tickets.length > 0) {
-      // If the price should change, cancel current queries and fetch a new price.
-      queryClient.refetchQueries([['orderPrice', ticketTypesData]])
-    }
-  }, [watchPriceChange, account, ticketTypesData])
 
   useTimeout(() => {
     if (!isClient || captchaWarning === 'hide') {
@@ -814,7 +251,6 @@ const OrderPage = () => {
 
   const onSubmit = async (paymentMethod: PaymentMethod) => {
     incrementCaptchaKey()
-    const { orderRequest } = getRequestsFromFormData()
     setOrderRequestPending(true)
     logger.info(orderRequest)
     await order(orderRequest, paymentMethod)
@@ -827,119 +263,43 @@ const OrderPage = () => {
     ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.sendDisabled) &&
     selectedSwimmerIds.includes(null)
 
-  const renderPayButton = (paymentMethod: PaymentMethod) => {
-    let text
-    let icon
-    let color: 'black' | 'white-outlined' | 'primary' = 'primary'
+  const watchSelectedSwimmerIds = ticketTypesData
+    .map((formValueTicketTypeData) => formValueTicketTypeData.selectedSwimmerIds)
+    .flat() as (string | null)[]
 
-    switch (paymentMethod) {
-      case PaymentMethod.APAY:
-        color = 'black'
-        break
-      case PaymentMethod.GPAY:
-        color = 'white-outlined'
-        break
-      case PaymentMethod.CARD:
-        color = 'primary'
-        break
-    }
-    switch (paymentMethod) {
-      case PaymentMethod.APAY:
-        icon = (
-          <Icon
-            name="apple-pay"
-            className="no-fill flex size-6 items-center justify-center rounded-sm bg-black p-1"
-          ></Icon>
-        )
-        break
-      case PaymentMethod.GPAY:
-        icon = (
-          <Icon
-            name="google-pay"
-            className="no-fill flex size-6 items-center justify-center rounded-sm bg-white p-1"
-          ></Icon>
-        )
-        break
-      case PaymentMethod.CARD:
-        icon = (
-          <Icon
-            className="flex size-6 items-center justify-center rounded-sm p-1"
-            name="credit-card"
-          />
-        )
-        break
-      default:
-        icon = (
-          <Icon
-            className="flex size-6 items-center justify-center rounded-sm p-1"
-            name="credit-card"
-          />
-        )
-        break
-    }
-    switch (paymentMethod) {
-      case PaymentMethod.APAY:
-        text = t('buy-page.pay-with-apple-pay')
-        break
-      case PaymentMethod.GPAY:
-        text = t('buy-page.pay-with-google-pay')
-        break
-      case PaymentMethod.CARD:
-        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
-          ? t('buy-page.pay-with-price', {
-              price: currencyFromCentsFormatter.format(
-                priceQuery.data.data.data.pricing.orderPriceWithVat,
-              ),
-            })
-          : t('buy-page.pay')
-        break
-      default:
-        text = priceQuery.data?.data.data.pricing.orderPriceWithVat
-          ? t('buy-page.pay-with-price', {
-              price: currencyFromCentsFormatter.format(
-                priceQuery.data.data.data.pricing.orderPriceWithVat,
-              ),
-            })
-          : t('buy-page.pay')
-        break
-    }
+  const childrenCount = priceQuery.data?.data.data.pricing.numberOfChildren
 
-    const handleSubmitWithErrorHandling = handleSubmit(
+  const handleSubmitWithErrorHandling = (paymentMethod: PaymentMethod) =>
+    handleSubmit(
       async () => onSubmit(paymentMethod),
       (err) => {
-        logger.error(`OrderPage "order" Request error: ${err}`)
+        logger.error('OrderPage "order" validation failed', err)
       },
     )
 
-    return (
-      <PayButton
-        onSubmit={() => {
-          if (
-            ticketTypesData.some(
-              (ticketTypeData) =>
-                ticketTypeData.ticketType.type === 'SEASONAL' &&
-                ticketTypeData.ticketType.childrenAllowed,
-            )
-          ) {
-            setChildrenConfirmationModalOpen(true)
-            setPaymentMethodFunction(() => handleSubmitWithErrorHandling)
-          } else {
-            handleSubmitWithErrorHandling()
-          }
-        }}
-        color={color}
-        icon={icon}
-        text={text}
-        disabled={
-          priceQuery.isFetching ||
-          priceQuery.isError ||
-          shouldSendDisabled ||
-          orderRequestPending ||
-          !purchaseAmountInLimit
-        }
-      />
-    )
+  const onSubmitInner = async (paymentMethod: PaymentMethod) => {
+    if (
+      ticketTypesData.some(
+        (ticketTypeData) =>
+          ticketTypeData.ticketType.type === 'SEASONAL' &&
+          ticketTypeData.ticketType.childrenAllowed,
+      )
+    ) {
+      setChildrenConfirmationModalOpen(true)
+      setPaymentMethodFunction(() => handleSubmitWithErrorHandling(paymentMethod))
+    } else {
+      await handleSubmitWithErrorHandling(paymentMethod)()
+    }
   }
+
+  const price = priceQuery.data?.data.data.pricing.orderPriceWithVat
+
+  const isDisabled =
+    priceQuery.isFetching ||
+    priceQuery.isError ||
+    shouldSendDisabled ||
+    orderRequestPending ||
+    !purchaseAmountInLimit
 
   const setTicketAmountOfTicketType = (ticketAmount: number, cartItem: CartItem) => {
     setValue(
@@ -952,6 +312,10 @@ const OrderPage = () => {
     )
   }
 
+  const displayMissingInformationWarning = ticketTypesWithAdditionalProperties.some(
+    (ticketType) => ticketType.displayMissingInformationWarning,
+  )
+
   const Divider = () => {
     return <div className="border-b-solid my-6 border-b-2" />
   }
@@ -963,10 +327,10 @@ const OrderPage = () => {
           onClose={() => {
             setChildrenConfirmationModalOpen(false)
           }}
-          onSaveSuccess={() => {
+          onSaveSuccess={async () => {
             setChildrenConfirmationModalOpen(false)
             if (paymentMethodFunction) {
-              paymentMethodFunction()
+              await paymentMethodFunction()
             }
           }}
         />
@@ -975,281 +339,96 @@ const OrderPage = () => {
         <div className="flex flex-col gap-y-6">
           <div className="text-2xl font-semibold md:text-3xl">{t('buy-page.personal-info')}</div>
           <div className="border-gray rounded-lg border p-6">
-            <OrderPageEmail register={register} errors={errors} />
+            <EmailField
+              register={register}
+              required={ticketTypesWithAdditionalProperties.some(
+                (ticketType) => ticketType.requireEmail,
+              )}
+              email={account?.email}
+              errorMessage={useValidationSchemaTranslationIfPresent(errors.email?.message)}
+            />
             {ticketTypesWithAdditionalProperties.some(
               (ticketType) => ticketType.hasOptionalFields,
-            ) && <OrderPageOptionalFields register={register} errors={errors} />}
-            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
-              <>
-                <div className="mt-2">
-                  {ticketTypesData.some(
-                    (ticketTypeData) => ticketTypeData.ticketType.type === 'SEASONAL',
-                  ) && (
-                    <Trans
-                      i18nKey={'buy-page.select-people-reminder-seasonal'}
-                      components={{ span: <span /> }}
-                    />
-                  )}
-                  {ticketTypesData.some(
-                    (ticketTypeData) => ticketTypeData.ticketType.type === 'ENTRIES',
-                  ) && (
-                    <Trans
-                      i18nKey={'buy-page.select-people-reminder-entries'}
-                      components={{ span: <span /> }}
-                    />
-                  )}
-                </div>
-                {/* TODO errors everywhere, refactor */}
-                {priceQuery.error && (
-                  <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-                    <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
-                    <div>
-                      {getErrorMessagesFromHttpRequest(
-                        // TODO check if we show correct errors in all cases
-                        // (zod schema error - probably not, joi schema error, manually thrown error)
-                        priceQuery.error as AxiosError<ErrorWithMessages>,
-                      )}
-                    </div>
-                  </div>
-                )}
-                {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
-                  getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
-                    <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-                      <Icon name="warning" className="no-fill text-[#E07B04]"></Icon>
-                      <div>{t('buy-page.min-one-person')}</div>
-                    </div>
-                  )}
-                <OrderPagePeopleList
-                  watch={watch}
-                  setValue={setValue}
-                  errors={errors}
-                ></OrderPagePeopleList>
-              </>
-            )}
-
-            <Divider />
-
-            <CheckboxField
-              register={register}
-              name="agreement"
-              error={errorAgreementInterpreted}
-              label={
-                <span>
-                  <Trans
-                    i18nKey="buy-page.agreements"
-                    components={{
-                      VopLink: (
-                        <Link to={ROUTES.VOP} target="_blank" className="link text-primary" />
-                      ),
-                      GdprLink: (
-                        <Link to={ROUTES.GDPR} target="_blank" className="link text-primary" />
-                      ),
-                    }}
-                  />
-                </span>
-              }
-            />
-            {ticketTypesWithAdditionalProperties.some(
-              (ticketType) => ticketType.isSeniorOrDisabledTicket,
             ) && (
-              <>
-                <CheckboxField
-                  className="my-4"
-                  register={register}
-                  name="seniorOrDisabledAgreement"
-                  error={errorSeniorAgreementInterpreted}
-                  label={<span>{t('buy-page.senior-disabled-agreement')}</span>}
-                />
-                <div className="flex flex-col gap-2 italic">
-                  <span>{t('buy-page.senior-disabled-note')}</span>
-                </div>
-              </>
+              <OptionalFields
+                register={register}
+                errorMessageZip={errors.zip?.message}
+                errorMessageAge={errors.age?.message}
+              />
+            )}
+            {ticketTypesWithAdditionalProperties.some((ticketType) => ticketType.hasSwimmers) && (
+              <SwimmersSelection
+                setValue={setValue}
+                ticketTypesData={ticketTypesData}
+                getRequestsFromFormData={getRequestsFromFormData}
+                ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
+                errorsPriceQuery={priceQuery.error}
+                displayMissingInformationWarning={displayMissingInformationWarning}
+                errorsTicketTypeData={errors.ticketTypesData}
+              />
             )}
 
             <Divider />
 
-            <OrderPageDiscountCode
-              setCaptchaWarning={setCaptchaWarning}
-              setValue={setValue}
-              getValues={getValues}
-              incrementCaptchaKey={incrementCaptchaKey}
-              errors={errors}
-              captchaWarning={captchaWarning}
-            />
-          </div>
-          <div>
-            <Controller
-              name="recaptchaToken"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <>
-                  <Turnstile
-                    theme="light"
-                    key={captchaKey}
-                    refreshExpired={'auto'}
-                    sitekey={environment.turnstileSiteKey ?? ''}
-                    onVerify={(token) => {
-                      setCaptchaWarning('hide')
-                      onChange(token)
-                    }}
-                    onError={(error) => {
-                      // logger.error("Turnstile error:", error);
-                      setCaptchaWarning('show')
-
-                      return onChange(null)
-                    }}
-                    onTimeout={() => {
-                      // logger.error("Turnstile timeout");
-                      setCaptchaWarning('show')
-                      onChange(null)
-                    }}
-                    onExpire={() => {
-                      // logger.warn("Turnstile expire - should refresh automatically");
-                      onChange(null)
-                    }}
-                    className="flex justify-center self-center"
-                  />
-                  {errors.recaptchaToken && (
-                    <p className="text-p3 mt-1 text-error">
-                      {t('landing.captcha-warning-required')}
-                    </p>
-                  )}
-                  {captchaWarning === 'show' && (
-                    <p className="text-p3 mt-1 text-error">{t('landing.captcha-not-verified')}</p>
-                  )}
-                </>
+            <Agreements
+              isSeniorOrDisabledTicket={ticketTypesWithAdditionalProperties.some(
+                (ticketType) => ticketType.isSeniorOrDisabledTicket,
               )}
+              register={register}
+              errorAgreementInterpreted={errorAgreementInterpreted}
+              errorSeniorAgreementInterpreted={errorSeniorAgreementInterpreted}
+            />
+
+            <Divider />
+
+            <DiscountCode
+              setValue={setValue}
+              discountCodeValue={getValues('discountCode')}
+              incrementCaptchaKey={incrementCaptchaKey}
+              setCaptchaWarning={setCaptchaWarning}
+              captchaWarning={captchaWarning}
+              recaptchaTokenError={errors.recaptchaToken}
+              recaptchaTokenValue={getValues('recaptchaToken')}
             />
           </div>
+          <RecaptchaField
+            control={control}
+            captchaKey={captchaKey}
+            captchaWarning={captchaWarning}
+            setCaptchaWarning={setCaptchaWarning}
+            recaptchaTokenError={errors.recaptchaToken}
+          />
           <div>
             {/* Desktop */}
-            <div className="hidden flex-col gap-y-3 lg:flex">
-              <div className="flex flex-row gap-x-3">
-                <div className="w-full">{renderPayButton(PaymentMethod.APAY)}</div>
-                <div className="w-full">{renderPayButton(PaymentMethod.GPAY)}</div>
-              </div>
-              <div className="w-full">{renderPayButton(PaymentMethod.CARD)}</div>
-            </div>
-            {/* Mobile */}
-            <div className="lg:hidden">
-              <div className="hidden w-3/4 md:block">{renderPayButton(PaymentMethod.APAY)}</div>
-              <div className="mt-3 hidden w-3/4 md:block">
-                {renderPayButton(PaymentMethod.GPAY)}
-              </div>
-              <div className="mt-3 hidden w-3/4 md:block">
-                {renderPayButton(PaymentMethod.CARD)}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-y-4 lg:gap-y-6">
-          <span className="text-2xl font-semibold md:text-3xl">{t('buy-page.summary')}</span>
-          {ticketTypesData.map((ticketTypeData) => {
-            const ticketAmount = ticketTypeData.ticketAmount
-
-            const handleTicketTypeRemove =
-              ticketTypesData.length > 1
-                ? () => {
-                    // this will remove the ticket type from the form data
-                    // but it will reappear after reloading the page because it ultimately comes from location state
-                    // TODO fix this when cart is implemented using redux
-                    setValue(
-                      'ticketTypesData',
-                      ticketTypesData.filter(
-                        (ticketTypeDataInner) =>
-                          ticketTypeDataInner.ticketType.id !== ticketTypeData.ticketType.id,
-                      ),
-                    )
-                  }
-                : undefined
-
-            return (
-              // TODO rename to TicketTypeSummary
-              <OrderPageSummary
-                key={ticketTypeData.ticketType.id}
-                ticketAmount={ticketAmount}
-                ticketType={ticketTypeData.ticketType}
-                hasTicketAmount={
-                  ticketTypesWithAdditionalProperties.find(
-                    (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
-                  )?.hasTicketAmount ?? false
-                }
-                handleTicketTypeRemove={handleTicketTypeRemove}
-                setTicketAmount={(value: number) =>
-                  setTicketAmountOfTicketType(value, ticketTypeData)
-                }
+            <div className="hidden flex-col gap-y-3 md:flex">
+              <DesktopPaymentButtons
+                isDisabled={isDisabled}
+                onSubmit={onSubmitInner}
+                price={price}
               />
-            )
-          })}
-          {!withinMaxTicketAmountLimit && (
-            <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
-              <Icon name="alert" className="no-fill text-error"></Icon>
-              {t('common.max-ticket-purchase-limit', {
-                maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
-              })}
             </div>
-          )}
-          <div className="flex flex-row rounded-lg border-divider bg-blueish p-4 text-fontBlack lg:items-center lg:px-8">
-            <span className="grow font-semibold">{t('price-total')}</span>
-            <div className="flex items-center justify-between gap-x-6">
-              <span className="grow font-semibold lg:w-[115px] lg:text-right lg:text-xl">
-                <SkeletonTheme
-                  baseColor="#a8dbf2"
-                  highlightColor="#58bbe6"
-                  duration={1}
-                  width={40}
-                  height={28}
-                >
-                  {priceQuery.isFetching ? (
-                    <Skeleton />
-                  ) : (
-                    priceQuery.isSuccess && (
-                      <OrderPagePrice pricing={priceQuery.data?.data.data.pricing} />
-                    )
-                  )}
-                </SkeletonTheme>
-              </span>
-            </div>
-          </div>
-          <div className="text-gray color-fontBlack">
-            <p>{t('common.additional-info-toddlers')}</p>
           </div>
         </div>
-        <div className="mt-6 md:mt-8">
-          <div className="block flex justify-center md:hidden">
-            {renderPayButton(PaymentMethod.APAY)}
-          </div>
-          <div className="mt-3 block flex justify-center md:hidden">
-            {renderPayButton(PaymentMethod.GPAY)}
-          </div>
-          <div className="mt-3 block flex justify-center md:hidden">
-            {renderPayButton(PaymentMethod.CARD)}
-          </div>
+        <Summary
+          ticketTypesData={ticketTypesData}
+          isFetching={priceQuery.isFetching}
+          isSuccess={priceQuery.isSuccess}
+          ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
+          adultCount={childrenCount ? watchSelectedSwimmerIds.length - childrenCount : undefined}
+          childrenCount={priceQuery.data?.data.data.pricing.numberOfChildren}
+          setValue={setValue}
+          setTicketAmountOfTicketType={setTicketAmountOfTicketType}
+          withinMaxTicketAmountLimit={withinMaxTicketAmountLimit}
+          maxTicketPurchaseLimit={environment.maxTicketPurchaseLimit}
+          pricing={priceQuery.data?.data.data.pricing}
+        />
+        {/* Mobile */}
+        <div className="mt-6 md:mt-8 md:hidden">
+          <MobilePaymentButtons isDisabled={isDisabled} onSubmit={onSubmitInner} price={price} />
         </div>
       </form>
     </>
   )
-}
-
-export interface OrderFormData {
-  email?: string
-  ticketTypesData: {
-    ticketType: TicketType
-    ticketAmount?: number
-    selectedSwimmerIds?: (string | null)[]
-  }[]
-  discountCode?: DiscountCodeResponse['discountCode'] | null
-  agreement?: string
-  seniorOrDisabledAgreement?: boolean
-  age?: number
-  zip?: string
-  recaptchaToken?: string
-}
-
-interface CartItem {
-  ticketType: TicketType
-  ticketAmount?: number
-  selectedSwimmerIds?: (string | null)[]
 }
 
 export default OrderPage

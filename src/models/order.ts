@@ -72,8 +72,8 @@ export interface OrderRequest {
 
 export interface CartItem {
   ticketType: TicketType
-  amount: number
-  childrenNumber: number
+  ticketAmount?: number
+  selectedSwimmerIds?: (string | null)[]
 }
 
 export interface DiscountCodeState {
@@ -82,19 +82,19 @@ export interface DiscountCodeState {
   code: string
 }
 
-export interface CheckPriceResponse {
+export interface GetPriceResponse {
   data: {
     pricing: {
       orderPriceWithVat: number
       discount: number
       // currently not available in response, could be added later
-      // numberOfChildren: number
+      numberOfChildren?: number
     }
   }
   messages: [
     {
       type: 'SUCCESS'
-      message: 'Cypočítaná cena lístkov'
+      message: 'Vypočítaná cena lístkov'
     },
   ]
 }

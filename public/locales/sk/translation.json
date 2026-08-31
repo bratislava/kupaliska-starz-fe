@@ -130,8 +130,9 @@
     "data-explanation": "Dáta z online nákupu nám pomáhajú lepšie spoznať návštevníkov našich kúpalísk, aby sme vedeli lepšie prispôsobovať naše ponúkané služby."
   },
   "tickets": {
-    "childrenConirmationModalText": "Ak chcete pridať deti k permanentke, musíte to urobiť pred platbou. Po zaplatení už úpravy nebudú možné.",
-    "childrenConirmationModalTextConfirmation": "Rozumiem",
+    "childrenConfirmationModalText": "Ak chcete pridať deti k permanentke, musíte to urobiť pred platbou. Po zaplatení už úpravy nebudú možné.",
+    "childrenConfirmationModalTitle": "Potvrdenie deti",
+    "childrenConfirmationModalTextConfirmation": "Rozumiem",
     "active": "Aktívne",
     "ticket-type": "Typ lístka",
     "entries-left": "Zostáva vstupov",

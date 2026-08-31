@@ -4,7 +4,7 @@ import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 
 interface ChildrenConfirmationModalProps {
-  onSaveSuccess?: () => void
+  onSaveSuccess?: () => Promise<void>
   onClose?: () => void
 }
 
@@ -16,17 +16,23 @@ export const ChildrenConfirmationModal = ({
 
   return (
     <Dialog
-      title={'Potvrdenie deti'}
+      title={t('tickets.childrenConfirmationModalTitle')}
       open={true}
       footerButton={
-        <Button onClick={onSaveSuccess}>
-          {t('tickets.childrenConirmationModalTextConfirmation')}
+        <Button
+          onClick={async () => {
+            if (onSaveSuccess) {
+              await onSaveSuccess()
+            }
+          }}
+        >
+          {t('tickets.childrenConfirmationModalTextConfirmation')}
         </Button>
       }
       className="max-w-[800px]"
       onClose={onClose}
     >
-      <div className="flex flex-col gap-12">{t('tickets.childrenConirmationModalText')}</div>
+      <div className="flex flex-col gap-12">{t('tickets.childrenConfirmationModalText')}</div>
     </Dialog>
   )
 }
