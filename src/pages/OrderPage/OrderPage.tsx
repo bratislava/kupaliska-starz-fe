@@ -16,7 +16,7 @@ import OptionalFields from 'pages/OrderPage/OptionalFields'
 import RecaptchaField from 'pages/OrderPage/RecaptchaField'
 import Summary from 'pages/OrderPage/Summary'
 import SwimmersSelection from 'pages/OrderPage/SwimmersSelection'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -184,6 +184,7 @@ const OrderPage = () => {
     },
   })
   const ticketTypesData = watch('ticketTypesData')
+  const discountCodeData = watch('discountCode')
 
   const selectedSwimmerIds = watch('ticketTypesData')
     .map((ticketTypeData) => ticketTypeData.selectedSwimmerIds)
@@ -197,41 +198,34 @@ const OrderPage = () => {
   const errorSeniorAgreementInterpreted = useValidationSchemaTranslationIfPresent(
     errors.seniorOrDisabledAgreement?.message,
   )
+  const { getPriceRequest, orderRequest } = orderFormToRequests({
+    ...getValues(),
+    ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
+      const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
+        ticketTypesWithAdditionalProperties.find(
+          (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
+        )!
 
-  const getRequestsFromFormData = useCallback(
-    () =>
-      orderFormToRequests({
-        ...getValues(),
-        ticketTypesData: getValues().ticketTypesData.map((ticketTypeData) => {
-          const { requireEmail, hasOptionalFields, hasSwimmers, hasTicketAmount } =
-            ticketTypesWithAdditionalProperties.find(
-              (ticketType) => ticketType.ticketType.id === ticketTypeData.ticketType.id,
-            )!
-
-          return {
-            ...ticketTypeData,
-            requireEmail,
-            hasOptionalFields,
-            hasSwimmers,
-            hasTicketAmount,
-          }
-        }),
-      }),
-    [getValues, ticketTypesWithAdditionalProperties],
-  )
+      return {
+        ...ticketTypeData,
+        requireEmail,
+        hasOptionalFields,
+        hasSwimmers,
+        hasTicketAmount,
+      }
+    }),
+  })
 
   // TODO this should go into schema
   const withinMaxTicketAmountLimit =
-    getRequestsFromFormData().getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
+    getPriceRequest.tickets.length <= environment.maxTicketPurchaseLimit
 
   // TODO this should go into schema
-  const purchaseAmountInLimit =
-    getRequestsFromFormData().getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
+  const purchaseAmountInLimit = getPriceRequest.tickets.length > 0 && withinMaxTicketAmountLimit
 
   const priceQuery = useQuery(
-    ['orderPrice', ticketTypesData, purchaseAmountInLimit],
+    ['orderPrice', ticketTypesData, purchaseAmountInLimit, discountCodeData],
     async ({ signal }) => {
-      const { getPriceRequest } = getRequestsFromFormData()
       logger.info(getPriceRequest)
 
       return getPrice(getPriceRequest, status, signal)
@@ -257,7 +251,6 @@ const OrderPage = () => {
 
   const onSubmit = async (paymentMethod: PaymentMethod) => {
     incrementCaptchaKey()
-    const { orderRequest } = getRequestsFromFormData()
     setOrderRequestPending(true)
     logger.info(orderRequest)
     await order(orderRequest, paymentMethod)
