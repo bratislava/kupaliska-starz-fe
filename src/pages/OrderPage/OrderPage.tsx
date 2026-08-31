@@ -383,11 +383,12 @@ const OrderPage = () => {
 
             <DiscountCode
               setValue={setValue}
+              discountCodeValue={getValues('discountCode')}
               incrementCaptchaKey={incrementCaptchaKey}
               setCaptchaWarning={setCaptchaWarning}
               captchaWarning={captchaWarning}
               recaptchaTokenError={errors.recaptchaToken}
-              discountCodeValue={getValues('discountCode')}
+              recaptchaTokenValue={getValues('recaptchaToken')}
             />
           </div>
           <RecaptchaField

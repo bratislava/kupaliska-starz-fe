@@ -1,28 +1,17 @@
 import { CheckboxField } from 'components'
-import DiscountCodeInput from 'pages/OrderPage/DiscountCodeInput'
-import { CaptchaWarningStatus, OrderFormData } from 'pages/OrderPage/OrderPage'
+import DiscountCodeInput, { DiscountCodeInputProps } from 'pages/OrderPage/DiscountCodeInput'
+import { OrderFormData } from 'pages/OrderPage/OrderPage'
 import { ChangeEvent, useState } from 'react'
-import { FieldErrors, UseFormSetValue } from 'react-hook-form'
+import { UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { DiscountCode as DiscountCodeInt } from 'store/order/api'
 
-interface DiscountCodeProps {
+interface DiscountCodeProps extends DiscountCodeInputProps {
   setValue: UseFormSetValue<OrderFormData>
-  incrementCaptchaKey: () => void
-  setCaptchaWarning: (captchaWarning: CaptchaWarningStatus) => void
-  captchaWarning: CaptchaWarningStatus
-  recaptchaTokenError?: FieldErrors
   discountCodeValue?: DiscountCodeInt | null
 }
 
-const DiscountCode = ({
-  setValue,
-  incrementCaptchaKey,
-  recaptchaTokenError,
-  setCaptchaWarning,
-  captchaWarning,
-  discountCodeValue,
-}: DiscountCodeProps) => {
+const DiscountCode = ({ setValue, discountCodeValue, ...rest }: DiscountCodeProps) => {
   const [useDiscountCode, setUseDiscountCode] = useState(false)
 
   const { t } = useTranslation()
@@ -42,15 +31,7 @@ const DiscountCode = ({
         onChange={handleUseDiscountCodeChange}
         label={t('buy-page.claim-code')}
       />
-      {useDiscountCode && (
-        <DiscountCodeInput
-          captchaWarning={captchaWarning}
-          setCaptchaWarning={setCaptchaWarning}
-          setValue={setValue}
-          incrementCaptchaKey={incrementCaptchaKey}
-          recaptchaTokenError={recaptchaTokenError}
-        />
-      )}
+      {useDiscountCode && <DiscountCodeInput {...rest} setValue={setValue} />}
     </div>
   )
 }

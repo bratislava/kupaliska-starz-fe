@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { checkDiscountCode, DiscountCode, DiscountCodeResponse } from 'store/order/api'
 import { useIsMounted } from 'usehooks-ts'
 
-interface DiscountCodeInputProps {
+export interface DiscountCodeInputProps {
   setValue: UseFormSetValue<OrderFormData>
   incrementCaptchaKey: () => void
   captchaWarning: CaptchaWarningStatus
