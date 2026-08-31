@@ -58,6 +58,11 @@
     "age-interval": "(0)[{{count}} rokov](1)[{{count}} rok];(2-4)[{{count}} roky];(5-inf)[{{count}} rokov];",
     "physical-person-only": "Do objednávky je možné pridať iba fyzické osoby",
     "per-ticket": " / kus",
+    "number-field": {
+      "aria-label": "Nastavenie počtu lístkov pre {{ticketName}}",
+      "increment": "Zvýšiť o 1",
+      "decrement": "Znížiť o 1"
+    },
     "error-generic": "Niečo sa pokazilo. Prosím skúste to neskôr.",
     "email-invalid": "Prosím zadajte platný email",
     "close": "Zatvoriť",
