@@ -152,7 +152,8 @@
     "ticket-button": "Detail lístku",
     "remaining-entries-indvidual": "Počet zostavajúcich vstupov:",
     "no-entries": "Pre zobrazený lístok neexistujú žiadne návštevy.",
-    "no-tickets": "Nemáte žiadne lístky."
+    "no-tickets": "Nemáte žiadne lístky.",
+    "brand-name": "STARZ"
   },
   "person-add": {
     "next-person": "Ďalšia osoba č. {{order}}",

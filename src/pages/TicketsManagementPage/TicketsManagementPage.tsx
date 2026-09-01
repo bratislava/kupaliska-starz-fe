@@ -187,7 +187,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
     <div
       className={`mb-6 flex flex-col items-center overflow-auto rounded-lg p-6 shadow-xs ${textClass} ${backgroundClass}`}
     >
-      <span className="mb-1 text-2xl font-bold">STARZ</span>
+      <span className="mb-1 text-2xl font-bold">{t('tickets.brand-name')}</span>
       <img alt="" src={ticket.qrCode} className="mb-6" />
       <span className="mb-3 text-center text-xl font-semibold">{ticket.type}</span>
       <span className="mb-6 text-center">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
