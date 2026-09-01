@@ -67,7 +67,8 @@
     "reset": "Resetovať",
     "confirm": "Potvrdiť",
     "photo-required": "Pre kúpu permanentky je potrebné zadať aj fotografiu.",
-    "photo-purpose-attach-ownership": "Tá slúži na priradenie permanentky k jej majiteľovi."
+    "photo-purpose-attach-ownership": "Tá slúži na priradenie permanentky k jej majiteľovi.",
+    "loading": "Načítavanie..."
   },
   "registration": {
     "name": "Meno",
