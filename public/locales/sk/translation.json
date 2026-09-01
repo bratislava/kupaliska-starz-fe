@@ -68,7 +68,8 @@
     "confirm": "Potvrdiť",
     "photo-required": "Pre kúpu permanentky je potrebné zadať aj fotografiu.\nTá slúži na priradenie permanentky k jej majiteľovi.",
     "photo-purpose-attach-ownership": "Tá slúži na priradenie permanentky k jej majiteľovi.",
-    "loading": "Načítavanie..."
+    "loading": "Načítavanie...",
+    "brand-name": "STARZ"
   },
   "registration": {
     "name": "Meno",
@@ -153,8 +154,7 @@
     "ticket-button": "Detail lístku",
     "remaining-entries-indvidual": "Počet zostavajúcich vstupov:",
     "no-entries": "Pre zobrazený lístok neexistujú žiadne návštevy.",
-    "no-tickets": "Nemáte žiadne lístky.",
-    "brand-name": "STARZ"
+    "no-tickets": "Nemáte žiadne lístky."
   },
   "person-add": {
     "next-person": "Ďalšia osoba č. {{order}}",
