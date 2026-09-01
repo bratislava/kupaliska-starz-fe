@@ -66,7 +66,7 @@
     "close": "Zatvoriť",
     "reset": "Resetovať",
     "confirm": "Potvrdiť",
-    "photo-required": "Pre kúpu permanentky je potrebné zadať aj fotografiu.",
+    "photo-required": "Pre kúpu permanentky je potrebné zadať aj fotografiu.\nTá slúži na priradenie permanentky k jej majiteľovi.",
     "photo-purpose-attach-ownership": "Tá slúži na priradenie permanentky k jej majiteľovi.",
     "loading": "Načítavanie..."
   },
