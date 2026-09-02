@@ -2,7 +2,7 @@ import { Icon } from 'components'
 import { forwardRef, Ref } from 'react'
 import { Input as RACInput } from 'react-aria-components/Input'
 import {
-  Button as RACNumberFieldButton,
+  Button as RACButton,
   Group as RACGroup,
   NumberField as RACNumberField,
   NumberFieldProps as RACNumberFieldProps,
@@ -33,7 +33,7 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
         }
       >
         {/* implement 'isDisabled' styles when design is ready */}
-        <RACNumberFieldButton
+        <RACButton
           slot="decrement"
           className={cn('bg-primary px-4 py-3', {
             // next line styles is achieving larger clickable area then it visibly appears,
@@ -42,14 +42,14 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
           })}
         >
           <Icon name="minus" color="white" />
-        </RACNumberFieldButton>
+        </RACButton>
 
         <RACInput
           ref={ref}
           // implement 'isDisabled' styles when design is ready
           className={cn('min-w-0 bg-white px-3 py-2 text-center outline-hidden lg:px-4 lg:py-3')}
         />
-        <RACNumberFieldButton
+        <RACButton
           slot="increment"
           className={cn('bg-primary px-4 py-3', {
             // next line styles is achieving larger clickable area then it visibly appears,
@@ -59,7 +59,7 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
           aria-label={t('common.number-field.increment')}
         >
           <Icon name="plus" color="white" />
-        </RACNumberFieldButton>
+        </RACButton>
       </RACGroup>
     </RACNumberField>
   )
