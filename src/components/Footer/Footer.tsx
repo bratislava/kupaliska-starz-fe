@@ -1,13 +1,12 @@
 import cx from 'classnames'
 import { ROUTES } from 'helpers/constants'
-import { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
 
 const Footer = () => {
   const { t } = useTranslation()
   const location = useLocation()
-  const currentYear = useRef(new Date().getFullYear())
+  const currentYear = new Date().getFullYear()
 
   // Don't show top margin on home page as it handles its own positioning and has a different background (white).
   // TODO: Find better solution.
@@ -28,16 +27,22 @@ const Footer = () => {
           <span>{t('footer.dic')}</span>
         </div>
         <div className="order-3 col-span-1 flex items-center justify-center text-primary lg:order-2">
-          STARZ |{' '}
-          <a
-            href="https://inovacie.bratislava.sk"
-            rel="noopener noreferrer"
-            target="_blank"
-            className="mx-1 link"
-          >
-            {t('footer.innovations')}
-          </a>
-          | {currentYear.current}
+          <Trans
+            i18nKey="footer.creators"
+            components={{
+              InnovationLink: (
+                // text is inside translation son this errors is irrelevant
+                // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+                <a
+                  href="https://inovacie.bratislava.sk"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="mx-1 link"
+                />
+              ),
+            }}
+            values={{ year: currentYear }}
+          />
         </div>
         <div className="order-2 my-2 flex flex-col text-primary lg:order-3 lg:my-0 lg:items-end">
           <span className="font-semibold">{t('common.important-info')}</span>
