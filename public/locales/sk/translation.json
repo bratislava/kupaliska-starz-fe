@@ -59,9 +59,7 @@
     "physical-person-only": "Do objednávky je možné pridať iba fyzické osoby",
     "per-ticket": " / kus",
     "number-field": {
-      "aria-label": "Nastavenie počtu lístkov pre {{ticketName}}",
-      "increment": "Zvýšiť o 1",
-      "decrement": "Znížiť o 1"
+      "aria-label": "Nastavenie počtu lístkov pre {{ticketName}}"
     },
     "error-generic": "Niečo sa pokazilo. Prosím skúste to neskôr.",
     "email-invalid": "Prosím zadajte platný email",
