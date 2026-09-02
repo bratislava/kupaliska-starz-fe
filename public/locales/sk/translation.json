@@ -448,7 +448,8 @@
     "address": "Junácka 4, 831 04 Bratislava 3",
     "ico": "IČO: 00179663",
     "dic": "DIČ: 2020801695",
-    "innovations": "Inovácie mesta Bratislava"
+    "innovations": "Inovácie mesta Bratislava",
+    "creators": "STARZ | <InnovationLink>Inovácie mesta Bratislava</InnovationLink> | {{year}}"
   },
   "calendar": {
     "weekdays-short": ["Po", "Ut", "St", "Št", "Pi", "So", "Ne"]
