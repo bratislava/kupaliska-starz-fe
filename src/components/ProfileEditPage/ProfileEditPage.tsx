@@ -3,6 +3,7 @@ import { AxiosError } from 'axios'
 import { ROUTES } from 'helpers/constants'
 import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import logger from 'helpers/logger'
+import { TFunction } from 'i18next'
 import { pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -21,18 +22,21 @@ import ProfileLine from '../ProfileLine/ProfileLine'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
-const validationSchema = yup.object({
-  image: yup.string().required('common.field-required'),
-  age: yup
-    .number()
-    .typeError('common.field-required')
-    .required('common.field-required')
-    .min(3, 'common.additional-info-toddlers')
-    .max(150, 'common.additional-info-tutanchamon'),
-  zip: yup.string().nullable(),
-})
+const validationSchema = (t: TFunction) =>
+  yup.object({
+    image: yup.string().required(t('common.field-required')),
+    age: yup
+      .number()
+      .typeError(t('common.field-required'))
+      .required(t('common.field-required'))
+      .min(3, t('common.additional-info-toddlers'))
+      .max(150, t('common.additional-info-tutanchamon')),
+    zip: yup.string().nullable(),
+  })
 
 const ProfileEditForm = ({ user }: { user: User }) => {
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -42,7 +46,7 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     formState: { errors },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema(t)),
     defaultValues: {
       ...pick(user, ['age', 'zip']),
       // Photo is not stored in the form for performance reasons.
@@ -50,7 +54,6 @@ const ProfileEditForm = ({ user }: { user: User }) => {
     },
   })
 
-  const { t } = useTranslation()
   // For performance reasons, photo is stored in this variable instead of the form, instead if set "set" is stored in the form.
   const [photo, setPhoto] = useState<string | null>()
 

@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError, AxiosResponse } from 'axios'
 import DatePicker from 'components/DatePicker/DatePicker'
 import dayjs from 'dayjs'
+import { TFunction } from 'i18next'
 import { produce } from 'immer'
 import { pick } from 'lodash'
 import { useForm } from 'react-hook-form'
@@ -28,32 +29,35 @@ today.setHours(0, 0, 0, 0)
 const THREE_YEARS_AGO = dayjs().subtract(3, 'years').startOf('day').toDate()
 const HUNDRED_FIFTY_YEARS_FROM_NOW = dayjs().subtract(150, 'years').startOf('day')
 
-const dataByType = {
-  dateOfBirth: {
-    schema: yup.object({
-      dateOfBirth: yup
-        .date()
-        .typeError('common.field-required')
-        .required('common.field-required')
-        .max(THREE_YEARS_AGO, 'common.additional-info-toddlers')
-        .min(HUNDRED_FIFTY_YEARS_FROM_NOW, 'common.additional-info-tutanchamon'),
-    }),
-    title: 'person-add.date-of-birth',
-    explanationSemiBold: 'profile.why-date-of-birth',
-    explanation: 'profile.data-explanation',
-  },
-  zip: {
-    schema: yup.object({
-      zip: yup.string().nullable(),
-    }),
-    title: 'buy-page.zip',
-    explanationSemiBold: 'profile.why-zip',
-    explanation: 'profile.data-explanation',
-  },
+const dataByType = (t: TFunction) => {
+  return {
+    dateOfBirth: {
+      schema: yup.object({
+        dateOfBirth: yup
+          .date()
+          .typeError(t('common.field-required'))
+          .required(t('common.field-required'))
+          .max(THREE_YEARS_AGO, t('common.additional-info-toddlers'))
+          .min(HUNDRED_FIFTY_YEARS_FROM_NOW, t('common.additional-info-tutanchamon')),
+      }),
+      title: t('person-add.date-of-birth'),
+      explanationSemiBold: t('profile.why-date-of-birth'),
+      explanation: t('profile.data-explanation'),
+    },
+    zip: {
+      schema: yup.object({
+        zip: yup.string().nullable(),
+      }),
+      title: t('buy-page.zip'),
+      explanationSemiBold: t('profile.why-zip'),
+      explanation: t('profile.data-explanation'),
+    },
+  }
 }
 
 const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalProps) => {
-  const { schema, title, explanationSemiBold, explanation } = dataByType[type]
+  const { t } = useTranslation()
+  const { schema, title, explanationSemiBold, explanation } = dataByType(t)[type]
   const {
     register,
     handleSubmit,
@@ -67,7 +71,6 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
     },
   })
 
-  const { t } = useTranslation()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const queryClient = useQueryClient()
@@ -112,15 +115,12 @@ const ProfilePageAgeZipModal = ({ type, user, onClose }: ProfilePageAgeZipModalP
       onClose={onClose}
       footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
-      // TODO The t function should be used individually on each key
-      title={t(title)}
+      title={title}
       className="max-w-[488px]"
     >
       <div className="flex flex-col gap-1">
-        {/* TODO The t function should be used individually on each key */}
-        <span className="font-semibold">{t(explanationSemiBold)}</span>
-        {/* TODO The t function should be used individually on each key */}
-        <span>{t(explanation)}</span>
+        <span className="font-semibold">{explanationSemiBold}</span>
+        <span>{explanation}</span>
         {type === 'dateOfBirth' && (
           <DatePicker
             label={t('person-add.date-of-birth')}
