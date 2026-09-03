@@ -1,6 +1,4 @@
 import cx from 'classnames'
-import { Icon, Tooltip } from 'components'
-import * as React from 'react'
 import { DOMAttributes } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -9,7 +7,6 @@ import FieldHelptext from './FieldHelptext'
 export interface FieldHeaderProps {
   label: string
   required?: boolean
-  tooltip?: string
   labelSize?: string
   htmlFor?: string
   labelProps?: DOMAttributes<never>
@@ -33,7 +30,6 @@ const FieldHeader = ({
   htmlFor,
   required,
   labelProps,
-  tooltip,
   labelSize = 'default',
   helptext,
   helptextMarkdown,
@@ -77,21 +73,6 @@ const FieldHeader = ({
             <span className="text-p3 sm:text-16">{t('buy-page.optional')}</span>
           )}
         </div>
-        {tooltip && (
-          <div
-            className={cx('flex-column flex shrink-0 items-center', {
-              'ml-5': showOptionalLabel,
-              'ml-2': !showOptionalLabel,
-            })}
-          >
-            <Tooltip multiline={true} id="tooltip-customer-form" />
-            <div data-for="tooltip-customer-form" data-tip={t('buy-page.help-us')}>
-              <Icon className="ml-4" name="question-mark" color="primary" />
-            </div>
-
-            {/* <BATooltip>{tooltip}</BATooltip> */}
-          </div>
-        )}
       </div>
       {helptext && (
         <FieldHelptext
