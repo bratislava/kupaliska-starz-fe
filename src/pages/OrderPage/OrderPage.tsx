@@ -7,6 +7,7 @@ import logger from 'helpers/logger'
 import { PaymentMethod } from 'helpers/types'
 import { useAccount } from 'hooks/useAccount'
 import useCityAccount from 'hooks/useCityAccount'
+import { TFunction } from 'i18next'
 import Agreements from 'pages/OrderPage/Agreements'
 import DesktopPaymentButtons from 'pages/OrderPage/DesktopPaymentButtons'
 import DiscountCode from 'pages/OrderPage/DiscountCode'
@@ -52,81 +53,82 @@ export interface OrderFormData {
 
 // TODO use Zod schema from BE anything from this yup schema that is missing in BE zod schema incorporate,
 //  and then use zodResolver ("@hookform/resolvers/zod")
-const validationSchema = yup.object({
-  email: yup.string().when('$requireEmail', (requireEmail: boolean, schema: StringSchema) => {
-    if (requireEmail) {
-      return schema.email('buy-page.email-required').required('buy-page.email-required')
-    }
+const validationSchema = (t: TFunction) =>
+  yup.object({
+    email: yup.string().when('$requireEmail', (requireEmail: boolean, schema: StringSchema) => {
+      if (requireEmail) {
+        return schema.email(t('buy-page.email-required')).required(t('buy-page.email-required'))
+      }
 
-    return schema
-  }),
-  // TODO improve error message when max ticket purchase limit is exceeded
-  ticketTypesData: yup
-    .array()
-    .required()
-    .test({
-      name: 'ticketTypesData',
-      message: 'buy-page.max-ticket-purchase-limit-exceeded',
-      // TODO investigate if we can have real type of value
-      test: (value) => {
-        const cumulativeTicketAmount = value?.reduce(
-          (acc, curr) => acc + (curr.ticketAmount ?? 0),
-          0,
-        )
-
-        return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
-      },
+      return schema
     }),
-  /* TODO: improve */
-  discountCode: yup.object().nullable(true),
-  /* TODO: improve */
-  selectedSwimmerIds: yup.array(),
-  // .when("$hasSwimmers", (hasSwimmers: boolean, schema: ArraySchema<any>) => {
-  //   if (hasSwimmers) {
-  //     return schema.min(1, "adasd");
-  //     // .of(yup.mixed().oneOf([yup.string(), null]));
-  //   }
-  //   return schema;
-  // }),
-  agreement: yup.boolean().isTrue('buy-page.vop-required'),
-  seniorOrDisabledAgreement: yup
-    .boolean()
-    .when(
-      '$isSeniorOrDisabledTicket',
-      (isSeniorOrDisabledTicket: boolean, schema: BooleanSchema) => {
-        if (isSeniorOrDisabledTicket) {
-          return schema.isTrue('buy-page.senior-agreement-required')
+    // TODO improve error message when max ticket purchase limit is exceeded
+    ticketTypesData: yup
+      .array()
+      .required()
+      .test({
+        name: 'ticketTypesData',
+        message: t('buy-page.max-ticket-purchase-limit-exceeded'),
+        // TODO investigate if we can have real type of value
+        test: (value) => {
+          const cumulativeTicketAmount = value?.reduce(
+            (acc, curr) => acc + (curr.ticketAmount ?? 0),
+            0,
+          )
+
+          return cumulativeTicketAmount <= environment.maxTicketPurchaseLimit
+        },
+      }),
+    /* TODO: improve */
+    discountCode: yup.object().nullable(true),
+    /* TODO: improve */
+    selectedSwimmerIds: yup.array(),
+    // .when("$hasSwimmers", (hasSwimmers: boolean, schema: ArraySchema<any>) => {
+    //   if (hasSwimmers) {
+    //     return schema.min(1, "adasd");
+    //     // .of(yup.mixed().oneOf([yup.string(), null]));
+    //   }
+    //   return schema;
+    // }),
+    agreement: yup.boolean().isTrue(t('buy-page.vop-required')),
+    seniorOrDisabledAgreement: yup
+      .boolean()
+      .when(
+        '$isSeniorOrDisabledTicket',
+        (isSeniorOrDisabledTicket: boolean, schema: BooleanSchema) => {
+          if (isSeniorOrDisabledTicket) {
+            return schema.isTrue(t('buy-page.senior-agreement-required'))
+          }
+
+          return schema
+        },
+      ),
+    age: yup
+      .number()
+      .integer(t('common.age-integer'))
+      .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: NumberSchema) => {
+        if (hasOptionalFields) {
+          return schema
+            .optional()
+            .nullable(true)
+            .min(3, t('common.additional-info-toddlers'))
+            .max(150, t('common.additional-info-tutanchamon'))
+            .transform((val) => (isNaN(val) ? null : val))
         }
 
         return schema
-      },
-    ),
-  age: yup
-    .number()
-    .integer('common.age-integer')
-    .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: NumberSchema) => {
-      if (hasOptionalFields) {
+      }),
+    zip: yup
+      .string()
+      .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: StringSchema) => {
+        if (hasOptionalFields) {
+          return schema.optional().nullable(true)
+        }
+
         return schema
-          .optional()
-          .nullable(true)
-          .min(3, 'common.additional-info-toddlers')
-          .max(150, 'common.additional-info-tutanchamon')
-          .transform((val) => (isNaN(val) ? null : val))
-      }
-
-      return schema
-    }),
-  zip: yup
-    .string()
-    .when('$hasOptionalFields', (hasOptionalFields: boolean, schema: StringSchema) => {
-      if (hasOptionalFields) {
-        return schema.optional().nullable(true)
-      }
-
-      return schema
-    }),
-  recaptchaToken: yup.string().required('landing.captcha-warning-required'),
-})
+      }),
+    recaptchaToken: yup.string().required(t('landing.captcha-warning-required')),
+  })
 
 const OrderPage = () => {
   const { ticketTypesWithAdditionalProperties, orderData } = useOrderPageTicket()
@@ -152,7 +154,7 @@ const OrderPage = () => {
     formState: { errors },
   } = useForm<OrderFormData>({
     mode: 'onChange',
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema(t)),
     defaultValues: {
       ticketTypesData: ticketTypesWithAdditionalProperties.map((ticketType) => ({
         ticketType: ticketType.ticketType,

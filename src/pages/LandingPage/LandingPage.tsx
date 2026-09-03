@@ -25,87 +25,109 @@ const LandingPage = () => {
     queryFn: fetchGeneralSettings,
   })
 
+  const components = {
+    p: <p />,
+    div: <div />,
+    // TODO fix this errors in other PR
+    a: <a className="underline" />,
+    mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
+    li: <li />,
+    ul: <ul className="list-disc" />,
+    em: <em />,
+    strong: <strong />,
+  }
+
   // TODO all of this should live in admin-fe or in general strapi
+
+  // using `Trans` for translation here is to:
+  // 1. interpret components inside of translation to HTML elements
+  // 2. not be purged by `i18next-cli extract`,
+  //
+  // Other solutions that was considered:
+  // 1. if only translation key will only be present and than translated later by t() function,
+  //  it will be purged because `i18next-cli` doesn't recognize it
+  // 2. using `preservePatterns` in i18next config will results to something that needs to be actively maintained
+  //  when renaming translation keys or deleting them
   const listTranslations = [
     {
       title: t('landing.faq-multiple.0.title'),
-      content: t('landing.faq-multiple.0.content'),
+      content: <Trans i18nKey="landing.faq-multiple.0.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.1.title'),
-      content: t('landing.faq-multiple.1.content'),
+      content: <Trans i18nKey="landing.faq-multiple.1.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.2.title'),
-      content: t('landing.faq-multiple.2.content'),
+      content: <Trans i18nKey="landing.faq-multiple.2.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.3.title'),
-      content: t('landing.faq-multiple.3.content'),
+      content: <Trans i18nKey="landing.faq-multiple.3.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.4.title'),
-      content: t('landing.faq-multiple.4.content'),
+      content: <Trans i18nKey="landing.faq-multiple.4.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.5.title'),
-      content: t('landing.faq-multiple.5.content'),
+      content: <Trans i18nKey="landing.faq-multiple.5.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.6.title'),
-      content: t('landing.faq-multiple.6.content'),
+      content: <Trans i18nKey="landing.faq-multiple.6.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.7.title'),
-      content: t('landing.faq-multiple.7.content'),
+      content: <Trans i18nKey="landing.faq-multiple.7.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.8.title'),
-      content: t('landing.faq-multiple.8.content'),
+      content: <Trans i18nKey="landing.faq-multiple.8.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.9.title'),
-      content: t('landing.faq-multiple.9.content'),
+      content: <Trans i18nKey="landing.faq-multiple.9.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.10.title'),
-      content: t('landing.faq-multiple.10.content'),
+      content: <Trans i18nKey="landing.faq-multiple.10.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.11.title'),
-      content: t('landing.faq-multiple.11.content'),
+      content: <Trans i18nKey="landing.faq-multiple.11.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.12.title'),
-      content: t('landing.faq-multiple.12.content'),
+      content: <Trans i18nKey="landing.faq-multiple.12.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.13.title'),
-      content: t('landing.faq-multiple.13.content'),
+      content: <Trans i18nKey="landing.faq-multiple.13.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.14.title'),
-      content: t('landing.faq-multiple.14.content'),
+      content: <Trans i18nKey="landing.faq-multiple.14.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.15.title'),
-      content: t('landing.faq-multiple.15.content'),
+      content: <Trans i18nKey="landing.faq-multiple.15.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.16.title'),
-      content: t('landing.faq-multiple.16.content'),
+      content: <Trans i18nKey="landing.faq-multiple.16.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.17.title'),
-      content: t('landing.faq-multiple.17.content'),
+      content: <Trans i18nKey="landing.faq-multiple.17.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.18.title'),
-      content: t('landing.faq-multiple.18.content'),
+      content: <Trans i18nKey="landing.faq-multiple.18.content" components={components} />,
     },
     {
       title: t('landing.faq-multiple.19.title'),
-      content: t('landing.faq-multiple.19.content'),
+      content: <Trans i18nKey="landing.faq-multiple.19.content" components={components} />,
     },
   ]
 
@@ -181,22 +203,7 @@ const LandingPage = () => {
                   openFaqIndex === index ? setOpenFaqIndex(undefined) : setOpenFaqIndex(index)
                 }}
               >
-                <span className="flex flex-col gap-2">
-                  <Trans
-                    components={{
-                      p: <p />,
-                      div: <div />,
-                      a: <a className="underline" />,
-                      mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
-                      li: <li />,
-                      ul: <ul className="list-disc" />,
-                      em: <em />,
-                      strong: <strong />,
-                    }}
-                  >
-                    {faq.content}
-                  </Trans>
-                </span>
+                <span className="flex flex-col gap-2">{faq.content}</span>
               </AccordionItem>
             </li>
           ))}
