@@ -1,5 +1,4 @@
 import './helpers/logger'
-import 'react-loading-skeleton/dist/skeleton.css'
 import '@fontsource/inter'
 
 import { AxiosError } from 'axios'
