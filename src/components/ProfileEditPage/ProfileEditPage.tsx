@@ -18,7 +18,6 @@ import { fetchUser, updateUser, User } from '../../store/user/api'
 import { Button, Icon, InputField } from '../index'
 import PhotoField from '../PhotoField/PhotoField'
 import ProfileBack from '../ProfileBack/ProfileBack'
-import ProfileLine from '../ProfileLine/ProfileLine'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -151,7 +150,6 @@ const ProfileEditPage = () => {
     <section className="w-full">
       <div className="container mx-auto">
         <ProfileBack></ProfileBack>
-        <ProfileLine></ProfileLine>
 
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null || userQuery.data.data.image == null) && (

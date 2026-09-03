@@ -14,7 +14,6 @@ import { default as MobileCarousel } from './MobileCarousel/MobileCarousel'
 import { default as Modal } from './Modal/Modal'
 import { default as ProfileBack } from './ProfileBack/ProfileBack'
 import { default as ProfileEdit } from './ProfileEditPage/ProfileEditPage'
-import { default as ProfileLine } from './ProfileLine/ProfileLine'
 import { default as SectionHeader } from './SectionHeader/SectionHeader'
 import { default as SignInSignOutLink } from './SignInSignOutLink/SignInSignOutLink'
 import { default as Spinner } from './Spinner/Spinner'
@@ -42,7 +41,6 @@ export {
   Modal,
   ProfileBack,
   ProfileEdit,
-  ProfileLine,
   SectionHeader,
   SignInSignOutLink,
   Spinner,
