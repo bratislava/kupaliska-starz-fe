@@ -17,7 +17,6 @@ import { useErrorToast } from '../../hooks/useErrorToast'
 import { fetchUser, updateUser, User } from '../../store/user/api'
 import { Button, Icon, InputField } from '../index'
 import PhotoField from '../PhotoField/PhotoField'
-import ProfileBack from '../ProfileBack/ProfileBack'
 
 type FormData = Partial<Pick<User, 'image' | 'age' | 'zip'>>
 
@@ -149,8 +148,6 @@ const ProfileEditPage = () => {
   return (
     <section className="w-full">
       <div className="container mx-auto">
-        <ProfileBack></ProfileBack>
-
         {userQuery.isSuccess &&
           (userQuery.data.data.age == null || userQuery.data.data.image == null) && (
             <div className="mt-14 flex flex-col items-center bg-warningSoft px-6 py-5 shadow-lg md:flex-row">
