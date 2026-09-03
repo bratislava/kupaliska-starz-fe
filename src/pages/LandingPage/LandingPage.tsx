@@ -28,6 +28,7 @@ const LandingPage = () => {
   const components = {
     p: <p />,
     div: <div />,
+    // TODO fix this errors in other PR
     a: <a className="underline" />,
     mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
     li: <li />,
