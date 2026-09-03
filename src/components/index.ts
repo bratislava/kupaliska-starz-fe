@@ -12,7 +12,6 @@ import { default as InputField } from './InputField/InputField'
 import { default as MessageScreen } from './MessageScreen/MessageScreen'
 import { default as MobileCarousel } from './MobileCarousel/MobileCarousel'
 import { default as Modal } from './Modal/Modal'
-import { default as ProfileBack } from './ProfileBack/ProfileBack'
 import { default as ProfileEdit } from './ProfileEditPage/ProfileEditPage'
 import { default as SectionHeader } from './SectionHeader/SectionHeader'
 import { default as SignInSignOutLink } from './SignInSignOutLink/SignInSignOutLink'
@@ -39,7 +38,6 @@ export {
   MessageScreen,
   MobileCarousel,
   Modal,
-  ProfileBack,
   ProfileEdit,
   SectionHeader,
   SignInSignOutLink,
