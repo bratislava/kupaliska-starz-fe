@@ -56,7 +56,6 @@ const NumberField = ({ ...rest }: RACNumberFieldProps, ref: Ref<HTMLInputElement
             // variant "icon-wrapped-negative-margin" was not feasible in this case, it was overflowing the RACGroup
             "relative rounded-r-lg after:absolute after:-inset-y-2 after:right-0 after:-left-2 after:content-['']": true,
           })}
-          aria-label={t('common.number-field.increment')}
         >
           <Icon name="plus" color="white" />
         </RACButton>

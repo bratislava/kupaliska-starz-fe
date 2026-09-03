@@ -6,7 +6,6 @@ import {
   WhyCreateAccountSection,
 } from 'components'
 import useCityAccountAccessToken from 'hooks/useCityAccount'
-import { range } from 'lodash'
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -14,8 +13,6 @@ import { fetchGeneralSettings } from 'store/global/api'
 
 import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
 import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
-
-const faqsn = range(1, 21)
 
 const LandingPage = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()
@@ -27,6 +24,90 @@ const LandingPage = () => {
     queryKey: ['generalSettings'],
     queryFn: fetchGeneralSettings,
   })
+
+  // TODO all of this should live in admin-fe or in general strapi
+  const listTranslations = [
+    {
+      title: t('landing.faq-multiple.0.title'),
+      content: t('landing.faq-multiple.0.content'),
+    },
+    {
+      title: t('landing.faq-multiple.1.title'),
+      content: t('landing.faq-multiple.1.content'),
+    },
+    {
+      title: t('landing.faq-multiple.2.title'),
+      content: t('landing.faq-multiple.2.content'),
+    },
+    {
+      title: t('landing.faq-multiple.3.title'),
+      content: t('landing.faq-multiple.3.content'),
+    },
+    {
+      title: t('landing.faq-multiple.4.title'),
+      content: t('landing.faq-multiple.4.content'),
+    },
+    {
+      title: t('landing.faq-multiple.5.title'),
+      content: t('landing.faq-multiple.5.content'),
+    },
+    {
+      title: t('landing.faq-multiple.6.title'),
+      content: t('landing.faq-multiple.6.content'),
+    },
+    {
+      title: t('landing.faq-multiple.7.title'),
+      content: t('landing.faq-multiple.7.content'),
+    },
+    {
+      title: t('landing.faq-multiple.8.title'),
+      content: t('landing.faq-multiple.8.content'),
+    },
+    {
+      title: t('landing.faq-multiple.9.title'),
+      content: t('landing.faq-multiple.9.content'),
+    },
+    {
+      title: t('landing.faq-multiple.10.title'),
+      content: t('landing.faq-multiple.10.content'),
+    },
+    {
+      title: t('landing.faq-multiple.11.title'),
+      content: t('landing.faq-multiple.11.content'),
+    },
+    {
+      title: t('landing.faq-multiple.12.title'),
+      content: t('landing.faq-multiple.12.content'),
+    },
+    {
+      title: t('landing.faq-multiple.13.title'),
+      content: t('landing.faq-multiple.13.content'),
+    },
+    {
+      title: t('landing.faq-multiple.14.title'),
+      content: t('landing.faq-multiple.14.content'),
+    },
+    {
+      title: t('landing.faq-multiple.15.title'),
+      content: t('landing.faq-multiple.15.content'),
+    },
+    {
+      title: t('landing.faq-multiple.16.title'),
+      content: t('landing.faq-multiple.16.content'),
+    },
+    {
+      title: t('landing.faq-multiple.17.title'),
+      content: t('landing.faq-multiple.17.content'),
+    },
+    {
+      title: t('landing.faq-multiple.18.title'),
+      content: t('landing.faq-multiple.18.content'),
+    },
+    {
+      title: t('landing.faq-multiple.19.title'),
+      content: t('landing.faq-multiple.19.content'),
+    },
+  ]
 
   return (
     <main className="bg-sunscreen">
@@ -88,41 +169,38 @@ const LandingPage = () => {
       </section>
       <section id="casto-kladene-otazky" className="section">
         <SectionHeader title={t('landing.faq')} className="text-center" />
-        <div className="mx-auto grid w-full grid-cols-1 gap-y-4 md:w-8/10 xl:w-6/10">
-          {Object.keys(faqsn).map((faq, index) => (
-            <div className="col-span-1" key={index}>
+        <ul className="mx-auto grid w-full grid-cols-1 gap-y-4 md:w-8/10 xl:w-6/10">
+          {listTranslations.map((faq, index) => (
+            <li className="col-span-1" key={faq.title}>
               <AccordionItem
                 key={index}
-                title={t(`landing.faq-multiple.${faq}.title`)}
+                title={faq.title}
                 paddingVariant="narrow"
                 isOpen={index === openFaqIndex}
                 onOpen={() => {
                   openFaqIndex === index ? setOpenFaqIndex(undefined) : setOpenFaqIndex(index)
                 }}
               >
-                {typeof t(`landing.faq-multiple.${faq}.content`) === 'string' ? (
-                  <span className="flex flex-col gap-2">
-                    <Trans
-                      i18nKey={`landing.faq-multiple.${faq}.content`}
-                      components={{
-                        p: <p />,
-                        div: <div />,
-                        a: <a className="underline" />,
-                        mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
-                        li: <li />,
-                        ul: <ul className="list-disc" />,
-                        em: <em />,
-                        strong: <strong />,
-                      }}
-                    />
-                  </span>
-                ) : (
-                  t(`landing.faq-multiple.${faq}.content`)
-                )}
+                <span className="flex flex-col gap-2">
+                  <Trans
+                    components={{
+                      p: <p />,
+                      div: <div />,
+                      a: <a className="underline" />,
+                      mail: <a className="underline" href="mailto:kupaliska@bratislava.sk" />,
+                      li: <li />,
+                      ul: <ul className="list-disc" />,
+                      em: <em />,
+                      strong: <strong />,
+                    }}
+                  >
+                    {faq.content}
+                  </Trans>
+                </span>
               </AccordionItem>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
     </main>
   )
