@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ContactFormValues } from 'components/ContactForm/ContactForm'
 
+import i18n from '../../i18n'
 import { fetchPool, fetchPools, fetchTickets, sendContactForm } from './api'
 import { setToast } from './reducer'
 
@@ -16,7 +17,7 @@ export const fetchPoolActions = createAsyncThunk(
       dispatch(
         setToast({
           type: 'error',
-          message: 'common.error-generic',
+          message: i18n.t('common.error-generic'),
         }),
       )
 
@@ -49,7 +50,7 @@ export const initPageGlobalState = createAsyncThunk(
       dispatch(
         setToast({
           type: 'error',
-          message: 'common.error-generic',
+          message: i18n.t('common.error-generic'),
         }),
       )
 
@@ -70,7 +71,7 @@ export const sendContactFormActions = createAsyncThunk(
       dispatch(
         setToast({
           type: 'success',
-          message: 'landing.message-sent-success',
+          message: i18n.t('landing.message-sent-success'),
         }),
       )
 
@@ -86,7 +87,7 @@ export const sendContactFormActions = createAsyncThunk(
             message:
               err.response.data.messages && err.response.data.messages.length > 0
                 ? err.response.data.messages[0].message
-                : 'landing.message-sent-error',
+                : i18n.t('landing.message-sent-error'),
           }),
         )
 
@@ -95,7 +96,7 @@ export const sendContactFormActions = createAsyncThunk(
       dispatch(
         setToast({
           type: 'error',
-          message: 'landing.message-sent-error',
+          message: i18n.t('landing.message-sent-error'),
         }),
       )
 

@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Icon, InputField } from 'components'
 import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { useAppDispatch } from 'hooks'
+import { TFunction } from 'i18next'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -13,12 +14,13 @@ import * as yup from 'yup'
 
 import { environment } from '../../environment'
 
-const formRules = yup.object().shape({
-  email: yup.string().email('common.email-invalid').required('common.field-required'),
-  name: yup.string().required('common.field-required'),
-  message: yup.string().required('common.field-required'),
-  recaptchaToken: yup.string().required('landing.captcha-warning-required'),
-})
+const formRules = (t: TFunction) =>
+  yup.object().shape({
+    email: yup.string().email(t('common.email-invalid')).required(t('common.field-required')),
+    name: yup.string().required(t('common.field-required')),
+    message: yup.string().required(t('common.field-required')),
+    recaptchaToken: yup.string().required(t('landing.captcha-warning-required')),
+  })
 
 export interface ContactFormValues {
   name: string
@@ -44,7 +46,13 @@ const ContactForm = () => {
     control,
   } = useForm<ContactFormValues>({
     mode: 'onChange',
-    resolver: yupResolver(formRules),
+    resolver: yupResolver(formRules(t)),
+    defaultValues: {
+      name: 'adam',
+      email: 'adam.grund@bratislava.sk',
+      message: 'test',
+      // recaptchaToken: string
+    },
   })
 
   useTimeout(() => {
@@ -54,10 +62,11 @@ const ContactForm = () => {
     setCaptchaWarning('show')
   }, 3000)
 
-  const onSubmit = (values: ContactFormValues) => {
+  const onSubmit = async (values: ContactFormValues) => {
+    console.log('onSubmit!!!!')
     setSending(true)
-    incrementCaptchaKey()
-    dispatch(
+    // incrementCaptchaKey()
+    await dispatch(
       sendContactFormActions({
         formData: values,
       }),
