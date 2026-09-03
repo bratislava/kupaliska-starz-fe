@@ -21,7 +21,6 @@ import { default as Tooltip } from './Tooltip/Tooltip'
 import { default as Typography } from './Typography/Typography'
 import { default as WhyCreateAccountSection } from './WhyCreateAccount/WhyCreateAccountSection'
 
-export * from './CustomerForm'
 export {
   AccordionItem,
   Button,
