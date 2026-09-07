@@ -3,6 +3,8 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend, { HttpBackendOptions } from 'i18next-http-backend'
 import intervalPlural from 'i18next-intervalplural-postprocessor'
 import { initReactI18next } from 'react-i18next'
+
+import { KEY_SEPARATOR, LOCALES } from './i18n.shared'
 // don't want to use this?
 // have a look at the Quick start guide
 // for passing in lng and translations on init
@@ -35,10 +37,11 @@ i18n
       lookupFromPathIndex: 0,
     },
 
-    supportedLngs: ['sk', 'en'],
+    supportedLngs: LOCALES,
     fallbackLng: 'sk',
 
     debug: true,
+    keySeparator: KEY_SEPARATOR,
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
