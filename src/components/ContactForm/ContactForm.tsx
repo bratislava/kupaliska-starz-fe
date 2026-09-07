@@ -47,12 +47,6 @@ const ContactForm = () => {
   } = useForm<ContactFormValues>({
     mode: 'onChange',
     resolver: yupResolver(formRules(t)),
-    defaultValues: {
-      name: 'adam',
-      email: 'adam.grund@bratislava.sk',
-      message: 'test',
-      // recaptchaToken: string
-    },
   })
 
   useTimeout(() => {
@@ -63,9 +57,8 @@ const ContactForm = () => {
   }, 3000)
 
   const onSubmit = async (values: ContactFormValues) => {
-    console.log('onSubmit!!!!')
     setSending(true)
-    // incrementCaptchaKey()
+    incrementCaptchaKey()
     await dispatch(
       sendContactFormActions({
         formData: values,
