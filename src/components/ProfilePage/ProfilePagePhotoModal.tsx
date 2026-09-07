@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError, AxiosResponse } from 'axios'
 import { ErrorWithMessages } from 'helpers/general'
+import { TFunction } from 'i18next'
 import { produce } from 'immer'
 import { pick } from 'lodash'
 import { useEffect, useState } from 'react'
@@ -20,11 +21,14 @@ interface ProfilePagePhotoModalProps {
   onClose: () => void
 }
 
-const validationSchema = yup.object({
-  image: yup.string().required('common.field-required'),
-})
+const validationSchema = (t: TFunction) =>
+  yup.object({
+    image: yup.string().required(t('common.field-required')),
+  })
 
 const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) => {
+  const { t } = useTranslation()
+
   const {
     handleSubmit,
     setValue,
@@ -33,7 +37,7 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
     formState: { errors },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema(t)),
     defaultValues: {
       ...pick(user, ['image']),
     },
@@ -47,7 +51,6 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
     }
   }, [user])
 
-  const { t } = useTranslation()
   const { dispatchErrorToastForHttpRequest } = useErrorToast()
 
   const queryClient = useQueryClient()

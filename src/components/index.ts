@@ -12,9 +12,6 @@ import { default as InputField } from './InputField/InputField'
 import { default as MessageScreen } from './MessageScreen/MessageScreen'
 import { default as MobileCarousel } from './MobileCarousel/MobileCarousel'
 import { default as Modal } from './Modal/Modal'
-import { default as ProfileBack } from './ProfileBack/ProfileBack'
-import { default as ProfileEdit } from './ProfileEditPage/ProfileEditPage'
-import { default as ProfileLine } from './ProfileLine/ProfileLine'
 import { default as SectionHeader } from './SectionHeader/SectionHeader'
 import { default as SignInSignOutLink } from './SignInSignOutLink/SignInSignOutLink'
 import { default as Spinner } from './Spinner/Spinner'
@@ -24,7 +21,6 @@ import { default as Tooltip } from './Tooltip/Tooltip'
 import { default as Typography } from './Typography/Typography'
 import { default as WhyCreateAccountSection } from './WhyCreateAccount/WhyCreateAccountSection'
 
-export * from './CustomerForm'
 export {
   AccordionItem,
   Button,
@@ -40,9 +36,6 @@ export {
   MessageScreen,
   MobileCarousel,
   Modal,
-  ProfileBack,
-  ProfileEdit,
-  ProfileLine,
   SectionHeader,
   SignInSignOutLink,
   Spinner,

@@ -4,6 +4,7 @@ import DatePicker from 'components/DatePicker/DatePicker'
 import dayjs from 'dayjs'
 import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import logger from 'helpers/logger'
+import { TFunction } from 'i18next'
 import { produce } from 'immer'
 import { pick } from 'lodash'
 import { useEffect, useState } from 'react'
@@ -31,16 +32,17 @@ today.setHours(0, 0, 0, 0)
 const THREE_YEARS_AGO = dayjs().subtract(3, 'years').startOf('day').toDate()
 const HUNDRED_FIFTY_YEARS_FROM_NOW = dayjs().subtract(150, 'years').startOf('day')
 
-const validationSchema = yup.object({
-  image: yup.string().required('common.field-required'),
-  dateOfBirth: yup
-    .date()
-    .typeError('common.field-required')
-    .required('common.field-required')
-    .max(THREE_YEARS_AGO, 'common.additional-info-toddlers')
-    .min(HUNDRED_FIFTY_YEARS_FROM_NOW, 'common.additional-info-tutanchamon'),
-  zip: yup.string().nullable(),
-})
+const validationSchema = (t: TFunction) =>
+  yup.object({
+    image: yup.string().required(t('common.field-required')),
+    dateOfBirth: yup
+      .date()
+      .typeError(t('common.field-required'))
+      .required(t('common.field-required'))
+      .max(THREE_YEARS_AGO, t('common.additional-info-toddlers'))
+      .min(HUNDRED_FIFTY_YEARS_FROM_NOW, t('common.additional-info-tutanchamon')),
+    zip: yup.string().nullable(),
+  })
 
 export const OrderMissingInformationProfileModal = ({
   user,
@@ -59,7 +61,7 @@ export const OrderMissingInformationProfileModal = ({
     formState: { errors },
   } = useForm<FormData>({
     mode: 'onChange',
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema(t)),
     defaultValues: user
       ? {
           ...pick(user, ['zip', 'dateOfBirth']),

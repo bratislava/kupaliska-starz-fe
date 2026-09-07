@@ -28,7 +28,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       disabled,
       errorMessage,
       required,
-      tooltip,
       helptext,
       helptextMarkdown,
       helptextFooter,
@@ -111,7 +110,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           helptextFooterMarkdown={helptextFooterMarkdown}
           required={required}
           disabled={disabled}
-          tooltip={tooltip}
           errorMessage={errorMessage}
           isOpen={state?.isOpen}
           customErrorPlace={customErrorPlace}
@@ -142,8 +140,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             {...buttonPropsFixed}
             isDisabled={disabled}
             icon={<Icon name={'calendar'} className={cx('no-fill ml-2')} />}
-            // TODO investigate why t can return undefined
-            aria-label={t('profile.open-calendar') ?? 'Open calendar'}
+            aria-label={t('profile.open-calendar')}
           />
         </DateField>
       </div>
