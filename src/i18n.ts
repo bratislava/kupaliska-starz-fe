@@ -1,6 +1,6 @@
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import Backend from 'i18next-http-backend'
+import Backend, { HttpBackendOptions } from 'i18next-http-backend'
 import intervalPlural from 'i18next-intervalplural-postprocessor'
 import { initReactI18next } from 'react-i18next'
 // don't want to use this?
@@ -21,7 +21,7 @@ i18n
   .use(intervalPlural)
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
-  .init({
+  .init<HttpBackendOptions>({
     backend: {
       // https://stackoverflow.com/a/43499557
       loadPath: `${
