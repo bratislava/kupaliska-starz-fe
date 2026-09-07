@@ -70,11 +70,7 @@ const ProfilePageUser = () => {
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
                 <p className="font-semibold">{t('buy-page.photo-title')}</p>
-                <p className="text-sm">
-                  {t('common.photo-required')}
-                  <br />
-                  {t('common.photo-purpose-attach-ownership')}
-                </p>
+                <p className="text-sm whitespace-pre-line">{t('common.photo-required')}</p>
               </div>
               <Button
                 className="self-start"

@@ -132,7 +132,7 @@ const Header = () => {
         <div className="flex flex-1 flex-col justify-between px-4 py-12">
           <div className="flex flex-col">
             <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-primary">STARZ</span>
+              <span className="text-xl font-bold text-primary">{t('common.brand-name')}</span>
               <button
                 onClick={() => setOpen(!open)}
                 className="bg-transparent text-primary focus:outline-hidden md:hidden"

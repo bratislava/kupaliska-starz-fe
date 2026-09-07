@@ -104,11 +104,7 @@ const PhotoField = ({
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
             {showLabel && <span className="font-semibold">{t('buy-page.photo-title')}</span>}
-            <p className="text-sm">
-              {t('common.photo-required')}
-              <br />
-              {t('common.photo-purpose-attach-ownership')}
-            </p>
+            <p className="text-sm whitespace-pre-line">{t('common.photo-required')}</p>
           </div>
           <Button className="self-start" color="outlined" onClick={openImageInput}>
             <Icon className="mr-2" name="upload" /> {t('buy-page.photo-upload')}

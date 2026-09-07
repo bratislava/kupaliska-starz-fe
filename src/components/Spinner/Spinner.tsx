@@ -1,7 +1,11 @@
+import { useTranslation } from 'react-i18next'
+
 /**
  * https://flowbite.com/docs/components/spinner/
  */
 const Spinner = () => {
+  const { t } = useTranslation()
+
   return (
     <div role="status">
       <svg
@@ -20,7 +24,7 @@ const Spinner = () => {
           fill="currentFill"
         />
       </svg>
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only">{t('common.loading')}</span>
     </div>
   )
 }

@@ -161,7 +161,7 @@ const LandingPage = () => {
           <div className="col-span-2 hidden md:block">
             <img
               src="/contact-form-image.svg"
-              alt="decoration for contact form"
+              alt=""
               className="mx-auto w-full lg:w-8/10 xl:w-7/10"
             />
           </div>
