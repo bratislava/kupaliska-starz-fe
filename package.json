@@ -76,6 +76,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "babel-plugin-preval": "^5.1.0",
     "eslint-plugin-better-tailwindcss": "^4.7.0",
+    "i18next-cli": "^1.73.1",
     "postcss": "^8.4.21",
     "postcss-nesting": "^7.0.1",
     "prettier": "3.8.4",
@@ -92,7 +93,8 @@
     "build": "vite build",
     "prettier": "prettier --write .",
     "lint": "eslint src",
-    "dev": "vite --host"
+    "dev": "vite --host",
+    "parse-translations": "i18next-cli extract"
   },
   "browserslist": {
     "production": [
