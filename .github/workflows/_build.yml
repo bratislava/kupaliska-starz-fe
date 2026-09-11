@@ -1,0 +1,110 @@
+name: Build Container (Reusable)
+
+# Two modes, selected by the `cluster` input:
+#   - CI (cluster == ''): build the image, do not push.
+#   - Deploy (cluster != ''): reuse the existing per-cluster commit image
+#     (re-tag it for the cluster) or build+push it.
+#
+# Vite bakes the VITE_* values from the committed .env.build.<cluster> file
+# into the bundle at build time, so the image, its tags and the Docker cache
+# are cluster-specific (the `-<cluster>` suffix on every tag and cache ref)
+# and cannot be reused across clusters. The cluster name is passed to the
+# Dockerfile as the CLUSTER build-arg, which selects the env file.
+on:
+  workflow_call:
+    inputs:
+      push:
+        description: "Whether to push the built image"
+        required: true
+        type: boolean
+      cluster:
+        description: "Target cluster (development, staging, production). Empty = CI build only."
+        required: false
+        type: string
+        default: ""
+    secrets:
+      DOCKER_REGISTRY_USERNAME:
+        required: true
+      DOCKER_REGISTRY_PASSWORD:
+        required: true
+      HARBOR_REGISTRY_PASSWORD:
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  REGISTRY: harbor.bratislava.sk
+  REGISTRY_USERNAME: robot$github_actions
+  IMAGE: harbor.bratislava.sk/standalone/kupaliska-starz-frontend
+
+jobs:
+  build:
+    name: Build
+    runs-on: bratislava
+    env:
+      CLUSTER_PREFIX: ${{ inputs.cluster != '' && format('{0}-', inputs.cluster) || '' }}
+      # CI builds (no cluster) bake the development env purely so the bundle has
+      # values at all - that image is never pushed.
+      ENV_NAME: ${{ inputs.cluster != '' && inputs.cluster || 'development' }}
+      ENV_SUFFIX: -${{ inputs.cluster != '' && inputs.cluster || 'development' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Resolve short SHA
+        id: sha
+        run: echo "short_sha=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+
+      - name: Check build env file
+        run: |
+          case "$ENV_NAME" in
+            development|staging|production) ;;
+            *) echo "::error::Unsupported cluster '$ENV_NAME'"; exit 1 ;;
+          esac
+          [ -f ".env.build.$ENV_NAME" ] || { echo "::error::Missing .env.build.$ENV_NAME"; exit 1; }
+
+      # Sets up Buildx and logs in to Docker Hub + Harbor.
+      - name: Set up Docker build
+        uses: bratislava/github-actions/.github/actions/setup-docker-build@v3.0.0
+        with:
+          docker_registry_username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          docker_registry_password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+          harbor_registry: ${{ env.REGISTRY }}
+          harbor_registry_username: ${{ env.REGISTRY_USERNAME }}
+          harbor_registry_password: ${{ secrets.HARBOR_REGISTRY_PASSWORD }}
+
+      # Shared tag rules with the `-<cluster>` suffix on every tag and cache
+      # ref, so images built for different clusters never collide.
+      - name: Docker metadata
+        id: meta
+        uses: bratislava/github-actions/.github/actions/docker-metadata@v3.0.0
+        with:
+          image: ${{ env.IMAGE }}
+          prefix: ${{ env.CLUSTER_PREFIX }}
+          suffix: ${{ env.ENV_SUFFIX }}
+
+      # Deploy mode only: if the per-cluster commit image already exists,
+      # re-tag it for this cluster and skip the build below.
+      - name: Check for existing image
+        if: ${{ inputs.cluster != '' }}
+        id: existing
+        uses: bratislava/github-actions/.github/actions/check-existing-image@v3.0.0
+        with:
+          existing_tag: ${{ env.IMAGE }}:${{ steps.sha.outputs.short_sha }}${{ env.ENV_SUFFIX }}
+          new_tag: ${{ env.IMAGE }}:${{ env.CLUSTER_PREFIX }}${{ steps.sha.outputs.short_sha }}${{ env.ENV_SUFFIX }}
+
+      - name: Build and push
+        if: ${{ inputs.cluster == '' || steps.existing.outputs.found != 'true' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          target: prod
+          push: ${{ inputs.push }}
+          build-args: |
+            CLUSTER=${{ env.ENV_NAME }}
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: ${{ steps.meta.outputs.cache_from }}
+          cache-to: ${{ steps.meta.outputs.cache_to }}
