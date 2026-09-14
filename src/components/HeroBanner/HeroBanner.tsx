@@ -34,17 +34,17 @@ const HeroBanner = () => {
         <div className="max-w-xs 2xl:max-w-md">
           <Typography type="title" fontWeight="bold" className="mb-4">
             {/* TODO implement better logic offseason/preseason/season texts */}
-            {/* {preseason ? t('landing.title-offseason') : t(`landing.title`)} */}
+            {/* {preseason ? t('landing.title-preseason') : t(`landing.title`)} */}
             {generalSettings?.data.isSeasonActive
               ? t(`landing.title`)
-              : t('landing.title-preseason')}
+              : t('landing.title-offseason')}
           </Typography>
           <Typography type="subtitle">
             {/* TODO implement better logic offseason/preseason/season texts */}
-            {/* {preseason ? t('landing.subtitle-offseason') : t('landing.subtitle')} */}
+            {/* {preseason ? t('landing.subtitle-preseason') : t('landing.subtitle')} */}
             {generalSettings?.data.isSeasonActive
               ? t('landing.subtitle')
-              : t('landing.subtitle-preseason')}
+              : t('landing.subtitle-offseason')}
           </Typography>
         </div>
 
