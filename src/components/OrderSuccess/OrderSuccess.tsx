@@ -52,14 +52,17 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
           </a>
           <Link to="/" className="self-start">
             <Button color="outlined">
-              {t('order-success.continue-home')} <Icon className="no-fill ml-4" name="arrow-right" />
+              {t('order-success.continue-home')}
+              <Icon className="no-fill ml-4" name="arrow-right" />
             </Button>
           </Link>
         </div>
         <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-divider">
           <div className="border-b-2 border-solid border-divider px-6 py-4 text-center">
             <Typography type="subtitle">
-              {tickets.length > 1 ? t('order-success.your-tickets') : t('order-success.your-ticket')}
+              {tickets.length > 1
+                ? t('order-success.your-tickets')
+                : t('order-success.your-ticket')}
             </Typography>
           </div>
           <div className="py-6">
@@ -68,7 +71,9 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
               <span className="text-sm">{t('order-success.or')}</span>
               <Button color="outlined" className="w-full" onClick={downloadTickets}>
                 <Icon name="download" className="mr-2" />
-                {tickets.length > 1 ? t('order-success.download-all') : t('order-success.download-one')}
+                {tickets.length > 1
+                  ? t('order-success.download-all')
+                  : t('order-success.download-one')}
               </Button>
             </div>
           </div>
