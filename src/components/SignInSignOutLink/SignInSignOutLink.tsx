@@ -1,12 +1,12 @@
-import { AccountType } from 'helpers/cityAccountDto'
-import { ROUTES } from 'helpers/constants'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
-import { useAccount } from '../../hooks/useAccount'
-import { useLogin } from '../../hooks/useLogin'
-import { useLogout } from '../../hooks/useLogout'
+import { AccountType } from '@/helpers/cityAccountDto'
+import { ROUTES } from '@/helpers/constants'
+import { useAccount } from '@/hooks/useAccount'
+import { useLogin } from '@/hooks/useLogin'
+import { useLogout } from '@/hooks/useLogout'
 
 /* Inspired by https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/1b38e9582ae23bde40fe4bef77f3d838e838e08b/samples/msal-react-samples/react-18-sample/src/ui-components/SignInSignOutButton.jsx */
 const SignInSignOutLink = () => {

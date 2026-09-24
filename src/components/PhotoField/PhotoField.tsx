@@ -1,10 +1,11 @@
-import { Icon } from 'components'
-import Button from 'components/Button/Button'
-import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
 import { get } from 'lodash'
 import { ChangeEvent, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Resizer from 'react-image-file-resizer'
+
+import { Icon } from '@/components'
+import Button from '@/components/Button/Button'
+import { useValidationSchemaTranslationIfPresent } from '@/helpers/general'
 
 import Photo from '../Photo/Photo'
 

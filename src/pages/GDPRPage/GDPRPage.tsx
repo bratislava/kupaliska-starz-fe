@@ -1,8 +1,9 @@
 import './GDPRPage.css'
 
-import { SectionHeader, Typography } from 'components'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import Markdown from 'react-markdown'
+
+import { SectionHeader } from '@/components'
 const GDPRPage = () => {
   const { t } = useTranslation()
 

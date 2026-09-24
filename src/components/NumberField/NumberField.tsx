@@ -1,4 +1,3 @@
-import { Icon } from 'components'
 import { forwardRef, Ref } from 'react'
 import { Input as RACInput } from 'react-aria-components/Input'
 import {
@@ -8,7 +7,9 @@ import {
   NumberFieldProps as RACNumberFieldProps,
 } from 'react-aria-components/NumberField'
 import { useTranslation } from 'react-i18next'
-import cn from 'utils/cn'
+
+import { Icon } from '@/components'
+import cn from '@/utils/cn'
 
 /**
  * Inspired by https://github.com/bratislava/konto.bratislava.sk/blob/3aee90e53eb79112c061be5a1f4f079dcd4e12c6/next/src/components/fields/NumberField.tsx

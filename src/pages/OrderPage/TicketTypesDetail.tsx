@@ -1,10 +1,11 @@
+import { UseFormSetValue } from 'react-hook-form'
+
 import TicketTypeDetail, {
   TicketTypeDetailProps,
-} from 'components/TicketTypeDetail/TicketTypeDetail'
-import { CartItem } from 'models/order'
-import { OrderFormData } from 'pages/OrderPage/OrderPage'
-import { OrderPageTicket } from 'pages/OrderPage/useOrderPageTicket'
-import { UseFormSetValue } from 'react-hook-form'
+} from '@/components/TicketTypeDetail/TicketTypeDetail'
+import { CartItem } from '@/models/order'
+import { OrderFormData } from '@/pages/OrderPage/OrderPage'
+import { OrderPageTicket } from '@/pages/OrderPage/useOrderPageTicket'
 
 export interface TicketTypesDetailProps extends Omit<
   TicketTypeDetailProps,

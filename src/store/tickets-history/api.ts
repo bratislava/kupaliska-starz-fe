@@ -1,4 +1,4 @@
-import { apiClientWithAccessToken } from '../../helpers/apiClient'
+import { apiClientWithAccessToken } from '@/helpers/apiClient'
 
 export interface TicketFromHistory {
   id: string

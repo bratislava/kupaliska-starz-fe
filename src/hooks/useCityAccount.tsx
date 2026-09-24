@@ -1,8 +1,9 @@
-import { checkTokenValid, getAccessTokenFromIFrame } from 'helpers/cityAccountToken'
-import logger from 'helpers/logger'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
+
+import { checkTokenValid, getAccessTokenFromIFrame } from '@/helpers/cityAccountToken'
+import logger from '@/helpers/logger'
 
 export type CityAccountAccessTokenAuthenticationStatus =
   | 'initializing'

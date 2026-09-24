@@ -1,10 +1,11 @@
-import { ROUTES } from 'helpers/constants'
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
+import { ROUTES } from '@/helpers/constants'
+
+import Button from '../Button/Button'
 import Dialog from '../Dialog/Dialog'
-import { Button } from '../index'
 
 interface State {
   open: boolean

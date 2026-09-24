@@ -1,13 +1,14 @@
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
-import { Button, Icon, InputField } from 'components'
-import { useErrorToast } from 'hooks/useErrorToast'
-import { CaptchaWarningStatus, OrderFormData } from 'pages/OrderPage/OrderPage'
 import { useState } from 'react'
 import { FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { checkDiscountCode, DiscountCode, DiscountCodeResponse } from 'store/order/api'
 import { useIsMounted } from 'usehooks-ts'
+
+import { Button, Icon, InputField } from '@/components'
+import { useErrorToast } from '@/hooks/useErrorToast'
+import { CaptchaWarningStatus, OrderFormData } from '@/pages/OrderPage/OrderPage'
+import { checkDiscountCode, DiscountCode, DiscountCodeResponse } from '@/store/order/api'
 
 export interface DiscountCodeInputProps {
   setValue: UseFormSetValue<OrderFormData>

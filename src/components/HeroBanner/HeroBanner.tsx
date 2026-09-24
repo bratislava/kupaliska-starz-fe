@@ -1,12 +1,13 @@
 import './HeroBanner.css'
 
 import cx from 'classnames'
-import { Button, Icon, Typography } from 'components'
-import { ANCHORS } from 'helpers/constants'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router'
-import { fetchGeneralSettings } from 'store/global/api'
+
+import { Button, Icon, Typography } from '@/components'
+import { ANCHORS } from '@/helpers/constants'
+import { fetchGeneralSettings } from '@/store/global/api'
 
 const HeroBanner = () => {
   const { t } = useTranslation()

@@ -1,4 +1,4 @@
-import { PaymentMethod } from 'helpers/types'
+import { PaymentMethod } from '@/helpers/types'
 
 export interface TicketType {
   id: string

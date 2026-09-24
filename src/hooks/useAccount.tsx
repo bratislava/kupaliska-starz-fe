@@ -1,7 +1,8 @@
-import { getAccount } from 'helpers/cityAccountApi'
-import { faro } from 'helpers/logger'
 import { useEffect } from 'react'
 import { useQuery } from 'react-query'
+
+import { getAccount } from '@/helpers/cityAccountApi'
+import { faro } from '@/helpers/logger'
 
 import useCityAccount from './useCityAccount'
 

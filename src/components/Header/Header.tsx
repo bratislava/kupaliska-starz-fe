@@ -1,15 +1,16 @@
 import './Header.css'
 
 import cx from 'classnames'
-import { Icon, Typography } from 'components'
-import { IconName } from 'components/Icon/Icon'
-import { ANCHORS, ROUTES } from 'helpers/constants'
-import useCityAccountAccessToken from 'hooks/useCityAccount'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Link, NavLink } from 'react-router'
-import { fetchGeneralSettings } from 'store/global/api'
+
+import { Icon, Typography } from '@/components'
+import { IconName } from '@/components/Icon/Icon'
+import { ANCHORS, ROUTES } from '@/helpers/constants'
+import useCityAccountAccessToken from '@/hooks/useCityAccount'
+import { fetchGeneralSettings } from '@/store/global/api'
 
 interface MenuItem {
   to: string

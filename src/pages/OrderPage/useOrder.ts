@@ -1,11 +1,11 @@
 import to from 'await-to-js'
 import { AxiosError, AxiosResponse } from 'axios'
-import { PaymentMethod } from 'helpers/types'
 import { useTranslation } from 'react-i18next'
 
-import useCityAccountAccessToken from '../../hooks/useCityAccount'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { order } from '../../store/order/api'
+import { PaymentMethod } from '@/helpers/types'
+import useCityAccountAccessToken from '@/hooks/useCityAccount'
+import { useErrorToast } from '@/hooks/useErrorToast'
+import { order } from '@/store/order/api'
 
 /* Sends the order request and handles the necessary logic.
 

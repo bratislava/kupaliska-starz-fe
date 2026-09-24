@@ -1,7 +1,6 @@
-import { ContactFormValues } from 'components/ContactForm/ContactForm'
-import { apiClient } from 'helpers/apiClient'
-
-import { GeneralSettings, TicketType } from '../../models'
+import { ContactFormValues } from '@/components/ContactForm/ContactForm'
+import { apiClient } from '@/helpers/apiClient'
+import { GeneralSettings, TicketType } from '@/models'
 
 export async function fetchGeneralSettings() {
   return apiClient.get<GeneralSettings>('/api/v1/generalSettings')

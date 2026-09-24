@@ -1,8 +1,9 @@
-import { Icon } from 'components'
-import Price, { PriceProps } from 'pages/OrderPage/Price'
-import TicketTypesDetail, { TicketTypesDetailProps } from 'pages/OrderPage/TicketTypesDetail'
 import { useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+
+import { Icon } from '@/components'
+import Price, { PriceProps } from '@/pages/OrderPage/Price'
+import TicketTypesDetail, { TicketTypesDetailProps } from '@/pages/OrderPage/TicketTypesDetail'
 
 interface SummaryProps extends TicketTypesDetailProps, Omit<PriceProps, 'pricing'> {
   isFetching: boolean

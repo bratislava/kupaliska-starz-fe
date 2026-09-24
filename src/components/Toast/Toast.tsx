@@ -1,5 +1,6 @@
-import { Icon } from 'components'
 import { PropsWithChildren, useEffect, useState } from 'react'
+
+import { Icon } from '@/components'
 
 interface ToastProps {
   type?: 'success' | 'error' | 'info'

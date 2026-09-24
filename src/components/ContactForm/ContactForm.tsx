@@ -1,18 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Icon, InputField } from 'components'
-import { useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import { useAppDispatch } from 'hooks'
 import { TFunction } from 'i18next'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import Turnstile from 'react-turnstile'
-import { sendContactFormActions } from 'store/global'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 
-import { environment } from '../../environment'
+import { Button, Icon, InputField } from '@/components'
+import { environment } from '@/environment'
+import { useValidationSchemaTranslationIfPresent } from '@/helpers/general'
+import { useAppDispatch } from '@/hooks'
+import { sendContactFormActions } from '@/store/global'
 
 const formRules = (t: TFunction) =>
   yup.object().shape({

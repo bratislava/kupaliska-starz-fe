@@ -1,18 +1,18 @@
+import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+
 import {
   AccordionItem,
   ContactForm,
   HeroBanner,
   SectionHeader,
   WhyCreateAccountSection,
-} from 'components'
-import useCityAccountAccessToken from 'hooks/useCityAccount'
-import { useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
-import { fetchGeneralSettings } from 'store/global/api'
-
-import HomepageHowTo from '../../components/HomepageHowTo/HomepageHowTo'
-import HomepageTickets from '../../components/HomepageTickets/HomepageTickets'
+} from '@/components'
+import HomepageHowTo from '@/components/HomepageHowTo/HomepageHowTo'
+import HomepageTickets from '@/components/HomepageTickets/HomepageTickets'
+import useCityAccountAccessToken from '@/hooks/useCityAccount'
+import { fetchGeneralSettings } from '@/store/global/api'
 
 const LandingPage = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | undefined>()

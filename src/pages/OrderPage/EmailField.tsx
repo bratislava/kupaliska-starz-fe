@@ -1,7 +1,8 @@
-import { InputField } from 'components'
-import { OrderFormData } from 'pages/OrderPage/OrderPage'
 import { UseFormRegister } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
+
+import { InputField } from '@/components'
+import { OrderFormData } from '@/pages/OrderPage/OrderPage'
 
 interface EmailFieldProps {
   register: UseFormRegister<OrderFormData>

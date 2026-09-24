@@ -1,7 +1,8 @@
 import cx from 'classnames'
-import { ROUTES } from 'helpers/constants'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
+
+import { ROUTES } from '@/helpers/constants'
 
 const Footer = () => {
   const { t } = useTranslation()

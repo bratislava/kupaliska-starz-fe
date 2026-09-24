@@ -1,6 +1,5 @@
-import { OpeningHours, OpeningHoursStrings, SwimmingPool, SwimmingPoolResponse } from 'models'
-
-import i18n from '../../i18n'
+import i18n from '@/i18n'
+import { OpeningHours, OpeningHoursStrings, SwimmingPool, SwimmingPoolResponse } from '@/models'
 
 export const swimmingPoolResponseToSwimmingPool = (pool: SwimmingPoolResponse): SwimmingPool => ({
   ...pool,

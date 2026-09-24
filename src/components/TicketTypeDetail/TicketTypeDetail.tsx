@@ -1,15 +1,12 @@
-import { Icon } from 'components'
-import AdultChildrenCount from 'components/AdultChildrenCount/AdultChildrenCount'
-import NumberField from 'components/NumberField/NumberField'
-import { isDefined } from 'helpers/helper'
-import { TicketType } from 'models'
 import { useTranslation } from 'react-i18next'
 import Skeleton from 'react-loading-skeleton'
 
-import {
-  FormatCurrencyFromCents,
-  useCurrencyFromCentsFormatter,
-} from '../../helpers/currencyFormatter'
+import { Icon } from '@/components'
+import AdultChildrenCount from '@/components/AdultChildrenCount/AdultChildrenCount'
+import NumberField from '@/components/NumberField/NumberField'
+import { FormatCurrencyFromCents, useCurrencyFromCentsFormatter } from '@/helpers/currencyFormatter'
+import { isDefined } from '@/helpers/helper'
+import { TicketType } from '@/models'
 
 export interface TicketTypeDetailProps {
   ticketType: TicketType

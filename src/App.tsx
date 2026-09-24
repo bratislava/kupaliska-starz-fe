@@ -1,20 +1,7 @@
-import './helpers/logger'
+import '@/helpers/logger'
 import '@fontsource/inter'
 
 import { AxiosError } from 'axios'
-import { Footer, Header, Toast, TopBanner } from 'components'
-import { ROUTES } from 'helpers/constants'
-import { useAppDispatch, useAppSelector } from 'hooks'
-import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from 'hooks/useCityAccount'
-import { LandingPage } from 'pages'
-import GDPRPage from 'pages/GDPRPage/GDPRPage'
-import NotFoundPage from 'pages/NotFoundPage/NotFoundPage'
-import OrderPageGuard from 'pages/OrderPage/OrderPageGuard'
-import OrderResultSuccessfulPage from 'pages/OrderResultPage/OrderResultSuccessfulPage'
-import OrderResultUnsuccessfulPage from 'pages/OrderResultPage/OrderResultUnsuccessfulPage'
-import ProfilePage from 'pages/ProfilePage/ProfilePage'
-import TicketsManagementPage from 'pages/TicketsManagementPage/TicketsManagementPage'
-import VOPPage from 'pages/VOPPage/VOPPage'
 import { useEffect } from 'react'
 import { I18nProvider } from 'react-aria/I18nProvider'
 import { useTranslation } from 'react-i18next'
@@ -28,13 +15,26 @@ import {
   RouterProvider,
   ScrollRestoration,
 } from 'react-router'
-import { initPageGlobalState, selectToast, setToast } from 'store/global'
 
+import { Footer, Header, Toast, TopBanner } from '@/components'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
-} from './components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
-import CookieConsent from './components/CookieConsent/CookieConsent'
-import RegisterUserGuard from './hooks/RegisterUserGuard'
+} from '@/components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
+import CookieConsent from '@/components/CookieConsent/CookieConsent'
+import { ROUTES } from '@/helpers/constants'
+import { useAppDispatch, useAppSelector } from '@/hooks'
+import RegisterUserGuard from '@/hooks/RegisterUserGuard'
+import useCityAccountAccessToken, { CityAccountAccessTokenProvider } from '@/hooks/useCityAccount'
+import { LandingPage } from '@/pages'
+import GDPRPage from '@/pages/GDPRPage/GDPRPage'
+import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage'
+import OrderPageGuard from '@/pages/OrderPage/OrderPageGuard'
+import OrderResultSuccessfulPage from '@/pages/OrderResultPage/OrderResultSuccessfulPage'
+import OrderResultUnsuccessfulPage from '@/pages/OrderResultPage/OrderResultUnsuccessfulPage'
+import ProfilePage from '@/pages/ProfilePage/ProfilePage'
+import TicketsManagementPage from '@/pages/TicketsManagementPage/TicketsManagementPage'
+import VOPPage from '@/pages/VOPPage/VOPPage'
+import { initPageGlobalState, selectToast, setToast } from '@/store/global'
 
 const queryClient = new QueryClient({
   defaultOptions: {

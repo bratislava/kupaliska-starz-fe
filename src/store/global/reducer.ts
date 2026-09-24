@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { swimmingPoolResponseToSwimmingPool } from 'helpers/adapters'
-import { SwimmingPoolResponse, TicketType } from 'models'
-import { RootState } from 'store'
+
+import { swimmingPoolResponseToSwimmingPool } from '@/helpers/adapters'
+import { SwimmingPoolResponse, TicketType } from '@/models'
+import { RootState } from '@/store'
 
 import { fetchPoolActions, initPageGlobalState } from './thunks'
 
