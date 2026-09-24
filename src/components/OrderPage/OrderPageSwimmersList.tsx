@@ -91,9 +91,7 @@ const OrderPageSwimmersList = ({
         className="flex items-center self-start px-3 py-2 font-semibold"
       >
         <Icon name="plus" className="no-fill mr-2 text-gray-700" />
-        {isSeniorOrDisabledTicket
-          ? t('buy-page.add-senior-disabled')
-          : t('buy-page.add-adult-kid')}
+        {isSeniorOrDisabledTicket ? t('buy-page.add-senior-disabled') : t('buy-page.add-adult-kid')}
       </AriaButton>
     </div>
   )
