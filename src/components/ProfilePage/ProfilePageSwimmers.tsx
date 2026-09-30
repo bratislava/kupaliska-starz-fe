@@ -1,12 +1,13 @@
 import { AxiosError } from 'axios'
 import cx from 'classnames'
-import { ErrorWithMessages } from 'helpers/general'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { AssociatedSwimmer, fetchAssociatedSwimmers } from '../../store/associatedSwimmers/api'
+import { ErrorWithMessages } from '@/helpers/general'
+import { useErrorToast } from '@/hooks/useErrorToast'
+import { AssociatedSwimmer, fetchAssociatedSwimmers } from '@/store/associatedSwimmers/api'
+
 import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import { Button, Icon, Spinner } from '../index'
 import Photo from '../Photo/Photo'

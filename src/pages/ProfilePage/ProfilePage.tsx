@@ -1,5 +1,5 @@
-import ProfilePageSwimmers from '../../components/ProfilePage/ProfilePageSwimmers'
-import ProfilePageUser from '../../components/ProfilePage/ProfilePageUser'
+import ProfilePageSwimmers from '@/components/ProfilePage/ProfilePageSwimmers'
+import ProfilePageUser from '@/components/ProfilePage/ProfilePageUser'
 
 const ProfilePage = () => {
   return (

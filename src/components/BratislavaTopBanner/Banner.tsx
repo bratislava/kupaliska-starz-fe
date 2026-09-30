@@ -1,9 +1,10 @@
-import { Icon } from 'components'
-import AlertBanner from 'components/AlertBanner/AlertBanner'
 import { PropsWithChildren } from 'react'
 import { Trans } from 'react-i18next'
 import { useQuery } from 'react-query'
-import { fetchGeneralSettings } from 'store/global/api'
+
+import { Icon } from '@/components'
+import AlertBanner from '@/components/AlertBanner/AlertBanner'
+import { fetchGeneralSettings } from '@/store/global/api'
 
 import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
 

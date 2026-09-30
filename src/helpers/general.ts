@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
-import { TicketFromHistory } from 'store/tickets-history/api'
+
+import { TicketFromHistory } from '@/store/tickets-history/api'
 
 import i18n from '../i18n'
 

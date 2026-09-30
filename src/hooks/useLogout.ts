@@ -1,4 +1,4 @@
-import { redirectToLogout } from 'helpers/cityAccountApi'
+import { redirectToLogout } from '@/helpers/cityAccountApi'
 
 import { ACCESS_TOKEN_STORAGE_KEY } from './useCityAccount'
 

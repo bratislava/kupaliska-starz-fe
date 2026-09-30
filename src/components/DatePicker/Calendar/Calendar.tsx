@@ -1,10 +1,11 @@
 import { createCalendar } from '@internationalized/date'
-import { Button, Icon } from 'components'
 import { useRef } from 'react'
 import { useCalendar, useLocale } from 'react-aria'
 import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useCalendarState } from 'react-stately'
+
+import { Button, Icon } from '@/components'
 
 import CalendarGrid from './CalendarGrid'
 

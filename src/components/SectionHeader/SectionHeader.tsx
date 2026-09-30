@@ -1,4 +1,4 @@
-import { Typography } from 'components'
+import { Typography } from '@/components'
 
 interface SectionHeaderProps {
   title: string

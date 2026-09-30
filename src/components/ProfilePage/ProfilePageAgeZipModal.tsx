@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError, AxiosResponse } from 'axios'
-import DatePicker from 'components/DatePicker/DatePicker'
 import dayjs from 'dayjs'
 import { TFunction } from 'i18next'
 import { produce } from 'immer'
@@ -10,9 +9,11 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '../../helpers/general'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { updateUser, User } from '../../store/user/api'
+import DatePicker from '@/components/DatePicker/DatePicker'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '@/helpers/general'
+import { useErrorToast } from '@/hooks/useErrorToast'
+import { updateUser, User } from '@/store/user/api'
+
 import Dialog from '../Dialog/Dialog'
 import { Button, InputField } from '../index'
 

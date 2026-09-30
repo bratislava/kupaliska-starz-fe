@@ -1,10 +1,10 @@
-import { CaptchaWarningStatus, OrderFormData } from 'pages/OrderPage/OrderPage'
 import { Dispatch, SetStateAction } from 'react'
 import { Control, Controller, FieldError } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import Turnstile from 'react-turnstile'
 
-import { environment } from '../../environment'
+import { environment } from '@/environment'
+import { CaptchaWarningStatus, OrderFormData } from '@/pages/OrderPage/OrderPage'
 
 interface RecaptchaFieldProps {
   control: Control<OrderFormData>

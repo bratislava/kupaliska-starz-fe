@@ -1,7 +1,8 @@
-import { Button, Icon } from 'components'
-import { useCurrencyFromCentsFormatter } from 'helpers/currencyFormatter'
-import { PaymentMethod } from 'helpers/types'
 import { useTranslation } from 'react-i18next'
+
+import { Button, Icon } from '@/components'
+import { useCurrencyFromCentsFormatter } from '@/helpers/currencyFormatter'
+import { PaymentMethod } from '@/helpers/types'
 
 interface PayButtonProps {
   isDisabled: boolean

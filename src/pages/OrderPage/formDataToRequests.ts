@@ -1,5 +1,6 @@
 import { times } from 'lodash'
-import { TicketType } from 'models/order'
+
+import { TicketType } from '@/models/order'
 
 import { OrderFormData } from './OrderPage'
 

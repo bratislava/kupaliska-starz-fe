@@ -1,13 +1,13 @@
-import OrderSuccess from 'components/OrderSuccess/OrderSuccess'
-import { ROUTES } from 'helpers/constants'
 import qs from 'qs'
 import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useLocation, useNavigate } from 'react-router'
 
-import { Spinner } from '../../components'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { getFinalOrder } from '../../store/order/api'
+import { Spinner } from '@/components'
+import OrderSuccess from '@/components/OrderSuccess/OrderSuccess'
+import { ROUTES } from '@/helpers/constants'
+import { useErrorToast } from '@/hooks/useErrorToast'
+import { getFinalOrder } from '@/store/order/api'
 
 interface Params {
   success?: string

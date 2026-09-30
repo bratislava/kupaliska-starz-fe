@@ -2,10 +2,9 @@ import {
   apiClient,
   apiClientWithAccessToken,
   apiClientWithAccessTokenIfAvailable,
-} from 'helpers/apiClient'
-import { GetPriceResponse, OrderRequest } from 'models'
-
-import { CityAccountAccessTokenAuthenticationStatus } from '../../hooks/useCityAccount'
+} from '@/helpers/apiClient'
+import { CityAccountAccessTokenAuthenticationStatus } from '@/hooks/useCityAccount'
+import { GetPriceResponse, OrderRequest } from '@/models'
 
 export async function order(
   data: OrderRequest,

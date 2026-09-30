@@ -1,5 +1,5 @@
-import { PaymentMethod } from 'helpers/types'
-import PayButton from 'pages/OrderPage/PayButton'
+import { PaymentMethod } from '@/helpers/types'
+import PayButton from '@/pages/OrderPage/PayButton'
 
 interface MobilePaymentButtonsProps {
   isDisabled: boolean

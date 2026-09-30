@@ -1,4 +1,4 @@
-import OrderFailure from '../../components/OrderFailure/OrderFailure'
+import OrderFailure from '@/components/OrderFailure/OrderFailure'
 
 const OrderResultPage = () => {
   return <OrderFailure />

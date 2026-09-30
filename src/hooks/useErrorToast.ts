@@ -1,8 +1,9 @@
 import { AxiosError } from 'axios'
-import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/general'
 import { useTranslation } from 'react-i18next'
 
-import { setToast } from '../store/global'
+import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from '@/helpers/general'
+import { setToast } from '@/store/global'
+
 import { useAppDispatch } from './store'
 import useCityAccountAccessToken from './useCityAccount'
 

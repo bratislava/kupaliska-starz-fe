@@ -1,7 +1,8 @@
-import { Button, MessageScreen } from 'components'
-import { ROUTES } from 'helpers/constants'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
+
+import { Button, MessageScreen } from '@/components'
+import { ROUTES } from '@/helpers/constants'
 
 const NotFoundPage = () => {
   const { t } = useTranslation()

@@ -1,15 +1,16 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { ErrorWithMessages } from 'helpers/general'
 import { produce } from 'immer'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { useErrorToast } from '../../hooks/useErrorToast'
+import { ErrorWithMessages } from '@/helpers/general'
+import { useErrorToast } from '@/hooks/useErrorToast'
 import {
   AssociatedSwimmer,
   AssociatedSwimmerFetchResponse,
   deleteAssociatedSwimmer,
-} from '../../store/associatedSwimmers/api'
+} from '@/store/associatedSwimmers/api'
+
 import Dialog from '../Dialog/Dialog'
 import { Button } from '../index'
 import Photo from '../Photo/Photo'

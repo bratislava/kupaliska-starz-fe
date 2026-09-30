@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios'
-import { Icon } from 'components'
-import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from 'helpers/general'
-import { CartItem } from 'models'
-import { GetPriceRequest, OrderRequestBody } from 'pages/OrderPage/formDataToRequests'
-import SwimmersList, { SwimmersListProps } from 'pages/OrderPage/SwimmersList'
 import { Trans, useTranslation } from 'react-i18next'
+
+import { Icon } from '@/components'
+import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from '@/helpers/general'
+import { CartItem } from '@/models'
+import { GetPriceRequest, OrderRequestBody } from '@/pages/OrderPage/formDataToRequests'
+import SwimmersList, { SwimmersListProps } from '@/pages/OrderPage/SwimmersList'
 
 interface SwimmersSelectionProps extends SwimmersListProps {
   ticketTypesData: CartItem[]

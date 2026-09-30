@@ -1,9 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AxiosError, AxiosResponse } from 'axios'
-import DatePicker from 'components/DatePicker/DatePicker'
 import dayjs from 'dayjs'
-import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from 'helpers/general'
-import logger from 'helpers/logger'
 import { TFunction } from 'i18next'
 import { produce } from 'immer'
 import { pick } from 'lodash'
@@ -13,14 +10,18 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
-import { getObjectChanges } from '../../helpers/getObjectChanges'
-import { useErrorToast } from '../../hooks/useErrorToast'
+import DatePicker from '@/components/DatePicker/DatePicker'
+import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '@/helpers/general'
+import { getObjectChanges } from '@/helpers/getObjectChanges'
+import logger from '@/helpers/logger'
+import { useErrorToast } from '@/hooks/useErrorToast'
 import {
   AssociatedSwimmer,
   AssociatedSwimmerFetchResponse,
   createAssociatedSwimmer,
   editAssociatedSwimmer,
-} from '../../store/associatedSwimmers/api'
+} from '@/store/associatedSwimmers/api'
+
 import Dialog from '../Dialog/Dialog'
 import { Button, InputField } from '../index'
 import PhotoField from '../PhotoField/PhotoField'

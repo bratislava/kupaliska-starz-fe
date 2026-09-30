@@ -1,16 +1,16 @@
 import { AxiosError } from 'axios'
 import cx from 'classnames'
-import { Button, Icon, Modal, Spinner } from 'components'
-import { FormatCurrencyFromCents } from 'helpers/currencyFormatter'
-import { ErrorWithMessages, isOneTimeTicket } from 'helpers/general'
 import { partition } from 'lodash'
 import { Fragment, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
-import MobileCarousel from '../../components/MobileCarousel/MobileCarousel'
-import { useErrorToast } from '../../hooks/useErrorToast'
-import { fetchTicketsHistory, TicketFromHistory } from '../../store/tickets-history/api'
+import { Button, Icon, Modal, Spinner } from '@/components'
+import MobileCarousel from '@/components/MobileCarousel/MobileCarousel'
+import { FormatCurrencyFromCents } from '@/helpers/currencyFormatter'
+import { ErrorWithMessages, isOneTimeTicket } from '@/helpers/general'
+import { useErrorToast } from '@/hooks/useErrorToast'
+import { fetchTicketsHistory, TicketFromHistory } from '@/store/tickets-history/api'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
