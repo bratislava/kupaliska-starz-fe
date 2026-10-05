@@ -1,5 +1,3 @@
-import './GDPRPage.css'
-
 import { useTranslation } from 'react-i18next'
 import Markdown from 'react-markdown'
 

@@ -20,13 +20,13 @@ npm install
 
 ### Environment
 
-Set the `VITE_HOST` variable in `.env.development` file to **FULL URL** of the backend API. The default setup runs against local backend - if you don't have BE running on http://localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
+Set the `NEXT_PUBLIC_HOST` variable in `.env.development` file to **FULL URL** of the backend API. The default setup runs against local backend - if you don't have BE running on http://localhost:8000, or would like to develop against staging environment backend (you need to be connected to VPN), edit the `.env.development` file.
 
 For additional informaion about VPN, please contact Martin Pinter.
 
 #### Recaptcha
 
-To make recaptcha work properly, you need to set `VITE_RECAPTCHA_TURNSTILE_SITE_KEY` variable from [cloudflare](https://dash.cloudflare.com/d22f6ea707b439784e5300382443257b/turnstile). From there use the `kupaliska.bratislava.sk` site key.
+To make recaptcha work properly, you need to set `NEXT_PUBLIC_RECAPTCHA_TURNSTILE_SITE_KEY` variable from [cloudflare](https://dash.cloudflare.com/d22f6ea707b439784e5300382443257b/turnstile). From there use the `kupaliska.bratislava.sk` site key.
 To get the credentials to login, please contact Martin Pinter.
 
 ### Start the app

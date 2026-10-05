@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 
 import { CheckboxField } from '@/components'
 import { ROUTES } from '@/helpers/constants'
-import { OrderFormData } from '@/pages/OrderPage/OrderPage'
+import { OrderFormData } from '@/views/OrderPage/OrderPage'
 
 interface AgreementsProps {
   isSeniorOrDisabledTicket: boolean

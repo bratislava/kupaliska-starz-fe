@@ -1,5 +1,3 @@
-import './HeroBanner.css'
-
 import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'

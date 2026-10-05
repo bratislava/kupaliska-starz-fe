@@ -14,9 +14,9 @@ import { useAppSelector } from '@/hooks'
 import useCityAccountAccessToken from '@/hooks/useCityAccount'
 import { useLogin } from '@/hooks/useLogin'
 import { TicketType } from '@/models'
-import { orderFormToRequests } from '@/pages/OrderPage/formDataToRequests'
 import { selectAvailableTicketTypes } from '@/store/global'
 import { getPrice } from '@/store/order/api'
+import { orderFormToRequests } from '@/views/OrderPage/formDataToRequests'
 
 import { Button, Icon } from '../index'
 

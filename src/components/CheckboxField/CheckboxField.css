@@ -14,7 +14,7 @@
 .checkbox-field > input.checkbox:checked,
 [data-selected] .react-aria-checkbox {
   @apply border-primary bg-primary;
-  background-image: url('assets/icons/checkmark.svg');
+  background-image: url('/icons/checkmark.svg');
   background-position: center;
   background-repeat: no-repeat;
 }

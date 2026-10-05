@@ -38,7 +38,7 @@ export const getAccessTokenFromIFrame = async () => {
   // keep eventListenerReference in scope so we can remove it later
   let eventListenerReference: undefined | ((event: any) => void)
   const promise = new Promise<string>((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 8000)
+    // const timeout = setTimeout(() => reject(new Error('TOKEN_REFRESH_TIMEOUT_ERROR_MESSAGE')), 8000)
     eventListenerReference = (event) => {
       // ignore if origin is not our iframe or we receive unexpected message format
       if (event.origin === environment.cityAccountFrontendUrl) {

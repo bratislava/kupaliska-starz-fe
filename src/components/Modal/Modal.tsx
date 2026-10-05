@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './Modal.css'
 
 import cx from 'classnames'
 import FocusTrap from 'focus-trap-react'

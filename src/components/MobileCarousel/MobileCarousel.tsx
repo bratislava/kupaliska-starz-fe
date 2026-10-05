@@ -1,5 +1,3 @@
-import './MobileCarousel.css'
-
 import { cloneElement, ReactElement, useCallback, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 

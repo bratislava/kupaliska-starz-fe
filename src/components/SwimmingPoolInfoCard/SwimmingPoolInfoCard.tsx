@@ -1,5 +1,3 @@
-import './SwimmingPoolInfoCard.css'
-
 import { useTranslation } from 'react-i18next'
 
 import { Spinner, Typography } from '@/components'

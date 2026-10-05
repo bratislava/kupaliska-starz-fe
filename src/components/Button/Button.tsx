@@ -1,5 +1,3 @@
-import './Button.css'
-
 import { PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
 

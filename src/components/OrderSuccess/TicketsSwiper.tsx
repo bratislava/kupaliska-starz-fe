@@ -1,6 +1,5 @@
 import 'swiper/css'
 import 'swiper/css/pagination'
-import './TicketsSwiper.css'
 
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
@@ -41,7 +40,7 @@ const Ticket = ({ ticket }: TicketProps) => {
           rel="noreferrer"
           aria-label={t('order-success.add-apple-wallet')}
         >
-          <img src={AppleWalletImage} alt="" />
+          <AppleWalletImage aria-hidden />
         </a>
         <a
           href={`${environment.host}/api/v1/orders/googlePay/${ticket.id}`}
@@ -49,7 +48,7 @@ const Ticket = ({ ticket }: TicketProps) => {
           rel="noreferrer"
           aria-label={t('order-success.add-google-wallet')}
         >
-          <img src={GoogleWalletImage} alt="" />
+          <GoogleWalletImage aria-hidden />
         </a>
       </div>
     </div>

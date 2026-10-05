@@ -1,5 +1,3 @@
-import './VOPPage.css'
-
 import { Trans, useTranslation } from 'react-i18next'
 
 import { SectionHeader, Typography } from '@/components'

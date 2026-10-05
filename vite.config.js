@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import { resolve } from 'path'
 import dns from 'dns'
@@ -19,11 +18,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    react({
-      babel: {
-        plugins: ['preval'],
-      },
-    }),
     svgr(),
     legacy({
       targets: ['defaults', 'not IE 11'],

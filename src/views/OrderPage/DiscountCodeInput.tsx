@@ -7,7 +7,7 @@ import { useIsMounted } from 'usehooks-ts'
 
 import { Button, Icon, InputField } from '@/components'
 import { useErrorToast } from '@/hooks/useErrorToast'
-import { CaptchaWarningStatus, OrderFormData } from '@/pages/OrderPage/OrderPage'
+import { CaptchaWarningStatus, OrderFormData } from '@/views/OrderPage/OrderPage'
 import { checkDiscountCode, DiscountCode, DiscountCodeResponse } from '@/store/order/api'
 
 export interface DiscountCodeInputProps {

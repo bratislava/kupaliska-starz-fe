@@ -3,8 +3,8 @@ import { Fragment } from 'react'
 import { Button as AriaButton, Checkbox } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 
-import { useOrderPageTicket } from '@/pages/OrderPage/useOrderPageTicket'
 import { AssociatedSwimmer } from '@/store/associatedSwimmers/api'
+import { useOrderPageTicket } from '@/views/OrderPage/useOrderPageTicket'
 
 import { Icon } from '../index'
 

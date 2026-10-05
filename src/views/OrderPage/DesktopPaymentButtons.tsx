@@ -1,5 +1,5 @@
 import { PaymentMethod } from '@/helpers/types'
-import PayButton from '@/pages/OrderPage/PayButton'
+import PayButton from '@/views/OrderPage/PayButton'
 
 interface DesktopPaymentButtonsProps {
   isDisabled: boolean

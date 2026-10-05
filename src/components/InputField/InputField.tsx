@@ -1,5 +1,3 @@
-import './InputField.css'
-
 import cx from 'classnames'
 import { ChangeEvent, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'

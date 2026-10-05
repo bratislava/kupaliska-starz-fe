@@ -1,5 +1,3 @@
-import './CheckboxField.css'
-
 import { ChangeEvent, FocusEvent, ReactNode } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 

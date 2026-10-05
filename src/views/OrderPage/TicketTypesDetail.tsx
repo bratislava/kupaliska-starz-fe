@@ -4,8 +4,8 @@ import TicketTypeDetail, {
   TicketTypeDetailProps,
 } from '@/components/TicketTypeDetail/TicketTypeDetail'
 import { CartItem } from '@/models/order'
-import { OrderFormData } from '@/pages/OrderPage/OrderPage'
-import { OrderPageTicket } from '@/pages/OrderPage/useOrderPageTicket'
+import { OrderFormData } from '@/views/OrderPage/OrderPage'
+import { OrderPageTicket } from '@/views/OrderPage/useOrderPageTicket'
 
 export interface TicketTypesDetailProps extends Omit<
   TicketTypeDetailProps,

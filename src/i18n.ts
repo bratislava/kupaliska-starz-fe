@@ -26,9 +26,7 @@ i18n
   .init<HttpBackendOptions>({
     backend: {
       // https://stackoverflow.com/a/43499557
-      loadPath: `${
-        window.location.origin
-      }/locales/{{lng}}/{{ns}}.json?date=${new Date().getTime()}`,
+      loadPath: `/locales/{{lng}}/{{ns}}.json?date=${new Date().getTime()}`,
     },
 
     detection: {

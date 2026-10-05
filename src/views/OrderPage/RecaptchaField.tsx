@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Turnstile from 'react-turnstile'
 
 import { environment } from '@/environment'
-import { CaptchaWarningStatus, OrderFormData } from '@/pages/OrderPage/OrderPage'
+import { CaptchaWarningStatus, OrderFormData } from '@/views/OrderPage/OrderPage'
 
 interface RecaptchaFieldProps {
   control: Control<OrderFormData>

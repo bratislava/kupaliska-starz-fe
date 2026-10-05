@@ -5,9 +5,9 @@ import { isDefined } from '@/helpers/helper'
 import { useAppSelector } from '@/hooks'
 import useCityAccountAccessToken from '@/hooks/useCityAccount'
 import { TicketType } from '@/models'
+import OrderPage from '@/pages/objednavka'
 import { selectAvailableTicketTypes } from '@/store/global'
 
-import OrderPage from './OrderPage'
 import { OrderPageTicketProvider } from './useOrderPageTicket'
 
 const OrderPageGuard = () => {

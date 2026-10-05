@@ -3,8 +3,8 @@ import { UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import { CheckboxField } from '@/components'
-import DiscountCodeInput, { DiscountCodeInputProps } from '@/pages/OrderPage/DiscountCodeInput'
-import { OrderFormData } from '@/pages/OrderPage/OrderPage'
+import DiscountCodeInput, { DiscountCodeInputProps } from '@/views/OrderPage/DiscountCodeInput'
+import { OrderFormData } from '@/views/OrderPage/OrderPage'
 import { DiscountCode as DiscountCodeInt } from '@/store/order/api'
 
 interface DiscountCodeProps extends DiscountCodeInputProps {
