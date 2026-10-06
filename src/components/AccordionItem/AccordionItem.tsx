@@ -25,6 +25,7 @@ export const AccordionItem = ({
   children,
   className,
   secondaryTitle,
+  // TODO only narrow variant is used, remove normal variant
   paddingVariant = 'normal',
 }: AccordionItemProps) => {
   const [active, setActive] = useState<boolean>(initialState)
@@ -68,7 +69,7 @@ export const AccordionItem = ({
         </div>
       </AriaButton>
       <div
-        className={cx('overflow-hidden text-sm text-fontBlack', {
+        className={cx('overflow-hidden text-sm', {
           'h-auto': active,
           'h-0': !active,
           'p-6': active && paddingVariant === 'narrow',

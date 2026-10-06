@@ -58,20 +58,18 @@ const InputField = ({
 
   const inputClasses = cx({
     'text-error placeholder-error': error !== undefined,
-    'text-fontBlack': !error,
     'text-center': textCenter,
   })
 
   const inputWrapperClasses = cx({
     'border-error text-error': error !== undefined,
     'border-primary text-primary': !error && focused,
-    'text-opacity-10 text-fontBlack': !error && !focused,
+    'text-opacity-10': !error && !focused,
   })
 
   const labelClasses = cx(newLabel ? 'mb-1 block font-semibold' : `mb-3 text-xl font-medium`, {
     'text-error': error !== undefined,
     'text-primary': !error && focused,
-    'text-fontBlack': !error && !focused,
   })
 
   return (

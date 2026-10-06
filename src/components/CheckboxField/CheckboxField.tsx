@@ -3,6 +3,8 @@ import './CheckboxField.css'
 import { ChangeEvent, FocusEvent, ReactNode } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
+import cn from '@/utils/cn'
+
 interface CheckboxProps {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   value?: boolean
@@ -53,9 +55,10 @@ const CheckboxField = ({
         />
         {label && (
           <span
-            className={`ml-6 font-medium ${error ? 'text-error' : `text-fontBlack`} ${
-              disabled ? 'text-opacity-50' : ''
-            }`}
+            className={cn('ml-6 font-medium', {
+              'text-error': error,
+              'text-opacity-50': disabled,
+            })}
           >
             {label}
           </span>
