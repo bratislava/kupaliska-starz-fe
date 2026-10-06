@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router'
 
-import { Button, Icon, Typography } from '@/components'
+import Button from '@/components/Button/Button'
+import Icon from '@/components/Icon/Icon'
+import Typography from '@/components/Typography/Typography'
 import { ANCHORS } from '@/helpers/constants'
 import { fetchGeneralSettings } from '@/store/global/api'
 

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Icon } from '@/components'
+import Button from '@/components/Button/Button'
+import Icon from '@/components/Icon/Icon'
 import SwimmingPoolInfoCard from '@/components/SwimmingPoolInfoCard/SwimmingPoolInfoCard'
 import { assignItemsToColumns } from '@/helpers/general'
 import { useAppSelector, useWindowSize } from '@/hooks'

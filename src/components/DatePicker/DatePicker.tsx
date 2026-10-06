@@ -8,9 +8,9 @@ import { Dialog, Popover } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useDatePickerState } from 'react-stately'
 
-import { Icon } from '@/components'
 import ButtonNew from '@/components/Button/ButtonNew'
 import { FieldWrapperProps } from '@/components/FieldWrapper/FieldWrapper'
+import Icon from '@/components/Icon/Icon'
 
 import Calendar from './Calendar/Calendar'
 import DateField from './DateField'

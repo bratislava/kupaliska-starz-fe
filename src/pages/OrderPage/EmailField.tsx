@@ -1,7 +1,7 @@
 import { UseFormRegister } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 
-import { InputField } from '@/components'
+import InputField from '@/components/InputField/InputField'
 import { OrderFormData } from '@/pages/OrderPage/OrderPage'
 
 interface EmailFieldProps {

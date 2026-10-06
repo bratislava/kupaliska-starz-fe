@@ -2,7 +2,8 @@ import './SwimmingPoolInfoCard.css'
 
 import { useTranslation } from 'react-i18next'
 
-import { Spinner, Typography } from '@/components'
+import Spinner from '@/components/Spinner/Spinner'
+import Typography from '@/components/Typography/Typography'
 import { SwimmingPool } from '@/models'
 
 interface SwimmingPoolInfoCardProps {

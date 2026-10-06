@@ -5,7 +5,8 @@ import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useCalendarState } from 'react-stately'
 
-import { Button, Icon } from '@/components'
+import Button from '@/components/Button/Button'
+import Icon from '@/components/Icon/Icon'
 
 import CalendarGrid from './CalendarGrid'
 

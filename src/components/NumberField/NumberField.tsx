@@ -8,7 +8,7 @@ import {
 } from 'react-aria-components/NumberField'
 import { useTranslation } from 'react-i18next'
 
-import { Icon } from '@/components'
+import Icon from '@/components/Icon/Icon'
 import cn from '@/utils/cn'
 
 /**

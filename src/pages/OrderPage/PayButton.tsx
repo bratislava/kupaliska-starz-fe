@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
-import { Button, Icon } from '@/components'
+import Button from '@/components/Button/Button'
+import Icon from '@/components/Icon/Icon'
 import { useCurrencyFromCentsFormatter } from '@/helpers/currencyFormatter'
 import { PaymentMethod } from '@/helpers/types'
 

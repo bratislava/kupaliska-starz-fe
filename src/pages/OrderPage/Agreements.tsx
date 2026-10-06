@@ -2,7 +2,7 @@ import { UseFormRegister } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
-import { CheckboxField } from '@/components'
+import CheckboxField from '@/components/CheckboxField/CheckboxField'
 import { ROUTES } from '@/helpers/constants'
 import { OrderFormData } from '@/pages/OrderPage/OrderPage'
 

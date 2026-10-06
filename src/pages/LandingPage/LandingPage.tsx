@@ -2,15 +2,13 @@ import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
-import {
-  AccordionItem,
-  ContactForm,
-  HeroBanner,
-  SectionHeader,
-  WhyCreateAccountSection,
-} from '@/components'
+import AccordionItem from '@/components/AccordionItem/AccordionItem'
+import ContactForm from '@/components/ContactForm/ContactForm'
+import HeroBanner from '@/components/HeroBanner/HeroBanner'
 import HomepageHowTo from '@/components/HomepageHowTo/HomepageHowTo'
 import HomepageTickets from '@/components/HomepageTickets/HomepageTickets'
+import SectionHeader from '@/components/SectionHeader/SectionHeader'
+import WhyCreateAccountSection from '@/components/WhyCreateAccount/WhyCreateAccountSection'
 import useCityAccountAccessToken from '@/hooks/useCityAccount'
 import { fetchGeneralSettings } from '@/store/global/api'
 

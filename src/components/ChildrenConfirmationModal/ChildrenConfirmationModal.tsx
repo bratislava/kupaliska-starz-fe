@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
+import Button from '@/components/Button/Button'
+
 import Dialog from '../Dialog/Dialog'
-import { Button } from '../index'
 
 interface ChildrenConfirmationModalProps {
   onSaveSuccess?: () => Promise<void>
