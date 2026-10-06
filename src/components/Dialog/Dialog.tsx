@@ -3,7 +3,7 @@ import { cloneElement, PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Button, Dialog as AriaDialog, Heading, Modal } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 
-import { Icon } from '../index'
+import Icon from '@/components/Icon/Icon'
 
 type DialogProps = {
   title: string

@@ -12,12 +12,11 @@ import { Swiper as SwiperClass } from 'swiper/types'
 
 import AppleWalletImage from '@/assets/images/apple_wallet.svg'
 import GoogleWalletImage from '@/assets/images/google_wallet.svg'
+import Icon from '@/components/Icon/Icon'
 import { environment } from '@/environment'
 import { useAppSelector } from '@/hooks'
 import { selectAvailableTicketTypes } from '@/store/global'
 import { FinalOrderTicket } from '@/store/order/api'
-
-import { Icon } from '../index'
 
 interface TicketProps {
   ticket: FinalOrderTicket

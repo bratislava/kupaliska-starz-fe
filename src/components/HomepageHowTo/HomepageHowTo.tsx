@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { MobileCarousel, Typography } from '../index'
+import MobileCarousel from '@/components/MobileCarousel/MobileCarousel'
+import Typography from '@/components/Typography/Typography'
 
 const HomepageHowTo = () => {
   const { t } = useTranslation()

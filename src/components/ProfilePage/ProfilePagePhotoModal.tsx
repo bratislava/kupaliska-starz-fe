@@ -9,12 +9,12 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
+import Button from '@/components/Button/Button'
 import { ErrorWithMessages } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import { updateUser, User } from '@/store/user/api'
 
 import Dialog from '../Dialog/Dialog'
-import { Button } from '../index'
 import PhotoField from '../PhotoField/PhotoField'
 
 interface ProfilePagePhotoModalProps {

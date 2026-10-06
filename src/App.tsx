@@ -16,11 +16,14 @@ import {
   ScrollRestoration,
 } from 'react-router'
 
-import { Footer, Header, Toast, TopBanner } from '@/components'
+import TopBanner from '@/components/BratislavaTopBanner/Banner'
 import CityAccountLoginRedirectionModal, {
   CityAccountLoginRedirectionModalContextProvider,
 } from '@/components/CityAccountLoginInformationModal/CityAccountLoginRedirectionModal'
 import CookieConsent from '@/components/CookieConsent/CookieConsent'
+import Footer from '@/components/Footer/Footer'
+import Header from '@/components/Header/Header'
+import Toast from '@/components/Toast/Toast'
 import { ROUTES } from '@/helpers/constants'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import RegisterUserGuard from '@/hooks/RegisterUserGuard'

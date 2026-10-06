@@ -1,8 +1,9 @@
 import cx from 'classnames'
 import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
 
+import Icon from '@/components/Icon/Icon'
+
 import { IconName } from '../Icon/Icon'
-import { Icon } from '../index'
 
 interface ThreeDotsProps {
   buttons: {

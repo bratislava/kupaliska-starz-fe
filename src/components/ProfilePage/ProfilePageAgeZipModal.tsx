@@ -9,13 +9,14 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
+import Button from '@/components/Button/Button'
 import DatePicker from '@/components/DatePicker/DatePicker'
+import InputField from '@/components/InputField/InputField'
 import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import { updateUser, User } from '@/store/user/api'
 
 import Dialog from '../Dialog/Dialog'
-import { Button, InputField } from '../index'
 
 interface ProfilePageAgeZipModalProps {
   type: 'dateOfBirth' | 'zip'

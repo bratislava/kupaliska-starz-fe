@@ -1,7 +1,8 @@
 import { UseFormRegister } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import { InputField, Tooltip } from '@/components'
+import InputField from '@/components/InputField/InputField'
+import Tooltip from '@/components/Tooltip/Tooltip'
 import { OrderFormData } from '@/pages/OrderPage/OrderPage'
 
 interface OptionalFieldsProps {

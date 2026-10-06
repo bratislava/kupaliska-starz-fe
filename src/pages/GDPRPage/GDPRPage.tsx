@@ -3,7 +3,7 @@ import './GDPRPage.css'
 import { useTranslation } from 'react-i18next'
 import Markdown from 'react-markdown'
 
-import { SectionHeader } from '@/components'
+import SectionHeader from '@/components/SectionHeader/SectionHeader'
 const GDPRPage = () => {
   const { t } = useTranslation()
 

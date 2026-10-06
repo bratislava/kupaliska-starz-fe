@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
+import Icon from '@/components/Icon/Icon'
+import Typography from '@/components/Typography/Typography'
 import { convertBase64ToBlob } from '@/helpers/general'
 import { FinalOrderResponse } from '@/store/order/api'
 
 import Button from '../Button/Button'
-import { Icon, Typography } from '../index'
 import TicketsSwiper from './TicketsSwiper'
 
 interface OrderSuccessProps {

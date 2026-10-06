@@ -10,7 +10,9 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
+import Button from '@/components/Button/Button'
 import DatePicker from '@/components/DatePicker/DatePicker'
+import InputField from '@/components/InputField/InputField'
 import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '@/helpers/general'
 import { getObjectChanges } from '@/helpers/getObjectChanges'
 import logger from '@/helpers/logger'
@@ -23,7 +25,6 @@ import {
 } from '@/store/associatedSwimmers/api'
 
 import Dialog from '../Dialog/Dialog'
-import { Button, InputField } from '../index'
 import PhotoField from '../PhotoField/PhotoField'
 
 type FormData = Partial<

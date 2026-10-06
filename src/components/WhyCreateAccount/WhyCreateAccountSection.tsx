@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { SectionHeader } from '@/components'
+import SectionHeader from '@/components/SectionHeader/SectionHeader'
 
 const WhyCreateAccountSection = () => {
   const { t } = useTranslation()

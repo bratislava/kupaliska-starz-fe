@@ -4,7 +4,10 @@ import Consent, { Cookies } from 'react-cookie-consent'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
-import { AccordionItem, Button, Modal } from '../index'
+import AccordionItem from '@/components/AccordionItem/AccordionItem'
+import Button from '@/components/Button/Button'
+import Modal from '@/components/Modal/Modal'
+
 import KupaliskaSwitch from '../Switch/KupaliskaSwitch'
 
 const COOKIE_NAME = 'kupaliska-gdpr'

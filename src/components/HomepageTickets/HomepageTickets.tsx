@@ -5,6 +5,8 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router'
 
+import Button from '@/components/Button/Button'
+import Icon from '@/components/Icon/Icon'
 import NumberField from '@/components/NumberField/NumberField'
 import { environment } from '@/environment'
 import { ROUTES } from '@/helpers/constants'
@@ -17,8 +19,6 @@ import { TicketType } from '@/models'
 import { orderFormToRequests } from '@/pages/OrderPage/formDataToRequests'
 import { selectAvailableTicketTypes } from '@/store/global'
 import { getPrice } from '@/store/order/api'
-
-import { Button, Icon } from '../index'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(

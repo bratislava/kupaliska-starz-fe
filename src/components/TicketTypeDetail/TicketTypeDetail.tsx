@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import Skeleton from 'react-loading-skeleton'
 
-import { Icon } from '@/components'
 import AdultChildrenCount from '@/components/AdultChildrenCount/AdultChildrenCount'
+import Icon from '@/components/Icon/Icon'
 import NumberField from '@/components/NumberField/NumberField'
 import { FormatCurrencyFromCents, useCurrencyFromCentsFormatter } from '@/helpers/currencyFormatter'
 import { isDefined } from '@/helpers/helper'

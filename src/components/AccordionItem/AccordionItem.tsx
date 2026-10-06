@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { ReactNode, useEffect, useState } from 'react'
 import { Button as AriaButton } from 'react-aria-components'
 
-import { Icon } from '../index'
+import Icon from '@/components/Icon/Icon'
 
 // copied from https://github.com/bratislava/bratislava-monorepo/blob/master/libs/ui/bratislava/src/components/AccordionItem/AccordionItem.tsx
 

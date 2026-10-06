@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { Trans, useTranslation } from 'react-i18next'
 
-import { Icon } from '@/components'
+import Icon from '@/components/Icon/Icon'
 import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from '@/helpers/general'
 import { CartItem } from '@/models'
 import { GetPriceRequest, OrderRequestBody } from '@/pages/OrderPage/formDataToRequests'

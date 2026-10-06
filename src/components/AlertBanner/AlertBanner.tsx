@@ -1,4 +1,4 @@
-import { Icon } from '@/components'
+import Icon from '@/components/Icon/Icon'
 
 interface AlertBannerProps {
   text: string

@@ -3,6 +3,7 @@ import { produce } from 'immer'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 
+import Button from '@/components/Button/Button'
 import { ErrorWithMessages } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import {
@@ -12,7 +13,6 @@ import {
 } from '@/store/associatedSwimmers/api'
 
 import Dialog from '../Dialog/Dialog'
-import { Button } from '../index'
 import Photo from '../Photo/Photo'
 
 interface ProfilePageDeleteAssociatedSwimmerModalProps {

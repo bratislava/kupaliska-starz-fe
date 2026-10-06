@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
+import Button from '@/components/Button/Button'
+import Icon from '@/components/Icon/Icon'
+import SectionHeader from '@/components/SectionHeader/SectionHeader'
+import Typography from '@/components/Typography/Typography'
 import { ANCHORS } from '@/helpers/constants'
-
-import { Button, Icon, SectionHeader, Typography } from '../index'
 
 const OrderFailure = () => {
   const { t } = useTranslation()
