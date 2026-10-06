@@ -55,6 +55,7 @@ const OrderPageSwimmersList = ({
     <div className="flex flex-col gap-3 pt-3">
       {swimmers.map((swimmer) => (
         <Fragment key={swimmer.id}>
+          {/* TODO merge checkbox-es in project */}
           <Checkbox
             className={cx(`flex cursor-pointer items-center gap-4 rounded-lg px-4 py-3`, {
               'bg-white': !isDisabledCheckbox(swimmer),
