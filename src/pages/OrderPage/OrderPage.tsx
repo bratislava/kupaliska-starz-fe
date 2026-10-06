@@ -363,7 +363,7 @@ const OrderPage = () => {
               <SwimmersSelection
                 setValue={setValue}
                 ticketTypesData={ticketTypesData}
-                getRequestsFromFormData={getRequestsFromFormData}
+                getPriceRequest={getPriceRequest}
                 ticketTypesWithAdditionalProperties={ticketTypesWithAdditionalProperties}
                 errorsPriceQuery={priceQuery.error}
                 displayMissingInformationWarning={displayMissingInformationWarning}

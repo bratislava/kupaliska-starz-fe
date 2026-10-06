@@ -4,21 +4,18 @@ import { Trans, useTranslation } from 'react-i18next'
 import Icon from '@/components/Icon/Icon'
 import { ErrorWithMessages, getErrorMessagesFromHttpRequest } from '@/helpers/general'
 import { CartItem } from '@/models'
-import { GetPriceRequest, OrderRequestBody } from '@/pages/OrderPage/formDataToRequests'
+import { GetPriceRequest } from '@/pages/OrderPage/formDataToRequests'
 import SwimmersList, { SwimmersListProps } from '@/pages/OrderPage/SwimmersList'
 
 interface SwimmersSelectionProps extends SwimmersListProps {
   ticketTypesData: CartItem[]
-  getRequestsFromFormData: () => {
-    getPriceRequest: GetPriceRequest
-    orderRequest: OrderRequestBody
-  }
+  getPriceRequest: GetPriceRequest
   errorsPriceQuery: unknown
 }
 
 const SwimmersSelection = ({
   ticketTypesData,
-  getRequestsFromFormData,
+  getPriceRequest,
   errorsPriceQuery,
   ...rest
 }: SwimmersSelectionProps) => {
@@ -58,7 +55,7 @@ const SwimmersSelection = ({
       )}
       {/* TODO this check should live in schema and error should be visible if schema is sending error */}
       {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
-        getRequestsFromFormData().getPriceRequest.tickets.length < 1 && (
+        getPriceRequest.tickets.length < 1 && (
           <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
             <Icon name="warning" className="no-fill text-[#E07B04]" />
             <div>{t('buy-page.min-one-person')}</div>
