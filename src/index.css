@@ -27,6 +27,11 @@
   /* Colors */
   --color-font: var(--color-content-passive-primary);
 
+  --color-black: #1f1f1f;
+  --color-red2: #d00000;
+  --color-yellow1: #fcf2e6;
+  --color-yellow2: #e07b04;
+  --color-red1: #fae5e5;
   --color-primary: #0a07f5;
   --color-secondary: #7ccef2;
   --color-tertiary: #a8dbf2;
