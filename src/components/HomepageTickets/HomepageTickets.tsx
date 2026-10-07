@@ -229,8 +229,8 @@ const HomepageTickets = () => {
                     <div className="flex items-center justify-between gap-x-6">
                       <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
                         <SkeletonTheme
-                          baseColor="#a8dbf2"
-                          highlightColor="#58bbe6"
+                          baseColor="var(--color-tertiary)"
+                          highlightColor="var(--color-quaternary)"
                           duration={1}
                           width={40}
                           height={28}
