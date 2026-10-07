@@ -1,19 +1,10 @@
-import './Button.css'
-
 import { PropsWithChildren } from 'react'
-import { twMerge } from 'tailwind-merge'
+
+import cn from '@/utils/cn'
 
 interface ButtonProps {
   // TODO: Rename to `type`.
-  color?:
-    | 'primary'
-    | 'secondary'
-    | 'outlined'
-    | 'blueish'
-    | 'white'
-    | 'sunscreen'
-    | 'black'
-    | 'white-outlined'
+  color?: 'primary' | 'outlined' | 'blueish' | 'white' | 'sunscreen' | 'black' | 'white-outlined'
   htmlType?: 'button' | 'submit' | 'reset'
   thin?: boolean
   onClick?: () => void
@@ -35,7 +26,6 @@ const Button = ({
   // tailwind purges values that are only interpolated in so i have to do this bad way
   const textColor = {
     primary: 'text-white',
-    secondary: 'text-secondary',
     outlined: 'text-primary',
     blueish: 'text-primary',
     white: 'text-primary',
@@ -45,7 +35,6 @@ const Button = ({
   }[color]
   const bgColor = {
     primary: 'bg-primary',
-    secondary: 'bg-secondary',
     outlined: 'bg-transparent',
     blueish: 'bg-blueish',
     white: 'bg-white',
@@ -55,7 +44,6 @@ const Button = ({
   }[color]
   const borderColor = {
     primary: 'border-primary',
-    secondary: 'border-secondary',
     outlined: 'border-primary',
     blueish: 'border-blueish',
     white: 'border-transparent',
@@ -65,21 +53,19 @@ const Button = ({
   }[color]
   const thinClass = thin ? 'p-1' : 'p-2'
   const roundedClass = rounded ? 'rounded-lg' : 'rounded-sm'
-  const classNames = `
-    flex items-center justify-center border-2 border-solid
-    focus:outline-hidden
-    ${textColor}
-    ${bgColor}
-    ${borderColor}
-    ${thinClass}
-    ${roundedClass}
-  `
+  // active:bg-background... temporary solution before replacing button with component-library button
+  const classNames = cn(
+    `flex items-center justify-center border-2 border-solid focus:outline-hidden active:bg-background-active-primary-pressed ${textColor} ${bgColor} ${borderColor} ${thinClass} ${roundedClass}`,
+    {
+      'opacity-30': disabled,
+    },
+  )
 
   return (
     <button
       type={htmlType}
       onClick={onClick}
-      className={twMerge('kupaliska-button', classNames, className)}
+      className={cn(classNames, className)}
       disabled={disabled}
     >
       {children}

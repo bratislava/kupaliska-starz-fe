@@ -44,8 +44,12 @@
   --color-sunscreen: #fff9f0;
   --color-orange: #f4aa3d;
 
+  /* Border */
   --color-border-active-focused: var(--color-primary);
   --color-border-active-default: var(--color-divider);
+
+  /* Background */
+  --color-background-active-primary-pressed: var(--color-secondary);
 
   /* Color tokens - content */
 
