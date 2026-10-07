@@ -17,6 +17,7 @@ export interface AccordionItemProps {
   paddingVariant?: 'normal' | 'narrow'
 }
 
+// TODO use DisclosureGroup and remove AccordionItem
 export const AccordionItem = ({
   initialState = false,
   isOpen,
@@ -55,11 +56,7 @@ export const AccordionItem = ({
         onPress={handleClick}
       >
         <div className="flex grow flex-row text-left font-medium">
-          {typeof title === 'string' ? (
-            <p className="text-font text-md text-left">{title}</p>
-          ) : (
-            <>{title}</>
-          )}
+          {typeof title === 'string' ? <p className="text-md text-left">{title}</p> : <>{title}</>}
           {secondaryTitle && (
             <p className="text-md text-gray-universal-500 text-left">&nbsp;{secondaryTitle}</p>
           )}
