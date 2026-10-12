@@ -2,9 +2,9 @@ import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import { ROUTES } from '@/helpers/constants'
 
-import Button from '../Button/Button'
 import Dialog from '../Dialog/Dialog'
 
 interface State {
@@ -54,9 +54,13 @@ const CityAccountLoginRedirectionModal = () => {
         <div className="flex flex-col gap-6">
           <p>{t('city-account.redirect-info')}</p>
         </div>
-        <Button color="primary" onClick={state.onSuccessCallback} className="w-full">
+        <ButtonComponentLibraryWrapper
+          variant="solid"
+          onClick={state.onSuccessCallback}
+          className="w-full"
+        >
           {t('city-account.continue')}
-        </Button>
+        </ButtonComponentLibraryWrapper>
         <div className="flex flex-col gap-4 text-sm italic">
           <p>
             {t('city-account.data-controller-city-prefix')}

@@ -5,7 +5,7 @@ import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useCalendarState } from 'react-stately'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 
 import CalendarGrid from './CalendarGrid'
@@ -15,6 +15,7 @@ interface CalendarBase {
   onReset?: () => void
 }
 
+// TODO use 'Calendar' from https://github.com/bratislava/konto.bratislava.sk/blob/master/next/src/components/fields/DatePicker/Calendar.tsx
 const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
   const { t } = useTranslation()
   const { locale } = useLocale()
@@ -58,8 +59,12 @@ const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
       </div>
       <CalendarGrid state={state} />
       <div className="flex items-center justify-between border-t-2 border-gray-700 px-4 py-3">
-        <Button onClick={onReset}>{t('common.reset')}</Button>
-        <Button onClick={onConfirm}>{t('common.confirm')}</Button>
+        <ButtonComponentLibraryWrapper variant="solid" onClick={onReset}>
+          {t('common.reset')}
+        </ButtonComponentLibraryWrapper>
+        <ButtonComponentLibraryWrapper variant="solid" onClick={onConfirm}>
+          {t('common.confirm')}
+        </ButtonComponentLibraryWrapper>
       </div>
     </div>
   )

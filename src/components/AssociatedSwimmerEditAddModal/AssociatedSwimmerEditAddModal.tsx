@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import DatePicker from '@/components/DatePicker/DatePicker'
 import InputField from '@/components/InputField/InputField'
 import { ErrorWithMessages, useValidationSchemaTranslationIfPresent } from '@/helpers/general'
@@ -155,7 +155,11 @@ export const AssociatedSwimmerEditAddModal = ({
     <Dialog
       title={swimmer ? t('profile.edit-person') : t('profile.new-person')}
       open={true}
-      footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
+      footerButton={
+        <ButtonComponentLibraryWrapper variant="solid" type="submit">
+          {t('profile.save')}
+        </ButtonComponentLibraryWrapper>
+      }
       wrapper={
         <form
           onSubmit={handleSubmit(onSubmit, (err) => {

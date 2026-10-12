@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './Modal.css'
 
+import { FocusableElement } from '@react-types/shared'
 import cx from 'classnames'
 import FocusTrap from 'focus-trap-react'
 import { MouseEvent, PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
@@ -32,11 +33,13 @@ const ModalButton = ({
 
 interface ModalProps {
   open: boolean
-  onClose?: () => void
+  onClose?: (e: MouseEvent<FocusableElement>) => void
   button?: ReactNode
   modalClassName?: string
   closeButton?: boolean
 }
+
+// TODO This component needs complete remake
 const Modal = ({
   open,
   onClose = () => {},

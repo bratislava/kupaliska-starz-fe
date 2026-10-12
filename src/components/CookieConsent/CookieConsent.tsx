@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 import AccordionItem from '@/components/AccordionItem/AccordionItem'
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Modal from '@/components/Modal/Modal'
 
 import KupaliskaSwitch from '../Switch/KupaliskaSwitch'
@@ -23,20 +23,21 @@ const ButtonCookieConsent = ({
   id: 'rcc-confirm-button' | 'rcc-decline-button'
   onClick: () => void
 }>) => {
-  const color = (
+  const variant = (
     {
-      'rcc-confirm-button': 'primary',
-      'rcc-decline-button': 'blueish',
+      'rcc-confirm-button': 'solid',
+      'rcc-decline-button': 'solid',
     } as const
   )[id]
 
   return (
-    <Button color={color} onClick={onClick}>
+    <ButtonComponentLibraryWrapper variant={variant} onClick={onClick}>
       {children}
-    </Button>
+    </ButtonComponentLibraryWrapper>
   )
 }
 
+// TODO split into components
 // Inspired by https://github.com/bratislava/bratislava-monorepo/blob/master/apps/next/city-library/components/Molecules/CookieConsent.tsx
 const CookieConsent = () => {
   const { t } = useTranslation()
@@ -174,28 +175,17 @@ const CookieConsent = () => {
               )}
             </div>
             <div className="mt-5 flex flex-col justify-between gap-1 md:flex-row">
-              <Button
-                className="mb-2 rounded-xs bg-gray-900 px-3 py-1 text-sm text-white md:mb-0"
-                onClick={saveSettings}
-                color="primary"
-              >
+              <ButtonComponentLibraryWrapper variant="solid" onClick={saveSettings}>
                 {t('cookie-consent.save-settings')}
-              </Button>
+              </ButtonComponentLibraryWrapper>
+
               <div className="flex flex-col gap-1 md:flex-row">
-                <Button
-                  className="mb-2 rounded-xs bg-gray-900 py-1 text-sm text-white md:mr-1 md:mb-0"
-                  onClick={declineCookies}
-                  color="blueish"
-                >
+                <ButtonComponentLibraryWrapper variant="solid" onClick={declineCookies}>
                   {t('cookie-consent.reject-all')}
-                </Button>
-                <Button
-                  className="min-w-[140px] rounded-xs bg-gray-900 py-1 text-sm text-white"
-                  onClick={acceptAllCookies}
-                  color="blueish"
-                >
+                </ButtonComponentLibraryWrapper>
+                <ButtonComponentLibraryWrapper variant="solid" onClick={acceptAllCookies}>
                   {t('cookie-consent.accept-all')}
-                </Button>
+                </ButtonComponentLibraryWrapper>
               </div>
             </div>
           </div>
