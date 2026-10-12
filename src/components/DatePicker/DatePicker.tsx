@@ -8,7 +8,7 @@ import { Dialog, Popover } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useDatePickerState } from 'react-stately'
 
-import ButtonNew from '@/components/Button/ButtonNew'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import { FieldWrapperProps } from '@/components/FieldWrapper/FieldWrapper'
 import Icon from '@/components/Icon/Icon'
 
@@ -136,11 +136,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           displayOptionalLabel={displayOptionalLabel}
           ref={dateFieldRef}
         >
-          <ButtonNew
+          <ButtonComponentLibraryWrapper
             variant="icon-wrapped-negative-margin"
             {...buttonPropsFixed}
             isDisabled={disabled}
-            icon={<Icon name={'calendar'} className={cx('no-fill ml-2')} />}
+            icon={<Icon name={'calendar'} className={cx('no-fill')} />}
             aria-label={t('profile.open-calendar')}
           />
         </DateField>
