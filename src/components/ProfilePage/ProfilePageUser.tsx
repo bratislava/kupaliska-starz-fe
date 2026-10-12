@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios'
 import { useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
@@ -122,12 +121,12 @@ const ProfilePageUser = () => {
                     {data.data.age != null &&
                       t('common.age-interval', { postProcess: 'interval', count: data.data.age })}
                   </p>
-                  <AriaButton
+                  <ButtonComponentLibraryWrapper
+                    variant="icon-wrapped-negative-margin"
                     onPress={() => setIsAgeModalOpen(true)}
+                    icon={<Icon name="pencil" />}
                     aria-label={t('profile.edit-date-of-birth')}
-                  >
-                    <Icon name="pencil" className="no-fill" />
-                  </AriaButton>
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
@@ -136,12 +135,12 @@ const ProfilePageUser = () => {
                 </div>
                 <div className="flex grow">
                   <p className="grow">{data.data.zip}</p>
-                  <AriaButton
+                  <ButtonComponentLibraryWrapper
+                    variant="icon-wrapped-negative-margin"
                     onPress={() => setIsZipModalOpen(true)}
+                    icon={<Icon name="pencil" />}
                     aria-label={t('profile.edit-zip')}
-                  >
-                    <Icon name="pencil" className="no-fill" />
-                  </AriaButton>
+                  />
                 </div>
               </div>
             </>

@@ -1,7 +1,6 @@
 import { createCalendar } from '@internationalized/date'
 import { useRef } from 'react'
 import { useCalendar, useLocale } from 'react-aria'
-import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useCalendarState } from 'react-stately'
 
@@ -49,13 +48,19 @@ const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
       className="w-full max-w-xs rounded-lg border-2 border-gray-700 bg-white"
     >
       <div className="flex justify-between px-4 py-3">
-        <AriaButton {...prevButtonPropsFixed} aria-label="Left">
-          <Icon name="arrow-left" className="no-fill" />
-        </AriaButton>
+        <ButtonComponentLibraryWrapper
+          {...prevButtonPropsFixed}
+          variant="icon-wrapped-negative-margin"
+          icon={<Icon name="arrow-left" />}
+          aria-label={t('calendar.month-back')}
+        />
         <span className="text-p2-semibold">{title.charAt(0).toUpperCase() + title.slice(1)}</span>
-        <AriaButton {...nextButtonPropsFixed} aria-label="Right">
-          <Icon name="arrow-right" className="no-fill" />
-        </AriaButton>
+        <ButtonComponentLibraryWrapper
+          {...nextButtonPropsFixed}
+          variant="icon-wrapped-negative-margin"
+          icon={<Icon name="arrow-right" />}
+          aria-label={t('calendar.month-forward')}
+        />
       </div>
       <CalendarGrid state={state} />
       <div className="flex items-center justify-between border-t-2 border-gray-700 px-4 py-3">

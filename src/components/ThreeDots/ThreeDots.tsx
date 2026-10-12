@@ -1,6 +1,7 @@
-import cx from 'classnames'
-import { Button, Dialog, DialogTrigger, Popover } from 'react-aria-components'
+import { Dialog, DialogTrigger, Popover } from 'react-aria-components'
+import { useTranslation } from 'react-i18next'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon, { IconName } from '@/components/Icon/Icon'
 
 interface ThreeDotsProps {
@@ -13,32 +14,33 @@ interface ThreeDotsProps {
 }
 
 const ThreeDots = ({ buttons }: ThreeDotsProps) => {
+  const { t } = useTranslation()
+
   return (
     <DialogTrigger>
-      <Button>
-        <Icon name="three-dots" className="no-fill" />
-      </Button>
+      <ButtonComponentLibraryWrapper
+        variant="icon-wrapped-negative-margin"
+        icon={<Icon name="three-dots" />}
+        aria-label={t('three-dots.more')}
+      />
       <Popover>
         <Dialog className="inline-flex flex-col items-start overflow-clip rounded-lg bg-sunscreen py-2 drop-shadow-lg">
           {({ close }) => (
             <>
               {buttons.map((button, index) => (
-                <Button
+                <ButtonComponentLibraryWrapper
                   key={index}
-                  className={cx(
-                    `inline-flex items-center gap-2.5 self-stretch bg-sunscreen px-5 text-left hover:bg-gray-100`,
-                    button.className,
-                  )}
-                  onPress={() => {
+                  // TODO revisit styles
+                  className={`${button.className} w-full px-5 py-3 hover:bg-gray-100`}
+                  variant="plain"
+                  onClick={() => {
                     close()
                     button.onPress()
                   }}
+                  startIcon={<Icon name={button.icon} className="no-fill" />}
                 >
-                  <div className="flex flex-1 grow items-center gap-3 py-3">
-                    <Icon name={button.icon} className="no-fill" />
-                    <p className="m-0 flex-1 text-base/6">{button.title}</p>
-                  </div>
-                </Button>
+                  {button.title}
+                </ButtonComponentLibraryWrapper>
               ))}
             </>
           )}
