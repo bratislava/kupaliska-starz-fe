@@ -1,5 +1,7 @@
 import { PropsWithChildren, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 
 interface ToastProps {
@@ -20,6 +22,8 @@ const Toast = ({
   onClose,
   closeButton,
 }: PropsWithChildren<ToastProps>) => {
+  const { t } = useTranslation()
+
   const [_open, _setOpen] = useState<boolean>(open)
   let visualClasses = ''
 
@@ -54,9 +58,12 @@ const Toast = ({
     >
       <div className="flex-1">{text ? text : children}</div>
       {closeButton && (
-        <button onClick={onClose}>
-          <Icon name="close" />
-        </button>
+        <ButtonComponentLibraryWrapper
+          variant="icon-wrapped-negative-margin"
+          onClick={onClose}
+          icon={<Icon name="close" />}
+          aria-label={t('toast.close')}
+        />
       )}
     </div>
   )
