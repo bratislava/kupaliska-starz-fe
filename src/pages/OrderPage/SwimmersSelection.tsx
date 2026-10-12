@@ -42,8 +42,8 @@ const SwimmersSelection = ({
       {/* TODO errors everywhere, refactor */}
       {/* TODO shouldn't this error be shown every time not only when ticketType.hasSwimmers is not true? */}
       {errorsPriceQuery && (
-        <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-          <Icon name="warning" className="no-fill text-[#E07B04]" />
+        <div className="my-6 flex gap-x-3 rounded-lg bg-yellow1 px-5 py-4">
+          <Icon name="warning" className="no-fill text-yellow2" />
           <div>
             {getErrorMessagesFromHttpRequest(
               // TODO check if we show correct errors in all cases
@@ -56,8 +56,8 @@ const SwimmersSelection = ({
       {/* TODO this check should live in schema and error should be visible if schema is sending error */}
       {ticketTypesData.some((ticketTypeData) => ticketTypeData.ticketType.nameRequired) &&
         getPriceRequest.tickets.length < 1 && (
-          <div className="my-6 flex gap-x-3 rounded-lg bg-[#FCF2E6] px-5 py-4">
-            <Icon name="warning" className="no-fill text-[#E07B04]" />
+          <div className="my-6 flex gap-x-3 rounded-lg bg-yellow1 px-5 py-4">
+            <Icon name="warning" className="no-fill text-yellow2" />
             <div>{t('buy-page.min-one-person')}</div>
           </div>
         )}

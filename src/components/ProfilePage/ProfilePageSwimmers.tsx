@@ -106,7 +106,7 @@ const ProfilePageSwimmers = () => {
                     {
                       title: t('profile.delete-person'),
                       icon: 'bin',
-                      className: 'text-[#D00000]',
+                      className: 'text-red2',
                       onPress: () => setSwimmerToDelete(swimmer),
                     },
                   ]}

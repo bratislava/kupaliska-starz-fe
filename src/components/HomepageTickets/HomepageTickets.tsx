@@ -217,7 +217,7 @@ const HomepageTickets = () => {
               {isCartable && (
                 <>
                   {!withinMaxTicketAmountLimit && (
-                    <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
+                    <div className="flex gap-x-3 rounded-lg bg-red1 px-5 py-4">
                       <Icon name="alert" className="no-fill text-error"></Icon>
                       {t('common.max-ticket-purchase-limit', {
                         maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
