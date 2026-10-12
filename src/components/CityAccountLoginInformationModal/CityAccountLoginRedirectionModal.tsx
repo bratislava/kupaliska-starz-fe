@@ -56,7 +56,7 @@ const CityAccountLoginRedirectionModal = () => {
         </div>
         <ButtonComponentLibraryWrapper
           variant="solid"
-          onClick={state.onSuccessCallback}
+          onPress={state.onSuccessCallback}
           className="w-full"
         >
           {t('city-account.continue')}

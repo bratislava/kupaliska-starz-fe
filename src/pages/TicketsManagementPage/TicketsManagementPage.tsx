@@ -1,8 +1,7 @@
-import { FocusableElement } from '@react-types/shared'
 import { AxiosError } from 'axios'
 import cx from 'classnames'
 import { partition } from 'lodash'
-import { Fragment, MouseEvent, ReactNode, useMemo, useState } from 'react'
+import { Fragment, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
@@ -29,7 +28,7 @@ const TicketsManagementModal = ({
   ticket,
 }: {
   open: boolean
-  onClose: (e: MouseEvent<FocusableElement>) => void
+  onClose: () => void
   ticket: TicketFromHistory | null
 }) => {
   const { t } = useTranslation()
@@ -39,7 +38,7 @@ const TicketsManagementModal = ({
       open={open}
       onClose={onClose}
       button={
-        <ButtonComponentLibraryWrapper className="px-10" variant="solid" onClick={onClose}>
+        <ButtonComponentLibraryWrapper className="px-10" variant="solid" onPress={onClose}>
           {t('tickets.less-info')}
         </ButtonComponentLibraryWrapper>
       }
@@ -202,7 +201,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
           variant={buttonColor}
           className="absolute shadow-xs"
           endIcon={<Icon className="no-fill" name="arrow-right" />}
-          onClick={onDetailClick}
+          onPress={onDetailClick}
         >
           {t('tickets.ticket-button')}
         </ButtonComponentLibraryWrapper>
@@ -302,7 +301,7 @@ const UsedTicket = ({
           variant="solid"
           className="absolute shadow-xs"
           endIcon={<Icon name="arrow-right" />}
-          onClick={onDetailClick}
+          onPress={onDetailClick}
         >
           {t('tickets.more-info')}
         </ButtonComponentLibraryWrapper>

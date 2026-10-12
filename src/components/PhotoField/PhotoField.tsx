@@ -109,7 +109,7 @@ const PhotoField = ({
           </div>
           <ButtonComponentLibraryWrapper
             variant="outline"
-            onClick={openImageInput}
+            onPress={openImageInput}
             startIcon={<Icon name="upload" />}
           >
             {t('buy-page.photo-upload')}

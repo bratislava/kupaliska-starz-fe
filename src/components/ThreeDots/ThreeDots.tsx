@@ -33,7 +33,7 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
                   // TODO revisit styles
                   className={`${button.className} w-full px-5 py-3 hover:bg-gray-100`}
                   variant="plain"
-                  onClick={() => {
+                  onPress={() => {
                     close()
                     button.onPress()
                   }}

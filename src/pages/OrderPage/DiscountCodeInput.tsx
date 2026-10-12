@@ -89,7 +89,7 @@ const DiscountCodeInput = ({
           inputWrapperClassName="lg:w-full"
           placeholder={t('buy-page.enter-code')}
         />
-        <ButtonComponentLibraryWrapper variant="outline" onClick={handleApply}>
+        <ButtonComponentLibraryWrapper variant="outline" onPress={handleApply}>
           {t('buy-page.claim')}
         </ButtonComponentLibraryWrapper>
         {status === DiscountCodeInputStatus.Success ? (

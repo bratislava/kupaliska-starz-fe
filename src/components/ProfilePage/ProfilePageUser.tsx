@@ -80,7 +80,7 @@ const ProfilePageUser = () => {
               <ButtonComponentLibraryWrapper
                 variant="outline"
                 isDisabled={isLoading || isError}
-                onClick={() => setIsPhotoModalOpen(true)}
+                onPress={() => setIsPhotoModalOpen(true)}
                 startIcon={<Icon name="upload" />}
               >
                 {t('profile.upload-photo')}

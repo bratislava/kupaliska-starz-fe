@@ -150,7 +150,7 @@ const ContactForm = () => {
         variant="solid"
         isDisabled={sending}
         className="w-full"
-        onClick={handleSubmit(onSubmit)}
+        onPress={async () => handleSubmit(onSubmit)()}
         endIcon={<Icon className="no-fill" name="send" />}
       >
         {t('landing.send-message')}

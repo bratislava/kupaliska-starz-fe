@@ -46,7 +46,7 @@ const TicketTypeDetail = ({
           {handleTicketTypeRemove && (
             <ButtonComponentLibraryWrapper
               variant="icon-wrapped-negative-margin"
-              onClick={handleTicketTypeRemove}
+              onPress={handleTicketTypeRemove}
               icon={<Icon name="close" />}
               aria-label={t('buy-page.remove-ticket')}
             />

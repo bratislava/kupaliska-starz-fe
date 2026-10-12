@@ -196,7 +196,7 @@ const HomepageTickets = () => {
                             endIcon={
                               <Icon className="no-fill" name={needsLogin ? 'login' : 'euro-coin'} />
                             }
-                            onClick={async () => handleClick(ticketType)}
+                            onPress={async () => handleClick(ticketType)}
                             isDisabled={ticketType.isDisabled}
                           >
                             {needsLogin ? t('signin-button') : t('landing.basket')}
@@ -251,7 +251,7 @@ const HomepageTickets = () => {
                         variant="solid"
                         className="min-w-[182px]"
                         endIcon={<Icon className="no-fill" name="euro-coin" />}
-                        onClick={async () => handleClick()}
+                        onPress={async () => handleClick()}
                         isDisabled={!purchaseAmountInLimit}
                       >
                         {t('landing.basket')}

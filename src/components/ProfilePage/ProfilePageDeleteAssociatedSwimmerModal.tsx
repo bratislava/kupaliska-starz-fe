@@ -62,7 +62,7 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
       open={true}
       onClose={onClose}
       footerButton={
-        <ButtonComponentLibraryWrapper variant="solid" onClick={handleRemove}>
+        <ButtonComponentLibraryWrapper variant="solid" onPress={handleRemove}>
           {t('profile.remove')}
         </ButtonComponentLibraryWrapper>
       }

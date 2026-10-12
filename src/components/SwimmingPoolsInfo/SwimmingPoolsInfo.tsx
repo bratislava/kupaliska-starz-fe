@@ -56,7 +56,7 @@ const SwimmingPoolsInfo = () => {
         <ButtonComponentLibraryWrapper
           variant="solid"
           className="mx-auto w-full md:w-1/2 lg:w-1/4"
-          onClick={() => setAllSwimmingPools(!allSwimmingPools)}
+          onPress={() => setAllSwimmingPools(!allSwimmingPools)}
           endIcon={<Icon name={allSwimmingPools ? 'arrow-up' : 'arrow-down'} />}
         >
           {allSwimmingPools

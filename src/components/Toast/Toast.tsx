@@ -60,7 +60,7 @@ const Toast = ({
       {closeButton && (
         <ButtonComponentLibraryWrapper
           variant="icon-wrapped-negative-margin"
-          onClick={onClose}
+          onPress={onClose}
           icon={<Icon name="close" />}
           aria-label={t('toast.close')}
         />

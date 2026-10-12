@@ -64,10 +64,10 @@ const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
       </div>
       <CalendarGrid state={state} />
       <div className="flex items-center justify-between border-t-2 border-gray-700 px-4 py-3">
-        <ButtonComponentLibraryWrapper variant="solid" onClick={onReset}>
+        <ButtonComponentLibraryWrapper variant="solid" onPress={onReset}>
           {t('common.reset')}
         </ButtonComponentLibraryWrapper>
-        <ButtonComponentLibraryWrapper variant="solid" onClick={onConfirm}>
+        <ButtonComponentLibraryWrapper variant="solid" onPress={onConfirm}>
           {t('common.confirm')}
         </ButtonComponentLibraryWrapper>
       </div>

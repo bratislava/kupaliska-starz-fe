@@ -18,10 +18,10 @@ const COOKIE_NAME = 'kupaliska-gdpr'
 const ButtonCookieConsent = ({
   children,
   id,
-  onClick,
+  onPress,
 }: PropsWithChildren<{
   id: 'rcc-confirm-button' | 'rcc-decline-button'
-  onClick: () => void
+  onPress: () => void
 }>) => {
   const variant = (
     {
@@ -31,7 +31,7 @@ const ButtonCookieConsent = ({
   )[id]
 
   return (
-    <ButtonComponentLibraryWrapper variant={variant} onClick={onClick}>
+    <ButtonComponentLibraryWrapper variant={variant} onPress={onPress}>
       {children}
     </ButtonComponentLibraryWrapper>
   )
@@ -175,15 +175,15 @@ const CookieConsent = () => {
               )}
             </div>
             <div className="mt-5 flex flex-col justify-between gap-1 md:flex-row">
-              <ButtonComponentLibraryWrapper variant="solid" onClick={saveSettings}>
+              <ButtonComponentLibraryWrapper variant="solid" onPress={saveSettings}>
                 {t('cookie-consent.save-settings')}
               </ButtonComponentLibraryWrapper>
 
               <div className="flex flex-col gap-1 md:flex-row">
-                <ButtonComponentLibraryWrapper variant="solid" onClick={declineCookies}>
+                <ButtonComponentLibraryWrapper variant="solid" onPress={declineCookies}>
                   {t('cookie-consent.reject-all')}
                 </ButtonComponentLibraryWrapper>
-                <ButtonComponentLibraryWrapper variant="solid" onClick={acceptAllCookies}>
+                <ButtonComponentLibraryWrapper variant="solid" onPress={acceptAllCookies}>
                   {t('cookie-consent.accept-all')}
                 </ButtonComponentLibraryWrapper>
               </div>

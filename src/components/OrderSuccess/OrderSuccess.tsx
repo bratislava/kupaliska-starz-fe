@@ -75,7 +75,7 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
               <ButtonComponentLibraryWrapper
                 variant="outline"
                 fullWidth
-                onClick={downloadTickets}
+                onPress={downloadTickets}
                 startIcon={<Icon name="download" />}
               >
                 {tickets.length > 1

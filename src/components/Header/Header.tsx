@@ -115,7 +115,7 @@ const Header = () => {
         </nav>
         <ButtonComponentLibraryWrapper
           variant="icon-wrapped-negative-margin"
-          onClick={() => setOpen(!open)}
+          onPress={() => setOpen(!open)}
           className="ring-inset md:hidden"
           icon={<Icon name="menu" color="primary" />}
           aria-label={t('header.open-menu')}
@@ -138,7 +138,7 @@ const Header = () => {
               <span className="text-xl font-bold text-primary">{t('common.brand-name')}</span>
               <ButtonComponentLibraryWrapper
                 variant="icon-wrapped-negative-margin"
-                onClick={() => setOpen(!open)}
+                onPress={() => setOpen(!open)}
                 className="md:hidden"
                 icon={<Icon name="close" color="primary" />}
                 aria-label={t('common.close')}

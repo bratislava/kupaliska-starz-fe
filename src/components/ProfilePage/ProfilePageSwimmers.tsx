@@ -64,7 +64,7 @@ const ProfilePageSwimmers = () => {
               className="self-start"
               variant="solid"
               startIcon={<Icon name="plus" />}
-              onClick={() => setAddEditSwimmerModal({ open: true })}
+              onPress={() => setAddEditSwimmerModal({ open: true })}
             >
               {t('profile.add')}
             </ButtonComponentLibraryWrapper>
@@ -134,7 +134,7 @@ const ProfilePageSwimmers = () => {
                 <div className="flex justify-center">
                   <ButtonComponentLibraryWrapper
                     variant="solid"
-                    onClick={() => setAddEditSwimmerModal({ open: true })}
+                    onPress={() => setAddEditSwimmerModal({ open: true })}
                     startIcon={<Icon name="plus" />}
                   >
                     {t('profile.add')}

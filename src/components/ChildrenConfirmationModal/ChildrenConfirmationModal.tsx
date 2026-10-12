@@ -22,7 +22,7 @@ export const ChildrenConfirmationModal = ({
       footerButton={
         <ButtonComponentLibraryWrapper
           variant="solid"
-          onClick={async () => {
+          onPress={async () => {
             if (onSaveSuccess) {
               await onSaveSuccess()
             }

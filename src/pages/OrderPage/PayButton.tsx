@@ -48,7 +48,7 @@ const PayButton = ({ onSubmit, paymentMethod, isDisabled, price }: PayButtonProp
       variant={variant}
       className={`w-full ${buttonClass}`}
       isDisabled={isDisabled}
-      onClick={async () => await onSubmit(paymentMethod)}
+      onPress={async () => await onSubmit(paymentMethod)}
       startIcon={icon}
     >
       {text}
