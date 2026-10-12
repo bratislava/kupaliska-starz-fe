@@ -27,6 +27,7 @@
   /* Colors */
   --color-font: var(--color-content-passive-primary);
 
+  /* TODO rename black, red2, yellow1, yellow2 */
   --color-black: #1f1f1f;
   --color-red2: #d00000;
   --color-yellow1: #fcf2e6;
