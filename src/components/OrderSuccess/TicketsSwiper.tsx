@@ -60,6 +60,8 @@ interface TicketsSwiperProps {
 }
 
 const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
+  const { t } = useTranslation()
+
   const [swiperRef, setSwiperRef] = useState<SwiperClass>()
   const [displayButtons, setDisplayButtons] = useState({ previous: false, next: false })
 
@@ -87,19 +89,19 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
       {/* Arrows must be implemented on our own to be outside the swiper. */}
       {displayButtons.previous && (
         <ButtonComponentLibraryWrapper
+          icon={<Icon name="arrow-left" className="no-fill" />}
           className="absolute top-[calc(50%-48px)] -left-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handlePrevious}
-        >
-          <Icon name="arrow-left" className="no-fill" />
-        </ButtonComponentLibraryWrapper>
+          aria-label={t('common.previous-ticket')}
+        />
       )}
       {displayButtons.next && (
         <ButtonComponentLibraryWrapper
+          icon={<Icon name="arrow-right" className="no-fill" />}
           className="absolute top-[calc(50%-48px)] -right-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handleNext}
-        >
-          <Icon name="arrow-right" className="no-fill" />
-        </ButtonComponentLibraryWrapper>
+          aria-label={t('common.next-ticket')}
+        />
       )}
       <Swiper
         pagination={true}
