@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon, { IconName } from '@/components/Icon/Icon'
+import cn from '@/utils/cn'
 
 interface ThreeDotsProps {
   buttons: {
@@ -31,7 +32,7 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
                 <ButtonComponentLibraryWrapper
                   key={index}
                   // TODO revisit styles
-                  className={`${button.className} w-full px-5 py-3 hover:bg-gray-100`}
+                  className={cn(`w-full px-5 py-3 hover:bg-gray-100 ${button.className}`)}
                   variant="plain"
                   onPress={() => {
                     close()
