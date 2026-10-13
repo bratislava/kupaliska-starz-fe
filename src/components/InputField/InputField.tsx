@@ -3,7 +3,8 @@ import './InputField.css'
 import cx from 'classnames'
 import { ChangeEvent, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
-import { twMerge } from 'tailwind-merge'
+
+import cn from '@/utils/cn'
 
 interface InputProps {
   type?: 'text' | 'number' | 'email' | 'password'
@@ -73,7 +74,7 @@ const InputField = ({
   })
 
   return (
-    <div className={twMerge('w-full flex-col', className)}>
+    <div className={cn('w-full flex-col', className)}>
       {label && (
         <div>
           <label className={labelClasses}>{label}</label>
