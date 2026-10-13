@@ -21,20 +21,22 @@ const OrderFailure = () => {
           <p>{t('order-result.pls-contact')}</p>
         </div>
         <div className="mt-4 md:mt-12">
-          <Link to={ANCHORS.CONTACT_US}>
+          <Link to={ANCHORS.CONTACT_US} className="flex justify-center">
             {/* TODO don't nest button in link */}
             <ButtonComponentLibraryWrapper
-              className="mx-auto mb-4 flex w-full md:w-1/2 lg:ml-0"
+              fullWidth
+              className="mb-4 md:w-1/2 lg:ml-0"
               variant="outline"
               endIcon={<Icon name="mail" />}
             >
               {t('order-result.contact-us')}
             </ButtonComponentLibraryWrapper>
           </Link>
-          <Link to={ANCHORS.TICKET_BUY}>
+          <Link to={ANCHORS.TICKET_BUY} className="flex justify-center">
             {/* TODO don't nest button in link */}
             <ButtonComponentLibraryWrapper
-              className="mx-auto flex w-full md:w-1/2 lg:ml-0"
+              fullWidth
+              className="md:w-1/2 lg:ml-0"
               variant="solid"
               endIcon={<Icon name="retry" />}
             >

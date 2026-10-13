@@ -54,11 +54,7 @@ const CityAccountLoginRedirectionModal = () => {
         <div className="flex flex-col gap-6">
           <p>{t('city-account.redirect-info')}</p>
         </div>
-        <ButtonComponentLibraryWrapper
-          variant="solid"
-          onPress={state.onSuccessCallback}
-          className="w-full"
-        >
+        <ButtonComponentLibraryWrapper variant="solid" fullWidth onPress={state.onSuccessCallback}>
           {t('city-account.continue')}
         </ButtonComponentLibraryWrapper>
         <div className="flex flex-col gap-4 text-sm italic">

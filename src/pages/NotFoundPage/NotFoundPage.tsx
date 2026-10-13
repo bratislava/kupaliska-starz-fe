@@ -15,8 +15,8 @@ const NotFoundPage = () => {
       description={t('errors.not-found-description')}
     >
       {/* TODO don't nest button in link */}
-      <Link to={ROUTES.HOME}>
-        <ButtonComponentLibraryWrapper className="mx-auto flex w-full md:w-1/2" variant="solid">
+      <Link to={ROUTES.HOME} className="flex justify-center">
+        <ButtonComponentLibraryWrapper fullWidth className="md:w-1/2" variant="solid">
           {t('errors.back-home')}
         </ButtonComponentLibraryWrapper>
       </Link>

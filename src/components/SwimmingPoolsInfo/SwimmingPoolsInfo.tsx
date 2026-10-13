@@ -55,7 +55,8 @@ const SwimmingPoolsInfo = () => {
       <div className="flex justify-center">
         <ButtonComponentLibraryWrapper
           variant="solid"
-          className="mx-auto w-full md:w-1/2 lg:w-1/4"
+          fullWidth
+          className="md:w-1/2 lg:w-1/4"
           onPress={() => setAllSwimmingPools(!allSwimmingPools)}
           endIcon={<Icon name={allSwimmingPools ? 'arrow-up' : 'arrow-down'} />}
         >

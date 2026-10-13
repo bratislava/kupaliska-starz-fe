@@ -45,7 +45,7 @@ export const AccordionItem = ({
     <>
       <ButtonComponentLibraryWrapper
         className={cx(
-          `flex w-full items-center justify-between rounded-lg p-4 font-medium md:px-10`,
+          `flex items-center justify-between rounded-lg p-4 font-medium md:px-10`,
           {
             'border-2 border-solid border-transparent bg-blueish shadow-lg': active,
             'border-2 border-primary bg-transparent md:hover:bg-blueish md:hover:stroke-current':
@@ -53,6 +53,7 @@ export const AccordionItem = ({
           },
           className,
         )}
+        fullWidth
         onPress={handleClick}
         endIcon={<Icon name="chevron" className={cx('h-3 w-6', { 'rotate-180': active })}></Icon>}
       >

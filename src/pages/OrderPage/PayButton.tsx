@@ -46,7 +46,8 @@ const PayButton = ({ onSubmit, paymentMethod, isDisabled, price }: PayButtonProp
   return (
     <ButtonComponentLibraryWrapper
       variant={variant}
-      className={`w-full ${buttonClass}`}
+      fullWidth
+      className={buttonClass}
       isDisabled={isDisabled}
       onPress={async () => await onSubmit(paymentMethod)}
       startIcon={icon}

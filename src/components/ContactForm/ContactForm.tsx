@@ -148,8 +148,8 @@ const ContactForm = () => {
       />
       <ButtonComponentLibraryWrapper
         variant="solid"
+        fullWidth
         isDisabled={sending}
-        className="w-full"
         onPress={async () => handleSubmit(onSubmit)()}
         endIcon={<Icon className="no-fill" name="send" />}
       >

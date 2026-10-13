@@ -31,8 +31,9 @@ const ThreeDots = ({ buttons }: ThreeDotsProps) => {
               {buttons.map((button, index) => (
                 <ButtonComponentLibraryWrapper
                   key={index}
+                  fullWidth
                   // TODO revisit styles
-                  className={cn(`w-full px-5 py-3 hover:bg-gray-100 ${button.className}`)}
+                  className={cn(`px-5 py-3 hover:bg-gray-100 ${button.className}`)}
                   variant="plain"
                   onPress={() => {
                     close()
