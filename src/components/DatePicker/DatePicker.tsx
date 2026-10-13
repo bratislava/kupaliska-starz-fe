@@ -1,7 +1,6 @@
 import { parseDate } from '@internationalized/date'
 import { useObjectRef } from '@react-aria/utils'
 import { useControlledState } from '@react-stately/utils'
-import cx from 'classnames'
 import { forwardRef, useMemo } from 'react'
 import { useDatePicker } from 'react-aria/useDatePicker'
 import { Dialog, Popover } from 'react-aria-components'
@@ -140,7 +139,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             variant="icon-wrapped-negative-margin"
             {...buttonPropsFixed}
             isDisabled={disabled}
-            icon={<Icon name={'calendar'} className={cx('no-fill')} />}
+            icon={<Icon name={'calendar'} className="no-fill" />}
             aria-label={t('profile.open-calendar')}
           />
         </DateField>

@@ -1,5 +1,6 @@
-import cx from 'classnames'
 import { PropsWithChildren } from 'react'
+
+import cn from '@/utils/cn'
 
 import { FieldSize } from './FieldBase'
 import FieldFooter, { FieldFooterProps } from './FieldFooter'
@@ -14,7 +15,7 @@ const FieldWrapper = ({
 }: PropsWithChildren<FieldWrapperProps>) => {
   return (
     <div
-      className={cx('flex w-full flex-col', {
+      className={cn('flex w-full flex-col', {
         'max-w-[388px]': size === 'medium',
         'max-w-[200px]': size === 'small',
       })}

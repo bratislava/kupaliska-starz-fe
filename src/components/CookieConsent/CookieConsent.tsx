@@ -1,4 +1,3 @@
-import cx from 'classnames'
 import { PropsWithChildren, useState } from 'react'
 import Consent, { Cookies } from 'react-cookie-consent'
 import { Trans, useTranslation } from 'react-i18next'
@@ -7,6 +6,7 @@ import { Link } from 'react-router'
 import AccordionItem from '@/components/AccordionItem/AccordionItem'
 import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Modal from '@/components/Modal/Modal'
+import cn from '@/utils/cn'
 
 import KupaliskaSwitch from '../Switch/KupaliskaSwitch'
 
@@ -167,7 +167,7 @@ const CookieConsent = () => {
                     onOpen={() => {
                       openPanel === index ? setOpenPanel(undefined) : setOpenPanel(index)
                     }}
-                    className={cx({ 'mt-4': index !== 0 })}
+                    className={cn({ 'mt-4': index !== 0 })}
                   >
                     {descriptionText}
                   </AccordionItem>

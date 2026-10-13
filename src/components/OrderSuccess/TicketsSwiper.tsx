@@ -2,7 +2,6 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import './TicketsSwiper.css'
 
-import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pagination } from 'swiper'
@@ -17,6 +16,7 @@ import { environment } from '@/environment'
 import { useAppSelector } from '@/hooks'
 import { selectAvailableTicketTypes } from '@/store/global'
 import { FinalOrderTicket } from '@/store/order/api'
+import cn from '@/utils/cn'
 
 interface TicketProps {
   ticket: FinalOrderTicket
@@ -112,7 +112,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
         className="mb-4"
       >
         {tickets.map((ticket) => (
-          <SwiperSlide key={ticket.id} className={cx({ 'pb-11': tickets.length > 1 })}>
+          <SwiperSlide key={ticket.id} className={cn({ 'pb-11': tickets.length > 1 })}>
             <Ticket ticket={ticket} />
           </SwiperSlide>
         ))}

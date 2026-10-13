@@ -1,5 +1,6 @@
-import cx from 'classnames'
 import { HTMLAttributes } from 'react'
+
+import cn from '@/utils/cn'
 
 type PhotoProps = {
   photo?: string | null
@@ -11,7 +12,7 @@ type PhotoProps = {
 const Photo = ({ photo, size, className, error = false }: PhotoProps) => {
   return (
     <div
-      className={cx(
+      className={cn(
         'rounded-lg bg-backgroundGray bg-cover bg-center',
         {
           'h-[156px] w-[132px] [box-shadow-width:2px]': size === 'normal',

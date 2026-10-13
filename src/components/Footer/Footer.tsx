@@ -1,8 +1,8 @@
-import cx from 'classnames'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
 
 import { ROUTES } from '@/helpers/constants'
+import cn from '@/utils/cn'
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -17,7 +17,7 @@ const Footer = () => {
     location.pathname !== ROUTES.ORDER_UNSUCCESSFUL
 
   return (
-    <div className={cx('w-full bg-blueish', { 'mt-4 md:mt-24': showTopMargin })}>
+    <div className={cn('w-full bg-blueish', { 'mt-4 md:mt-24': showTopMargin })}>
       <div className="container mx-auto flex grid w-full grid-cols-1 items-center justify-between py-4 lg:grid-cols-3">
         <div className="order-1 my-2 flex flex-col text-primary lg:order-1 lg:my-0">
           <span className="font-semibold">{t('common.contact')}</span>

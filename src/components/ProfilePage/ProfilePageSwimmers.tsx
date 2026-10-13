@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios'
-import cx from 'classnames'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -10,6 +9,7 @@ import Spinner from '@/components/Spinner/Spinner'
 import { ErrorWithMessages } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import { AssociatedSwimmer, fetchAssociatedSwimmers } from '@/store/associatedSwimmers/api'
+import cn from '@/utils/cn'
 
 import AssociatedSwimmerEditAddModal from '../AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
 import Photo from '../Photo/Photo'
@@ -78,7 +78,7 @@ const ProfilePageSwimmers = () => {
         )}
         {data && (
           <div
-            className={cx(
+            className={cn(
               'flex flex-col p-6',
               data.data.associatedSwimmers.length ? 'gap-3' : 'gap-6',
             )}
