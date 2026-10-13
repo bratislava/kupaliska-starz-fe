@@ -1,10 +1,10 @@
-import cx from 'classnames'
 import { cloneElement, PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Dialog as AriaDialog, Heading, Modal } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 
 import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
+import cn from '@/utils/cn'
 
 type DialogProps = {
   title: string
@@ -35,7 +35,7 @@ const Dialog = ({
           onClose()
         }
       }}
-      className={cx('container m-2 px-0', className)}
+      className={cn('container m-2 px-0', className)}
     >
       {cloneElement(
         wrapper,

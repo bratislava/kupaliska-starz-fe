@@ -1,8 +1,8 @@
-import cx from 'classnames'
 import { ReactNode, useEffect, useState } from 'react'
 
 import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
+import cn from '@/utils/cn'
 
 // copied from https://github.com/bratislava/bratislava-monorepo/blob/master/libs/ui/bratislava/src/components/AccordionItem/AccordionItem.tsx
 
@@ -44,7 +44,7 @@ export const AccordionItem = ({
   return (
     <>
       <ButtonComponentLibraryWrapper
-        className={cx(
+        className={cn(
           `flex items-center justify-between rounded-lg p-4 font-medium md:px-10`,
           {
             'border-2 border-solid border-transparent bg-blueish shadow-lg': active,
@@ -55,7 +55,7 @@ export const AccordionItem = ({
         )}
         fullWidth
         onPress={handleClick}
-        endIcon={<Icon name="chevron" className={cx('h-3 w-6', { 'rotate-180': active })}></Icon>}
+        endIcon={<Icon name="chevron" className={cn('h-3 w-6', { 'rotate-180': active })}></Icon>}
       >
         <div className="flex grow flex-row text-left font-medium">
           {typeof title === 'string' ? <p className="text-md text-left">{title}</p> : <>{title}</>}
@@ -65,7 +65,7 @@ export const AccordionItem = ({
         </div>
       </ButtonComponentLibraryWrapper>
       <div
-        className={cx('overflow-hidden text-sm', {
+        className={cn('overflow-hidden text-sm', {
           'h-auto': active,
           'h-0': !active,
           'p-6': active && paddingVariant === 'narrow',

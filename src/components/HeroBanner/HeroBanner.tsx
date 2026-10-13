@@ -1,6 +1,5 @@
 import './HeroBanner.css'
 
-import cx from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router'
@@ -10,6 +9,7 @@ import Icon from '@/components/Icon/Icon'
 import Typography from '@/components/Typography/Typography'
 import { ANCHORS } from '@/helpers/constants'
 import { fetchGeneralSettings } from '@/store/global/api'
+import cn from '@/utils/cn'
 
 const HeroBanner = () => {
   const { t } = useTranslation()
@@ -25,7 +25,7 @@ const HeroBanner = () => {
       </div>
       <div
         // fix mt being one-time in "vw" eg. "mt-[-16vw]"" and other times in "rem" eg. "lg:-mt-60"
-        className={cx(
+        className={cn(
           'relative z-10 container mx-auto mt-[-25vw] mb-16 sm:mt-[-15vw] md:mt-[-16vw] md:mb-32 lg:-mt-60 xl:-mt-72',
           {
             // Hacky solution for the preseason version to not hide "Ako funguje nákup lístkov?"
