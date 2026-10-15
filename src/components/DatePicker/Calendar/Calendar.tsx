@@ -49,11 +49,11 @@ const Calendar = ({ onConfirm, onReset, ...rest }: CalendarBase) => {
     >
       <div className="flex justify-between px-4 py-3">
         <AriaButton {...prevButtonPropsFixed} aria-label="Left">
-          <Icon name="arrow-left" className="no-fill font-fontBlack" />
+          <Icon name="arrow-left" className="no-fill" />
         </AriaButton>
         <span className="text-p2-semibold">{title.charAt(0).toUpperCase() + title.slice(1)}</span>
         <AriaButton {...nextButtonPropsFixed} aria-label="Right">
-          <Icon name="arrow-right" className="no-fill font-fontBlack" />
+          <Icon name="arrow-right" className="no-fill" />
         </AriaButton>
       </div>
       <CalendarGrid state={state} />

@@ -90,7 +90,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
           className="absolute top-[calc(50%-48px)] -left-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handlePrevious}
         >
-          <Icon name="arrow-left" className="no-fill font-fontBlack" />
+          <Icon name="arrow-left" className="no-fill" />
         </AriaButton>
       )}
       {displayButtons.next && (
@@ -98,7 +98,7 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
           className="absolute top-[calc(50%-48px)] -right-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handleNext}
         >
-          <Icon name="arrow-right" className="no-fill font-fontBlack" />
+          <Icon name="arrow-right" className="no-fill" />
         </AriaButton>
       )}
       <Swiper

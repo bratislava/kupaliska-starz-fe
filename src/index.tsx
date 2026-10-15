@@ -21,8 +21,8 @@ root.render(
     <Suspense
       fallback={
         <SkeletonTheme
-          baseColor="#a8dbf2"
-          highlightColor="#58bbe6"
+          baseColor="var(--color-tertiary)"
+          highlightColor="var(--color-quaternary)"
           duration={1}
           width={40}
           height={28}

@@ -73,7 +73,7 @@ const Header = () => {
   // TODO refactor this
   return (
     <div className="header sticky top-0 z-40 w-full bg-sunscreen py-3 shadow-xs md:py-4">
-      <div className="container mx-auto flex justify-between text-fontBlack">
+      <div className="container mx-auto flex justify-between">
         <Link className="cursor-pointer text-xl font-bold text-primary" to="/">
           <Icon name="starz-logo" className="no-fill hidden pr-5 xs:block" height={51} />
         </Link>
@@ -122,7 +122,7 @@ const Header = () => {
       {/* TODO redo this */}
       <div
         onClick={() => setOpen(!open)}
-        className={`fixed inset-0 ${open ? 'block' : 'hidden'} z-10 bg-fontBlack/30 md:hidden`}
+        className={`fixed inset-0 ${open ? 'block' : 'hidden'} z-10 bg-gray-800/30 md:hidden`}
       ></div>
 
       <nav

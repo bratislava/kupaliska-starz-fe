@@ -3,19 +3,16 @@ import { PropsWithChildren } from 'react'
 interface TypographyProps {
   fontWeight?: 'bold' | 'medium' | 'normal'
   type: 'title' | 'subtitle' | 'subtitle-small'
-  color?: 'primary' | 'secondary' | 'fontBlack'
   className?: string
 }
 const Typography = ({
   fontWeight = 'normal',
   type,
-  color = 'fontBlack',
   className = '',
   children,
 }: PropsWithChildren<TypographyProps>) => {
   const classNames = `
     font-${fontWeight}
-    text-${color}
     ${className}
   `
 

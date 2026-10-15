@@ -28,20 +28,20 @@ const Summary = ({
       <span className="text-2xl font-semibold md:text-3xl">{t('buy-page.summary')}</span>
       <TicketTypesDetail isFetching={isFetching} isSuccess={isSuccess} {...rest} />
       {!withinMaxTicketAmountLimit && (
-        <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
+        <div className="flex gap-x-3 rounded-lg bg-red1 px-5 py-4">
           <Icon name="alert" className="no-fill text-error" />
           {t('common.max-ticket-purchase-limit', {
             maxTicketPurchaseLimit,
           })}
         </div>
       )}
-      <div className="flex flex-row rounded-lg border-divider bg-blueish p-4 text-fontBlack lg:items-center lg:px-8">
+      <div className="flex flex-row rounded-lg border-divider bg-blueish p-4 lg:items-center lg:px-8">
         <span className="grow font-semibold">{t('price-total')}</span>
         <div className="flex items-center justify-between gap-x-6">
           <span className="grow font-semibold lg:w-[115px] lg:text-right lg:text-xl">
             <SkeletonTheme
-              baseColor="#a8dbf2"
-              highlightColor="#58bbe6"
+              baseColor="var(--color-tertiary)"
+              highlightColor="var(--color-quaternary)"
               duration={1}
               width={40}
               height={28}
@@ -51,9 +51,7 @@ const Summary = ({
           </span>
         </div>
       </div>
-      <div className="text-gray color-fontBlack">
-        <p>{t('common.additional-info-toddlers')}</p>
-      </div>
+      <p>{t('common.additional-info-toddlers')}</p>
     </div>
   )
 }

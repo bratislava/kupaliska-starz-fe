@@ -8,17 +8,9 @@
   fill: theme('colors.primary');
   stroke: theme('colors.primary');
 }
-.icon.secondary > svg path {
-  fill: theme('colors.secondary');
-  stroke: theme('colors.secondary');
-}
 .icon.white > svg path {
   fill: white;
   stroke: white;
-}
-.icon.fontBlack > svg path {
-  fill: theme('colors.fontBlack');
-  stroke: theme('colors.fontBlack');
 }
 .icon.blueish > svg path {
   fill: theme('colors.blueish');

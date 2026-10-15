@@ -22,6 +22,7 @@ const Agreements = ({
 
   return (
     <>
+      {/* TODO merge checkbox-es in project */}
       <CheckboxField
         register={register}
         name="agreement"
@@ -40,6 +41,7 @@ const Agreements = ({
       />
       {isSeniorOrDisabledTicket && (
         <>
+          {/* TODO merge checkbox-es in project */}
           <CheckboxField
             className="my-4"
             register={register}

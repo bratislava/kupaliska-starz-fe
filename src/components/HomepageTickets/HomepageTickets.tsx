@@ -217,7 +217,7 @@ const HomepageTickets = () => {
               {isCartable && (
                 <>
                   {!withinMaxTicketAmountLimit && (
-                    <div className="flex gap-x-3 rounded-lg bg-[#FAE5E5] px-5 py-4">
+                    <div className="flex gap-x-3 rounded-lg bg-red1 px-5 py-4">
                       <Icon name="alert" className="no-fill text-error"></Icon>
                       {t('common.max-ticket-purchase-limit', {
                         maxTicketPurchaseLimit: environment.maxTicketPurchaseLimit,
@@ -229,8 +229,8 @@ const HomepageTickets = () => {
                     <div className="flex items-center justify-between gap-x-6">
                       <span className="grow text-xl font-semibold lg:w-[115px] lg:text-left">
                         <SkeletonTheme
-                          baseColor="#a8dbf2"
-                          highlightColor="#58bbe6"
+                          baseColor="var(--color-tertiary)"
+                          highlightColor="var(--color-quaternary)"
                           duration={1}
                           width={40}
                           height={28}

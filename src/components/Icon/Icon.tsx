@@ -123,7 +123,7 @@ export type IconName = keyof typeof iconMap
 
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName
-  color?: 'primary' | 'secondary' | 'white' | 'fontBlack' | 'blueish'
+  color?: 'primary' | 'white' | 'blueish'
   className?: string
 }
 

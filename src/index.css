@@ -25,26 +25,38 @@
   --container-formMax: 445px;
 
   /* Colors */
+  --color-font: var(--color-content-passive-primary);
+
+  /* TODO rename black, red2, yellow1, yellow2 */
+  --color-black: #1f1f1f;
+  --color-red2: #d00000;
+  --color-yellow1: #fcf2e6;
+  --color-yellow2: #e07b04;
+  --color-red1: #fae5e5;
   --color-primary: #0a07f5;
   --color-secondary: #7ccef2;
-  --color-bratislavaRed: #f23005;
-  --color-fontBlack: #333333;
+  --color-tertiary: #a8dbf2;
+  --color-quaternary: #58bbe6;
   --color-error: #dc2626;
-  --color-warning: #f59e0b;
   --color-success: #2ecc71;
   --color-blueish: #d0ecf8;
-  --color-redish: #e46054;
-  --color-purpleish: #4340a6;
   --color-backgroundGray: #f5f5f5;
   --color-white: #ffffff;
-  --color-warningSoft: #f8d7d4;
   --color-inactive: #cccccc;
   --color-divider: #d6d6d6;
   --color-sunscreen: #fff9f0;
   --color-orange: #f4aa3d;
 
+  /* Border */
   --color-border-active-focused: var(--color-primary);
   --color-border-active-default: var(--color-divider);
+
+  /* Background */
+  --color-background-active-primary-pressed: var(--color-secondary);
+
+  /* Color tokens - content */
+
+  --color-content-passive-primary: var(--color-gray-700);
 }
 
 /*
@@ -114,7 +126,7 @@
 }
 
 .react-aria-ModalOverlay {
-  @apply fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-fontBlack/30;
+  @apply fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center bg-gray-800/30;
 }
 
 .square {
@@ -144,8 +156,7 @@ body {
   flex: 1;
   flex-direction: column;
   display: flex;
-  color: #333;
-  @apply antialiased;
+  @apply text-font antialiased;
 }
 
 #root {

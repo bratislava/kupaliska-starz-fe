@@ -90,7 +90,7 @@ const TicketTypeDetail = ({
           />
         )}
         <div className="flex flex-nowrap">
-          <span className="font-bold text-fontBlack lg:text-xl">
+          <span className="font-bold lg:text-xl">
             <FormatCurrencyFromCents value={ticketType.priceWithVat} />
           </span>
           <span>{t('common.per-ticket')}</span>

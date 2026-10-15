@@ -53,7 +53,7 @@ export const openingHoursToStringArray = (hours: OpeningHours): OpeningHoursStri
     const result = {
       day: '',
       time: '',
-      color: 'fontBlack',
+      color: '',
     }
     if (dayStringObj.first === dayStringObj.last) {
       result.day = dayStringObj.last.substring(0, 2)
@@ -63,24 +63,13 @@ export const openingHoursToStringArray = (hours: OpeningHours): OpeningHoursStri
 
     const isOpen = dayStringObj.from && dayStringObj.to
     result.time = isOpen ? `${dayStringObj.from} - ${dayStringObj.to}` : i18n.t('pools.closed')
-    result.color = !isOpen && dayStringObj.first === dayStringObj.last ? 'error' : 'fontBlack'
+    result.color = !isOpen && dayStringObj.first === dayStringObj.last ? 'error' : ''
 
     return result
   })
 
-  const multipleRedDays = dayStrings.reduce((multipleRedDays: number, dayStringObj) => {
-    if (dayStringObj.color === 'error') {
-      return multipleRedDays + 1
-    }
-
-    return multipleRedDays
-  }, 0)
-
-  const finalDayStrings =
-    multipleRedDays > 1 ? dayStrings.map((item) => ({ ...item, color: 'fontBlack' })) : dayStrings
-
   return {
     intervalString,
-    dayStrings: finalDayStrings,
+    dayStrings,
   }
 }
