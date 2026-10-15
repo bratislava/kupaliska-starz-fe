@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios'
-import cx from 'classnames'
 import { partition } from 'lodash'
 import { Fragment, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +13,7 @@ import { FormatCurrencyFromCents } from '@/helpers/currencyFormatter'
 import { ErrorWithMessages, isOneTimeTicket } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import { fetchTicketsHistory, TicketFromHistory } from '@/store/tickets-history/api'
+import cn from '@/utils/cn'
 
 const formatDate = (timestamp: number) => new Date(timestamp).toLocaleDateString('sk-SK')
 const formatTime = (timestamp: number) =>
@@ -228,7 +228,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
             return (
               <th
                 key={index}
-                className={cx('py-4', {
+                className={cn('py-4', {
                   'pl-10 text-left': first,
                   'pr-10': last,
                 })}
@@ -250,7 +250,7 @@ const Table = ({ headers, rows, rowBackgroundClass }: TableProps) => {
                 return (
                   <td
                     key={columnIndex}
-                    className={cx('py-5', {
+                    className={cn('py-5', {
                       'rounded-l-lg pl-10': first,
                       'text-center': !first,
                       'rounded-r-lg pr-10': last,
@@ -432,7 +432,7 @@ const TicketsManagementPage = () => {
               <>
                 <div className="container mx-auto">
                   <div
-                    className={cx(`pb-2 text-center text-xl font-semibold md:pb-6 md:text-2xl`, {
+                    className={cn(`pb-2 text-center text-xl font-semibold md:pb-6 md:text-2xl`, {
                       'mt-14 md:mt-24': dataMapped.hasActiveTickets,
                       'mt-10 md:mt-14': !dataMapped.hasActiveTickets,
                     })}

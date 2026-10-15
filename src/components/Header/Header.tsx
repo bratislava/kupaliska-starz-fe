@@ -1,6 +1,5 @@
 import './Header.css'
 
-import cx from 'classnames'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -12,6 +11,7 @@ import Typography from '@/components/Typography/Typography'
 import { ANCHORS, ROUTES } from '@/helpers/constants'
 import useCityAccountAccessToken from '@/hooks/useCityAccount'
 import { fetchGeneralSettings } from '@/store/global/api'
+import cn from '@/utils/cn'
 
 interface MenuItem {
   to: string
@@ -81,10 +81,10 @@ const Header = () => {
         <nav className="hidden flex-1 items-center justify-end md:flex">
           {/* TODO this should be list */}
           {menuItems.map((menuItem, index) => (
-            <div key={menuItem.to} className={cx('flex', { relative: menuItem.icon })}>
+            <div key={menuItem.to} className={cn('flex', { relative: menuItem.icon })}>
               {menuItem.icon && <Icon name={menuItem.icon} className={`no-fill ml-2`} />}
               <Link
-                className={cx('px-4', {
+                className={cn('px-4', {
                   'border-r': hasAccount && index === 3,
                   'after:absolute': menuItem.icon,
                   'after:inset-0': menuItem.icon,
@@ -98,10 +98,10 @@ const Header = () => {
           {hasAccount && <Divider />}
           {hasAccount &&
             menuItemsAuthenticated.map((menuItem, index) => (
-              <div key={menuItem.to} className={cx('flex', { relative: menuItem.icon })}>
+              <div key={menuItem.to} className={cn('flex', { relative: menuItem.icon })}>
                 {menuItem.icon && <Icon name={menuItem.icon} className={`no-fill ml-2`} />}
                 <NavLink
-                  className={cx('px-4', {
+                  className={cn('px-4', {
                     'border-r': index === 3,
                     'after:absolute': menuItem.icon,
                     'after:inset-0': menuItem.icon,

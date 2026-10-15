@@ -1,4 +1,3 @@
-import cx from 'classnames'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
@@ -19,6 +18,7 @@ import { TicketType } from '@/models'
 import { orderFormToRequests } from '@/pages/OrderPage/formDataToRequests'
 import { selectAvailableTicketTypes } from '@/store/global'
 import { getPrice } from '@/store/order/api'
+import cn from '@/utils/cn'
 
 const partitionTicketTypes = (ticketTypes: TicketType[]) => ({
   dayTicketTypes: ticketTypes.filter(
@@ -158,7 +158,7 @@ const HomepageTickets = () => {
                   return (
                     <div
                       key={ticketType.id}
-                      className={cx(
+                      className={cn(
                         `flex flex-col gap-8 rounded-lg border border-divider bg-sunscreen px-6 py-4 lg:flex-row lg:items-center`,
                       )}
                     >

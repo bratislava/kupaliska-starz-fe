@@ -1,9 +1,9 @@
 import './InputField.css'
 
-import cx from 'classnames'
 import { ChangeEvent, FocusEvent, ReactNode, useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
-import { twMerge } from 'tailwind-merge'
+
+import cn from '@/utils/cn'
 
 interface InputProps {
   type?: 'text' | 'number' | 'email' | 'password'
@@ -56,24 +56,24 @@ const InputField = ({
     [register, name, shouldUnregister, valueAsNumber],
   )
 
-  const inputClasses = cx({
+  const inputClasses = cn({
     'text-error placeholder-error': error !== undefined,
     'text-center': textCenter,
   })
 
-  const inputWrapperClasses = cx({
+  const inputWrapperClasses = cn({
     'border-error text-error': error !== undefined,
     'border-primary text-primary': !error && focused,
     'text-opacity-10': !error && !focused,
   })
 
-  const labelClasses = cx(newLabel ? 'mb-1 block font-semibold' : `mb-3 text-xl font-medium`, {
+  const labelClasses = cn(newLabel ? 'mb-1 block font-semibold' : `mb-3 text-xl font-medium`, {
     'text-error': error !== undefined,
     'text-primary': !error && focused,
   })
 
   return (
-    <div className={twMerge('w-full flex-col', className)}>
+    <div className={cn('w-full flex-col', className)}>
       {label && (
         <div>
           <label className={labelClasses}>{label}</label>

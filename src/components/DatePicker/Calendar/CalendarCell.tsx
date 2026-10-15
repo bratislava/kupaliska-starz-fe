@@ -1,8 +1,9 @@
 import { CalendarDate } from '@internationalized/date'
-import cx from 'classnames'
 import { useRef } from 'react'
 import { useCalendarCell } from 'react-aria'
 import { CalendarState } from 'react-stately'
+
+import cn from '@/utils/cn'
 
 interface CalendarCellBase {
   state: CalendarState
@@ -20,7 +21,7 @@ const CalendarCell = ({ state, date, isDisabled }: CalendarCellBase) => {
       <div
         {...buttonProps}
         ref={ref}
-        className={cx(
+        className={cn(
           `text-p2-medium flex size-8 items-center justify-center focus:rounded-lg focus:bg-gray-700 focus:text-white focus-visible:outline-hidden xs:size-10`,
           {
             'rounded-lg bg-gray-700 text-white': isSelected,

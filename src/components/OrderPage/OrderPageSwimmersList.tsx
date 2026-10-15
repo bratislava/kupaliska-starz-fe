@@ -1,4 +1,3 @@
-import cx from 'classnames'
 import { Fragment } from 'react'
 import { Checkbox } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +6,7 @@ import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLi
 import Icon from '@/components/Icon/Icon'
 import { useOrderPageTicket } from '@/pages/OrderPage/useOrderPageTicket'
 import { AssociatedSwimmer } from '@/store/associatedSwimmers/api'
+import cn from '@/utils/cn'
 
 interface LoggedInUser {
   id: null
@@ -58,7 +58,7 @@ const OrderPageSwimmersList = ({
         <Fragment key={swimmer.id}>
           {/* TODO merge checkbox-es in project */}
           <Checkbox
-            className={cx(`flex cursor-pointer items-center gap-4 rounded-lg px-4 py-3`, {
+            className={cn(`flex cursor-pointer items-center gap-4 rounded-lg px-4 py-3`, {
               'bg-white': !isDisabledCheckbox(swimmer),
               'bg-inactive': isDisabledCheckbox(swimmer),
             })}
