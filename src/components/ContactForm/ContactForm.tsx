@@ -8,7 +8,7 @@ import Turnstile from 'react-turnstile'
 import { useCounter, useIsClient, useTimeout } from 'usehooks-ts'
 import * as yup from 'yup'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import InputField from '@/components/InputField/InputField'
 import { environment } from '@/environment'
@@ -146,9 +146,15 @@ const ContactForm = () => {
           </>
         )}
       />
-      <Button disabled={sending} htmlType="button" onClick={handleSubmit(onSubmit)}>
-        {t('landing.send-message')} <Icon className="no-fill ml-4" name="send" />
-      </Button>
+      <ButtonComponentLibraryWrapper
+        variant="solid"
+        fullWidth
+        isDisabled={sending}
+        onPress={async () => handleSubmit(onSubmit)()}
+        endIcon={<Icon className="no-fill" name="send" />}
+      >
+        {t('landing.send-message')}
+      </ButtonComponentLibraryWrapper>
     </form>
   )
 }

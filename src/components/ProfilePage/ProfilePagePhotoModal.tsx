@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 import * as yup from 'yup'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import { ErrorWithMessages } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import { updateUser, User } from '@/store/user/api'
@@ -87,7 +87,11 @@ const ProfilePagePhotoModal = ({ user, onClose }: ProfilePagePhotoModalProps) =>
     <Dialog
       open={true}
       onClose={onClose}
-      footerButton={<Button htmlType="submit">{t('profile.save')}</Button>}
+      footerButton={
+        <ButtonComponentLibraryWrapper variant="solid" type="submit">
+          {t('profile.save')}
+        </ButtonComponentLibraryWrapper>
+      }
       wrapper={<form onSubmit={handleSubmit(onSubmit)} />}
       title={t('buy-page.photo-upload')}
       className="max-w-[488px]"

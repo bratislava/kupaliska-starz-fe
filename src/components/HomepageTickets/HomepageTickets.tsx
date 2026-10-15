@@ -5,7 +5,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import NumberField from '@/components/NumberField/NumberField'
 import { environment } from '@/environment'
@@ -190,24 +190,17 @@ const HomepageTickets = () => {
                               />
                             ))}
                         {!isCartable && (
-                          <Button
-                            className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
-                            thin
-                            rounded
-                            onClick={async () => handleClick(ticketType)}
-                            color={needsLogin ? 'primary' : 'outlined'}
-                            disabled={ticketType.isDisabled}
+                          <ButtonComponentLibraryWrapper
+                            variant={needsLogin ? 'solid' : 'outline'}
+                            className="min-w-[182px]"
+                            endIcon={
+                              <Icon className="no-fill" name={needsLogin ? 'login' : 'euro-coin'} />
+                            }
+                            onPress={async () => handleClick(ticketType)}
+                            isDisabled={ticketType.isDisabled}
                           >
-                            <>
-                              {needsLogin ? t('signin-button') : t('landing.basket')}
-                              <Icon
-                                name={needsLogin ? 'login' : 'euro-coin'}
-                                className={cx('no-fill ml-2', {
-                                  'py-1': !needsLogin,
-                                })}
-                              />
-                            </>
-                          </Button>
+                            {needsLogin ? t('signin-button') : t('landing.basket')}
+                          </ButtonComponentLibraryWrapper>
                         )}
                       </div>
                     </div>
@@ -254,19 +247,15 @@ const HomepageTickets = () => {
                           )}
                         </SkeletonTheme>
                       </span>
-                      <Button
-                        className="mt-2 w-full min-w-[182px] xs:mt-0 xs:w-auto xs:px-4"
-                        thin
-                        rounded
-                        onClick={async () => handleClick()}
-                        disabled={!purchaseAmountInLimit}
-                        color="primary"
+                      <ButtonComponentLibraryWrapper
+                        variant="solid"
+                        className="min-w-[182px]"
+                        endIcon={<Icon className="no-fill" name="euro-coin" />}
+                        onPress={async () => handleClick()}
+                        isDisabled={!purchaseAmountInLimit}
                       >
-                        <>
-                          {t('landing.basket')}
-                          <Icon name={'euro-coin'} className={cx(`no-fill ml-2 py-1`)} />
-                        </>
-                      </Button>
+                        {t('landing.basket')}
+                      </ButtonComponentLibraryWrapper>
                     </div>
                   </div>
                 </>

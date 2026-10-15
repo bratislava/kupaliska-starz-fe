@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { ReactNode, useEffect, useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 
 // copied from https://github.com/bratislava/bratislava-monorepo/blob/master/libs/ui/bratislava/src/components/AccordionItem/AccordionItem.tsx
@@ -43,9 +43,9 @@ export const AccordionItem = ({
 
   return (
     <>
-      <AriaButton
+      <ButtonComponentLibraryWrapper
         className={cx(
-          `flex w-full items-center justify-between rounded-lg p-4 font-medium md:px-10`,
+          `flex items-center justify-between rounded-lg p-4 font-medium md:px-10`,
           {
             'border-2 border-solid border-transparent bg-blueish shadow-lg': active,
             'border-2 border-primary bg-transparent md:hover:bg-blueish md:hover:stroke-current':
@@ -53,7 +53,9 @@ export const AccordionItem = ({
           },
           className,
         )}
+        fullWidth
         onPress={handleClick}
+        endIcon={<Icon name="chevron" className={cx('h-3 w-6', { 'rotate-180': active })}></Icon>}
       >
         <div className="flex grow flex-row text-left font-medium">
           {typeof title === 'string' ? <p className="text-md text-left">{title}</p> : <>{title}</>}
@@ -61,10 +63,7 @@ export const AccordionItem = ({
             <p className="text-md text-gray-universal-500 text-left">&nbsp;{secondaryTitle}</p>
           )}
         </div>
-        <div className="ml-5 grow-0">
-          <Icon name="chevron" className={cx('h-3 w-6', { 'rotate-180': active })}></Icon>
-        </div>
-      </AriaButton>
+      </ButtonComponentLibraryWrapper>
       <div
         className={cx('overflow-hidden text-sm', {
           'h-auto': active,

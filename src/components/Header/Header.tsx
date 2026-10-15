@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Link, NavLink } from 'react-router'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon, { IconName } from '@/components/Icon/Icon'
 import Typography from '@/components/Typography/Typography'
 import { ANCHORS, ROUTES } from '@/helpers/constants'
@@ -112,12 +113,13 @@ const Header = () => {
               </div>
             ))}
         </nav>
-        <button
-          onClick={() => setOpen(!open)}
-          className="bg-transparent focus:outline-hidden md:hidden"
-        >
-          <Icon name="menu" color="primary" />
-        </button>
+        <ButtonComponentLibraryWrapper
+          variant="icon-wrapped-negative-margin"
+          onPress={() => setOpen(!open)}
+          className="ring-inset md:hidden"
+          icon={<Icon name="menu" color="primary" />}
+          aria-label={t('header.open-menu')}
+        />
       </div>
       {/* TODO redo this */}
       <div
@@ -134,12 +136,13 @@ const Header = () => {
           <div className="flex flex-col">
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-primary">{t('common.brand-name')}</span>
-              <button
-                onClick={() => setOpen(!open)}
-                className="bg-transparent text-primary focus:outline-hidden md:hidden"
-              >
-                <Icon name="close" color="primary" />
-              </button>
+              <ButtonComponentLibraryWrapper
+                variant="icon-wrapped-negative-margin"
+                onPress={() => setOpen(!open)}
+                className="md:hidden"
+                icon={<Icon name="close" color="primary" />}
+                aria-label={t('common.close')}
+              />
             </div>
             {menuItems.map((menuItem) => (
               <Link

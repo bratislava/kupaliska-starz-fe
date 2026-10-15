@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import Skeleton from 'react-loading-skeleton'
 
 import AdultChildrenCount from '@/components/AdultChildrenCount/AdultChildrenCount'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import NumberField from '@/components/NumberField/NumberField'
 import { FormatCurrencyFromCents, useCurrencyFromCentsFormatter } from '@/helpers/currencyFormatter'
@@ -43,9 +44,12 @@ const TicketTypeDetail = ({
             {ticketType.name}
           </div>
           {handleTicketTypeRemove && (
-            <button onClick={handleTicketTypeRemove}>
-              <Icon name="close" />
-            </button>
+            <ButtonComponentLibraryWrapper
+              variant="icon-wrapped-negative-margin"
+              onPress={handleTicketTypeRemove}
+              icon={<Icon name="close" />}
+              aria-label={t('buy-page.remove-ticket')}
+            />
           )}
         </div>
         {childrenCount && adultCount && ticketType.childrenAllowed && (

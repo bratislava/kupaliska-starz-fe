@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 
 import Dialog from '../Dialog/Dialog'
 
@@ -20,15 +20,16 @@ export const ChildrenConfirmationModal = ({
       title={t('tickets.childrenConfirmationModalTitle')}
       open={true}
       footerButton={
-        <Button
-          onClick={async () => {
+        <ButtonComponentLibraryWrapper
+          variant="solid"
+          onPress={async () => {
             if (onSaveSuccess) {
               await onSaveSuccess()
             }
           }}
         >
           {t('tickets.childrenConfirmationModalTextConfirmation')}
-        </Button>
+        </ButtonComponentLibraryWrapper>
       }
       className="max-w-[800px]"
       onClose={onClose}

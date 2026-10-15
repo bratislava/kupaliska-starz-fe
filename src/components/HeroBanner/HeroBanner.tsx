@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import Typography from '@/components/Typography/Typography'
 import { ANCHORS } from '@/helpers/constants'
@@ -53,17 +53,23 @@ const HeroBanner = () => {
 
         {generalSettings?.data.isSeasonActive && (
           <div className="mt-8 mb-16 flex w-full flex-col space-y-4 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-4 xl:w-3/5">
+            {/* TODO don't nest button in link */}
             <Link to={ANCHORS.TICKET_BUY}>
-              <Button thin>
-                <span className="p-1 pr-4 pl-5">{t('landing.buy-ticket')}</span>
-                <Icon name="tickets" className="no-fill pr-5" />
-              </Button>
+              <ButtonComponentLibraryWrapper
+                variant="solid"
+                endIcon={<Icon name="tickets" className="no-fill" />}
+              >
+                {t('landing.buy-ticket')}
+              </ButtonComponentLibraryWrapper>
             </Link>
+            {/* TODO don't nest button in link */}
             <Link to={ANCHORS.SWIMMING_POOLS} className="block">
-              <Button className="" color="outlined" thin>
-                <span className="p-1 pr-4 pl-5">{t('landing.swimming-pools-starz')}</span>
-                <Icon name="swimming-man" className="no-fill hidden pr-5 xs:block" />
-              </Button>
+              <ButtonComponentLibraryWrapper
+                variant="outline"
+                endIcon={<Icon name="swimming-man" className="hidden xs:block" />}
+              >
+                {t('landing.swimming-pools-starz')}
+              </ButtonComponentLibraryWrapper>
             </Link>
           </div>
         )}

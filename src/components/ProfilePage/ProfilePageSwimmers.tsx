@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import Spinner from '@/components/Spinner/Spinner'
 import { ErrorWithMessages } from '@/helpers/general'
@@ -60,9 +60,14 @@ const ProfilePageSwimmers = () => {
             <p>{t('profile.associated-persons-desc')}</p>
           </div>
           {data && data.data.associatedSwimmers.length > 0 && (
-            <Button className="self-start" onClick={() => setAddEditSwimmerModal({ open: true })}>
-              <Icon className="no-fill mr-2" name="plus" color="white" /> {t('profile.add')}
-            </Button>
+            <ButtonComponentLibraryWrapper
+              className="self-start"
+              variant="solid"
+              startIcon={<Icon name="plus" />}
+              onPress={() => setAddEditSwimmerModal({ open: true })}
+            >
+              {t('profile.add')}
+            </ButtonComponentLibraryWrapper>
           )}
         </div>
 
@@ -100,7 +105,7 @@ const ProfilePageSwimmers = () => {
                     {
                       title: t('profile.edit-person'),
                       icon: 'pencil',
-                      className: 'hover:bg-gray-100',
+                      className: '',
                       onPress: () => setAddEditSwimmerModal({ open: true, swimmer }),
                     },
                     {
@@ -127,12 +132,13 @@ const ProfilePageSwimmers = () => {
                   </span>
                 </div>
                 <div className="flex justify-center">
-                  <Button
-                    className="self-start"
-                    onClick={() => setAddEditSwimmerModal({ open: true })}
+                  <ButtonComponentLibraryWrapper
+                    variant="solid"
+                    onPress={() => setAddEditSwimmerModal({ open: true })}
+                    startIcon={<Icon name="plus" />}
                   >
-                    <Icon className="no-fill mr-2" name="plus" color="white" /> {t('profile.add')}
-                  </Button>
+                    {t('profile.add')}
+                  </ButtonComponentLibraryWrapper>
                 </div>
               </>
             )}

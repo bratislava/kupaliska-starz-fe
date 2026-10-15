@@ -1,8 +1,9 @@
 import cx from 'classnames'
 import { Fragment } from 'react'
-import { Button as AriaButton, Checkbox } from 'react-aria-components'
+import { Checkbox } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import { useOrderPageTicket } from '@/pages/OrderPage/useOrderPageTicket'
 import { AssociatedSwimmer } from '@/store/associatedSwimmers/api'
@@ -87,13 +88,13 @@ const OrderPageSwimmersList = ({
           {isDisabledCheckbox(swimmer) && t('common.physical-person-only')}
         </Fragment>
       ))}
-      <AriaButton
+      <ButtonComponentLibraryWrapper
+        variant="plain"
         onPress={() => onAddSwimmer()}
-        className="flex items-center self-start px-3 py-2 font-semibold"
+        startIcon={<Icon color="primary" name="plus" />}
       >
-        <Icon name="plus" className="no-fill mr-2 text-gray-700" />
         {isSeniorOrDisabledTicket ? t('buy-page.add-senior-disabled') : t('buy-page.add-adult-kid')}
-      </AriaButton>
+      </ButtonComponentLibraryWrapper>
     </div>
   )
 }

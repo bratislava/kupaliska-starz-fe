@@ -5,7 +5,7 @@ import { FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useIsMounted } from 'usehooks-ts'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import InputField from '@/components/InputField/InputField'
 import { useErrorToast } from '@/hooks/useErrorToast'
@@ -89,9 +89,9 @@ const DiscountCodeInput = ({
           inputWrapperClassName="lg:w-full"
           placeholder={t('buy-page.enter-code')}
         />
-        <Button className="px-5 py-3" color="outlined" onClick={handleApply} rounded>
+        <ButtonComponentLibraryWrapper variant="outline" onPress={handleApply}>
           {t('buy-page.claim')}
-        </Button>
+        </ButtonComponentLibraryWrapper>
         {status === DiscountCodeInputStatus.Success ? (
           <Icon name="checkmark" className="text-success" />
         ) : null}

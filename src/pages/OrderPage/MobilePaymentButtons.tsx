@@ -7,32 +7,26 @@ interface MobilePaymentButtonsProps {
   price?: number
 }
 const MobilePaymentButtons = ({ isDisabled, onSubmit, price }: MobilePaymentButtonsProps) => (
-  <>
-    <div>
-      <PayButton
-        isDisabled={isDisabled}
-        paymentMethod={PaymentMethod.APAY}
-        onSubmit={onSubmit}
-        price={price}
-      />
-    </div>
-    <div className="mt-3">
-      <PayButton
-        isDisabled={isDisabled}
-        paymentMethod={PaymentMethod.GPAY}
-        onSubmit={onSubmit}
-        price={price}
-      />
-    </div>
-    <div className="mt-3">
-      <PayButton
-        isDisabled={isDisabled}
-        paymentMethod={PaymentMethod.CARD}
-        onSubmit={onSubmit}
-        price={price}
-      />
-    </div>
-  </>
+  <div className="flex flex-col gap-3">
+    <PayButton
+      isDisabled={isDisabled}
+      paymentMethod={PaymentMethod.APAY}
+      onSubmit={onSubmit}
+      price={price}
+    />
+    <PayButton
+      isDisabled={isDisabled}
+      paymentMethod={PaymentMethod.GPAY}
+      onSubmit={onSubmit}
+      price={price}
+    />
+    <PayButton
+      isDisabled={isDisabled}
+      paymentMethod={PaymentMethod.CARD}
+      onSubmit={onSubmit}
+      price={price}
+    />
+  </div>
 )
 
 export default MobilePaymentButtons

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import SwimmingPoolInfoCard from '@/components/SwimmingPoolInfoCard/SwimmingPoolInfoCard'
 import { assignItemsToColumns } from '@/helpers/general'
@@ -52,16 +52,19 @@ const SwimmingPoolsInfo = () => {
           </div>
         ))}
       </div>
-      <Button
-        onClick={() => setAllSwimmingPools(!allSwimmingPools)}
-        className="mx-auto w-full md:w-1/2 lg:w-1/4"
-        color={'blueish'}
-      >
-        {allSwimmingPools
-          ? t('landing.show-more-swimming-pools')
-          : t('landing.show-less-swimming-pools')}
-        <Icon className="ml-4" name={allSwimmingPools ? 'arrow-up' : 'arrow-down'} />
-      </Button>
+      <div className="flex justify-center">
+        <ButtonComponentLibraryWrapper
+          variant="solid"
+          fullWidth
+          className="md:w-1/2 lg:w-1/4"
+          onPress={() => setAllSwimmingPools(!allSwimmingPools)}
+          endIcon={<Icon name={allSwimmingPools ? 'arrow-up' : 'arrow-down'} />}
+        >
+          {allSwimmingPools
+            ? t('landing.show-more-swimming-pools')
+            : t('landing.show-less-swimming-pools')}
+        </ButtonComponentLibraryWrapper>
+      </div>
     </div>
   )
 }
