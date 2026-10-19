@@ -2,11 +2,12 @@
 import './Modal.css'
 
 import { FocusableElement } from '@react-types/shared'
-import cx from 'classnames'
 import FocusTrap from 'focus-trap-react'
 import { MouseEvent, PropsWithChildren, ReactNode, useEffect, useMemo, useState } from 'react'
 import { Portal } from 'react-portal'
 import { useElementSize, useLockedBody } from 'usehooks-ts'
+
+import cn from '@/utils/cn'
 
 const ModalButton = ({
   button,
@@ -63,9 +64,9 @@ const Modal = ({
           }}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center"
         >
-          <div className={cx('relative', { 'px-4': closeButton })}>
+          <div className={cn('relative', { 'px-4': closeButton })}>
             <div
-              className={cx(
+              className={cn(
                 'relative overflow-y-auto rounded-lg bg-sunscreen shadow-lg',
                 modalClassName,
               )}

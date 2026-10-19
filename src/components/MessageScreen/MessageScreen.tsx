@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react'
-import { twMerge } from 'tailwind-merge'
+
+import cn from '@/utils/cn'
 
 import SectionHeader from '../SectionHeader/SectionHeader'
 
@@ -20,7 +21,7 @@ const MessageScreen = ({
   children,
 }: PropsWithChildren<MessageScreenProps>) => {
   return (
-    <div className={twMerge(`grow ${className}`)}>
+    <div className={cn(`grow ${className}`)}>
       <div className="container mx-auto flex flex-1 flex-col gap-y-8 py-8 xl:py-12">
         <SectionHeader title={title} subtitle={description} />
         {children}

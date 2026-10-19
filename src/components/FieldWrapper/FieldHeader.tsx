@@ -1,6 +1,7 @@
-import cx from 'classnames'
 import { DOMAttributes } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import cn from '@/utils/cn'
 
 import FieldHelptext from './FieldHelptext'
 
@@ -41,7 +42,7 @@ const FieldHeader = ({
 
   const useCustomBottomMargin = labelSize === 'default' || !helptext
 
-  const wrapperStyle = cx('flex w-full flex-col', {
+  const wrapperStyle = cn('flex w-full flex-col', {
     'gap-1': labelSize === 'default',
     'gap-3': labelSize === 'h3' || labelSize === 'h4' || labelSize === 'h5',
     [customHeaderBottomMargin]: useCustomBottomMargin,
@@ -52,7 +53,7 @@ const FieldHeader = ({
   const showOptionalLabel = displayOptionalLabel && !required
   const displayAsterisk = !displayOptionalLabel && required
 
-  const labelStyle = cx('relative text-gray-800', {
+  const labelStyle = cn('relative text-gray-800', {
     'text-p3-semibold after:text-p3-semibold sm:text-16-semibold sm:after:text-16-semibold':
       labelSize === 'default',
     'text-h3 after:text-h3': labelSize === 'h3',
