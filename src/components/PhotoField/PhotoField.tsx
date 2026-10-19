@@ -3,7 +3,7 @@ import { ChangeEvent, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Resizer from 'react-image-file-resizer'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import { useValidationSchemaTranslationIfPresent } from '@/helpers/general'
 
@@ -107,9 +107,13 @@ const PhotoField = ({
             {showLabel && <span className="font-semibold">{t('buy-page.photo-title')}</span>}
             <p className="text-sm whitespace-pre-line">{t('common.photo-required')}</p>
           </div>
-          <Button className="self-start" color="outlined" onClick={openImageInput}>
-            <Icon className="mr-2" name="upload" /> {t('buy-page.photo-upload')}
-          </Button>
+          <ButtonComponentLibraryWrapper
+            variant="outline"
+            onPress={openImageInput}
+            startIcon={<Icon name="upload" />}
+          >
+            {t('buy-page.photo-upload')}
+          </ButtonComponentLibraryWrapper>
         </div>
       </div>
     </div>

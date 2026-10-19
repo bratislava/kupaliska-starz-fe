@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import SectionHeader from '@/components/SectionHeader/SectionHeader'
 import Typography from '@/components/Typography/Typography'
@@ -21,17 +21,27 @@ const OrderFailure = () => {
           <p>{t('order-result.pls-contact')}</p>
         </div>
         <div className="mt-4 md:mt-12">
-          <Link to={ANCHORS.CONTACT_US}>
-            <Button className={`mx-auto mb-4 w-full md:w-1/2 lg:ml-0`} color="outlined">
+          <Link to={ANCHORS.CONTACT_US} className="flex justify-center">
+            {/* TODO don't nest button in link */}
+            <ButtonComponentLibraryWrapper
+              fullWidth
+              className="mb-4 md:w-1/2 lg:ml-0"
+              variant="outline"
+              endIcon={<Icon name="mail" />}
+            >
               {t('order-result.contact-us')}
-              <Icon className="ml-4" name="mail" />
-            </Button>
+            </ButtonComponentLibraryWrapper>
           </Link>
-          <Link to={ANCHORS.TICKET_BUY}>
-            <Button className={`mx-auto w-full md:w-1/2 lg:ml-0`}>
+          <Link to={ANCHORS.TICKET_BUY} className="flex justify-center">
+            {/* TODO don't nest button in link */}
+            <ButtonComponentLibraryWrapper
+              fullWidth
+              className="md:w-1/2 lg:ml-0"
+              variant="solid"
+              endIcon={<Icon name="retry" />}
+            >
               {t('order-result.try-again')}
-              <Icon className="ml-4" name="retry" />
-            </Button>
+            </ButtonComponentLibraryWrapper>
           </Link>
         </div>
       </div>

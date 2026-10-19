@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@source '../node_modules/@bratislava/component-library/dist';
+
 @theme {
   /* Breakpoints — project scale, replaces Tailwind's defaults */
   --breakpoint-*: initial;
@@ -47,15 +49,32 @@
   --color-sunscreen: #fff9f0;
   --color-orange: #f4aa3d;
 
-  /* Border */
-  --color-border-active-focused: var(--color-primary);
-  --color-border-active-default: var(--color-divider);
+  /* Color tokens - border */
 
-  /* Background */
+  --color-border-active-default: var(--color-divider);
+  --color-border-active-focused: var(--color-primary);
+
+  --color-border-active-primary-pressed: var(--color-primary);
+
+  --color-border-active-secondary-default: var(--color-primary);
+  --color-border-active-secondary-pressed: var(--color-primary);
+
+  --color-border-active-primary-inverted-default: var(--color-sunscreen);
+
+  /* Color tokens - background */
+
+  --color-background-active-primary-default: var(--color-primary);
   --color-background-active-primary-pressed: var(--color-secondary);
+  --color-background-active-primary-inverted-default: var(--color-sunscreen);
+  --color-background-active-primary-inverted-pressed: var(--color-secondary);
+
+  --color-background-active-secondary-pressed: var(--color-secondary);
 
   /* Color tokens - content */
 
+  --color-content-active-primary-default: var(--color-primary);
+  --color-content-active-primary-pressed: var(--color-primary);
+  --color-content-active-primary-inverted-default: var(--color-white);
   --color-content-passive-primary: var(--color-gray-700);
 }
 

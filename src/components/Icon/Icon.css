@@ -2,17 +2,13 @@
 
 .icon:not(.no-fill) > svg path {
   fill: currentColor;
-  stroke: currentColor;
 }
 .icon.primary > svg path {
   fill: theme('colors.primary');
-  stroke: theme('colors.primary');
 }
 .icon.white > svg path {
   fill: white;
-  stroke: white;
 }
 .icon.blueish > svg path {
   fill: theme('colors.blueish');
-  stroke: theme('colors.blueish');
 }

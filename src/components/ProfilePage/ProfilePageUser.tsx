@@ -1,10 +1,9 @@
 import { AxiosError } from 'axios'
 import { useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import Spinner from '@/components/Spinner/Spinner'
 import { environment } from '@/environment'
@@ -61,10 +60,13 @@ const ProfilePageUser = () => {
             <p>{t('profile.manage-in-city-account')}</p>
           </div>
           <a href={`${environment.cityAccountFrontendUrl}/moj-profil`}>
-            <Button>
-              <Icon className="no-fill mr-2" name="castle" />{' '}
+            {/* TODO don't nest button in link */}
+            <ButtonComponentLibraryWrapper
+              variant="solid"
+              startIcon={<Icon name="castle" className="no-fill" />}
+            >
               {t('profile.manage-in-account-button')}
-            </Button>
+            </ButtonComponentLibraryWrapper>
           </a>
         </div>
         <div className="flex flex-col gap-6 p-6">
@@ -75,14 +77,14 @@ const ProfilePageUser = () => {
                 <p className="font-semibold">{t('buy-page.photo-title')}</p>
                 <p className="text-sm whitespace-pre-line">{t('common.photo-required')}</p>
               </div>
-              <Button
-                className="self-start"
-                color="outlined"
-                disabled={isLoading || isError}
-                onClick={() => setIsPhotoModalOpen(true)}
+              <ButtonComponentLibraryWrapper
+                variant="outline"
+                isDisabled={isLoading || isError}
+                onPress={() => setIsPhotoModalOpen(true)}
+                startIcon={<Icon name="upload" />}
               >
-                <Icon className="no-fill mr-2" name="upload" /> {t('profile.upload-photo')}
-              </Button>
+                {t('profile.upload-photo')}
+              </ButtonComponentLibraryWrapper>
             </div>
           </div>
           <div className="h-0.5 bg-divider" />
@@ -119,12 +121,12 @@ const ProfilePageUser = () => {
                     {data.data.age != null &&
                       t('common.age-interval', { postProcess: 'interval', count: data.data.age })}
                   </p>
-                  <AriaButton
+                  <ButtonComponentLibraryWrapper
+                    variant="icon-wrapped-negative-margin"
                     onPress={() => setIsAgeModalOpen(true)}
+                    icon={<Icon name="pencil" />}
                     aria-label={t('profile.edit-date-of-birth')}
-                  >
-                    <Icon name="pencil" className="no-fill" />
-                  </AriaButton>
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
@@ -133,12 +135,12 @@ const ProfilePageUser = () => {
                 </div>
                 <div className="flex grow">
                   <p className="grow">{data.data.zip}</p>
-                  <AriaButton
+                  <ButtonComponentLibraryWrapper
+                    variant="icon-wrapped-negative-margin"
                     onPress={() => setIsZipModalOpen(true)}
+                    icon={<Icon name="pencil" />}
                     aria-label={t('profile.edit-zip')}
-                  >
-                    <Icon name="pencil" className="no-fill" />
-                  </AriaButton>
+                  />
                 </div>
               </div>
             </>

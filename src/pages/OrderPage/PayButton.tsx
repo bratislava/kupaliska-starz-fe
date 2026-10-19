@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import { useCurrencyFromCentsFormatter } from '@/helpers/currencyFormatter'
 import { PaymentMethod } from '@/helpers/types'
@@ -22,30 +22,19 @@ const PayButton = ({ onSubmit, paymentMethod, isDisabled, price }: PayButtonProp
         price: currencyFromCentsFormatter.format(price),
       })
     : t('buy-page.pay')
-  let icon = (
-    <Icon className="flex size-6 items-center justify-center rounded-sm p-1" name="credit-card" />
-  )
-  let color: 'black' | 'white-outlined' | 'primary' = 'primary'
+  let icon = <Icon name="credit-card" className="no-fill" />
+  let variant: 'plain' | 'outline-soft' | 'solid' = 'solid'
+  let buttonClass = ''
 
   switch (paymentMethod) {
     case PaymentMethod.APAY:
-      color = 'black'
-      icon = (
-        <Icon
-          name="apple-pay"
-          className="no-fill flex size-6 items-center justify-center rounded-sm bg-black p-1"
-        ></Icon>
-      )
+      icon = <Icon name="apple-pay" className="no-fill bg-black" />
       text = t('buy-page.pay-with-apple-pay')
+      buttonClass = 'bg-black'
       break
     case PaymentMethod.GPAY:
-      color = 'white-outlined'
-      icon = (
-        <Icon
-          name="google-pay"
-          className="no-fill flex size-6 items-center justify-center rounded-sm bg-white p-1"
-        ></Icon>
-      )
+      variant = 'outline-soft'
+      icon = <Icon name="google-pay" className="no-fill" />
       text = t('buy-page.pay-with-google-pay')
       break
     case PaymentMethod.CARD:
@@ -55,16 +44,16 @@ const PayButton = ({ onSubmit, paymentMethod, isDisabled, price }: PayButtonProp
   }
 
   return (
-    <Button
-      className="w-full gap-x-3 p-3"
-      color={color}
-      htmlType="button"
-      disabled={isDisabled}
-      onClick={async () => await onSubmit(paymentMethod)}
+    <ButtonComponentLibraryWrapper
+      variant={variant}
+      fullWidth
+      className={buttonClass}
+      isDisabled={isDisabled}
+      onPress={async () => await onSubmit(paymentMethod)}
+      startIcon={icon}
     >
-      {icon}
       {text}
-    </Button>
+    </ButtonComponentLibraryWrapper>
   )
 }
 

@@ -5,7 +5,7 @@ import { Fragment, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import MobileCarousel from '@/components/MobileCarousel/MobileCarousel'
 import Modal from '@/components/Modal/Modal'
@@ -28,7 +28,7 @@ const TicketsManagementModal = ({
   ticket,
 }: {
   open: boolean
-  onClose: any
+  onClose: () => void
   ticket: TicketFromHistory | null
 }) => {
   const { t } = useTranslation()
@@ -38,9 +38,9 @@ const TicketsManagementModal = ({
       open={open}
       onClose={onClose}
       button={
-        <Button onClick={onClose} className="px-10">
+        <ButtonComponentLibraryWrapper className="px-10" variant="solid" onPress={onClose}>
           {t('tickets.less-info')}
-        </Button>
+        </ButtonComponentLibraryWrapper>
       }
       modalClassName="w-full md:w-max"
     >
@@ -168,6 +168,7 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
 
   // BE should not send explicit color, but rather button type, therefore we convert it here to real values instead
   // of using the color from the BE.
+  // TODO check this, hardcoded values doesn't match incoming values
   const textClass = {
     '#0A07F5': 'text-white',
     '#D0ECF8': 'text-primary',
@@ -180,9 +181,10 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
   }[ticket.ticketColor.background]
   const buttonColor = (
     {
-      '#0A07F5': 'white',
-      '#D0ECF8': 'primary',
-      '#FFFFFF': 'primary',
+      '#0A07F5': 'solid-inverted', // ADULT
+      '#7CCEF2': 'solid', // CHILDREN_WITH_ADULT
+      '#8AEBD9': 'solid', // CHILDREN_WITHOUT_ADULT
+      '#CFD9FC': 'solid', // SENIOR_OR_DISABLED
     } as const
   )[ticket.ticketColor.background]
 
@@ -195,14 +197,14 @@ const Ticket = ({ ticket, onDetailClick }: TicketProps) => {
       <span className="mb-3 text-center text-xl font-semibold">{ticket.type}</span>
       <span className="mb-6 text-center">{isOneTimeTicket(ticket) ? '' : ticket.ownerName}</span>
       <div className="flex justify-center">
-        <Button
-          color={buttonColor}
-          className="absolute bg-sunscreen shadow-xs"
-          onClick={onDetailClick}
+        <ButtonComponentLibraryWrapper
+          variant={buttonColor}
+          className="absolute shadow-xs"
+          endIcon={<Icon className="no-fill" name="arrow-right" />}
+          onPress={onDetailClick}
         >
           {t('tickets.ticket-button')}
-          <Icon className="no-fill ml-4" name="arrow-right" />
-        </Button>
+        </ButtonComponentLibraryWrapper>
       </div>
     </div>
   )
@@ -295,10 +297,14 @@ const UsedTicket = ({
         </span>
       </div>
       <div className="flex justify-center">
-        <Button color="blueish" className="absolute shadow-xs" onClick={onDetailClick}>
+        <ButtonComponentLibraryWrapper
+          variant="solid"
+          className="absolute shadow-xs"
+          endIcon={<Icon name="arrow-right" />}
+          onPress={onDetailClick}
+        >
           {t('tickets.more-info')}
-          <Icon className="no-fill ml-4" name="arrow-right" />
-        </Button>
+        </ButtonComponentLibraryWrapper>
       </div>
     </div>
   )

@@ -4,7 +4,6 @@ import './TicketsSwiper.css'
 
 import cx from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
 import { useTranslation } from 'react-i18next'
 import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -12,6 +11,7 @@ import { Swiper as SwiperClass } from 'swiper/types'
 
 import AppleWalletImage from '@/assets/images/apple_wallet.svg'
 import GoogleWalletImage from '@/assets/images/google_wallet.svg'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import { environment } from '@/environment'
 import { useAppSelector } from '@/hooks'
@@ -60,6 +60,8 @@ interface TicketsSwiperProps {
 }
 
 const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
+  const { t } = useTranslation()
+
   const [swiperRef, setSwiperRef] = useState<SwiperClass>()
   const [displayButtons, setDisplayButtons] = useState({ previous: false, next: false })
 
@@ -86,20 +88,20 @@ const TicketsSwiper = ({ tickets }: TicketsSwiperProps) => {
     <div className="relative">
       {/* Arrows must be implemented on our own to be outside the swiper. */}
       {displayButtons.previous && (
-        <AriaButton
+        <ButtonComponentLibraryWrapper
+          icon={<Icon name="arrow-left" className="no-fill" />}
           className="absolute top-[calc(50%-48px)] -left-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handlePrevious}
-        >
-          <Icon name="arrow-left" className="no-fill" />
-        </AriaButton>
+          aria-label={t('common.previous-ticket')}
+        />
       )}
       {displayButtons.next && (
-        <AriaButton
+        <ButtonComponentLibraryWrapper
+          icon={<Icon name="arrow-right" className="no-fill" />}
           className="absolute top-[calc(50%-48px)] -right-6 z-10 flex size-12 items-center justify-center rounded-full border-2 border-divider bg-sunscreen"
           onPress={handleNext}
-        >
-          <Icon name="arrow-right" className="no-fill" />
-        </AriaButton>
+          aria-label={t('common.next-ticket')}
+        />
       )}
       <Swiper
         pagination={true}

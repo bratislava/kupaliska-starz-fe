@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button as AriaButton } from 'react-aria-components'
 import { FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
 import AssociatedSwimmerEditAddModal from '@/components/AssociatedSwimmerEditAddModal/AssociatedSwimmerEditAddModal'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import OrderMissingInformationProfileModal from '@/components/OrderMissingInformationProfileModal/OrderMissingInformationProfileModal'
 import OrderPageSwimmersList from '@/components/OrderPage/OrderPageSwimmersList'
@@ -149,12 +149,13 @@ const SwimmersList = ({
           <Icon name="warning" className="no-fill text-white" />
           <div>
             {t('buy-page.missing-photo-dob')}
-            <AriaButton
+            {/* TODO Button that looks like link */}
+            <ButtonComponentLibraryWrapper
               onPress={() => setMissingInformationModalOpen(true)}
               className="font-semibold underline"
             >
               {t('buy-page.fill-required-fields')}
-            </AriaButton>
+            </ButtonComponentLibraryWrapper>
           </div>
         </div>
       )}

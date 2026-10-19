@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react'
 import { Trans } from 'react-i18next'
 import { useQuery } from 'react-query'
 
@@ -7,15 +6,6 @@ import Icon from '@/components/Icon/Icon'
 import { fetchGeneralSettings } from '@/store/global/api'
 
 import SignInSignOutLink from '../SignInSignOutLink/SignInSignOutLink'
-
-const SocialMediaButton = ({
-  children,
-  paddingR = true,
-}: PropsWithChildren<{ paddingR?: boolean }>) => (
-  <button className={`bg-transparent ${paddingR ? 'p-2' : 'py-2 pl-2'} focus:outline-hidden`}>
-    {children}
-  </button>
-)
 
 const Banner = () => {
   const { data: generalSettings } = useQuery({

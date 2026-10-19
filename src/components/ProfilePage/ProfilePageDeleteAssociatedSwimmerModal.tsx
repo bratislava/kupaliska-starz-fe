@@ -3,7 +3,7 @@ import { produce } from 'immer'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from 'react-query'
 
-import Button from '@/components/Button/Button'
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import { ErrorWithMessages } from '@/helpers/general'
 import { useErrorToast } from '@/hooks/useErrorToast'
 import {
@@ -61,7 +61,11 @@ const ProfilePageDeleteAssociatedSwimmerModal = ({
       title={t('profile.delete-button')}
       open={true}
       onClose={onClose}
-      footerButton={<Button onClick={handleRemove}>{t('profile.remove')}</Button>}
+      footerButton={
+        <ButtonComponentLibraryWrapper variant="solid" onPress={handleRemove}>
+          {t('profile.remove')}
+        </ButtonComponentLibraryWrapper>
+      }
       className="max-w-[488px]"
     >
       <div className="flex flex-col gap-4">

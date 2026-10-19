@@ -15,7 +15,7 @@ interface CheckboxProps {
   error?: string
   inputClassName?: string
   className?: string
-  type?: 'radio' | 'checkbox'
+  type?: 'checkbox'
   disabled?: boolean
 }
 

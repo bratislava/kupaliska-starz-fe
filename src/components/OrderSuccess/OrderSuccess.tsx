@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
+import ButtonComponentLibraryWrapper from '@/components/Button/ButtonComponentLibraryWrapper'
 import Icon from '@/components/Icon/Icon'
 import Typography from '@/components/Typography/Typography'
 import { convertBase64ToBlob } from '@/helpers/general'
 import { FinalOrderResponse } from '@/store/order/api'
 
-import Button from '../Button/Button'
 import TicketsSwiper from './TicketsSwiper'
 
 interface OrderSuccessProps {
@@ -48,15 +48,16 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
             rel="noreferrer"
             target="_blank"
           >
-            <Button>
-              {t('order-result.feedback')} <Icon className="no-fill ml-4" name="arrow-right" />
-            </Button>
+            {/* TODO don't nest button in link */}
+            <ButtonComponentLibraryWrapper variant="solid" endIcon={<Icon name="arrow-right" />}>
+              {t('order-result.feedback')}
+            </ButtonComponentLibraryWrapper>
           </a>
           <Link to="/" className="self-start">
-            <Button color="outlined">
+            {/* TODO don't nest button in link */}
+            <ButtonComponentLibraryWrapper variant="outline" endIcon={<Icon name="arrow-right" />}>
               {t('order-success.continue-home')}
-              <Icon className="no-fill ml-4" name="arrow-right" />
-            </Button>
+            </ButtonComponentLibraryWrapper>
           </Link>
         </div>
         <div className="w-full max-w-[464px] rounded-2xl border-2 border-solid border-divider">
@@ -71,12 +72,16 @@ const OrderSuccess = ({ response }: OrderSuccessProps) => {
             <TicketsSwiper tickets={tickets} />
             <div className="flex flex-col items-center gap-4 px-8">
               <span className="text-sm">{t('order-success.or')}</span>
-              <Button color="outlined" className="w-full" onClick={downloadTickets}>
-                <Icon name="download" className="mr-2" />
+              <ButtonComponentLibraryWrapper
+                variant="outline"
+                fullWidth
+                onPress={downloadTickets}
+                startIcon={<Icon name="download" />}
+              >
                 {tickets.length > 1
                   ? t('order-success.download-all')
                   : t('order-success.download-one')}
-              </Button>
+              </ButtonComponentLibraryWrapper>
             </div>
           </div>
         </div>
